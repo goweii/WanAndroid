@@ -1,0 +1,97 @@
+package per.goweii.wanandroid.module.knowledge.fragment;
+
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+
+import java.util.List;
+
+import butterknife.BindView;
+import per.goweii.basic.core.base.BaseFragment;
+import per.goweii.basic.utils.ToastMaker;
+import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.module.knowledge.activity.KnowledgeArticleActivity;
+import per.goweii.wanandroid.module.knowledge.adapter.KnowledgeAdapter;
+import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
+import per.goweii.wanandroid.module.knowledge.presenter.KnowledgePresenter;
+import per.goweii.wanandroid.module.knowledge.view.KnowledgeView;
+import per.goweii.wanandroid.module.main.activity.MainActivity;
+
+/**
+ * @author CuiZhen
+ * @date 2019/5/12
+ * QQ: 302833254
+ * E-mail: goweii@163.com
+ * GitHub: https://github.com/goweii
+ */
+public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implements MainActivity.ScrollTop, KnowledgeView {
+
+    @BindView(R.id.rv)
+    RecyclerView rv;
+
+    private KnowledgeAdapter mAdapter;
+
+    public static KnowledgeFragment create() {
+        return new KnowledgeFragment();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_knowledge;
+    }
+
+    @Nullable
+    @Override
+    protected KnowledgePresenter initPresenter() {
+        return new KnowledgePresenter();
+    }
+
+    @Override
+    protected void initView() {
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new KnowledgeAdapter();
+        mAdapter.setEnableLoadMore(false);
+        mAdapter.setOnItemClickListener(new KnowledgeAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(KnowledgeBean bean, int pos) {
+                KnowledgeArticleActivity.start(getContext(), bean, pos);
+            }
+        });
+        rv.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void loadData() {
+    }
+
+    @Override
+    protected void onVisibleFirst() {
+        super.onVisibleFirst();
+        presenter.getKnowledgeList();
+    }
+
+    @Override
+    protected void onVisible() {
+        super.onVisible();
+        if (mAdapter.getData().isEmpty()) {
+            presenter.getKnowledgeList();
+        }
+    }
+
+    @Override
+    public void scrollTop() {
+        if (rv != null) {
+            rv.smoothScrollToPosition(0);
+        }
+    }
+
+    @Override
+    public void getKnowledgeListSuccess(int code, List<KnowledgeBean> data) {
+        mAdapter.setNewData(data);
+    }
+
+    @Override
+    public void getKnowledgeListFail(int code, String msg) {
+        ToastMaker.showShort(msg);
+    }
+}

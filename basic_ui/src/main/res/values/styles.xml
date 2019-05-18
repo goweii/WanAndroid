@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="basic_ui_LoadingBarH" parent="Widget.MaterialProgressBar.ProgressBar.Horizontal.NoPadding">
+        <item name="android:minHeight">1dp</item>
+        <item name="android:maxHeight">5dp</item>
+    </style>
+    <style name="basic_ui_LoadingBarC" parent="Widget.MaterialProgressBar.ProgressBar.NoPadding">
+    </style>
+</resources>

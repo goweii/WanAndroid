@@ -1,0 +1,20 @@
+apply plugin: 'com.android.library'
+apply from: "../basic.gradle"
+
+android {
+}
+
+dependencies {
+    api project(":basic_utils")
+    api project(":basic_res")
+
+    api rootProject.ext.dependencies.anyDialog
+    api rootProject.ext.dependencies.anyLayer
+    api rootProject.ext.dependencies.actionBarEx
+    api rootProject.ext.dependencies.percentImageView
+    api rootProject.ext.dependencies.roundedimageview
+    api rootProject.ext.dependencies.circleimageview
+    api rootProject.ext.dependencies.magicIndicator
+    api rootProject.ext.dependencies.photoView
+    api rootProject.ext.dependencies.materialProgressBar
+}

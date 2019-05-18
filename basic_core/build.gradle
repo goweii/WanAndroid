@@ -1,0 +1,28 @@
+apply plugin: 'com.android.library'
+apply from: "../basic.gradle"
+
+android {
+}
+
+dependencies {
+    api project(":basic_ui")
+
+    implementation rootProject.ext.dependencies.multidex
+
+    api rootProject.ext.dependencies.recyclerview
+    api rootProject.ext.dependencies.butterknife
+    api rootProject.ext.dependencies.bravh
+    api rootProject.ext.dependencies.glide
+    api rootProject.ext.dependencies.glide
+    api rootProject.ext.dependencies.eventbus
+    api rootProject.ext.dependencies.gson
+    api rootProject.ext.dependencies.glide
+    annotationProcessor rootProject.ext.dependencies.glideCompiler
+    implementation(rootProject.ext.dependencies.glideOkhttp3) {
+        exclude group: "com.android.support"
+    }
+    api rootProject.ext.dependencies.bravh
+    api rootProject.ext.dependencies.smartRefreshLayout
+    api rootProject.ext.dependencies.rxHttp
+    api rootProject.ext.dependencies.anyPermission
+}

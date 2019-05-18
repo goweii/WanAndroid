@@ -1,0 +1,8 @@
+apply from: "../basic.gradle"
+
+android {
+}
+
+dependencies {
+    implementation project(':basic_core')
+}

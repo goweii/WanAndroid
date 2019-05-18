@@ -1,0 +1,9 @@
+apply plugin: 'com.android.library'
+apply from: "../basic.gradle"
+
+android {
+    resourcePrefix ""
+}
+
+dependencies {
+}

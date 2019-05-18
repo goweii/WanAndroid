@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/basic_ui_dialog_loading_bg">
+
+    <!--<me.zhanghai.android.materialprogressbar.MaterialProgressBar-->
+    <!--android:id="@+id/basic_ui_progress_bar"-->
+    <!--style="@style/basic_ui_LoadingBarC"-->
+    <!--android:layout_width="35dp"-->
+    <!--android:layout_height="35dp"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:layout_margin="20dp"-->
+    <!--android:indeterminate="true"-->
+    <!--app:mpb_indeterminateTint="@color/basic_ui_dialog_loading_circle"-->
+    <!--app:mpb_progressStyle="circular"-->
+    <!--app:mpb_useIntrinsicPadding="false" />-->
+
+    <ProgressBar
+        android:id="@+id/basic_ui_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:indeterminateTint="@color/basic_ui_dialog_loading_circle"
+        android:indeterminateTintMode="src_atop" />
+
+</FrameLayout>

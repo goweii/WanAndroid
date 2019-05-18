@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="basic_res_activity_anim_zoom" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/zoom_small_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/zoom_small_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/zoom_small_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/zoom_small_out</item>
+    </style>
+
+</resources>

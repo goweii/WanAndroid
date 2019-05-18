@@ -1,0 +1,180 @@
+package per.goweii.wanandroid.module.login.activity;
+
+import android.animation.Animator;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+
+import java.util.Random;
+
+import butterknife.BindView;
+import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
+import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.utils.LogUtils;
+import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.module.login.fragment.LoginFragment;
+import per.goweii.wanandroid.module.login.fragment.RegisterFragment;
+import per.goweii.wanandroid.module.login.presenter.LoginPresenter;
+
+/**
+ * @author CuiZhen
+ * @date 2019/5/15
+ * QQ: 302833254
+ * E-mail: goweii@163.com
+ * GitHub: https://github.com/goweii
+ */
+public class LoginActivity extends BaseActivity {
+
+    @BindView(R.id.rl_input)
+    RelativeLayout rl_input;
+    @BindView(R.id.iv_circle_1)
+    ImageView iv_circle_1;
+    @BindView(R.id.iv_circle_2)
+    ImageView iv_circle_2;
+    @BindView(R.id.vp)
+    ViewPager vp;
+
+    private boolean isRunning = false;
+    private AnimatorSet mSet1;
+    private AnimatorSet mSet2;
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_login;
+    }
+
+    @Nullable
+    @Override
+    protected LoginPresenter initPresenter() {
+        return null;
+    }
+
+    @Override
+    protected void initView() {
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        FixedFragmentPagerAdapter adapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
+        vp.setAdapter(adapter);
+        adapter.setFragmentList(LoginFragment.create(), RegisterFragment.create());
+    }
+
+    @Override
+    protected void loadData() {
+    }
+
+    @Override
+    protected void onStart() {
+        isRunning = true;
+        mSet1 = startCircleAnim(iv_circle_1);
+        mSet2 = startCircleAnim(iv_circle_2);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        isRunning = false;
+        stopCircleAnim();
+        super.onStop();
+    }
+
+    public RelativeLayout getRl_input() {
+        return rl_input;
+    }
+
+    public void changeToRegister() {
+        if (vp != null) {
+            vp.setCurrentItem(1);
+        }
+    }
+
+    public void changeToLogin() {
+        if (vp != null) {
+            vp.setCurrentItem(0);
+        }
+    }
+
+    private void stopCircleAnim() {
+        if (mSet1 != null) {
+            mSet1.cancel();
+            mSet1 = null;
+        }
+        if (mSet2 != null) {
+            mSet2.cancel();
+            mSet2 = null;
+        }
+    }
+
+    private AnimatorSet startCircleAnim(View target) {
+        if (target == null) {
+            return null;
+        }
+        float[] xy = calculateRandomXY();
+        AnimatorSet set = createTranslationAnimator(target, xy[0], xy[1]);
+        set.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (isRunning) {
+                    startCircleAnim(target);
+                }
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+            }
+        });
+        set.start();
+        return set;
+    }
+
+    private final long mMaxMoveDuration = 20000L;
+    private final int mMaxMoveDistanceX = 200;
+    private final int mMaxMoveDistanceY = 20;
+
+    private AnimatorSet createTranslationAnimator(View target, float toX, float toY) {
+        float fromX = target.getTranslationX();
+        float fromY = target.getTranslationY();
+        long duration = calculateDuration(fromX, fromY, toX, toY);
+        ObjectAnimator animatorX = ObjectAnimator.ofFloat(target, "translationX", fromX, toX);
+        animatorX.setDuration(duration);
+        ObjectAnimator animatorY = ObjectAnimator.ofFloat(target, "translationY", fromY, toY);
+        animatorY.setDuration(duration);
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(animatorX, animatorY);
+        return set;
+    }
+
+    private Random mRandom = new Random();
+
+    private float[] calculateRandomXY() {
+        float x = mRandom.nextInt(mMaxMoveDistanceX) - (mMaxMoveDistanceX * 0.5F);
+        float y = mRandom.nextInt(mMaxMoveDistanceY) - (mMaxMoveDistanceY * 0.5F);
+        return new float[]{x, y};
+    }
+
+    private long calculateDuration(float x1, float y1, float x2, float y2) {
+        float distance = (float) Math.abs(Math.sqrt(Math.pow(Math.abs((x1 - x2)), 2) + Math.pow(Math.abs((y1 - y2)), 2)));
+        float maxDistance = (float) Math.abs(Math.sqrt(Math.pow(mMaxMoveDistanceX, 2) + Math.pow(mMaxMoveDistanceY, 2)));
+        long duration = (long) (mMaxMoveDuration * (distance / maxDistance));
+        LogUtils.i("calculateDuration", "distance=" + distance + ", duration=" + duration);
+        return duration;
+    }
+}

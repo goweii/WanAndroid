@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main"
+    android:clipChildren="false">
+
+    <per.goweii.actionbarex.ActionBarCommon
+        android:id="@+id/abc"
+        style="@style/ActionBar.Common.Back"
+        android:background="@color/transparent"
+        app:abc_leftIconRes="@drawable/ic_close" />
+
+    <LinearLayout
+        android:id="@+id/ll_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/abc"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/logo" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="欢迎使用"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/text_headline" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:alpha="0.8"
+            android:text="本APP由Goweii独立开发"
+            android:textColor="@color/text_white"
+            android:textSize="@dimen/text_notes" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_input"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/ll_logo"
+        android:layout_marginTop="30dp"
+        android:clipChildren="false">
+
+        <per.goweii.percentimageview.percentimageview.PercentImageView
+            android:id="@+id/iv_circle_1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="-170dp"
+            android:layout_marginRight="-170dp"
+            android:alpha="0.7"
+            android:background="@drawable/bg_solid_round_color_white_radius_max"
+            app:piv_basics="width"
+            app:piv_percent="1" />
+
+        <per.goweii.percentimageview.percentimageview.PercentImageView
+            android:id="@+id/iv_circle_2"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginLeft="-150dp"
+            android:layout_marginRight="-190dp"
+            android:alpha="0.7"
+            android:background="@drawable/bg_solid_round_color_white_radius_max"
+            app:piv_basics="width"
+            app:piv_percent="1" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center"
+        android:text=""
+        android:textColor="@color/text_gray_light"
+        android:textSize="@dimen/text_notes" />
+
+</RelativeLayout>

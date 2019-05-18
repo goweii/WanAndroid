@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context=".module.main.activity.MainActivity">
+
+    <per.goweii.actionbarex.ActionBarSearch
+        android:id="@+id/abs"
+        app:abs_leftIconRes="@drawable/ic_back"
+        app:abs_leftIconColor="@color/white"
+        app:abs_leftIconPadding="13dp"
+        app:abs_leftIconClickToFinish="true"
+        app:abs_titleHintColor="@color/white_alpha"
+        app:abs_titleBgRes="@drawable/action_search_bg"
+        app:abs_titleMarginVertical="6dp"
+        app:abs_rightText="搜索"
+        app:abs_titleHintText="用空格隔开多个关键词"
+        app:abs_titleTextSize="@dimen/text_content"
+        app:abs_titleTextColor="@color/text_white"
+        app:abs_titlePaddingHorizontal="15dp"
+        app:abs_rightTextColor="@color/white"
+        app:abs_rightTextPaddingRight="16dp"
+        style="@style/ActionBar"/>
+
+    <FrameLayout
+        android:id="@+id/fl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

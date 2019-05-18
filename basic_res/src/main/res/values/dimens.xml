@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--==========================通用============================-->
+    <dimen name="action_bar_height">44dp</dimen>
+    <dimen name="action_bar_bottom_line_height">1dp</dimen>
+    <dimen name="bottom_bar_height">49dp</dimen>
+
+    <!--==========================文字大小============================-->
+    <dimen name="text_headline">22sp</dimen>
+    <dimen name="text_title">18sp</dimen>
+    <dimen name="text_subtitle">17sp</dimen>
+    <dimen name="text_content">15sp</dimen>
+    <dimen name="text_auxiliary">13sp</dimen>
+    <dimen name="text_notes">12sp</dimen>
+    <dimen name="text_time">11sp</dimen>
+
+    <dimen name="round_radius">8dp</dimen>
+
+</resources>

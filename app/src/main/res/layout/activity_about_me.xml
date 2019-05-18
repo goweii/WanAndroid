@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/iv_blur"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg"
+        android:scaleType="centerCrop"
+        tools:src="@drawable/goweii" />
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/about_me_blur_overlay"
+        app:srlEnablePureScrollMode="true"
+        tools:background="@color/dialog_bg">
+
+        <RelativeLayout
+            android:id="@+id/rl_info_reward"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:id="@+id/rl_info"
+                android:visibility="invisible"
+                tools:visibility="visible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/civ_icon"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="100dp"
+                    android:scaleType="centerCrop"
+                    app:civ_circle_background_color="@color/white_alpha"
+                    tools:src="@drawable/goweii" />
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/civ_icon"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:text="Goweii"
+                    android:textColor="@color/text_white"
+                    android:textSize="@dimen/text_title" />
+
+                <TextView
+                    android:id="@+id/tv_sign"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tv_name"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="20dp"
+                    android:gravity="center"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
+                    android:text="不相信自己的人没有努力的价值"
+                    android:textColor="@color/text_white"
+                    android:textSize="@dimen/text_auxiliary" />
+
+                <LinearLayout
+                    android:id="@+id/ll_github"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/tv_sign"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="60dp"
+                    android:background="@drawable/bg_press_color_transparent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_github" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="Github"
+                        android:textColor="@color/text_white"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_github"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="https://github.com/goweii"
+                        android:textColor="@color/text_white_alpha"
+                        android:textSize="@dimen/text_notes" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_jianshu"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_below="@+id/ll_github"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/bg_press_color_transparent"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_jianshu" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="简书"
+                        android:textColor="@color/text_white"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_jianshu"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="https://www.jianshu.com/u/78fecab193fa"
+                        android:textColor="@color/text_white_alpha"
+                        android:textSize="@dimen/text_notes" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_white_alpha"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_above="@+id/tv_to_reward"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_auxiliary"
+                    android:text="如果你觉得APP做得还不错并对你有所帮助\n欢迎打赏，金额不限"/>
+
+                <TextView
+                    android:id="@+id/tv_to_reward"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_white_alpha"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_above="@+id/iv_to_reward"
+                    android:textSize="@dimen/text_auxiliary"
+                    android:text="上滑打赏"/>
+
+                <ImageView
+                    android:id="@+id/iv_to_reward"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:alpha="0.6"
+                    android:layout_marginBottom="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_alignParentBottom="true"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_back"
+                    android:rotation="90"
+                    android:tint="@color/white"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_reward"
+                android:visibility="invisible"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="60dp"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginRight="60dp"
+                    android:layout_marginBottom="60dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <per.goweii.percentimageview.percentimageview.PercentImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/qq_qrcode"
+                        app:piv_basics="height"
+                        app:piv_percent="0.85" />
+
+                    <per.goweii.percentimageview.percentimageview.PercentImageView
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="60dp"
+                        android:layout_weight="1"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/wx_qrcode"
+                        app:piv_basics="height"
+                        app:piv_percent="0.85" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <per.goweii.actionbarex.ActionBarCommon
+        android:id="@+id/abc"
+        style="@style/ActionBar.Common.Back"
+        android:background="@color/transparent"
+        app:abc_titleText="关于我" />
+
+</RelativeLayout>

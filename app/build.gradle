@@ -1,0 +1,25 @@
+apply plugin: 'com.android.application'
+
+apply from: "../module.gradle"
+
+android {
+    defaultConfig {
+        applicationId rootProject.ext.android.applicationId
+        defaultConfig {
+            renderscriptSupportModeEnabled true
+        }
+    }
+    resourcePrefix ""
+}
+
+dependencies {
+    annotationProcessor rootProject.ext.dependencies.butterknifeCompiler
+    implementation rootProject.ext.dependencies.flexbox
+    implementation 'com.youth.banner:banner:1.4.10'
+    implementation 'com.github.mmin18:realtimeblurview:1.1.2'
+    implementation 'com.just.agentweb:agentweb:4.0.3-alpha@aar'
+    implementation 'com.github.goweii:RevealLayout:1.1.1'
+    implementation 'com.github.goweii:AnyView:1.0.2'
+    implementation 'com.github.goweii:KeyboardCompat:1.0.0'
+    implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+}

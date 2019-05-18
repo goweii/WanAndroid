@@ -1,0 +1,88 @@
+ext {
+    android = [
+            applicationId        : "per.goweii.wanandroid",
+            compileSdkVersion    : 28,
+            minSdkVersion        : 19,
+            targetSdkVersion     : 28,
+            buildToolsVersion    : "28.0.3",
+            versionCode          : 1,
+            versionName          : "1.0.0",
+            androidSupportVersion: "28.0.0",
+    ]
+
+    compileOptions = [
+            sourceCompatibility: JavaVersion.VERSION_1_8,
+            targetCompatibility: JavaVersion.VERSION_1_8,
+    ]
+
+    versions = [
+            appcompat          : "28.0.0",
+            multidex           : "1.0.3",
+            constraintLayout   : "1.1.3",
+            flexbox            : "1.0.0",
+
+            butterknife        : "8.8.1",
+            eventbus           : "3.1.1",
+            gson               : "2.8.5",
+            glide              : "4.8.0",
+            glideCompiler      : "4.8.0",
+            glideOkhttp3       : "4.8.0",
+            bravh              : "2.9.46",
+            smartRefreshLayout : "1.1.0-alpha-21",
+            rxHttp             : "2.2.9",
+            anyPermission      : "1.1.0",
+            anyDialog          : "3.0.3",
+            anyLayer           : "2.3.1",
+            actionBarEx        : "2.2.11",
+            percentImageView   : "1.0.2",
+            roundedimageview   : "2.3.0",
+            circleimageview    : "2.2.0",
+            magicIndicator     : "1.6.0",
+            photoView          : "2.1.3",
+            materialProgressBar: "1.4.2",
+
+            arouterApi         : "1.4.1",
+            arouterCompiler    : "1.2.2",
+
+            tinypinyin         : "2.0.3",
+            blurred            : "1.0.1",
+    ]
+
+    dependencies = [
+            appcompatV7            : "com.android.support:appcompat-v7:$versions.appcompat",
+            multidex               : "com.android.support:multidex:$versions.multidex",
+            constraintLayout       : "com.android.support.constraint:constraint-layout:$versions.constraintLayout",
+            recyclerview           : "com.android.support:recyclerview-v7:$versions.appcompat",
+            cardview               : "com.android.support:cardview-v7:$versions.appcompat",
+            flexbox                : "com.google.android:flexbox:$versions.flexbox",
+
+            butterknife            : "com.jakewharton:butterknife:$versions.butterknife",
+            butterknifeCompiler    : "com.jakewharton:butterknife-compiler:$versions.butterknife",
+            butterknifeGradlePlugin: "com.jakewharton:butterknife-gradle-plugin:$versions.butterknife",
+            eventbus               : "org.greenrobot:eventbus:$versions.eventbus",
+            gson                   : "com.google.code.gson:gson:$versions.gson",
+            glide                  : "com.github.bumptech.glide:glide:$versions.glide",
+            glideCompiler          : "com.github.bumptech.glide:compiler:$versions.glideCompiler",
+            glideOkhttp3           : "com.github.bumptech.glide:okhttp3-integration:$versions.glideOkhttp3",
+            bravh                  : "com.github.CymChad:BaseRecyclerViewAdapterHelper:$versions.bravh",
+            smartRefreshLayout     : "com.scwang.smartrefresh:SmartRefreshLayout:$versions.smartRefreshLayout",
+            rxHttp                 : "com.github.goweii:RxHttp:$versions.rxHttp",
+            anyPermission          : "com.github.goweii:AnyPermission:$versions.anyPermission",
+            anyDialog              : "com.github.goweii:AnyDialog:$versions.anyDialog",
+            anyLayer               : "com.github.goweii:AnyLayer:$versions.anyLayer",
+            actionBarEx            : "com.github.goweii:ActionBarEx:$versions.actionBarEx",
+            percentImageView       : "com.github.goweii:PercentImageView:$versions.percentImageView",
+            roundedimageview       : "com.makeramen:roundedimageview:$versions.roundedimageview",
+            circleimageview        : "de.hdodenhof:circleimageview:$versions.circleimageview",
+            magicIndicator         : "com.github.hackware1993:MagicIndicator:$versions.magicIndicator",
+            photoView              : "com.github.chrisbanes:PhotoView:$versions.photoView",
+            materialProgressBar    : "me.zhanghai.android.materialprogressbar:library:$versions.materialProgressBar",
+
+            //路由通讯
+            //arouterApi             : "com.alibaba:arouter-api:$versions.arouterApi",
+            //arouterCompiler        : "com.alibaba:arouter-compiler:$versions.arouterCompiler",
+
+            //tinypinyin             : "com.github.promeg:tinypinyin:$versions.tinypinyin",
+            blurred                : "com.github.goweii:blurred:$versions.blurred",
+    ]
+}

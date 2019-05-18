@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">BasicCore</string>
+
+    <string name="basic_core_fragment_empty">Fragment not found</string>
+</resources>
