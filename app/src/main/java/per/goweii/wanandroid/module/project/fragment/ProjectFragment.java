@@ -9,7 +9,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 import java.util.List;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.ActionBarCommon;
+import per.goweii.actionbarex.ActionBarEx;
 import per.goweii.basic.core.adapter.MultiFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.utils.ToastMaker;
@@ -29,10 +29,8 @@ import per.goweii.wanandroid.utils.MagicIndicatorUtils;
  */
 public class ProjectFragment extends BaseFragment<ProjectPresenter> implements MainActivity.ScrollTop, ProjectView {
 
-    @BindView(R.id.abc)
-    ActionBarCommon abc;
-    @BindView(R.id.mi)
-    MagicIndicator mi;
+    @BindView(R.id.ab)
+    ActionBarEx ab;
     @BindView(R.id.vp)
     ViewPager vp;
 
@@ -70,7 +68,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements M
                     }
                 });
         vp.setAdapter(mAdapter);
-        mCommonNavigator = MagicIndicatorUtils.commonNavigator(mi, vp, mAdapter);
+        mCommonNavigator = MagicIndicatorUtils.commonNavigator((MagicIndicator) ab.getTitleBarChild(), vp, mAdapter);
     }
 
     @Override

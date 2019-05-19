@@ -4,21 +4,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
-    <per.goweii.actionbarex.ActionBarCommon
-        android:id="@+id/abc"
-        style="@style/ActionBar.Common"
-        app:abc_titleText="项目"/>
-
-    <net.lucode.hackware.magicindicator.MagicIndicator
-        android:id="@+id/mi"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/main"
-        android:overScrollMode="never"
-        android:scrollbars="none" />
+    <per.goweii.actionbarex.ActionBarEx
+        android:id="@+id/ab"
+        style="@style/ActionBar"
+        app:ab_titleBarLayout="@layout/action_bar_multi_magic_indicator" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"

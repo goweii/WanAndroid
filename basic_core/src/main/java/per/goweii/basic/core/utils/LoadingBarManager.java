@@ -12,11 +12,15 @@ import per.goweii.actionbarex.ActionBarEx;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class LoadingBarManager {
+public class LoadingBarManager implements Runnable {
+
+    private static final long MIN_SHOW_TIME = 500L;
 
     private boolean mHasTryToFindActionBarEx = false;
     private ActionBarEx mActionBarEx = null;
     private View mRootView = null;
+
+    private long mShowTime = 0L;
 
     private int count = 0;
 
@@ -24,38 +28,53 @@ public class LoadingBarManager {
         mRootView = rootView;
     }
 
-    public static LoadingBarManager attach(View rootView){
+    public static LoadingBarManager attach(View rootView) {
         return new LoadingBarManager(rootView);
     }
 
-    public void detach(){
+    public void detach() {
+        if (mActionBarEx != null) {
+            mActionBarEx.removeCallbacks(this);
+        }
         mRootView = null;
         mActionBarEx = null;
     }
 
-    public void show(){
+    @Override
+    public void run() {
+        if (mActionBarEx != null) {
+            mActionBarEx.getForegroundLayer().setVisibility(View.GONE);
+        }
+    }
+
+    public void show() {
         tryToFindActionBarEx();
         if (mActionBarEx != null) {
             count = count < 0 ? 0 : count;
-            if (count == 0){
+            if (count == 0) {
+                mActionBarEx.removeCallbacks(this);
+                mShowTime = System.currentTimeMillis();
                 mActionBarEx.getForegroundLayer().setVisibility(View.VISIBLE);
             }
             count++;
         }
     }
 
-    public void dismiss(){
+    public void dismiss() {
         tryToFindActionBarEx();
         if (mActionBarEx != null) {
             count--;
             count = count < 0 ? 0 : count;
-            if (count == 0){
-                mActionBarEx.getForegroundLayer().setVisibility(View.GONE);
+            if (count == 0) {
+                long dismissTime = System.currentTimeMillis();
+                long delay = MIN_SHOW_TIME - (dismissTime - mShowTime);
+                delay = delay < 0 ? 0 : delay;
+                mActionBarEx.postDelayed(this, delay);
             }
         }
     }
 
-    public void clear(){
+    public void clear() {
         tryToFindActionBarEx();
         if (mActionBarEx != null) {
             mActionBarEx.getForegroundLayer().setVisibility(View.GONE);
@@ -63,14 +82,14 @@ public class LoadingBarManager {
         }
     }
 
-    private void tryToFindActionBarEx(){
+    private void tryToFindActionBarEx() {
         if (!mHasTryToFindActionBarEx) {
             mHasTryToFindActionBarEx = true;
             mActionBarEx = findActionBarEx(mRootView);
         }
     }
 
-    private ActionBarEx findActionBarEx(View view){
+    private ActionBarEx findActionBarEx(View view) {
         if (view instanceof ActionBarEx) {
             return (ActionBarEx) view;
         }

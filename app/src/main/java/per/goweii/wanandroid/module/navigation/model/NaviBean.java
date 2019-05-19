@@ -1,8 +1,9 @@
-package per.goweii.wanandroid.module.main.model;
+package per.goweii.wanandroid.module.navigation.model;
 
 import java.util.List;
 
 import per.goweii.rxhttp.request.base.BaseBean;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 
 /**
  * @author CuiZhen

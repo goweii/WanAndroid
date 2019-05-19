@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<net.lucode.hackware.magicindicator.MagicIndicator xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mi"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/action_bar_height"
+    android:background="@color/main"
+    android:overScrollMode="never"
+    android:scrollbars="none" />

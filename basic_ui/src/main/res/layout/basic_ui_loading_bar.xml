@@ -13,6 +13,8 @@
         android:layout_height="1dp"
         android:layout_gravity="bottom"
         android:indeterminate="true"
+        android:background="@color/transparent"
+        app:mpb_showProgressBackground="false"
         app:mpb_indeterminateTint="@color/accent"
         app:mpb_progressStyle="horizontal"
         app:mpb_useIntrinsicPadding="false" />

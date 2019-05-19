@@ -86,7 +86,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:text="知识体系"
+                android:text="体系"
                 android:textColor="@color/text_gray_light"
                 android:textSize="10dp" />
 

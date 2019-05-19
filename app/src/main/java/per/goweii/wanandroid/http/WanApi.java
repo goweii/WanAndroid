@@ -16,6 +16,7 @@ import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
 import per.goweii.wanandroid.module.mine.model.CollectionBean;
+import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
 import per.goweii.wanandroid.module.project.model.ProjectChapterBean;
 import per.goweii.wanandroid.module.wxarticle.model.WxArticleBean;
@@ -182,7 +183,7 @@ public class WanApi extends Api {
          * 搜索热词
          */
         @GET("navi/json")
-        Observable<WanResponse<List<HotKeyBean>>> getNaviList();
+        Observable<WanResponse<List<NaviBean>>> getNaviList();
 
         /**
          * 体系数据

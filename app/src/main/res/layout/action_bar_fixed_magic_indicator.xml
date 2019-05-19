@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/action_bar_height"
+    android:background="@color/main">
+
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/mi"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:background="@color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+</FrameLayout>

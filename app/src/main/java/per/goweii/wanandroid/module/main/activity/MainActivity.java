@@ -16,7 +16,7 @@ import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.home.fragment.HomeFragment;
-import per.goweii.wanandroid.module.knowledge.fragment.KnowledgeFragment;
+import per.goweii.wanandroid.module.main.fragment.KnowledgeNavigationFragment;
 import per.goweii.wanandroid.module.mine.fragment.MineFragment;
 import per.goweii.wanandroid.module.project.fragment.ProjectFragment;
 import per.goweii.wanandroid.module.wxarticle.fragment.WxFragment;
@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     protected void loadData() {
         mPagerAdapter.setFragmentList(
                 HomeFragment.create(),
-                KnowledgeFragment.create(),
+                KnowledgeNavigationFragment.create(),
                 WxFragment.create(),
                 ProjectFragment.create(),
                 MineFragment.create()

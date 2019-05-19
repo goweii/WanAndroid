@@ -37,7 +37,7 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_knowledge;
+        return R.layout.fragment_knowledge_navigation_child;
     }
 
     @Nullable
