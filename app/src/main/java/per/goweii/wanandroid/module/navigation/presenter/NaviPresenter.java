@@ -1,0 +1,52 @@
+package per.goweii.wanandroid.module.navigation.presenter;
+
+import java.util.List;
+
+import per.goweii.basic.core.base.BasePresenter;
+import per.goweii.rxhttp.request.exception.ExceptionHandle;
+import per.goweii.wanandroid.http.RequestListener;
+import per.goweii.wanandroid.module.navigation.model.NaviBean;
+import per.goweii.wanandroid.module.navigation.model.NaviRequest;
+import per.goweii.wanandroid.module.navigation.view.NaviView;
+
+/**
+ * @author CuiZhen
+ * @date 2019/5/12
+ * QQ: 302833254
+ * E-mail: goweii@163.com
+ * GitHub: https://github.com/goweii
+ */
+public class NaviPresenter extends BasePresenter<NaviView> {
+
+    public void getKnowledgeList() {
+        addToRxLife(NaviRequest.getNaviList(new RequestListener<List<NaviBean>>() {
+            @Override
+            public void onStart() {
+                showLoadingBar();
+            }
+
+            @Override
+            public void onSuccess(int code, List<NaviBean> data) {
+                if (isAttachView()) {
+                    getBaseView().getNaviListSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if (isAttachView()) {
+                    getBaseView().getNaviListFail(code, msg);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+                dismissLoadingBar();
+            }
+        }));
+    }
+}
