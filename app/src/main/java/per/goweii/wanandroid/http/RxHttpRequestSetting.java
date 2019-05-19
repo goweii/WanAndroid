@@ -10,6 +10,7 @@ import okhttp3.OkHttpClient;
 import per.goweii.basic.core.common.Config;
 import per.goweii.basic.utils.Utils;
 import per.goweii.rxhttp.request.setting.DefaultRequestSetting;
+import per.goweii.rxhttp.request.utils.HttpsCompat;
 
 /**
  * 描述：
@@ -43,6 +44,10 @@ public class RxHttpRequestSetting extends DefaultRequestSetting {
     @Override
     public void setOkHttpClient(OkHttpClient.Builder builder) {
         super.setOkHttpClient(builder);
+        HttpsCompat.enableTls12ForOkHttp(builder);
+        HttpsCompat.enableTls12ForHttpsURLConnection();
         builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(Utils.getAppContext())));
     }
+
+
 }

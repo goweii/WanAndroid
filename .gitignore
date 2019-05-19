@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Android template
 # Built application files
+app/release/
 *.apk
 *.ap_
 

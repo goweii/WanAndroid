@@ -14,6 +14,7 @@ public class SettingUtils {
     private static final String SP_NAME = "setting";
     private static final String KEY_SHOW_TOP = "KEY_SHOW_TOP";
     private static final String KEY_SEARCH_HISTORY_MAX_COUNT = "KEY_SEARCH_HISTORY_MAX_COUNT";
+    private static final String KEY_UPDATE_IGNORE_DURATION = "KEY_UPDATE_IGNORE_DURATION";
 
     private final SPUtils mSPUtils = SPUtils.newInstance(SP_NAME);
 
@@ -42,5 +43,9 @@ public class SettingUtils {
 
     public int getSearchHistoryMaxCount() {
         return mSPUtils.get(KEY_SEARCH_HISTORY_MAX_COUNT, 20);
+    }
+
+    public long getUpdateIgnoreDuration() {
+        return mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, 24 * 60 * 60 * 1000L);
     }
 }

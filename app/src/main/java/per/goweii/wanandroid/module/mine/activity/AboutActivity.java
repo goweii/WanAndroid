@@ -22,7 +22,7 @@ import per.goweii.wanandroid.module.main.activity.WebActivity;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class AboutWanAndroidActivity extends BaseActivity {
+public class AboutActivity extends BaseActivity {
 
     @BindView(R.id.tv_version_name)
     TextView tv_version_name;
@@ -36,13 +36,13 @@ public class AboutWanAndroidActivity extends BaseActivity {
     LinearLayout ll_about;
 
     public static void start(Context context){
-        Intent intent = new Intent(context, AboutWanAndroidActivity.class);
+        Intent intent = new Intent(context, AboutActivity.class);
         context.startActivity(intent);
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_about_wan_android;
+        return R.layout.activity_about;
     }
 
     @Nullable

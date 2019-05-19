@@ -17,20 +17,20 @@ public class FileUtils {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
     }
 
-    public static boolean delete(File dir) {
-        if (dir == null) {
+    public static boolean delete(File file) {
+        if (file == null) {
             return false;
         }
-        if (dir.isDirectory()) {
-            String[] children = dir.list();
+        if (file.isDirectory()) {
+            String[] children = file.list();
             for (String c : children) {
-                boolean success = delete(new File(dir, c));
+                boolean success = delete(new File(file, c));
                 if (!success) {
                     return false;
                 }
             }
         }
-        return dir.delete();
+        return file.delete();
     }
 
     public static long getSize(File file) {

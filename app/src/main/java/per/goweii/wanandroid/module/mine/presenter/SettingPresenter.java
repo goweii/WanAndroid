@@ -1,0 +1,97 @@
+package per.goweii.wanandroid.module.mine.presenter;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
+import per.goweii.basic.core.base.BasePresenter;
+import per.goweii.basic.utils.file.CacheUtils;
+import per.goweii.rxhttp.request.exception.ExceptionHandle;
+import per.goweii.wanandroid.http.RequestListener;
+import per.goweii.wanandroid.module.main.model.MainRequest;
+import per.goweii.wanandroid.module.main.model.UpdateBean;
+import per.goweii.wanandroid.module.mine.view.SettingView;
+
+/**
+ * @author CuiZhen
+ * @date 2019/5/19
+ * QQ: 302833254
+ * E-mail: goweii@163.com
+ * GitHub: https://github.com/goweii
+ */
+public class SettingPresenter extends BasePresenter<SettingView> {
+
+    public void update(boolean click) {
+        addToRxLife(MainRequest.update(new RequestListener<UpdateBean>() {
+            @Override
+            public void onStart() {
+                showLoadingBar();
+            }
+
+            @Override
+            public void onSuccess(int code, UpdateBean data) {
+                if (isAttachView()) {
+                    getBaseView().updateSuccess(code, data, click);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if (isAttachView()) {
+                    getBaseView().updateFailed(code, msg, click);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+                dismissLoadingBar();
+            }
+        }));
+    }
+
+    public void getCacheSize() {
+        addToRxLife(Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                String size = CacheUtils.getTotalCacheSize();
+                if (!emitter.isDisposed()) {
+                    emitter.onNext(size);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String size) throws Exception {
+                if (isAttachView()) {
+                    getBaseView().getCacheSizeSuccess(size);
+                }
+            }
+        }));
+    }
+
+    public void clearCache() {
+        addToRxLife(Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> emitter) throws Exception {
+                CacheUtils.clearAllCache();
+                String size = CacheUtils.getTotalCacheSize();
+                if (!emitter.isDisposed()) {
+                    emitter.onNext(size);
+                }
+            }
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+            @Override
+            public void accept(String size) throws Exception {
+                if (isAttachView()) {
+                    getBaseView().getCacheSizeSuccess(size);
+                }
+            }
+        }));
+    }
+
+}

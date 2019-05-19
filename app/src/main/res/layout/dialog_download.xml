@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="44dp"
+    android:layout_marginRight="44dp"
+    android:background="@drawable/bg_solid_round_color_white_radius_def"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_dialog_download_close"
+        android:layout_alignParentRight="true"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
+        android:alpha="0.1"
+        android:padding="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_close"/>
+
+    <TextView
+        android:id="@+id/tv_dialog_download_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/basic_ui_dialog_download_state_downloading"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_content" />
+
+    <ProgressBar
+        android:id="@+id/pb_dialog_download"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@+id/tv_dialog_download_state"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="16dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/basic_ui_dialog_download_progress_bg"
+        tools:progress="50" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pb_dialog_download"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="15dp">
+
+        <TextView
+            android:id="@+id/tv_dialog_download_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            tools:text="10%"
+            android:textColor="@color/text_gray_light"
+            android:textSize="@dimen/text_notes" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_dialog_download_speed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_gray_light"
+                android:textSize="@dimen/text_notes"
+                tools:text="1MB/s" />
+
+            <TextView
+                android:id="@+id/tv_dialog_download_line"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="5dp"
+                android:visibility="invisible"
+                android:layout_marginRight="5dp"
+                android:textColor="@color/text_gray_light"
+                android:textSize="@dimen/text_notes"
+                android:text="|" />
+
+            <TextView
+                android:id="@+id/tv_dialog_download_apk_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/text_gray_light"
+                android:textSize="@dimen/text_notes"
+                tools:text="40M" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

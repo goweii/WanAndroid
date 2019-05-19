@@ -38,4 +38,8 @@ public class MainRequest extends BaseRequest {
         return request(WanApi.api().uncollect(id, originId), listener);
     }
 
+    public static Disposable update(@NonNull RequestListener<UpdateBean> listener) {
+        return request(WanApi.api().update(), listener);
+    }
+
 }

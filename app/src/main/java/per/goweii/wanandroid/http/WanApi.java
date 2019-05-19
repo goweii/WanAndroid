@@ -14,6 +14,7 @@ import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectBean;
+import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
 import per.goweii.wanandroid.module.mine.model.CollectionBean;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
@@ -50,6 +51,9 @@ public class WanApi extends Api {
     }
 
     public interface ApiService {
+
+        @GET("https://raw.githubusercontent.com/goweii/WanAndroidServer/master/update/update.json")
+        Observable<WanResponse<UpdateBean>> update();
 
         /**
          * 登录

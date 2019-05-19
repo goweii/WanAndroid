@@ -9,7 +9,7 @@
     <per.goweii.actionbarex.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="关于玩安卓" />
+        app:abc_titleText="关于" />
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/riv_logo"

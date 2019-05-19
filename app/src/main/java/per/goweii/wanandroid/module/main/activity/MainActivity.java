@@ -1,7 +1,9 @@
 package per.goweii.wanandroid.module.main.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -11,17 +13,30 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import per.goweii.anypermission.AnyPermission;
+import per.goweii.anypermission.RequestInterceptor;
+import per.goweii.anypermission.RequestListener;
+import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
-import per.goweii.basic.core.mvp.MvpPresenter;
+import per.goweii.basic.ui.dialog.PermissionDialog;
+import per.goweii.basic.ui.dialog.UpdateDialog;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.home.fragment.HomeFragment;
+import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.fragment.KnowledgeNavigationFragment;
+import per.goweii.wanandroid.module.main.model.UpdateBean;
+import per.goweii.wanandroid.module.main.presenter.MainPresenter;
+import per.goweii.wanandroid.module.main.view.MainView;
 import per.goweii.wanandroid.module.mine.fragment.MineFragment;
 import per.goweii.wanandroid.module.project.fragment.ProjectFragment;
 import per.goweii.wanandroid.module.wxarticle.fragment.WxFragment;
+import per.goweii.wanandroid.utils.UpdateUtils;
 
-public class MainActivity extends BaseActivity implements ViewPager.OnPageChangeListener {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainView, ViewPager.OnPageChangeListener {
+
+    private static final int REQ_CODE_PERMISSION = 1;
 
     @BindView(R.id.vp)
     ViewPager vp;
@@ -47,9 +62,10 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     TextView tv_bb_mine;
 
     private FixedFragmentPagerAdapter mPagerAdapter;
-
+    private RuntimeRequester mRuntimeRequester;
     private long lastClickTime = 0L;
     private int lastClickPos = 0;
+    private UpdateUtils mUpdateUtils;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -63,8 +79,8 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
 
     @Nullable
     @Override
-    protected MvpPresenter initPresenter() {
-        return null;
+    protected MainPresenter initPresenter() {
+        return new MainPresenter();
     }
 
     @Override
@@ -73,10 +89,6 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         vp.setOffscreenPageLimit(4);
         mPagerAdapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(mPagerAdapter);
-    }
-
-    @Override
-    protected void loadData() {
         mPagerAdapter.setFragmentList(
                 HomeFragment.create(),
                 KnowledgeNavigationFragment.create(),
@@ -86,6 +98,11 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
         );
         vp.setCurrentItem(0);
         onPageSelected(vp.getCurrentItem());
+    }
+
+    @Override
+    protected void loadData() {
+        presenter.update();
     }
 
     @OnClick({
@@ -170,7 +187,121 @@ public class MainActivity extends BaseActivity implements ViewPager.OnPageChange
     public void onPageScrollStateChanged(int i) {
     }
 
-    public interface ScrollTop{
+    @Override
+    public void updateSuccess(int code, UpdateBean data) {
+        mUpdateUtils = UpdateUtils.newInstance();
+        if (!mUpdateUtils.shouldUpdate(data.getVersion_code())) {
+            return;
+        }
+        UpdateDialog.with(getContext())
+                .setUrl(data.getUrl())
+                .setVersionCode(data.getVersion_code())
+                .setVersionName(data.getVersion_name())
+                .setForce(data.isForce())
+                .setDescription(data.getDesc())
+                .setTime(data.getTime())
+                .setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
+                    @Override
+                    public void onDownload(String url, boolean isForce) {
+                        download(data.getVersion_name(), url, isForce);
+                    }
+
+                    @Override
+                    public void onIgnore(int versionCode) {
+                        mUpdateUtils.ignore(versionCode);
+                    }
+                })
+                .show();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mRuntimeRequester != null) {
+            mRuntimeRequester.onActivityResult(requestCode);
+        }
+    }
+
+    private void download(final String versionName, final String url, final boolean isForce) {
+        mRuntimeRequester = AnyPermission.with(getContext())
+                .runtime(REQ_CODE_PERMISSION)
+                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .onBeforeRequest(new RequestInterceptor<String>() {
+                    @Override
+                    public void intercept(@NonNull String data, @NonNull Executor executor) {
+                        PermissionDialog.with(getContext())
+                                .setGoSetting(false)
+                                .setGroupType(PermissionDialog.GroupType.STORAGE)
+                                .setOnNextListener(new SimpleCallback<Void>() {
+                                    @Override
+                                    public void onResult(Void data) {
+                                        executor.execute();
+                                    }
+                                })
+                                .setOnCloseListener(new SimpleCallback<Void>() {
+                                    @Override
+                                    public void onResult(Void data) {
+                                        executor.cancel();
+                                    }
+                                })
+                                .show();
+                    }
+                })
+                .onBeenDenied(new RequestInterceptor<String>() {
+                    @Override
+                    public void intercept(@NonNull String data, @NonNull Executor executor) {
+                        PermissionDialog.with(getContext())
+                                .setGoSetting(false)
+                                .setGroupType(PermissionDialog.GroupType.STORAGE)
+                                .setOnNextListener(new SimpleCallback<Void>() {
+                                    @Override
+                                    public void onResult(Void data) {
+                                        executor.execute();
+                                    }
+                                })
+                                .setOnCloseListener(new SimpleCallback<Void>() {
+                                    @Override
+                                    public void onResult(Void data) {
+                                        executor.cancel();
+                                    }
+                                })
+                                .show();
+                    }
+                })
+                .onGoSetting(new RequestInterceptor<String>() {
+                    @Override
+                    public void intercept(@NonNull String data, @NonNull Executor executor) {
+                        PermissionDialog.with(getContext())
+                                .setGoSetting(true)
+                                .setGroupType(PermissionDialog.GroupType.STORAGE)
+                                .setOnNextListener(new SimpleCallback<Void>() {
+                                    @Override
+                                    public void onResult(Void data) {
+                                        executor.execute();
+                                    }
+                                })
+                                .setOnCloseListener(new SimpleCallback<Void>() {
+                                    @Override
+                                    public void onResult(Void data) {
+                                        executor.cancel();
+                                    }
+                                })
+                                .show();
+                    }
+                })
+                .request(new RequestListener() {
+                    @Override
+                    public void onSuccess() {
+                        DownloadDialog.with(getActivity(), isForce, url, versionName);
+                    }
+
+                    @Override
+                    public void onFailed() {
+                    }
+                });
+    }
+
+    public interface ScrollTop {
         void scrollTop();
     }
 }
