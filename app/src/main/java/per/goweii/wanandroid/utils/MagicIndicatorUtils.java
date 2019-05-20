@@ -18,6 +18,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.Simple
 import per.goweii.basic.core.adapter.MultiFragmentPagerAdapter;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 
 /**
@@ -31,7 +32,8 @@ public class MagicIndicatorUtils {
 
     public static <E, F extends Fragment> CommonNavigator commonNavigator(
             MagicIndicator mi, ViewPager vp,
-            MultiFragmentPagerAdapter<E, F> adapter) {
+            MultiFragmentPagerAdapter<E, F> adapter,
+            SimpleCallback<Integer> onClickCallback) {
         CommonNavigator navigator = new CommonNavigator(vp.getContext());
         final int padding16 = (int) DisplayInfoUtils.getInstance().dp2px(8);
         navigator.setLeftPadding(padding16);
@@ -56,6 +58,9 @@ public class MagicIndicatorUtils {
                     @Override
                     public void onClick(View v) {
                         vp.setCurrentItem(index);
+                        if (onClickCallback != null) {
+                            onClickCallback.onResult(index);
+                        }
                     }
                 });
                 return simplePagerTitleView;
@@ -78,7 +83,8 @@ public class MagicIndicatorUtils {
 
     public static CommonNavigator commonNavigator(
             MagicIndicator mi, ViewPager vp,
-            FragmentPagerAdapter adapter) {
+            FragmentPagerAdapter adapter,
+            SimpleCallback<Integer> onClickCallback) {
         CommonNavigator navigator = new CommonNavigator(vp.getContext());
         final int padding16 = (int) DisplayInfoUtils.getInstance().dp2px(8);
         navigator.setLeftPadding(padding16);
@@ -103,6 +109,9 @@ public class MagicIndicatorUtils {
                     @Override
                     public void onClick(View v) {
                         vp.setCurrentItem(index);
+                        if (onClickCallback != null) {
+                            onClickCallback.onResult(index);
+                        }
                     }
                 });
                 return simplePagerTitleView;

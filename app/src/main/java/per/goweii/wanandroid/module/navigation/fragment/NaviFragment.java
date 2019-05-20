@@ -10,6 +10,7 @@ import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.navigation.adapter.NaviAdapter;
@@ -24,7 +25,7 @@ import per.goweii.wanandroid.module.navigation.view.NaviView;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class NaviFragment extends BaseFragment<NaviPresenter> implements NaviView {
+public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollTop, NaviView {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -75,6 +76,15 @@ public class NaviFragment extends BaseFragment<NaviPresenter> implements NaviVie
         super.onVisible();
         if (mAdapter.getData().isEmpty()) {
             presenter.getKnowledgeList();
+        }
+    }
+
+    @Override
+    public void scrollTop() {
+        if (isAdded() && !isDetached()) {
+            if (rv != null) {
+                rv.smoothScrollToPosition(0);
+            }
         }
     }
 

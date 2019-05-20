@@ -22,6 +22,7 @@ import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
+import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.wxarticle.adapter.WxArticleAdapter;
@@ -53,13 +54,15 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
     private WxArticleAdapter mAdapter;
 
     private WxChapterBean mWxChapterBean;
+    private int mPosition = -1;
 
     private int currPage = PAGE_START;
 
-    public static WxArticleFragment create(WxChapterBean wxChapterBean) {
+    public static WxArticleFragment create(WxChapterBean wxChapterBean, int position) {
         WxArticleFragment fragment = new WxArticleFragment();
-        Bundle args = new Bundle(1);
+        Bundle args = new Bundle(2);
         args.putSerializable("wxChapterBean", wxChapterBean);
+        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -115,6 +118,21 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onScrollTopEvent(ScrollTopEvent event) {
+        if (!getClass().equals(event.getClazz())) {
+            return;
+        }
+        if (mPosition != event.getPosition()) {
+            return;
+        }
+        if (isAdded() && !isDetached()) {
+            if (rv != null) {
+                rv.smoothScrollToPosition(0);
+            }
+        }
+    }
+
     @Override
     protected boolean isRegisterEventBus() {
         return true;
@@ -136,6 +154,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         Bundle args = getArguments();
         if (args != null) {
             mWxChapterBean = (WxChapterBean) args.getSerializable("wxChapterBean");
+            mPosition = args.getInt("position", -1);
         }
 
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);

@@ -35,7 +35,7 @@ public class MultiFragmentPagerAdapter<E, F extends Fragment> extends FragmentSt
 
     @Override
     public Fragment getItem(int i) {
-        return mCreator.create(mDataList.get(i));
+        return mCreator.create(mDataList.get(i), i);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class MultiFragmentPagerAdapter<E, F extends Fragment> extends FragmentSt
     }
 
     public interface FragmentCreator<E, F> {
-        F create(E data);
+        F create(E data, int pos);
         String getTitle(E data);
     }
 }

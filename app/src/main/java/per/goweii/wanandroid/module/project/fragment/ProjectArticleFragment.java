@@ -22,6 +22,7 @@ import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
+import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.project.adapter.ProjectArticleAdapter;
@@ -53,13 +54,15 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
     private ProjectArticleAdapter mAdapter;
 
     private ProjectChapterBean mProjectChapterBean;
+    private int mPosition = -1;
 
     private int currPage = PAGE_START;
 
-    public static ProjectArticleFragment create(ProjectChapterBean projectChapterBean) {
+    public static ProjectArticleFragment create(ProjectChapterBean projectChapterBean, int position) {
         ProjectArticleFragment fragment = new ProjectArticleFragment();
-        Bundle args = new Bundle(1);
+        Bundle args = new Bundle(2);
         args.putSerializable("projectChapterBean", projectChapterBean);
+        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -115,6 +118,21 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onScrollTopEvent(ScrollTopEvent event) {
+        if (!getClass().equals(event.getClazz())) {
+            return;
+        }
+        if (mPosition != event.getPosition()) {
+            return;
+        }
+        if (isAdded() && !isDetached()) {
+            if (rv != null) {
+                rv.smoothScrollToPosition(0);
+            }
+        }
+    }
+
     @Override
     protected boolean isRegisterEventBus() {
         return true;
@@ -136,6 +154,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         Bundle args = getArguments();
         if (args != null) {
             mProjectChapterBean = (ProjectChapterBean) args.getSerializable("projectChapterBean");
+            mPosition = args.getInt("position", -1);
         }
 
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);

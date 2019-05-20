@@ -32,7 +32,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
         addToRxLife(HomeRequest.getBanner(new RequestListener<List<BannerBean>>() {
             @Override
             public void onStart() {
-                showLoadingBar();
             }
 
             @Override
@@ -55,7 +54,6 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onFinish() {
-                dismissLoadingBar();
             }
         }));
     }

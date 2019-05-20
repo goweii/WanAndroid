@@ -10,7 +10,7 @@
     <per.goweii.actionbarex.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="收藏" />
+        app:abc_titleText="稍后阅读" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/srl"

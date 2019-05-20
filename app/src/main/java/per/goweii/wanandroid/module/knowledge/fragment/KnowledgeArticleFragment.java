@@ -22,6 +22,7 @@ import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
+import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.knowledge.adapter.KnowledgeArticleAdapter;
 import per.goweii.wanandroid.module.knowledge.model.KnowledgeArticleBean;
@@ -54,13 +55,15 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
     private KnowledgeArticleAdapter mAdapter;
 
     private KnowledgeBean mKnowledgeBean;
+    private int mPosition = -1;
 
     private int currPage = PAGE_START;
 
-    public static KnowledgeArticleFragment create(KnowledgeBean knowledgeBean) {
+    public static KnowledgeArticleFragment create(KnowledgeBean knowledgeBean, int position) {
         KnowledgeArticleFragment fragment = new KnowledgeArticleFragment();
-        Bundle args = new Bundle(1);
+        Bundle args = new Bundle(2);
         args.putSerializable("knowledgeBean", knowledgeBean);
+        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -116,6 +119,21 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onScrollTopEvent(ScrollTopEvent event) {
+        if (!getClass().equals(event.getClazz())) {
+            return;
+        }
+        if (mPosition != event.getPosition()) {
+            return;
+        }
+        if (isAdded() && !isDetached()) {
+            if (rv != null) {
+                rv.smoothScrollToPosition(0);
+            }
+        }
+    }
+
     @Override
     protected boolean isRegisterEventBus() {
         return true;
@@ -137,6 +155,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         Bundle args = getArguments();
         if (args != null) {
             mKnowledgeBean = (KnowledgeBean) args.getSerializable("knowledgeBean");
+            mPosition = args.getInt("position", -1);
         }
 
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);

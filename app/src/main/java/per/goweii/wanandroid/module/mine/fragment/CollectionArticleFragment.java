@@ -19,6 +19,7 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
@@ -37,7 +38,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class CollectionArticleFragment extends BaseFragment<CollectionArticlePresenter> implements CollectionArticleView {
+public class CollectionArticleFragment extends BaseFragment<CollectionArticlePresenter> implements ScrollTop, CollectionArticleView {
 
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
@@ -175,5 +176,14 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         ToastMaker.showShort(msg);
         mSmartRefreshUtils.fail();
         mAdapter.loadMoreFail();
+    }
+
+    @Override
+    public void scrollTop() {
+        if (isAdded() && !isDetached()) {
+            if (rv != null) {
+                rv.smoothScrollToPosition(0);
+            }
+        }
     }
 }

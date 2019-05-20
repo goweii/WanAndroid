@@ -3,6 +3,7 @@ package per.goweii.wanandroid.module.mine.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -12,7 +13,10 @@ import per.goweii.actionbarex.IconView;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.mine.fragment.CollectionArticleFragment;
 import per.goweii.wanandroid.module.mine.fragment.CollectionLinkFragment;
 import per.goweii.wanandroid.utils.MagicIndicatorUtils;
@@ -30,6 +34,10 @@ public class CollectionActivity extends BaseActivity {
     ActionBarEx ab;
     @BindView(R.id.vp)
     ViewPager vp;
+
+    private FixedFragmentPagerAdapter mAdapter;
+    private long lastClickTime = 0L;
+    private int lastClickPos = 0;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, CollectionActivity.class);
@@ -57,17 +65,35 @@ public class CollectionActivity extends BaseActivity {
                 finish();
             }
         });
-        FixedFragmentPagerAdapter adapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
-        adapter.setTitles("文章", "网址");
-        adapter.setFragmentList(
+        mAdapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
+        mAdapter.setTitles("文章", "网址");
+        mAdapter.setFragmentList(
                 CollectionArticleFragment.create(),
                 CollectionLinkFragment.create()
         );
-        vp.setAdapter(adapter);
-        MagicIndicatorUtils.commonNavigator(ab.getView(R.id.mi), vp, adapter);
+        vp.setAdapter(mAdapter);
+        MagicIndicatorUtils.commonNavigator(ab.getView(R.id.mi), vp, mAdapter, new SimpleCallback<Integer>() {
+            @Override
+            public void onResult(Integer data) {
+                notifyScrollTop(data);
+            }
+        });
     }
 
     @Override
     protected void loadData() {
+    }
+
+    private void notifyScrollTop(int pos) {
+        long currClickTime = System.currentTimeMillis();
+        if (lastClickPos == pos && currClickTime - lastClickTime <= Config.SCROLL_TOP_DOUBLE_CLICK_DELAY) {
+            Fragment fragment = mAdapter.getItem(pos);
+            if (fragment instanceof ScrollTop) {
+                ScrollTop scrollTop = (ScrollTop) fragment;
+                scrollTop.scrollTop();
+            }
+        }
+        lastClickPos = pos;
+        lastClickTime = currClickTime;
     }
 }

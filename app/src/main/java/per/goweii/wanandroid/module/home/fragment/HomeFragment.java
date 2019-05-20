@@ -36,6 +36,7 @@ import per.goweii.basic.utils.ToastMaker;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
@@ -45,7 +46,6 @@ import per.goweii.wanandroid.module.home.model.BannerBean;
 import per.goweii.wanandroid.module.home.model.HomeBean;
 import per.goweii.wanandroid.module.home.presenter.HomePresenter;
 import per.goweii.wanandroid.module.home.view.HomeView;
-import per.goweii.wanandroid.module.main.activity.MainActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
@@ -60,7 +60,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class HomeFragment extends BaseFragment<HomePresenter> implements MainActivity.ScrollTop, HomeView {
+public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollTop, HomeView {
 
     private static final int PAGE_START = 0;
 
@@ -275,8 +275,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements MainAct
 
     @Override
     public void scrollTop() {
-        if (rv != null) {
-            rv.smoothScrollToPosition(0);
+        if (isAdded() && !isDetached()) {
+            if (rv != null) {
+                rv.smoothScrollToPosition(0);
+            }
         }
     }
 

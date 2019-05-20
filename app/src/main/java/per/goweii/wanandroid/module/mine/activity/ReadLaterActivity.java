@@ -16,11 +16,11 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.mine.adapter.ReadLaterAdapter;
-import per.goweii.wanandroid.module.mine.presenter.CollectionArticlePresenter;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
@@ -71,8 +71,8 @@ public class ReadLaterActivity extends BaseActivity {
 
     @Nullable
     @Override
-    protected CollectionArticlePresenter initPresenter() {
-        return new CollectionArticlePresenter();
+    protected MvpPresenter initPresenter() {
+        return null;
     }
 
     @Override

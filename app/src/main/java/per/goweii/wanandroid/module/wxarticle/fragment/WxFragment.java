@@ -13,8 +13,11 @@ import per.goweii.actionbarex.ActionBarEx;
 import per.goweii.basic.core.adapter.MultiFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.main.activity.MainActivity;
+import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.common.ScrollTop;
+import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.module.wxarticle.model.WxChapterBean;
 import per.goweii.wanandroid.module.wxarticle.presenter.WxPresenter;
 import per.goweii.wanandroid.module.wxarticle.view.WxView;
@@ -27,7 +30,7 @@ import per.goweii.wanandroid.utils.MagicIndicatorUtils;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class WxFragment extends BaseFragment<WxPresenter> implements MainActivity.ScrollTop, WxView {
+public class WxFragment extends BaseFragment<WxPresenter> implements ScrollTop, WxView {
 
     @BindView(R.id.ab)
     ActionBarEx ab;
@@ -36,6 +39,8 @@ public class WxFragment extends BaseFragment<WxPresenter> implements MainActivit
 
     private MultiFragmentPagerAdapter<WxChapterBean, WxArticleFragment> mAdapter;
     private CommonNavigator mCommonNavigator;
+    private long lastClickTime = 0L;
+    private int lastClickPos = 0;
 
     public static WxFragment create() {
         return new WxFragment();
@@ -58,8 +63,8 @@ public class WxFragment extends BaseFragment<WxPresenter> implements MainActivit
                 getChildFragmentManager(),
                 new MultiFragmentPagerAdapter.FragmentCreator<WxChapterBean, WxArticleFragment>() {
                     @Override
-                    public WxArticleFragment create(WxChapterBean data) {
-                        return WxArticleFragment.create(data);
+                    public WxArticleFragment create(WxChapterBean data, int pos) {
+                        return WxArticleFragment.create(data, pos);
                     }
 
                     @Override
@@ -68,7 +73,12 @@ public class WxFragment extends BaseFragment<WxPresenter> implements MainActivit
                     }
                 });
         vp.setAdapter(mAdapter);
-        mCommonNavigator = MagicIndicatorUtils.commonNavigator((MagicIndicator) ab.getTitleBarChild(), vp, mAdapter);
+        mCommonNavigator = MagicIndicatorUtils.commonNavigator((MagicIndicator) ab.getTitleBarChild(), vp, mAdapter, new SimpleCallback<Integer>() {
+            @Override
+            public void onResult(Integer data) {
+                notifyScrollTop(data);
+            }
+        });
     }
 
     @Override
@@ -78,6 +88,18 @@ public class WxFragment extends BaseFragment<WxPresenter> implements MainActivit
 
     @Override
     public void scrollTop() {
+        if (isAdded() && !isDetached()) {
+            new ScrollTopEvent(WxArticleFragment.class, vp.getCurrentItem()).post();
+        }
+    }
+
+    private void notifyScrollTop(int pos) {
+        long currClickTime = System.currentTimeMillis();
+        if (lastClickPos == pos && currClickTime - lastClickTime <= Config.SCROLL_TOP_DOUBLE_CLICK_DELAY) {
+            new ScrollTopEvent(WxArticleFragment.class, vp.getCurrentItem()).post();
+        }
+        lastClickPos = pos;
+        lastClickTime = currClickTime;
     }
 
     @Override

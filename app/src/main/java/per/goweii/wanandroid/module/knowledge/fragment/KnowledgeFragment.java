@@ -10,12 +10,12 @@ import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.knowledge.activity.KnowledgeArticleActivity;
 import per.goweii.wanandroid.module.knowledge.adapter.KnowledgeAdapter;
 import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
 import per.goweii.wanandroid.module.knowledge.presenter.KnowledgePresenter;
 import per.goweii.wanandroid.module.knowledge.view.KnowledgeView;
-import per.goweii.wanandroid.module.main.activity.MainActivity;
 
 /**
  * @author CuiZhen
@@ -24,7 +24,7 @@ import per.goweii.wanandroid.module.main.activity.MainActivity;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implements MainActivity.ScrollTop, KnowledgeView {
+public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implements ScrollTop, KnowledgeView {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -80,8 +80,10 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
 
     @Override
     public void scrollTop() {
-        if (rv != null) {
-            rv.smoothScrollToPosition(0);
+        if (isAdded() && !isDetached()) {
+            if (rv != null) {
+                rv.smoothScrollToPosition(0);
+            }
         }
     }
 

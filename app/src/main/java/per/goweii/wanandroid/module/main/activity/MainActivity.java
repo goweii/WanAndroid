@@ -23,6 +23,8 @@ import per.goweii.basic.ui.dialog.PermissionDialog;
 import per.goweii.basic.ui.dialog.UpdateDialog;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.home.fragment.HomeFragment;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.fragment.KnowledgeNavigationFragment;
@@ -140,7 +142,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     private void notifyScrollTop(int pos) {
         long currClickTime = System.currentTimeMillis();
-        if (lastClickPos == pos && currClickTime - lastClickTime <= 500) {
+        if (lastClickPos == pos && currClickTime - lastClickTime <= Config.SCROLL_TOP_DOUBLE_CLICK_DELAY) {
             Fragment fragment = mPagerAdapter.getItem(pos);
             if (fragment instanceof ScrollTop) {
                 ScrollTop scrollTop = (ScrollTop) fragment;
@@ -299,9 +301,5 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                     public void onFailed() {
                     }
                 });
-    }
-
-    public interface ScrollTop {
-        void scrollTop();
     }
 }
