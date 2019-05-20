@@ -1,7 +1,5 @@
 package per.goweii.wanandroid.module.wxarticle.presenter;
 
-import org.greenrobot.eventbus.EventBus;
-
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
@@ -90,11 +88,11 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
 
             @Override
             public void onSuccess(int code, BaseBean data) {
-                EventBus.getDefault().post(new CollectionEvent(true, item.getId()));
                 item.setCollect(true);
                 if (!v.isChecked()) {
                     v.toggle();
                 }
+                CollectionEvent.postCollectWithArticleId(item.getId());
             }
 
             @Override
@@ -122,11 +120,11 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
 
             @Override
             public void onSuccess(int code, BaseBean data) {
-                EventBus.getDefault().post(new CollectionEvent(false, item.getId()));
                 item.setCollect(false);
                 if (v.isChecked()) {
                     v.toggle();
                 }
+                CollectionEvent.postUnCollectWithArticleId(item.getId());
             }
 
             @Override

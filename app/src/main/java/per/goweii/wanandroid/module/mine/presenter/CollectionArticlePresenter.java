@@ -1,15 +1,14 @@
 package per.goweii.wanandroid.module.mine.presenter;
 
-import org.greenrobot.eventbus.EventBus;
-
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.main.model.MainRequest;
-import per.goweii.wanandroid.module.mine.model.CollectionBean;
-import per.goweii.wanandroid.module.mine.view.CollectionView;
+import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
+import per.goweii.wanandroid.module.mine.model.MineRequest;
+import per.goweii.wanandroid.module.mine.view.CollectionArticleView;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -19,25 +18,25 @@ import per.goweii.wanandroid.widget.CollectView;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class CollectionPresenter extends BasePresenter<CollectionView> {
+public class CollectionArticlePresenter extends BasePresenter<CollectionArticleView> {
 
-    public void getCollectList(int page) {
-        addToRxLife(MainRequest.getCollectList(page, new RequestListener<CollectionBean>() {
+    public void getCollectArticleList(int page) {
+        addToRxLife(MineRequest.getCollectArticleList(page, new RequestListener<CollectionArticleBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, CollectionBean data) {
+            public void onSuccess(int code, CollectionArticleBean data) {
                 if (isAttachView()) {
-                    getBaseView().getCollectListSuccess(code, data);
+                    getBaseView().getCollectArticleListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
                 if (isAttachView()) {
-                    getBaseView().getCollectFailed(code, msg);
+                    getBaseView().getCollectArticleListFailed(code, msg);
                 }
             }
 
@@ -51,7 +50,7 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
         }));
     }
 
-    public void uncollect(CollectionBean.DatasBean item, final CollectView v) {
+    public void uncollect(CollectionArticleBean.DatasBean item, final CollectView v) {
         addToRxLife(MainRequest.uncollect(item.getId(), item.getOriginId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
@@ -59,10 +58,10 @@ public class CollectionPresenter extends BasePresenter<CollectionView> {
 
             @Override
             public void onSuccess(int code, BaseBean data) {
-                EventBus.getDefault().post(new CollectionEvent(false, item.getOriginId()));
                 if (v.isChecked()) {
                     v.toggle();
                 }
+                CollectionEvent.postUncollect(item.getOriginId(), item.getId());
             }
 
             @Override

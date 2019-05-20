@@ -22,6 +22,7 @@ import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
+import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.knowledge.adapter.KnowledgeArticleAdapter;
 import per.goweii.wanandroid.module.knowledge.model.KnowledgeArticleBean;
 import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
@@ -29,6 +30,8 @@ import per.goweii.wanandroid.module.knowledge.presenter.KnowledgeArticlePresente
 import per.goweii.wanandroid.module.knowledge.view.KnowledgeArticleView;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -67,10 +70,13 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         if (isDetached()) {
             return;
         }
+        if (event.getArticleId() == -1) {
+            return;
+        }
         List<ArticleBean> list = mAdapter.getData();
         for (int i = 0; i < list.size(); i++) {
             ArticleBean item = list.get(i);
-            if (item.getId() == event.getId()) {
+            if (item.getId() == event.getArticleId()) {
                 if (item.isCollect() != event.isCollect()) {
                     item.setCollect(event.isCollect());
                     mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
@@ -97,6 +103,16 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
                     mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
                 }
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSettingChangeEvent(SettingChangeEvent event) {
+        if (isDetached()) {
+            return;
+        }
+        if (event.isRvAnimChanged()) {
+            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -134,7 +150,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new KnowledgeArticleAdapter();
-        mAdapter.openLoadAnimation();
+        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -147,7 +163,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item.getTitle(), item.getLink());
+                    WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
                 }
             }
         });

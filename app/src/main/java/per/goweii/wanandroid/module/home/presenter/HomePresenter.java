@@ -129,10 +129,10 @@ public class HomePresenter extends BasePresenter<HomeView> {
             @Override
             public void onSuccess(int code, BaseBean data) {
                 item.setCollect(true);
-                EventBus.getDefault().post(new CollectionEvent(true, item.getId()));
                 if (!v.isChecked()) {
                     v.toggle();
                 }
+                CollectionEvent.postCollectWithArticleId(item.getId());
             }
 
             @Override
@@ -161,10 +161,10 @@ public class HomePresenter extends BasePresenter<HomeView> {
             @Override
             public void onSuccess(int code, BaseBean data) {
                 item.setCollect(false);
-                EventBus.getDefault().post(new CollectionEvent(false, item.getId()));
                 if (v.isChecked()) {
                     v.toggle();
                 }
+                CollectionEvent.postUnCollectWithArticleId(item.getId());
             }
 
             @Override

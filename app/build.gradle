@@ -22,4 +22,5 @@ dependencies {
     implementation 'com.github.goweii:AnyView:1.0.2'
     implementation 'com.github.goweii:KeyboardCompat:1.0.0'
     implementation 'com.github.franmontiel:PersistentCookieJar:v1.0.1'
+    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
 }

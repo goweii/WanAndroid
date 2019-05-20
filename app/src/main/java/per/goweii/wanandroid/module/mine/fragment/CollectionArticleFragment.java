@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.module.home.fragment;
+package per.goweii.wanandroid.module.mine.fragment;
 
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,40 +21,65 @@ import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.home.adapter.SearchResultAdapter;
-import per.goweii.wanandroid.module.home.model.SearchBean;
-import per.goweii.wanandroid.module.home.presenter.SearchResultPresenter;
-import per.goweii.wanandroid.module.home.view.SearchResultView;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
-import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.mine.adapter.CollectionArticleAdapter;
+import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
+import per.goweii.wanandroid.module.mine.presenter.CollectionArticlePresenter;
+import per.goweii.wanandroid.module.mine.view.CollectionArticleView;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
  * @author CuiZhen
- * @date 2019/5/11
+ * @date 2019/5/17
  * QQ: 302833254
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class SearchResultFragment extends BaseFragment<SearchResultPresenter> implements SearchResultView {
-
-    private static final int PAGE_START = 0;
+public class CollectionArticleFragment extends BaseFragment<CollectionArticlePresenter> implements CollectionArticleView {
 
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.rv)
     RecyclerView rv;
 
-    private int currPage = PAGE_START;
     private SmartRefreshUtils mSmartRefreshUtils;
-    private SearchResultAdapter mAdapter;
+    private CollectionArticleAdapter mAdapter;
 
-    private String mKey;
+    private int currPage = 0;
 
-    public static SearchResultFragment create() {
-        return new SearchResultFragment();
+    public static CollectionArticleFragment create() {
+        return new CollectionArticleFragment();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCollectionEvent(CollectionEvent event) {
+        if (isDetached()) {
+            return;
+        }
+        if (event.isCollect()) {
+            currPage = 0;
+            presenter.getCollectArticleList(currPage);
+        } else {
+            if (event.getArticleId() != -1 || event.getCollectId() != -1) {
+                List<CollectionArticleBean.DatasBean> list = mAdapter.getData();
+                for (int i = 0; i < list.size(); i++) {
+                    CollectionArticleBean.DatasBean item = list.get(i);
+                    if (event.getArticleId() != -1) {
+                        if (item.getOriginId() == event.getArticleId()) {
+                            mAdapter.remove(i);
+                            break;
+                        }
+                    } else if (event.getCollectId() != -1) {
+                        if (item.getId() == event.getCollectId()) {
+                            mAdapter.remove(i);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -67,27 +92,6 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onCollectionEvent(CollectionEvent event) {
-        if (isDetached()) {
-            return;
-        }
-        if (event.getArticleId() == -1) {
-            return;
-        }
-        List<ArticleBean> list = mAdapter.getData();
-        for (int i = 0; i < list.size(); i++) {
-            ArticleBean item = list.get(i);
-            if (item.getId() == event.getArticleId()) {
-                if (item.isCollect() != event.isCollect()) {
-                    item.setCollect(event.isCollect());
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-                break;
-            }
-        }
-    }
-
     @Override
     protected boolean isRegisterEventBus() {
         return true;
@@ -95,13 +99,13 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     @Override
     protected int getLayoutId() {
-        return R.layout.fragment_search_result;
+        return R.layout.fragment_collection_article;
     }
 
     @Nullable
     @Override
-    protected SearchResultPresenter initPresenter() {
-        return new SearchResultPresenter();
+    protected CollectionArticlePresenter initPresenter() {
+        return new CollectionArticlePresenter();
     }
 
     @Override
@@ -111,39 +115,34 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
             @Override
             public void onRefresh() {
-                currPage = PAGE_START;
-                presenter.search(currPage, mKey);
+                presenter.getCollectArticleList(currPage);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new SearchResultAdapter();
+        mAdapter = new CollectionArticleAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                presenter.search(currPage, mKey);
+                presenter.getCollectArticleList(currPage);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                CollectionArticleBean.DatasBean item = mAdapter.getItem(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
+                    WebActivity.start(getContext(), item.getOriginId(), item.getTitle(), item.getLink());
                 }
             }
         });
-        mAdapter.setOnCollectViewClickListener(new SearchResultAdapter.OnCollectViewClickListener() {
+        mAdapter.setOnCollectViewClickListener(new CollectionArticleAdapter.OnCollectViewClickListener() {
             @Override
             public void onClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                CollectionArticleBean.DatasBean item = mAdapter.getItem(position);
                 if (item != null) {
-                    if (!v.isChecked()) {
-                        presenter.collect(item, v);
-                    } else {
-                        presenter.uncollect(item, v);
-                    }
+                    presenter.uncollect(item, v);
                 }
             }
         });
@@ -152,28 +151,19 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     @Override
     protected void loadData() {
-    }
-
-    public void search(String key){
-        if (!isAdded()) {
-            return;
-        }
-        mAdapter.setNewData(null);
-        mKey = key;
-        currPage = PAGE_START;
-        presenter.search(currPage, key);
+        presenter.getCollectArticleList(currPage);
     }
 
     @Override
-    public void searchSuccess(int code, SearchBean data) {
-        if (currPage == PAGE_START) {
+    public void getCollectArticleListSuccess(int code, CollectionArticleBean data) {
+        currPage = data.getCurPage();
+        if (currPage == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
         } else {
             mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
         }
-        currPage++;
         if (data.isOver()) {
             mAdapter.loadMoreEnd();
         }
@@ -181,7 +171,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
     }
 
     @Override
-    public void searchFailed(int code, String msg) {
+    public void getCollectArticleListFailed(int code, String msg) {
         ToastMaker.showShort(msg);
         mSmartRefreshUtils.fail();
         mAdapter.loadMoreFail();

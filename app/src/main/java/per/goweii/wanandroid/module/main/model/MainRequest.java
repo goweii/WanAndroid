@@ -7,7 +7,6 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
-import per.goweii.wanandroid.module.mine.model.CollectionBean;
 
 /**
  * @author CuiZhen
@@ -18,20 +17,24 @@ import per.goweii.wanandroid.module.mine.model.CollectionBean;
  */
 public class MainRequest extends BaseRequest {
 
-    public static Disposable getCollectList(int page, @NonNull RequestListener<CollectionBean> listener) {
-        return request(WanApi.api().getCollectList(page), listener);
-    }
-
     public static Disposable collect(int id, @NonNull RequestListener<BaseBean> listener) {
         return request(WanApi.api().collect(id), listener);
     }
 
-    public static Disposable collect(String title, String author, String link, @NonNull RequestListener<CollectBean> listener) {
+    public static Disposable collect(String title, String author, String link, @NonNull RequestListener<CollectArticleBean> listener) {
         return request(WanApi.api().collect(title, author, link), listener);
+    }
+
+    public static Disposable collect(String title, String link, @NonNull RequestListener<CollectionLinkBean> listener) {
+        return request(WanApi.api().collect(title, link), listener);
     }
 
     public static Disposable uncollect(int id, @NonNull RequestListener<BaseBean> listener) {
         return request(WanApi.api().uncollect(id), listener);
+    }
+
+    public static Disposable uncollectLink(int id, @NonNull RequestListener<BaseBean> listener) {
+        return request(WanApi.api().uncollectLink(id), listener);
     }
 
     public static Disposable uncollect(int id, int originId, @NonNull RequestListener<BaseBean> listener) {

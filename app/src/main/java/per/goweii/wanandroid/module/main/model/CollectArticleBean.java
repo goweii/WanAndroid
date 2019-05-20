@@ -9,7 +9,7 @@ import per.goweii.rxhttp.request.base.BaseBean;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class CollectBean extends BaseBean {
+public class CollectArticleBean extends BaseBean {
     /**
      * author :
      * chapterId : 0

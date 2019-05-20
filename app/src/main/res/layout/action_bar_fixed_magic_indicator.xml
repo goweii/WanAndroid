@@ -14,4 +14,12 @@
         android:overScrollMode="never"
         android:scrollbars="none" />
 
+    <per.goweii.actionbarex.IconView
+        android:id="@+id/action_bar_fixed_magic_indicator_iv_back"
+        style="@style/action_bar_icon"
+        android:visibility="gone"
+        android:src="@drawable/ic_back"
+        android:tint="@color/white"
+        android:padding="13dp"/>
+
 </FrameLayout>

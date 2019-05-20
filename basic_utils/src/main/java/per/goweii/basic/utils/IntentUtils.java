@@ -42,4 +42,12 @@ public class IntentUtils {
         Intent intent = new Intent(Settings.ACTION_SETTINGS);
         context.startActivity(intent);
     }
+
+    /**
+     * 浏览器打开
+     */
+    public static void openBrowser(Context context, String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(intent);
+    }
 }

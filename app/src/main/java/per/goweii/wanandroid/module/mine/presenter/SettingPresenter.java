@@ -8,10 +8,12 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.utils.file.CacheUtils;
+import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
+import per.goweii.wanandroid.module.mine.model.MineRequest;
 import per.goweii.wanandroid.module.mine.view.SettingView;
 
 /**
@@ -41,6 +43,38 @@ public class SettingPresenter extends BasePresenter<SettingView> {
             public void onFailed(int code, String msg) {
                 if (isAttachView()) {
                     getBaseView().updateFailed(code, msg, click);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+                dismissLoadingBar();
+            }
+        }));
+    }
+
+    public void logout() {
+        addToRxLife(MineRequest.logout(new RequestListener<BaseBean>() {
+            @Override
+            public void onStart() {
+                showLoadingBar();
+            }
+
+            @Override
+            public void onSuccess(int code, BaseBean data) {
+                if (isAttachView()) {
+                    getBaseView().logoutSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if (isAttachView()) {
+                    getBaseView().logoutFailed(code, msg);
                 }
             }
 

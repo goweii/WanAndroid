@@ -22,12 +22,15 @@ import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
+import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.wxarticle.adapter.WxArticleAdapter;
 import per.goweii.wanandroid.module.wxarticle.model.WxArticleBean;
 import per.goweii.wanandroid.module.wxarticle.model.WxChapterBean;
 import per.goweii.wanandroid.module.wxarticle.presenter.WxArticlePresenter;
 import per.goweii.wanandroid.module.wxarticle.view.WxArticleView;
+import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -66,10 +69,13 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         if (isDetached()) {
             return;
         }
+        if (event.getArticleId() == -1) {
+            return;
+        }
         List<WxArticleBean.DatasBean> list = mAdapter.getData();
         for (int i = 0; i < list.size(); i++) {
             WxArticleBean.DatasBean item = list.get(i);
-            if (item.getId() == event.getId()) {
+            if (item.getId() == event.getArticleId()) {
                 if (item.isCollect() != event.isCollect()) {
                     item.setCollect(event.isCollect());
                     mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
@@ -96,6 +102,16 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
                     mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
                 }
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSettingChangeEvent(SettingChangeEvent event) {
+        if (isDetached()) {
+            return;
+        }
+        if (event.isRvAnimChanged()) {
+            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -133,7 +149,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new WxArticleAdapter();
-        mAdapter.openLoadAnimation();
+        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -146,7 +162,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 WxArticleBean.DatasBean item = mAdapter.getItem(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item.getTitle(), item.getLink());
+                    WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
                 }
             }
         });

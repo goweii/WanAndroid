@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -17,10 +18,14 @@ import com.just.agentweb.WebViewClient;
 import butterknife.BindView;
 import per.goweii.actionbarex.ActionBarCommon;
 import per.goweii.actionbarex.listener.OnLeftIconClickListener;
+import per.goweii.actionbarex.listener.OnRightIconClickListener;
 import per.goweii.basic.core.base.BaseActivity;
-import per.goweii.basic.core.mvp.MvpPresenter;
+import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.ResUtils;
+import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
+import per.goweii.wanandroid.module.main.presenter.WebPresenter;
 
 /**
  * @author CuiZhen
@@ -29,14 +34,38 @@ import per.goweii.wanandroid.R;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class WebActivity extends BaseActivity {
+public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView {
 
     @BindView(R.id.abc)
     ActionBarCommon abc;
     @BindView(R.id.fl)
     FrameLayout fl;
+
     private AgentWeb mAgentWeb;
-    private String mUrl;
+
+    private int mArticleId = -1;
+    private String mTitle = "";
+    private String mAuthor = "";
+    private String mUrl = "";
+
+    private String mCurrTitle = "";
+    private String mCurrUrl = "";
+
+    public static void start(Context context, int articleId, String title, String url){
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra("articleId", articleId);
+        intent.putExtra("title", title);
+        intent.putExtra("url", url);
+        context.startActivity(intent);
+    }
+
+    public static void start(Context context, String title, String author, String url){
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("author", author);
+        intent.putExtra("url", url);
+        context.startActivity(intent);
+    }
 
     public static void start(Context context, String title, String url){
         Intent intent = new Intent(context, WebActivity.class);
@@ -52,24 +81,58 @@ public class WebActivity extends BaseActivity {
 
     @Nullable
     @Override
-    protected MvpPresenter initPresenter() {
-        return null;
+    protected WebPresenter initPresenter() {
+        return new WebPresenter();
     }
 
     @Override
     protected void initView() {
-        String title = getIntent().getStringExtra("title");
+        mArticleId = getIntent().getIntExtra("articleId", -1);
+        mTitle = getIntent().getStringExtra("title");
+        mAuthor = getIntent().getStringExtra("author");
         mUrl = getIntent().getStringExtra("url");
 
         // forceHttpsForAndroid9();
 
-        abc.getTitleTextView().setText(title);
+        abc.getTitleTextView().setText(mTitle);
         abc.setOnLeftImageClickListener(new OnLeftIconClickListener() {
             @Override
             public void onClick() {
                 if (!mAgentWeb.back()){
                     finish();
                 }
+            }
+        });
+        abc.setOnRightImageClickListener(new OnRightIconClickListener() {
+            @Override
+            public void onClick() {
+                WebMenuDialog.show(abc, new WebMenuDialog.OnMenuClickListener() {
+                    @Override
+                    public void onCollect() {
+                        if (TextUtils.equals(mCurrUrl, mUrl)) {
+                            if (mArticleId != -1) {
+                                presenter.collect(mArticleId);
+                            } else {
+                                if (TextUtils.isEmpty(mAuthor)) {
+                                    presenter.collect(mTitle, mUrl);
+                                } else {
+                                    presenter.collect(mTitle, mAuthor, mUrl);
+                                }
+                            }
+                        } else {
+                            presenter.collect(mCurrTitle, mCurrUrl);
+                        }
+                    }
+
+                    @Override
+                    public void onReadLater() {
+                    }
+
+                    @Override
+                    public void onBrowser() {
+                        IntentUtils.openBrowser(getContext(), mUrl);
+                    }
+                });
             }
         });
     }
@@ -87,6 +150,8 @@ public class WebActivity extends BaseActivity {
                     @Override
                     public void onReceivedTitle(WebView view, String title) {
                         super.onReceivedTitle(view, title);
+                        mCurrTitle = title;
+                        mCurrUrl = view.getUrl();
                         if (abc.getTitleTextView() != null) {
                             abc.getTitleTextView().setText(title);
                         }
@@ -137,4 +202,13 @@ public class WebActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void collectSuccess() {
+        ToastMaker.showShort("收藏成功");
+    }
+
+    @Override
+    public void collectFailed(String msg) {
+        ToastMaker.showShort(msg);
+    }
 }

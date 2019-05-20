@@ -13,10 +13,11 @@ import per.goweii.wanandroid.module.knowledge.model.KnowledgeArticleBean;
 import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
-import per.goweii.wanandroid.module.main.model.CollectBean;
+import per.goweii.wanandroid.module.main.model.CollectArticleBean;
+import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
-import per.goweii.wanandroid.module.mine.model.CollectionBean;
+import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
 import per.goweii.wanandroid.module.project.model.ProjectChapterBean;
@@ -212,7 +213,14 @@ public class WanApi extends Api {
          * 参数： 页码：拼接在链接中，从0开始。
          */
         @GET("lg/collect/list/{page}/json")
-        Observable<WanResponse<CollectionBean>> getCollectList(@Path("page") int page);
+        Observable<WanResponse<CollectionArticleBean>> getCollectArticleList(@Path("page") int page);
+
+        /**
+         * 收藏网站列表
+         * 方法：GET
+         */
+        @GET("lg/collect/usertools/json")
+        Observable<WanResponse<List<CollectionLinkBean>>> getCollectLinkList();
 
         /**
          * 收藏站内文章
@@ -230,9 +238,20 @@ public class WanApi extends Api {
          */
         @FormUrlEncoded
         @POST("lg/collect/add/json")
-        Observable<WanResponse<CollectBean>> collect(@Field("title") String title,
-                                                     @Field("author") String author,
-                                                     @Field("link") String link);
+        Observable<WanResponse<CollectArticleBean>> collect(@Field("title") String title,
+                                                            @Field("author") String author,
+                                                            @Field("link") String link);
+
+        /**
+         * 收藏网址
+         * 方法：POST
+         * 参数：
+         * name,link
+         */
+        @FormUrlEncoded
+        @POST("lg/collect/addtool/json")
+        Observable<WanResponse<CollectionLinkBean>> collect(@Field("name") String name,
+                                                            @Field("link") String link);
 
         /**
          * 取消收藏 文章列表
@@ -242,6 +261,16 @@ public class WanApi extends Api {
          */
         @POST("lg/uncollect_originId/{id}/json")
         Observable<WanResponse<BaseBean>> uncollect(@Path("id") int id);
+
+        /**
+         * 删除收藏网站
+         * 方法：POST
+         * 参数：
+         * 	id
+         */
+        @FormUrlEncoded
+        @POST("lg/collect/deletetool/json")
+        Observable<WanResponse<BaseBean>> uncollectLink(@Field("id") int id);
 
         /**
          * 取消收藏 我的收藏页面（该页面包含自己录入的内容）

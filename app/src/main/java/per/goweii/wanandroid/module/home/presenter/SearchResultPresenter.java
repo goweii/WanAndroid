@@ -2,10 +2,6 @@ package per.goweii.wanandroid.module.home.presenter;
 
 import android.support.annotation.IntRange;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
-
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
@@ -66,10 +62,10 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
             @Override
             public void onSuccess(int code, BaseBean data) {
                 item.setCollect(true);
-                EventBus.getDefault().post(new CollectionEvent(true, item.getId()));
                 if (!v.isChecked()) {
                     v.toggle();
                 }
+                CollectionEvent.postCollectWithArticleId(item.getId());
             }
 
             @Override
@@ -98,10 +94,10 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
             @Override
             public void onSuccess(int code, BaseBean data) {
                 item.setCollect(false);
-                EventBus.getDefault().post(new CollectionEvent(false, item.getId()));
                 if (v.isChecked()) {
                     v.toggle();
                 }
+                CollectionEvent.postUnCollectWithArticleId(item.getId());
             }
 
             @Override

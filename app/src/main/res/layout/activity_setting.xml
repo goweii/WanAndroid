@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
     android:orientation="vertical">
 
     <per.goweii.actionbarex.ActionBarCommon
@@ -12,175 +11,373 @@
         style="@style/ActionBar.Common.Back"
         app:abc_titleText="设置" />
 
-    <LinearLayout
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/bg_press_color_white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        app:srlEnablePureScrollMode="true">
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:text="首页显示置顶文章"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/text_content" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/sc_show_top"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_press_color_white"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
-    <LinearLayout
-        android:id="@+id/ll_update"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/bg_press_color_white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+                    <TextView
+                        android:id="@+id/tv_show_read_later_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="稍后阅读"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:text="版本更新"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/text_content" />
+                    <TextView
+                        android:id="@+id/tv_show_read_later_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/tv_show_read_later_title"
+                        android:text="不同于收藏，此功能无需登录，为本地操作，更换手机或重置APP后已添加的数据将丢失"
+                        android:layout_toLeftOf="@+id/sc_show_read_later"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="80dp"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
 
-        <TextView
-            android:id="@+id/tv_has_update"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:singleLine="true"
-            android:text=""
-            tools:text="已是最新版本"
-            android:textColor="@color/text_gray_light"
-            android:textSize="@dimen/text_notes" />
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/sc_show_read_later"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-        <ImageView
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:rotation="180"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_back"
-            android:tint="@color/gray_light" />
+                </RelativeLayout>
 
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_press_color_white"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
-    <LinearLayout
-        android:id="@+id/ll_cache"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/bg_press_color_white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+                    <TextView
+                        android:id="@+id/tv_show_top_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="显示置顶文章"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:text="版本更新"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/text_content" />
+                    <TextView
+                        android:id="@+id/tv_show_top_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/tv_show_top_title"
+                        android:text="开启后首页显示置顶文章"
+                        android:layout_toLeftOf="@+id/sc_show_top"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="80dp"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
 
-        <TextView
-            android:id="@+id/tv_cache"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:singleLine="true"
-            android:text=""
-            tools:text="100MB"
-            android:textColor="@color/text_gray_light"
-            android:textSize="@dimen/text_notes" />
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/sc_show_top"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-        <ImageView
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:rotation="180"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_back"
-            android:tint="@color/gray_light" />
+                </RelativeLayout>
 
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_press_color_white"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
-    <LinearLayout
-        android:id="@+id/ll_about"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/bg_press_color_white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+                    <TextView
+                        android:id="@+id/tv_hide_about_me_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="隐藏关于我"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:text="关于"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/text_content" />
+                    <TextView
+                        android:id="@+id/tv_hide_about_me_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/tv_hide_about_me_title"
+                        android:text="开启后隐藏我的页面的关于我入口"
+                        android:layout_toLeftOf="@+id/sc_hide_about_me"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="80dp"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
 
-        <TextView
-            android:id="@+id/tv_curr_version"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
-            android:singleLine="true"
-            android:text=""
-            tools:text="1.0.0"
-            android:textColor="@color/text_gray_light"
-            android:textSize="@dimen/text_notes" />
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/sc_hide_about_me"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
 
-        <ImageView
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:rotation="180"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_back"
-            android:tint="@color/gray_light" />
+                </RelativeLayout>
 
-    </LinearLayout>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_press_color_white"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
 
-    <LinearLayout
-        android:id="@+id/ll_logout"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@drawable/bg_press_color_white"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+                    <TextView
+                        android:id="@+id/tv_hide_open_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="隐藏开源项目"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
 
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:text="退出登录"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/text_content" />
+                    <TextView
+                        android:id="@+id/tv_hide_open_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/tv_hide_open_title"
+                        android:text="开启后隐藏我的页面的开源项目入口"
+                        android:layout_toLeftOf="@+id/sc_hide_open"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="80dp"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
 
-    </LinearLayout>
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/sc_hide_open"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_rv_anim"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_press_color_white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="列表动画"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_rv_anim"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:text=""
+                        tools:text="无"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:rotation="180"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/gray_light" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_cache"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_press_color_white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="清除缓存"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_cache"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:text=""
+                        tools:text="100MB"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:rotation="180"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/gray_light" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_update"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_press_color_white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="版本更新"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_has_update"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:text=""
+                        tools:text="已是最新版本"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:rotation="180"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/gray_light" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_about"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_press_color_white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="关于"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_curr_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:text=""
+                        tools:text="1.0.0"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:rotation="180"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/gray_light" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_press_color_white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="退出登录"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

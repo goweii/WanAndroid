@@ -54,7 +54,7 @@ public class NaviFragment extends BaseFragment<NaviPresenter> implements NaviVie
         mAdapter.setOnItemClickListener(new NaviAdapter.OnItemClickListener() {
             @Override
             public void onClick(ArticleBean bean, int pos) {
-                WebActivity.start(getContext(), bean.getTitle(), bean.getLink());
+                WebActivity.start(getContext(), bean.getId(), bean.getTitle(), bean.getLink());
             }
         });
         rv.setAdapter(mAdapter);

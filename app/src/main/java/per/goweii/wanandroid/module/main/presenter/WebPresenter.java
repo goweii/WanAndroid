@@ -1,74 +1,42 @@
-package per.goweii.wanandroid.module.project.presenter;
+package per.goweii.wanandroid.module.main.presenter;
 
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
+import per.goweii.wanandroid.module.main.model.CollectArticleBean;
+import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
-import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
-import per.goweii.wanandroid.module.project.model.ProjectRequest;
-import per.goweii.wanandroid.module.project.view.ProjectArticleView;
-import per.goweii.wanandroid.widget.CollectView;
+import per.goweii.wanandroid.module.main.view.WebView;
 
 /**
  * @author CuiZhen
- * @date 2019/5/12
+ * @date 2019/5/20
  * QQ: 302833254
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
+public class WebPresenter extends BasePresenter<WebView> {
 
-    public void getProjectArticleList(int id, int page){
-        addToRxLife(ProjectRequest.getProjectArticleList(id, page, new RequestListener<ProjectArticleBean>() {
-            @Override
-            public void onStart() {
-            }
-
-            @Override
-            public void onSuccess(int code, ProjectArticleBean data) {
-                if (isAttachView()) {
-                    getBaseView().getProjectArticleListSuccess(code, data);
-                }
-            }
-
-            @Override
-            public void onFailed(int code, String msg) {
-                if (isAttachView()) {
-                    getBaseView().getProjectArticleListFailed(code, msg);
-                }
-            }
-
-            @Override
-            public void onError(ExceptionHandle handle) {
-            }
-
-            @Override
-            public void onFinish() {
-            }
-        }));
-    }
-
-    public void collect(ProjectArticleBean.DatasBean item, final CollectView v){
-        addToRxLife(MainRequest.collect(item.getId(), new RequestListener<BaseBean>() {
+    public void collect(int id) {
+        addToRxLife(MainRequest.collect(id, new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
             public void onSuccess(int code, BaseBean data) {
-                item.setCollect(true);
-                if (!v.isChecked()) {
-                    v.toggle();
+                CollectionEvent.postCollectWithArticleId(id);
+                if (isAttachView()) {
+                    getBaseView().collectSuccess();
                 }
-                CollectionEvent.postCollectWithArticleId(item.getId());
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (v.isChecked()) {
-                    v.toggle();
+                if (isAttachView()) {
+                    getBaseView().collectFailed(msg);
                 }
             }
 
@@ -82,25 +50,24 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
         }));
     }
 
-    public void uncollect(ProjectArticleBean.DatasBean item, final CollectView v){
-        addToRxLife(MainRequest.uncollect(item.getId(), new RequestListener<BaseBean>() {
+    public void collect(String title, String author, String link) {
+        addToRxLife(MainRequest.collect(title, author, link, new RequestListener<CollectArticleBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, BaseBean data) {
-                item.setCollect(false);
-                if (v.isChecked()) {
-                    v.toggle();
+            public void onSuccess(int code, CollectArticleBean data) {
+                CollectionEvent.postCollectWithCollectId(data.getId());
+                if (isAttachView()) {
+                    getBaseView().collectSuccess();
                 }
-                CollectionEvent.postUnCollectWithArticleId(item.getId());
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (!v.isChecked()) {
-                    v.toggle();
+                if (isAttachView()) {
+                    getBaseView().collectFailed(msg);
                 }
             }
 
@@ -114,4 +81,34 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
         }));
     }
 
+    public void collect(String title, String link) {
+        addToRxLife(MainRequest.collect(title, link, new RequestListener<CollectionLinkBean>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, CollectionLinkBean data) {
+                CollectionEvent.postCollectWithCollectId(data.getId());
+                if (isAttachView()) {
+                    getBaseView().collectSuccess();
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if (isAttachView()) {
+                    getBaseView().collectFailed(msg);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        }));
+    }
 }

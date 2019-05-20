@@ -38,7 +38,7 @@ import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
-import per.goweii.wanandroid.event.ShowTopEvent;
+import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.home.activity.SearchActivity;
 import per.goweii.wanandroid.module.home.adapter.HomeAdapter;
 import per.goweii.wanandroid.module.home.model.BannerBean;
@@ -49,6 +49,7 @@ import per.goweii.wanandroid.module.main.activity.MainActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
+import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -88,10 +89,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements MainAct
         if (isDetached()) {
             return;
         }
+        if (event.getArticleId() == -1) {
+            return;
+        }
         List<ArticleBean> list = mAdapter.getData();
         for (int i = 0; i < list.size(); i++) {
             ArticleBean item = list.get(i);
-            if (item.getId() == event.getId()) {
+            if (item.getId() == event.getArticleId()) {
                 if (item.isCollect() != event.isCollect()) {
                     item.setCollect(event.isCollect());
                     mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
@@ -102,7 +106,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements MainAct
         if (mHeaderTopItemViews != null && mHeaderTopItemViews.size() > 0) {
             for (int i = 0; i < mHeaderTopItemViews.size(); i++) {
                 ArticleBean item = mHeaderTopItemBeans.get(i);
-                if (item.getId() == event.getId()) {
+                if (item.getId() == event.getArticleId()) {
                     if (item.isCollect() != event.isCollect()) {
                         item.setCollect(event.isCollect());
                         View view = mHeaderTopItemViews.get(i);
@@ -115,24 +119,29 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements MainAct
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onShowTopEvent(ShowTopEvent event) {
+    public void onSettingChangeEvent(SettingChangeEvent event) {
         if (isDetached()) {
             return;
         }
-        if (event.isShowTop()) {
-            if (mHeaderTopItemViews == null || mHeaderTopItemViews.size() == 0) {
-                presenter.getTopArticleList();
-            }
-        } else {
-            if (mHeaderTopItemViews != null && mHeaderTopItemViews.size() > 0) {
-                for (View view : mHeaderTopItemViews) {
-                    mAdapter.removeHeaderView(view);
+        if (event.isShowTopChanged()) {
+            if (SettingUtils.getInstance().isShowTop()) {
+                if (mHeaderTopItemViews == null || mHeaderTopItemViews.size() == 0) {
+                    presenter.getTopArticleList();
                 }
-                mHeaderTopItemViews.clear();
-                mHeaderTopItemBeans.clear();
+            } else {
+                if (mHeaderTopItemViews != null && mHeaderTopItemViews.size() > 0) {
+                    for (View view : mHeaderTopItemViews) {
+                        mAdapter.removeHeaderView(view);
+                    }
+                    mHeaderTopItemViews.clear();
+                    mHeaderTopItemBeans.clear();
+                }
+                mHeaderTopItemViews = null;
+                mHeaderTopItemBeans = null;
             }
-            mHeaderTopItemViews = null;
-            mHeaderTopItemBeans = null;
+        }
+        if (event.isRvAnimChanged()) {
+            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -209,6 +218,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements MainAct
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new HomeAdapter();
+        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.addHeaderView(createHeaderBanner());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -222,7 +232,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements MainAct
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item.getTitle(), item.getLink());
+                    WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
                 }
             }
         });
@@ -345,7 +355,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements MainAct
         view.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                WebActivity.start(getContext(), item.getTitle(), item.getLink());
+                WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
             }
         });
     }

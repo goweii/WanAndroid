@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="120dp"
+    android:layout_height="wrap_content"
+    android:layout_gravity="right"
+    android:layout_margin="8dp"
+    android:paddingTop="@dimen/round_radius"
+    android:paddingBottom="@dimen/round_radius"
+    android:backgroundTint="@color/black"
+    android:background="@drawable/bg_solid_round_color_white_radius_def"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_web_menu_tv_collect"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:background="@drawable/bg_press_color_transparent"
+        android:text="收藏"
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/text_content" />
+
+    <TextView
+        android:id="@+id/dialog_web_menu_tv_read_later"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:background="@drawable/bg_press_color_transparent"
+        android:text="稍后阅读"
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/text_content" />
+
+    <TextView
+        android:id="@+id/dialog_web_menu_tv_browser"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:gravity="center"
+        android:background="@drawable/bg_press_color_transparent"
+        android:text="浏览器打开"
+        android:textColor="@color/text_white"
+        android:textSize="@dimen/text_content" />
+
+</LinearLayout>

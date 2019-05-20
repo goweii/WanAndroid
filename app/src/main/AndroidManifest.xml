@@ -46,6 +46,7 @@
 
         <!--module.mine-->
         <activity android:name=".module.mine.activity.CollectionActivity" />
+        <activity android:name=".module.mine.activity.ReadLaterActivity" />
         <activity android:name=".module.mine.activity.OpenActivity" />
         <activity android:name=".module.mine.activity.AboutMeActivity" />
         <activity android:name=".module.mine.activity.SettingActivity" />

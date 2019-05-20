@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,17 +23,19 @@ import butterknife.OnClick;
 import per.goweii.actionbarex.ActionBarCommon;
 import per.goweii.actionbarex.listener.OnRightIconClickListener;
 import per.goweii.basic.core.base.BaseFragment;
-import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.LoginEvent;
+import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.mine.activity.AboutMeActivity;
 import per.goweii.wanandroid.module.mine.activity.CollectionActivity;
 import per.goweii.wanandroid.module.mine.activity.OpenActivity;
+import per.goweii.wanandroid.module.mine.activity.ReadLaterActivity;
 import per.goweii.wanandroid.module.mine.activity.SettingActivity;
 import per.goweii.wanandroid.module.mine.presenter.MinePresenter;
 import per.goweii.wanandroid.module.mine.view.MineView;
 import per.goweii.wanandroid.utils.ImageLoader;
+import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -58,6 +61,12 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     TextView tv_user_name;
     @BindView(R.id.tv_user_id)
     TextView tv_user_id;
+    @BindView(R.id.ll_read_later)
+    LinearLayout ll_read_later;
+    @BindView(R.id.ll_open)
+    LinearLayout ll_open;
+    @BindView(R.id.ll_about_me)
+    LinearLayout ll_about_me;
 
     public static MineFragment create() {
         return new MineFragment();
@@ -69,6 +78,16 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             return;
         }
         changeUserInfo();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSettingChangeEvent(SettingChangeEvent event) {
+        if (isDetached()) {
+            return;
+        }
+        if (event.isShowTopChanged() || event.isHideAboutMeChanged() || event.isHideOpenChanged()) {
+            changeMenuVisible();
+        }
     }
 
     @Override
@@ -147,15 +166,34 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         rl_user_info.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                ToastMaker.showShort("背景长按");
                 return true;
             }
         });
+        changeMenuVisible();
     }
 
     @Override
     protected void loadData() {
         changeUserInfo();
+    }
+
+    private void changeMenuVisible(){
+        SettingUtils settingUtils = SettingUtils.getInstance();
+        if (settingUtils.isShowReadLater()) {
+            ll_read_later.setVisibility(View.VISIBLE);
+        } else {
+            ll_read_later.setVisibility(View.GONE);
+        }
+        if (!settingUtils.isHideAboutMe()) {
+            ll_about_me.setVisibility(View.VISIBLE);
+        } else {
+            ll_about_me.setVisibility(View.GONE);
+        }
+        if (!settingUtils.isHideOpen()) {
+            ll_open.setVisibility(View.VISIBLE);
+        } else {
+            ll_open.setVisibility(View.GONE);
+        }
     }
 
     private void changeUserInfo(){
@@ -175,7 +213,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
 
     @OnClick({
             R.id.civ_user_icon, R.id.tv_user_name, R.id.ll_user_id,
-            R.id.ll_collect, R.id.ll_about_me,
+            R.id.ll_collect, R.id.ll_read_later, R.id.ll_about_me,
             R.id.ll_open, R.id.ll_setting
     })
     @Override
@@ -203,6 +241,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 if (UserUtils.getInstance().doIfLogin(getContext())) {
                     CollectionActivity.start(getContext());
                 }
+                break;
+            case R.id.ll_read_later:
+                ReadLaterActivity.start(getContext());
                 break;
             case R.id.ll_about_me:
                 AboutMeActivity.start(getContext());

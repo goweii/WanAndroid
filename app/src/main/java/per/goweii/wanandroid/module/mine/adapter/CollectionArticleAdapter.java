@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.mine.adapter;
 
+import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,7 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.mine.model.CollectionBean;
+import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -22,11 +23,11 @@ import per.goweii.wanandroid.widget.CollectView;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class CollectionAdapter extends BaseQuickAdapter<CollectionBean.DatasBean, BaseViewHolder> {
+public class CollectionArticleAdapter extends BaseQuickAdapter<CollectionArticleBean.DatasBean, BaseViewHolder> {
 
     private OnCollectViewClickListener mOnCollectViewClickListener = null;
 
-    public CollectionAdapter() {
+    public CollectionArticleAdapter() {
         super(R.layout.rv_item_article);
     }
 
@@ -35,8 +36,19 @@ public class CollectionAdapter extends BaseQuickAdapter<CollectionBean.DatasBean
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CollectionBean.DatasBean item) {
-        helper.setText(R.id.tv_title, item.getTitle());
+    protected void convert(BaseViewHolder helper, CollectionArticleBean.DatasBean item) {
+        TextView tv_title = helper.getView(R.id.tv_title);
+        TextView tv_desc = helper.getView(R.id.tv_desc);
+        if (TextUtils.isEmpty(item.getDesc())) {
+            tv_title.setSingleLine(false);
+            tv_desc.setVisibility(View.GONE);
+            tv_desc.setText("");
+        } else {
+            tv_title.setSingleLine(true);
+            tv_desc.setVisibility(View.VISIBLE);
+            tv_desc.setText(Html.fromHtml(item.getDesc()));
+        }
+        helper.setText(R.id.tv_title, Html.fromHtml(item.getTitle()));
         helper.setText(R.id.tv_author, item.getAuthor());
         helper.setText(R.id.tv_time, item.getNiceDate());
         TextView tv_super_chapter_name = helper.getView(R.id.tv_super_chapter_name);

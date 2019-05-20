@@ -1,31 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/bg"
     android:orientation="vertical">
 
-    <per.goweii.actionbarex.ActionBarCommon
-        android:id="@+id/abc"
-        style="@style/ActionBar.Common.Back"
-        app:abc_titleText="收藏" />
+    <per.goweii.actionbarex.ActionBarEx
+        android:id="@+id/ab"
+        style="@style/ActionBar"
+        app:ab_titleBarLayout="@layout/action_bar_fixed_magic_indicator" />
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/srl"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:overScrollMode="never"
-            android:scrollbars="vertical"
-            tools:layoutmanager="LinearLayoutManager"
-            tools:listitem="@layout/rv_item_article" />
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
 
 </LinearLayout>
