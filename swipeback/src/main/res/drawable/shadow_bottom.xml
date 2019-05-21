@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <size
+        android:width="33dp"
+        android:height="64dp" />
+    <gradient
+        android:endColor="@color/swipeaback_shadow"
+        android:angle="180"
+        android:startColor="#0000" />
+</shape>

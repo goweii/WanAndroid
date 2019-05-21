@@ -40,6 +40,10 @@ ext {
             magicIndicator     : "1.6.0",
             photoView          : "2.1.3",
             materialProgressBar: "1.4.2",
+            realtimeBlurView   : "1.1.2",
+            agentWeb           : "4.0.3-alpha@aar",
+            banner             : "1.4.10",
+            persistentCookieJar: "v1.0.1",
 
             arouterApi         : "1.4.1",
             arouterCompiler    : "1.2.2",
@@ -77,6 +81,10 @@ ext {
             magicIndicator         : "com.github.hackware1993:MagicIndicator:$versions.magicIndicator",
             photoView              : "com.github.chrisbanes:PhotoView:$versions.photoView",
             materialProgressBar    : "me.zhanghai.android.materialprogressbar:library:$versions.materialProgressBar",
+            realtimeBlurView       : "com.github.mmin18:realtimeblurview:$versions.realtimeBlurView",
+            agentWeb               : "com.just.agentweb:agentweb:$versions.agentWeb",
+            banner                 : "com.youth.banner:banner:$versions.banner",
+            persistentCookieJar    : "com.github.franmontiel:PersistentCookieJar:$versions.persistentCookieJar",
 
             //路由通讯
             //arouterApi             : "com.alibaba:arouter-api:$versions.arouterApi",

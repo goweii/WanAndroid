@@ -6,11 +6,10 @@ android {
 
 dependencies {
     api project(":basic_ui")
+    api project(":swipeback")
 
     implementation rootProject.ext.dependencies.multidex
 
-//    api rootProject.ext.dependencies.recyclerview
-//    api rootProject.ext.dependencies.bravh
     api rootProject.ext.dependencies.butterknife
     api rootProject.ext.dependencies.eventbus
     api rootProject.ext.dependencies.gson

@@ -7,6 +7,7 @@ import per.goweii.basic.core.base.BaseApp;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.burred.Blurred;
 import per.goweii.rxhttp.core.RxHttp;
+import per.goweii.swipeback.SwipeBack;
 import per.goweii.wanandroid.http.RxHttpRequestSetting;
 import per.goweii.wanandroid.utils.UserUtils;
 
@@ -30,5 +31,6 @@ public class WanApp extends BaseApp {
                 UserUtils.getInstance().doIfLogin(data);
             }
         });
+        SwipeBack.init(this);
     }
 }

@@ -16,6 +16,11 @@ import per.goweii.wanandroid.R;
 public class SplashActivity extends BaseActivity {
 
     @Override
+    public boolean supportSwipeBack() {
+        return false;
+    }
+
+    @Override
     protected int getLayoutId() {
         return 0;
     }

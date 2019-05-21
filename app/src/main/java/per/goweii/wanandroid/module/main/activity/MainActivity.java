@@ -75,6 +75,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     @Override
+    public boolean supportSwipeBack() {
+        return false;
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_main;
     }
