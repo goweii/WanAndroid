@@ -18,6 +18,7 @@ import butterknife.BindView;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.utils.LogUtils;
+import per.goweii.swipeback.SwipeDirection;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.login.fragment.LoginFragment;
 import per.goweii.wanandroid.module.login.fragment.RegisterFragment;
@@ -48,6 +49,11 @@ public class LoginActivity extends BaseActivity {
     public static void start(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    public int supportSwipeDirection() {
+        return SwipeDirection.FROM_TOP;
     }
 
     @Override

@@ -30,6 +30,12 @@ public class SwipeBackActivity extends AppCompatActivity {
         mHelper.onEnterAnimationComplete();
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        mHelper.finish();
+    }
+
     public boolean supportSwipeBack() {
         return true;
     }
@@ -49,26 +55,5 @@ public class SwipeBackActivity extends AppCompatActivity {
 
     public SwipeBackLayout getSwipeBackLayout() {
         return mHelper.getSwipeBackLayout();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void finish() {
-        super.finish();
-        mHelper.finish();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
     }
 }

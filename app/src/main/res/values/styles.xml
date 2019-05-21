@@ -20,6 +20,16 @@
         <!--<item name="android:windowAnimationStyle">@style/basic_res_activity_anim_zoom</item>-->
     </style>
 
+    <style name="AppTheme.Normal" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+        <item name="android:windowAnimationStyle">@style/basic_res_activity_anim_right_in_scale_out</item>
+    </style>
+
+    <style name="AppTheme.Login" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+        <item name="android:windowAnimationStyle">@style/basic_res_activity_anim_bottom_in_scale_out</item>
+    </style>
+
     <style name="ActionBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>

@@ -29,9 +29,6 @@ import java.util.List;
 
 public class SwipeBackLayout extends FrameLayout {
 
-    //左侧边缘阴影最大透明度
-    private static final int FULL_ALPHA = 255;
-
     private final ViewDragHelper mDragHelper;
     private Drawable mShadowLeft;
     private float mScrimOpacity = 1;
@@ -56,7 +53,7 @@ public class SwipeBackLayout extends FrameLayout {
     private int mTouchSlop;
     private float swipeBackFactor = 0.5f;
     private float swipeBackFraction;//界面滑动进度
-    private int maskAlpha = 180;//底层阴影初始透明度
+    private int maskAlpha = 0;//底层阴影初始透明度
     private float downX, downY;
 
     private int leftOffset = 0;
@@ -79,7 +76,6 @@ public class SwipeBackLayout extends FrameLayout {
         mDragHelper.setEdgeTrackingEnabled(mSwipeDirection);
         mTouchSlop = mDragHelper.getTouchSlop();
         setSwipeBackListener(mSwipeBackListenerDefault);
-
         init(context, attrs);
     }
 
@@ -122,21 +118,28 @@ public class SwipeBackLayout extends FrameLayout {
      * 绑定
      */
     public void bind() {
-        if (mFinishAnimEnable && mPreviousChild != null) {
-            ValueAnimator animator = ValueAnimator.ofFloat(1, 0);
-            long dur = mPreviousChild.getResources().getInteger(android.R.integer.config_shortAnimTime);
-            animator.setDuration(dur);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float f = (float) animation.getAnimatedValue();
-                    if (mPreviousActivityTransformer == null) {
-                        mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
+        if (mPreviousChild != null) {
+            if (mFinishAnimEnable) {
+                ValueAnimator animator = ValueAnimator.ofFloat(1, 0);
+                long dur = mPreviousChild.getResources().getInteger(android.R.integer.config_shortAnimTime);
+                animator.setDuration(dur);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float f = (float) animation.getAnimatedValue();
+                        if (mPreviousActivityTransformer == null) {
+                            mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
+                        }
+                        mPreviousActivityTransformer.anim(mPreviousChild, f);
                     }
-                    mPreviousActivityTransformer.anim(mPreviousChild, f);
+                });
+                animator.start();
+            } else {
+                if (mPreviousActivityTransformer == null) {
+                    mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
                 }
-            });
-            animator.start();
+                mPreviousActivityTransformer.anim(mPreviousChild, 1);
+            }
         }
     }
 
@@ -144,21 +147,28 @@ public class SwipeBackLayout extends FrameLayout {
      * 上层滑动关闭，底层恢复缩放动画
      */
     public void startFinishAnim() {
-        if (mFinishAnimEnable && mPreviousChild != null) {
-            ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-            long dur = mPreviousChild.getResources().getInteger(android.R.integer.config_shortAnimTime);
-            animator.setDuration(dur);
-            animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    float f = (float) animation.getAnimatedValue();
-                    if (mPreviousActivityTransformer == null) {
-                        mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
+        if (mPreviousChild != null) {
+            if (mFinishAnimEnable) {
+                ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
+                long dur = mPreviousChild.getResources().getInteger(android.R.integer.config_shortAnimTime);
+                animator.setDuration(dur);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        float f = (float) animation.getAnimatedValue();
+                        if (mPreviousActivityTransformer == null) {
+                            mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
+                        }
+                        mPreviousActivityTransformer.anim(mPreviousChild, f);
                     }
-                    mPreviousActivityTransformer.anim(mPreviousChild, f);
+                });
+                animator.start();
+            } else {
+                if (mPreviousActivityTransformer == null) {
+                    mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
                 }
-            });
-            animator.start();
+                mPreviousActivityTransformer.anim(mPreviousChild, 1);
+            }
         }
     }
 
@@ -289,16 +299,27 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
+    public void convertActivityToTranslucent(){
+        if (null != mTopActivity) {
+            SwipeChecker.convertActivityToTranslucent(mTopActivity);
+            mActivityTranslucent = true;
+        }
+    }
+
+    public void convertActivityFromTranslucent(){
+        if (null != mTopActivity) {
+            SwipeChecker.convertActivityFromTranslucent(mTopActivity);
+            mActivityTranslucent = false;
+        }
+    }
+
     private class DragHelperCallback extends ViewDragHelper.Callback {
 
         @Override
         public boolean tryCaptureView(View child, int pointerId) {
             if (isSwipeBackEnable()) {
                 mActivitySwiping = true;
-                if (null != mTopActivity && !mActivityTranslucent) {
-                    SwipeChecker.convertActivityToTranslucent(mTopActivity);
-                    mActivityTranslucent = true;
-                }
+                convertActivityToTranslucent();
                 return child == mDragContentView;
             }
             return false;
@@ -311,17 +332,21 @@ public class SwipeBackLayout extends FrameLayout {
                 if (mSwipeDirection == SwipeDirection.FROM_LEFT) {
                     if (!SwipeChecker.canViewScrollRight(innerScrollViews, downX, downY, false)) {
                         leftOffset = Math.min(Math.max(left, getPaddingLeft()), width);
+                        convertActivityToTranslucent();
                     } else {
                         if (mForceEdgeEnable && touchedEdge == ViewDragHelper.EDGE_LEFT) {
                             leftOffset = Math.min(Math.max(left, getPaddingLeft()), width);
+                            convertActivityToTranslucent();
                         }
                     }
                 } else if (mSwipeDirection == SwipeDirection.FROM_RIGHT) {
                     if (!SwipeChecker.canViewScrollLeft(innerScrollViews, downX, downY, false)) {
                         leftOffset = Math.min(Math.max(left, -width), getPaddingRight());
+                        convertActivityToTranslucent();
                     } else {
                         if (mForceEdgeEnable && touchedEdge == ViewDragHelper.EDGE_RIGHT) {
                             leftOffset = Math.min(Math.max(left, -width), getPaddingRight());
+                            convertActivityToTranslucent();
                         }
                     }
                 }
@@ -336,17 +361,21 @@ public class SwipeBackLayout extends FrameLayout {
                 if (mSwipeDirection == SwipeDirection.FROM_TOP) {
                     if (!SwipeChecker.canViewScrollUp(innerScrollViews, downX, downY, false)) {
                         topOffset = Math.min(Math.max(top, getPaddingTop()), height);
+                        convertActivityToTranslucent();
                     } else {
                         if (mForceEdgeEnable && touchedEdge == ViewDragHelper.EDGE_TOP) {
                             topOffset = Math.min(Math.max(top, getPaddingTop()), height);
+                            convertActivityToTranslucent();
                         }
                     }
                 } else if (mSwipeDirection == SwipeDirection.FROM_RIGHT) {
                     if (!SwipeChecker.canViewScrollDown(innerScrollViews, downX, downY, false)) {
                         topOffset = Math.min(Math.max(top, -height), getPaddingBottom());
+                        convertActivityToTranslucent();
                     } else {
                         if (mForceEdgeEnable && touchedEdge == ViewDragHelper.EDGE_BOTTOM) {
                             topOffset = Math.min(Math.max(top, -height), getPaddingBottom());
+                            convertActivityToTranslucent();
                         }
                     }
                 }
@@ -548,6 +577,8 @@ public class SwipeBackLayout extends FrameLayout {
             float scale = 0.96f + (1 - 0.96f) * fraction;
             view.setScaleX(scale);
             view.setScaleY(scale);
+            float alpha = 0.3f + (1 - 0.3f) * fraction;
+            view.setAlpha(alpha);
         }
     };
 
@@ -568,7 +599,11 @@ public class SwipeBackLayout extends FrameLayout {
                 if (mPreviousActivityTransformer == null) {
                     mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
                 }
-                mPreviousActivityTransformer.anim(mPreviousChild, swipeBackFraction);
+                if (mTopActivity.isFinishing() || mTopActivity.isDestroyed()) {
+                    mPreviousActivityTransformer.anim(mPreviousChild, 1);
+                } else {
+                    mPreviousActivityTransformer.anim(mPreviousChild, swipeBackFraction);
+                }
             }
         }
 
@@ -581,8 +616,8 @@ public class SwipeBackLayout extends FrameLayout {
                 //上层界面恢复滑动
                 mActivitySwiping = false;
                 if (null != mTopActivity && mActivityTranslucent) {
-                    SwipeChecker.convertActivityFromTranslucent(mTopActivity);
-                    mActivityTranslucent = false;
+//                    SwipeChecker.convertActivityFromTranslucent(mTopActivity);
+//                    mActivityTranslucent = false;
                 }
             }
         }
@@ -643,7 +678,7 @@ public class SwipeBackLayout extends FrameLayout {
         if (mSwipeDirection == SwipeDirection.FROM_LEFT) {
             mShadowLeft.setBounds(childRect.left - mShadowLeft.getIntrinsicWidth(), childRect.top,
                     childRect.left, childRect.bottom);
-            mShadowLeft.setAlpha((int) ((1 - swipeBackFraction) * FULL_ALPHA));
+            mShadowLeft.setAlpha((int) ((1 - swipeBackFraction) * 255));
             mShadowLeft.draw(canvas);
         }
     }

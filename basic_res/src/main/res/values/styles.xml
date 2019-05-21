@@ -8,4 +8,18 @@
         <item name="android:activityCloseExitAnimation">@anim/zoom_small_out</item>
     </style>
 
+    <style name="basic_res_activity_anim_right_in_scale_out" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_enter_right_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_enter_scale_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_exit_scale_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_exit_right_out</item>
+    </style>
+
+    <style name="basic_res_activity_anim_bottom_in_scale_out" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/activity_enter_bottom_in</item>
+        <item name="android:activityOpenExitAnimation">@anim/activity_enter_scale_out</item>
+        <item name="android:activityCloseEnterAnimation">@anim/activity_exit_scale_in</item>
+        <item name="android:activityCloseExitAnimation">@anim/activity_exit_bottom_out</item>
+    </style>
+
 </resources>

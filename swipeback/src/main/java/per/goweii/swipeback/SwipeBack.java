@@ -35,9 +35,8 @@ public class SwipeBack {
     }
 
     public void onEnterAnimationComplete() {
-        if (/*getSwipeBackLayout().isFinishAnimEnable() && */!getSwipeBackLayout().isActivitySwiping()) {
-            SwipeChecker.convertActivityFromTranslucent(mActivity);
-            getSwipeBackLayout().setActivityTranslucent(false);
+        if (!getSwipeBackLayout().isActivitySwiping()) {
+            mSwipeBackLayout.convertActivityFromTranslucent();
         }
     }
 
