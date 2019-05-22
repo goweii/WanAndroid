@@ -2,8 +2,6 @@ package per.goweii.swipeback;
 
 import android.app.Activity;
 import android.app.Application;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 
 public class SwipeBack {
@@ -17,32 +15,48 @@ public class SwipeBack {
 
     private SwipeBack(Activity activity) {
         mActivity = activity;
+        mSwipeBackLayout = new SwipeBackLayout(mActivity);
     }
 
     public static SwipeBack inject(Activity activity) {
         return new SwipeBack(activity);
     }
 
-    public void onCreate() {
-        mActivity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mActivity.getWindow().getDecorView().setBackgroundDrawable(null);
-        mSwipeBackLayout = new SwipeBackLayout(mActivity);
+    public void onPostCreate() {
+        mSwipeBackLayout.attachTo(mActivity);
     }
 
-    public void onPostCreate() {
-        mSwipeBackLayout.attachToActivity(mActivity);
-        mSwipeBackLayout.bind();
+    public void onDestroy() {
+        mActivity = null;
+        mSwipeBackLayout = null;
     }
 
     public void onEnterAnimationComplete() {
-        if (!getSwipeBackLayout().isActivitySwiping()) {
-            mSwipeBackLayout.convertActivityFromTranslucent();
+        if (!mSwipeBackLayout.isTakeOverActivityEnterExitAnim()) {
+            if (!mSwipeBackLayout.isActivitySwiping()) {
+                mSwipeBackLayout.setActivityTranslucent(false);
+            }
+//            if (mSwipeBackLayout.getPreviousChildView() != null) {
+//                mSwipeBackLayout.setActivityTranslucent(true);
+//            }
         }
     }
 
-    public void finish() {
-        if (mSwipeBackLayout != null) {
-            mSwipeBackLayout.startFinishAnim();
+    public boolean finish() {
+        if (mSwipeBackLayout.isTakeOverActivityEnterExitAnim()) {
+            mSwipeBackLayout.startExitAnim();
+            return false;
+        } else {
+            if (mSwipeBackLayout.isActivitySwiping()) {
+                return false;
+            } else {
+//                if (mSwipeBackLayout.isBackSuccess()) {
+//                    return true;
+//                } else {
+//                    mSwipeBackLayout.setActivityTranslucent(false);
+//                }
+                return true;
+            }
         }
     }
 
@@ -57,12 +71,12 @@ public class SwipeBack {
         return mSwipeBackLayout;
     }
 
-    public void setFinishAnimEnable(boolean enable) {
-        mSwipeBackLayout.setFinishAnimEnable(enable);
+    public void setTakeOverActivityEnterExitAnim(boolean enable) {
+        mSwipeBackLayout.setTakeOverActivityEnterExitAnim(enable);
     }
 
     public boolean isFinishAnimEnable() {
-        return mSwipeBackLayout.isFinishAnimEnable();
+        return mSwipeBackLayout.isTakeOverActivityEnterExitAnim();
     }
 
     public void setSwipeBackEnable(boolean enable) {

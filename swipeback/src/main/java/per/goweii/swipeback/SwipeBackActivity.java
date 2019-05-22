@@ -5,55 +5,58 @@ import android.support.v7.app.AppCompatActivity;
 
 public class SwipeBackActivity extends AppCompatActivity {
 
-    private SwipeBack mHelper;
+    protected SwipeBack mSwipeBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mHelper = SwipeBack.inject(this);
-        mHelper.onCreate();
-        mHelper.setFinishAnimEnable(supportFinishAnim());
-        mHelper.setSwipeBackEnable(supportSwipeBack());
-        mHelper.setForceEdgeEnable(supportForceEdge());
-        mHelper.setSwipeDirection(supportSwipeDirection());
+        mSwipeBack = SwipeBack.inject(this);
+        mSwipeBack.setTakeOverActivityEnterExitAnim(supportTakeOverActivityEnterExitAnim());
+        mSwipeBack.setSwipeBackEnable(supportSwipeBack());
+        mSwipeBack.setForceEdgeEnable(supportForceEdge());
+        mSwipeBack.setSwipeDirection(supportSwipeDirection());
+        mSwipeBack.getSwipeBackLayout().setShadowStartColor(0);
     }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        mHelper.onPostCreate();
+        mSwipeBack.onPostCreate();
     }
 
     @Override
     public void onEnterAnimationComplete() {
         super.onEnterAnimationComplete();
-        mHelper.onEnterAnimationComplete();
+        mSwipeBack.onEnterAnimationComplete();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mSwipeBack.onDestroy();
     }
 
     @Override
     public void finish() {
-        super.finish();
-        mHelper.finish();
+        if (mSwipeBack.finish()) {
+            super.finish();
+        }
     }
 
-    public boolean supportSwipeBack() {
+    protected boolean supportSwipeBack() {
         return true;
     }
 
-    public boolean supportForceEdge() {
+    protected boolean supportForceEdge() {
         return true;
     }
 
-    public boolean supportFinishAnim() {
+    protected boolean supportTakeOverActivityEnterExitAnim() {
         return true;
     }
 
     @SwipeDirection
-    public int supportSwipeDirection() {
+    protected int supportSwipeDirection() {
         return SwipeDirection.FROM_LEFT;
-    }
-
-    public SwipeBackLayout getSwipeBackLayout() {
-        return mHelper.getSwipeBackLayout();
     }
 }

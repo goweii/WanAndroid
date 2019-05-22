@@ -147,6 +147,15 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     @Override
     protected void onStop() {
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        postSettingChangedEvent();
+    }
+
+    private void postSettingChangedEvent() {
         boolean showTopChanged = mShowTop != SettingUtils.getInstance().isShowTop();
         boolean showReadLaterChanged = mShowReadLater != SettingUtils.getInstance().isShowReadLater();
         boolean hideAboutMeChanged = mHideAboutMe != SettingUtils.getInstance().isHideAboutMe();

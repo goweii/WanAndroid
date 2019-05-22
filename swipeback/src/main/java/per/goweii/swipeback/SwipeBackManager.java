@@ -67,7 +67,7 @@ class SwipeBackManager implements Application.ActivityLifecycleCallbacks {
      * 获取倒数第二个Activity
      */
     @Nullable
-    public Activity getPenultimateActivity() {
+    public Activity getPreviousActivity() {
         return mActivityStack.size() >= 2 ? mActivityStack.get(mActivityStack.size() - 2) : null;
     }
 
@@ -75,7 +75,7 @@ class SwipeBackManager implements Application.ActivityLifecycleCallbacks {
      * 获取倒数第二个 Activity
      */
     @Nullable
-    public Activity getPenultimateActivity(Activity currentActivity) {
+    public Activity getPreviousActivity(Activity currentActivity) {
         Activity activity = null;
         try {
             if (mActivityStack.size() > 1) {

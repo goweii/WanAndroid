@@ -21,11 +21,11 @@
         <!--module.main-->
         <activity
             android:name=".module.main.activity.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/AppTheme.Splash">
         </activity>
         <activity
             android:name=".module.main.activity.MainActivity"
-            android:theme="@style/MainTheme">
+            android:theme="@style/AppTheme.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

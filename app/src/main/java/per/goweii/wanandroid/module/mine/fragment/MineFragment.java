@@ -85,7 +85,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         if (isDetached()) {
             return;
         }
-        if (event.isShowTopChanged() || event.isHideAboutMeChanged() || event.isHideOpenChanged()) {
+        if (event.isShowReadLaterChanged() || event.isHideAboutMeChanged() || event.isHideOpenChanged()) {
             changeMenuVisible();
         }
     }

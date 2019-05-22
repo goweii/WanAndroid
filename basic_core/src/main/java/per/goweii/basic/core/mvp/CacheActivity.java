@@ -28,7 +28,7 @@ public abstract class CacheActivity extends SwipeBackActivity {
     }
 
     @Override
-    public boolean supportFinishAnim() {
+    public boolean supportTakeOverActivityEnterExitAnim() {
         return false;
     }
 

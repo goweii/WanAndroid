@@ -1,12 +1,18 @@
 package per.goweii.swipeback;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.FloatRange;
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
@@ -15,51 +21,56 @@ import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
-/**
- * Created by zh on 2018/10/21.
- */
+import per.goweii.swipeback.transformer.ParallaxSwipeBackTransformer;
 
 public class SwipeBackLayout extends FrameLayout {
 
     private final ViewDragHelper mDragHelper;
-    private Drawable mShadowLeft;
-    private float mScrimOpacity = 1;
-    private Rect mTmpRect = new Rect();
-    private View mPreviousChild;
-    private Activity mTopActivity;//执行滑动时的最顶层Activity
-    private WeakReference<Activity> mBackActivityWeakRf;//后面的Activity的弱引用
-    private boolean mActivityTranslucent = true;//界面是否是透明的
-    private boolean mActivitySwiping = false;//界面是否正在滑动
+    private int mTouchSlop;
+    private Rect mShadowRect = new Rect();
+    private Activity mCurrentActivity;
+    private List<View> mInnerScrollViews;
+    private View mPreviousChildView;
+    private View mCurrentChildView;
+    private boolean mActivityTranslucent = true;
+    private boolean mActivitySwiping = false;
+    private float mSwipeBackFraction;
+    private float mDownX;
+    private float mDownY;
+    private int mWidth;
+    private int mHeight;
+    private int mLeftOffset = 0;
+    private int mTopOffset = 0;
+    private int mTouchedEdge = ViewDragHelper.INVALID_POINTER;
+    private GradientDrawable mShadowDrawable = null;
+    private boolean mTakeOverActivityExitAnimRunning = false;
 
-    private boolean mFinishAnimEnable = true;//Activity关闭底层动画
-    private boolean mSwipeBackEnable = true;//是否允许滑动
-    private boolean mForceEdgeEnable = true;
-    private boolean mOnlyFromEdge = false;
+    private boolean mShadowEnable = true;
+    private int mShadowStartColor = 0;
+    private int mShadowSize = 0;
     @SwipeDirection
     private int mSwipeDirection = SwipeDirection.FROM_LEFT;
-    private View mDragContentView;
-    private List<View> innerScrollViews;
+    private long mTakeOverActivityEnterExitAnimDuration = 300;
+    private boolean mTakeOverActivityEnterExitAnim = true;
+    private boolean mSwipeBackEnable = true;
+    private boolean mForceEdgeEnable = true;
+    private boolean mOnlyFromEdge = false;
+    private float mSwipeBackFactor = 0.5f;
+    private float mAutoFinishedVelocityLimit = 2000f;
+    private int mMaskAlpha = 150;
 
-    private int width, height;
-
-    private int mTouchSlop;
-    private float swipeBackFactor = 0.5f;
-    private float swipeBackFraction;//界面滑动进度
-    private int maskAlpha = 0;//底层阴影初始透明度
-    private float downX, downY;
-
-    private int leftOffset = 0;
-    private int topOffset = 0;
-    private float autoFinishedVelocityLimit = 2000f;
-    private int touchedEdge = ViewDragHelper.INVALID_POINTER;
+    private SwipeBackListener mSwipeBackListener;
+    private SwipeBackTransformer mSwipeBackTransformer;
+    private ValueAnimator mEnterAnimator;
+    private ValueAnimator mExitAnimator;
 
     public SwipeBackLayout(@NonNull Context context) {
         this(context, null);
@@ -75,121 +86,191 @@ public class SwipeBackLayout extends FrameLayout {
         mDragHelper = ViewDragHelper.create(this, 1f, new DragHelperCallback());
         mDragHelper.setEdgeTrackingEnabled(mSwipeDirection);
         mTouchSlop = mDragHelper.getTouchSlop();
-        setSwipeBackListener(mSwipeBackListenerDefault);
         init(context, attrs);
     }
 
     private void init(@NonNull Context context, @Nullable AttributeSet attrs) {
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwipeBackLayout);
-        setSwipeDirection(a.getInt(R.styleable.SwipeBackLayout_directionMode, mSwipeDirection));
-        setSwipeBackFactor(a.getFloat(R.styleable.SwipeBackLayout_swipeBackFactor, swipeBackFactor));
-        setMaskAlpha(a.getInteger(R.styleable.SwipeBackLayout_maskAlpha, maskAlpha));
-        mOnlyFromEdge = a.getBoolean(R.styleable.SwipeBackLayout_isSwipeFromEdge, mOnlyFromEdge);
-        setShadow(R.drawable.shadow_left);
-        a.recycle();
+        final int shadowStartColor = Color.argb(30, 0, 0, 0);
+        final int shadowWidth = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, context.getResources().getDisplayMetrics());
+        if (attrs != null) {
+            TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SwipeBackLayout);
+            mSwipeDirection = a.getInt(R.styleable.SwipeBackLayout_directionMode, mSwipeDirection);
+            mSwipeBackFactor = a.getFloat(R.styleable.SwipeBackLayout_swipeBackFactor, mSwipeBackFactor);
+            mMaskAlpha = a.getInteger(R.styleable.SwipeBackLayout_maskAlpha, mMaskAlpha);
+            mOnlyFromEdge = a.getBoolean(R.styleable.SwipeBackLayout_isSwipeFromEdge, mOnlyFromEdge);
+            a.recycle();
+        }
+        mShadowStartColor = shadowStartColor;
+        mShadowSize = shadowWidth;
     }
 
-    public void attachToActivity(Activity activity) {
-        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{
-                android.R.attr.windowBackground
-        });
+    public void attachTo(Activity activity) {
+        setVisibility(View.INVISIBLE);
+        mCurrentActivity = activity;
+        activity.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        activity.getWindow().getDecorView().setBackgroundDrawable(null);
+        TypedArray a = activity.getTheme().obtainStyledAttributes(new int[]{android.R.attr.windowBackground});
         int background = a.getResourceId(0, 0);
         a.recycle();
         ViewGroup decorView = (ViewGroup) activity.getWindow().getDecorView();
         ViewGroup decorChild = (ViewGroup) decorView.getChildAt(0);
         decorChild.setBackgroundResource(background);
-        decorView.removeView(decorChild);
-        addView(decorChild);
-        mDragContentView = decorChild;
+        decorView.removeViewInLayout(decorChild);
+        addViewInLayout(decorChild, 0, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        mCurrentChildView = decorChild;
         decorView.addView(this);
-
-        mTopActivity = activity;
-        Activity backActivity = SwipeBackManager.getInstance().getPenultimateActivity();
-        if (backActivity instanceof SwipeBackActivity) {
-            mBackActivityWeakRf = new WeakReference<>(backActivity);
-            SwipeBackLayout previousSlideLayout = ((SwipeBackActivity) backActivity).getSwipeBackLayout();
-            if (previousSlideLayout != null) {
-                mPreviousChild = previousSlideLayout.getChildAt(0);
+        Activity previousActivity = SwipeBackManager.getInstance().getPreviousActivity();
+        if (previousActivity != null) {
+            ViewGroup previousDecorView = (ViewGroup) previousActivity.getWindow().getDecorView();
+            ViewGroup previousDecorChild = (ViewGroup) previousDecorView.getChildAt(0);
+            if (previousDecorChild instanceof SwipeBackLayout) {
+                SwipeBackLayout previousSwipeBackLayout = (SwipeBackLayout) previousDecorChild;
+                mPreviousChildView = previousSwipeBackLayout.getChildAt(0);
             }
         }
+        if (previousActivity != null && mTakeOverActivityEnterExitAnim) {
+            setActivityTranslucent(true);
+            activity.overridePendingTransition(0, 0);
+        }
+        startEnterAnim();
     }
 
-    /**
-     * 绑定
-     */
-    public void bind() {
-        if (mPreviousChild != null) {
-            if (mFinishAnimEnable) {
-                ValueAnimator animator = ValueAnimator.ofFloat(1, 0);
-                long dur = mPreviousChild.getResources().getInteger(android.R.integer.config_shortAnimTime);
-                animator.setDuration(dur);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    public View getPreviousChildView() {
+        return mPreviousChildView;
+    }
+
+    public void startEnterAnim() {
+        if (mPreviousChildView != null) {
+            if (mTakeOverActivityEnterExitAnim) {
+                if (mExitAnimator != null) {
+                    mExitAnimator.pause();
+                    mExitAnimator = null;
+                }
+                mSwipeBackFraction = 1;
+                mEnterAnimator = ValueAnimator.ofFloat(mSwipeBackFraction, 0);
+                if (mTakeOverActivityEnterExitAnimDuration < 0L) {
+                    mTakeOverActivityEnterExitAnimDuration = mPreviousChildView.getResources().getInteger(android.R.integer.config_shortAnimTime);
+                }
+                mEnterAnimator.setDuration(mTakeOverActivityEnterExitAnimDuration);
+                mEnterAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
-                        float f = (float) animation.getAnimatedValue();
-                        if (mPreviousActivityTransformer == null) {
-                            mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
+                        if (getVisibility() != View.VISIBLE) {
+                            setVisibility(View.VISIBLE);
                         }
-                        mPreviousActivityTransformer.anim(mPreviousChild, f);
+                        mLeftOffset = 0;
+                        mTopOffset = 0;
+                        mSwipeBackFraction = (float) animation.getAnimatedValue();
+                        if (mSwipeDirection == SwipeDirection.FROM_LEFT) {
+                            mLeftOffset = (int) (mWidth - mWidth * (1 - mSwipeBackFraction));
+                        } else if (mSwipeDirection == SwipeDirection.FROM_RIGHT) {
+                            mLeftOffset = (int) -(mWidth - mWidth * (1 - mSwipeBackFraction));
+                        } else if (mSwipeDirection == SwipeDirection.FROM_TOP) {
+                            mTopOffset = (int) (mHeight - mHeight * (1 - mSwipeBackFraction));
+                        } else if (mSwipeDirection == SwipeDirection.FROM_BOTTOM) {
+                            mTopOffset = (int) -(mHeight - mHeight * (1 - mSwipeBackFraction));
+                        }
+                        getNonNullSwipeBackTransformer().transform(mCurrentChildView, mPreviousChildView, mSwipeBackFraction, mSwipeDirection);
+                        requestLayout();
                     }
                 });
-                animator.start();
+                post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mEnterAnimator.start();
+                    }
+                });
             } else {
-                if (mPreviousActivityTransformer == null) {
-                    mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
-                }
-                mPreviousActivityTransformer.anim(mPreviousChild, 1);
+                setVisibility(View.VISIBLE);
+                mSwipeBackFraction = 1;
+                mLeftOffset = 0;
+                mTopOffset = 0;
+                getNonNullSwipeBackTransformer().transform(mCurrentChildView, mPreviousChildView, mSwipeBackFraction, mSwipeDirection);
+                requestLayout();
             }
+        } else {
+            setVisibility(View.VISIBLE);
         }
     }
 
-    /**
-     * 上层滑动关闭，底层恢复缩放动画
-     */
-    public void startFinishAnim() {
-        if (mPreviousChild != null) {
-            if (mFinishAnimEnable) {
-                ValueAnimator animator = ValueAnimator.ofFloat(0, 1);
-                long dur = mPreviousChild.getResources().getInteger(android.R.integer.config_shortAnimTime);
-                animator.setDuration(dur);
-                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+    public void startExitAnim() {
+        if (mPreviousChildView != null) {
+            if (mTakeOverActivityEnterExitAnim) {
+                if (mEnterAnimator != null) {
+                    mEnterAnimator.pause();
+                    mEnterAnimator = null;
+                }
+                if (mTakeOverActivityExitAnimRunning) {
+                    return;
+                }
+                mTakeOverActivityExitAnimRunning = true;
+                mExitAnimator = ValueAnimator.ofFloat(mSwipeBackFraction, 1);
+                if (mTakeOverActivityEnterExitAnimDuration < 0L) {
+                    mTakeOverActivityEnterExitAnimDuration = mPreviousChildView.getResources().getInteger(android.R.integer.config_shortAnimTime);
+                }
+                mExitAnimator.setDuration(mTakeOverActivityEnterExitAnimDuration);
+                mExitAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
-                        float f = (float) animation.getAnimatedValue();
-                        if (mPreviousActivityTransformer == null) {
-                            mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
+                        mLeftOffset = 0;
+                        mTopOffset = 0;
+                        mSwipeBackFraction = (float) animation.getAnimatedValue();
+                        if (mSwipeDirection == SwipeDirection.FROM_LEFT) {
+                            mLeftOffset = (int) (mWidth - mWidth * (1 - mSwipeBackFraction));
+                        } else if (mSwipeDirection == SwipeDirection.FROM_RIGHT) {
+                            mLeftOffset = (int) -(mWidth - mWidth * (1 - mSwipeBackFraction));
+                        } else if (mSwipeDirection == SwipeDirection.FROM_TOP) {
+                            mTopOffset = (int) (mHeight - mHeight * (1 - mSwipeBackFraction));
+                        } else if (mSwipeDirection == SwipeDirection.FROM_BOTTOM) {
+                            mTopOffset = (int) -(mHeight - mHeight * (1 - mSwipeBackFraction));
                         }
-                        mPreviousActivityTransformer.anim(mPreviousChild, f);
+                        getNonNullSwipeBackTransformer().transform(mCurrentChildView, mPreviousChildView, mSwipeBackFraction, mSwipeDirection);
+                        requestLayout();
                     }
                 });
-                animator.start();
+                mExitAnimator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        mTakeOverActivityExitAnimRunning = false;
+                        if (mCurrentActivity != null) {
+                            mCurrentActivity.finish();
+                            mCurrentActivity.overridePendingTransition(0, 0);
+                        }
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+                    }
+                });
+                mExitAnimator.start();
             } else {
-                if (mPreviousActivityTransformer == null) {
-                    mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
-                }
-                mPreviousActivityTransformer.anim(mPreviousChild, 1);
+                mSwipeBackFraction = 1;
+                mLeftOffset = 0;
+                mTopOffset = 0;
+                getNonNullSwipeBackTransformer().transform(mCurrentChildView, mPreviousChildView, 1, mSwipeDirection);
+                requestLayout();
             }
         }
     }
 
-    public boolean isActivitySwiping() {
-        return mActivitySwiping;
+    public boolean isTakeOverActivityExitAnimRunning() {
+        return mTakeOverActivityExitAnimRunning;
     }
 
-    public boolean isActivityTranslucent() {
-        return mActivityTranslucent;
+    public void setTakeOverActivityEnterExitAnim(boolean enable) {
+        mTakeOverActivityEnterExitAnim = enable;
     }
 
-    public void setActivityTranslucent(boolean activityTranslucent) {
-        mActivityTranslucent = activityTranslucent;
-    }
-
-    public void setFinishAnimEnable(boolean enable) {
-        mFinishAnimEnable = enable;
-    }
-
-    public boolean isFinishAnimEnable() {
-        return mFinishAnimEnable;
+    public boolean isTakeOverActivityEnterExitAnim() {
+        return mTakeOverActivityEnterExitAnim;
     }
 
     public void setSwipeBackEnable(boolean enable) {
@@ -208,6 +289,111 @@ public class SwipeBackLayout extends FrameLayout {
         return mForceEdgeEnable;
     }
 
+    public void setSwipeBackFactor(@FloatRange(from = 0.0f, to = 1.0f) float swipeBackFactor) {
+        if (swipeBackFactor > 1) {
+            swipeBackFactor = 1;
+        } else if (swipeBackFactor < 0) {
+            swipeBackFactor = 0;
+        }
+        this.mSwipeBackFactor = swipeBackFactor;
+    }
+
+    public float getSwipeBackFactor() {
+        return mSwipeBackFactor;
+    }
+
+    public void setShadowEnable(boolean shadowEnable) {
+        mShadowEnable = shadowEnable;
+    }
+
+    public boolean isShadowEnable() {
+        return mShadowEnable;
+    }
+
+    public void setShadowStartColor(@ColorInt int colorInt) {
+        mShadowStartColor = colorInt;
+    }
+
+    public void setShadowSize(int px) {
+        mShadowSize = px;
+    }
+
+    public void setMaskAlpha(@IntRange(from = 0, to = 255) int maskAlpha) {
+        if (maskAlpha > 255) {
+            maskAlpha = 255;
+        } else if (maskAlpha < 0) {
+            maskAlpha = 0;
+        }
+        this.mMaskAlpha = maskAlpha;
+    }
+
+    public int getMaskAlpha() {
+        return mMaskAlpha;
+    }
+
+    public void setSwipeDirection(@SwipeDirection int direction) {
+        mSwipeDirection = direction;
+        mDragHelper.setEdgeTrackingEnabled(direction);
+    }
+
+    public int getSwipeDirection() {
+        return mSwipeDirection;
+    }
+
+    public float getAutoFinishedVelocityLimit() {
+        return mAutoFinishedVelocityLimit;
+    }
+
+    public void setAutoFinishedVelocityLimit(@FloatRange(from = 0.0f, to = 1.0f) float autoFinishedVelocityLimit) {
+        this.mAutoFinishedVelocityLimit = autoFinishedVelocityLimit;
+    }
+
+    public boolean isOnlyFromEdge() {
+        return mOnlyFromEdge;
+    }
+
+    public void setOnlyFromEdge(boolean onlyFromEdge) {
+        this.mOnlyFromEdge = onlyFromEdge;
+    }
+
+    public boolean isActivitySwiping() {
+        return mActivitySwiping;
+    }
+
+    public boolean isActivityTranslucent() {
+        if (mCurrentActivity == null) {
+            return true;
+        }
+        return mActivityTranslucent;
+    }
+
+    public void setActivityTranslucent(boolean activityTranslucent) {
+        mActivityTranslucent = activityTranslucent;
+        if (null != mCurrentActivity) {
+            if (mActivityTranslucent) {
+                SwipeChecker.convertActivityToTranslucent(mCurrentActivity);
+            } else {
+                SwipeChecker.convertActivityFromTranslucent(mCurrentActivity);
+            }
+        }
+    }
+
+    public void setSwipeBackListener(SwipeBackListener swipeBackListener) {
+        this.mSwipeBackListener = swipeBackListener;
+    }
+
+    public void setSwipeBackTransformer(SwipeBackTransformer swipeBackTransformer) {
+        mSwipeBackTransformer = swipeBackTransformer;
+    }
+
+    @NonNull
+    public SwipeBackTransformer getNonNullSwipeBackTransformer() {
+        if (mSwipeBackTransformer == null) {
+            mSwipeBackTransformer = new ParallaxSwipeBackTransformer();
+        }
+        return mSwipeBackTransformer;
+    }
+
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         try {
@@ -215,16 +401,16 @@ public class SwipeBackLayout extends FrameLayout {
                 super.onLayout(changed, l, t, r, b);
                 return;
             }
-            int left = getPaddingLeft() + leftOffset;
-            int top = getPaddingTop() + topOffset;
-            int right = left + mDragContentView.getMeasuredWidth();
-            int bottom = top + mDragContentView.getMeasuredHeight();
-            mDragContentView.layout(left, top, right, bottom);
+            int left = getPaddingLeft() + mLeftOffset;
+            int top = getPaddingTop() + mTopOffset;
+            int right = left + mCurrentChildView.getMeasuredWidth();
+            int bottom = top + mCurrentChildView.getMeasuredHeight();
+            mCurrentChildView.layout(left, top, right, bottom);
             if (changed) {
-                width = getWidth();
-                height = getHeight();
+                mWidth = getWidth();
+                mHeight = getHeight();
             }
-            innerScrollViews = SwipeChecker.findAllScrollViews2(this);
+            mInnerScrollViews = SwipeChecker.findAllScrollViews2(this);
         } catch (Exception e) {
             super.onLayout(changed, l, t, r, b);
         }
@@ -234,8 +420,38 @@ public class SwipeBackLayout extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if (isSwipeBackEnable()) {
-            //绘制底层阴影
-            canvas.drawARGB(maskAlpha - (int) (maskAlpha * swipeBackFraction), 0, 0, 0);
+            canvas.drawARGB(mMaskAlpha - (int) (mMaskAlpha * mSwipeBackFraction), 0, 0, 0);
+        }
+    }
+
+    @Override
+    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+        if (!isSwipeBackEnable()) {
+            return super.drawChild(canvas, child, drawingTime);
+        }
+        boolean ret = super.drawChild(canvas, child, drawingTime);
+        if (child == mCurrentChildView) {
+            drawShadow(canvas, child);
+        }
+        return ret;
+    }
+
+    private void drawShadow(Canvas canvas, View child) {
+        final Rect childRect = mShadowRect;
+        child.getHitRect(childRect);
+        if (mShadowEnable) {
+            final Drawable shadow = getNonNullShadowDrawable();
+            if (mSwipeDirection == SwipeDirection.FROM_LEFT) {
+                shadow.setBounds(childRect.left - shadow.getIntrinsicWidth(), childRect.top, childRect.left, childRect.bottom);
+            } else if (mSwipeDirection == SwipeDirection.FROM_RIGHT) {
+                shadow.setBounds(childRect.left, childRect.top, childRect.left, childRect.bottom);
+            } else if (mSwipeDirection == SwipeDirection.FROM_TOP) {
+                shadow.setBounds(childRect.left, childRect.top - shadow.getIntrinsicHeight(), childRect.left, childRect.bottom);
+            } else if (mSwipeDirection == SwipeDirection.FROM_BOTTOM) {
+                shadow.setBounds(childRect.left, childRect.top, childRect.left, childRect.bottom);
+            }
+            mShadowDrawable.setAlpha((int) ((1 - mSwipeBackFraction) * 255));
+            mShadowDrawable.draw(canvas);
         }
     }
 
@@ -246,13 +462,13 @@ public class SwipeBackLayout extends FrameLayout {
         }
         switch (MotionEventCompat.getActionMasked(ev)) {
             case MotionEvent.ACTION_DOWN:
-                downX = ev.getRawX();
-                downY = ev.getRawY();
+                mDownX = ev.getRawX();
+                mDownY = ev.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                if (innerScrollViews != null && SwipeChecker.contains(innerScrollViews, downX, downY) != null) {
-                    float distanceX = Math.abs(ev.getRawX() - downX);
-                    float distanceY = Math.abs(ev.getRawY() - downY);
+                if (mInnerScrollViews != null && SwipeChecker.contains(mInnerScrollViews, mDownX, mDownY) != null) {
+                    float distanceX = Math.abs(ev.getRawX() - mDownX);
+                    float distanceY = Math.abs(ev.getRawY() - mDownY);
                     if (mSwipeDirection == SwipeDirection.FROM_LEFT || mSwipeDirection == SwipeDirection.FROM_RIGHT) {
                         if (distanceY > mTouchSlop && distanceY > distanceX) {
                             return super.onInterceptTouchEvent(ev);
@@ -271,6 +487,7 @@ public class SwipeBackLayout extends FrameLayout {
         return handled ? handled : super.onInterceptTouchEvent(ev);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isSwipeBackEnable()) {
@@ -287,149 +504,189 @@ public class SwipeBackLayout extends FrameLayout {
         }
     }
 
-    public void smoothScrollToX(int finalLeft) {
+    private boolean isSwipeEnabled() {
+        if (mOnlyFromEdge) {
+            switch (mSwipeDirection) {
+                case SwipeDirection.FROM_LEFT:
+                    return mTouchedEdge == ViewDragHelper.EDGE_LEFT;
+                case SwipeDirection.FROM_TOP:
+                    return mTouchedEdge == ViewDragHelper.EDGE_TOP;
+                case SwipeDirection.FROM_RIGHT:
+                    return mTouchedEdge == ViewDragHelper.EDGE_RIGHT;
+                case SwipeDirection.FROM_BOTTOM:
+                    return mTouchedEdge == ViewDragHelper.EDGE_BOTTOM;
+                default:
+                    break;
+            }
+        }
+        return true;
+    }
+
+    private boolean backJudgeBySpeed(float xvel, float yvel) {
+        switch (mSwipeDirection) {
+            case SwipeDirection.FROM_LEFT:
+                return xvel > mAutoFinishedVelocityLimit;
+            case SwipeDirection.FROM_TOP:
+                return yvel > mAutoFinishedVelocityLimit;
+            case SwipeDirection.FROM_RIGHT:
+                return xvel < -mAutoFinishedVelocityLimit;
+            case SwipeDirection.FROM_BOTTOM:
+                return yvel < -mAutoFinishedVelocityLimit;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    private void smoothScrollToX(int finalLeft) {
         if (mDragHelper.settleCapturedViewAt(finalLeft, getPaddingTop())) {
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
 
-    public void smoothScrollToY(int finalTop) {
+    private void smoothScrollToY(int finalTop) {
         if (mDragHelper.settleCapturedViewAt(getPaddingLeft(), finalTop)) {
             ViewCompat.postInvalidateOnAnimation(this);
         }
     }
 
-    public void convertActivityToTranslucent(){
-        if (null != mTopActivity) {
-            SwipeChecker.convertActivityToTranslucent(mTopActivity);
-            mActivityTranslucent = true;
+    @NonNull
+    private GradientDrawable getNonNullShadowDrawable() {
+        if (mShadowDrawable == null) {
+            int[] colors = new int[]{mShadowStartColor, Color.TRANSPARENT};
+            if (mSwipeDirection == SwipeDirection.FROM_LEFT) {
+                mShadowDrawable = new GradientDrawable(GradientDrawable.Orientation.RIGHT_LEFT, colors);
+                mShadowDrawable.setSize(mShadowSize, 0);
+            } else if (mSwipeDirection == SwipeDirection.FROM_RIGHT) {
+                mShadowDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, colors);
+                mShadowDrawable.setSize(mShadowSize, 0);
+            } else if (mSwipeDirection == SwipeDirection.FROM_TOP) {
+                mShadowDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP, colors);
+                mShadowDrawable.setSize(0, mShadowSize);
+            } else if (mSwipeDirection == SwipeDirection.FROM_BOTTOM) {
+                mShadowDrawable = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
+                mShadowDrawable.setSize(0, mShadowSize);
+            } else {
+                mShadowDrawable = new GradientDrawable();
+                mShadowDrawable.setSize(0, 0);
+            }
         }
+        return mShadowDrawable;
     }
 
-    public void convertActivityFromTranslucent(){
-        if (null != mTopActivity) {
-            SwipeChecker.convertActivityFromTranslucent(mTopActivity);
-            mActivityTranslucent = false;
-        }
+    private void finish() {
+        mTakeOverActivityExitAnimRunning = false;
+        mCurrentActivity.finish();
+        mCurrentActivity.overridePendingTransition(0, 0);
     }
 
     private class DragHelperCallback extends ViewDragHelper.Callback {
 
         @Override
-        public boolean tryCaptureView(View child, int pointerId) {
+        public boolean tryCaptureView(@NonNull View child, int pointerId) {
             if (isSwipeBackEnable()) {
                 mActivitySwiping = true;
-                convertActivityToTranslucent();
-                return child == mDragContentView;
+                setActivityTranslucent(true);
+                return child == mCurrentChildView;
             }
             return false;
         }
 
         @Override
-        public int clampViewPositionHorizontal(View child, int left, int dx) {
-            leftOffset = getPaddingLeft();
+        public int clampViewPositionHorizontal(@NonNull View child, int left, int dx) {
+            mLeftOffset = getPaddingLeft();
             if (isSwipeEnabled()) {
                 if (mSwipeDirection == SwipeDirection.FROM_LEFT) {
-                    if (!SwipeChecker.canViewScrollRight(innerScrollViews, downX, downY, false)) {
-                        leftOffset = Math.min(Math.max(left, getPaddingLeft()), width);
-                        convertActivityToTranslucent();
+                    if (!SwipeChecker.canViewScrollRight(mInnerScrollViews, mDownX, mDownY, false)) {
+                        mLeftOffset = Math.min(Math.max(left, getPaddingLeft()), mWidth);
                     } else {
-                        if (mForceEdgeEnable && touchedEdge == ViewDragHelper.EDGE_LEFT) {
-                            leftOffset = Math.min(Math.max(left, getPaddingLeft()), width);
-                            convertActivityToTranslucent();
+                        if (mForceEdgeEnable && mTouchedEdge == ViewDragHelper.EDGE_LEFT) {
+                            mLeftOffset = Math.min(Math.max(left, getPaddingLeft()), mWidth);
                         }
                     }
                 } else if (mSwipeDirection == SwipeDirection.FROM_RIGHT) {
-                    if (!SwipeChecker.canViewScrollLeft(innerScrollViews, downX, downY, false)) {
-                        leftOffset = Math.min(Math.max(left, -width), getPaddingRight());
-                        convertActivityToTranslucent();
+                    if (!SwipeChecker.canViewScrollLeft(mInnerScrollViews, mDownX, mDownY, false)) {
+                        mLeftOffset = Math.min(Math.max(left, -mWidth), getPaddingRight());
                     } else {
-                        if (mForceEdgeEnable && touchedEdge == ViewDragHelper.EDGE_RIGHT) {
-                            leftOffset = Math.min(Math.max(left, -width), getPaddingRight());
-                            convertActivityToTranslucent();
+                        if (mForceEdgeEnable && mTouchedEdge == ViewDragHelper.EDGE_RIGHT) {
+                            mLeftOffset = Math.min(Math.max(left, -mWidth), getPaddingRight());
                         }
                     }
                 }
             }
-            return leftOffset;
+            return mLeftOffset;
         }
 
         @Override
-        public int clampViewPositionVertical(View child, int top, int dy) {
-            topOffset = getPaddingTop();
+        public int clampViewPositionVertical(@NonNull View child, int top, int dy) {
+            mTopOffset = getPaddingTop();
             if (isSwipeEnabled()) {
                 if (mSwipeDirection == SwipeDirection.FROM_TOP) {
-                    if (!SwipeChecker.canViewScrollUp(innerScrollViews, downX, downY, false)) {
-                        topOffset = Math.min(Math.max(top, getPaddingTop()), height);
-                        convertActivityToTranslucent();
+                    if (!SwipeChecker.canViewScrollUp(mInnerScrollViews, mDownX, mDownY, false)) {
+                        mTopOffset = Math.min(Math.max(top, getPaddingTop()), mHeight);
                     } else {
-                        if (mForceEdgeEnable && touchedEdge == ViewDragHelper.EDGE_TOP) {
-                            topOffset = Math.min(Math.max(top, getPaddingTop()), height);
-                            convertActivityToTranslucent();
+                        if (mForceEdgeEnable && mTouchedEdge == ViewDragHelper.EDGE_TOP) {
+                            mTopOffset = Math.min(Math.max(top, getPaddingTop()), mHeight);
                         }
                     }
                 } else if (mSwipeDirection == SwipeDirection.FROM_RIGHT) {
-                    if (!SwipeChecker.canViewScrollDown(innerScrollViews, downX, downY, false)) {
-                        topOffset = Math.min(Math.max(top, -height), getPaddingBottom());
-                        convertActivityToTranslucent();
+                    if (!SwipeChecker.canViewScrollDown(mInnerScrollViews, mDownX, mDownY, false)) {
+                        mTopOffset = Math.min(Math.max(top, -mHeight), getPaddingBottom());
                     } else {
-                        if (mForceEdgeEnable && touchedEdge == ViewDragHelper.EDGE_BOTTOM) {
-                            topOffset = Math.min(Math.max(top, -height), getPaddingBottom());
-                            convertActivityToTranslucent();
+                        if (mForceEdgeEnable && mTouchedEdge == ViewDragHelper.EDGE_BOTTOM) {
+                            mTopOffset = Math.min(Math.max(top, -mHeight), getPaddingBottom());
                         }
                     }
                 }
             }
-            return topOffset;
+            return mTopOffset;
         }
 
         @Override
-        public void onViewPositionChanged(View changedView, int left, int top, int dx, int dy) {
+        public void onViewPositionChanged(@NonNull View changedView, int left, int top, int dx, int dy) {
             super.onViewPositionChanged(changedView, left, top, dx, dy);
             left = Math.abs(left);
             top = Math.abs(top);
             switch (mSwipeDirection) {
                 case SwipeDirection.FROM_LEFT:
                 case SwipeDirection.FROM_RIGHT:
-                    swipeBackFraction = 1.0f * left / width;
+                    mSwipeBackFraction = 1.0f * left / mWidth;
                     break;
                 case SwipeDirection.FROM_TOP:
                 case SwipeDirection.FROM_BOTTOM:
-                    swipeBackFraction = 1.0f * top / height;
+                    mSwipeBackFraction = 1.0f * top / mHeight;
                     break;
                 default:
                     break;
             }
-            if (mSwipeBackListener != null) {
-                mSwipeBackListener.onViewPositionChanged(mDragContentView, swipeBackFraction, swipeBackFactor);
-            }
+            onSwiping();
         }
 
         @Override
-        public void onViewReleased(View releasedChild, float xvel, float yvel) {
+        public void onViewReleased(@NonNull View releasedChild, float xvel, float yvel) {
             super.onViewReleased(releasedChild, xvel, yvel);
-            leftOffset = topOffset = 0;
+            mLeftOffset = mTopOffset = 0;
             if (!isSwipeEnabled()) {
-                touchedEdge = ViewDragHelper.INVALID_POINTER;
+                mTouchedEdge = ViewDragHelper.INVALID_POINTER;
                 return;
             }
-            touchedEdge = ViewDragHelper.INVALID_POINTER;
+            mTouchedEdge = ViewDragHelper.INVALID_POINTER;
 
-            boolean isBackToEnd = backJudgeBySpeed(xvel, yvel) || swipeBackFraction >= swipeBackFactor;
+            boolean isBackToEnd = backJudgeBySpeed(xvel, yvel) || mSwipeBackFraction >= mSwipeBackFactor;
             if (isBackToEnd) {
                 switch (mSwipeDirection) {
                     case SwipeDirection.FROM_LEFT:
                         //滑动关闭
-                        smoothScrollToX(width);
+                        smoothScrollToX(mWidth);
                         break;
                     case SwipeDirection.FROM_TOP:
-                        smoothScrollToY(height);
+                        smoothScrollToY(mHeight);
                         break;
                     case SwipeDirection.FROM_RIGHT:
-                        smoothScrollToX(-width);
+                        smoothScrollToX(-mWidth);
                         break;
                     case SwipeDirection.FROM_BOTTOM:
-                        smoothScrollToY(-height);
+                        smoothScrollToY(-mHeight);
                         break;
                     default:
                         break;
@@ -438,7 +695,6 @@ public class SwipeBackLayout extends FrameLayout {
                 switch (mSwipeDirection) {
                     case SwipeDirection.FROM_LEFT:
                     case SwipeDirection.FROM_RIGHT:
-                        //滑动返回
                         smoothScrollToX(getPaddingLeft());
                         break;
                     case SwipeDirection.FROM_BOTTOM:
@@ -455,231 +711,85 @@ public class SwipeBackLayout extends FrameLayout {
         public void onViewDragStateChanged(int state) {
             super.onViewDragStateChanged(state);
             if (state == ViewDragHelper.STATE_IDLE) {
-                if (mSwipeBackListener != null) {
-                    if (swipeBackFraction == 0) {
-                        mSwipeBackListener.onViewSwipeFinished(mDragContentView, false);
-                    } else if (swipeBackFraction == 1) {
-                        mSwipeBackListener.onViewSwipeFinished(mDragContentView, true);
-                    }
+                if (mSwipeBackFraction == 0) {
+                    onFinish(false);
+                } else if (mSwipeBackFraction == 1) {
+                    onFinish(true);
                 }
             }
         }
 
         @Override
-        public int getViewHorizontalDragRange(View child) {
-            return width;
+        public int getViewHorizontalDragRange(@NonNull View child) {
+            return mWidth;
         }
 
         @Override
-        public int getViewVerticalDragRange(View child) {
-            return height;
+        public int getViewVerticalDragRange(@NonNull View child) {
+            return mHeight;
         }
 
         @Override
         public void onEdgeTouched(int edgeFlags, int pointerId) {
             super.onEdgeTouched(edgeFlags, pointerId);
             //边缘Touch状态 开始滑动
-            touchedEdge = edgeFlags;
+            mTouchedEdge = edgeFlags;
         }
     }
 
-    private boolean isSwipeEnabled() {
-        if (mOnlyFromEdge) {
-            switch (mSwipeDirection) {
-                case SwipeDirection.FROM_LEFT:
-                    return touchedEdge == ViewDragHelper.EDGE_LEFT;
-                case SwipeDirection.FROM_TOP:
-                    return touchedEdge == ViewDragHelper.EDGE_TOP;
-                case SwipeDirection.FROM_RIGHT:
-                    return touchedEdge == ViewDragHelper.EDGE_RIGHT;
-                case SwipeDirection.FROM_BOTTOM:
-                    return touchedEdge == ViewDragHelper.EDGE_BOTTOM;
-                default:
-                    break;
-            }
+    protected void onSwiping() {
+        if (mEnterAnimator != null) {
+            mEnterAnimator.pause();
         }
-        return true;
-    }
-
-    private boolean backJudgeBySpeed(float xvel, float yvel) {
-        switch (mSwipeDirection) {
-            case SwipeDirection.FROM_LEFT:
-                return xvel > autoFinishedVelocityLimit;
-            case SwipeDirection.FROM_TOP:
-                return yvel > autoFinishedVelocityLimit;
-            case SwipeDirection.FROM_RIGHT:
-                return xvel < -autoFinishedVelocityLimit;
-            case SwipeDirection.FROM_BOTTOM:
-                return yvel < -autoFinishedVelocityLimit;
-            default:
-                break;
-        }
-        return false;
-    }
-
-    public void setSwipeBackFactor(@FloatRange(from = 0.0f, to = 1.0f) float swipeBackFactor) {
-        if (swipeBackFactor > 1) {
-            swipeBackFactor = 1;
-        } else if (swipeBackFactor < 0) {
-            swipeBackFactor = 0;
-        }
-        this.swipeBackFactor = swipeBackFactor;
-    }
-
-    public float getSwipeBackFactor() {
-        return swipeBackFactor;
-    }
-
-    public void setMaskAlpha(@IntRange(from = 0, to = 255) int maskAlpha) {
-        if (maskAlpha > 255) {
-            maskAlpha = 255;
-        } else if (maskAlpha < 0) {
-            maskAlpha = 0;
-        }
-        this.maskAlpha = maskAlpha;
-    }
-
-    public int getMaskAlpha() {
-        return maskAlpha;
-    }
-
-    public void setSwipeDirection(@SwipeDirection int direction) {
-        mSwipeDirection = direction;
-        mDragHelper.setEdgeTrackingEnabled(direction);
-    }
-
-    public int getSwipeDirection() {
-        return mSwipeDirection;
-    }
-
-    public float getAutoFinishedVelocityLimit() {
-        return autoFinishedVelocityLimit;
-    }
-
-    public void setAutoFinishedVelocityLimit(float autoFinishedVelocityLimit) {
-        this.autoFinishedVelocityLimit = autoFinishedVelocityLimit;
-    }
-
-    public boolean isOnlyFromEdge() {
-        return mOnlyFromEdge;
-    }
-
-    public void setOnlyFromEdge(boolean onlyFromEdge) {
-        this.mOnlyFromEdge = onlyFromEdge;
-    }
-
-    private OnSwipeBackListener mSwipeBackListener;
-    private PreviousActivityTransformer mPreviousActivityTransformer;
-
-    private final PreviousActivityTransformer mPreviousActivityTransformerDefault = new PreviousActivityTransformer() {
-        @Override
-        public void anim(View view, float fraction) {
-            float scale = 0.96f + (1 - 0.96f) * fraction;
-            view.setScaleX(scale);
-            view.setScaleY(scale);
-            float alpha = 0.3f + (1 - 0.3f) * fraction;
-            view.setAlpha(alpha);
-        }
-    };
-
-    public void setPreviousActivityTransformer(PreviousActivityTransformer previousActivityTransformer) {
-        mPreviousActivityTransformer = previousActivityTransformer;
-    }
-
-    public interface PreviousActivityTransformer {
-        void anim(View view, float fraction);
-    }
-
-    private final OnSwipeBackListener mSwipeBackListenerDefault = new OnSwipeBackListener() {
-        @Override
-        public void onViewPositionChanged(View mView, float swipeBackFraction, float swipeBackFactor) {
-            invalidate();
-            //滑动中改变缩放度
-            if (mPreviousChild != null) {
-                if (mPreviousActivityTransformer == null) {
-                    mPreviousActivityTransformer = mPreviousActivityTransformerDefault;
-                }
-                if (mTopActivity.isFinishing() || mTopActivity.isDestroyed()) {
-                    mPreviousActivityTransformer.anim(mPreviousChild, 1);
-                } else {
-                    mPreviousActivityTransformer.anim(mPreviousChild, swipeBackFraction);
-                }
-            }
-        }
-
-        @Override
-        public void onViewSwipeFinished(View mView, boolean isEnd) {
-            if (isEnd) {
-                //上层界面滑动消失，finish掉该界面
-                finish();
-            } else {
-                //上层界面恢复滑动
-                mActivitySwiping = false;
-                if (null != mTopActivity && mActivityTranslucent) {
-//                    SwipeChecker.convertActivityFromTranslucent(mTopActivity);
-//                    mActivityTranslucent = false;
-                }
-            }
-        }
-    };
-
-    public void finish() {
-        mFinishAnimEnable = false;
-        ((Activity) getContext()).finish();
-        //去除默认动画，防止关闭时出现阴影
-        ((Activity) getContext()).overridePendingTransition(0, 0);
-    }
-
-    public void setSwipeBackListener(OnSwipeBackListener mSwipeBackListener) {
-        this.mSwipeBackListener = mSwipeBackListener;
-    }
-
-    public interface OnSwipeBackListener {
-
-        void onViewPositionChanged(View mView, float swipeBackFraction, float swipeBackFactor);
-
-        void onViewSwipeFinished(View mView, boolean isEnd);
-    }
-
-    @Override
-    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-        if (!isSwipeBackEnable()) {
-            return super.drawChild(canvas, child, drawingTime);
-        }
-        final boolean drawContent = child == mDragContentView;
-        boolean ret = super.drawChild(canvas, child, drawingTime);
-        if (mScrimOpacity > 0 && drawContent
-                && mDragHelper.getViewDragState() != ViewDragHelper.STATE_IDLE) {
-            drawShadow(canvas, child);
-        }
-        return ret;
-    }
-
-    /**
-     * 设置左侧边缘阴影图片
-     */
-    public void setShadow(int resId) {
-        Drawable shadow = getResources().getDrawable(resId);
-        if (mSwipeDirection == SwipeDirection.FROM_LEFT) {
-            mShadowLeft = shadow;
+        if (mExitAnimator != null) {
+            mExitAnimator.pause();
         }
         invalidate();
+        if (mPreviousChildView != null) {
+            if (mCurrentActivity.isFinishing() || mCurrentActivity.isDestroyed()) {
+                getNonNullSwipeBackTransformer().transform(mCurrentChildView, mPreviousChildView, mSwipeBackFraction, mSwipeDirection);
+            } else {
+                getNonNullSwipeBackTransformer().transform(mCurrentChildView, mPreviousChildView, mSwipeBackFraction, mSwipeDirection);
+            }
+        }
+        if (mSwipeBackListener != null) {
+            mSwipeBackListener.onSwiping(mCurrentActivity, mCurrentChildView, mPreviousChildView, mSwipeBackFraction, mSwipeBackFactor, mSwipeDirection);
+        }
     }
 
-    /**
-     * 左侧边缘阴影
-     *
-     * @param canvas
-     * @param child
-     */
-    private void drawShadow(Canvas canvas, View child) {
-        final Rect childRect = mTmpRect;
-        child.getHitRect(childRect);
-        if (mSwipeDirection == SwipeDirection.FROM_LEFT) {
-            mShadowLeft.setBounds(childRect.left - mShadowLeft.getIntrinsicWidth(), childRect.top,
-                    childRect.left, childRect.bottom);
-            mShadowLeft.setAlpha((int) ((1 - swipeBackFraction) * 255));
-            mShadowLeft.draw(canvas);
+    private boolean mBackSuccess = false;
+
+    public boolean isBackSuccess() {
+        return mBackSuccess;
+    }
+
+    protected void onFinish(boolean backSuccess) {
+        mActivitySwiping = false;
+        if (backSuccess) {
+            mBackSuccess = true;
+            finish();
+        } else {
+            if (!mTakeOverActivityEnterExitAnim) {
+                setActivityTranslucent(false);
+            }
+            mSwipeBackFraction = 1;
+            mLeftOffset = 0;
+            mTopOffset = 0;
+            getNonNullSwipeBackTransformer().transform(mCurrentChildView, mPreviousChildView, mSwipeBackFraction, mSwipeDirection);
+            requestLayout();
         }
+        if (mSwipeBackListener != null) {
+            mSwipeBackListener.onFinish(mCurrentActivity, mCurrentChildView, mPreviousChildView, backSuccess, mSwipeDirection);
+        }
+    }
+
+    public interface SwipeBackListener {
+        void onSwiping(Activity currentActivity, View currentView, View previousView, float swipeBackFraction, float swipeBackFactor, @SwipeDirection int swipeDirection);
+
+        void onFinish(Activity currentActivity, View currentView, View previousView, boolean backSuccess, @SwipeDirection int swipeDirection);
+    }
+
+    public interface SwipeBackTransformer {
+        void transform(View currentView, View previousView, float fraction, @SwipeDirection int swipeDirection);
     }
 }
