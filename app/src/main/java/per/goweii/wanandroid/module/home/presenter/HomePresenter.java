@@ -2,8 +2,6 @@ package per.goweii.wanandroid.module.home.presenter;
 
 import android.support.annotation.IntRange;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.util.List;
 
 import per.goweii.basic.core.base.BasePresenter;
@@ -29,7 +27,7 @@ import per.goweii.wanandroid.widget.CollectView;
 public class HomePresenter extends BasePresenter<HomeView> {
 
     public void getBanner(){
-        addToRxLife(HomeRequest.getBanner(new RequestListener<List<BannerBean>>() {
+        HomeRequest.getBanner(getRxLife(), new RequestListener<List<BannerBean>>() {
             @Override
             public void onStart() {
             }
@@ -55,11 +53,11 @@ public class HomePresenter extends BasePresenter<HomeView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
     public void getArticleList(@IntRange(from = 0) int page){
-        addToRxLife(HomeRequest.getArticleList(page, new RequestListener<HomeBean>() {
+        HomeRequest.getArticleList(getRxLife(), page, new RequestListener<HomeBean>() {
             @Override
             public void onStart() {
             }
@@ -85,11 +83,11 @@ public class HomePresenter extends BasePresenter<HomeView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
     public void getTopArticleList(){
-        addToRxLife(HomeRequest.getTopArticleList(new RequestListener<List<ArticleBean>>() {
+        HomeRequest.getTopArticleList(getRxLife(), new RequestListener<List<ArticleBean>>() {
             @Override
             public void onStart() {
             }
@@ -115,7 +113,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
     public void collect(ArticleBean item, final CollectView v){

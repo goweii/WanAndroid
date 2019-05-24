@@ -21,7 +21,7 @@ import per.goweii.wanandroid.widget.CollectView;
 public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
 
     public void getProjectArticleList(int id, int page){
-        addToRxLife(ProjectRequest.getProjectArticleList(id, page, new RequestListener<ProjectArticleBean>() {
+        ProjectRequest.getProjectArticleList(getRxLife(), id, page, new RequestListener<ProjectArticleBean>() {
             @Override
             public void onStart() {
             }
@@ -47,7 +47,7 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
     public void collect(ProjectArticleBean.DatasBean item, final CollectView v){

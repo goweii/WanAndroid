@@ -11,8 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg"
-        android:scaleType="centerCrop"
-        tools:src="@drawable/goweii" />
+        android:scaleType="centerCrop" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/srl"
@@ -41,8 +40,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="100dp"
                     android:scaleType="centerCrop"
-                    app:civ_circle_background_color="@color/white_alpha"
-                    tools:src="@drawable/goweii" />
+                    app:civ_circle_background_color="@color/white_alpha" />
 
                 <TextView
                     android:id="@+id/tv_name"
@@ -207,21 +205,21 @@
                     android:orientation="vertical">
 
                     <per.goweii.percentimageview.percentimageview.PercentImageView
+                        android:id="@+id/piv_qq_qrcode"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/qq_qrcode"
                         app:piv_basics="height"
                         app:piv_percent="0.85" />
 
                     <per.goweii.percentimageview.percentimageview.PercentImageView
+                        android:id="@+id/piv_wx_qrcode"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
                         android:layout_marginTop="60dp"
                         android:layout_weight="1"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/wx_qrcode"
                         app:piv_basics="height"
                         app:piv_percent="0.85" />
 

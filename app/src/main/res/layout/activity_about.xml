@@ -18,7 +18,7 @@
         android:layout_below="@+id/abc"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@color/white"
+        android:background="@color/main"
         android:padding="10dp"
         android:src="@drawable/logo"
         app:riv_corner_radius="16dp"

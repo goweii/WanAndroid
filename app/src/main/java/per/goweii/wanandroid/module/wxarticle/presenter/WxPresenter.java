@@ -19,7 +19,7 @@ import per.goweii.wanandroid.module.wxarticle.view.WxView;
 public class WxPresenter extends BasePresenter<WxView> {
 
     public void getWxArticleChapters(){
-        addToRxLife(WxRequest.getWxArticleChapters(new RequestListener<List<WxChapterBean>>() {
+        WxRequest.getWxArticleChapters(getRxLife(), new RequestListener<List<WxChapterBean>>() {
             @Override
             public void onStart() {
             }
@@ -45,7 +45,7 @@ public class WxPresenter extends BasePresenter<WxView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
 }

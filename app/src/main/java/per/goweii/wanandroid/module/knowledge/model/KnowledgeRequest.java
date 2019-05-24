@@ -5,10 +5,11 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
+import per.goweii.rxhttp.core.RxLife;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
+import per.goweii.wanandroid.http.WanCache;
 
 /**
  * @author CuiZhen
@@ -19,12 +20,20 @@ import per.goweii.wanandroid.http.WanApi;
  */
 public class KnowledgeRequest extends BaseRequest {
 
-    public static Disposable getKnowledgeList(@NonNull RequestListener<List<KnowledgeBean>> listener) {
-        return request(WanApi.api().getKnowledgeList(), listener);
+    public static void getKnowledgeList(RxLife rxLife, @NonNull RequestListener<List<KnowledgeBean>> listener) {
+        cacheAndNetList(rxLife,
+                WanApi.api().getKnowledgeList(),
+                WanCache.CacheKey.KNOWLEDGE_LIST,
+                KnowledgeBean.class,
+                listener);
     }
 
-    public static Disposable getKnowledgeArticleList(int id, @IntRange(from = 0) int page, @NonNull RequestListener<KnowledgeArticleBean> listener) {
-        return request(WanApi.api().getKnowledgeArticleList(page, id), listener);
+    public static void getKnowledgeArticleList(RxLife rxLife, int id, @IntRange(from = 0) int page, @NonNull RequestListener<KnowledgeArticleBean> listener) {
+        cacheAndNetBean(rxLife,
+                WanApi.api().getKnowledgeArticleList(page, id),
+                WanCache.CacheKey.KNOWLEDGE_ARTICLE_LIST(id, page),
+                KnowledgeArticleBean.class,
+                listener);
     }
 
 }

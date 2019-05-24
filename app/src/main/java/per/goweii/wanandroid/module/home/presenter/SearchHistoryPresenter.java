@@ -23,7 +23,7 @@ public class SearchHistoryPresenter extends BasePresenter<SearchHistoryView> {
     private final SearchHistoryUtils mSearchHistoryUtils = SearchHistoryUtils.newInstance();
 
     public void getHotKeyList(){
-        addToRxLife(HomeRequest.getHotKeyList(new RequestListener<List<HotKeyBean>>() {
+        HomeRequest.getHotKeyList(getRxLife(), new RequestListener<List<HotKeyBean>>() {
             @Override
             public void onStart() {
             }
@@ -49,7 +49,7 @@ public class SearchHistoryPresenter extends BasePresenter<SearchHistoryView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
     public List<String> getHistory(){

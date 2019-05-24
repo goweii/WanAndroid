@@ -19,7 +19,7 @@ import per.goweii.wanandroid.module.project.view.ProjectView;
 public class ProjectPresenter extends BasePresenter<ProjectView> {
 
     public void getProjectChapters(){
-        addToRxLife(ProjectRequest.getProjectChapters(new RequestListener<List<ProjectChapterBean>>() {
+        ProjectRequest.getProjectChapters(getRxLife(), new RequestListener<List<ProjectChapterBean>>() {
             @Override
             public void onStart() {
             }
@@ -45,6 +45,6 @@ public class ProjectPresenter extends BasePresenter<ProjectView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 }

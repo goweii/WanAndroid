@@ -124,10 +124,13 @@ public class ListDialog {
                     @Override
                     public void bind(AnyLayer anyLayer) {
                         LinearLayout llYesNo = anyLayer.getView(R.id.basic_ui_ll_dialog_list_yes_no);
+                        View vLineH = anyLayer.getView(R.id.basic_ui_v_dialog_list_line_h);
 
                         if (noBtn) {
+                            vLineH.setVisibility(View.GONE);
                             llYesNo.setVisibility(View.GONE);
                         } else {
+                            vLineH.setVisibility(View.VISIBLE);
                             llYesNo.setVisibility(View.VISIBLE);
                             TextView tvYes = anyLayer.getView(R.id.basic_ui_tv_dialog_list_yes);
                             TextView tvNo = anyLayer.getView(R.id.basic_ui_tv_dialog_list_no);

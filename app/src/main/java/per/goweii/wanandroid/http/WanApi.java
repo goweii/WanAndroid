@@ -17,6 +17,7 @@ import per.goweii.wanandroid.module.main.model.CollectArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
+import per.goweii.wanandroid.module.mine.model.AboutMeBean;
 import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
@@ -55,6 +56,9 @@ public class WanApi extends Api {
 
         @GET("https://raw.githubusercontent.com/goweii/WanAndroidServer/master/update/update.json")
         Observable<WanResponse<UpdateBean>> update();
+
+        @GET("https://raw.githubusercontent.com/goweii/WanAndroidServer/master/about/about_me.json")
+        Observable<WanResponse<AboutMeBean>> getAboutMe();
 
         /**
          * 登录
@@ -266,11 +270,23 @@ public class WanApi extends Api {
          * 删除收藏网站
          * 方法：POST
          * 参数：
-         * 	id
+         * id
          */
         @FormUrlEncoded
         @POST("lg/collect/deletetool/json")
         Observable<WanResponse<BaseBean>> uncollectLink(@Field("id") int id);
+
+        /**
+         * 编辑收藏网站
+         * 方法：POST
+         * 参数：
+         * id,name,link
+         */
+        @FormUrlEncoded
+        @POST("lg/collect/updatetool/json")
+        Observable<WanResponse<CollectionLinkBean>> updateCollectLink(@Field("id") int id,
+                                                            @Field("name") String name,
+                                                            @Field("link") String link);
 
         /**
          * 取消收藏 我的收藏页面（该页面包含自己录入的内容）

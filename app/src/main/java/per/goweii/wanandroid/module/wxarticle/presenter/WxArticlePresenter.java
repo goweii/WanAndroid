@@ -21,7 +21,7 @@ import per.goweii.wanandroid.widget.CollectView;
 public class WxArticlePresenter extends BasePresenter<WxArticleView> {
 
     public void getWxArticleList(int id, int page){
-        addToRxLife(WxRequest.getWxArticleList(id, page, new RequestListener<WxArticleBean>() {
+        WxRequest.getWxArticleList(getRxLife(), id, page, new RequestListener<WxArticleBean>() {
             @Override
             public void onStart() {
             }
@@ -47,11 +47,11 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
     public void getWxArticleListSearch(int id, int page, String key){
-        addToRxLife(WxRequest.getWxArticleList(id, page, key, new RequestListener<WxArticleBean>() {
+        WxRequest.getWxArticleList(getRxLife(), id, page, key, new RequestListener<WxArticleBean>() {
             @Override
             public void onStart() {
             }
@@ -77,7 +77,7 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
     public void collect(WxArticleBean.DatasBean item, final CollectView v){

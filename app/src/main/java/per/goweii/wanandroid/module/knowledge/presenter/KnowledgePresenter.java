@@ -19,7 +19,7 @@ import per.goweii.wanandroid.module.knowledge.view.KnowledgeView;
 public class KnowledgePresenter extends BasePresenter<KnowledgeView> {
 
     public void getKnowledgeList() {
-        addToRxLife(KnowledgeRequest.getKnowledgeList(new RequestListener<List<KnowledgeBean>>() {
+        KnowledgeRequest.getKnowledgeList(getRxLife(), new RequestListener<List<KnowledgeBean>>() {
             @Override
             public void onStart() {
                 showLoadingBar();
@@ -47,6 +47,6 @@ public class KnowledgePresenter extends BasePresenter<KnowledgeView> {
             public void onFinish() {
                 dismissLoadingBar();
             }
-        }));
+        });
     }
 }

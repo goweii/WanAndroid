@@ -30,6 +30,7 @@
         tools:listitem="@layout/basic_ui_rv_item_dialog_list"/>
 
     <View
+        android:id="@+id/basic_ui_v_dialog_list_line_h"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/line"/>

@@ -16,7 +16,7 @@ import per.goweii.wanandroid.module.main.view.MainView;
 public class MainPresenter extends BasePresenter<MainView> {
 
     public void update(){
-        addToRxLife(MainRequest.update(new RequestCallback<UpdateBean>() {
+        MainRequest.update(getRxLife(), new RequestCallback<UpdateBean>() {
             @Override
             public void onSuccess(int code, UpdateBean data) {
                 if (isAttachView()) {
@@ -28,7 +28,7 @@ public class MainPresenter extends BasePresenter<MainView> {
             public void onFailed(int code, String msg) {
 
             }
-        }));
+        });
     }
 
 }

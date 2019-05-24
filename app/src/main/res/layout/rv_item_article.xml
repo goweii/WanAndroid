@@ -94,7 +94,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/iv_img"
             android:layout_width="120dp"
-            android:layout_height="74dp"
+            android:layout_height="80dp"
             android:layout_marginRight="10dp"
             android:background="@color/bg"
             android:scaleType="centerCrop"
@@ -129,13 +129,13 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:ellipsize="end"
-                android:includeFontPadding="false"
+                android:includeFontPadding="true"
                 android:maxLines="3"
                 android:lineSpacingExtra="0dp"
                 android:textColor="@color/text_gray_light"
-                android:textSize="@dimen/text_notes"
+                android:textSize="@dimen/text_auxiliary"
                 android:visibility="gone"
-                tools:text="公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势"
+                tools:text="公众号文章列表强势上线"
                 tools:visibility="visible" />
 
         </LinearLayout>

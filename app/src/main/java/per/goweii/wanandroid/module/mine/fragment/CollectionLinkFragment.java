@@ -3,6 +3,7 @@ package per.goweii.wanandroid.module.mine.fragment;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -16,7 +17,11 @@ import java.util.List;
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
+import per.goweii.basic.ui.dialog.ListDialog;
+import per.goweii.basic.utils.CopyUtils;
+import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
@@ -24,6 +29,7 @@ import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.mine.adapter.CollectionLinkAdapter;
+import per.goweii.wanandroid.module.mine.dialog.EditCollectLinkDialog;
 import per.goweii.wanandroid.module.mine.presenter.CollectionLinkPresenter;
 import per.goweii.wanandroid.module.mine.view.CollectionLinkView;
 import per.goweii.wanandroid.utils.RvAnimUtils;
@@ -119,6 +125,51 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
                 }
             }
         });
+        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                final CollectionLinkBean item = mAdapter.getItem(position);
+                if (item == null) {
+                    return true;
+                }
+                ListDialog.with(getContext())
+                        .datas("编辑", "删除", "复制链接", "浏览器打开")
+                        .noBtn()
+                        .listener(new ListDialog.OnItemSelectedListener() {
+                            @Override
+                            public void onSelect(String data, int pos) {
+                                switch (pos) {
+                                    default:
+                                        break;
+                                    case 0:
+                                        EditCollectLinkDialog.show(getContext(), item, new SimpleCallback<CollectionLinkBean>() {
+                                            @Override
+                                            public void onResult(CollectionLinkBean data) {
+                                                presenter.updateCollectLink(data);
+                                            }
+                                        });
+                                        break;
+                                    case 1:
+                                        presenter.uncollectLink(item);
+                                        break;
+                                    case 2:
+                                        CopyUtils.copyText(item.getLink());
+                                        ToastMaker.showShort("复制成功");
+                                        break;
+                                    case 3:
+                                        if (TextUtils.isEmpty(item.getLink())) {
+                                            ToastMaker.showShort("链接为空");
+                                            break;
+                                        }
+                                        IntentUtils.openBrowser(getContext(), item.getLink());
+                                        break;
+                                }
+                            }
+                        })
+                        .show();
+                return true;
+            }
+        });
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
@@ -153,6 +204,20 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
     public void getCollectLinkListFailed(int code, String msg) {
         ToastMaker.showShort(msg);
         mSmartRefreshUtils.fail();
+    }
+
+    @Override
+    public void updateCollectLinkSuccess(int code, CollectionLinkBean data) {
+        List<CollectionLinkBean> list = mAdapter.getData();
+        for (int i = 0; i < list.size(); i++) {
+            CollectionLinkBean bean = list.get(i);
+            if (bean.getId() == data.getId()) {
+                bean.setName(data.getName());
+                bean.setLink(data.getLink());
+                mAdapter.notifyItemChanged(i);
+                break;
+            }
+        }
     }
 
     @Override

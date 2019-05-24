@@ -6,6 +6,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -25,9 +26,15 @@ import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.basic.core.base.BaseActivity;
-import per.goweii.basic.core.mvp.MvpPresenter;
+import per.goweii.basic.core.glide.GlideHelper;
+import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleCallback;
+import per.goweii.percentimageview.percentimageview.PercentImageView;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.mine.model.AboutMeBean;
+import per.goweii.wanandroid.module.mine.presenter.AboutMePresenter;
+import per.goweii.wanandroid.module.mine.view.AboutMeView;
 import per.goweii.wanandroid.utils.ImageLoader;
 
 /**
@@ -37,7 +44,7 @@ import per.goweii.wanandroid.utils.ImageLoader;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class AboutMeActivity extends BaseActivity {
+public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements AboutMeView {
 
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
@@ -61,6 +68,10 @@ public class AboutMeActivity extends BaseActivity {
     RelativeLayout rl_info;
     @BindView(R.id.rl_reward)
     RelativeLayout rl_reward;
+    @BindView(R.id.piv_qq_qrcode)
+    PercentImageView piv_qq_qrcode;
+    @BindView(R.id.piv_wx_qrcode)
+    PercentImageView piv_wx_qrcode;
 
     public static void start(Context context){
         Intent intent = new Intent(context, AboutMeActivity.class);
@@ -74,38 +85,13 @@ public class AboutMeActivity extends BaseActivity {
 
     @Nullable
     @Override
-    protected MvpPresenter initPresenter() {
-        return null;
+    protected AboutMePresenter initPresenter() {
+        return new AboutMePresenter();
     }
 
     @Override
     protected void initView() {
         changeVisible(View.INVISIBLE, civ_icon, tv_name, tv_sign, ll_github, ll_jianshu);
-        ImageLoader.userBlur(iv_blur, R.drawable.goweii);
-        iv_blur.setAlpha(0F);
-        iv_blur.post(new Runnable() {
-            @Override
-            public void run() {
-                changeViewAlpha(iv_blur, 0, 1, 600);
-                changeViewSize(iv_blur, 2, 1, 1000);
-            }
-        });
-        civ_icon.setImageResource(R.drawable.goweii);
-        civ_icon.post(new Runnable() {
-            @Override
-            public void run() {
-                changeViewSize(civ_icon, 0, 1, 300);
-                doDelayShowAnim(800, 60, civ_icon, tv_name, tv_sign, ll_github, ll_jianshu);
-            }
-        });
-        rl_info.post(new Runnable() {
-            @Override
-            public void run() {
-                rl_info.setVisibility(View.VISIBLE);
-                rl_reward.setTranslationY(rl_info.getMeasuredHeight());
-                rl_reward.setVisibility(View.VISIBLE);
-            }
-        });
         srl.setOnMultiPurposeListener(new OnMultiPurposeListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
@@ -163,10 +149,7 @@ public class AboutMeActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
-        tv_name.setText("Goweii");
-        tv_sign.setText("不相信自己的人没有努力的价值");
-        tv_github.setText("https://github.com/goweii");
-        tv_jianshu.setText("https://www.jianshu.com/u/78fecab193fa");
+        presenter.getAboutMe();
     }
 
     @OnClick({
@@ -262,5 +245,52 @@ public class AboutMeActivity extends BaseActivity {
         animatorY.setDuration(500);
         animatorY.setInterpolator(new DecelerateInterpolator());
         animatorY.start();
+    }
+
+    @Override
+    public void getAboutMeSuccess(int code, AboutMeBean data) {
+        tv_name.setText(data.getName());
+        tv_sign.setText(data.getDesc());
+        tv_github.setText(data.getGithub());
+        tv_jianshu.setText(data.getJianshu());
+        ImageLoader.image(piv_qq_qrcode, data.getQq_qrcode());
+        ImageLoader.image(piv_wx_qrcode, data.getWx_qrcode());
+        GlideHelper.with(getContext())
+                .load(data.getIcon())
+                .get(new SimpleCallback<Bitmap>() {
+                    @Override
+                    public void onResult(Bitmap bitmap) {
+                        ImageLoader.userIcon(civ_icon, data.getIcon());
+                        ImageLoader.userBlur(iv_blur, data.getIcon());
+                        iv_blur.setAlpha(0F);
+                        iv_blur.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                changeViewAlpha(iv_blur, 0, 1, 600);
+                                changeViewSize(iv_blur, 2, 1, 1000);
+                            }
+                        });
+                    }
+                });
+        civ_icon.post(new Runnable() {
+            @Override
+            public void run() {
+                changeViewSize(civ_icon, 0, 1, 300);
+                doDelayShowAnim(800, 60, civ_icon, tv_name, tv_sign, ll_github, ll_jianshu);
+            }
+        });
+        rl_info.post(new Runnable() {
+            @Override
+            public void run() {
+                rl_info.setVisibility(View.VISIBLE);
+                rl_reward.setTranslationY(rl_info.getMeasuredHeight());
+                rl_reward.setVisibility(View.VISIBLE);
+            }
+        });
+    }
+
+    @Override
+    public void getAboutMeFailed(int code, String msg) {
+        ToastMaker.showShort(msg);
     }
 }

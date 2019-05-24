@@ -75,7 +75,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="玩友号："
+                            android:text="ID:"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_notes" />
 
@@ -85,7 +85,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_notes"
-                            tools:text="20382" />
+                            tools:text="-----" />
 
                     </LinearLayout>
 

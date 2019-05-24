@@ -24,6 +24,7 @@ public class CollectionLinkAdapter extends BaseQuickAdapter<CollectionLinkBean, 
     @Override
     protected void convert(BaseViewHolder helper, CollectionLinkBean item) {
         helper.setText(R.id.tv_title, Html.fromHtml(item.getName()));
+        helper.setText(R.id.tv_url, item.getLink());
         helper.addOnClickListener(R.id.iv_remove);
     }
 }

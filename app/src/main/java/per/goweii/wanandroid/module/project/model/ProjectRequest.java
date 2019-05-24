@@ -5,10 +5,11 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
+import per.goweii.rxhttp.core.RxLife;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
+import per.goweii.wanandroid.http.WanCache;
 
 /**
  * @author CuiZhen
@@ -19,12 +20,20 @@ import per.goweii.wanandroid.http.WanApi;
  */
 public class ProjectRequest extends BaseRequest {
 
-    public static Disposable getProjectChapters(@NonNull RequestListener<List<ProjectChapterBean>> listener) {
-        return request(WanApi.api().getProjectChapters(), listener);
+    public static void getProjectChapters(RxLife rxLife, @NonNull RequestListener<List<ProjectChapterBean>> listener) {
+        cacheAndNetList(rxLife,
+                WanApi.api().getProjectChapters(),
+                WanCache.CacheKey.PROJECT_CHAPTERS,
+                ProjectChapterBean.class,
+                listener);
     }
 
-    public static Disposable getProjectArticleList(int id, @IntRange(from = 1) int page, @NonNull RequestListener<ProjectArticleBean> listener) {
-        return request(WanApi.api().getProjectArticleList(page, id), listener);
+    public static void getProjectArticleList(RxLife rxLife, int id, @IntRange(from = 1) int page, @NonNull RequestListener<ProjectArticleBean> listener) {
+        cacheAndNetBean(rxLife,
+                WanApi.api().getProjectArticleList(page, id),
+                WanCache.CacheKey.PROJECT_ARTICLE_LIST(id, page),
+                ProjectArticleBean.class,
+                listener);
     }
 
 }

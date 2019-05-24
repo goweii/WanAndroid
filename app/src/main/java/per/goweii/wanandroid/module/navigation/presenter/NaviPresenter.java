@@ -19,7 +19,7 @@ import per.goweii.wanandroid.module.navigation.view.NaviView;
 public class NaviPresenter extends BasePresenter<NaviView> {
 
     public void getKnowledgeList() {
-        addToRxLife(NaviRequest.getNaviList(new RequestListener<List<NaviBean>>() {
+        NaviRequest.getNaviList(getRxLife(), new RequestListener<List<NaviBean>>() {
             @Override
             public void onStart() {
                 showLoadingBar();
@@ -47,6 +47,6 @@ public class NaviPresenter extends BasePresenter<NaviView> {
             public void onFinish() {
                 dismissLoadingBar();
             }
-        }));
+        });
     }
 }

@@ -3,10 +3,12 @@ package per.goweii.wanandroid.module.main.model;
 import android.support.annotation.NonNull;
 
 import io.reactivex.disposables.Disposable;
+import per.goweii.rxhttp.core.RxLife;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
+import per.goweii.wanandroid.http.WanCache;
 
 /**
  * @author CuiZhen
@@ -41,8 +43,12 @@ public class MainRequest extends BaseRequest {
         return request(WanApi.api().uncollect(id, originId), listener);
     }
 
-    public static Disposable update(@NonNull RequestListener<UpdateBean> listener) {
-        return request(WanApi.api().update(), listener);
+    public static void update(RxLife rxLife, @NonNull RequestListener<UpdateBean> listener) {
+        cacheAndNetBean(rxLife,
+                WanApi.api().update(),
+                WanCache.CacheKey.UPDATE,
+                UpdateBean.class,
+                listener);
     }
 
 }

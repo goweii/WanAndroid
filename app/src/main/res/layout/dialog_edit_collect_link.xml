@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    android:layout_gravity="top"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/dialog_edit_collect_link_v_statusbar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_solid_round_color_white_radius_def"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_auxiliary"
+                android:textColor="@color/text_gray_light"
+                android:text="网站标题"/>
+
+            <EditText
+                android:id="@+id/dialog_edit_collect_link_et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textSize="@dimen/text_content"
+                android:textColor="@color/text_black"
+                tools:text="wanandroid"
+                android:lines="1"
+                android:background="@color/transparent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textSize="@dimen/text_auxiliary"
+                android:textColor="@color/text_gray_light"
+                android:text="网站链接"/>
+
+            <EditText
+                android:id="@+id/dialog_edit_collect_link_et_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:textSize="@dimen/text_content"
+                android:textColor="@color/text_black"
+                tools:text="https://www.wanandroid.com"
+                android:lines="1"
+                android:background="@color/transparent"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dialog_edit_collect_link_tv_no"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="取消"
+                android:textColor="@color/text_gray_light"
+                android:textSize="@dimen/text_content" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/bg"/>
+
+            <TextView
+                android:id="@+id/dialog_edit_collect_link_tv_yes"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="确定"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

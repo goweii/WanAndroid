@@ -17,16 +17,13 @@
 
     <style name="AppTheme.Main">
         <item name="android:windowBackground">@drawable/splash_bg</item>
-        <!--<item name="android:windowAnimationStyle">@style/basic_res_activity_anim_zoom</item>-->
     </style>
 
     <style name="AppTheme.Normal">
-        <item name="android:windowBackground">@drawable/splash_bg</item>
         <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimRightInParallaxOut</item>
     </style>
 
     <style name="AppTheme.Login">
-        <item name="android:windowBackground">@drawable/splash_bg</item>
         <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimBottomInParallaxOut</item>
     </style>
 

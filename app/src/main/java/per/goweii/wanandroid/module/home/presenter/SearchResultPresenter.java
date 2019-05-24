@@ -24,7 +24,7 @@ import per.goweii.wanandroid.widget.CollectView;
 public class SearchResultPresenter extends BasePresenter<SearchResultView> {
 
     public void search(@IntRange(from = 0) int page, String key){
-        addToRxLife(HomeRequest.search(page, key, new RequestListener<SearchBean>() {
+        HomeRequest.search(getRxLife(), page, key, new RequestListener<SearchBean>() {
             @Override
             public void onStart() {
             }
@@ -50,7 +50,7 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
     public void collect(ArticleBean item, final CollectView v){

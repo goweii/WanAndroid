@@ -26,7 +26,7 @@ import per.goweii.wanandroid.module.mine.view.SettingView;
 public class SettingPresenter extends BasePresenter<SettingView> {
 
     public void update(boolean click) {
-        addToRxLife(MainRequest.update(new RequestListener<UpdateBean>() {
+        MainRequest.update(getRxLife(), new RequestListener<UpdateBean>() {
             @Override
             public void onStart() {
                 showLoadingBar();
@@ -54,7 +54,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
             public void onFinish() {
                 dismissLoadingBar();
             }
-        }));
+        });
     }
 
     public void logout() {

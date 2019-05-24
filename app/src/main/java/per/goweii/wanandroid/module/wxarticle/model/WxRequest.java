@@ -5,10 +5,11 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
+import per.goweii.rxhttp.core.RxLife;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
+import per.goweii.wanandroid.http.WanCache;
 
 /**
  * @author CuiZhen
@@ -19,16 +20,28 @@ import per.goweii.wanandroid.http.WanApi;
  */
 public class WxRequest extends BaseRequest {
 
-    public static Disposable getWxArticleChapters(@NonNull RequestListener<List<WxChapterBean>> listener) {
-        return request(WanApi.api().getWxArticleChapters(), listener);
+    public static void getWxArticleChapters(RxLife rxLife, @NonNull RequestListener<List<WxChapterBean>> listener) {
+        cacheAndNetList(rxLife,
+                WanApi.api().getWxArticleChapters(),
+                WanCache.CacheKey.WXARTICLE_CHAPTERS,
+                WxChapterBean.class,
+                listener);
     }
 
-    public static Disposable getWxArticleList(int id, @IntRange(from = 1) int page, @NonNull RequestListener<WxArticleBean> listener) {
-        return request(WanApi.api().getWxArticleList(id, page), listener);
+    public static void getWxArticleList(RxLife rxLife, int id, @IntRange(from = 1) int page, @NonNull RequestListener<WxArticleBean> listener) {
+        cacheAndNetBean(rxLife,
+                WanApi.api().getWxArticleList(id, page),
+                WanCache.CacheKey.WXARTICLE_LIST(id, page),
+                WxArticleBean.class,
+                listener);
     }
 
-    public static Disposable getWxArticleList(int id, @IntRange(from = 1) int page, String key, @NonNull RequestListener<WxArticleBean> listener) {
-        return request(WanApi.api().getWxArticleList(id, page, key), listener);
+    public static void getWxArticleList(RxLife rxLife, int id, @IntRange(from = 1) int page, String key, @NonNull RequestListener<WxArticleBean> listener) {
+        cacheAndNetBean(rxLife,
+                WanApi.api().getWxArticleList(id, page, key),
+                WanCache.CacheKey.WXARTICLE_LIST_SEARCH(id, page, key),
+                WxArticleBean.class,
+                listener);
     }
 
 }

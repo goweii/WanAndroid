@@ -23,7 +23,7 @@ import per.goweii.wanandroid.module.mine.view.CollectionLinkView;
 public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
 
     public void getCollectLinkList() {
-        addToRxLife(MineRequest.getCollectLinkList(new RequestListener<List<CollectionLinkBean>>() {
+        MineRequest.getCollectLinkList(getRxLife(), new RequestListener<List<CollectionLinkBean>>() {
             @Override
             public void onStart() {
             }
@@ -49,7 +49,7 @@ public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
             @Override
             public void onFinish() {
             }
-        }));
+        });
     }
 
     public void uncollectLink(CollectionLinkBean item) {
@@ -61,6 +61,34 @@ public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
             @Override
             public void onSuccess(int code, BaseBean data) {
                 CollectionEvent.postUncollectWithCollectId(item.getId());
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                ToastMaker.showShort(msg);
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        }));
+    }
+
+    public void updateCollectLink(CollectionLinkBean item) {
+        addToRxLife(MineRequest.updateCollectLink(item.getId(), item.getName(), item.getLink(), new RequestListener<CollectionLinkBean>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, CollectionLinkBean data) {
+                if (isAttachView()) {
+                    getBaseView().updateCollectLinkSuccess(code, data);
+                }
             }
 
             @Override

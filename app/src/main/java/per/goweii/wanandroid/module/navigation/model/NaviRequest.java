@@ -4,10 +4,11 @@ import android.support.annotation.NonNull;
 
 import java.util.List;
 
-import io.reactivex.disposables.Disposable;
+import per.goweii.rxhttp.core.RxLife;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
+import per.goweii.wanandroid.http.WanCache;
 
 /**
  * @author CuiZhen
@@ -18,8 +19,12 @@ import per.goweii.wanandroid.http.WanApi;
  */
 public class NaviRequest extends BaseRequest {
 
-    public static Disposable getNaviList(@NonNull RequestListener<List<NaviBean>> listener) {
-        return request(WanApi.api().getNaviList(), listener);
+    public static void getNaviList(RxLife rxLife, @NonNull RequestListener<List<NaviBean>> listener) {
+        cacheAndNetList(rxLife,
+                WanApi.api().getNaviList(),
+                WanCache.CacheKey.NAVI_LIST,
+                NaviBean.class,
+                listener);
     }
 
 }

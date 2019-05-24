@@ -23,7 +23,7 @@ import per.goweii.wanandroid.widget.CollectView;
 public class KnowledgeArticlePresenter extends BasePresenter<KnowledgeArticleView> {
 
     public void getKnowledgeArticleList(int id, int page){
-        addToRxLife(KnowledgeRequest.getKnowledgeArticleList(id, page, new RequestCallback<KnowledgeArticleBean>() {
+        KnowledgeRequest.getKnowledgeArticleList(getRxLife(), id, page, new RequestCallback<KnowledgeArticleBean>() {
             @Override
             public void onSuccess(int code, KnowledgeArticleBean data) {
                 if (isAttachView()) {
@@ -37,7 +37,7 @@ public class KnowledgeArticlePresenter extends BasePresenter<KnowledgeArticleVie
                     getBaseView().getKnowledgeArticleListFail(code, msg);
                 }
             }
-        }));
+        });
     }
 
     public void collect(ArticleBean item, final CollectView v){

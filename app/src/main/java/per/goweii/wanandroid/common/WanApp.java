@@ -9,6 +9,7 @@ import per.goweii.burred.Blurred;
 import per.goweii.rxhttp.core.RxHttp;
 import per.goweii.swipeback.SwipeBack;
 import per.goweii.wanandroid.http.RxHttpRequestSetting;
+import per.goweii.wanandroid.http.WanCache;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -24,6 +25,7 @@ public class WanApp extends BaseApp {
         super.onCreate();
         RxHttp.init(this);
         RxHttp.initRequest(new RxHttpRequestSetting());
+        WanCache.init();
         Blurred.init(getAppContext());
         CoreInit.getInstance().setOnGoLoginCallback(new SimpleCallback<Activity>() {
             @Override
