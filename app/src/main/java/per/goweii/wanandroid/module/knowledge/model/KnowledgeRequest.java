@@ -28,9 +28,10 @@ public class KnowledgeRequest extends BaseRequest {
                 listener);
     }
 
-    public static void getKnowledgeArticleList(RxLife rxLife, int id, @IntRange(from = 0) int page, @NonNull RequestListener<KnowledgeArticleBean> listener) {
+    public static void getKnowledgeArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 0) int page, @NonNull RequestListener<KnowledgeArticleBean> listener) {
         cacheAndNetBean(rxLife,
                 WanApi.api().getKnowledgeArticleList(page, id),
+                refresh,
                 WanCache.CacheKey.KNOWLEDGE_ARTICLE_LIST(id, page),
                 KnowledgeArticleBean.class,
                 listener);

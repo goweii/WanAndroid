@@ -29,17 +29,19 @@ public class HomeRequest extends BaseRequest {
                 listener);
     }
 
-    public static void getArticleList(RxLife rxLife, @IntRange(from = 0) int page, @NonNull RequestListener<HomeBean> listener) {
+    public static void getArticleList(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, @NonNull RequestListener<HomeBean> listener) {
         cacheAndNetBean(rxLife,
                 WanApi.api().getArticleList(page),
+                refresh,
                 WanCache.CacheKey.ARTICLE_LIST(page),
                 HomeBean.class,
                 listener);
     }
 
-    public static void getTopArticleList(RxLife rxLife, @NonNull RequestListener<List<ArticleBean>> listener) {
+    public static void getTopArticleList(RxLife rxLife, boolean refresh, @NonNull RequestListener<List<ArticleBean>> listener) {
         cacheAndNetList(rxLife,
                 WanApi.api().getTopArticleList(),
+                refresh,
                 WanCache.CacheKey.TOP_ARTICLE_LIST,
                 ArticleBean.class,
                 listener);
@@ -53,9 +55,10 @@ public class HomeRequest extends BaseRequest {
                 listener);
     }
 
-    public static void search(RxLife rxLife, @IntRange(from = 0) int page, String key, @NonNull RequestListener<SearchBean> listener) {
+    public static void search(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, String key, @NonNull RequestListener<SearchBean> listener) {
         cacheAndNetBean(rxLife,
                 WanApi.api().search(page, key),
+                refresh,
                 WanCache.CacheKey.SEARCH(key, page),
                 SearchBean.class,
                 listener);

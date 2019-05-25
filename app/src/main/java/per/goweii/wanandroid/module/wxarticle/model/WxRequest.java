@@ -28,17 +28,19 @@ public class WxRequest extends BaseRequest {
                 listener);
     }
 
-    public static void getWxArticleList(RxLife rxLife, int id, @IntRange(from = 1) int page, @NonNull RequestListener<WxArticleBean> listener) {
+    public static void getWxArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 1) int page, @NonNull RequestListener<WxArticleBean> listener) {
         cacheAndNetBean(rxLife,
                 WanApi.api().getWxArticleList(id, page),
+                refresh,
                 WanCache.CacheKey.WXARTICLE_LIST(id, page),
                 WxArticleBean.class,
                 listener);
     }
 
-    public static void getWxArticleList(RxLife rxLife, int id, @IntRange(from = 1) int page, String key, @NonNull RequestListener<WxArticleBean> listener) {
+    public static void getWxArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 1) int page, String key, @NonNull RequestListener<WxArticleBean> listener) {
         cacheAndNetBean(rxLife,
                 WanApi.api().getWxArticleList(id, page, key),
+                refresh,
                 WanCache.CacheKey.WXARTICLE_LIST_SEARCH(id, page, key),
                 WxArticleBean.class,
                 listener);

@@ -131,7 +131,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         if (event.isShowTopChanged()) {
             if (SettingUtils.getInstance().isShowTop()) {
                 if (mHeaderTopItemViews == null || mHeaderTopItemViews.size() == 0) {
-                    presenter.getTopArticleList();
+                    presenter.getTopArticleList(true);
                 }
             } else {
                 if (mHeaderTopItemViews != null && mHeaderTopItemViews.size() > 0) {
@@ -157,10 +157,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         }
         if (event.isLogin()) {
             if (SettingUtils.getInstance().isShowTop()) {
-                presenter.getTopArticleList();
+                presenter.getTopArticleList(true);
             }
             currPage = PAGE_START;
-            presenter.getArticleList(currPage);
+            presenter.getArticleList(currPage, true);
         } else {
             List<ArticleBean> list = mAdapter.getData();
             for (int i = 0; i < list.size(); i++) {
@@ -216,9 +216,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 currPage = PAGE_START;
                 presenter.getBanner();
                 if (SettingUtils.getInstance().isShowTop()) {
-                    presenter.getTopArticleList();
+                    presenter.getTopArticleList(true);
                 }
-                presenter.getArticleList(currPage);
+                presenter.getArticleList(currPage, true);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -229,7 +229,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                presenter.getArticleList(currPage);
+                presenter.getArticleList(currPage, false);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -268,9 +268,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         MultiStateUtils.toLoading(msv);
         presenter.getBanner();
         if (SettingUtils.getInstance().isShowTop()) {
-            presenter.getTopArticleList();
+            presenter.getTopArticleList(false);
         }
-        presenter.getArticleList(currPage);
+        presenter.getArticleList(currPage, false);
     }
 
     @Override

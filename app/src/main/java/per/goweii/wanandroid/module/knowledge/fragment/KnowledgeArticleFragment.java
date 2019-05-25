@@ -101,7 +101,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         }
         if (event.isLogin()) {
             currPage = PAGE_START;
-            getKnowledgeArticleList();
+            getKnowledgeArticleList(true);
         } else {
             List<ArticleBean> list = mAdapter.getData();
             for (int i = 0; i < list.size(); i++) {
@@ -169,7 +169,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             @Override
             public void onRefresh() {
                 currPage = PAGE_START;
-                getKnowledgeArticleList();
+                getKnowledgeArticleList(true);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -179,7 +179,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                getKnowledgeArticleList();
+                getKnowledgeArticleList(false);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -216,12 +216,12 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
     @Override
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
-        getKnowledgeArticleList();
+        getKnowledgeArticleList(false);
     }
 
-    public void getKnowledgeArticleList() {
+    public void getKnowledgeArticleList(boolean refresh) {
         if (mKnowledgeBean != null) {
-            presenter.getKnowledgeArticleList(mKnowledgeBean.getId(), currPage);
+            presenter.getKnowledgeArticleList(mKnowledgeBean.getId(), currPage, refresh);
         }
     }
 

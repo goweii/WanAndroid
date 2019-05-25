@@ -117,7 +117,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             @Override
             public void onRefresh() {
                 currPage = PAGE_START;
-                presenter.search(currPage, mKey);
+                presenter.search(currPage, mKey, true);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -127,7 +127,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                presenter.search(currPage, mKey);
+                presenter.search(currPage, mKey, false);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -173,7 +173,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         mAdapter.setNewData(null);
         mKey = key;
         currPage = PAGE_START;
-        presenter.search(currPage, key);
+        presenter.search(currPage, key, false);
     }
 
     @Override

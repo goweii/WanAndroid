@@ -20,8 +20,8 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class WxArticlePresenter extends BasePresenter<WxArticleView> {
 
-    public void getWxArticleList(int id, int page){
-        WxRequest.getWxArticleList(getRxLife(), id, page, new RequestListener<WxArticleBean>() {
+    public void getWxArticleList(int id, int page, boolean refresh){
+        WxRequest.getWxArticleList(getRxLife(), refresh, id, page, new RequestListener<WxArticleBean>() {
             @Override
             public void onStart() {
             }
@@ -50,8 +50,8 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
         });
     }
 
-    public void getWxArticleListSearch(int id, int page, String key){
-        WxRequest.getWxArticleList(getRxLife(), id, page, key, new RequestListener<WxArticleBean>() {
+    public void getWxArticleListSearch(int id, int page, String key, boolean refresh){
+        WxRequest.getWxArticleList(getRxLife(), refresh, id, page, key, new RequestListener<WxArticleBean>() {
             @Override
             public void onStart() {
             }

@@ -22,17 +22,19 @@ import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
  */
 public class MineRequest extends BaseRequest {
 
-    public static void getCollectArticleList(RxLife rxLife, int page, @NonNull RequestListener<CollectionArticleBean> listener) {
+    public static void getCollectArticleList(RxLife rxLife, boolean removeAndRefresh, int page, @NonNull RequestListener<CollectionArticleBean> listener) {
         cacheAndNetBean(rxLife,
                 WanApi.api().getCollectArticleList(page),
+                removeAndRefresh,
                 WanCache.CacheKey.COLLECT_ARTICLE_LIST(page),
                 CollectionArticleBean.class,
                 listener);
     }
 
-    public static void getCollectLinkList(RxLife rxLife, @NonNull RequestListener<List<CollectionLinkBean>> listener) {
+    public static void getCollectLinkList(RxLife rxLife, boolean removeAndRefresh, @NonNull RequestListener<List<CollectionLinkBean>> listener) {
         cacheAndNetList(rxLife,
                 WanApi.api().getCollectLinkList(),
+                removeAndRefresh,
                 WanCache.CacheKey.COLLECT_LINK_LIST,
                 CollectionLinkBean.class,
                 listener);

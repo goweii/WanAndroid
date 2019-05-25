@@ -66,7 +66,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         }
         if (event.isCollect()) {
             currPage = 0;
-            presenter.getCollectArticleList(currPage);
+            presenter.getCollectArticleList(currPage, true);
         } else {
             if (event.getArticleId() != -1 || event.getCollectId() != -1) {
                 List<CollectionArticleBean.DatasBean> list = mAdapter.getData();
@@ -121,7 +121,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getCollectArticleList(currPage);
+                presenter.getCollectArticleList(currPage, true);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -131,7 +131,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                presenter.getCollectArticleList(currPage);
+                presenter.getCollectArticleList(currPage, false);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -164,7 +164,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
     @Override
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
-        presenter.getCollectArticleList(currPage);
+        presenter.getCollectArticleList(currPage, false);
     }
 
     @Override

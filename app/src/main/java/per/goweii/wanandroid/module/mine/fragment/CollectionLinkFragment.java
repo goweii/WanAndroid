@@ -67,7 +67,7 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
             return;
         }
         if (event.isCollect()) {
-            presenter.getCollectLinkList();
+            presenter.getCollectLinkList(true);
         } else {
             if (event.getCollectId() != -1) {
                 List<CollectionLinkBean> list = mAdapter.getData();
@@ -115,7 +115,7 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.getCollectLinkList();
+                presenter.getCollectLinkList(true);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -203,7 +203,7 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
     @Override
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
-        presenter.getCollectLinkList();
+        presenter.getCollectLinkList(false);
     }
 
     @Override

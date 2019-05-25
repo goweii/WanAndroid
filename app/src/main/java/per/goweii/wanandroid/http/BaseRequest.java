@@ -100,6 +100,25 @@ public class BaseRequest {
                                               String key,
                                               Class<T> clazz,
                                               RequestListener<List<T>> listener) {
+        cacheAndNetList(rxLife, observable, false, key, clazz, listener);
+    }
+
+    protected static <T> void cacheAndNetList(RxLife rxLife,
+                                              Observable<WanResponse<List<T>>> observable,
+                                              boolean refresh,
+                                              String key,
+                                              Class<T> clazz,
+                                              RequestListener<List<T>> listener) {
+        if (refresh) {
+            rxLife.add(request(observable, listener, new ResponseToCache<List<T>>() {
+                @Override
+                public boolean onResponce(List<T> resp) {
+                    WanCache.getInstance().save(key, resp);
+                    return true;
+                }
+            }));
+            return;
+        }
         rxLife.add(WanCache.getInstance().getList(key, clazz, new CacheListener<List<T>>() {
             @Override
             public void onSuccess(int code, final List<T> data) {
@@ -134,6 +153,25 @@ public class BaseRequest {
                                               String key,
                                               Class<T> clazz,
                                               RequestListener<T> listener) {
+        cacheAndNetBean(rxLife, observable, false, key, clazz, listener);
+    }
+
+    protected static <T> void cacheAndNetBean(RxLife rxLife,
+                                              Observable<WanResponse<T>> observable,
+                                              boolean refresh,
+                                              String key,
+                                              Class<T> clazz,
+                                              RequestListener<T> listener) {
+        if (refresh) {
+            rxLife.add(request(observable, listener, new ResponseToCache<T>() {
+                @Override
+                public boolean onResponce(T resp) {
+                    WanCache.getInstance().save(key, resp);
+                    return true;
+                }
+            }));
+            return;
+        }
         rxLife.add(WanCache.getInstance().getBean(key, clazz, new CacheListener<T>() {
             @Override
             public void onSuccess(int code, T data) {
@@ -163,7 +201,7 @@ public class BaseRequest {
         }));
     }
 
-    public interface ResponseToCache<T>{
+    public interface ResponseToCache<T> {
         boolean onResponce(T resp);
     }
 

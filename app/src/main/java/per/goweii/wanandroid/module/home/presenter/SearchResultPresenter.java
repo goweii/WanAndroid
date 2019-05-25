@@ -23,8 +23,8 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class SearchResultPresenter extends BasePresenter<SearchResultView> {
 
-    public void search(@IntRange(from = 0) int page, String key){
-        HomeRequest.search(getRxLife(), page, key, new RequestListener<SearchBean>() {
+    public void search(@IntRange(from = 0) int page, String key, boolean refresh){
+        HomeRequest.search(getRxLife(), refresh, page, key, new RequestListener<SearchBean>() {
             @Override
             public void onStart() {
             }

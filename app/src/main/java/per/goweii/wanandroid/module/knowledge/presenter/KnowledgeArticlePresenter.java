@@ -22,8 +22,8 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class KnowledgeArticlePresenter extends BasePresenter<KnowledgeArticleView> {
 
-    public void getKnowledgeArticleList(int id, int page){
-        KnowledgeRequest.getKnowledgeArticleList(getRxLife(), id, page, new RequestCallback<KnowledgeArticleBean>() {
+    public void getKnowledgeArticleList(int id, int page, boolean refresh){
+        KnowledgeRequest.getKnowledgeArticleList(getRxLife(), refresh, id, page, new RequestCallback<KnowledgeArticleBean>() {
             @Override
             public void onSuccess(int code, KnowledgeArticleBean data) {
                 if (isAttachView()) {

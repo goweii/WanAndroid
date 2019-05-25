@@ -24,6 +24,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.file.CacheUtils;
+import per.goweii.basic.utils.listener.SimpleListener;
 
 /**
  * @author CuiZhen
@@ -88,6 +89,19 @@ public class WanCache {
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe();
     }
 
+    public Disposable remove(String key, SimpleListener listener) {
+        return Observable.just(key)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<String>() {
+                    @Override
+                    public void accept(String s) throws Exception {
+                        removeSync(s);
+                        listener.onResult();
+                    }
+                });
+    }
+
     public <T> Disposable getBean(String key, Class<T> clazz, CacheListener<T> listener) {
         return Observable.create(new ObservableOnSubscribe<T>() {
             @Override
@@ -132,6 +146,12 @@ public class WanCache {
                 listener.onFailed();
             }
         });
+    }
+
+    private void removeSync(String key) throws IOException {
+        synchronized (getDiskLruCache()) {
+            getDiskLruCache().remove(MD5Coder.encode(key));
+        }
     }
 
     private <T> void saveSync(String key, T bean) throws IOException {

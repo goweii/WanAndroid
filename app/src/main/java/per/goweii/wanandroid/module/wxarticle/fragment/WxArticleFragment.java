@@ -100,7 +100,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         }
         if (event.isLogin()) {
             currPage = PAGE_START;
-            getWxArticleList();
+            getWxArticleList(true);
         } else {
             List<WxArticleBean.DatasBean> list = mAdapter.getData();
             for (int i = 0; i < list.size(); i++) {
@@ -168,7 +168,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
             @Override
             public void onRefresh() {
                 currPage = PAGE_START;
-                getWxArticleList();
+                getWxArticleList(true);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -178,7 +178,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                getWxArticleList();
+                getWxArticleList(false);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -215,12 +215,12 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
     @Override
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
-        getWxArticleList();
+        getWxArticleList(false);
     }
 
-    public void getWxArticleList() {
+    public void getWxArticleList(boolean refresh) {
         if (mWxChapterBean != null) {
-            presenter.getWxArticleList(mWxChapterBean.getId(), currPage);
+            presenter.getWxArticleList(mWxChapterBean.getId(), currPage, refresh);
         }
     }
 

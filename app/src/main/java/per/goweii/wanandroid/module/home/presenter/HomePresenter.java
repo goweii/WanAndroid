@@ -56,8 +56,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
     }
 
-    public void getArticleList(@IntRange(from = 0) int page){
-        HomeRequest.getArticleList(getRxLife(), page, new RequestListener<HomeBean>() {
+    public void getArticleList(@IntRange(from = 0) int page, boolean refresh){
+        HomeRequest.getArticleList(getRxLife(),refresh, page, new RequestListener<HomeBean>() {
             @Override
             public void onStart() {
             }
@@ -86,8 +86,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
     }
 
-    public void getTopArticleList(){
-        HomeRequest.getTopArticleList(getRxLife(), new RequestListener<List<ArticleBean>>() {
+    public void getTopArticleList(boolean refresh){
+        HomeRequest.getTopArticleList(getRxLife(), refresh, new RequestListener<List<ArticleBean>>() {
             @Override
             public void onStart() {
             }

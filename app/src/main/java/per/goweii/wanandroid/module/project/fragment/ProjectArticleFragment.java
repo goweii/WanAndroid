@@ -100,7 +100,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         }
         if (event.isLogin()) {
             currPage = PAGE_START;
-            getProjectArticleList();
+            getProjectArticleList(true);
         } else {
             List<ProjectArticleBean.DatasBean> list = mAdapter.getData();
             for (int i = 0; i < list.size(); i++) {
@@ -168,7 +168,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             @Override
             public void onRefresh() {
                 currPage = PAGE_START;
-                getProjectArticleList();
+                getProjectArticleList(true);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -178,7 +178,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                getProjectArticleList();
+                getProjectArticleList(false);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -215,12 +215,12 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
     @Override
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
-        getProjectArticleList();
+        getProjectArticleList(false);
     }
 
-    public void getProjectArticleList() {
+    public void getProjectArticleList(boolean refresh) {
         if (mProjectChapterBean != null) {
-            presenter.getProjectArticleList(mProjectChapterBean.getId(), currPage);
+            presenter.getProjectArticleList(mProjectChapterBean.getId(), currPage, refresh);
         }
     }
 

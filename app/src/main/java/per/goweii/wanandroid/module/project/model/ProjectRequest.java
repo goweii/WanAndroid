@@ -28,9 +28,10 @@ public class ProjectRequest extends BaseRequest {
                 listener);
     }
 
-    public static void getProjectArticleList(RxLife rxLife, int id, @IntRange(from = 1) int page, @NonNull RequestListener<ProjectArticleBean> listener) {
+    public static void getProjectArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 1) int page, @NonNull RequestListener<ProjectArticleBean> listener) {
         cacheAndNetBean(rxLife,
                 WanApi.api().getProjectArticleList(page, id),
+                refresh,
                 WanCache.CacheKey.PROJECT_ARTICLE_LIST(id, page),
                 ProjectArticleBean.class,
                 listener);
