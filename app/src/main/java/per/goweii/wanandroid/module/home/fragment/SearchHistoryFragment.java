@@ -147,6 +147,7 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
         if (list.size() > max) {
             mHistoryAdapter.remove(list.size() - 1);
         }
+        rv_history.smoothScrollToPosition(0);
         presenter.saveHistory(mHistoryAdapter.getData());
     }
 
