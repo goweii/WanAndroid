@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
@@ -35,6 +36,7 @@ import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.ToastMaker;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
@@ -49,6 +51,7 @@ import per.goweii.wanandroid.module.home.view.HomeView;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
+import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
@@ -64,6 +67,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     private static final int PAGE_START = 0;
 
+    @BindView(R.id.msv)
+    MultiStateView msv;
     @BindView(R.id.abc)
     ActionBarCommon abc;
     @BindView(R.id.srl)
@@ -250,10 +255,17 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             }
         });
         rv.setAdapter(mAdapter);
+        MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
+            @Override
+            public void onResult() {
+                loadData();
+            }
+        });
     }
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
         presenter.getBanner();
         if (SettingUtils.getInstance().isShowTop()) {
             presenter.getTopArticleList();
@@ -398,6 +410,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         mBanner.setImages(urls);
         mBanner.setBannerTitles(titles);
         mBanner.start();
+        MultiStateUtils.toContent(msv);
     }
 
     @Override
@@ -409,6 +422,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         if (currPage == PAGE_START) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
+            MultiStateUtils.toContent(msv);
         } else {
             mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
@@ -430,6 +444,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     @Override
     public void getTopArticleListSuccess(int code, List<ArticleBean> data) {
         createHeaderTopItem(data);
+        MultiStateUtils.toContent(msv);
     }
 
     @Override

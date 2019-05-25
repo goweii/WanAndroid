@@ -116,7 +116,7 @@ public class WanCache {
             @Override
             public void subscribe(ObservableEmitter<List<T>> emitter) throws Exception {
                 List<T> bean = getListSync(key, clazz);
-                if (bean == null || bean.isEmpty()) {
+                if (bean == null) {
                     throw new NullCacheException();
                 }
                 emitter.onNext(bean);
@@ -165,6 +165,9 @@ public class WanCache {
     }
 
     private <T> List<T> jsonToBeanList(String json, Class<T> t) {
+        if (TextUtils.isEmpty(json)) {
+            return null;
+        }
         List<T> list = new ArrayList<>();
         JsonParser parser = new JsonParser();
         JsonArray jsonarray = parser.parse(json).getAsJsonArray();

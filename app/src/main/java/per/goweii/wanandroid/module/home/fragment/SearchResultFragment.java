@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -18,6 +19,7 @@ import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
@@ -27,6 +29,7 @@ import per.goweii.wanandroid.module.home.presenter.SearchResultPresenter;
 import per.goweii.wanandroid.module.home.view.SearchResultView;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
@@ -42,6 +45,8 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     private static final int PAGE_START = 0;
 
+    @BindView(R.id.msv)
+    MultiStateView msv;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.rv)
@@ -148,6 +153,12 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             }
         });
         rv.setAdapter(mAdapter);
+        MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
+            @Override
+            public void onResult() {
+                loadData();
+            }
+        });
     }
 
     @Override
@@ -158,6 +169,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         if (!isAdded()) {
             return;
         }
+        MultiStateUtils.toLoading(msv);
         mAdapter.setNewData(null);
         mKey = key;
         currPage = PAGE_START;
@@ -169,6 +181,11 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         if (currPage == PAGE_START) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
+            if (data.getDatas() == null || data.getDatas().isEmpty()) {
+                MultiStateUtils.toEmpty(msv);
+            } else {
+                MultiStateUtils.toContent(msv);
+            }
         } else {
             mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
@@ -185,5 +202,8 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         ToastMaker.showShort(msg);
         mSmartRefreshUtils.fail();
         mAdapter.loadMoreFail();
+        if (currPage == PAGE_START) {
+            MultiStateUtils.toError(msv);
+        }
     }
 }

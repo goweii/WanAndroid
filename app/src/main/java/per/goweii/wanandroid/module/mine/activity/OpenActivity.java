@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.model.OpenEntity;
+import per.goweii.wanandroid.utils.MultiStateUtils;
 
 /**
  * @author CuiZhen
@@ -31,6 +33,8 @@ import per.goweii.wanandroid.module.mine.model.OpenEntity;
  */
 public class OpenActivity extends BaseActivity {
 
+    @BindView(R.id.msv)
+    MultiStateView msv;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.rv)
@@ -83,6 +87,7 @@ public class OpenActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
         List<OpenEntity> list = new ArrayList<>();
         list.add(new OpenEntity("goweii/RxHttp", "对RxJava2+Retrofit2+OkHttp3的封装", "https://github.com/goweii/RxHttp"));
         list.add(new OpenEntity("goweii/ActionBarEx", "高拓展高自定义性ActionBar，完美替代Android系统默认", "https://github.com/goweii/ActionBarEx"));
@@ -110,6 +115,10 @@ public class OpenActivity extends BaseActivity {
         list.add(new OpenEntity("google/flexbox-layout", "Flexbox for Android", "https://github.com/google/flexbox-layout"));
         list.add(new OpenEntity("youth5201314/banner", "Android广告图片轮播控件，支持无限循环和多种主题，可以灵活设置轮播样式、动画、轮播和切换时间、位置、图片加载框架等！", "https://github.com/youth5201314/banner"));
         list.add(new OpenEntity("mmin18/RealtimeBlurView", "A realtime blurring overlay for Android (like iOS UIVisualEffectView)", "https://github.com/mmin18/RealtimeBlurView"));
+        list.add(new OpenEntity("Kennyc1012/MultiStateView", "Android View that displays different content based on its state", "https://github.com/Kennyc1012/MultiStateView"));
+        list.add(new OpenEntity("JakeWharton/DiskLruCache", "Java implementation of a Disk-based LRU cache which specifically targets Android compatibility.", "https://github.com/JakeWharton/DiskLruCache"));
+        list.add(new OpenEntity("daimajia/AndroidSwipeLayout", "The Most Powerful Swipe Layout!", "https://github.com/daimajia/AndroidSwipeLayout"));
         mAdapter.setNewData(list);
+        MultiStateUtils.toContent(msv);
     }
 }

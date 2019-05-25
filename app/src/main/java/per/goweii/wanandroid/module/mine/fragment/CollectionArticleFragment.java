@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -18,6 +19,7 @@ import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
@@ -27,6 +29,7 @@ import per.goweii.wanandroid.module.mine.adapter.CollectionArticleAdapter;
 import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 import per.goweii.wanandroid.module.mine.presenter.CollectionArticlePresenter;
 import per.goweii.wanandroid.module.mine.view.CollectionArticleView;
+import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
@@ -40,6 +43,8 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class CollectionArticleFragment extends BaseFragment<CollectionArticlePresenter> implements ScrollTop, CollectionArticleView {
 
+    @BindView(R.id.msv)
+    MultiStateView msv;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.rv)
@@ -148,10 +153,17 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             }
         });
         rv.setAdapter(mAdapter);
+        MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
+            @Override
+            public void onResult() {
+                loadData();
+            }
+        });
     }
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
         presenter.getCollectArticleList(currPage);
     }
 
@@ -161,6 +173,11 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         if (currPage == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
+            if (data.getDatas() == null || data.getDatas().isEmpty()) {
+                MultiStateUtils.toEmpty(msv);
+            } else {
+                MultiStateUtils.toContent(msv);
+            }
         } else {
             mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
@@ -176,6 +193,9 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         ToastMaker.showShort(msg);
         mSmartRefreshUtils.fail();
         mAdapter.loadMoreFail();
+        if (currPage == 1) {
+            MultiStateUtils.toError(msv);
+        }
     }
 
     @Override

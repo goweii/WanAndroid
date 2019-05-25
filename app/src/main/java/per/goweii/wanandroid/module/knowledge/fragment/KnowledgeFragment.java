@@ -4,11 +4,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.kennyc.view.MultiStateView;
+
 import java.util.List;
 
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.knowledge.activity.KnowledgeArticleActivity;
@@ -16,6 +19,7 @@ import per.goweii.wanandroid.module.knowledge.adapter.KnowledgeAdapter;
 import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
 import per.goweii.wanandroid.module.knowledge.presenter.KnowledgePresenter;
 import per.goweii.wanandroid.module.knowledge.view.KnowledgeView;
+import per.goweii.wanandroid.utils.MultiStateUtils;
 
 /**
  * @author CuiZhen
@@ -26,6 +30,8 @@ import per.goweii.wanandroid.module.knowledge.view.KnowledgeView;
  */
 public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implements ScrollTop, KnowledgeView {
 
+    @BindView(R.id.msv)
+    MultiStateView msv;
     @BindView(R.id.rv)
     RecyclerView rv;
 
@@ -58,10 +64,17 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
             }
         });
         rv.setAdapter(mAdapter);
+        MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
+            @Override
+            public void onResult() {
+                loadData();
+            }
+        });
     }
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
     }
 
     @Override
@@ -90,10 +103,16 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
     @Override
     public void getKnowledgeListSuccess(int code, List<KnowledgeBean> data) {
         mAdapter.setNewData(data);
+        if (data == null || data.isEmpty()) {
+            MultiStateUtils.toEmpty(msv);
+        } else {
+            MultiStateUtils.toContent(msv);
+        }
     }
 
     @Override
     public void getKnowledgeListFail(int code, String msg) {
         ToastMaker.showShort(msg);
+        MultiStateUtils.toError(msv);
     }
 }

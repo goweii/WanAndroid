@@ -38,6 +38,16 @@
         <item name="ab_titleBarHeight">@dimen/action_bar_height</item>
     </style>
 
+    <style name="StateView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="msv_animateViewChanges">false</item>
+        <item name="msv_emptyView">@layout/layout_state_empty</item>
+        <item name="msv_errorView">@layout/layout_state_error</item>
+        <item name="msv_loadingView">@layout/layout_state_loading</item>
+        <item name="msv_viewState">loading</item>
+    </style>
+
     <style name="ActionBar.Common">
         <item name="abc_titleTextColor">@color/text_white</item>
         <item name="abc_leftIconColor">@color/white</item>

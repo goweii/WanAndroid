@@ -1,18 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.kennyc.view.MultiStateView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/srl"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/bg">
+    android:id="@+id/msv"
+    style="@style/StateView">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/srl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:scrollbars="vertical"
-        tools:layoutmanager="LinearLayoutManager"
-        tools:listitem="@layout/rv_item_article" />
+        android:background="@color/bg">
 
-</com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="never"
+            android:scrollbars="vertical"
+            tools:layoutmanager="LinearLayoutManager"
+            tools:listitem="@layout/rv_item_article" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</com.kennyc.view.MultiStateView>

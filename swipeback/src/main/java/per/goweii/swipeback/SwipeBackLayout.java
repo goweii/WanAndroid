@@ -100,6 +100,7 @@ public class SwipeBackLayout extends FrameLayout {
             mOnlyFromEdge = a.getBoolean(R.styleable.SwipeBackLayout_isSwipeFromEdge, mOnlyFromEdge);
             a.recycle();
         }
+        mTakeOverActivityEnterExitAnimDuration = getContext().getResources().getInteger(R.integer.swipeback_activity_duration);
         mShadowStartColor = shadowStartColor;
         mShadowSize = shadowWidth;
     }
@@ -149,7 +150,7 @@ public class SwipeBackLayout extends FrameLayout {
                 mSwipeBackFraction = 1;
                 mEnterAnimator = ValueAnimator.ofFloat(mSwipeBackFraction, 0);
                 if (mTakeOverActivityEnterExitAnimDuration < 0L) {
-                    mTakeOverActivityEnterExitAnimDuration = mPreviousChildView.getResources().getInteger(android.R.integer.config_shortAnimTime);
+                    mTakeOverActivityEnterExitAnimDuration = mPreviousChildView.getResources().getInteger(R.integer.swipeback_activity_duration);
                 }
                 mEnterAnimator.setDuration(mTakeOverActivityEnterExitAnimDuration);
                 mEnterAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -206,7 +207,7 @@ public class SwipeBackLayout extends FrameLayout {
                 mTakeOverActivityExitAnimRunning = true;
                 mExitAnimator = ValueAnimator.ofFloat(mSwipeBackFraction, 1);
                 if (mTakeOverActivityEnterExitAnimDuration < 0L) {
-                    mTakeOverActivityEnterExitAnimDuration = mPreviousChildView.getResources().getInteger(android.R.integer.config_shortAnimTime);
+                    mTakeOverActivityEnterExitAnimDuration = mPreviousChildView.getResources().getInteger(R.integer.swipeback_activity_duration);
                 }
                 mExitAnimator.setDuration(mTakeOverActivityEnterExitAnimDuration);
                 mExitAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

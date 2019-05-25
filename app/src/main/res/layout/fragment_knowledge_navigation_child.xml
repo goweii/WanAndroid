@@ -6,22 +6,28 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlEnablePureScrollMode="true">
+    <com.kennyc.view.MultiStateView
+        android:id="@+id/msv"
+        style="@style/StateView">
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rv"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:overScrollMode="never"
-            android:paddingBottom="@dimen/bottom_bar_height"
-            android:scrollbars="vertical"
-            tools:layoutmanager="LinearLayoutManager"
-            tools:listitem="@layout/rv_item_knowledge" />
+            app:srlEnablePureScrollMode="true">
 
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingBottom="@dimen/bottom_bar_height"
+                android:scrollbars="vertical"
+                tools:layoutmanager="LinearLayoutManager"
+                tools:listitem="@layout/rv_item_knowledge" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.kennyc.view.MultiStateView>
 
 </LinearLayout>

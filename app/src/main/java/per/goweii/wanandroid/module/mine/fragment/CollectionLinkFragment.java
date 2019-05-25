@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -22,6 +23,7 @@ import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleCallback;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
@@ -32,6 +34,7 @@ import per.goweii.wanandroid.module.mine.adapter.CollectionLinkAdapter;
 import per.goweii.wanandroid.module.mine.dialog.EditCollectLinkDialog;
 import per.goweii.wanandroid.module.mine.presenter.CollectionLinkPresenter;
 import per.goweii.wanandroid.module.mine.view.CollectionLinkView;
+import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 
@@ -44,6 +47,8 @@ import per.goweii.wanandroid.utils.SettingUtils;
  */
 public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter> implements ScrollTop, CollectionLinkView {
 
+    @BindView(R.id.msv)
+    MultiStateView msv;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.rv)
@@ -187,10 +192,17 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
             }
         });
         rv.setAdapter(mAdapter);
+        MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
+            @Override
+            public void onResult() {
+                loadData();
+            }
+        });
     }
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
         presenter.getCollectLinkList();
     }
 
@@ -198,12 +210,18 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
     public void getCollectLinkListSuccess(int code, List<CollectionLinkBean> data) {
         mAdapter.setNewData(data);
         mSmartRefreshUtils.success();
+        if (data == null || data.isEmpty()) {
+            MultiStateUtils.toEmpty(msv);
+        } else {
+            MultiStateUtils.toContent(msv);
+        }
     }
 
     @Override
     public void getCollectLinkListFailed(int code, String msg) {
         ToastMaker.showShort(msg);
         mSmartRefreshUtils.fail();
+        MultiStateUtils.toError(msv);
     }
 
     @Override

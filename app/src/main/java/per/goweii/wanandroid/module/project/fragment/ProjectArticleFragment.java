@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -19,6 +20,7 @@ import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
@@ -30,6 +32,7 @@ import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
 import per.goweii.wanandroid.module.project.model.ProjectChapterBean;
 import per.goweii.wanandroid.module.project.presenter.ProjectArticlePresenter;
 import per.goweii.wanandroid.module.project.view.ProjectArticleView;
+import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
@@ -45,6 +48,8 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
 
     private static final int PAGE_START = 1;
 
+    @BindView(R.id.msv)
+    MultiStateView msv;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.rv)
@@ -199,10 +204,17 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             }
         });
         rv.setAdapter(mAdapter);
+        MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
+            @Override
+            public void onResult() {
+                loadData();
+            }
+        });
     }
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
         getProjectArticleList();
     }
 
@@ -217,6 +229,11 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         if (currPage == PAGE_START) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
+            if (data.getDatas() == null || data.getDatas().isEmpty()) {
+                MultiStateUtils.toEmpty(msv);
+            } else {
+                MultiStateUtils.toContent(msv);
+            }
         } else {
             mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
@@ -233,5 +250,8 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         ToastMaker.showShort(msg);
         mSmartRefreshUtils.fail();
         mAdapter.loadMoreFail();
+        if (currPage == PAGE_START) {
+            MultiStateUtils.toError(msv);
+        }
     }
 }

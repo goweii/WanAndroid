@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -21,6 +22,7 @@ import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.mine.adapter.ReadLaterAdapter;
+import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
@@ -34,6 +36,8 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class ReadLaterActivity extends BaseActivity {
 
+    @BindView(R.id.msv)
+    MultiStateView msv;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.rv)
@@ -108,5 +112,6 @@ public class ReadLaterActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
     }
 }

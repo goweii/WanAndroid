@@ -4,11 +4,14 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.kennyc.view.MultiStateView;
+
 import java.util.List;
 
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
@@ -17,6 +20,7 @@ import per.goweii.wanandroid.module.navigation.adapter.NaviAdapter;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import per.goweii.wanandroid.module.navigation.presenter.NaviPresenter;
 import per.goweii.wanandroid.module.navigation.view.NaviView;
+import per.goweii.wanandroid.utils.MultiStateUtils;
 
 /**
  * @author CuiZhen
@@ -27,6 +31,8 @@ import per.goweii.wanandroid.module.navigation.view.NaviView;
  */
 public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollTop, NaviView {
 
+    @BindView(R.id.msv)
+    MultiStateView msv;
     @BindView(R.id.rv)
     RecyclerView rv;
 
@@ -59,10 +65,17 @@ public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollT
             }
         });
         rv.setAdapter(mAdapter);
+        MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
+            @Override
+            public void onResult() {
+                loadData();
+            }
+        });
     }
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
     }
 
     @Override
@@ -91,10 +104,16 @@ public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollT
     @Override
     public void getNaviListSuccess(int code, List<NaviBean> data) {
         mAdapter.setNewData(data);
+        if (data == null || data.isEmpty()) {
+            MultiStateUtils.toEmpty(msv);
+        } else {
+            MultiStateUtils.toContent(msv);
+        }
     }
 
     @Override
     public void getNaviListFail(int code, String msg) {
         ToastMaker.showShort(msg);
+        MultiStateUtils.toError(msv);
     }
 }
