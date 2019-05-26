@@ -3,6 +3,8 @@
 
 根据鸿洋大神的WanAndroid网站提供的开放API制作
 
+[GitHub主页](https://github.com/goweii/WanAndroid)
+
 
 
 # 前言
@@ -39,17 +41,15 @@
 
 # 截图展示
 
-![](C:\Users\CuiZhen\Desktop\1558863510038.gif)
+![](https://upload-images.jianshu.io/upload_images/9231307-be0daaeb178e2add.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
 
-![](C:\Users\CuiZhen\Documents\Tencent Files\302833254\FileRecv\MobileFile\Screenshot_2019-05-23-20-57-28-033_per.goweii.wan.png)
+![](https://upload-images.jianshu.io/upload_images/9231307-005e8928ae00920b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
 
-![Screenshot_2019-05-23-20-57-53-223_per.goweii.wan](C:\Users\CuiZhen\Documents\Tencent Files\302833254\FileRecv\MobileFile\Screenshot_2019-05-23-20-57-53-223_per.goweii.wan.png)
+![](https://upload-images.jianshu.io/upload_images/9231307-21b76c1e5591d7ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
 
-![Screenshot_2019-05-23-20-58-04-209_per.goweii.wan](C:\Users\CuiZhen\Documents\Tencent Files\302833254\FileRecv\MobileFile\Screenshot_2019-05-23-20-58-04-209_per.goweii.wan.png)
+![](https://upload-images.jianshu.io/upload_images/9231307-4aee4e6eaa53dd9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
 
-![Screenshot_2019-05-23-20-58-11-590_per.goweii.wan](C:\Users\CuiZhen\Documents\Tencent Files\302833254\FileRecv\MobileFile\Screenshot_2019-05-23-20-58-11-590_per.goweii.wan.png)
-
-![Screenshot_2019-05-23-20-58-18-144_per.goweii.wan](C:\Users\CuiZhen\Documents\Tencent Files\302833254\FileRecv\MobileFile\Screenshot_2019-05-23-20-58-18-144_per.goweii.wan.png)
+![](https://upload-images.jianshu.io/upload_images/9231307-abebdbc1e202a53d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
 
 
 
@@ -106,4 +106,3 @@
 ## 1.0.0(1)
 
 - 第一版试水
-
