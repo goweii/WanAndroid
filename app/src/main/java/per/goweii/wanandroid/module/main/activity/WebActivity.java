@@ -26,6 +26,7 @@ import per.goweii.basic.utils.ToastMaker;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
+import per.goweii.wanandroid.utils.RealmHelper;
 
 /**
  * @author CuiZhen
@@ -50,8 +51,9 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     private String mCurrTitle = "";
     private String mCurrUrl = "";
+    private RealmHelper mRealmHelper;
 
-    public static void start(Context context, int articleId, String title, String url){
+    public static void start(Context context, int articleId, String title, String url) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("articleId", articleId);
         intent.putExtra("title", title);
@@ -59,7 +61,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         context.startActivity(intent);
     }
 
-    public static void start(Context context, String title, String author, String url){
+    public static void start(Context context, String title, String author, String url) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("author", author);
@@ -67,7 +69,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         context.startActivity(intent);
     }
 
-    public static void start(Context context, String title, String url){
+    public static void start(Context context, String title, String url) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("url", url);
@@ -91,6 +93,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         mTitle = getIntent().getStringExtra("title");
         mAuthor = getIntent().getStringExtra("author");
         mUrl = getIntent().getStringExtra("url");
+        mCurrUrl = mUrl;
+        mCurrTitle = mTitle;
 
         // forceHttpsForAndroid9();
 
@@ -98,7 +102,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         abc.setOnLeftImageClickListener(new OnLeftIconClickListener() {
             @Override
             public void onClick() {
-                if (!mAgentWeb.back()){
+                if (!mAgentWeb.back()) {
                     finish();
                 }
             }
@@ -126,6 +130,10 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
                     @Override
                     public void onReadLater() {
+                        if (mRealmHelper != null) {
+                            mRealmHelper.add(mCurrTitle, mCurrUrl);
+                            ToastMaker.showShort("已加入稍后阅读");
+                        }
                     }
 
                     @Override
@@ -135,6 +143,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 });
             }
         });
+
+        mRealmHelper = RealmHelper.create();
     }
 
     @Override
@@ -146,7 +156,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 .setMainFrameErrorView(R.layout.layout_agent_web_error, R.id.iv_404)
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
                 // .interceptUnkownUrl()
-                .setWebChromeClient(new WebChromeClient(){
+                .setWebChromeClient(new WebChromeClient() {
                     @Override
                     public void onReceivedTitle(WebView view, String title) {
                         super.onReceivedTitle(view, title);
@@ -179,6 +189,9 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     @Override
     protected void onDestroy() {
         mAgentWeb.getWebLifeCycle().onDestroy();
+        if (mRealmHelper != null) {
+            mRealmHelper.destroy();
+        }
         super.onDestroy();
     }
 
@@ -190,7 +203,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         return super.onKeyDown(keyCode, event);
     }
 
-    private void forceHttpsForAndroid9(){
+    private void forceHttpsForAndroid9() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
             return;
         }

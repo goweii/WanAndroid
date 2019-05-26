@@ -8,12 +8,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseActivity;
@@ -21,11 +22,13 @@ import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.SettingChangeEvent;
+import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.adapter.ReadLaterAdapter;
+import per.goweii.wanandroid.module.mine.model.ReadLaterEntity;
 import per.goweii.wanandroid.utils.MultiStateUtils;
+import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
-import per.goweii.wanandroid.widget.CollectView;
 
 /**
  * @author CuiZhen
@@ -46,7 +49,9 @@ public class ReadLaterActivity extends BaseActivity {
     private SmartRefreshUtils mSmartRefreshUtils;
     private ReadLaterAdapter mAdapter;
 
+    private int perPageCount = 20;
     private int currPage = 0;
+    private RealmHelper mRealmHelper;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, ReadLaterActivity.class);
@@ -86,6 +91,8 @@ public class ReadLaterActivity extends BaseActivity {
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
             @Override
             public void onRefresh() {
+                currPage = 0;
+                getPageList();
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -95,23 +102,76 @@ public class ReadLaterActivity extends BaseActivity {
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                getPageList();
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                final ReadLaterEntity item = mAdapter.getItem(position);
+                if (item != null) {
+                    WebActivity.start(getContext(), item.getTitle(), item.getLink());
+                }
             }
         });
-        mAdapter.setOnCollectViewClickListener(new ReadLaterAdapter.OnCollectViewClickListener() {
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onClick(BaseViewHolder helper, CollectView v, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                ReadLaterEntity item = mAdapter.getItem(position);
+                if (item == null) {
+                    return;
+                }
+                switch (view.getId()) {
+                    default:
+                        break;
+                    case R.id.iv_remove:
+                        mRealmHelper.delete(item.getLink());
+                        mAdapter.remove(position);
+                        if (mAdapter.getData().isEmpty()) {
+                            MultiStateUtils.toEmpty(msv);
+                        } else {
+                            MultiStateUtils.toContent(msv);
+                        }
+                        break;
+                }
             }
         });
         rv.setAdapter(mAdapter);
+
+        mRealmHelper = RealmHelper.create();
     }
 
     @Override
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
+        currPage = 0;
+        getPageList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mRealmHelper != null) {
+            mRealmHelper.destroy();
+        }
+        super.onDestroy();
+    }
+
+    public void getPageList() {
+        List<ReadLaterEntity> list = mRealmHelper.get(currPage, perPageCount);
+        if (currPage == 0) {
+            mAdapter.setNewData(list);
+            if (list.isEmpty()) {
+                MultiStateUtils.toEmpty(msv);
+            } else {
+                MultiStateUtils.toContent(msv);
+            }
+        } else {
+            mAdapter.addData(list);
+        }
+        if (list.size() < perPageCount) {
+            mAdapter.loadMoreEnd();
+        }
+        mSmartRefreshUtils.success();
+        currPage++;
     }
 }

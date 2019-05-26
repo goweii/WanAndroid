@@ -2,6 +2,7 @@ package per.goweii.wanandroid.common;
 
 import android.app.Activity;
 
+import io.realm.Realm;
 import per.goweii.basic.core.CoreInit;
 import per.goweii.basic.core.base.BaseApp;
 import per.goweii.basic.utils.listener.SimpleCallback;
@@ -33,6 +34,7 @@ public class WanApp extends BaseApp {
                 UserUtils.getInstance().doIfLogin(data);
             }
         });
+        Realm.init(this);
         SwipeBack.init(this);
     }
 }

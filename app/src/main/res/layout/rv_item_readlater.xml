@@ -22,7 +22,7 @@
         tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
 
     <TextView
-        android:id="@+id/tv_url"
+        android:id="@+id/tv_time"
         android:layout_width="0dp"
         android:layout_below="@+id/tv_title"
         android:layout_alignParentLeft="true"
@@ -35,7 +35,7 @@
         android:layout_marginTop="5dp"
         android:textColor="@color/text_gray_light"
         android:textSize="@dimen/text_notes"
-        tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
+        tools:text="2019-01-19" />
 
     <ImageView
         android:id="@+id/iv_remove"
