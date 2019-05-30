@@ -226,7 +226,8 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
 
     @Override
     public void getProjectArticleListSuccess(int code, ProjectArticleBean data) {
-        if (currPage == PAGE_START) {
+        currPage = data.getCurPage();
+        if (currPage == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {

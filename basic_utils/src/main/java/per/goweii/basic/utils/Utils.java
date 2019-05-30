@@ -3,6 +3,8 @@ package per.goweii.basic.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 
+import per.goweii.burred.Blurred;
+
 /**
  * @author Cuizhen
  */
@@ -15,7 +17,7 @@ public class Utils {
         Utils.context = context;
         LogUtils.init(context);
         ToastMaker.init(context);
-        // Blurred.init(context);
+        Blurred.init(context);
     }
 
     public static Context getAppContext() {

@@ -227,7 +227,8 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
 
     @Override
     public void getKnowledgeArticleListSuccess(int code, KnowledgeArticleBean data) {
-        if (currPage == PAGE_START) {
+        currPage = data.getCurPage();
+        if (currPage == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
@@ -239,7 +240,6 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
         }
-        currPage++;
         if (data.isOver()) {
             mAdapter.loadMoreEnd();
         }

@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.mine.model;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
 import java.util.List;
@@ -22,13 +23,17 @@ import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
  */
 public class MineRequest extends BaseRequest {
 
-    public static void getCollectArticleList(RxLife rxLife, boolean removeAndRefresh, int page, @NonNull RequestListener<CollectionArticleBean> listener) {
-        cacheAndNetBean(rxLife,
-                WanApi.api().getCollectArticleList(page),
-                removeAndRefresh,
-                WanCache.CacheKey.COLLECT_ARTICLE_LIST(page),
-                CollectionArticleBean.class,
-                listener);
+    public static void getCollectArticleList(RxLife rxLife, boolean removeAndRefresh, @IntRange(from = 0) int page, @NonNull RequestListener<CollectionArticleBean> listener) {
+        if (page == 0) {
+            cacheAndNetBean(rxLife,
+                    WanApi.api().getCollectArticleList(page),
+                    removeAndRefresh,
+                    WanCache.CacheKey.COLLECT_ARTICLE_LIST(page),
+                    CollectionArticleBean.class,
+                    listener);
+        } else {
+            rxLife.add(request(WanApi.api().getCollectArticleList(page), listener));
+        }
     }
 
     public static void getCollectLinkList(RxLife rxLife, boolean removeAndRefresh, @NonNull RequestListener<List<CollectionLinkBean>> listener) {

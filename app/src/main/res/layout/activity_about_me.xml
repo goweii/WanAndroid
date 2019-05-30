@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/bg">
 
     <ImageView
@@ -11,25 +11,57 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg"
+        tools:background="@color/main"
         android:scaleType="centerCrop" />
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/srl"
+    <com.daimajia.swipe.SwipeLayout
+        android:id="@+id/sl"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/about_me_blur_overlay"
-        app:srlEnablePureScrollMode="true"
-        tools:background="@color/dialog_bg">
+        app:drag_edge="bottom"
+        app:show_mode="pull_out">
 
         <RelativeLayout
-            android:id="@+id/rl_info_reward"
+            android:id="@+id/rl_reward"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <RelativeLayout
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="60dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginRight="60dp"
+                android:layout_marginBottom="60dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <per.goweii.percentimageview.percentimageview.PercentImageView
+                    android:id="@+id/piv_qq_qrcode"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:piv_basics="height"
+                    app:piv_percent="0.85" />
+
+                <per.goweii.percentimageview.percentimageview.PercentImageView
+                    android:id="@+id/piv_wx_qrcode"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="60dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    app:piv_basics="height"
+                    app:piv_percent="0.85" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
                 android:id="@+id/rl_info"
-                android:visibility="invisible"
-                tools:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -151,85 +183,43 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_white_alpha"
-                    android:layout_marginBottom="10dp"
+                    android:layout_above="@+id/tv_to_reward"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginLeft="30dp"
                     android:layout_marginRight="30dp"
-                    android:layout_centerHorizontal="true"
-                    android:layout_above="@+id/tv_to_reward"
+                    android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:textSize="@dimen/text_auxiliary"
-                    android:text="如果你觉得APP做得还不错并对你有所帮助\n欢迎打赏，金额不限"/>
+                    android:text="如果你觉得APP做得还不错并对你有所帮助\n欢迎打赏，金额不限"
+                    android:textColor="@color/text_white_alpha"
+                    android:textSize="@dimen/text_auxiliary" />
 
                 <TextView
                     android:id="@+id/tv_to_reward"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_white_alpha"
-                    android:layout_marginBottom="10dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_above="@+id/iv_to_reward"
-                    android:textSize="@dimen/text_auxiliary"
-                    android:text="上滑打赏"/>
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="上滑打赏"
+                    android:textColor="@color/text_white_alpha"
+                    android:textSize="@dimen/text_auxiliary" />
 
                 <ImageView
                     android:id="@+id/iv_to_reward"
                     android:layout_width="18dp"
                     android:layout_height="18dp"
-                    android:alpha="0.6"
-                    android:layout_marginBottom="10dp"
-                    android:layout_centerHorizontal="true"
                     android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:alpha="0.6"
+                    android:rotation="90"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_back"
-                    android:rotation="90"
-                    android:tint="@color/white"/>
+                    android:tint="@color/white" />
 
             </RelativeLayout>
 
-            <RelativeLayout
-                android:id="@+id/rl_reward"
-                android:visibility="invisible"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginLeft="60dp"
-                    android:layout_marginTop="100dp"
-                    android:layout_marginRight="60dp"
-                    android:layout_marginBottom="60dp"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <per.goweii.percentimageview.percentimageview.PercentImageView
-                        android:id="@+id/piv_qq_qrcode"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitCenter"
-                        app:piv_basics="height"
-                        app:piv_percent="0.85" />
-
-                    <per.goweii.percentimageview.percentimageview.PercentImageView
-                        android:id="@+id/piv_wx_qrcode"
-                        android:layout_width="0dp"
-                        android:layout_height="0dp"
-                        android:layout_marginTop="60dp"
-                        android:layout_weight="1"
-                        android:scaleType="fitCenter"
-                        app:piv_basics="height"
-                        app:piv_percent="0.85" />
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        </RelativeLayout>
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </com.daimajia.swipe.SwipeLayout>
 
     <per.goweii.actionbarex.ActionBarCommon
         android:id="@+id/abc"

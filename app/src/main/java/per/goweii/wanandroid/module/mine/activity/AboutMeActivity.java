@@ -7,7 +7,6 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -16,12 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
-import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
+import com.daimajia.swipe.SwipeLayout;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -46,8 +40,8 @@ import per.goweii.wanandroid.utils.ImageLoader;
  */
 public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements AboutMeView {
 
-    @BindView(R.id.srl)
-    SmartRefreshLayout srl;
+    @BindView(R.id.sl)
+    SwipeLayout sl;
     @BindView(R.id.iv_blur)
     ImageView iv_blur;
     @BindView(R.id.civ_icon)
@@ -92,59 +86,6 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
     @Override
     protected void initView() {
         changeVisible(View.INVISIBLE, civ_icon, tv_name, tv_sign, ll_github, ll_jianshu);
-        srl.setOnMultiPurposeListener(new OnMultiPurposeListener() {
-            @Override
-            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
-                if (percent > 1) {
-                    doTranslationYAnim(rl_info, 0);
-                    doTranslationYAnim(rl_reward, rl_info.getMeasuredHeight());
-                }
-            }
-
-            @Override
-            public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
-            }
-
-            @Override
-            public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int maxDragHeight) {
-            }
-
-            @Override
-            public void onHeaderFinish(RefreshHeader header, boolean success) {
-            }
-
-            @Override
-            public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
-                if (percent > 1) {
-                    doTranslationYAnim(rl_info, -rl_info.getMeasuredHeight());
-                    doTranslationYAnim(rl_reward, 0);
-                }
-            }
-
-            @Override
-            public void onFooterReleased(RefreshFooter footer, int footerHeight, int maxDragHeight) {
-            }
-
-            @Override
-            public void onFooterStartAnimator(RefreshFooter footer, int footerHeight, int maxDragHeight) {
-            }
-
-            @Override
-            public void onFooterFinish(RefreshFooter footer, boolean success) {
-            }
-
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-            }
-
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-            }
-
-            @Override
-            public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
-            }
-        });
     }
 
     @Override
@@ -279,14 +220,14 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
                 doDelayShowAnim(800, 60, civ_icon, tv_name, tv_sign, ll_github, ll_jianshu);
             }
         });
-        rl_info.post(new Runnable() {
-            @Override
-            public void run() {
-                rl_info.setVisibility(View.VISIBLE);
-                rl_reward.setTranslationY(rl_info.getMeasuredHeight());
-                rl_reward.setVisibility(View.VISIBLE);
-            }
-        });
+//        rl_info.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                rl_info.setVisibility(View.VISIBLE);
+//                rl_reward.setTranslationY(rl_info.getMeasuredHeight());
+//                rl_reward.setVisibility(View.VISIBLE);
+//            }
+//        });
     }
 
     @Override

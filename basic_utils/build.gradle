@@ -5,4 +5,5 @@ android {
 }
 
 dependencies {
+    api rootProject.ext.dependencies.blurred
 }

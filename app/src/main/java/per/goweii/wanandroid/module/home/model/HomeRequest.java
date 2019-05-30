@@ -30,12 +30,16 @@ public class HomeRequest extends BaseRequest {
     }
 
     public static void getArticleList(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, @NonNull RequestListener<HomeBean> listener) {
-        cacheAndNetBean(rxLife,
-                WanApi.api().getArticleList(page),
-                refresh,
-                WanCache.CacheKey.ARTICLE_LIST(page),
-                HomeBean.class,
-                listener);
+        if (page == 0) {
+            cacheAndNetBean(rxLife,
+                    WanApi.api().getArticleList(page),
+                    refresh,
+                    WanCache.CacheKey.ARTICLE_LIST(page),
+                    HomeBean.class,
+                    listener);
+        } else {
+            rxLife.add(request(WanApi.api().getArticleList(page), listener));
+        }
     }
 
     public static void getTopArticleList(RxLife rxLife, boolean refresh, @NonNull RequestListener<List<ArticleBean>> listener) {
@@ -56,12 +60,16 @@ public class HomeRequest extends BaseRequest {
     }
 
     public static void search(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, String key, @NonNull RequestListener<SearchBean> listener) {
-        cacheAndNetBean(rxLife,
-                WanApi.api().search(page, key),
-                refresh,
-                WanCache.CacheKey.SEARCH(key, page),
-                SearchBean.class,
-                listener);
+        if (page == 0) {
+            cacheAndNetBean(rxLife,
+                    WanApi.api().search(page, key),
+                    refresh,
+                    WanCache.CacheKey.SEARCH(key, page),
+                    SearchBean.class,
+                    listener);
+        } else {
+            rxLife.add(request(WanApi.api().search(page, key), listener));
+        }
     }
 
 }

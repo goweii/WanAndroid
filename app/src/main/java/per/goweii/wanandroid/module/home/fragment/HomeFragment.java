@@ -419,7 +419,8 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     public void getArticleListSuccess(int code, HomeBean data) {
-        if (currPage == PAGE_START) {
+        currPage = data.getCurPage();
+        if (currPage == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             MultiStateUtils.toContent(msv);
@@ -427,7 +428,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
         }
-        currPage++;
         if (data.isOver()) {
             mAdapter.loadMoreEnd();
         }

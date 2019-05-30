@@ -29,21 +29,29 @@ public class WxRequest extends BaseRequest {
     }
 
     public static void getWxArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 1) int page, @NonNull RequestListener<WxArticleBean> listener) {
-        cacheAndNetBean(rxLife,
-                WanApi.api().getWxArticleList(id, page),
-                refresh,
-                WanCache.CacheKey.WXARTICLE_LIST(id, page),
-                WxArticleBean.class,
-                listener);
+        if (page == 1) {
+            cacheAndNetBean(rxLife,
+                    WanApi.api().getWxArticleList(id, page),
+                    refresh,
+                    WanCache.CacheKey.WXARTICLE_LIST(id, page),
+                    WxArticleBean.class,
+                    listener);
+        } else {
+            rxLife.add(request(WanApi.api().getWxArticleList(id, page), listener));
+        }
     }
 
     public static void getWxArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 1) int page, String key, @NonNull RequestListener<WxArticleBean> listener) {
-        cacheAndNetBean(rxLife,
-                WanApi.api().getWxArticleList(id, page, key),
-                refresh,
-                WanCache.CacheKey.WXARTICLE_LIST_SEARCH(id, page, key),
-                WxArticleBean.class,
-                listener);
+        if (page == 1) {
+            cacheAndNetBean(rxLife,
+                    WanApi.api().getWxArticleList(id, page, key),
+                    refresh,
+                    WanCache.CacheKey.WXARTICLE_LIST_SEARCH(id, page, key),
+                    WxArticleBean.class,
+                    listener);
+        } else {
+            rxLife.add(request(WanApi.api().getWxArticleList(id, page, key), listener));
+        }
     }
 
 }

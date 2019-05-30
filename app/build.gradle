@@ -6,8 +6,9 @@ apply from: "../module.gradle"
 android {
     defaultConfig {
         applicationId rootProject.ext.android.applicationId
-        defaultConfig {
-            renderscriptSupportModeEnabled true
+        renderscriptSupportModeEnabled true
+        ndk {
+            abiFilters /*'armeabi' ,*/'armeabi-v7a'/*, 'arm64-v8a'*/
         }
     }
     resourcePrefix ""
