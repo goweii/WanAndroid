@@ -16,6 +16,7 @@ public class SwipeBackActivity extends AppCompatActivity {
         mSwipeBack.setForceEdgeEnable(supportForceEdge());
         mSwipeBack.setSwipeDirection(supportSwipeDirection());
         mSwipeBack.getSwipeBackLayout().setShadowStartColor(0);
+        mSwipeBack.getSwipeBackLayout().setOnlyFromEdge(supportOnlyEdge());
     }
 
     @Override
@@ -49,6 +50,10 @@ public class SwipeBackActivity extends AppCompatActivity {
 
     protected boolean supportForceEdge() {
         return true;
+    }
+
+    protected boolean supportOnlyEdge() {
+        return false;
     }
 
     protected boolean supportTakeOverActivityEnterExitAnim() {

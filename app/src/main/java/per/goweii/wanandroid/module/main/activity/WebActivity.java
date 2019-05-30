@@ -27,6 +27,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
 import per.goweii.wanandroid.utils.RealmHelper;
+import per.goweii.wanandroid.utils.SettingUtils;
 
 /**
  * @author CuiZhen
@@ -74,6 +75,11 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         intent.putExtra("title", title);
         intent.putExtra("url", url);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected boolean supportOnlyEdge() {
+        return SettingUtils.getInstance().isWebSwipeBackEdge();
     }
 
     @Override

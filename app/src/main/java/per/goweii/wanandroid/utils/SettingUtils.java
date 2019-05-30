@@ -16,6 +16,7 @@ public class SettingUtils {
     private static final String KEY_SHOW_TOP = "KEY_SHOW_TOP";
     private static final String KEY_HIDE_ABOUT_ME = "KEY_HIDE_ABOUT_ME";
     private static final String KEY_HIDE_OPEN = "KEY_HIDE_OPEN";
+    private static final String KEY_WEB_SWIPE_BACK_EDGE = "KEY_WEB_SWIPE_BACK_EDGE";
     private static final String KEY_RV_ANIM = "KEY_RV_ANIM";
     private static final String KEY_SEARCH_HISTORY_MAX_COUNT = "KEY_SEARCH_HISTORY_MAX_COUNT";
     private static final String KEY_UPDATE_IGNORE_DURATION = "KEY_UPDATE_IGNORE_DURATION";
@@ -63,6 +64,14 @@ public class SettingUtils {
 
     public boolean isHideOpen() {
         return mSPUtils.get(KEY_HIDE_OPEN, false);
+    }
+
+    public void setWebSwipeBackEdge(boolean webSwipeBackEdge) {
+        mSPUtils.save(KEY_WEB_SWIPE_BACK_EDGE, webSwipeBackEdge);
+    }
+
+    public boolean isWebSwipeBackEdge() {
+        return mSPUtils.get(KEY_WEB_SWIPE_BACK_EDGE, false);
     }
 
     public void setRvAnim(int anim) {

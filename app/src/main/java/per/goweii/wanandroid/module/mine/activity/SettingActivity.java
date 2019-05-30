@@ -58,6 +58,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     SwitchCompat sc_hide_about_me;
     @BindView(R.id.sc_hide_open)
     SwitchCompat sc_hide_open;
+    @BindView(R.id.sc_web_swipeback_edge)
+    SwitchCompat sc_web_swipeback_edge;
     @BindView(R.id.tv_rv_anim)
     TextView tv_rv_anim;
     @BindView(R.id.tv_cache)
@@ -105,6 +107,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         sc_hide_about_me.setChecked(mHideAboutMe);
         mHideOpen = SettingUtils.getInstance().isHideOpen();
         sc_hide_open.setChecked(mHideOpen);
+        sc_web_swipeback_edge.setChecked(SettingUtils.getInstance().isWebSwipeBackEdge());
         mRvAnim = SettingUtils.getInstance().getRvAnim();
         tv_rv_anim.setText(RvAnimUtils.getName(mRvAnim));
         sc_show_top.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -129,6 +132,12 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
                 SettingUtils.getInstance().setHideOpen(isChecked);
+            }
+        });
+        sc_web_swipeback_edge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+                SettingUtils.getInstance().setWebSwipeBackEdge(isChecked);
             }
         });
         if (UserUtils.getInstance().isLogin()) {
