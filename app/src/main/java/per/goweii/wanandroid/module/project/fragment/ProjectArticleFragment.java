@@ -34,6 +34,7 @@ import per.goweii.wanandroid.module.project.presenter.ProjectArticlePresenter;
 import per.goweii.wanandroid.module.project.view.ProjectArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -132,9 +133,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             return;
         }
         if (isAdded() && !isDetached()) {
-            if (rv != null) {
-                rv.smoothScrollToPosition(0);
-            }
+            RvScrollTopUtils.smoothScrollTop(rv);
         }
     }
 

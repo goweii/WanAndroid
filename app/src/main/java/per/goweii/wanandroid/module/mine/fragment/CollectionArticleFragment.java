@@ -31,6 +31,7 @@ import per.goweii.wanandroid.module.mine.presenter.CollectionArticlePresenter;
 import per.goweii.wanandroid.module.mine.view.CollectionArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -201,9 +202,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
     @Override
     public void scrollTop() {
         if (isAdded() && !isDetached()) {
-            if (rv != null) {
-                rv.smoothScrollToPosition(0);
-            }
+            RvScrollTopUtils.smoothScrollTop(rv);
         }
     }
 }

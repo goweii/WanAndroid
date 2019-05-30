@@ -21,6 +21,7 @@ import per.goweii.wanandroid.module.home.activity.SearchActivity;
 import per.goweii.wanandroid.module.home.model.HotKeyBean;
 import per.goweii.wanandroid.module.home.presenter.SearchHistoryPresenter;
 import per.goweii.wanandroid.module.home.view.SearchHistoryView;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 
 /**
@@ -147,7 +148,7 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
         if (list.size() > max) {
             mHistoryAdapter.remove(list.size() - 1);
         }
-        rv_history.smoothScrollToPosition(0);
+        RvScrollTopUtils.smoothScrollTop(rv_history);
         presenter.saveHistory(mHistoryAdapter.getData());
     }
 

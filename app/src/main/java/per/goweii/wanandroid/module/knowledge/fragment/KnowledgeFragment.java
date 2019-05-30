@@ -20,6 +20,7 @@ import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
 import per.goweii.wanandroid.module.knowledge.presenter.KnowledgePresenter;
 import per.goweii.wanandroid.module.knowledge.view.KnowledgeView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 
 /**
  * @author CuiZhen
@@ -94,9 +95,7 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
     @Override
     public void scrollTop() {
         if (isAdded() && !isDetached()) {
-            if (rv != null) {
-                rv.smoothScrollToPosition(0);
-            }
+            RvScrollTopUtils.smoothScrollTop(rv);
         }
     }
 

@@ -21,6 +21,7 @@ import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import per.goweii.wanandroid.module.navigation.presenter.NaviPresenter;
 import per.goweii.wanandroid.module.navigation.view.NaviView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 
 /**
  * @author CuiZhen
@@ -95,9 +96,7 @@ public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollT
     @Override
     public void scrollTop() {
         if (isAdded() && !isDetached()) {
-            if (rv != null) {
-                rv.smoothScrollToPosition(0);
-            }
+            RvScrollTopUtils.smoothScrollTop(rv);
         }
     }
 
