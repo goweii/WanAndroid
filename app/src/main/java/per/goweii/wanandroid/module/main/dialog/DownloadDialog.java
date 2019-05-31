@@ -15,7 +15,7 @@ import per.goweii.anypermission.AnyPermission;
 import per.goweii.anypermission.RequestListener;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.ToastMaker;
-import per.goweii.basic.utils.Utils;
+import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.file.CacheUtils;
 import per.goweii.basic.utils.file.FileUtils;
 import per.goweii.rxhttp.download.DownloadInfo;
@@ -68,7 +68,7 @@ public class DownloadDialog {
     }
 
     private void startDownload() {
-        DownloadInfo info = DownloadInfo.create(url, CacheUtils.getCacheDir(), Utils.getAppContext().getPackageName() + "-v" + versionName + ".apk");
+        DownloadInfo info = DownloadInfo.create(url, CacheUtils.getCacheDir(), MD5Coder.encode(url) + ".apk");
         mRxDownload = RxDownload.create(info)
                 .setProgressListener(new RxDownload.ProgressListener() {
                     @Override
