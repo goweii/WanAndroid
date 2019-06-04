@@ -45,9 +45,9 @@ E-mail:goweii@163.com
 
 8、离线缓存
 
-9、更换头像（开发时间待定...基于本地）
+9、更换头像
 
-10、更换个人中心背景（开发时间待定...基于本地）
+10、更换个人中心背景
 
 
 
@@ -101,13 +101,19 @@ E-mail:goweii@163.com
 
 # APP下载
 
-- [下载最新版](https://github.com/goweii/WanAndroidServer/raw/master/update/per.goweii.wanandroid-v1.0.1.apk)
+- [下载最新版](https://github.com/goweii/WanAndroidServer/raw/master/update/per.goweii.wanandroid-v1.0.6.apk)
 
 - [查看历史版本](https://github.com/goweii/WanAndroidServer/tree/master/update)
 
 
 
 # 更新日志
+
+## 1.0.6(7)
+
+- 搜索记录去重
+- 支持更换个人头像
+- 支持更换个人中心背景图
 
 ## 1.0.5(6)
 

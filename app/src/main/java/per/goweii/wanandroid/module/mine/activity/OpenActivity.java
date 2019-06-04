@@ -99,6 +99,7 @@ public class OpenActivity extends BaseActivity {
         list.add(new OpenEntity("goweii/Blurred", "Android高斯模糊库", "https://github.com/goweii/Blurred"));
         list.add(new OpenEntity("goweii/AnyPermission", "Android权限申请（运行时权限、未知应用安装权限、悬浮窗权限、显示通知和访问通知权限）", "https://github.com/goweii/AnyPermission"));
         list.add(new OpenEntity("goweii/KeyboardCompat", "", "https://github.com/goweii/KeyboardCompat"));
+        list.add(new OpenEntity("goweii/PictureSelector", "forked from LuckSiege/PictureSelector. Picture Selector Library for Android  多图片及音视频选择器", "https://github.com/goweii/PictureSelector"));
         list.add(new OpenEntity("JakeWharton/butterknife", "Bind Android views and callbacks to fields and methods.", "https://github.com/JakeWharton/butterknife"));
         list.add(new OpenEntity("greenrobot/EventBus", "Event bus for Android and Java that simplifies communication between Activities, Fragments, Threads, Services, etc. Less code, better quality.", "https://github.com/greenrobot/EventBus"));
         list.add(new OpenEntity("Justson/AgentWeb", "AgentWeb is a powerful library based on Android WebView.", "https://github.com/Justson/AgentWeb"));
