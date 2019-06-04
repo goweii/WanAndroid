@@ -10,7 +10,7 @@ import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.ActionBarCommon;
+import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.basic.core.adapter.MultiFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;

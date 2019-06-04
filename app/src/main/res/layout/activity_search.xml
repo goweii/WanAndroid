@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".module.main.activity.MainActivity">
 
-    <per.goweii.actionbarex.ActionBarSearch
+    <per.goweii.actionbarex.common.ActionBarSearch
         android:id="@+id/abs"
         app:abs_leftIconRes="@drawable/ic_back"
         app:abs_leftIconColor="@color/white"

@@ -6,10 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.widget.ImageView;
 
 import butterknife.BindView;
 import per.goweii.actionbarex.ActionBarEx;
-import per.goweii.actionbarex.IconView;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
@@ -57,7 +57,7 @@ public class CollectionActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        IconView ivBack = ab.getView(R.id.action_bar_fixed_magic_indicator_iv_back);
+        ImageView ivBack = ab.getView(R.id.action_bar_fixed_magic_indicator_iv_back);
         ivBack.setVisibility(View.VISIBLE);
         ivBack.setOnClickListener(new View.OnClickListener() {
             @Override

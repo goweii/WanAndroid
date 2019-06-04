@@ -221,7 +221,7 @@
 
     </com.daimajia.swipe.SwipeLayout>
 
-    <per.goweii.actionbarex.ActionBarCommon
+    <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         android:background="@color/transparent"

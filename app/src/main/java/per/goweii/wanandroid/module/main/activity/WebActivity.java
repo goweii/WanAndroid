@@ -6,6 +6,7 @@ import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
@@ -16,9 +17,8 @@ import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.ActionBarCommon;
-import per.goweii.actionbarex.listener.OnLeftIconClickListener;
-import per.goweii.actionbarex.listener.OnRightIconClickListener;
+import per.goweii.actionbarex.common.ActionBarCommon;
+import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.ResUtils;
@@ -105,17 +105,17 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         // forceHttpsForAndroid9();
 
         abc.getTitleTextView().setText(mTitle);
-        abc.setOnLeftImageClickListener(new OnLeftIconClickListener() {
+        abc.setOnLeftIconClickListener(new OnActionBarChildClickListener() {
             @Override
-            public void onClick() {
+            public void onClick(View v) {
                 if (!mAgentWeb.back()) {
                     finish();
                 }
             }
         });
-        abc.setOnRightImageClickListener(new OnRightIconClickListener() {
+        abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
-            public void onClick() {
+            public void onClick(View v) {
                 WebMenuDialog.show(abc, new WebMenuDialog.OnMenuClickListener() {
                     @Override
                     public void onCollect() {

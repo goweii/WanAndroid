@@ -7,7 +7,7 @@
     android:orientation="vertical"
     tools:context=".module.main.activity.MainActivity">
 
-    <per.goweii.actionbarex.ActionBarCommon
+    <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         app:abc_titleTextMaxWidth="200dp"

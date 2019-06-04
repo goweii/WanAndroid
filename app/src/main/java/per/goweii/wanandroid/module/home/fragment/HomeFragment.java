@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.ActionBarCommon;
-import per.goweii.actionbarex.listener.OnRightIconClickListener;
+import per.goweii.actionbarex.common.ActionBarCommon;
+import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.utils.ResUtils;
@@ -203,9 +203,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     protected void initView() {
-        abc.setOnRightImageClickListener(new OnRightIconClickListener() {
+        abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
-            public void onClick() {
+            public void onClick(View v) {
                 SearchActivity.start(getContext());
             }
         });

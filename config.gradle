@@ -33,7 +33,7 @@ ext {
             anyPermission      : "1.1.0",
             anyDialog          : "3.0.3",
             anyLayer           : "2.3.1",
-            actionBarEx        : "2.2.11",
+            actionBarEx        : "3.0.0",
             percentImageView   : "1.0.2",
             roundedimageview   : "2.3.0",
             circleimageview    : "2.2.0",

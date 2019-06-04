@@ -7,7 +7,7 @@
     android:background="@color/bg"
     android:orientation="vertical">
 
-    <per.goweii.actionbarex.ActionBarCommon
+    <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         app:abc_titleText="稍后阅读" />

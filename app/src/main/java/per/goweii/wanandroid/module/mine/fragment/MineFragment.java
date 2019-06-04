@@ -20,8 +20,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import per.goweii.actionbarex.ActionBarCommon;
-import per.goweii.actionbarex.listener.OnRightIconClickListener;
+import per.goweii.actionbarex.common.ActionBarCommon;
+import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.LoginEvent;
@@ -108,9 +108,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
 
     @Override
     protected void initView() {
-        abc.setOnRightImageClickListener(new OnRightIconClickListener() {
+        abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
-            public void onClick() {
+            public void onClick(View v) {
                 UserUtils.getInstance().logout();
             }
         });

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/bg">
 
-    <per.goweii.actionbarex.ActionBarCommon
+    <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         app:abc_titleText="关于" />

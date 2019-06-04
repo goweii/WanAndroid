@@ -7,12 +7,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.FrameLayout;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.ActionBarSearch;
-import per.goweii.actionbarex.listener.OnLeftIconClickListener;
-import per.goweii.actionbarex.listener.OnRightTextClickListener;
+import per.goweii.actionbarex.common.ActionBarSearch;
+import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.utils.EditTextUtils;
@@ -59,9 +59,9 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        abs.setOnLeftImageClickListener(new OnLeftIconClickListener() {
+        abs.setOnLeftIconClickListener(new OnActionBarChildClickListener() {
             @Override
-            public void onClick() {
+            public void onClick(View v) {
                 if (mIsResultPage) {
                     showHistoryFragment();
                 } else {
@@ -69,9 +69,9 @@ public class SearchActivity extends BaseActivity {
                 }
             }
         });
-        abs.setOnRightTextClickListener(new OnRightTextClickListener() {
+        abs.setOnRightTextClickListener(new OnActionBarChildClickListener() {
             @Override
-            public void onClick() {
+            public void onClick(View v) {
                 String key = abs.getEditTextView().getText().toString();
                 search(key);
             }

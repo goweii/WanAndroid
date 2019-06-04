@@ -14,7 +14,7 @@
         android:overScrollMode="never"
         android:scrollbars="none" />
 
-    <per.goweii.actionbarex.IconView
+    <per.goweii.actionbarex.common.ActionBarIconView
         android:id="@+id/action_bar_fixed_magic_indicator_iv_back"
         style="@style/action_bar_icon"
         android:visibility="gone"

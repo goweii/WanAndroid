@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -142,11 +143,21 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
     }
 
     public void addHistory(String key) {
-        mHistoryAdapter.addData(0, key);
-        int max = SettingUtils.getInstance().getSearchHistoryMaxCount();
-        List<String> list = mHistoryAdapter.getData();
-        if (list.size() > max) {
-            mHistoryAdapter.remove(list.size() - 1);
+        List<String> datas = mHistoryAdapter.getData();
+        int index = datas.indexOf(key);
+        if (index == 0) {
+            return;
+        }
+        if (index >= 0) {
+            Collections.swap(datas, index, 0);
+            mHistoryAdapter.notifyItemMoved(index, 0);
+        } else {
+            mHistoryAdapter.addData(0, key);
+            int max = SettingUtils.getInstance().getSearchHistoryMaxCount();
+            List<String> list = mHistoryAdapter.getData();
+            if (list.size() > max) {
+                mHistoryAdapter.remove(list.size() - 1);
+            }
         }
         RvScrollTopUtils.smoothScrollTop(rv_history);
         presenter.saveHistory(mHistoryAdapter.getData());
