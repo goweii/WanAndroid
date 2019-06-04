@@ -300,7 +300,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         mBanner.setImageLoader(new com.youth.banner.loader.ImageLoader() {
             @Override
             public void displayImage(Context context, Object url, ImageView imageView) {
-                ImageLoader.image(imageView, (String) url);
+                ImageLoader.banner(imageView, (String) url);
             }
         });
         mBanner.setIndicatorGravity(BannerConfig.CENTER);

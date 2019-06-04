@@ -18,6 +18,8 @@ public class ImageLoader {
 
     public static void image(ImageView imageView, String url){
         GlideHelper.with(imageView.getContext())
+                .errorHolder(R.drawable.image_holder)
+                .placeHolder(R.drawable.image_holder)
                 .cache(true)
                 .load(url)
                 .into(imageView);
@@ -25,6 +27,8 @@ public class ImageLoader {
 
     public static void banner(ImageView imageView, String url){
         GlideHelper.with(imageView.getContext())
+                .errorHolder(R.drawable.image_holder)
+                .placeHolder(R.drawable.image_holder)
                 .cache(true)
                 .load(url)
                 .into(imageView);
@@ -32,6 +36,8 @@ public class ImageLoader {
 
     public static void userIcon(ImageView imageView, String url){
         GlideHelper.with(imageView.getContext())
+//                .errorHolder(R.drawable.image_holder)
+//                .placeHolder(R.drawable.image_holder)
                 .cache(true)
                 .load(url)
                 .into(imageView);
@@ -43,6 +49,8 @@ public class ImageLoader {
             return;
         }
         GlideHelper.with(imageView.getContext())
+//                .errorHolder(R.drawable.image_holder)
+//                .placeHolder(R.drawable.image_holder)
                 .cache(true)
                 .load(url)
                 .transformation(new BlurTransformation(0.2F))
@@ -51,6 +59,8 @@ public class ImageLoader {
 
     public static void userBlur(ImageView imageView, int res){
         GlideHelper.with(imageView.getContext())
+//                .errorHolder(R.drawable.image_holder)
+//                .placeHolder(R.drawable.image_holder)
                 .cache(true)
                 .load(res)
                 .transformation(new BlurTransformation(0.2F))

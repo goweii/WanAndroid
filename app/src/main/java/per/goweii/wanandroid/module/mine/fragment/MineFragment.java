@@ -1,7 +1,9 @@
 package per.goweii.wanandroid.module.mine.fragment;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -35,7 +37,9 @@ import per.goweii.wanandroid.module.mine.activity.SettingActivity;
 import per.goweii.wanandroid.module.mine.presenter.MinePresenter;
 import per.goweii.wanandroid.module.mine.view.MineView;
 import per.goweii.wanandroid.utils.ImageLoader;
+import per.goweii.wanandroid.utils.PictureSelectorUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.UserInfoUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -46,6 +50,9 @@ import per.goweii.wanandroid.utils.UserUtils;
  * GitHub: https://github.com/goweii
  */
 public class MineFragment extends BaseFragment<MinePresenter> implements MineView {
+
+    private static final int REQUEST_CODE_SELECT_USER_ICON = 1;
+    private static final int REQUEST_CODE_SELECT_BG = 2;
 
     @BindView(R.id.abc)
     ActionBarCommon abc;
@@ -166,6 +173,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         rl_user_info.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
+                if (UserUtils.getInstance().doIfLogin(getContext())) {
+                    PictureSelectorUtils.ofImage(MineFragment.this, REQUEST_CODE_SELECT_BG);
+                }
                 return true;
             }
         });
@@ -177,7 +187,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         changeUserInfo();
     }
 
-    private void changeMenuVisible(){
+    private void changeMenuVisible() {
         SettingUtils settingUtils = SettingUtils.getInstance();
         if (settingUtils.isShowReadLater()) {
             ll_read_later.setVisibility(View.VISIBLE);
@@ -196,11 +206,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         }
     }
 
-    private void changeUserInfo(){
+    private void changeUserInfo() {
         if (UserUtils.getInstance().isLogin()) {
             LoginBean bean = UserUtils.getInstance().getLoginBean();
-            ImageLoader.userIcon(civ_user_icon, bean.getIcon());
-            ImageLoader.userBlur(iv_blur, bean.getIcon());
+            ImageLoader.userIcon(civ_user_icon, UserInfoUtils.getInstance().getIcon());
+            ImageLoader.userBlur(iv_blur, UserInfoUtils.getInstance().getBg());
             tv_user_name.setText(bean.getUsername());
             tv_user_id.setText(bean.getId() + "");
         } else {
@@ -228,6 +238,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 break;
             case R.id.civ_user_icon:
                 if (UserUtils.getInstance().doIfLogin(getContext())) {
+                    PictureSelectorUtils.ofImage(this, REQUEST_CODE_SELECT_USER_ICON);
                 }
                 break;
             case R.id.tv_user_name:
@@ -257,4 +268,28 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            default:
+                break;
+            case REQUEST_CODE_SELECT_USER_ICON:
+                String userIconPath = PictureSelectorUtils.forResult(resultCode, data);
+                if (!TextUtils.isEmpty(userIconPath)) {
+                    UserInfoUtils.getInstance().setIcon(userIconPath);
+                    UserInfoUtils.getInstance().setBg(userIconPath);
+                    ImageLoader.userIcon(civ_user_icon, userIconPath);
+                    ImageLoader.userBlur(iv_blur, userIconPath);
+                }
+                break;
+            case REQUEST_CODE_SELECT_BG:
+                String bgPath = PictureSelectorUtils.forResult(resultCode, data);
+                if (!TextUtils.isEmpty(bgPath)) {
+                    UserInfoUtils.getInstance().setBg(bgPath);
+                    ImageLoader.userBlur(iv_blur, bgPath);
+                }
+                break;
+        }
+    }
 }
