@@ -78,7 +78,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     @Override
-    protected boolean supportOnlyEdge() {
+    protected boolean swipeBackOnlyEdge() {
         return SettingUtils.getInstance().isWebSwipeBackEdge();
     }
 

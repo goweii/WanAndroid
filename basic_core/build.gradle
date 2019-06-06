@@ -6,7 +6,6 @@ android {
 
 dependencies {
     api project(":basic_ui")
-    api project(":swipeback")
 
     implementation rootProject.ext.dependencies.multidex
 
@@ -20,4 +19,5 @@ dependencies {
     }
     api rootProject.ext.dependencies.rxHttp
     api rootProject.ext.dependencies.anyPermission
+    api 'com.github.goweii:SwipeBack:1.0.1'
 }
