@@ -8,7 +8,6 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
-import per.goweii.wanandroid.http.WanCache;
 
 /**
  * @author CuiZhen
@@ -44,11 +43,12 @@ public class MainRequest extends BaseRequest {
     }
 
     public static void update(RxLife rxLife, @NonNull RequestListener<UpdateBean> listener) {
-        cacheAndNetBean(rxLife,
-                WanApi.api().update(),
-                WanCache.CacheKey.UPDATE,
-                UpdateBean.class,
-                listener);
+//        cacheAndNetBean(rxLife,
+//                WanApi.api().update(),
+//                WanCache.CacheKey.UPDATE,
+//                UpdateBean.class,
+//                listener);
+        rxLife.add(request(WanApi.api().update(), listener));
     }
 
 }
