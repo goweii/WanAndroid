@@ -7,8 +7,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import per.goweii.actionbarex.common.ActionBarSearch;
@@ -74,6 +77,19 @@ public class SearchActivity extends BaseActivity {
             public void onClick(View v) {
                 String key = abs.getEditTextView().getText().toString();
                 search(key);
+            }
+        });
+        abs.getEditTextView().setSingleLine();
+        abs.getEditTextView().setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        abs.getEditTextView().setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if ((actionId == EditorInfo.IME_ACTION_SEARCH)) {
+                    String key = abs.getEditTextView().getText().toString();
+                    search(key);
+                    return true;
+                }
+                return false;
             }
         });
         mFm = getSupportFragmentManager();

@@ -7,18 +7,6 @@
 
 
 
-# 求职（2019-05-30~今）
-
-感觉最近不是招聘旺季，大多数职位都停止招聘了。唉，离职时间不赶趟呀。
-
-有没有大佬有内推的，欢迎联系。
-
-QQ:302833254
-
-E-mail:goweii@163.com
-
-
-
 # 前言
 
 开发初期主要是为了试水一些自己开发的开源框架，但是后面发现本人对这个APP的使用频率还是挺高的，在坐地铁的时候都会拿出来刷一刷文章。所以决定把这个APP做好看，做好用，不至于影响刷文章的心情。
@@ -48,6 +36,13 @@ E-mail:goweii@163.com
 9、更换头像
 
 10、更换个人中心背景
+
+
+
+# APP下载
+
+- [下载最新版](https://github.com/goweii/WanAndroidServer/raw/master/update/per.goweii.wanandroid-v1.0.8.apk)
+- [查看历史版本](https://github.com/goweii/WanAndroidServer/tree/master/update)
 
 
 
@@ -99,15 +94,12 @@ E-mail:goweii@163.com
 
 
 
-# APP下载
-
-- [下载最新版](https://github.com/goweii/WanAndroidServer/raw/master/update/per.goweii.wanandroid-v1.0.6.apk)
-
-- [查看历史版本](https://github.com/goweii/WanAndroidServer/tree/master/update)
-
-
-
 # 更新日志
+
+## 1.0.8(9)
+
+- 优化网页滑动返回
+- 优化搜索体验
 
 ## 1.0.7(8)
 

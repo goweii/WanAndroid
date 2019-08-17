@@ -54,10 +54,10 @@ public class WanApi extends Api {
 
     public interface ApiService {
 
-        @GET("https://raw.githubusercontent.com/goweii/WanAndroidServer/master/update/update.json")
+        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/update/update.json")
         Observable<WanResponse<UpdateBean>> update();
 
-        @GET("https://raw.githubusercontent.com/goweii/WanAndroidServer/master/update/about_me.json")
+        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/about/about_me.json")
         Observable<WanResponse<AboutMeBean>> getAboutMe();
 
         /**
