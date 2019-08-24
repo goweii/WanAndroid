@@ -41,8 +41,8 @@
 
 # APP下载
 
-- [下载最新版](https://github.com/goweii/WanAndroidServer/raw/master/update/per.goweii.wanandroid-v1.0.8.apk)
-- [查看历史版本](https://github.com/goweii/WanAndroidServer/tree/master/update)
+- [下载最新版](https://github.com/goweii/WanAndroid/releases/download/1.0.9/per.goweii.wanandroid-v1.0.9.apk)
+- [查看历史版本](https://github.com/goweii/WanAndroid/releases)
 
 
 
