@@ -135,15 +135,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                     presenter.getTopArticleList(true);
                 }
             } else {
-                if (mHeaderTopItemViews != null && mHeaderTopItemViews.size() > 0) {
-                    for (View view : mHeaderTopItemViews) {
-                        mAdapter.removeHeaderView(view);
-                    }
-                    mHeaderTopItemViews.clear();
-                    mHeaderTopItemBeans.clear();
-                }
-                mHeaderTopItemViews = null;
-                mHeaderTopItemBeans = null;
+                removeHeaderTopItems();
             }
         }
         if (event.isShowBannerChanged()) {
@@ -398,8 +390,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         });
     }
 
-    private void createHeaderTopItem(List<ArticleBean> data) {
-        mHeaderTopItemBeans = data;
+    private void removeHeaderTopItems() {
         if (mHeaderTopItemViews != null) {
             for (View view : mHeaderTopItemViews) {
                 mAdapter.removeHeaderView(view);
@@ -407,6 +398,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             mHeaderTopItemViews.clear();
             mHeaderTopItemViews = null;
         }
+        if (mHeaderTopItemBeans != null) {
+            mHeaderTopItemBeans.clear();
+            mHeaderTopItemBeans = null;
+        }
+    }
+
+    private void createHeaderTopItems(List<ArticleBean> data) {
+        removeHeaderTopItems();
+        mHeaderTopItemBeans = data;
         if (mHeaderTopItemBeans == null || mHeaderTopItemBeans.isEmpty()) {
             return;
         }
@@ -473,7 +473,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     @Override
     public void getTopArticleListSuccess(int code, List<ArticleBean> data) {
         MultiStateUtils.toContent(msv);
-        createHeaderTopItem(data);
+        createHeaderTopItems(data);
     }
 
     @Override
