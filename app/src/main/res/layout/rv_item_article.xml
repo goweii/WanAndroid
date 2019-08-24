@@ -12,7 +12,8 @@
     <RelativeLayout
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
 
         <LinearLayout
             android:id="@+id/ll_new"
@@ -49,7 +50,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ll_new"
             android:textColor="@color/text_gray_dark"
-            android:textSize="@dimen/text_auxiliary"
+            android:textSize="@dimen/text_notes"
             tools:text="林帅并不帅" />
 
         <TextView
@@ -99,6 +100,7 @@
             android:background="@color/bg"
             android:scaleType="centerCrop"
             android:visibility="gone"
+            tools:src="@drawable/image_holder"
             app:riv_corner_radius="3dp"
             app:riv_mutate_background="true"
             tools:visibility="visible" />

@@ -21,6 +21,7 @@ dependencies {
     implementation rootProject.ext.dependencies.agentWeb
     implementation rootProject.ext.dependencies.banner
     implementation rootProject.ext.dependencies.persistentCookieJar
+    implementation rootProject.ext.dependencies.lottie
     implementation 'com.github.goweii:RevealLayout:1.1.1'
     implementation 'com.github.goweii:AnyView:1.0.2'
     implementation 'com.github.goweii:KeyboardCompat:1.0.0'

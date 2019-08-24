@@ -50,6 +50,7 @@ ext {
 
             tinypinyin         : "2.0.3",
             blurred            : "1.0.1",
+            lottie            : "2.7.0",
     ]
 
     dependencies = [
@@ -92,5 +93,6 @@ ext {
 
             //tinypinyin             : "com.github.promeg:tinypinyin:$versions.tinypinyin",
             blurred                : "com.github.goweii:blurred:$versions.blurred",
+            lottie                : "com.airbnb.android:lottie:$versions.lottie",
     ]
 }
