@@ -104,6 +104,6 @@ public class SettingUtils {
     }
 
     public long getUpdateIgnoreDuration() {
-        return mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, 3 * 24 * 60 * 60 * 1000L);
+        return mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, 7 * 24 * 60 * 60 * 1000L);
     }
 }
