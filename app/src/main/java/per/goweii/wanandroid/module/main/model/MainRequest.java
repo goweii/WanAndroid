@@ -43,11 +43,6 @@ public class MainRequest extends BaseRequest {
     }
 
     public static void update(RxLife rxLife, @NonNull RequestListener<UpdateBean> listener) {
-//        cacheAndNetBean(rxLife,
-//                WanApi.api().update(),
-//                WanCache.CacheKey.UPDATE,
-//                UpdateBean.class,
-//                listener);
         rxLife.add(request(WanApi.api().update(), listener));
     }
 
