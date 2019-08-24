@@ -13,8 +13,8 @@
 
     <!--=======================通用颜色==========================-->
     <!--主题色-->
-    <color name="main">#2196F3</color>
-    <color name="accent">#f44336</color>
+    <color name="main">#4282f4</color>
+    <color name="accent">#f86734</color>
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
     <color name="white_alpha">#ccffffff</color>
