@@ -47,7 +47,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements S
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_project;
     }
 
@@ -84,6 +84,11 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements S
     @Override
     protected void loadData() {
         presenter.getProjectChapters();
+    }
+
+    @Override
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
     }
 
     @Override

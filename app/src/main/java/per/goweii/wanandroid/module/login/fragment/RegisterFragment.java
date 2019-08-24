@@ -47,7 +47,7 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_register;
     }
 
@@ -72,17 +72,19 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     }
 
     @Override
-    protected void onVisibleChange(boolean visible) {
-        super.onVisibleChange(visible);
-        if (visible) {
-            mKeyboardHelper = KeyboardHelper.attach(mActivity)
-                    .init(mActivity.getRl_input(), sv_register, piv_account.getEditText(), piv_password.getEditText(), piv_password_again.getEditText())
-                    .moveWithTranslation();
-        } else {
-            if (mKeyboardHelper != null) {
-                mKeyboardHelper.detach();
-                mKeyboardHelper = null;
-            }
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        mKeyboardHelper = KeyboardHelper.attach(mActivity)
+                .init(mActivity.getRl_input(), sv_register, piv_account.getEditText(), piv_password.getEditText(), piv_password_again.getEditText())
+                .moveWithTranslation();
+    }
+
+    @Override
+    public void onInvisible() {
+        super.onInvisible();
+        if (mKeyboardHelper != null) {
+            mKeyboardHelper.detach();
+            mKeyboardHelper = null;
         }
     }
 

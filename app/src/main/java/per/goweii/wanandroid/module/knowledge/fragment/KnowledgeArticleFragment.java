@@ -144,7 +144,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_knowledge_article;
     }
 
@@ -207,15 +207,23 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
             @Override
             public void onResult() {
-                loadData();
+                MultiStateUtils.toLoading(msv);
+                getKnowledgeArticleList(false);
             }
         });
     }
 
     @Override
     protected void loadData() {
-        MultiStateUtils.toLoading(msv);
-        getKnowledgeArticleList(false);
+    }
+
+    @Override
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        if (isFirstVisible) {
+            MultiStateUtils.toLoading(msv);
+            getKnowledgeArticleList(false);
+        }
     }
 
     public void getKnowledgeArticleList(boolean refresh) {

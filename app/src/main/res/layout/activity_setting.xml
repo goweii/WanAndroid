@@ -118,6 +118,46 @@
                     android:paddingBottom="14dp">
 
                     <TextView
+                        android:id="@+id/tv_show_banner_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="显示轮播图"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_show_banner_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_below="@+id/tv_show_banner_title"
+                        android:text="开启后首页显示轮播图"
+                        android:layout_toLeftOf="@+id/sc_show_banner"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="80dp"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/sc_show_banner"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_press_color_white"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp">
+
+                    <TextView
                         android:id="@+id/tv_hide_about_me_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

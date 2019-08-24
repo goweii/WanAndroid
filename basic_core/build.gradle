@@ -14,10 +14,9 @@ dependencies {
     api rootProject.ext.dependencies.gson
     api rootProject.ext.dependencies.glide
     annotationProcessor rootProject.ext.dependencies.glideCompiler
-    implementation(rootProject.ext.dependencies.glideOkhttp3) {
-        exclude group: "com.android.support"
-    }
+    implementation rootProject.ext.dependencies.glideOkhttp3
     api rootProject.ext.dependencies.rxHttp
     api rootProject.ext.dependencies.anyPermission
     api 'com.github.goweii:SwipeBack:1.0.4'
+    api 'com.github.goweii.LazyFragment:lazyfragment:1.1.2'
 }

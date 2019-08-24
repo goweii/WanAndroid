@@ -105,7 +105,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_collection_article;
     }
 
@@ -157,15 +157,23 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
             @Override
             public void onResult() {
-                loadData();
+                MultiStateUtils.toLoading(msv);
+                presenter.getCollectArticleList(currPage, false);
             }
         });
     }
 
     @Override
     protected void loadData() {
-        MultiStateUtils.toLoading(msv);
-        presenter.getCollectArticleList(currPage, false);
+    }
+
+    @Override
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        if (isFirstVisible) {
+            MultiStateUtils.toLoading(msv);
+            presenter.getCollectArticleList(currPage, false);
+        }
     }
 
     @Override

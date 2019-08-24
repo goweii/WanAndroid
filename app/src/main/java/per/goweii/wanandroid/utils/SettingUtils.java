@@ -14,6 +14,7 @@ public class SettingUtils {
     private static final String SP_NAME = "setting";
     private static final String KEY_SHOW_READ_LATER = "KEY_SHOW_READ_LATER";
     private static final String KEY_SHOW_TOP = "KEY_SHOW_TOP";
+    private static final String KEY_SHOW_BANNER = "KEY_SHOW_BANNER";
     private static final String KEY_HIDE_ABOUT_ME = "KEY_HIDE_ABOUT_ME";
     private static final String KEY_HIDE_OPEN = "KEY_HIDE_OPEN";
     private static final String KEY_WEB_SWIPE_BACK_EDGE = "KEY_WEB_SWIPE_BACK_EDGE";
@@ -48,6 +49,14 @@ public class SettingUtils {
 
     public boolean isShowTop() {
         return mSPUtils.get(KEY_SHOW_TOP, true);
+    }
+
+    public void setShowBanner(boolean showBanner) {
+        mSPUtils.save(KEY_SHOW_BANNER, showBanner);
+    }
+
+    public boolean isShowBanner() {
+        return mSPUtils.get(KEY_SHOW_BANNER, true);
     }
 
     public void setHideAboutMe(boolean hideAboutMe) {

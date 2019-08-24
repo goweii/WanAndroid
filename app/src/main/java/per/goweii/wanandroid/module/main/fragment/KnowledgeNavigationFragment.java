@@ -40,7 +40,7 @@ public class KnowledgeNavigationFragment extends BaseFragment implements ScrollT
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_knowledge_navigation;
     }
 
@@ -69,6 +69,11 @@ public class KnowledgeNavigationFragment extends BaseFragment implements ScrollT
 
     @Override
     protected void loadData() {
+    }
+
+    @Override
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
     }
 
     @Override

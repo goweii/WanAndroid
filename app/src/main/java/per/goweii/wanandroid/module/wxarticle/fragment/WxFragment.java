@@ -47,7 +47,7 @@ public class WxFragment extends BaseFragment<WxPresenter> implements ScrollTop, 
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_wx;
     }
 
@@ -84,6 +84,11 @@ public class WxFragment extends BaseFragment<WxPresenter> implements ScrollTop, 
     @Override
     protected void loadData() {
         presenter.getWxArticleChapters();
+    }
+
+    @Override
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
     }
 
     @Override

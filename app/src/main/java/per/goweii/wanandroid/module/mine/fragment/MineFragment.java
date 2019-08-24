@@ -103,7 +103,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_mine;
     }
 
@@ -185,6 +185,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     @Override
     protected void loadData() {
         changeUserInfo();
+    }
+
+    @Override
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
     }
 
     private void changeMenuVisible() {

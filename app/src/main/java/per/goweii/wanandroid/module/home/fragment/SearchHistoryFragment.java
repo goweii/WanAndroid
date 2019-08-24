@@ -47,7 +47,7 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_search_history;
     }
 

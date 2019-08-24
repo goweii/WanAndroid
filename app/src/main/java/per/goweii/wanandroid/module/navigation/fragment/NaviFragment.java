@@ -44,7 +44,7 @@ public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollT
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_knowledge_navigation_child;
     }
 
@@ -69,26 +69,21 @@ public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollT
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
             @Override
             public void onResult() {
-                loadData();
+                MultiStateUtils.toLoading(msv);
+                presenter.getKnowledgeList();
             }
         });
     }
 
     @Override
     protected void loadData() {
-        MultiStateUtils.toLoading(msv);
     }
 
     @Override
-    protected void onVisibleFirst() {
-        super.onVisibleFirst();
-        presenter.getKnowledgeList();
-    }
-
-    @Override
-    protected void onVisible() {
-        super.onVisible();
-        if (mAdapter.getData().isEmpty()) {
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        if (isFirstVisible) {
+            MultiStateUtils.toLoading(msv);
             presenter.getKnowledgeList();
         }
     }

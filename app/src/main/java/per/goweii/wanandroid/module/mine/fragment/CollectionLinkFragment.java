@@ -99,7 +99,7 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_collection_link;
     }
 
@@ -196,7 +196,8 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
             @Override
             public void onResult() {
-                loadData();
+                MultiStateUtils.toLoading(msv);
+                presenter.getCollectLinkList(false);
             }
         });
     }
@@ -205,6 +206,15 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
         presenter.getCollectLinkList(false);
+    }
+
+    @Override
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        if (isFirstVisible) {
+            MultiStateUtils.toLoading(msv);
+            presenter.getCollectLinkList(false);
+        }
     }
 
     @Override

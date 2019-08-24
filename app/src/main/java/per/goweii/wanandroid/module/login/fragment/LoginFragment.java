@@ -45,7 +45,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_login;
     }
 
@@ -71,17 +71,19 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     }
 
     @Override
-    protected void onVisibleChange(boolean visible) {
-        super.onVisibleChange(visible);
-        if (visible) {
-            mKeyboardHelper = KeyboardHelper.attach(mActivity)
-                    .init(mActivity.getRl_input(), sv_login, piv_account.getEditText(), piv_password.getEditText())
-                    .moveWithTranslation();
-        } else {
-            if (mKeyboardHelper != null) {
-                mKeyboardHelper.detach();
-                mKeyboardHelper = null;
-            }
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        mKeyboardHelper = KeyboardHelper.attach(mActivity)
+                .init(mActivity.getRl_input(), sv_login, piv_account.getEditText(), piv_password.getEditText())
+                .moveWithTranslation();
+    }
+
+    @Override
+    public void onInvisible() {
+        super.onInvisible();
+        if (mKeyboardHelper != null) {
+            mKeyboardHelper.detach();
+            mKeyboardHelper = null;
         }
     }
 

@@ -143,7 +143,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_wx_article;
     }
 
@@ -206,15 +206,23 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
             @Override
             public void onResult() {
-                loadData();
+                MultiStateUtils.toLoading(msv);
+                getWxArticleList(false);
             }
         });
     }
 
     @Override
     protected void loadData() {
-        MultiStateUtils.toLoading(msv);
-        getWxArticleList(false);
+    }
+
+    @Override
+    public void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        if (isFirstVisible) {
+            MultiStateUtils.toLoading(msv);
+            getWxArticleList(false);
+        }
     }
 
     public void getWxArticleList(boolean refresh) {

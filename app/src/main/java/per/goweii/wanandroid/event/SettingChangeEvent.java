@@ -11,6 +11,7 @@ public class SettingChangeEvent extends BaseEvent {
 
     private boolean showReadLaterChanged;
     private boolean showTopChanged;
+    private boolean showBannerChanged;
     private boolean hideAboutMeChanged;
     private boolean hideOpenChanged;
     private boolean rvAnimChanged;
@@ -20,7 +21,8 @@ public class SettingChangeEvent extends BaseEvent {
 
     @Override
     public void post() {
-        if (showReadLaterChanged || showTopChanged || hideAboutMeChanged || hideOpenChanged || rvAnimChanged) {
+        if (showReadLaterChanged || showTopChanged || showBannerChanged ||
+                hideAboutMeChanged || hideOpenChanged || rvAnimChanged) {
             super.post();
         }
     }
@@ -39,6 +41,14 @@ public class SettingChangeEvent extends BaseEvent {
 
     public void setShowTopChanged(boolean showTopChanged) {
         this.showTopChanged = showTopChanged;
+    }
+
+    public boolean isShowBannerChanged() {
+        return showBannerChanged;
+    }
+
+    public void setShowBannerChanged(boolean showBannerChanged) {
+        this.showBannerChanged = showBannerChanged;
     }
 
     public boolean isHideAboutMeChanged() {

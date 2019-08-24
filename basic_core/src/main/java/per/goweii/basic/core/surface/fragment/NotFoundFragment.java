@@ -25,7 +25,7 @@ public class NotFoundFragment extends BaseFragment {
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.basic_core_fragment_not_found;
     }
 

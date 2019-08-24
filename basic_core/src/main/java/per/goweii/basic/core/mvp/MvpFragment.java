@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.view.View;
 
 import per.goweii.basic.utils.ClickHelper;
+import per.goweii.lazyfragment.LazyFragment;
 
 /**
  * @author Cuizhen
@@ -25,7 +26,7 @@ public abstract class MvpFragment<T extends MvpPresenter> extends LazyFragment i
      */
     @Override
     @LayoutRes
-    protected abstract int getLayoutId();
+    protected abstract int getLayoutRes();
 
     /**
      * 初始化presenter

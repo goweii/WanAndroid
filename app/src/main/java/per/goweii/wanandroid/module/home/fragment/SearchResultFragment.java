@@ -99,7 +99,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
     }
 
     @Override
-    protected int getLayoutId() {
+    protected int getLayoutRes() {
         return R.layout.fragment_search_result;
     }
 
@@ -156,7 +156,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
             @Override
             public void onResult() {
-                loadData();
+                search(mKey);
             }
         });
     }
