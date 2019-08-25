@@ -43,7 +43,7 @@
 
 # APP下载
 
-- [下载最新版](https://github.com/goweii/WanAndroid/releases/download/1.0.11/per.goweii.wanandroid-v1.0.11.apk)
+- [下载最新版](https://github.com/goweii/WanAndroid/releases/download/1.0.12/per.goweii.wanandroid-v1.0.12.apk)
 - [查看历史版本](https://github.com/goweii/WanAndroid/releases)
 
 
@@ -97,6 +97,10 @@
 
 
 # 更新日志
+
+## 1.0.12(13)
+
+- 优化懒加载后首次显示过慢问题
 
 ## 1.0.11(12)
 
