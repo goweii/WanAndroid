@@ -3,7 +3,7 @@ package per.goweii.wanandroid.module.mine.presenter;
 import java.util.List;
 
 import per.goweii.basic.core.base.BasePresenter;
-import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;

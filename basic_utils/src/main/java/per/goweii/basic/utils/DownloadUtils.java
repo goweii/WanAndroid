@@ -109,7 +109,6 @@ public class DownloadUtils {
                     conn.connect();
                     double count = 0;
                     if (conn.getResponseCode() >= 400) {
-                        ToastMaker.showShort("连接超时");
                     } else {
                         double cou = 0;
                         while (count <= 100) {

@@ -190,9 +190,6 @@ public class EditTextUtils {
                 if (!"".equals(s.toString()) && !".".equals(s.toString())) {
                     if (!"".equals(s.toString()) && !".".equals(s.toString())) {
                         if (Float.valueOf(s.toString()) > allMoney) {
-                            if (allMoney < minMoney) {
-                                ToastMaker.showShort("账户余额不足");
-                            }
                             setTextWithSelection(editText, String.valueOf(allMoney));
                         }
                     }

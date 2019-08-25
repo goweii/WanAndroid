@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.basic.core.base.BaseFragment;
-import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.module.login.activity.LoginActivity;

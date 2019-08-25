@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.glide.GlideHelper;
-import per.goweii.basic.utils.ToastMaker;
+import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.percentimageview.percentimageview.PercentImageView;
 import per.goweii.wanandroid.R;

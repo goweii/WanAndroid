@@ -1,16 +1,25 @@
-package per.goweii.basic.utils;
+package per.goweii.basic.ui.toast;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.StringRes;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import java.lang.reflect.Field;
+
+import per.goweii.anylayer.AnimatorHelper;
+import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.Layer;
+import per.goweii.basic.ui.R;
+import per.goweii.basic.utils.Utils;
 
 /**
  * Toast的工具类
@@ -34,6 +43,15 @@ public class ToastMaker {
     private static Context context = null;
     private static Toast toast = null;
     private static Handler sHandler = null;
+
+    static {
+        Utils.onInit(new Utils.OnInit() {
+            @Override
+            public void onInit(Context context) {
+                init(context);
+            }
+        });
+    }
 
     @SuppressLint("ShowToast")
     static void init(Context appContext) {
@@ -86,11 +104,34 @@ public class ToastMaker {
     }
 
     public static void showShort(CharSequence message) {
-        make(message).show();
+//        make(message).show();
+        float mb = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, Utils.getAppContext().getResources().getDisplayMetrics());
+        AnyLayer.toast()
+                .message(message)
+                .removeOthers(true)
+                .duration(2000)
+                .gravity(Gravity.BOTTOM | Gravity.LEFT)
+                .backgroundDrawable(R.drawable.basic_ui_toast_bg)
+                .marginBottom((int) mb)
+                .marginLeft(0)
+                .marginRight(0)
+                .marginTop(0)
+                .animator(new Layer.AnimatorCreator() {
+                    @Override
+                    public Animator createInAnimator(View target) {
+                        return AnimatorHelper.createLeftInAnim(target);
+                    }
+
+                    @Override
+                    public Animator createOutAnimator(View target) {
+                        return AnimatorHelper.createLeftOutAnim(target);
+                    }
+                })
+                .show();
     }
 
     public static void showShort(@StringRes int message) {
-        make(context.getString(message)).show();
+        showShort(context.getString(message));
     }
 
     @SuppressLint("ShowToast")

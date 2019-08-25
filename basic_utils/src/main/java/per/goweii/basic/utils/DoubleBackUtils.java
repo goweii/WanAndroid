@@ -1,6 +1,5 @@
 package per.goweii.basic.utils;
 
-import android.text.TextUtils;
 import android.view.KeyEvent;
 
 /**
@@ -19,23 +18,16 @@ public class DoubleBackUtils {
      * 如果返回true，则表示双击操作成功，应该调用返回操作，及 return super.onKeyDown(keyCode, event);
      * 如果返回false，则表示双击操作失败，应该拦截本次点击操作事件，及 return false;
      */
-    public static boolean onKeyDown(int keyCode, KeyEvent event, String firstClickBackToastMsg) {
+    public static boolean onKeyDown(int keyCode, KeyEvent event) {
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             if (keyCode == KeyEvent.KEYCODE_BACK) {
                 long nowBackPressedTime = System.currentTimeMillis();
                 if ((nowBackPressedTime - LAST_BACK_PRESSED_TIME) > DOUBLE_BACK_PRESSED_TIME) {
                     LAST_BACK_PRESSED_TIME = nowBackPressedTime;
-                    if (!TextUtils.isEmpty(firstClickBackToastMsg)) {
-                        ToastMaker.showShort(firstClickBackToastMsg);
-                    }
                     return false;
                 }
             }
         }
         return true;
-    }
-
-    public static boolean onKeyDown(int keyCode, KeyEvent event, int firstClickBackToastMsgRes) {
-        return onKeyDown(keyCode, event, ResUtils.getString(firstClickBackToastMsgRes));
     }
 }
