@@ -197,21 +197,22 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
             @Override
             public void onResult() {
                 MultiStateUtils.toLoading(msv);
-                presenter.getCollectLinkList(false);
+                presenter.getCollectLinkList(true);
             }
         });
     }
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
+        presenter.getCollectLinkListCache();
     }
 
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
-            MultiStateUtils.toLoading(msv);
-            presenter.getCollectLinkList(false);
+            presenter.getCollectLinkList(true);
         }
     }
 

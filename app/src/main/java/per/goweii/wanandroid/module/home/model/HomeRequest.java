@@ -59,6 +59,12 @@ public class HomeRequest extends BaseRequest {
                 listener);
     }
 
+    public static void searchCache(@IntRange(from = 0) int page, String key, @NonNull RequestListener<SearchBean> listener) {
+        cacheBean(WanCache.CacheKey.SEARCH(key, page),
+                SearchBean.class,
+                listener);
+    }
+
     public static void search(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, String key, @NonNull RequestListener<SearchBean> listener) {
         if (page == 0) {
             cacheAndNetBean(rxLife,

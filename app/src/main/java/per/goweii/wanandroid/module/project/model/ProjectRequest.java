@@ -10,7 +10,6 @@ import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
 import per.goweii.wanandroid.http.WanCache;
-import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 
 /**
  * @author CuiZhen
@@ -26,6 +25,12 @@ public class ProjectRequest extends BaseRequest {
                 WanApi.api().getProjectChapters(),
                 WanCache.CacheKey.PROJECT_CHAPTERS,
                 ProjectChapterBean.class,
+                listener);
+    }
+
+    public static void getProjectArticleListCache(int id, @IntRange(from = 1) int page, @NonNull RequestListener<ProjectArticleBean> listener) {
+        cacheBean(WanCache.CacheKey.PROJECT_ARTICLE_LIST(id, page),
+                ProjectArticleBean.class,
                 listener);
     }
 

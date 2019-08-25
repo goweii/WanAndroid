@@ -214,20 +214,25 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
 
     @Override
     protected void loadData() {
+        if (mProjectChapterBean != null) {
+            MultiStateUtils.toLoading(msv);
+            presenter.getProjectArticleListCache(mProjectChapterBean.getId(), currPage);
+        } else {
+            MultiStateUtils.toError(msv);
+        }
     }
 
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
-            MultiStateUtils.toLoading(msv);
             getProjectArticleList(false);
         }
     }
 
     public void getProjectArticleList(boolean refresh) {
         if (mProjectChapterBean != null) {
-            presenter.getProjectArticleList(mProjectChapterBean.getId(), currPage, refresh);
+            presenter.getProjectArticleList(mProjectChapterBean.getId(), currPage, true);
         }
     }
 

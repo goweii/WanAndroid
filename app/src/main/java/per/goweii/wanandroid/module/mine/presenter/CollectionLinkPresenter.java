@@ -22,6 +22,33 @@ import per.goweii.wanandroid.module.mine.view.CollectionLinkView;
  */
 public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
 
+    public void getCollectLinkListCache() {
+        MineRequest.getCollectLinkListCache(new RequestListener<List<CollectionLinkBean>>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, List<CollectionLinkBean> data) {
+                if (isAttachView()) {
+                    getBaseView().getCollectLinkListSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        });
+    }
+
     public void getCollectLinkList(boolean refresh) {
         MineRequest.getCollectLinkList(getRxLife(), refresh, new RequestListener<List<CollectionLinkBean>>() {
             @Override

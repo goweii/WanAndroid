@@ -19,9 +19,16 @@ import per.goweii.wanandroid.http.WanCache;
  */
 public class NaviRequest extends BaseRequest {
 
+    public static void getNaviListCache(@NonNull RequestListener<List<NaviBean>> listener) {
+        cacheList(WanCache.CacheKey.NAVI_LIST,
+                NaviBean.class,
+                listener);
+    }
+
     public static void getNaviList(RxLife rxLife, @NonNull RequestListener<List<NaviBean>> listener) {
         cacheAndNetList(rxLife,
                 WanApi.api().getNaviList(),
+                true,
                 WanCache.CacheKey.NAVI_LIST,
                 NaviBean.class,
                 listener);

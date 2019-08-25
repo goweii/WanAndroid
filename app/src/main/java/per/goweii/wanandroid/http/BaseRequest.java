@@ -95,6 +95,38 @@ public class BaseRequest {
                 });
     }
 
+    protected static <T> void cacheBean(String key,
+                                        Class<T> clazz,
+                                        RequestListener<T> listener) {
+        WanCache.getInstance().getBean(key, clazz, new CacheListener<T>() {
+            @Override
+            public void onSuccess(int code, T data) {
+                listener.onSuccess(code, data);
+            }
+
+            @Override
+            public void onFailed() {
+                listener.onFailed(WanApi.ApiCode.FAILED_NO_CACHE, "");
+            }
+        });
+    }
+
+    protected static <T> void cacheList(String key,
+                                        Class<T> clazz,
+                                        RequestListener<List<T>> listener) {
+        WanCache.getInstance().getList(key, clazz, new CacheListener<List<T>>() {
+            @Override
+            public void onSuccess(int code, final List<T> data) {
+                listener.onSuccess(code, data);
+            }
+
+            @Override
+            public void onFailed() {
+                listener.onFailed(WanApi.ApiCode.FAILED_NO_CACHE, "");
+            }
+        });
+    }
+
     protected static <T> void cacheAndNetList(RxLife rxLife,
                                               Observable<WanResponse<List<T>>> observable,
                                               String key,

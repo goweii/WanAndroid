@@ -23,6 +23,14 @@ import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
  */
 public class MineRequest extends BaseRequest {
 
+    public static void getCollectArticleListCache(@IntRange(from = 0) int page, @NonNull RequestListener<CollectionArticleBean> listener) {
+        cacheBean(WanCache.CacheKey.COLLECT_ARTICLE_LIST(page), CollectionArticleBean.class, listener);
+    }
+
+    public static void getCollectArticleListNet(RxLife rxLife, @IntRange(from = 0) int page, @NonNull RequestListener<CollectionArticleBean> listener) {
+        rxLife.add(request(WanApi.api().getCollectArticleList(page), listener));
+    }
+
     public static void getCollectArticleList(RxLife rxLife, boolean removeAndRefresh, @IntRange(from = 0) int page, @NonNull RequestListener<CollectionArticleBean> listener) {
         if (page == 0) {
             cacheAndNetBean(rxLife,
@@ -34,6 +42,14 @@ public class MineRequest extends BaseRequest {
         } else {
             rxLife.add(request(WanApi.api().getCollectArticleList(page), listener));
         }
+    }
+
+    public static void getCollectLinkListCache(@NonNull RequestListener<List<CollectionLinkBean>> listener) {
+        cacheList(WanCache.CacheKey.COLLECT_LINK_LIST, CollectionLinkBean.class, listener);
+    }
+
+    public static void getCollectLinkListNet(RxLife rxLife, @NonNull RequestListener<List<CollectionLinkBean>> listener) {
+        rxLife.add(request(WanApi.api().getCollectLinkList(), listener));
     }
 
     public static void getCollectLinkList(RxLife rxLife, boolean removeAndRefresh, @NonNull RequestListener<List<CollectionLinkBean>> listener) {

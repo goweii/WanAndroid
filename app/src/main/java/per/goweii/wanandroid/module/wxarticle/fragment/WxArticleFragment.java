@@ -214,20 +214,25 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
 
     @Override
     protected void loadData() {
+        if (mWxChapterBean != null) {
+            MultiStateUtils.toLoading(msv);
+            presenter.getWxArticleListCache(mWxChapterBean.getId(), currPage);
+        } else {
+            MultiStateUtils.toError(msv);
+        }
     }
 
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
-            MultiStateUtils.toLoading(msv);
             getWxArticleList(false);
         }
     }
 
     public void getWxArticleList(boolean refresh) {
         if (mWxChapterBean != null) {
-            presenter.getWxArticleList(mWxChapterBean.getId(), currPage, refresh);
+            presenter.getWxArticleList(mWxChapterBean.getId(), currPage, true);
         }
     }
 

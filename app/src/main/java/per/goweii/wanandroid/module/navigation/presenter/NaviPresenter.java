@@ -18,11 +18,37 @@ import per.goweii.wanandroid.module.navigation.view.NaviView;
  */
 public class NaviPresenter extends BasePresenter<NaviView> {
 
+    public void getKnowledgeListCache() {
+        NaviRequest.getNaviListCache(new RequestListener<List<NaviBean>>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, List<NaviBean> data) {
+                if (isAttachView()) {
+                    getBaseView().getNaviListSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        });
+    }
+
     public void getKnowledgeList() {
         NaviRequest.getNaviList(getRxLife(), new RequestListener<List<NaviBean>>() {
             @Override
             public void onStart() {
-                showLoadingBar();
             }
 
             @Override
@@ -45,7 +71,6 @@ public class NaviPresenter extends BasePresenter<NaviView> {
 
             @Override
             public void onFinish() {
-                dismissLoadingBar();
             }
         });
     }

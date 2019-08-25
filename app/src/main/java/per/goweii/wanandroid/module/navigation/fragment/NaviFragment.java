@@ -77,13 +77,14 @@ public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollT
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
+        presenter.getKnowledgeListCache();
     }
 
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
-            MultiStateUtils.toLoading(msv);
             presenter.getKnowledgeList();
         }
     }

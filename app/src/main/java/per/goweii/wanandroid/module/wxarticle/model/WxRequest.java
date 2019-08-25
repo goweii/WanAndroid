@@ -28,6 +28,12 @@ public class WxRequest extends BaseRequest {
                 listener);
     }
 
+    public static void getWxArticleListCache(int id, @IntRange(from = 1) int page, @NonNull RequestListener<WxArticleBean> listener) {
+        cacheBean(WanCache.CacheKey.WXARTICLE_LIST(id, page),
+                WxArticleBean.class,
+                listener);
+    }
+
     public static void getWxArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 1) int page, @NonNull RequestListener<WxArticleBean> listener) {
         if (page == 1) {
             cacheAndNetBean(rxLife,

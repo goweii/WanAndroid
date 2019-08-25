@@ -49,6 +49,8 @@ public class WanApi extends Api {
 
         public static final int SUCCESS = 0;
 
+        public static final int FAILED_NO_CACHE = -9000;  //没有缓存
+
         public static final int FAILED_NOT_LOGIN = -1001; //请先登录
     }
 

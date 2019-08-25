@@ -10,7 +10,6 @@ import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
 import per.goweii.wanandroid.http.WanCache;
-import per.goweii.wanandroid.module.home.model.SearchBean;
 
 /**
  * @author CuiZhen
@@ -21,11 +20,24 @@ import per.goweii.wanandroid.module.home.model.SearchBean;
  */
 public class KnowledgeRequest extends BaseRequest {
 
+    public static void getKnowledgeListCache(@NonNull RequestListener<List<KnowledgeBean>> listener) {
+        cacheList(WanCache.CacheKey.KNOWLEDGE_LIST,
+                KnowledgeBean.class,
+                listener);
+    }
+
     public static void getKnowledgeList(RxLife rxLife, @NonNull RequestListener<List<KnowledgeBean>> listener) {
         cacheAndNetList(rxLife,
                 WanApi.api().getKnowledgeList(),
+                true,
                 WanCache.CacheKey.KNOWLEDGE_LIST,
                 KnowledgeBean.class,
+                listener);
+    }
+
+    public static void getKnowledgeArticleListCache(int id, @IntRange(from = 0) int page, @NonNull RequestListener<KnowledgeArticleBean> listener) {
+        cacheBean(WanCache.CacheKey.KNOWLEDGE_ARTICLE_LIST(id, page),
+                KnowledgeArticleBean.class,
                 listener);
     }
 

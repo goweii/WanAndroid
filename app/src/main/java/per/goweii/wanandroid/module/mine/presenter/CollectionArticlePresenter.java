@@ -20,6 +20,33 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class CollectionArticlePresenter extends BasePresenter<CollectionArticleView> {
 
+    public void getCollectArticleListCache(int page) {
+        MineRequest.getCollectArticleListCache(page, new RequestListener<CollectionArticleBean>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, CollectionArticleBean data) {
+                if (isAttachView()) {
+                    getBaseView().getCollectArticleListSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        });
+    }
+
     public void getCollectArticleList(int page, boolean refresh) {
         MineRequest.getCollectArticleList(getRxLife(), refresh, page, new RequestListener<CollectionArticleBean>() {
             @Override

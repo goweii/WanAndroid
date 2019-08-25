@@ -215,20 +215,25 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
 
     @Override
     protected void loadData() {
+        if (mKnowledgeBean != null) {
+            MultiStateUtils.toLoading(msv);
+            presenter.getKnowledgeArticleListCache(mKnowledgeBean.getId(), currPage);
+        } else {
+            MultiStateUtils.toError(msv);
+        }
     }
 
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
-            MultiStateUtils.toLoading(msv);
             getKnowledgeArticleList(false);
         }
     }
 
     public void getKnowledgeArticleList(boolean refresh) {
         if (mKnowledgeBean != null) {
-            presenter.getKnowledgeArticleList(mKnowledgeBean.getId(), currPage, refresh);
+            presenter.getKnowledgeArticleList(mKnowledgeBean.getId(), currPage, true);
         }
     }
 

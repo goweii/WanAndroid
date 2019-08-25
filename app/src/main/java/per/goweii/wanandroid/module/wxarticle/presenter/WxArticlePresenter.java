@@ -20,7 +20,34 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class WxArticlePresenter extends BasePresenter<WxArticleView> {
 
-    public void getWxArticleList(int id, int page, boolean refresh){
+    public void getWxArticleListCache(int id, int page) {
+        WxRequest.getWxArticleListCache(id, page, new RequestListener<WxArticleBean>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, WxArticleBean data) {
+                if (isAttachView()) {
+                    getBaseView().getWxArticleListSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        });
+    }
+
+    public void getWxArticleList(int id, int page, boolean refresh) {
         WxRequest.getWxArticleList(getRxLife(), refresh, id, page, new RequestListener<WxArticleBean>() {
             @Override
             public void onStart() {

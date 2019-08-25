@@ -132,7 +132,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                presenter.getCollectArticleList(currPage, false);
+                presenter.getCollectArticleList(currPage, true);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -158,21 +158,22 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             @Override
             public void onResult() {
                 MultiStateUtils.toLoading(msv);
-                presenter.getCollectArticleList(currPage, false);
+                presenter.getCollectArticleList(currPage, true);
             }
         });
     }
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
+        presenter.getCollectArticleListCache(currPage);
     }
 
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
-            MultiStateUtils.toLoading(msv);
-            presenter.getCollectArticleList(currPage, false);
+            presenter.getCollectArticleList(currPage, true);
         }
     }
 

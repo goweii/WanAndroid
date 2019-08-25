@@ -18,11 +18,37 @@ import per.goweii.wanandroid.module.knowledge.view.KnowledgeView;
  */
 public class KnowledgePresenter extends BasePresenter<KnowledgeView> {
 
+    public void getKnowledgeListCache() {
+        KnowledgeRequest.getKnowledgeListCache(new RequestListener<List<KnowledgeBean>>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, List<KnowledgeBean> data) {
+                if (isAttachView()) {
+                    getBaseView().getKnowledgeListSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        });
+    }
+
     public void getKnowledgeList() {
         KnowledgeRequest.getKnowledgeList(getRxLife(), new RequestListener<List<KnowledgeBean>>() {
             @Override
             public void onStart() {
-                showLoadingBar();
             }
 
             @Override
@@ -45,7 +71,6 @@ public class KnowledgePresenter extends BasePresenter<KnowledgeView> {
 
             @Override
             public void onFinish() {
-                dismissLoadingBar();
             }
         });
     }
