@@ -3,12 +3,9 @@ package per.goweii.wanandroid.http;
 import android.support.annotation.NonNull;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
-import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
 
 import okhttp3.OkHttpClient;
 import per.goweii.basic.core.common.Config;
-import per.goweii.basic.utils.Utils;
 import per.goweii.rxhttp.request.setting.DefaultRequestSetting;
 import per.goweii.rxhttp.request.utils.HttpsCompat;
 
@@ -19,6 +16,12 @@ import per.goweii.rxhttp.request.utils.HttpsCompat;
  * @date 2018/10/17
  */
 public class RxHttpRequestSetting extends DefaultRequestSetting {
+
+    private final PersistentCookieJar mCookieJar;
+
+    public RxHttpRequestSetting(PersistentCookieJar cookieJar) {
+        mCookieJar = cookieJar;
+    }
 
     @Override
     public boolean isDebug() {
@@ -46,8 +49,6 @@ public class RxHttpRequestSetting extends DefaultRequestSetting {
         super.setOkHttpClient(builder);
         HttpsCompat.enableTls12ForOkHttp(builder);
         HttpsCompat.enableTls12ForHttpsURLConnection();
-        builder.cookieJar(new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(Utils.getAppContext())));
+        builder.cookieJar(mCookieJar);
     }
-
-
 }

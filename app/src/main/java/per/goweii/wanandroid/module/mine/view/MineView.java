@@ -10,4 +10,7 @@ import per.goweii.basic.core.base.BaseView;
  * GitHub: https://github.com/goweii
  */
 public interface MineView extends BaseView {
+    void getUserCoinAndLevelSuccess(String coin, String lv);
+
+    void getUserCoinAndLevelFail();
 }

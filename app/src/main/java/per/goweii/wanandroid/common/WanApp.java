@@ -2,6 +2,10 @@ package per.goweii.wanandroid.common;
 
 import android.app.Activity;
 
+import com.franmontiel.persistentcookiejar.PersistentCookieJar;
+import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
+import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+
 import io.realm.Realm;
 import per.goweii.basic.core.CoreInit;
 import per.goweii.basic.core.base.BaseApp;
@@ -20,11 +24,14 @@ import per.goweii.wanandroid.utils.UserUtils;
  * GitHub: https://github.com/goweii
  */
 public class WanApp extends BaseApp {
+
+    private static PersistentCookieJar mCookieJar = null;
+
     @Override
     public void onCreate() {
         super.onCreate();
         RxHttp.init(this);
-        RxHttp.initRequest(new RxHttpRequestSetting());
+        RxHttp.initRequest(new RxHttpRequestSetting(getCookieJar()));
         WanCache.init();
         Blurred.init(getAppContext());
         CoreInit.getInstance().setOnGoLoginCallback(new SimpleCallback<Activity>() {
@@ -34,5 +41,12 @@ public class WanApp extends BaseApp {
             }
         });
         Realm.init(this);
+    }
+
+    public static PersistentCookieJar getCookieJar() {
+        if (mCookieJar == null) {
+            mCookieJar = new PersistentCookieJar(new SetCookieCache(), new SharedPrefsCookiePersistor(getAppContext()));
+        }
+        return mCookieJar;
     }
 }
