@@ -6,9 +6,9 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 
-import per.goweii.anylayer.AnimHelper;
+import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.LayerManager;
+import per.goweii.anylayer.Layer;
 import per.goweii.basic.utils.EditTextUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
@@ -25,52 +25,53 @@ import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 public class EditCollectLinkDialog {
 
     public static void show(Context context, CollectionLinkBean data, SimpleCallback<CollectionLinkBean> callback){
-        AnyLayer.with(context)
+        AnyLayer.dialog(context)
                 .contentView(R.layout.dialog_edit_collect_link)
+                .contentAnimator(new Layer.AnimatorCreator() {
+                    @Override
+                    public Animator createInAnimator(View target) {
+                        return AnimatorHelper.createTopInAnim(target);
+                    }
+
+                    @Override
+                    public Animator createOutAnimator(View target) {
+                        return AnimatorHelper.createTopOutAnim(target);
+                    }
+                })
+                .asStatusBar(R.id.dialog_edit_collect_link_v_statusbar)
                 .backgroundColorRes(R.color.dialog_bg)
                 .cancelableOnClickKeyBack(true)
                 .cancelableOnTouchOutside(true)
                 .gravity(Gravity.TOP)
-                .contentAnim(new LayerManager.IAnim() {
+                .bindData(new Layer.DataBinder() {
                     @Override
-                    public Animator inAnim(View target) {
-                        return AnimHelper.createTopInAnim(target);
-                    }
-
-                    @Override
-                    public Animator outAnim(View target) {
-                        return AnimHelper.createTopOutAnim(target);
-                    }
-                })
-                .bindData(new LayerManager.IDataBinder() {
-                    @Override
-                    public void bind(AnyLayer anyLayer) {
-                        EditText et_title = anyLayer.getView(R.id.dialog_edit_collect_link_et_title);
-                        EditText et_link = anyLayer.getView(R.id.dialog_edit_collect_link_et_link);
+                    public void bindData(Layer layer) {
+                        EditText et_title = layer.getView(R.id.dialog_edit_collect_link_et_title);
+                        EditText et_link = layer.getView(R.id.dialog_edit_collect_link_et_link);
                         EditTextUtils.setTextWithSelection(et_title, data.getName());
                         EditTextUtils.setTextWithSelection(et_link, data.getLink());
                     }
                 })
-                .onLayerDismissListener(new LayerManager.OnLayerDismissListener() {
+                .onDismissListener(new Layer.OnDismissListener() {
                     @Override
-                    public void onDismissing(AnyLayer anyLayer) {
-                        EditText et_title = anyLayer.getView(R.id.dialog_edit_collect_link_et_title);
-                        EditText et_link = anyLayer.getView(R.id.dialog_edit_collect_link_et_link);
+                    public void onDismissing(Layer layer) {
+                        EditText et_title = layer.getView(R.id.dialog_edit_collect_link_et_title);
+                        EditText et_link = layer.getView(R.id.dialog_edit_collect_link_et_link);
                         InputMethodUtils.hide(et_title);
                         InputMethodUtils.hide(et_link);
                     }
 
                     @Override
-                    public void onDismissed(AnyLayer anyLayer) {
+                    public void onDismissed(Layer layer) {
+
                     }
                 })
-                .asStatusBar(R.id.dialog_edit_collect_link_v_statusbar)
                 .onClickToDismiss(R.id.dialog_edit_collect_link_tv_no)
-                .onClickToDismiss(R.id.dialog_edit_collect_link_tv_yes, new LayerManager.OnLayerClickListener() {
+                .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
-                        EditText et_title = anyLayer.getView(R.id.dialog_edit_collect_link_et_title);
-                        EditText et_link = anyLayer.getView(R.id.dialog_edit_collect_link_et_link);
+                    public void onClick(Layer layer, View v) {
+                        EditText et_title = layer.getView(R.id.dialog_edit_collect_link_et_title);
+                        EditText et_link = layer.getView(R.id.dialog_edit_collect_link_et_link);
                         if (callback != null) {
                             String title = et_title.getText().toString();
                             String link = et_link.getText().toString();
@@ -81,7 +82,7 @@ public class EditCollectLinkDialog {
                             callback.onResult(bean);
                         }
                     }
-                })
+                }, R.id.dialog_edit_collect_link_tv_yes)
                 .show();
     }
 

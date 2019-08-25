@@ -58,8 +58,8 @@ public class UpdateUtils {
         mSPUtils.save(KEY_LAST_CHECK_TIME, curr);
         Date lastDate = new Date(last);
         Date currDate = new Date(curr);
-        return lastDate.getYear() != currDate.getYear() ||
-                lastDate.getMonth() != currDate.getMonth() ||
-                lastDate.getDay() != currDate.getDay();
+        return lastDate.getYear() == currDate.getYear() &&
+                lastDate.getMonth() == currDate.getMonth() &&
+                lastDate.getDay() == currDate.getDay();
     }
 }

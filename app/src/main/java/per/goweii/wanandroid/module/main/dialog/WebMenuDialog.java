@@ -4,10 +4,10 @@ import android.animation.Animator;
 import android.support.annotation.NonNull;
 import android.view.View;
 
-import per.goweii.anylayer.Alignment;
-import per.goweii.anylayer.AnimHelper;
+import per.goweii.anylayer.Align;
+import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.LayerManager;
+import per.goweii.anylayer.Layer;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.UserUtils;
 
@@ -21,23 +21,26 @@ import per.goweii.wanandroid.utils.UserUtils;
 public class WebMenuDialog {
 
     public static void show(@NonNull View target, @NonNull OnMenuClickListener listener) {
-        AnyLayer.target(target)
+        AnyLayer.popup(target)
+                .direction(Align.Direction.VERTICAL)
+                .horizontal(Align.Horizontal.ALIGN_RIGHT)
+                .vertical(Align.Vertical.BELOW)
+                .inside(false)
                 .contentView(R.layout.dialog_web_menu)
-                .alignment(Alignment.Direction.VERTICAL, Alignment.Horizontal.ALIGN_RIGHT, Alignment.Vertical.BELOW, false)
-                .contentAnim(new LayerManager.IAnim() {
+                .contentAnimator(new Layer.AnimatorCreator() {
                     @Override
-                    public Animator inAnim(View target) {
-                        return AnimHelper.createDelayedZoomInAnim(target, 1F, 0F);
+                    public Animator createInAnimator(View target) {
+                        return AnimatorHelper.createDelayedZoomInAnim(target, 1F, 0F);
                     }
 
                     @Override
-                    public Animator outAnim(View target) {
-                        return AnimHelper.createDelayedZoomOutAnim(target, 1F, 0F);
+                    public Animator createOutAnimator(View target) {
+                        return AnimatorHelper.createDelayedZoomOutAnim(target, 1F, 0F);
                     }
                 })
-                .onClickToDismiss(new LayerManager.OnLayerClickListener() {
+                .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
+                    public void onClick(Layer layer, View v) {
                         switch (v.getId()) {
                             default:
                                 break;

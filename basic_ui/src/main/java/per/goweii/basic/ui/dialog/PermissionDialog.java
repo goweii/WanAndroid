@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.LayerManager;
+import per.goweii.anylayer.Layer;
 import per.goweii.basic.ui.R;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
@@ -55,18 +55,19 @@ public class PermissionDialog {
     }
 
     public void show() {
-        AnyLayer.with(mContext)
+        AnyLayer.dialog(mContext)
                 .contentView(R.layout.basic_ui_dialog_permission)
                 .backgroundColorRes(R.color.dialog_bg)
+                .gravity(Gravity.CENTER)
                 .cancelableOnTouchOutside(false)
                 .cancelableOnClickKeyBack(false)
-                .bindData(new LayerManager.IDataBinder() {
+                .bindData(new Layer.DataBinder() {
                     @Override
-                    public void bind(AnyLayer anyLayer) {
-                        ImageView iv = anyLayer.getView(R.id.basic_ui_iv_dialog_permission);
-                        TextView tvTitle = anyLayer.getView(R.id.basic_ui_tv_dialog_permission_title);
-                        TextView tvDescription = anyLayer.getView(R.id.basic_ui_tv_dialog_permission_description);
-                        TextView tvNext = anyLayer.getView(R.id.basic_ui_tv_dialog_permission_next);
+                    public void bindData(Layer layer) {
+                        ImageView iv = layer.getView(R.id.basic_ui_iv_dialog_permission);
+                        TextView tvTitle = layer.getView(R.id.basic_ui_tv_dialog_permission_title);
+                        TextView tvDescription = layer.getView(R.id.basic_ui_tv_dialog_permission_description);
+                        TextView tvNext = layer.getView(R.id.basic_ui_tv_dialog_permission_next);
 
                         int iconResId = getIconResId();
                         if (iconResId > 0) {
@@ -90,18 +91,17 @@ public class PermissionDialog {
                         }
                     }
                 })
-                .gravity(Gravity.CENTER)
-                .onClickToDismiss(new LayerManager.OnLayerClickListener() {
+                .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
+                    public void onClick(Layer layer, View v) {
                         if (onCloseListener != null) {
                             onCloseListener.onResult(null);
                         }
                     }
                 }, R.id.basic_ui_iv_dialog_permission_close)
-                .onClickToDismiss(new LayerManager.OnLayerClickListener() {
+                .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
+                    public void onClick(Layer layer, View v) {
                         if (onNextListener != null) {
                             onNextListener.onResult(null);
                         }

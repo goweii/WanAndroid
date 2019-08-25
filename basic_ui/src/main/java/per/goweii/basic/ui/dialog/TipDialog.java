@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.LayerManager;
+import per.goweii.anylayer.Layer;
 import per.goweii.basic.ui.R;
 import per.goweii.basic.utils.listener.SimpleCallback;
 
@@ -102,29 +102,31 @@ public class TipDialog {
     }
 
     public void show() {
-        AnyLayer.with(context)
+        AnyLayer.dialog(context)
                 .contentView(R.layout.basic_ui_dialog_tip)
+                .gravity(Gravity.CENTER)
                 .backgroundColorRes(R.color.dialog_bg)
                 .cancelableOnTouchOutside(cancelable)
                 .cancelableOnClickKeyBack(cancelable)
-                .onVisibleChangeListener(new LayerManager.OnVisibleChangeListener() {
+                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
                     @Override
-                    public void onShow(AnyLayer anyLayer) {
+                    public void onShow(Layer layer) {
+
                     }
 
                     @Override
-                    public void onDismiss(AnyLayer anyLayer) {
+                    public void onDismiss(Layer layer) {
                         if (onDismissListener != null) {
                             onDismissListener.onResult(null);
                         }
                     }
                 })
-                .bindData(new LayerManager.IDataBinder() {
+                .bindData(new Layer.DataBinder() {
                     @Override
-                    public void bind(AnyLayer anyLayer) {
-                        TextView tvYes = anyLayer.getView(R.id.basic_ui_tv_dialog_tip_yes);
-                        TextView tvNo = anyLayer.getView(R.id.basic_ui_tv_dialog_tip_no);
-                        View vLine = anyLayer.getView(R.id.basic_ui_v_dialog_tip_line);
+                    public void bindData(Layer layer) {
+                        TextView tvYes = layer.getView(R.id.basic_ui_tv_dialog_tip_yes);
+                        TextView tvNo = layer.getView(R.id.basic_ui_tv_dialog_tip_no);
+                        View vLine = layer.getView(R.id.basic_ui_v_dialog_tip_line);
 
                         if (singleBtnYes) {
                             tvNo.setVisibility(View.GONE);
@@ -143,29 +145,28 @@ public class TipDialog {
                             tvYes.setText(R.string.basic_ui_dialog_btn_yes);
                         }
 
-                        TextView tvTitle = anyLayer.getView(R.id.basic_ui_tv_dialog_tip_title);
+                        TextView tvTitle = layer.getView(R.id.basic_ui_tv_dialog_tip_title);
                         if (title == null) {
                             tvTitle.setVisibility(View.GONE);
                         } else {
                             tvTitle.setText(title);
                         }
 
-                        TextView tvContent = anyLayer.getView(R.id.basic_ui_tv_dialog_tip_content);
+                        TextView tvContent = layer.getView(R.id.basic_ui_tv_dialog_tip_content);
                         tvContent.setText(msg);
                     }
                 })
-                .gravity(Gravity.CENTER)
-                .onClickToDismiss(new LayerManager.OnLayerClickListener() {
+                .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
+                    public void onClick(Layer layer, View v) {
                         if (callbackYes != null) {
                             callbackYes.onResult(null);
                         }
                     }
                 }, R.id.basic_ui_tv_dialog_tip_yes)
-                .onClickToDismiss(new LayerManager.OnLayerClickListener() {
+                .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
+                    public void onClick(Layer layer, View v) {
                         if (callbackNo != null) {
                             callbackNo.onResult(null);
                         }

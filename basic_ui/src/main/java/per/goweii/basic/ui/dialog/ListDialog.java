@@ -1,11 +1,15 @@
 package per.goweii.basic.ui.dialog;
 
+import android.animation.Animator;
+import android.animation.AnimatorSet;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,8 +20,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.LayerManager;
+import per.goweii.anylayer.Layer;
 import per.goweii.basic.ui.R;
 import per.goweii.basic.utils.ResUtils;
 
@@ -115,16 +120,40 @@ public class ListDialog {
     }
 
     public void show() {
-        AnyLayer.with(context)
+        AnyLayer.dialog(context)
                 .contentView(R.layout.basic_ui_dialog_list)
                 .backgroundColorRes(R.color.dialog_bg)
+                .gravity(Gravity.CENTER)
                 .cancelableOnTouchOutside(cancelable)
                 .cancelableOnClickKeyBack(cancelable)
-                .bindData(new LayerManager.IDataBinder() {
+                .contentAnimator(new Layer.AnimatorCreator() {
                     @Override
-                    public void bind(AnyLayer anyLayer) {
-                        LinearLayout llYesNo = anyLayer.getView(R.id.basic_ui_ll_dialog_list_yes_no);
-                        View vLineH = anyLayer.getView(R.id.basic_ui_v_dialog_list_line_h);
+                    public Animator createInAnimator(View target) {
+                        AnimatorSet set = new AnimatorSet();
+                        Animator a1 = AnimatorHelper.createBottomAlphaInAnim(target, 0.4F);
+                        a1.setInterpolator(new DecelerateInterpolator());
+                        Animator a2 = AnimatorHelper.createZoomAlphaInAnim(target, 0.9F);
+                        a2.setInterpolator(new AccelerateInterpolator());
+                        set.playTogether(a1, a2);
+                        return set;
+                    }
+
+                    @Override
+                    public Animator createOutAnimator(View target) {
+                        AnimatorSet set = new AnimatorSet();
+                        Animator a1 = AnimatorHelper.createBottomAlphaOutAnim(target, 0.4F);
+                        a1.setInterpolator(new AccelerateInterpolator());
+                        Animator a2 = AnimatorHelper.createZoomAlphaOutAnim(target, 0.9F);
+                        a2.setInterpolator(new DecelerateInterpolator());
+                        set.playTogether(a1, a2);
+                        return set;
+                    }
+                })
+                .bindData(new Layer.DataBinder() {
+                    @Override
+                    public void bindData(Layer layer) {
+                        LinearLayout llYesNo = layer.getView(R.id.basic_ui_ll_dialog_list_yes_no);
+                        View vLineH = layer.getView(R.id.basic_ui_v_dialog_list_line_h);
 
                         if (noBtn) {
                             vLineH.setVisibility(View.GONE);
@@ -132,9 +161,9 @@ public class ListDialog {
                         } else {
                             vLineH.setVisibility(View.VISIBLE);
                             llYesNo.setVisibility(View.VISIBLE);
-                            TextView tvYes = anyLayer.getView(R.id.basic_ui_tv_dialog_list_yes);
-                            TextView tvNo = anyLayer.getView(R.id.basic_ui_tv_dialog_list_no);
-                            View vLine = anyLayer.getView(R.id.basic_ui_v_dialog_list_line);
+                            TextView tvYes = layer.getView(R.id.basic_ui_tv_dialog_list_yes);
+                            TextView tvNo = layer.getView(R.id.basic_ui_tv_dialog_list_no);
+                            View vLine = layer.getView(R.id.basic_ui_v_dialog_list_line);
                             if (yesText != null) {
                                 tvYes.setText(yesText);
                             } else {
@@ -154,14 +183,14 @@ public class ListDialog {
                             }
                         }
 
-                        TextView tvTitle = anyLayer.getView(R.id.basic_ui_tv_dialog_list_title);
+                        TextView tvTitle = layer.getView(R.id.basic_ui_tv_dialog_list_title);
                         if (title == null) {
                             tvTitle.setVisibility(View.GONE);
                         } else {
                             tvTitle.setText(title);
                         }
 
-                        RecyclerView rv = anyLayer.getView(R.id.basic_ui_rv_dialog_list);
+                        RecyclerView rv = layer.getView(R.id.basic_ui_rv_dialog_list);
                         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
                         mAdapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.basic_ui_rv_item_dialog_list) {
                             @Override
@@ -184,7 +213,7 @@ public class ListDialog {
                                     if (listener != null) {
                                         listener.onSelect(datas.get(currSelectPos), currSelectPos);
                                     }
-                                    anyLayer.dismiss();
+                                    layer.dismiss();
                                 }
                             }
                         });
@@ -192,20 +221,15 @@ public class ListDialog {
                         mAdapter.setNewData(datas);
                     }
                 })
-                .gravity(Gravity.CENTER)
-                .onClickToDismiss(new LayerManager.OnLayerClickListener() {
+                .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
+                    public void onClick(Layer layer, View v) {
                         if (listener != null) {
                             listener.onSelect(datas.get(currSelectPos), currSelectPos);
                         }
                     }
                 }, R.id.basic_ui_tv_dialog_list_yes)
-                .onClickToDismiss(new LayerManager.OnLayerClickListener() {
-                    @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
-                    }
-                }, R.id.basic_ui_tv_dialog_list_no)
+                .onClickToDismiss(R.id.basic_ui_tv_dialog_list_no)
                 .show();
     }
 

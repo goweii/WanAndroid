@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.LayerManager;
+import per.goweii.anylayer.Layer;
 import per.goweii.basic.ui.R;
 
 /**
@@ -79,18 +79,20 @@ public class UpdateDialog {
     }
 
     public void show() {
-        AnyLayer.with(mContext)
+        AnyLayer.dialog(mContext)
                 .contentView(R.layout.basic_ui_dialog_update)
+                .backgroundColorRes(R.color.dialog_bg)
+                .gravity(Gravity.CENTER)
                 .cancelableOnTouchOutside(!mForce)
                 .cancelableOnClickKeyBack(!mForce)
-                .bindData(new LayerManager.IDataBinder() {
+                .bindData(new Layer.DataBinder() {
                     @Override
-                    public void bind(AnyLayer anyDialog) {
-                        final View vLine = anyDialog.getView(R.id.basic_ui_v_dialog_update_line);
-                        final TextView tvNo = anyDialog.getView(R.id.basic_ui_tv_dialog_update_no);
-                        final TextView tvVersionName = anyDialog.getView(R.id.basic_ui_tv_dialog_update_version_name);
-                        final TextView tvTime = anyDialog.getView(R.id.basic_ui_tv_dialog_update_time);
-                        final TextView tvDescription = anyDialog.getView(R.id.basic_ui_tv_dialog_update_description);
+                    public void bindData(Layer layer) {
+                        final View vLine = layer.getView(R.id.basic_ui_v_dialog_update_line);
+                        final TextView tvNo = layer.getView(R.id.basic_ui_tv_dialog_update_no);
+                        final TextView tvVersionName = layer.getView(R.id.basic_ui_tv_dialog_update_version_name);
+                        final TextView tvTime = layer.getView(R.id.basic_ui_tv_dialog_update_time);
+                        final TextView tvDescription = layer.getView(R.id.basic_ui_tv_dialog_update_description);
 
                         if (TextUtils.isEmpty(mVersionName)) {
                             tvVersionName.setVisibility(View.GONE);
@@ -115,31 +117,30 @@ public class UpdateDialog {
                         }
                     }
                 })
-                .backgroundColorRes(R.color.dialog_bg)
-                .gravity(Gravity.CENTER)
-                .onClickToDismiss(new LayerManager.OnLayerClickListener() {
+                .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
+                    public void onClick(Layer layer, View v) {
                         if (mOnUpdateListener != null) {
                             mOnUpdateListener.onDownload(mUrl, mForce);
                         }
                     }
                 }, R.id.basic_ui_tv_dialog_update_yes)
-                .onClickToDismiss(new LayerManager.OnLayerClickListener() {
+                .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View v) {
+                    public void onClick(Layer layer, View v) {
                         if (mOnUpdateListener != null) {
                             mOnUpdateListener.onIgnore(mVersionCode);
                         }
                     }
                 }, R.id.basic_ui_tv_dialog_update_no)
-                .onLayerDismissListener(new LayerManager.OnLayerDismissListener() {
+                .onDismissListener(new Layer.OnDismissListener() {
                     @Override
-                    public void onDismissing(AnyLayer anyLayer) {
+                    public void onDismissing(Layer layer) {
+
                     }
 
                     @Override
-                    public void onDismissed(AnyLayer anyLayer) {
+                    public void onDismissed(Layer layer) {
                         if (mOnDismissListener != null) {
                             mOnDismissListener.onDismiss();
                         }

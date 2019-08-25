@@ -204,8 +204,6 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
 
     @Override
     protected void loadData() {
-        MultiStateUtils.toLoading(msv);
-        presenter.getCollectLinkList(false);
     }
 
     @Override

@@ -9,7 +9,7 @@ import android.widget.TextView;
 import java.io.File;
 
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.LayerManager;
+import per.goweii.anylayer.Layer;
 import per.goweii.basic.ui.R;
 import per.goweii.basic.utils.DownloadUtils;
 import per.goweii.basic.utils.ResUtils;
@@ -25,7 +25,7 @@ import per.goweii.basic.utils.file.FileUtils;
 public class DownloadDialog {
 
     private final Activity mActivity;
-    private AnyLayer mAnyLayer = null;
+    private Layer mAnyLayer = null;
     private final boolean isForce;
     private boolean isAutoInstall = true;
 
@@ -86,24 +86,24 @@ public class DownloadDialog {
     }
 
     private void showDialog() {
-        mAnyLayer = AnyLayer.with(mActivity)
+        mAnyLayer = AnyLayer.dialog(mActivity)
                 .contentView(R.layout.basic_ui_dialog_download)
+                .gravity(Gravity.CENTER)
+                .backgroundColorRes(R.color.dialog_bg)
                 .cancelableOnTouchOutside(false)
                 .cancelableOnClickKeyBack(false)
-                .bindData(new LayerManager.IDataBinder() {
+                .bindData(new Layer.DataBinder() {
                     @Override
-                    public void bind(AnyLayer anyLayer) {
-                        progressBar = anyLayer.getView(R.id.basic_ui_pb_dialog_download);
-                        tvProgress = anyLayer.getView(R.id.basic_ui_tv_dialog_download_progress);
-                        tvApkSize = anyLayer.getView(R.id.basic_ui_tv_dialog_download_apk_size);
-                        tvState = anyLayer.getView(R.id.basic_ui_tv_dialog_download_state);
+                    public void bindData(Layer layer) {
+                        progressBar = layer.getView(R.id.basic_ui_pb_dialog_download);
+                        tvProgress = layer.getView(R.id.basic_ui_tv_dialog_download_progress);
+                        tvApkSize = layer.getView(R.id.basic_ui_tv_dialog_download_apk_size);
+                        tvState = layer.getView(R.id.basic_ui_tv_dialog_download_state);
                     }
                 })
-                .backgroundColorRes(R.color.dialog_bg)
-                .gravity(Gravity.CENTER)
-                .onClick(R.id.basic_ui_tv_dialog_download_state, new LayerManager.OnLayerClickListener() {
+                .onClick(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View view) {
+                    public void onClick(Layer layer, View v) {
                         if (mApk == null) {
                             return;
                         }
@@ -112,7 +112,7 @@ public class DownloadDialog {
                         }
                         DownloadUtils.installApk(mActivity, mApk);
                     }
-                });
+                }, R.id.basic_ui_tv_dialog_download_state);
         mAnyLayer.show();
     }
 

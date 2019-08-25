@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.io.File;
 
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.LayerManager;
+import per.goweii.anylayer.Layer;
 import per.goweii.anypermission.AnyPermission;
 import per.goweii.anypermission.RequestListener;
 import per.goweii.basic.utils.ResUtils;
@@ -32,7 +32,7 @@ import per.goweii.wanandroid.R;
 public class DownloadDialog {
 
     private final Activity mActivity;
-    private AnyLayer mAnyLayer = null;
+    private Layer mAnyLayer = null;
     private final boolean isForce;
     private final String url;
     private final String versionName;
@@ -132,32 +132,32 @@ public class DownloadDialog {
     }
 
     private void showDialog() {
-        mAnyLayer = AnyLayer.with(mActivity)
+        mAnyLayer = AnyLayer.dialog(mActivity)
                 .contentView(R.layout.dialog_download)
+                .backgroundColorRes(R.color.dialog_bg)
+                .gravity(Gravity.CENTER)
                 .cancelableOnTouchOutside(false)
                 .cancelableOnClickKeyBack(false)
-                .bindData(new LayerManager.IDataBinder() {
+                .bindData(new Layer.DataBinder() {
                     @Override
-                    public void bind(AnyLayer anyLayer) {
-                        ImageView ivClose = anyLayer.getView(R.id.iv_dialog_download_close);
+                    public void bindData(Layer layer) {
+                        ImageView ivClose = layer.getView(R.id.iv_dialog_download_close);
                         if (isForce) {
                             ivClose.setVisibility(View.GONE);
                         } else {
                             ivClose.setVisibility(View.VISIBLE);
                         }
-                        progressBar = anyLayer.getView(R.id.pb_dialog_download);
-                        tvProgress = anyLayer.getView(R.id.tv_dialog_download_progress);
-                        tvApkSize = anyLayer.getView(R.id.tv_dialog_download_apk_size);
-                        tvState = anyLayer.getView(R.id.tv_dialog_download_state);
-                        tvSpeed = anyLayer.getView(R.id.tv_dialog_download_speed);
-                        tvLine = anyLayer.getView(R.id.tv_dialog_download_line);
+                        progressBar = layer.getView(R.id.pb_dialog_download);
+                        tvProgress = layer.getView(R.id.tv_dialog_download_progress);
+                        tvApkSize = layer.getView(R.id.tv_dialog_download_apk_size);
+                        tvState = layer.getView(R.id.tv_dialog_download_state);
+                        tvSpeed = layer.getView(R.id.tv_dialog_download_speed);
+                        tvLine = layer.getView(R.id.tv_dialog_download_line);
                     }
                 })
-                .backgroundColorRes(R.color.dialog_bg)
-                .gravity(Gravity.CENTER)
-                .onClick(R.id.tv_dialog_download_state, new LayerManager.OnLayerClickListener() {
+                .onClick(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View view) {
+                    public void onClick(Layer layer, View v) {
                         if (mApk == null) {
                             return;
                         }
@@ -166,15 +166,15 @@ public class DownloadDialog {
                         }
                         installApk();
                     }
-                })
-                .onClick(R.id.iv_dialog_download_close, new LayerManager.OnLayerClickListener() {
+                }, R.id.tv_dialog_download_state)
+                .onClick(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(AnyLayer anyLayer, View view) {
+                    public void onClick(Layer layer, View v) {
                         if (!isForce) {
                             dismiss();
                         }
                     }
-                });
+                }, R.id.iv_dialog_download_close);
         mAnyLayer.show();
     }
 
