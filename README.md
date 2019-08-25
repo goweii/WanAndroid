@@ -41,7 +41,7 @@
 
 # APP下载
 
-- [下载最新版](https://github.com/goweii/WanAndroid/releases/download/1.0.9/per.goweii.wanandroid-v1.0.9.apk)
+- [下载最新版](https://github.com/goweii/WanAndroid/releases/download/1.0.10/per.goweii.wanandroid-v1.0.10.apk)
 - [查看历史版本](https://github.com/goweii/WanAndroid/releases)
 
 
@@ -95,6 +95,10 @@
 
 
 # 更新日志
+
+## 1.0.10(11)
+
+- 修复上版本造成的一些BUG
 
 ## 1.0.9(10)
 
