@@ -260,6 +260,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         switch (v.getId()) {
             default:
                 break;
+            case R.id.ll_coin:
+                if (UserUtils.getInstance().doIfLogin(getContext())) {
+                    CoinActivity.start(getContext());
+                }
+                break;
             case R.id.civ_user_icon:
                 if (UserUtils.getInstance().doIfLogin(getContext())) {
                     PictureSelectorUtils.ofImage(this, REQUEST_CODE_SELECT_USER_ICON);
@@ -288,9 +293,6 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 break;
             case R.id.ll_setting:
                 SettingActivity.start(getContext());
-                break;
-            case R.id.ll_coin:
-                CoinActivity.start(getContext());
                 break;
         }
     }

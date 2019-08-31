@@ -93,11 +93,11 @@ public class PasswordInputView extends InputView {
                 mIvDeleteIcon.setVisibility(VISIBLE);
             }
             mIcEyeIcon.setVisibility(VISIBLE);
-            mIvPasswordIcon.setImageResource(R.drawable.ic_password_select);
+            mIvPasswordIcon.setColorFilter(mViewColorFocus);
         } else {
             mIvDeleteIcon.setVisibility(INVISIBLE);
             mIcEyeIcon.setVisibility(INVISIBLE);
-            mIvPasswordIcon.setImageResource(R.drawable.ic_password_normal);
+            mIvPasswordIcon.setColorFilter(mViewColorNormal);
         }
     }
 
@@ -106,11 +106,11 @@ public class PasswordInputView extends InputView {
         if (isHidePwdMode) {
             //隐藏密码
             getEditText().setTransformationMethod(PasswordTransformationMethod.getInstance());
-            mIcEyeIcon.setImageResource(R.drawable.ic_eye_normal);
+            mIcEyeIcon.setColorFilter(mViewColorNormal);
         } else {
             //显示密码
             getEditText().setTransformationMethod(HideReturnsTransformationMethod.getInstance());
-            mIcEyeIcon.setImageResource(R.drawable.ic_eye_select);
+            mIcEyeIcon.setColorFilter(mViewColorFocus);
         }
         EditTextUtils.setTextWithSelection(getEditText(), getEditText().getText().toString());
     }

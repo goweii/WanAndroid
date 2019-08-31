@@ -73,10 +73,10 @@ public class AccountInputView extends InputView {
             } else {
                 mIvDeleteIcon.setVisibility(VISIBLE);
             }
-            mIvAccountIcon.setImageResource(R.drawable.ic_account_select);
+            mIvAccountIcon.setColorFilter(mViewColorFocus);
         } else {
             mIvDeleteIcon.setVisibility(INVISIBLE);
-            mIvAccountIcon.setImageResource(R.drawable.ic_account_normal);
+            mIvAccountIcon.setColorFilter(mViewColorNormal);
         }
     }
 

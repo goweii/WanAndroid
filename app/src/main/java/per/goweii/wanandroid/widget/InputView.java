@@ -28,9 +28,9 @@ public class InputView extends FrameLayout implements View.OnFocusChangeListener
     private EditText mEditText;
     private View mBottomLine;
     private int mViewHeightFocus;
-    private int mViewColorFocus;
+    protected int mViewColorFocus;
     private int mViewHeightNormal;
-    private int mViewColorNormal;
+    protected int mViewColorNormal;
     private boolean isEmpty = true;
 
     public InputView(Context context) {
