@@ -23,6 +23,7 @@ public class WebPresenter extends BasePresenter<WebView> {
         addToRxLife(MainRequest.collect(id, new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
+                showLoadingBar();
             }
 
             @Override
@@ -46,6 +47,7 @@ public class WebPresenter extends BasePresenter<WebView> {
 
             @Override
             public void onFinish() {
+                dismissLoadingBar();
             }
         }));
     }
@@ -54,6 +56,7 @@ public class WebPresenter extends BasePresenter<WebView> {
         addToRxLife(MainRequest.collect(title, author, link, new RequestListener<CollectArticleBean>() {
             @Override
             public void onStart() {
+                showLoadingBar();
             }
 
             @Override
@@ -77,6 +80,7 @@ public class WebPresenter extends BasePresenter<WebView> {
 
             @Override
             public void onFinish() {
+                dismissLoadingBar();
             }
         }));
     }
@@ -85,6 +89,7 @@ public class WebPresenter extends BasePresenter<WebView> {
         addToRxLife(MainRequest.collect(title, link, new RequestListener<CollectionLinkBean>() {
             @Override
             public void onStart() {
+                showLoadingBar();
             }
 
             @Override
@@ -108,6 +113,7 @@ public class WebPresenter extends BasePresenter<WebView> {
 
             @Override
             public void onFinish() {
+                dismissLoadingBar();
             }
         }));
     }
