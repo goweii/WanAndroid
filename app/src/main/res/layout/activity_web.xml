@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
+    android:background="@color/bg"
     tools:context=".module.main.activity.MainActivity">
 
     <per.goweii.actionbarex.common.ActionBarCommon
@@ -18,8 +19,8 @@
         app:abc_rightIconRes="@drawable/ic_more"
         app:abc_leftText="关闭"/>
 
-    <FrameLayout
-        android:id="@+id/fl"
+    <per.goweii.wanandroid.widget.WebContainer
+        android:id="@+id/wc"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

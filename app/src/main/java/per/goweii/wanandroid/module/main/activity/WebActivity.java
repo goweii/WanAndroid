@@ -24,10 +24,13 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
+import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.widget.WebContainer;
 
 /**
  * @author CuiZhen
@@ -40,8 +43,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @BindView(R.id.abc)
     ActionBarCommon abc;
-    @BindView(R.id.fl)
-    FrameLayout fl;
+    @BindView(R.id.wc)
+    WebContainer wc;
 
     private AgentWeb mAgentWeb;
 
@@ -119,19 +122,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 WebMenuDialog.show(abc, new WebMenuDialog.OnMenuClickListener() {
                     @Override
                     public void onCollect() {
-                        if (TextUtils.equals(mCurrUrl, mUrl)) {
-                            if (mArticleId != -1) {
-                                presenter.collect(mArticleId);
-                            } else {
-                                if (TextUtils.isEmpty(mAuthor)) {
-                                    presenter.collect(mTitle, mUrl);
-                                } else {
-                                    presenter.collect(mTitle, mAuthor, mUrl);
-                                }
-                            }
-                        } else {
-                            presenter.collect(mCurrTitle, mCurrUrl);
-                        }
+                        collect();
                     }
 
                     @Override
@@ -150,18 +141,24 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             }
         });
 
+        wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
+            @Override
+            public void onDoubleClick() {
+                collect();
+            }
+        });
+
         mRealmHelper = RealmHelper.create();
     }
 
     @Override
     protected void loadData() {
         mAgentWeb = AgentWeb.with(this)
-                .setAgentWebParent(fl, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+                .setAgentWebParent(wc, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator(ResUtils.getColor(R.color.accent), 1)
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
                 .setMainFrameErrorView(R.layout.layout_agent_web_error, R.id.iv_404)
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
-                // .interceptUnkownUrl()
                 .setWebChromeClient(new WebChromeClient() {
                     @Override
                     public void onReceivedTitle(WebView view, String title) {
@@ -173,7 +170,15 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                         }
                     }
                 })
-                .setWebViewClient(new WebViewClient())
+                .setWebViewClient(new WebViewClient() {
+                    @Override
+                    public void onPageFinished(WebView view, String url) {
+                        super.onPageFinished(view, url);
+                        if (!GuideSPUtils.getInstance().isWebGuideShown()) {
+                            WebGuideDialog.show(abc);
+                        }
+                    }
+                })
                 .createAgentWeb()
                 .ready()
                 .go(mUrl);
@@ -207,6 +212,22 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private void collect() {
+        if (TextUtils.equals(mCurrUrl, mUrl)) {
+            if (mArticleId != -1) {
+                presenter.collect(mArticleId);
+            } else {
+                if (TextUtils.isEmpty(mAuthor)) {
+                    presenter.collect(mTitle, mUrl);
+                } else {
+                    presenter.collect(mTitle, mAuthor, mUrl);
+                }
+            }
+        } else {
+            presenter.collect(mCurrTitle, mCurrUrl);
+        }
     }
 
     private void forceHttpsForAndroid9() {
