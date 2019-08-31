@@ -14,13 +14,13 @@ public class BasePresenter<V extends BaseView> extends MvpPresenter<V> {
     private RxLife rxLife;
 
     @Override
-    protected void onCreate(V baseView) {
+    public void onCreate(V baseView) {
         super.onCreate(baseView);
         rxLife = RxLife.create();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         rxLife.destroy();
         rxLife = null;

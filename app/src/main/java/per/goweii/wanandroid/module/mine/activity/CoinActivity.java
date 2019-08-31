@@ -71,6 +71,7 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
         abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
+//                WebDialog.show(getContext(), "https://www.wanandroid.com/blog/show/2653");
                 CoinRankActivity.start(getContext());
             }
         });

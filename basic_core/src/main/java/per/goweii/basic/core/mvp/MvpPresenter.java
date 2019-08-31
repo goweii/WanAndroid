@@ -11,12 +11,12 @@ public abstract class MvpPresenter<V extends MvpView> {
     protected Context context;
     private V baseView;
 
-    protected void onCreate(V baseView) {
+    public void onCreate(V baseView) {
         this.baseView = baseView;
         context = baseView.getContext();
     }
 
-    protected void onDestroy() {
+    public void onDestroy() {
         baseView = null;
         context = null;
     }

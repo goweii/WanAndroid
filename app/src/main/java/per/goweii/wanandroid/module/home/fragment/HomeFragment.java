@@ -49,6 +49,7 @@ import per.goweii.wanandroid.module.home.model.HomeBean;
 import per.goweii.wanandroid.module.home.presenter.HomePresenter;
 import per.goweii.wanandroid.module.home.view.HomeView;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.main.dialog.WebDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.MultiStateUtils;
@@ -241,6 +242,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 }
             }
         });
+        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                showWebDialog(false, position);
+                return true;
+            }
+        });
         mAdapter.setOnCollectViewClickListener(new HomeAdapter.OnCollectViewClickListener() {
             @Override
             public void onClick(BaseViewHolder helper, CollectView v, int position) {
@@ -262,6 +270,61 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 loadData();
             }
         });
+    }
+
+    private void showWebDialog(boolean header, int position) {
+        List<WebDialog.Data> urls = new ArrayList<>();
+        int index = position;
+        if (!header) {
+            if (mHeaderTopItemBeans != null) {
+                index += mHeaderTopItemBeans.size();
+            }
+        }
+        if (mHeaderTopItemBeans != null) {
+            for (ArticleBean bean : mHeaderTopItemBeans) {
+                urls.add(new WebDialog.Data(bean.getId(), bean.getLink(), bean.isCollect()));
+            }
+        }
+        List<ArticleBean> data = mAdapter.getData();
+        for (ArticleBean bean : data) {
+            urls.add(new WebDialog.Data(bean.getId(), bean.getLink(), bean.isCollect()));
+        }
+        WebDialog webDialog = new WebDialog(getContext(), urls, index);
+        webDialog.setOnPageChangedListener(new WebDialog.OnPageChangedListener() {
+            @Override
+            public void onPageChanged(int pos, WebDialog.Data data) {
+                int headerCount = mAdapter.getHeaderLayoutCount();
+                int currItemPos = 0;
+                boolean find = false;
+                if (mHeaderTopItemBeans != null) {
+                    for (int i = 0; i < mHeaderTopItemBeans.size(); i++) {
+                        ArticleBean bean = mHeaderTopItemBeans.get(i);
+                        if (bean.getId() == data.getId()) {
+                            find = true;
+                            break;
+                        }
+                    }
+                }
+                if (!find) {
+                    List<ArticleBean> datas = mAdapter.getData();
+                    for (int i = 0; i < datas.size(); i++) {
+                        ArticleBean bean = datas.get(i);
+                        if (bean.getId() == data.getId()) {
+                            currItemPos = headerCount + i;
+                            break;
+                        }
+                    }
+                }
+                if (currItemPos < 0) {
+                    currItemPos = 0;
+                }
+                if (currItemPos > mAdapter.getItemCount() - 1) {
+                    currItemPos = mAdapter.getItemCount() - 1;
+                }
+                rv.smoothScrollToPosition(currItemPos);
+            }
+        });
+        webDialog.show();
     }
 
     @Override
@@ -418,10 +481,18 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             mHeaderTopItemViews.add(view);
         }
         for (int i = 0; i < mHeaderTopItemViews.size(); i++) {
+            final int pos = i;
             View view = mHeaderTopItemViews.get(i);
             ArticleBean bean = mHeaderTopItemBeans.get(i);
             bindHeaderTopItem(view, bean);
-            mAdapter.addHeaderView(view, mAdapter.getHeaderLayoutCount());
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    showWebDialog(true, pos);
+                    return true;
+                }
+            });
+            mAdapter.addHeaderView(view, mAdapter.getHeaderLayout().getChildCount());
         }
     }
 

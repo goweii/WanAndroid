@@ -25,6 +25,7 @@ android {
 
 dependencies {
     annotationProcessor rootProject.ext.dependencies.butterknifeCompiler
+    implementation rootProject.ext.dependencies.cardview
     implementation rootProject.ext.dependencies.flexbox
     implementation rootProject.ext.dependencies.realtimeBlurView
     implementation rootProject.ext.dependencies.agentWeb

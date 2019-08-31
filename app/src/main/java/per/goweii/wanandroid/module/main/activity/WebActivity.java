@@ -7,12 +7,9 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebView;
-import android.widget.FrameLayout;
 
 import com.just.agentweb.AgentWeb;
-import com.just.agentweb.DefaultWebClient;
 import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
 
@@ -22,11 +19,11 @@ import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.IntentUtils;
-import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
+import per.goweii.wanandroid.utils.AgentWebCreator;
 import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.SettingUtils;
@@ -153,42 +150,31 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     protected void loadData() {
-        mAgentWeb = AgentWeb.with(this)
-                .setAgentWebParent(wc, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-                .useDefaultIndicator(ResUtils.getColor(R.color.accent), 1)
-                .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
-                .setMainFrameErrorView(R.layout.layout_agent_web_error, R.id.iv_404)
-                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.ASK)
-                .setWebChromeClient(new WebChromeClient() {
-                    @Override
-                    public void onReceivedTitle(WebView view, String title) {
-                        super.onReceivedTitle(view, title);
-                        mCurrTitle = title;
-                        mCurrUrl = view.getUrl();
-                        if (abc.getTitleTextView() != null) {
-                            abc.getTitleTextView().setText(title);
-                        }
-                    }
-                })
-                .setWebViewClient(new WebViewClient() {
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        if (!GuideSPUtils.getInstance().isWebGuideShown()) {
-                            WebGuideDialog.show(abc);
-                        }
-                    }
-                })
-                .createAgentWeb()
-                .ready()
-                .go(mUrl);
+        mAgentWeb = AgentWebCreator.create(this, wc, mUrl, new WebChromeClient() {
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                mCurrTitle = title;
+                mCurrUrl = view.getUrl();
+                if (abc.getTitleTextView() != null) {
+                    abc.getTitleTextView().setText(title);
+                }
+            }
+        }, new WebViewClient() {
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                if (!GuideSPUtils.getInstance().isWebGuideShown()) {
+                    WebGuideDialog.show(abc);
+                }
+            }
+        });
     }
 
     @Override
     protected void onPause() {
         mAgentWeb.getWebLifeCycle().onPause();
         super.onPause();
-
     }
 
     @Override
@@ -200,6 +186,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     @Override
     protected void onDestroy() {
         mAgentWeb.getWebLifeCycle().onDestroy();
+        mAgentWeb.destroy();
         if (mRealmHelper != null) {
             mRealmHelper.destroy();
         }
