@@ -227,6 +227,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
+            currPage = PAGE_START;
             getWxArticleList(false);
         }
     }

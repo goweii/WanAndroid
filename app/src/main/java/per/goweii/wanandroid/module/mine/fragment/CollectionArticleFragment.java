@@ -176,6 +176,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
+            currPage = PAGE_START;
             presenter.getCollectArticleList(currPage, true);
         }
     }

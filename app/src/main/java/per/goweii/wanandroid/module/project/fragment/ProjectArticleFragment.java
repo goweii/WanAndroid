@@ -227,6 +227,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
+            currPage = PAGE_START;
             getProjectArticleList(false);
         }
     }

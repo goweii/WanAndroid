@@ -228,6 +228,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
+            currPage = PAGE_START;
             getKnowledgeArticleList(false);
         }
     }
