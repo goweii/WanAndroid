@@ -76,4 +76,16 @@ public class MineRequest extends BaseRequest {
                 AboutMeBean.class,
                 listener);
     }
+
+    public static Disposable getCoin(@NonNull RequestListener<Integer> listener) {
+        return request(WanApi.api().getCoin(), listener);
+    }
+
+    public static Disposable getCoinRecordList(int page, @NonNull RequestListener<CoinRecordBean> listener) {
+        return request(WanApi.api().getCoinRecordList(page), listener);
+    }
+
+    public static Disposable getCoinRankList(int page, @NonNull RequestListener<CoinRankBean> listener) {
+        return request(WanApi.api().getCoinRankList(page), listener);
+    }
 }

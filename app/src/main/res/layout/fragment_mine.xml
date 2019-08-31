@@ -90,13 +90,11 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/ll_user_coin"
+                        android:id="@+id/ll_user_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ll_user_id"
                         android:layout_centerHorizontal="true"
-                        android:visibility="gone"
-                        tools:visibility="visible"
                         android:layout_marginTop="5dp"
                         android:alpha="0.8"
                         android:orientation="horizontal">
@@ -104,22 +102,6 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="积分:"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_notes" />
-
-                        <TextView
-                            android:id="@+id/tv_user_coin"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_notes"
-                            tools:text="275" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="10dp"
                             android:text="等级:"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_notes" />
@@ -130,7 +112,7 @@
                             android:layout_height="wrap_content"
                             android:textColor="@color/white"
                             android:textSize="@dimen/text_notes"
-                            tools:text="3" />
+                            tools:text="--" />
 
                     </LinearLayout>
 
@@ -140,6 +122,55 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
+
+                    <LinearLayout
+                        android:id="@+id/ll_coin"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:orientation="horizontal"
+                        android:background="@drawable/bg_press_color_white"
+                        android:paddingLeft="16dp"
+                        android:gravity="center"
+                        android:paddingRight="16dp">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_coin"
+                            android:tint="@color/main" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_content"
+                            android:textColor="@color/text_black"
+                            android:singleLine="true"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
+                            android:text="我的积分" />
+
+                        <TextView
+                            android:id="@+id/tv_coin"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:singleLine="true"
+                            android:text=""
+                            tools:text="520"
+                            android:textColor="@color/text_gray_light"
+                            android:textSize="@dimen/text_notes" />
+
+                        <ImageView
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:scaleType="fitCenter"
+                            android:rotation="180"
+                            android:tint="@color/gray_light"
+                            android:src="@drawable/ic_back" />
+
+                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/ll_collect"
@@ -167,7 +198,7 @@
                             android:singleLine="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="收藏"/>
+                            android:text="我的收藏" />
 
                         <ImageView
                             android:layout_width="13dp"
@@ -281,7 +312,7 @@
                             android:singleLine="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="关于我"/>
+                            android:text="关于作者" />
 
                         <ImageView
                             android:layout_width="13dp"
@@ -319,7 +350,7 @@
                             android:singleLine="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="设置"/>
+                            android:text="系统设置" />
 
                         <ImageView
                             android:layout_width="13dp"

@@ -208,6 +208,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             @Override
             public void onResult() {
                 MultiStateUtils.toLoading(msv);
+                currPage = PAGE_START;
                 getKnowledgeArticleList(false);
             }
         });
@@ -239,8 +240,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
 
     @Override
     public void getKnowledgeArticleListSuccess(int code, KnowledgeArticleBean data) {
-        currPage = data.getCurPage();
-        if (currPage == 1) {
+        if (currPage == PAGE_START) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
@@ -256,6 +256,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
+        currPage++;
     }
 
     @Override

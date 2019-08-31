@@ -52,6 +52,8 @@
         <activity android:name=".module.mine.activity.AboutMeActivity" />
         <activity android:name=".module.mine.activity.SettingActivity" />
         <activity android:name=".module.mine.activity.AboutActivity" />
+        <activity android:name=".module.mine.activity.CoinActivity" />
+        <activity android:name=".module.mine.activity.CoinRankActivity" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

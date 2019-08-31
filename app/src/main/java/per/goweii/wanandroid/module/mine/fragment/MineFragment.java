@@ -29,8 +29,8 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.login.model.LoginBean;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.activity.AboutMeActivity;
+import per.goweii.wanandroid.module.mine.activity.CoinActivity;
 import per.goweii.wanandroid.module.mine.activity.CollectionActivity;
 import per.goweii.wanandroid.module.mine.activity.OpenActivity;
 import per.goweii.wanandroid.module.mine.activity.ReadLaterActivity;
@@ -75,12 +75,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     LinearLayout ll_open;
     @BindView(R.id.ll_about_me)
     LinearLayout ll_about_me;
-    @BindView(R.id.ll_user_coin)
-    LinearLayout ll_user_coin;
     @BindView(R.id.tv_user_level)
     TextView tv_user_level;
-    @BindView(R.id.tv_user_coin)
-    TextView tv_user_coin;
+    @BindView(R.id.tv_coin)
+    TextView tv_coin;
 
     public static MineFragment create() {
         return new MineFragment();
@@ -93,7 +91,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         }
         changeUserInfo();
         if (UserUtils.getInstance().isLogin()) {
-            presenter.getUserCoinAndLevel();
+            presenter.getUserCoin();
+            presenter.getUserLevel();
         }
     }
 
@@ -202,7 +201,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
             if (UserUtils.getInstance().isLogin()) {
-                presenter.getUserCoinAndLevel();
+                presenter.getUserCoin();
+                presenter.getUserLevel();
             }
         }
     }
@@ -233,24 +233,22 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             ImageLoader.userBlur(iv_blur, UserInfoUtils.getInstance().getBg());
             tv_user_name.setText(bean.getUsername());
             tv_user_id.setText(bean.getId() + "");
-            ll_user_coin.setVisibility(View.VISIBLE);
-            tv_user_coin.setText("-");
-            tv_user_level.setText("-");
+            tv_user_level.setText("--");
+            tv_coin.setText("");
         } else {
             civ_user_icon.setImageResource(R.color.transparent);
             ImageLoader.userBlur(iv_blur, R.color.transparent);
             tv_user_name.setText("去登陆");
             tv_user_id.setText("-----");
-            ll_user_coin.setVisibility(View.GONE);
-            tv_user_coin.setText("-");
-            tv_user_level.setText("-");
+            tv_user_level.setText("--");
+            tv_coin.setText("");
         }
     }
 
     @OnClick({
             R.id.civ_user_icon, R.id.tv_user_name, R.id.ll_user_id,
             R.id.ll_collect, R.id.ll_read_later, R.id.ll_about_me,
-            R.id.ll_open, R.id.ll_setting, R.id.ll_user_coin
+            R.id.ll_open, R.id.ll_setting, R.id.ll_coin
     })
     @Override
     public void onClick(View v) {
@@ -291,8 +289,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             case R.id.ll_setting:
                 SettingActivity.start(getContext());
                 break;
-            case R.id.ll_user_coin:
-                WebActivity.start(getContext(), "积分排行列表", "https://www.wanandroid.com/coin/rank/1");
+            case R.id.ll_coin:
+                CoinActivity.start(getContext());
                 break;
         }
     }
@@ -324,15 +322,21 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
 
     @Override
     public void getUserCoinAndLevelSuccess(String coin, String lv) {
-        ll_user_coin.setVisibility(View.VISIBLE);
-        tv_user_coin.setText(coin);
         tv_user_level.setText(lv);
     }
 
     @Override
     public void getUserCoinAndLevelFail() {
-        ll_user_coin.setVisibility(View.VISIBLE);
-        tv_user_coin.setText("-");
-        tv_user_level.setText("-");
+        tv_user_level.setText("--");
+    }
+
+    @Override
+    public void getUserCoinSuccess(int code, int coin) {
+        tv_coin.setText(coin + "");
+    }
+
+    @Override
+    public void getUserCoinFail(int code, String msg) {
+        tv_coin.setText("");
     }
 }

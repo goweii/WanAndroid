@@ -178,8 +178,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     @Override
     public void searchSuccess(int code, SearchBean data) {
-        currPage = data.getCurPage();
-        if (currPage == 1) {
+        if (currPage == PAGE_START) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
@@ -195,6 +194,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
+        currPage++;
     }
 
     @Override

@@ -13,7 +13,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import per.goweii.basic.core.base.BasePresenter;
+import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.common.WanApp;
+import per.goweii.wanandroid.http.RequestListener;
+import per.goweii.wanandroid.module.mine.model.MineRequest;
 import per.goweii.wanandroid.module.mine.view.MineView;
 
 /**
@@ -25,7 +28,37 @@ import per.goweii.wanandroid.module.mine.view.MineView;
  */
 public class MinePresenter extends BasePresenter<MineView> {
 
-    public void getUserCoinAndLevel() {
+    public void getUserCoin() {
+        addToRxLife(MineRequest.getCoin(new RequestListener<Integer>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, Integer data) {
+                if (isAttachView()) {
+                    getBaseView().getUserCoinSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if (isAttachView()) {
+                    getBaseView().getUserCoinFail(code, msg);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        }));
+    }
+
+    public void getUserLevel() {
         Observable.just("https://www.wanandroid.com/index")
                 .map(new Function<String, Call>() {
                     @Override

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.StringRes;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -104,8 +105,11 @@ public class ToastMaker {
     }
 
     public static void showShort(CharSequence message) {
+        if (TextUtils.isEmpty(message)) {
+            return;
+        }
 //        make(message).show();
-        float mb = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 50, Utils.getAppContext().getResources().getDisplayMetrics());
+        float mb = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 80, Utils.getAppContext().getResources().getDisplayMetrics());
         AnyLayer.toast()
                 .message(message)
                 .removeOthers(true)

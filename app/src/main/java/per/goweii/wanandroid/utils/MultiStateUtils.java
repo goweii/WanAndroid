@@ -21,10 +21,16 @@ public class MultiStateUtils {
     }
 
     public static void toEmpty(MultiStateView view){
+        if (view.getViewState() == MultiStateView.VIEW_STATE_CONTENT) {
+            return;
+        }
         view.setViewState(MultiStateView.VIEW_STATE_EMPTY);
     }
 
     public static void toError(MultiStateView view){
+        if (view.getViewState() == MultiStateView.VIEW_STATE_CONTENT) {
+            return;
+        }
         view.setViewState(MultiStateView.VIEW_STATE_ERROR);
     }
 

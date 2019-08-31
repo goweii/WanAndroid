@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/tv_coin_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:textColor="@color/text_main"
+        android:textSize="@dimen/text_title"
+        tools:text="+31" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="0dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/text_gray_dark"
+        android:textSize="@dimen/text_content"
+        tools:text="签到 积分10+21" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:lineSpacingExtra="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/tv_title"
+        android:textColor="@color/text_gray_light"
+        android:textSize="@dimen/text_time"
+        tools:text="2019-08-31 00:03:16" />
+
+</RelativeLayout>

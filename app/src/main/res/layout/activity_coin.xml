@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <ImageView
+        android:id="@+id/iv_bg"
+        android:layout_width="match_parent"
+        android:layout_height="260dp"
+        android:background="@color/main"
+        android:scaleType="centerCrop"
+        android:tint="@color/mine_blur_overlay" />
+
+    <per.goweii.actionbarex.common.ActionBarCommon
+        android:id="@+id/abc"
+        style="@style/ActionBar.Common.Back"
+        android:background="@color/transparent"
+        app:abc_rightIconRes="@drawable/ic_rank"
+        app:abc_titleText="我的积分" />
+
+    <TextView
+        android:id="@+id/tv_coin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/abc"
+        android:layout_alignBottom="@+id/iv_bg"
+        android:gravity="center"
+        android:lines="1"
+        android:textColor="@color/text_white"
+        android:textSize="80sp"
+        tools:text="520" />
+
+    <com.kennyc.view.MultiStateView
+        android:id="@+id/msv"
+        style="@style/StateView"
+        android:layout_below="@+id/iv_bg">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/srl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnablePureScrollMode="true">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                tools:itemCount="10"
+                tools:listitem="@layout/rv_item_coin_record" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.kennyc.view.MultiStateView>
+
+</RelativeLayout>

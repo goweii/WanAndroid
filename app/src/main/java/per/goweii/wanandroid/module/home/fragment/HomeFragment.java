@@ -273,6 +273,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         if (SettingUtils.getInstance().isShowTop()) {
             presenter.getTopArticleList(false);
         }
+        currPage = PAGE_START;
         presenter.getArticleList(currPage, false);
     }
 
@@ -445,8 +446,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     public void getArticleListSuccess(int code, HomeBean data) {
-        currPage = data.getCurPage();
-        if (currPage == 1) {
+        if (currPage == PAGE_START) {
             MultiStateUtils.toContent(msv);
             mAdapter.setNewData(data.getDatas());
         } else {
@@ -461,6 +461,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             }
         }
         mSmartRefreshUtils.success();
+        currPage++;
     }
 
     @Override

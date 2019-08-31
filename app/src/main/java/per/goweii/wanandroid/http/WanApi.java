@@ -18,6 +18,8 @@ import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
+import per.goweii.wanandroid.module.mine.model.CoinRankBean;
+import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
 import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
@@ -302,6 +304,26 @@ public class WanApi extends Api {
         @POST("lg/uncollect/{id}/json")
         Observable<WanResponse<BaseBean>> uncollect(@Path("id") int id,
                                                     @Field("originId") int originId);
+
+        /**
+         * 获取个人积分
+         */
+        @GET("lg/coin/getcount/json")
+        Observable<WanResponse<Integer>> getCoin();
+
+        /**
+         * 获取个人积分获取列表
+         * page 1开始
+         */
+        @GET("lg/coin/list/{page}/json")
+        Observable<WanResponse<CoinRecordBean>> getCoinRecordList(@Path("page") int page);
+
+        /**
+         * 积分排行榜接口
+         * page 1开始
+         */
+        @GET("coin/rank/{page}/json")
+        Observable<WanResponse<CoinRankBean>> getCoinRankList(@Path("page") int page);
     }
 
 }

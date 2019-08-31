@@ -44,6 +44,8 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class CollectionArticleFragment extends BaseFragment<CollectionArticlePresenter> implements ScrollTop, CollectionArticleView {
 
+    public static final int PAGE_START = 0;
+
     @BindView(R.id.msv)
     MultiStateView msv;
     @BindView(R.id.srl)
@@ -54,7 +56,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
     private SmartRefreshUtils mSmartRefreshUtils;
     private CollectionArticleAdapter mAdapter;
 
-    private int currPage = 0;
+    private int currPage = PAGE_START;
 
     public static CollectionArticleFragment create() {
         return new CollectionArticleFragment();
@@ -66,7 +68,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             return;
         }
         if (event.isCollect()) {
-            currPage = 0;
+            currPage = PAGE_START;
             presenter.getCollectArticleList(currPage, true);
         } else {
             if (event.getArticleId() != -1 || event.getCollectId() != -1) {
@@ -158,6 +160,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             @Override
             public void onResult() {
                 MultiStateUtils.toLoading(msv);
+                currPage = PAGE_START;
                 presenter.getCollectArticleList(currPage, true);
             }
         });
@@ -179,8 +182,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
 
     @Override
     public void getCollectArticleListSuccess(int code, CollectionArticleBean data) {
-        currPage = data.getCurPage();
-        if (currPage == 1) {
+        if (currPage == PAGE_START) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
@@ -196,6 +198,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
+        currPage++;
     }
 
     @Override
@@ -203,7 +206,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         ToastMaker.showShort(msg);
         mSmartRefreshUtils.fail();
         mAdapter.loadMoreFail();
-        if (currPage == 1) {
+        if (currPage == PAGE_START) {
             MultiStateUtils.toError(msv);
         }
     }

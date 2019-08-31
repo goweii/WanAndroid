@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
 
@@ -47,7 +48,7 @@ public class MagicIndicatorUtils {
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
-                simplePagerTitleView.setText(adapter.getPageTitle(index));
+                simplePagerTitleView.setText(Html.fromHtml(adapter.getPageTitle(index).toString()));
                 simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ResUtils.getDimens(R.dimen.title_bar_text_size_def));
                 simplePagerTitleView.setSelectedColor(ResUtils.getColor(R.color.text_white));
                 simplePagerTitleView.setNormalColor(ResUtils.getColor(R.color.text_white_alpha));
@@ -98,7 +99,7 @@ public class MagicIndicatorUtils {
             @Override
             public IPagerTitleView getTitleView(Context context, final int index) {
                 SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
-                simplePagerTitleView.setText(adapter.getPageTitle(index));
+                simplePagerTitleView.setText(Html.fromHtml(adapter.getPageTitle(index).toString()));
                 simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ResUtils.getDimens(R.dimen.title_bar_title_text_size_def));
                 simplePagerTitleView.setSelectedColor(ResUtils.getColor(R.color.text_white));
                 simplePagerTitleView.setNormalColor(ResUtils.getColor(R.color.text_white_alpha));

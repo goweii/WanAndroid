@@ -45,7 +45,7 @@
         <item name="msv_emptyView">@layout/layout_state_empty</item>
         <item name="msv_errorView">@layout/layout_state_error</item>
         <item name="msv_loadingView">@layout/layout_state_loading</item>
-        <item name="msv_viewState">loading</item>
+        <item name="msv_viewState">content</item>
     </style>
 
     <style name="ActionBar.Common">

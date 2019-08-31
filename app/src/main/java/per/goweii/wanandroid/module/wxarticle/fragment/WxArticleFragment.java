@@ -207,6 +207,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
             @Override
             public void onResult() {
                 MultiStateUtils.toLoading(msv);
+                currPage = PAGE_START;
                 getWxArticleList(false);
             }
         });
@@ -238,8 +239,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
 
     @Override
     public void getWxArticleListSuccess(int code, WxArticleBean data) {
-        currPage = data.getCurPage();
-        if (currPage == 1) {
+        if (currPage == PAGE_START) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
@@ -256,6 +256,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
+        currPage++;
     }
 
     @Override

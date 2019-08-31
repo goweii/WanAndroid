@@ -207,6 +207,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             @Override
             public void onResult() {
                 MultiStateUtils.toLoading(msv);
+                currPage = PAGE_START;
                 getProjectArticleList(false);
             }
         });
@@ -238,8 +239,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
 
     @Override
     public void getProjectArticleListSuccess(int code, ProjectArticleBean data) {
-        currPage = data.getCurPage();
-        if (currPage == 1) {
+        if (currPage == PAGE_START) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
@@ -256,6 +256,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
+        currPage++;
     }
 
     @Override
