@@ -78,6 +78,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     LinearLayout ll_about_me;
     @BindView(R.id.tv_user_level)
     TextView tv_user_level;
+    @BindView(R.id.tv_user_ranking)
+    TextView tv_user_ranking;
     @BindView(R.id.tv_coin)
     TextView tv_coin;
 
@@ -235,6 +237,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             tv_user_name.setText(bean.getUsername());
             tv_user_id.setText(bean.getId() + "");
             tv_user_level.setText("--");
+            tv_user_ranking.setText("--");
             tv_coin.setText("");
         } else {
             civ_user_icon.setImageResource(R.color.transparent);
@@ -242,6 +245,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             tv_user_name.setText("去登陆");
             tv_user_id.setText("-----");
             tv_user_level.setText("--");
+            tv_user_ranking.setText("--");
             tv_coin.setText("");
         }
     }
@@ -324,13 +328,15 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     }
 
     @Override
-    public void getUserCoinAndLevelSuccess(String coin, String lv) {
+    public void getUserCoinAndLevelSuccess(String coin, String lv, String ranking) {
         tv_user_level.setText(lv);
+        tv_user_ranking.setText(ranking);
     }
 
     @Override
     public void getUserCoinAndLevelFail() {
         tv_user_level.setText("--");
+        tv_user_ranking.setText("--");
     }
 
     @Override

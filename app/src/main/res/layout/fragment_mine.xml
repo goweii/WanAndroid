@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="260dp"
         android:background="@color/main"
-        android:tint="@color/mine_blur_overlay"
-        android:scaleType="centerCrop" />
+        android:scaleType="centerCrop"
+        android:tint="@color/mine_blur_overlay" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/srl"
@@ -40,10 +40,10 @@
                         android:layout_height="80dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="80dp"
-                        android:scaleType="centerCrop"
                         android:background="@color/white_alpha"
+                        android:scaleType="centerCrop"
                         app:riv_corner_radius="80dp"
-                        app:riv_mutate_background="true"/>
+                        app:riv_mutate_background="true" />
 
                     <TextView
                         android:id="@+id/tv_user_name"
@@ -84,29 +84,62 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/ll_user_level"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/ll_user_id"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="5dp"
-                        android:alpha="0.8"
-                        android:orientation="horizontal">
+                        android:alpha="0.8">
 
-                        <TextView
+                        <LinearLayout
+                            android:id="@+id/ll_user_level"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="等级:"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_notes" />
+                            android:orientation="horizontal">
 
-                        <TextView
-                            android:id="@+id/tv_user_level"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="等级:"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_notes" />
+
+                            <TextView
+                                android:id="@+id/tv_user_level"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_notes"
+                                tools:text="15" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="10dp"
+                            android:layout_height="0dp" />
+
+                        <LinearLayout
+                            android:id="@+id/ll_user_ranking"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/text_notes"
-                            tools:text="--" />
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="排名:"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_notes" />
+
+                            <TextView
+                                android:id="@+id/tv_user_ranking"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/text_notes"
+                                tools:text="71" />
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
@@ -121,10 +154,10 @@
                         android:id="@+id/ll_coin"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
                         android:background="@drawable/bg_press_color_white"
-                        android:paddingLeft="16dp"
                         android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 
                         <ImageView
@@ -136,14 +169,14 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_content"
-                            android:textColor="@color/text_black"
-                            android:singleLine="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="我的积分" />
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="我的积分"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_content" />
 
                         <TextView
                             android:id="@+id/tv_coin"
@@ -152,17 +185,17 @@
                             android:layout_marginRight="5dp"
                             android:singleLine="true"
                             android:text=""
-                            tools:text="520"
                             android:textColor="@color/text_gray_light"
-                            android:textSize="@dimen/text_notes" />
+                            android:textSize="@dimen/text_notes"
+                            tools:text="520" />
 
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:scaleType="fitCenter"
                             android:rotation="180"
-                            android:tint="@color/gray_light"
-                            android:src="@drawable/ic_back" />
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_back"
+                            android:tint="@color/gray_light" />
 
                     </LinearLayout>
 
@@ -170,10 +203,10 @@
                         android:id="@+id/ll_collect"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
                         android:background="@drawable/bg_press_color_white"
-                        android:paddingLeft="16dp"
                         android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 
                         <ImageView
@@ -185,22 +218,22 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_content"
-                            android:textColor="@color/text_black"
-                            android:singleLine="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="我的收藏" />
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="我的收藏"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_content" />
 
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:scaleType="fitCenter"
                             android:rotation="180"
-                            android:tint="@color/gray_light"
-                            android:src="@drawable/ic_back"/>
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_back"
+                            android:tint="@color/gray_light" />
 
                     </LinearLayout>
 
@@ -208,10 +241,10 @@
                         android:id="@+id/ll_read_later"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
                         android:background="@drawable/bg_press_color_white"
-                        android:paddingLeft="16dp"
                         android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 
                         <ImageView
@@ -223,22 +256,22 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_content"
-                            android:textColor="@color/text_black"
-                            android:singleLine="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="稍后阅读"/>
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="稍后阅读"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_content" />
 
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:scaleType="fitCenter"
                             android:rotation="180"
-                            android:tint="@color/gray_light"
-                            android:src="@drawable/ic_back"/>
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_back"
+                            android:tint="@color/gray_light" />
 
                     </LinearLayout>
 
@@ -246,10 +279,10 @@
                         android:id="@+id/ll_open"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
                         android:background="@drawable/bg_press_color_white"
-                        android:paddingLeft="16dp"
                         android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 
                         <ImageView
@@ -261,22 +294,22 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_content"
-                            android:textColor="@color/text_black"
-                            android:singleLine="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="开源项目"/>
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="开源项目"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_content" />
 
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:scaleType="fitCenter"
                             android:rotation="180"
-                            android:tint="@color/gray_light"
-                            android:src="@drawable/ic_back"/>
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_back"
+                            android:tint="@color/gray_light" />
 
                     </LinearLayout>
 
@@ -284,10 +317,10 @@
                         android:id="@+id/ll_about_me"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
                         android:background="@drawable/bg_press_color_white"
-                        android:paddingLeft="16dp"
                         android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 
                         <ImageView
@@ -299,22 +332,22 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_content"
-                            android:textColor="@color/text_black"
-                            android:singleLine="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="关于作者" />
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="关于作者"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_content" />
 
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:scaleType="fitCenter"
                             android:rotation="180"
-                            android:tint="@color/gray_light"
-                            android:src="@drawable/ic_back"/>
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_back"
+                            android:tint="@color/gray_light" />
 
                     </LinearLayout>
 
@@ -322,10 +355,10 @@
                         android:id="@+id/ll_setting"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:orientation="horizontal"
                         android:background="@drawable/bg_press_color_white"
-                        android:paddingLeft="16dp"
                         android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingLeft="16dp"
                         android:paddingRight="16dp">
 
                         <ImageView
@@ -337,22 +370,22 @@
 
                         <TextView
                             android:layout_width="0dp"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
-                            android:textSize="@dimen/text_content"
-                            android:textColor="@color/text_black"
-                            android:singleLine="true"
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
-                            android:text="系统设置" />
+                            android:layout_weight="1"
+                            android:singleLine="true"
+                            android:text="系统设置"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_content" />
 
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"
-                            android:scaleType="fitCenter"
                             android:rotation="180"
-                            android:tint="@color/gray_light"
-                            android:src="@drawable/ic_back"/>
+                            android:scaleType="fitCenter"
+                            android:src="@drawable/ic_back"
+                            android:tint="@color/gray_light" />
 
                     </LinearLayout>
 
@@ -367,7 +400,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common"
-        app:abc_rightIconRes="@drawable/ic_rank"
-        android:background="@color/transparent" />
+        android:background="@color/transparent"
+        app:abc_rightIconRes="@drawable/ic_rank" />
 
 </FrameLayout>

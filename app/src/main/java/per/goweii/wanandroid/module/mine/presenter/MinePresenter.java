@@ -98,9 +98,13 @@ public class MinePresenter extends BasePresenter<MineView> {
                         int lvIndexStart = s.indexOf(">", coinIndexEnd);
                         int lvIndexEnd = s.indexOf("<", lvIndexStart);
                         String lvStr = s.substring(lvIndexStart + 1, lvIndexEnd).replace("lv", "").trim();
+                        int rankingIndexStart = s.indexOf("排名", lvIndexEnd);
+                        int rankingIndexEnd = s.indexOf("<", rankingIndexStart);
+                        String rankingStr = s.substring(rankingIndexStart + 2, rankingIndexEnd).replace(" ", "").trim();
                         Integer.parseInt(coinStr);
                         Integer.parseInt(lvStr);
-                        return new String[]{coinStr, lvStr};
+                        Integer.parseInt(rankingStr);
+                        return new String[]{coinStr, lvStr, rankingStr};
                     }
                 })
                 .subscribeOn(Schedulers.io())
@@ -113,8 +117,8 @@ public class MinePresenter extends BasePresenter<MineView> {
 
                     @Override
                     public void onNext(String[] strings) {
-                        if (strings.length == 2) {
-                            getBaseView().getUserCoinAndLevelSuccess(strings[0], strings[1]);
+                        if (strings.length == 3) {
+                            getBaseView().getUserCoinAndLevelSuccess(strings[0], strings[1], strings[2]);
                         } else {
                             getBaseView().getUserCoinAndLevelFail();
                         }
