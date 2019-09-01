@@ -18,7 +18,7 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         android:background="@color/transparent"
-        app:abc_rightIconRes="@drawable/ic_rank"
+        app:abc_rightIconRes="@drawable/ic_rule"
         app:abc_titleText="我的积分" />
 
     <TextView

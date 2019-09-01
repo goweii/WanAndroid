@@ -14,7 +14,7 @@
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
         android:textColor="@color/text_main"
-        android:textSize="@dimen/text_title"
+        android:textSize="@dimen/text_content"
         tools:text="+31" />
 
     <TextView

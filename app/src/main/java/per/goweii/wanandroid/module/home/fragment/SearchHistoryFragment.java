@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -36,6 +37,8 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
 
     @BindView(R.id.rv_hot)
     RecyclerView rv_hot;
+    @BindView(R.id.ll_history)
+    LinearLayout ll_history;
     @BindView(R.id.rv_history)
     RecyclerView rv_history;
 
@@ -107,6 +110,19 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
     protected void loadData() {
         presenter.getHotKeyList();
         mHistoryAdapter.setNewData(presenter.getHistory());
+        changeHistoryVisible();
+    }
+
+    private void changeHistoryVisible() {
+        if (mHistoryAdapter == null) {
+            ll_history.setVisibility(View.GONE);
+        } else {
+            if (mHistoryAdapter.getData().isEmpty()) {
+                ll_history.setVisibility(View.GONE);
+            } else {
+                ll_history.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void search(String key) {
@@ -134,6 +150,7 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
                             @Override
                             public void onResult(Void data) {
                                 mHistoryAdapter.setNewData(null);
+                                changeHistoryVisible();
                                 presenter.saveHistory(null);
                             }
                         })
@@ -161,6 +178,7 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
         }
         RvScrollTopUtils.smoothScrollTop(rv_history);
         presenter.saveHistory(mHistoryAdapter.getData());
+        changeHistoryVisible();
     }
 
     @Override

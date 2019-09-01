@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
@@ -19,6 +22,7 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.AnimatorUtils;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.module.main.dialog.WebDialog;
 import per.goweii.wanandroid.module.mine.adapter.CoinRecordAdapter;
 import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
 import per.goweii.wanandroid.module.mine.presenter.CoinPresenter;
@@ -71,8 +75,9 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
         abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
-//                WebDialog.show(getContext(), "https://www.wanandroid.com/blog/show/2653");
-                CoinRankActivity.start(getContext());
+                List<WebDialog.Data> urls = new ArrayList<>(1);
+                urls.add(new WebDialog.Data(-1, "https://www.wanandroid.com/blog/show/2653", false));
+                new WebDialog(getContext(), urls, 0).show();
             }
         });
         tv_coin.setText("0");

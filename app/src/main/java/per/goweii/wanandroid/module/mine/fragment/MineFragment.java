@@ -31,6 +31,7 @@ import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.mine.activity.AboutMeActivity;
 import per.goweii.wanandroid.module.mine.activity.CoinActivity;
+import per.goweii.wanandroid.module.mine.activity.CoinRankActivity;
 import per.goweii.wanandroid.module.mine.activity.CollectionActivity;
 import per.goweii.wanandroid.module.mine.activity.OpenActivity;
 import per.goweii.wanandroid.module.mine.activity.ReadLaterActivity;
@@ -127,7 +128,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
-                UserUtils.getInstance().logout();
+                CoinRankActivity.start(getContext());
             }
         });
         srl.setOnMultiPurposeListener(new OnMultiPurposeListener() {
