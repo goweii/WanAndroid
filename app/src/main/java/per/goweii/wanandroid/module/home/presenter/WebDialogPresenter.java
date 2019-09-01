@@ -6,7 +6,7 @@ import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.home.view.WebDialogView;
-import per.goweii.wanandroid.module.main.dialog.WebDialog;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -19,7 +19,7 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class WebDialogPresenter extends BasePresenter<WebDialogView> {
 
-    public void collect(WebDialog.Data item, final CollectView v) {
+    public void collect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.collect(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
@@ -51,7 +51,7 @@ public class WebDialogPresenter extends BasePresenter<WebDialogView> {
         }));
     }
 
-    public void uncollect(WebDialog.Data item, final CollectView v) {
+    public void uncollect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.uncollect(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {

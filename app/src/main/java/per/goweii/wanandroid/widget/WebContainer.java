@@ -19,11 +19,13 @@ public class WebContainer extends FrameLayout {
 
     private final float mTouchSlop;
     private final long mTapTimeout;
-    private long mDelay = 1000L;
+    private final long mDoubleTapTimeout;
 
     private long mDownTime = 0L;
     private float mDownX = 0;
     private float mDownY = 0;
+    private float mLastDownX = 0;
+    private float mLastDownY = 0;
     private long mLastTouchTime = 0L;
 
     private OnDoubleClickListener mOnDoubleClickListener = null;
@@ -40,6 +42,7 @@ public class WebContainer extends FrameLayout {
         super(context, attrs, defStyleAttr);
         mTouchSlop = ViewConfiguration.getTouchSlop();
         mTapTimeout = ViewConfiguration.getTapTimeout();
+        mDoubleTapTimeout = ViewConfiguration.getDoubleTapTimeout();
     }
 
     public void setOnDoubleClickListener(OnDoubleClickListener onDoubleClickListener) {
@@ -63,11 +66,14 @@ public class WebContainer extends FrameLayout {
                 boolean isClick = getDistance(mDownX, mDownY, upX, upY) < mTouchSlop &&
                         currTime - mDownTime < mTapTimeout;
                 if (isClick) {
-                    if (currTime - mLastTouchTime < mDelay) {
+                    if (currTime - mLastTouchTime < mDoubleTapTimeout &&
+                            getDistance(mDownX, mDownY, mLastDownX, mLastDownY) < mTouchSlop * 5) {
                         if (mOnDoubleClickListener != null) {
                             mOnDoubleClickListener.onDoubleClick();
                         }
                     }
+                    mLastDownX = mDownX;
+                    mLastDownY = mDownY;
                     mLastTouchTime = currTime;
                 }
                 break;

@@ -14,11 +14,11 @@ import com.just.agentweb.WebChromeClient;
 import com.just.agentweb.WebViewClient;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.common.ActionBarCommon;
-import per.goweii.actionbarex.common.OnActionBarChildClickListener;
+import per.goweii.actionbarex.common.ActionBarSuper;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.IntentUtils;
+import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
@@ -38,8 +38,8 @@ import per.goweii.wanandroid.widget.WebContainer;
  */
 public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView {
 
-    @BindView(R.id.abc)
-    ActionBarCommon abc;
+    @BindView(R.id.abs)
+    ActionBarSuper abs;
     @BindView(R.id.wc)
     WebContainer wc;
 
@@ -105,19 +105,19 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
         // forceHttpsForAndroid9();
 
-        abc.getTitleTextView().setText(mTitle);
-        abc.setOnLeftIconClickListener(new OnActionBarChildClickListener() {
+        abs.getTitleTextView().setText(mTitle);
+        abs.getLeftActionView(0).setOnClickListener(new OnClickListener2() {
             @Override
-            public void onClick(View v) {
+            public void onClick2(View v) {
                 if (!mAgentWeb.back()) {
                     finish();
                 }
             }
         });
-        abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
+        abs.getRightActionView(0).setOnClickListener(new OnClickListener2() {
             @Override
-            public void onClick(View v) {
-                WebMenuDialog.show(abc, new WebMenuDialog.OnMenuClickListener() {
+            public void onClick2(View v) {
+                WebMenuDialog.show(abs, new WebMenuDialog.OnMenuClickListener() {
                     @Override
                     public void onCollect() {
                         collect();
@@ -157,8 +157,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 super.onReceivedTitle(view, title);
                 mCurrTitle = title;
                 mCurrUrl = view.getUrl();
-                if (abc.getTitleTextView() != null) {
-                    abc.getTitleTextView().setText(title);
+                if (abs.getTitleTextView() != null) {
+                    abs.getTitleTextView().setText(title);
                 }
             }
         }, new WebViewClient() {
@@ -167,7 +167,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 super.onPageFinished(view, url);
                 if (!GuideSPUtils.getInstance().isWebGuideShown()) {
                     if (mWebGuideDialog == null) {
-                        mWebGuideDialog = new WebGuideDialog(abc);
+                        mWebGuideDialog = new WebGuideDialog(abs);
                         mWebGuideDialog.show();
                     }
                 }

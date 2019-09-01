@@ -20,11 +20,23 @@
     </style>
 
     <style name="AppTheme.Normal">
-        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimRightInParallaxOut</item>
+        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimRightInParallaxOut
+        </item>
     </style>
 
     <style name="AppTheme.Login">
-        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimBottomInParallaxOut</item>
+        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimBottomInParallaxOut
+        </item>
+    </style>
+
+    <style name="StateView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="msv_animateViewChanges">false</item>
+        <item name="msv_emptyView">@layout/layout_state_empty</item>
+        <item name="msv_errorView">@layout/layout_state_error</item>
+        <item name="msv_loadingView">@layout/layout_state_loading</item>
+        <item name="msv_viewState">content</item>
     </style>
 
     <style name="ActionBar">
@@ -38,28 +50,21 @@
         <item name="ab_titleBarHeight">@dimen/action_bar_height</item>
     </style>
 
-    <style name="StateView">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="msv_animateViewChanges">false</item>
-        <item name="msv_emptyView">@layout/layout_state_empty</item>
-        <item name="msv_errorView">@layout/layout_state_error</item>
-        <item name="msv_loadingView">@layout/layout_state_loading</item>
-        <item name="msv_viewState">content</item>
-    </style>
-
     <style name="ActionBar.Common">
         <item name="abc_titleTextColor">@color/text_white</item>
         <item name="abc_leftIconColor">@color/white</item>
         <item name="abc_leftIconPadding">13dp</item>
+        <item name="abc_leftIconMarginLeft">3dp</item>
         <item name="abc_leftTextColor">@color/white</item>
         <item name="abc_rightIconColor">@color/white</item>
         <item name="abc_rightIconPadding">13dp</item>
+        <item name="abc_rightIconMarginRight">3dp</item>
         <item name="abc_rightTextColor">@color/white</item>
     </style>
 
     <style name="ActionBar.Common.Back">
         <item name="abc_leftIconRes">@drawable/ic_back</item>
+        <item name="abc_leftIconMarginLeft">0dp</item>
         <item name="abc_leftIconClickToFinish">true</item>
     </style>
 
@@ -111,7 +116,9 @@
         <!--预览界面标题文字颜色-->
         <item name="picture.ac_preview.title.textColor">@color/white</item>
         <!--预览界面已完成文字颜色-->
-        <item name="picture.ac_preview.complete.textColor">@color/picture_selector_preview_text_color</item>
+        <item name="picture.ac_preview.complete.textColor">
+            @color/picture_selector_preview_text_color
+        </item>
         <!--预览界面标题栏背景色-->
         <item name="picture.ac_preview.title.bg">@color/main</item>
         <!--预览界面背景色-->

@@ -2,6 +2,7 @@ package per.goweii.wanandroid.utils;
 
 import android.app.Activity;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import com.just.agentweb.AgentWeb;
@@ -26,7 +27,7 @@ public class AgentWebCreator {
                                   String url,
                                   WebChromeClient webChromeClient,
                                   WebViewClient webViewClient) {
-        return AgentWeb.with(activity)
+        AgentWeb agentWeb = AgentWeb.with(activity)
                 .setAgentWebParent(container, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator(ResUtils.getColor(R.color.accent), 1)
                 .interceptUnkownUrl()
@@ -38,6 +39,9 @@ public class AgentWebCreator {
                 .createAgentWeb()
                 .ready()
                 .go(url);
+        agentWeb.getWebCreator().getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        agentWeb.getWebCreator().getWebView().getSettings().setJavaScriptEnabled(false);
+        return agentWeb;
     }
 
     public static AgentWeb create(Activity activity, FrameLayout container, String url) {

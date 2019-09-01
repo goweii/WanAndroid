@@ -19,6 +19,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.home.presenter.WebDialogPresenter;
 import per.goweii.wanandroid.module.home.view.WebDialogView;
 import per.goweii.wanandroid.module.main.adapter.WebDialogPagerAdapter;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -30,16 +31,14 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class WebDialog extends DialogLayer implements WebDialogView {
 
-    private final List<Data> urls;
     private final int currPos;
 
     private WebDialogPresenter presenter = null;
     private OnPageChangedListener mOnPageChangedListener = null;
     private WebDialogPagerAdapter mAdapter;
 
-    public WebDialog(Context context, final List<Data> urls, final int currPos) {
+    public WebDialog(Context context, final List<ArticleBean> topUrls, final List<ArticleBean> urls, final int currPos) {
         super(context);
-        this.urls = urls;
         this.currPos = currPos;
         contentView(R.layout.dialog_web);
         backgroundColorRes(R.color.dialog_bg);
@@ -72,6 +71,13 @@ public class WebDialog extends DialogLayer implements WebDialogView {
                 return set;
             }
         });
+        mAdapter = new WebDialogPagerAdapter(getActivity(), topUrls, urls);
+    }
+
+    public void notifyDataSetChanged() {
+        if (mAdapter != null) {
+            mAdapter.notifyDataSetChanged();
+        }
     }
 
     public void setOnPageChangedListener(OnPageChangedListener onPageChangedListener) {
@@ -95,13 +101,13 @@ public class WebDialog extends DialogLayer implements WebDialogView {
             public void onPageSelected(int i) {
                 if (mAdapter != null) {
                     mAdapter.resumeAndPauseOthersAgentWeb(i);
-                }
-                Data data = urls.get(i);
-                if (cv_collect.isChecked() != data.isCollect()) {
-                    cv_collect.toggle();
-                }
-                if (mOnPageChangedListener != null) {
-                    mOnPageChangedListener.onPageChanged(i, data);
+                    ArticleBean data = mAdapter.getBean(i);
+                    if (cv_collect.isChecked() != data.isCollect()) {
+                        cv_collect.toggle();
+                    }
+                    if (mOnPageChangedListener != null) {
+                        mOnPageChangedListener.onPageChanged(i, data);
+                    }
                 }
             }
 
@@ -123,7 +129,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         cv_collect.setOnClickListener(new CollectView.OnClickListener() {
             @Override
             public void onClick(CollectView v) {
-                Data data = urls.get(vp.getCurrentItem());
+                ArticleBean data = mAdapter.getBean(vp.getCurrentItem());
                 if (!v.isChecked()) {
                     presenter.collect(data, v);
                 } else {
@@ -131,10 +137,9 @@ public class WebDialog extends DialogLayer implements WebDialogView {
                 }
             }
         });
-        mAdapter = new WebDialogPagerAdapter(getActivity(), urls);
         mAdapter.setOnDoubleClickListener(new WebDialogPagerAdapter.OnDoubleClickListener() {
             @Override
-            public void onDoubleClick(Data data) {
+            public void onDoubleClick(ArticleBean data) {
                 if (presenter != null) {
                     presenter.collect(data, cv_collect);
                 }
@@ -180,44 +185,8 @@ public class WebDialog extends DialogLayer implements WebDialogView {
     public void clearLoading() {
     }
 
-    public static class Data {
-        private int id;
-        private String url;
-        private boolean collect;
-
-        public Data(int id, String url, boolean collect) {
-            this.id = id;
-            this.url = url;
-            this.collect = collect;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public String getUrl() {
-            return url;
-        }
-
-        public void setUrl(String url) {
-            this.url = url;
-        }
-
-        public boolean isCollect() {
-            return collect;
-        }
-
-        public void setCollect(boolean collect) {
-            this.collect = collect;
-        }
-    }
-
     public interface OnPageChangedListener {
-        void onPageChanged(int pos, Data data);
+        void onPageChanged(int pos, ArticleBean data);
     }
 
 }

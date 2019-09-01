@@ -23,6 +23,7 @@ import per.goweii.basic.utils.AnimatorUtils;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.mine.adapter.CoinRecordAdapter;
 import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
 import per.goweii.wanandroid.module.mine.presenter.CoinPresenter;
@@ -75,9 +76,11 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
         abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
-                List<WebDialog.Data> urls = new ArrayList<>(1);
-                urls.add(new WebDialog.Data(-1, "https://www.wanandroid.com/blog/show/2653", false));
-                new WebDialog(getContext(), urls, 0).show();
+                List<ArticleBean> urls = new ArrayList<>(1);
+                ArticleBean bean = new ArticleBean();
+                bean.setLink("https://www.wanandroid.com/blog/show/2653");
+                urls.add(bean);
+                new WebDialog(getContext(), urls, null, 0).show();
             }
         });
         tv_coin.setText("0");

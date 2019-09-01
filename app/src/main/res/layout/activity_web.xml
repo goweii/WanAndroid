@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:background="@color/bg"
+    android:orientation="vertical"
     tools:context=".module.main.activity.MainActivity">
 
-    <per.goweii.actionbarex.common.ActionBarCommon
-        android:id="@+id/abc"
-        style="@style/ActionBar.Common.Back"
-        app:abc_titleTextMaxWidth="200dp"
-        app:abc_leftTextPaddingLeft="0dp"
-        app:abc_leftTextPaddingRight="0dp"
-        app:abc_leftTextClickToFinish="true"
-        android:paddingRight="3dp"
-        app:abc_rightIconRes="@drawable/ic_more"
-        app:abc_leftText="关闭"/>
+    <per.goweii.actionbarex.common.ActionBarSuper
+        android:id="@+id/abs"
+        style="@style/ActionBar"
+        app:absuper_left1Icon="@drawable/ic_back"
+        app:absuper_left1IconPadding="13dp"
+        app:absuper_left2Icon="@drawable/ic_close"
+        app:absuper_left2IconClickToFinish="true"
+        app:absuper_left2IconPadding="13dp"
+        app:absuper_right1Icon="@drawable/ic_more"
+        app:absuper_right1IconMarginRight="3dp"
+        app:absuper_right1IconPadding="13dp"
+        app:absuper_titleTextColor="@color/text_white"
+        app:absuper_titleTextMaxWidth="200dp"
+        tools:absuper_titleText="网页网页网页网页网页网页" />
 
-    <per.goweii.wanandroid.widget.WebContainer
-        android:id="@+id/wc"
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:srlEnablePureScrollMode="true">
+
+        <per.goweii.wanandroid.widget.WebContainer
+            android:id="@+id/wc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

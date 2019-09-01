@@ -30,6 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
+import per.goweii.anylayer.Layer;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
@@ -86,6 +87,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     private List<BannerBean> mBannerBeans;
     private List<View> mHeaderTopItemViews;
     private List<ArticleBean> mHeaderTopItemBeans;
+    private WebDialog mWebDialog;
 
     public static HomeFragment create() {
         return new HomeFragment();
@@ -105,6 +107,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             if (item.getId() == event.getArticleId()) {
                 if (item.isCollect() != event.isCollect()) {
                     item.setCollect(event.isCollect());
+                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
+                }
+                if (mWebDialog != null) {
                     mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
                 }
                 break;
@@ -274,26 +279,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     }
 
     private void showWebDialog(boolean header, int position) {
-        List<WebDialog.Data> urls = new ArrayList<>();
         int index = position;
         if (!header) {
             if (mHeaderTopItemBeans != null) {
                 index += mHeaderTopItemBeans.size();
             }
         }
-        if (mHeaderTopItemBeans != null) {
-            for (ArticleBean bean : mHeaderTopItemBeans) {
-                urls.add(new WebDialog.Data(bean.getId(), bean.getLink(), bean.isCollect()));
-            }
-        }
-        List<ArticleBean> data = mAdapter.getData();
-        for (ArticleBean bean : data) {
-            urls.add(new WebDialog.Data(bean.getId(), bean.getLink(), bean.isCollect()));
-        }
-        WebDialog webDialog = new WebDialog(getContext(), urls, index);
-        webDialog.setOnPageChangedListener(new WebDialog.OnPageChangedListener() {
+        mWebDialog = new WebDialog(getContext(), mHeaderTopItemBeans, mAdapter.getData(), index);
+        mWebDialog.setOnPageChangedListener(new WebDialog.OnPageChangedListener() {
             @Override
-            public void onPageChanged(int pos, WebDialog.Data data) {
+            public void onPageChanged(int pos, ArticleBean data) {
                 int headerCount = mAdapter.getHeaderLayoutCount();
                 int currItemPos = 0;
                 boolean find = false;
@@ -325,7 +320,17 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 rv.smoothScrollToPosition(currItemPos);
             }
         });
-        webDialog.show();
+        mWebDialog.onDismissListener(new Layer.OnDismissListener() {
+            @Override
+            public void onDismissing(Layer layer) {
+            }
+
+            @Override
+            public void onDismissed(Layer layer) {
+                mWebDialog = null;
+            }
+        });
+        mWebDialog.show();
     }
 
     @Override
@@ -523,6 +528,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             mAdapter.setNewData(data.getDatas());
         } else {
             mAdapter.addData(data.getDatas());
+            if (mWebDialog != null) {
+                mWebDialog.notifyDataSetChanged();
+            }
             mAdapter.loadMoreComplete();
         }
         if (data.isOver()) {

@@ -13,7 +13,7 @@ import com.just.agentweb.AgentWeb;
 import java.util.List;
 
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.main.dialog.WebDialog;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.AgentWebCreator;
 import per.goweii.wanandroid.widget.WebContainer;
 
@@ -27,12 +27,14 @@ import per.goweii.wanandroid.widget.WebContainer;
 public class WebDialogPagerAdapter extends PagerAdapter {
 
     private final Activity mActivity;
-    private final List<WebDialog.Data> mUrls;
+    private final List<ArticleBean> mTopUrls;
+    private final List<ArticleBean> mUrls;
     private final SparseArray<AgentWeb> mAgentWebs = new SparseArray<>();
 
     private OnDoubleClickListener mOnDoubleClickListener = null;
 
-    public WebDialogPagerAdapter(Activity activity, List<WebDialog.Data> urls) {
+    public WebDialogPagerAdapter(Activity activity, List<ArticleBean> topUrls, List<ArticleBean> urls) {
+        mTopUrls = topUrls;
         mUrls = urls;
         mActivity = activity;
     }
@@ -69,15 +71,30 @@ public class WebDialogPagerAdapter extends PagerAdapter {
         }
     }
 
+    public ArticleBean getBean(int pos) {
+        int topUrlCount = mTopUrls == null ? 0 : mTopUrls.size();
+        if (pos < topUrlCount) {
+            return mTopUrls.get(pos);
+        }
+        return mUrls.get(pos - topUrlCount);
+    }
+
     @Override
     public int getCount() {
-        return mUrls == null ? 0 : mUrls.size();
+        int count = 0;
+        if (mTopUrls != null) {
+            count += mTopUrls.size();
+        }
+        if (mUrls != null) {
+            count += mUrls.size();
+        }
+        return count;
     }
 
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        final WebDialog.Data data = mUrls.get(position);
+        final ArticleBean data = getBean(position);
         View rootView = LayoutInflater.from(container.getContext()).inflate(R.layout.dialog_web_vp_item, container, false);
         WebContainer wc = rootView.findViewById(R.id.dialog_web_wc);
         wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
@@ -88,7 +105,7 @@ public class WebDialogPagerAdapter extends PagerAdapter {
                 }
             }
         });
-        AgentWeb agentWeb = AgentWebCreator.create(mActivity, wc, data.getUrl());
+        AgentWeb agentWeb = AgentWebCreator.create(mActivity, wc, data.getLink());
         rootView.setTag(agentWeb);
         mAgentWebs.put(position, agentWeb);
         container.addView(rootView);
@@ -113,6 +130,6 @@ public class WebDialogPagerAdapter extends PagerAdapter {
     }
 
     public interface OnDoubleClickListener {
-        void onDoubleClick(WebDialog.Data data);
+        void onDoubleClick(ArticleBean data);
     }
 }
