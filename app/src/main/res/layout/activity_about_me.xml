@@ -189,7 +189,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:text="如果你觉得APP做得还不错并对你有所帮助\n欢迎打赏，金额不限"
+                    android:text="呦~\nAPP做得不错呀\n我要请作者喝杯咖啡"
                     android:textColor="@color/text_white_alpha"
                     android:textSize="@dimen/text_auxiliary" />
 
@@ -200,7 +200,7 @@
                     android:layout_above="@+id/iv_to_reward"
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
-                    android:text="上滑打赏"
+                    android:text="上滑"
                     android:textColor="@color/text_white_alpha"
                     android:textSize="@dimen/text_auxiliary" />
 
@@ -225,6 +225,6 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         android:background="@color/transparent"
-        app:abc_titleText="关于我" />
+        app:abc_titleText="关于作者" />
 
 </RelativeLayout>
