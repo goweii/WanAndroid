@@ -30,13 +30,43 @@ public class WebDialogPagerAdapter extends PagerAdapter {
     private final List<WebDialog.Data> mUrls;
     private final SparseArray<AgentWeb> mAgentWebs = new SparseArray<>();
 
+    private OnDoubleClickListener mOnDoubleClickListener = null;
+
     public WebDialogPagerAdapter(Activity activity, List<WebDialog.Data> urls) {
         mUrls = urls;
         mActivity = activity;
     }
 
+    public void setOnDoubleClickListener(OnDoubleClickListener onDoubleClickListener) {
+        mOnDoubleClickListener = onDoubleClickListener;
+    }
+
     public AgentWeb getAgentWeb(int pos) {
         return mAgentWebs.get(pos);
+    }
+
+    public void resumeAndPauseOthersAgentWeb(int pos) {
+        for (int i = 0; i < mAgentWebs.size(); i++) {
+            int index = mAgentWebs.keyAt(i);
+            AgentWeb agentWeb = mAgentWebs.valueAt(i);
+            if (agentWeb == null) {
+                continue;
+            }
+            if (index == pos) {
+                agentWeb.getWebLifeCycle().onResume();
+            } else {
+                agentWeb.getWebLifeCycle().onPause();
+            }
+        }
+    }
+
+    public void destroyAllAgentWeb() {
+        for (int i = 0; i < mAgentWebs.size(); i++) {
+            AgentWeb agentWeb = mAgentWebs.valueAt(i);
+            if (agentWeb != null) {
+                agentWeb.getWebLifeCycle().onDestroy();
+            }
+        }
     }
 
     @Override
@@ -47,9 +77,18 @@ public class WebDialogPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
+        final WebDialog.Data data = mUrls.get(position);
         View rootView = LayoutInflater.from(container.getContext()).inflate(R.layout.dialog_web_vp_item, container, false);
         WebContainer wc = rootView.findViewById(R.id.dialog_web_wc);
-        AgentWeb agentWeb = AgentWebCreator.create(mActivity, wc, mUrls.get(position).getUrl());
+        wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
+            @Override
+            public void onDoubleClick() {
+                if (mOnDoubleClickListener != null) {
+                    mOnDoubleClickListener.onDoubleClick(data);
+                }
+            }
+        });
+        AgentWeb agentWeb = AgentWebCreator.create(mActivity, wc, data.getUrl());
         rootView.setTag(agentWeb);
         mAgentWebs.put(position, agentWeb);
         container.addView(rootView);
@@ -71,5 +110,9 @@ public class WebDialogPagerAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
         return view == o;
+    }
+
+    public interface OnDoubleClickListener {
+        void onDoubleClick(WebDialog.Data data);
     }
 }

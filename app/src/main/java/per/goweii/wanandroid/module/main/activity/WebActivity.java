@@ -43,8 +43,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     @BindView(R.id.wc)
     WebContainer wc;
 
-    private AgentWeb mAgentWeb;
-
     private int mArticleId = -1;
     private String mTitle = "";
     private String mAuthor = "";
@@ -52,7 +50,10 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     private String mCurrTitle = "";
     private String mCurrUrl = "";
-    private RealmHelper mRealmHelper;
+
+    private AgentWeb mAgentWeb = null;
+    private RealmHelper mRealmHelper = null;
+    private WebGuideDialog mWebGuideDialog = null;
 
     public static void start(Context context, int articleId, String title, String url) {
         Intent intent = new Intent(context, WebActivity.class);
@@ -165,7 +166,10 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 if (!GuideSPUtils.getInstance().isWebGuideShown()) {
-                    WebGuideDialog.show(abc);
+                    if (mWebGuideDialog == null) {
+                        mWebGuideDialog = new WebGuideDialog(abc);
+                        mWebGuideDialog.show();
+                    }
                 }
             }
         });
@@ -186,7 +190,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     @Override
     protected void onDestroy() {
         mAgentWeb.getWebLifeCycle().onDestroy();
-        mAgentWeb.destroy();
         if (mRealmHelper != null) {
             mRealmHelper.destroy();
         }

@@ -35,6 +35,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
 
     private WebDialogPresenter presenter = null;
     private OnPageChangedListener mOnPageChangedListener = null;
+    private WebDialogPagerAdapter mAdapter;
 
     public WebDialog(Context context, final List<Data> urls, final int currPos) {
         super(context);
@@ -82,10 +83,9 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         super.onAttach();
         presenter = new WebDialogPresenter();
         presenter.onCreate(this);
-        ViewPager vp = getView(R.id.dialog_web_vp);
-        ImageView iv_back = getView(R.id.dialog_web_iv_back);
-        CollectView cv_collect = getView(R.id.dialog_web_cv_collect);
-        WebDialogPagerAdapter adapter = new WebDialogPagerAdapter(getActivity(), urls);
+        final ViewPager vp = getView(R.id.dialog_web_vp);
+        final ImageView iv_back = getView(R.id.dialog_web_iv_back);
+        final CollectView cv_collect = getView(R.id.dialog_web_cv_collect);
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int i, float v, int i1) {
@@ -93,6 +93,9 @@ public class WebDialog extends DialogLayer implements WebDialogView {
 
             @Override
             public void onPageSelected(int i) {
+                if (mAdapter != null) {
+                    mAdapter.resumeAndPauseOthersAgentWeb(i);
+                }
                 Data data = urls.get(i);
                 if (cv_collect.isChecked() != data.isCollect()) {
                     cv_collect.toggle();
@@ -109,9 +112,11 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         iv_back.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                AgentWeb agentWeb = adapter.getAgentWeb(vp.getCurrentItem());
-                if (agentWeb != null) {
-                    agentWeb.back();
+                if (mAdapter != null) {
+                    AgentWeb agentWeb = mAdapter.getAgentWeb(vp.getCurrentItem());
+                    if (agentWeb != null) {
+                        agentWeb.back();
+                    }
                 }
             }
         });
@@ -126,12 +131,24 @@ public class WebDialog extends DialogLayer implements WebDialogView {
                 }
             }
         });
-        vp.setAdapter(adapter);
+        mAdapter = new WebDialogPagerAdapter(getActivity(), urls);
+        mAdapter.setOnDoubleClickListener(new WebDialogPagerAdapter.OnDoubleClickListener() {
+            @Override
+            public void onDoubleClick(Data data) {
+                if (presenter != null) {
+                    presenter.collect(data, cv_collect);
+                }
+            }
+        });
+        vp.setAdapter(mAdapter);
         vp.setCurrentItem(currPos);
     }
 
     @Override
     public void onDetach() {
+        if (mAdapter != null) {
+            mAdapter.destroyAllAgentWeb();
+        }
         if (presenter != null) {
             presenter.onDestroy();
         }

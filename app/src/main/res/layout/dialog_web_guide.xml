@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="500dp"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:background="@color/dialog_bg">
 
     <ImageView
         android:id="@+id/dialog_web_guide_iv_1"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:alpha="0.5"
         android:src="@drawable/bg_solid_round_color_main_radius_max" />
 
@@ -17,20 +19,20 @@
         android:id="@+id/dialog_web_guide_iv_2"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"
-        android:alpha="0.7"
-        android:layout_alignTop="@+id/dialog_web_guide_iv_1"
         android:layout_alignLeft="@+id/dialog_web_guide_iv_1"
+        android:layout_alignTop="@+id/dialog_web_guide_iv_1"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:alpha="0.7"
         android:src="@drawable/bg_solid_round_color_main_radius_max" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="双击网页任意位置收藏文章"
-        android:layout_marginTop="50dp"
         android:layout_below="@+id/dialog_web_guide_iv_2"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="双击网页任意位置收藏文章"
         android:textColor="@color/text_white"
         android:textSize="@dimen/text_title" />
 
