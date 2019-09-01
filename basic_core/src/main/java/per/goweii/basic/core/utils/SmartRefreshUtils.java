@@ -54,7 +54,7 @@ public class SmartRefreshUtils {
             mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
                 @Override
                 public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                    refreshLayout.finishRefresh((int) Config.HTTP_TIMEOUT, false);
+                    refreshLayout.finishRefresh((int) Config.HTTP_TIMEOUT, false, false);
                     mRefreshListener.onRefresh();
                 }
             });
