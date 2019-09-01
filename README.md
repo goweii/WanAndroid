@@ -37,7 +37,7 @@
 
 10、更换个人中心背景
 
-11、积分和等级
+11、等级积分和排名显示
 
 12、首页列表长按显示文章概览
 
@@ -45,9 +45,8 @@
 
 # APP下载
 
-- [酷安下载最新版](https://www.coolapk.com/apk/231591)
-- [GitHub下载最新版](https://github.com/goweii/WanAndroid/releases/download/1.1.0/per.goweii.wanandroid-v1.1.0.apk)
-- [查看历史版本](https://github.com/goweii/WanAndroid/releases)
+- [酷安下载](https://www.coolapk.com/apk/231591)
+- [GitHub下载](https://github.com/goweii/WanAndroid/releases)
 
 
 
@@ -100,6 +99,16 @@
 
 
 # 更新日志
+
+## 1.1.1(15)
+
+- 【新增】文章概览自动加载分页
+- 【新增】文章概览双击收藏
+- 【新增】我的页面显示积分排名
+- 【新增】我的积分可查看积分规则
+- 【优化】搜索历史为空时隐藏
+- 【优化】积分榜移至我的页面
+- 【修复】收藏列表刷新BUG
 
 ## 1.1.0(14)
 
