@@ -177,6 +177,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                currPage++;
                 getWxArticleList(false);
             }
         }, rv);
@@ -257,7 +258,6 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
-        currPage++;
     }
 
     @Override

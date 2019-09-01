@@ -76,6 +76,7 @@ public class CoinRankActivity extends BaseActivity<CoinRankPresenter> implements
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                currPage++;
                 presenter.getCoinRankList(currPage);
             }
         }, rv);
@@ -114,7 +115,6 @@ public class CoinRankActivity extends BaseActivity<CoinRankPresenter> implements
         if (data.isOver()) {
             mAdapter.loadMoreEnd();
         }
-        currPage++;
     }
 
     @Override

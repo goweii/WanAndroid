@@ -127,6 +127,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                currPage++;
                 presenter.search(currPage, mKey, false);
             }
         }, rv);
@@ -194,7 +195,6 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
-        currPage++;
     }
 
     @Override

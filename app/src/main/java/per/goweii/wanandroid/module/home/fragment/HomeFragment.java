@@ -230,6 +230,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                currPage++;
                 presenter.getArticleList(currPage, false);
             }
         }, rv);
@@ -532,7 +533,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             }
         }
         mSmartRefreshUtils.success();
-        currPage++;
     }
 
     @Override

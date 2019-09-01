@@ -102,6 +102,7 @@ public class ReadLaterActivity extends BaseActivity {
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                currPage++;
                 getPageList();
             }
         }, rv);
@@ -172,6 +173,5 @@ public class ReadLaterActivity extends BaseActivity {
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
-        currPage++;
     }
 }

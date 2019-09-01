@@ -178,6 +178,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                currPage++;
                 getKnowledgeArticleList(false);
             }
         }, rv);
@@ -257,7 +258,6 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
-        currPage++;
     }
 
     @Override

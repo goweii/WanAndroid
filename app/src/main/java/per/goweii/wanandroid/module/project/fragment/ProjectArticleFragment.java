@@ -177,6 +177,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                currPage++;
                 getProjectArticleList(false);
             }
         }, rv);
@@ -257,7 +258,6 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
-        currPage++;
     }
 
     @Override

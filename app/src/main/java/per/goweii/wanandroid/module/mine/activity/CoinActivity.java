@@ -83,6 +83,7 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
         mCoinRecordAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                currPage++;
                 presenter.getCoinRecordList(currPage);
             }
         }, rv);
@@ -132,7 +133,6 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
         if (data.isOver()) {
             mCoinRecordAdapter.loadMoreEnd();
         }
-        currPage++;
     }
 
     @Override

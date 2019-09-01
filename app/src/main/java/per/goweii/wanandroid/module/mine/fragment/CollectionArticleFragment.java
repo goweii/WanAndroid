@@ -124,6 +124,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
             @Override
             public void onRefresh() {
+                currPage = PAGE_START;
                 presenter.getCollectArticleList(currPage, true);
             }
         });
@@ -134,6 +135,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
+                currPage++;
                 presenter.getCollectArticleList(currPage, true);
             }
         }, rv);
@@ -199,7 +201,6 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             mAdapter.loadMoreEnd();
         }
         mSmartRefreshUtils.success();
-        currPage++;
     }
 
     @Override
