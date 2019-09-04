@@ -19,6 +19,7 @@ public class SettingUtils {
     private static final String KEY_HIDE_OPEN = "KEY_HIDE_OPEN";
     private static final String KEY_WEB_SWIPE_BACK_EDGE = "KEY_WEB_SWIPE_BACK_EDGE";
     private static final String KEY_RV_ANIM = "KEY_RV_ANIM";
+    private static final String KEY_URL_INTERCEPT = "KEY_URL_INTERCEPT";
     private static final String KEY_SEARCH_HISTORY_MAX_COUNT = "KEY_SEARCH_HISTORY_MAX_COUNT";
     private static final String KEY_UPDATE_IGNORE_DURATION = "KEY_UPDATE_IGNORE_DURATION";
 
@@ -81,6 +82,14 @@ public class SettingUtils {
 
     public boolean isWebSwipeBackEdge() {
         return mSPUtils.get(KEY_WEB_SWIPE_BACK_EDGE, false);
+    }
+
+    public void setUrlIntercept(int type) {
+        mSPUtils.save(KEY_URL_INTERCEPT, type);
+    }
+
+    public int getUrlIntercept() {
+        return mSPUtils.get(KEY_URL_INTERCEPT, WebUrlInterceptUtils.TYPE_NOTHING);
     }
 
     public void setRvAnim(int anim) {

@@ -26,7 +26,7 @@ public class NaviPresenter extends BasePresenter<NaviView> {
 
             @Override
             public void onSuccess(int code, List<NaviBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getNaviListSuccess(code, data);
                 }
             }
@@ -53,14 +53,14 @@ public class NaviPresenter extends BasePresenter<NaviView> {
 
             @Override
             public void onSuccess(int code, List<NaviBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getNaviListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getNaviListFail(code, msg);
                 }
             }

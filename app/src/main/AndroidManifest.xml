@@ -25,7 +25,8 @@
         </activity>
         <activity
             android:name=".module.main.activity.MainActivity"
-            android:theme="@style/AppTheme.Main">
+            android:theme="@style/AppTheme.Main"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -33,27 +34,49 @@
         </activity>
         <activity
             android:name=".module.main.activity.WebActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:hardwareAccelerated="true" />
 
         <!--module.home-->
-        <activity android:name=".module.home.activity.SearchActivity" />
+        <activity
+            android:name=".module.home.activity.SearchActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
 
         <!--module.knowledge-->
-        <activity android:name=".module.knowledge.activity.KnowledgeArticleActivity" />
+        <activity
+            android:name=".module.knowledge.activity.KnowledgeArticleActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
 
         <!--module.login-->
         <activity android:name=".module.login.activity.LoginActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:theme="@style/AppTheme.Login" />
 
         <!--module.mine-->
-        <activity android:name=".module.mine.activity.CollectionActivity" />
-        <activity android:name=".module.mine.activity.ReadLaterActivity" />
-        <activity android:name=".module.mine.activity.OpenActivity" />
-        <activity android:name=".module.mine.activity.AboutMeActivity" />
-        <activity android:name=".module.mine.activity.SettingActivity" />
-        <activity android:name=".module.mine.activity.AboutActivity" />
-        <activity android:name=".module.mine.activity.CoinActivity" />
-        <activity android:name=".module.mine.activity.CoinRankActivity" />
+        <activity
+            android:name=".module.mine.activity.CollectionActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
+            android:name=".module.mine.activity.ReadLaterActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
+            android:name=".module.mine.activity.OpenActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
+            android:name=".module.mine.activity.AboutMeActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
+            android:name=".module.mine.activity.SettingActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
+            android:name=".module.mine.activity.AboutActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
+            android:name=".module.mine.activity.CoinActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
+            android:name=".module.mine.activity.CoinRankActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

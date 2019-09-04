@@ -115,7 +115,7 @@ public abstract class BaseApp extends App {
             long ts = System.currentTimeMillis();
             appLike.onCreate(getApp());
             long te = System.currentTimeMillis();
-            logAppLikeInfo(appLike, "onCreate", te - ts);
+            logAppLikeInfo(appLike, "attach", te - ts);
         }
     }
 

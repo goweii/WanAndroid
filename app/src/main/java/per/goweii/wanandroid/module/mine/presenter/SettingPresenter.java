@@ -34,14 +34,14 @@ public class SettingPresenter extends BasePresenter<SettingView> {
 
             @Override
             public void onSuccess(int code, UpdateBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().updateSuccess(code, data, click);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().updateFailed(code, msg, click);
                 }
             }
@@ -66,14 +66,14 @@ public class SettingPresenter extends BasePresenter<SettingView> {
 
             @Override
             public void onSuccess(int code, BaseBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().logoutSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().logoutFailed(code, msg);
                 }
             }
@@ -101,7 +101,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
             @Override
             public void accept(String size) throws Exception {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCacheSizeSuccess(size);
                 }
             }
@@ -121,7 +121,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
             @Override
             public void accept(String size) throws Exception {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCacheSizeSuccess(size);
                 }
             }

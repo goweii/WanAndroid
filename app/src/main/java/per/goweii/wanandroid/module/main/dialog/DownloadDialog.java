@@ -115,7 +115,7 @@ public class DownloadDialog {
                         if (retryCount <= 3) {
                             startDownload();
                         } else {
-                            ToastMaker.showShort("下载失败，建议清除缓存后重新尝试");
+                            ToastMaker.showShort("下载失败，可前往酷安手动更新");
                             dismiss();
                         }
                     }

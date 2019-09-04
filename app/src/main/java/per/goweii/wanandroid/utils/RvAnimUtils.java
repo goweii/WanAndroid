@@ -20,32 +20,7 @@ public class RvAnimUtils {
         public static final int SLIDEIN_RIGHT = 5;
     }
 
-    public static void setAnim(BaseQuickAdapter adapter, int anim){
-        switch (anim) {
-            default:
-                break;
-            case RvAnim.NONE:
-                adapter.closeLoadAnimation();
-                break;
-            case RvAnim.ALPHAIN:
-                adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
-                break;
-            case RvAnim.SCALEIN:
-                adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
-                break;
-            case RvAnim.SLIDEIN_BOTTOM:
-                adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
-                break;
-            case RvAnim.SLIDEIN_LEFT:
-                adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
-                break;
-            case RvAnim.SLIDEIN_RIGHT:
-                adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
-                break;
-        }
-    }
-
-    public static String getName(int anim){
+    public static String getName(int anim) {
         String name = "";
         switch (anim) {
             default:
@@ -70,5 +45,30 @@ public class RvAnimUtils {
                 break;
         }
         return name;
+    }
+
+    public static void setAnim(BaseQuickAdapter adapter, int anim) {
+        switch (anim) {
+            default:
+                break;
+            case RvAnim.NONE:
+                adapter.closeLoadAnimation();
+                break;
+            case RvAnim.ALPHAIN:
+                adapter.openLoadAnimation(BaseQuickAdapter.ALPHAIN);
+                break;
+            case RvAnim.SCALEIN:
+                adapter.openLoadAnimation(BaseQuickAdapter.SCALEIN);
+                break;
+            case RvAnim.SLIDEIN_BOTTOM:
+                adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_BOTTOM);
+                break;
+            case RvAnim.SLIDEIN_LEFT:
+                adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+                break;
+            case RvAnim.SLIDEIN_RIGHT:
+                adapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
+                break;
+        }
     }
 }

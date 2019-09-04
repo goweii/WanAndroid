@@ -24,14 +24,14 @@ public class CoinPresenter extends BasePresenter<CoinView> {
 
             @Override
             public void onSuccess(int code, Integer data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCoinSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCoinFail(code, msg);
                 }
             }
@@ -54,14 +54,14 @@ public class CoinPresenter extends BasePresenter<CoinView> {
 
             @Override
             public void onSuccess(int code, CoinRecordBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCoinRecordListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCoinRecordListFail(code, msg);
                 }
             }

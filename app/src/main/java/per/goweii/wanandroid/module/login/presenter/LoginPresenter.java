@@ -27,14 +27,14 @@ public class LoginPresenter extends BasePresenter<LoginView> {
             @Override
             public void onSuccess(int code, LoginBean data) {
                 UserUtils.getInstance().login(data);
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().loginSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().loginFailed(code, msg);
                 }
             }

@@ -27,14 +27,14 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
             @Override
             public void onSuccess(int code, LoginBean data) {
                 UserUtils.getInstance().login(data);
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().registerSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().registerFailed(code, msg);
                 }
             }

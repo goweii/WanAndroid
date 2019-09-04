@@ -6,7 +6,9 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import per.goweii.basic.utils.ClickHelper;
 import per.goweii.lazyfragment.LazyFragment;
@@ -64,12 +66,18 @@ public abstract class MvpFragment<T extends MvpPresenter> extends LazyFragment i
         super.onCreate(savedInstanceState);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         presenter = initPresenter();
         if (presenter != null) {
-            presenter.onCreate(this);
+            presenter.attach(this);
         }
         initialize();
     }
@@ -77,7 +85,7 @@ public abstract class MvpFragment<T extends MvpPresenter> extends LazyFragment i
     @Override
     public void onDestroyView() {
         if (presenter != null) {
-            presenter.onDestroy();
+            presenter.detach();
         }
         super.onDestroyView();
     }

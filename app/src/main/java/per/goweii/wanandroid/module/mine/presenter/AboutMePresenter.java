@@ -19,14 +19,14 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
         MineRequest.getAboutMe(getRxLife(), new RequestCallback<AboutMeBean>() {
             @Override
             public void onSuccess(int code, AboutMeBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getAboutMeSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getAboutMeFailed(code, msg);
                 }
             }

@@ -36,14 +36,14 @@ public class MinePresenter extends BasePresenter<MineView> {
 
             @Override
             public void onSuccess(int code, Integer data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getUserCoinSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getUserCoinFail(code, msg);
                 }
             }

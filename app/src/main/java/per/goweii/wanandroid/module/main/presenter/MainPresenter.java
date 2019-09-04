@@ -23,7 +23,7 @@ public class MainPresenter extends BasePresenter<MainView> {
         MainRequest.update(getRxLife(), new RequestCallback<UpdateBean>() {
             @Override
             public void onSuccess(int code, UpdateBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().updateSuccess(code, data);
                 }
             }

@@ -26,7 +26,7 @@ public class KnowledgeArticlePresenter extends BasePresenter<KnowledgeArticleVie
         KnowledgeRequest.getKnowledgeArticleListCache(id, page, new RequestCallback<KnowledgeArticleBean>() {
             @Override
             public void onSuccess(int code, KnowledgeArticleBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getKnowledgeArticleListSuccess(code, data);
                 }
             }
@@ -41,14 +41,14 @@ public class KnowledgeArticlePresenter extends BasePresenter<KnowledgeArticleVie
         KnowledgeRequest.getKnowledgeArticleList(getRxLife(), refresh, id, page, new RequestCallback<KnowledgeArticleBean>() {
             @Override
             public void onSuccess(int code, KnowledgeArticleBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getKnowledgeArticleListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getKnowledgeArticleListFail(code, msg);
                 }
             }

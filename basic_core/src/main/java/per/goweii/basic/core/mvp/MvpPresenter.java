@@ -11,12 +11,12 @@ public abstract class MvpPresenter<V extends MvpView> {
     protected Context context;
     private V baseView;
 
-    public void onCreate(V baseView) {
+    public void attach(V baseView) {
         this.baseView = baseView;
         context = baseView.getContext();
     }
 
-    public void onDestroy() {
+    public void detach() {
         baseView = null;
         context = null;
     }
@@ -25,7 +25,7 @@ public abstract class MvpPresenter<V extends MvpView> {
         return baseView;
     }
 
-    public boolean isAttachView() {
+    public boolean isAttach() {
         return baseView != null;
     }
 

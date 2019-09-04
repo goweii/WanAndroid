@@ -26,14 +26,14 @@ public class WxPresenter extends BasePresenter<WxView> {
 
             @Override
             public void onSuccess(int code, List<WxChapterBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getWxArticleChaptersSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getWxArticleChaptersFailed(code, msg);
                 }
             }

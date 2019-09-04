@@ -28,7 +28,7 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
 
             @Override
             public void onSuccess(int code, ProjectArticleBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getProjectArticleListSuccess(code, data);
                 }
             }
@@ -55,14 +55,14 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
 
             @Override
             public void onSuccess(int code, ProjectArticleBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getProjectArticleListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getProjectArticleListFailed(code, msg);
                 }
             }

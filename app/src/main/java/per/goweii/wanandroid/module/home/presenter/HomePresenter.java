@@ -34,14 +34,14 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onSuccess(int code, List<BannerBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getBannerSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getBannerFail(code, msg);
                 }
             }
@@ -64,14 +64,14 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onSuccess(int code, HomeBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getArticleListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getArticleListFailed(code, msg);
                 }
             }
@@ -94,14 +94,14 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onSuccess(int code, List<ArticleBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getTopArticleListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getTopArticleListFailed(code, msg);
                 }
             }

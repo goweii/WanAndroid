@@ -29,14 +29,14 @@ public class WebPresenter extends BasePresenter<WebView> {
             @Override
             public void onSuccess(int code, BaseBean data) {
                 CollectionEvent.postCollectWithArticleId(id);
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().collectSuccess();
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().collectFailed(msg);
                 }
             }
@@ -62,14 +62,14 @@ public class WebPresenter extends BasePresenter<WebView> {
             @Override
             public void onSuccess(int code, CollectArticleBean data) {
                 CollectionEvent.postCollectWithCollectId(data.getId());
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().collectSuccess();
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().collectFailed(msg);
                 }
             }
@@ -95,14 +95,14 @@ public class WebPresenter extends BasePresenter<WebView> {
             @Override
             public void onSuccess(int code, CollectionLinkBean data) {
                 CollectionEvent.postCollectWithCollectId(data.getId());
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().collectSuccess();
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().collectFailed(msg);
                 }
             }

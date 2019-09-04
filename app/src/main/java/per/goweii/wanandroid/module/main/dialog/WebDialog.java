@@ -88,7 +88,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
     public void onAttach() {
         super.onAttach();
         presenter = new WebDialogPresenter();
-        presenter.onCreate(this);
+        presenter.attach(this);
         final ViewPager vp = getView(R.id.dialog_web_vp);
         final ImageView iv_back = getView(R.id.dialog_web_iv_back);
         final CollectView cv_collect = getView(R.id.dialog_web_cv_collect);
@@ -155,7 +155,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
             mAdapter.destroyAllAgentWeb();
         }
         if (presenter != null) {
-            presenter.onDestroy();
+            presenter.detach();
         }
         super.onDetach();
     }

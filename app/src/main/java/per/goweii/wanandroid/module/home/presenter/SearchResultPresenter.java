@@ -31,7 +31,7 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
 
             @Override
             public void onSuccess(int code, SearchBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().searchSuccess(code, data);
                 }
             }
@@ -58,14 +58,14 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
 
             @Override
             public void onSuccess(int code, SearchBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().searchSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().searchFailed(code, msg);
                 }
             }

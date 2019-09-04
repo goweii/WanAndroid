@@ -26,7 +26,7 @@ public class KnowledgePresenter extends BasePresenter<KnowledgeView> {
 
             @Override
             public void onSuccess(int code, List<KnowledgeBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getKnowledgeListSuccess(code, data);
                 }
             }
@@ -53,14 +53,14 @@ public class KnowledgePresenter extends BasePresenter<KnowledgeView> {
 
             @Override
             public void onSuccess(int code, List<KnowledgeBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getKnowledgeListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getKnowledgeListFail(code, msg);
                 }
             }

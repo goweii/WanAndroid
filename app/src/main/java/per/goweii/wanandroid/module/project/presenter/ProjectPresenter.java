@@ -26,14 +26,14 @@ public class ProjectPresenter extends BasePresenter<ProjectView> {
 
             @Override
             public void onSuccess(int code, List<ProjectChapterBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getProjectChaptersSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getProjectChaptersFailed(code, msg);
                 }
             }

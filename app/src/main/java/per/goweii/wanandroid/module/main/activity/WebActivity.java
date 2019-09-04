@@ -2,11 +2,15 @@ package per.goweii.wanandroid.module.main.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 
 import com.just.agentweb.AgentWeb;
@@ -27,6 +31,7 @@ import per.goweii.wanandroid.utils.AgentWebCreator;
 import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.WebUrlInterceptUtils;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**
@@ -54,6 +59,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     private AgentWeb mAgentWeb = null;
     private RealmHelper mRealmHelper = null;
     private WebGuideDialog mWebGuideDialog = null;
+
+    private int mUrlInterceptType = WebUrlInterceptUtils.TYPE_NOTHING;
 
     public static void start(Context context, int articleId, String title, String url) {
         Intent intent = new Intent(context, WebActivity.class);
@@ -102,6 +109,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         mUrl = getIntent().getStringExtra("url");
         mCurrUrl = mUrl;
         mCurrTitle = mTitle;
+
+        mUrlInterceptType = SettingUtils.getInstance().getUrlIntercept();
 
         // forceHttpsForAndroid9();
 
@@ -155,16 +164,30 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             @Override
             public void onReceivedTitle(WebView view, String title) {
                 super.onReceivedTitle(view, title);
-                mCurrTitle = title;
-                mCurrUrl = view.getUrl();
+                mCurrTitle = title == null ? "" : title;
                 if (abs.getTitleTextView() != null) {
-                    abs.getTitleTextView().setText(title);
+                    abs.getTitleTextView().setText(mCurrTitle);
                 }
             }
         }, new WebViewClient() {
             @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                mCurrUrl = url;
+                mCurrTitle = "";
+                if (abs.getTitleTextView() != null) {
+                    abs.getTitleTextView().setText(mCurrTitle);
+                }
+            }
+
+            @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
+                String title = view.getTitle();
+                mCurrTitle = title == null ? "" : title;
+                if (abs.getTitleTextView() != null) {
+                    abs.getTitleTextView().setText(mCurrTitle);
+                }
                 if (!GuideSPUtils.getInstance().isWebGuideShown()) {
                     if (mWebGuideDialog == null) {
                         mWebGuideDialog = new WebGuideDialog(abs);
@@ -172,7 +195,37 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     }
                 }
             }
+
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+                if (shouldInterceptUrl(Uri.parse(url))) {
+                    return new WebResourceResponse(null, null, null);
+                }
+                return super.shouldInterceptRequest(view, url);
+            }
+
+            @Override
+            public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    if (shouldInterceptUrl(request.getUrl())) {
+                        return new WebResourceResponse(null, null, null);
+                    }
+                }
+                return super.shouldInterceptRequest(view, request);
+            }
         });
+    }
+
+    private boolean shouldInterceptUrl(Uri uri) {
+        switch (mUrlInterceptType) {
+            default:
+            case WebUrlInterceptUtils.TYPE_NOTHING:
+                return false;
+            case WebUrlInterceptUtils.TYPE_ONLY_WHITE:
+                return !WebUrlInterceptUtils.isWhiteHost(uri.getHost());
+            case WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK:
+                return WebUrlInterceptUtils.isBlackHost(uri.getHost());
+        }
     }
 
     @Override

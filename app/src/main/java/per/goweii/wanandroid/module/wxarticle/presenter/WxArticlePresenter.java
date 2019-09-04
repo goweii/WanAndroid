@@ -28,7 +28,7 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
 
             @Override
             public void onSuccess(int code, WxArticleBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getWxArticleListSuccess(code, data);
                 }
             }
@@ -55,14 +55,14 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
 
             @Override
             public void onSuccess(int code, WxArticleBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getWxArticleListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getWxArticleListFailed(code, msg);
                 }
             }
@@ -85,14 +85,14 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
 
             @Override
             public void onSuccess(int code, WxArticleBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getWxArticleListSearchSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getWxArticleListSearchFailed(code, msg);
                 }
             }

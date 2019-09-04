@@ -269,6 +269,47 @@
                 </RelativeLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_intercept_host"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_press_color_white"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="网页拦截"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_intercept_host"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="5dp"
+                        android:singleLine="true"
+                        android:text=""
+                        tools:text="无"
+                        android:textColor="@color/text_gray_light"
+                        android:textSize="@dimen/text_notes" />
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:rotation="180"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/gray_light" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/ll_rv_anim"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

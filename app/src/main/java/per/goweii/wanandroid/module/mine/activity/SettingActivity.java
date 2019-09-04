@@ -38,6 +38,7 @@ import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UpdateUtils;
 import per.goweii.wanandroid.utils.UserUtils;
+import per.goweii.wanandroid.utils.WebUrlInterceptUtils;
 
 /**
  * @author CuiZhen
@@ -62,6 +63,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     SwitchCompat sc_hide_open;
     @BindView(R.id.sc_web_swipeback_edge)
     SwitchCompat sc_web_swipeback_edge;
+    @BindView(R.id.tv_intercept_host)
+    TextView tv_intercept_host;
     @BindView(R.id.tv_rv_anim)
     TextView tv_rv_anim;
     @BindView(R.id.tv_cache)
@@ -81,6 +84,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     private boolean mHideAboutMe;
     private boolean mHideOpen;
     private int mRvAnim;
+    private int mUrlIntercept;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, SettingActivity.class);
@@ -115,6 +119,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         sc_web_swipeback_edge.setChecked(SettingUtils.getInstance().isWebSwipeBackEdge());
         mRvAnim = SettingUtils.getInstance().getRvAnim();
         tv_rv_anim.setText(RvAnimUtils.getName(mRvAnim));
+        mUrlIntercept = SettingUtils.getInstance().getUrlIntercept();
+        tv_intercept_host.setText(WebUrlInterceptUtils.getName(mUrlIntercept));
         sc_show_top.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
@@ -182,8 +188,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         boolean hideAboutMeChanged = mHideAboutMe != SettingUtils.getInstance().isHideAboutMe();
         boolean hideOpenChanged = mHideOpen != SettingUtils.getInstance().isHideOpen();
         boolean rvAnimChanged = mRvAnim != SettingUtils.getInstance().getRvAnim();
+        boolean urlInterceptChanged = mUrlIntercept != SettingUtils.getInstance().getUrlIntercept();
         if (showReadLaterChanged || showTopChanged || showBannerChanged ||
-                hideAboutMeChanged || hideOpenChanged || rvAnimChanged) {
+                hideAboutMeChanged || hideOpenChanged || rvAnimChanged ||
+                urlInterceptChanged) {
             SettingChangeEvent event = new SettingChangeEvent();
             event.setShowTopChanged(showTopChanged);
             event.setShowBannerChanged(showBannerChanged);
@@ -196,7 +204,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     }
 
     @OnClick({
-            R.id.ll_rv_anim, R.id.ll_update, R.id.ll_cache, R.id.ll_about, R.id.ll_logout
+            R.id.ll_intercept_host, R.id.ll_rv_anim, R.id.ll_update,
+            R.id.ll_cache, R.id.ll_about, R.id.ll_logout
     })
     @Override
     public void onClick(View v) {
@@ -207,6 +216,23 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     protected void onClick2(View v) {
         switch (v.getId()) {
             default:
+                break;
+            case R.id.ll_intercept_host:
+                ListDialog.with(getContext())
+                        .cancelable(true)
+                        .title("网页拦截")
+                        .datas(WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_NOTHING),
+                                WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_ONLY_WHITE),
+                                WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK))
+                        .currSelectPos(SettingUtils.getInstance().getUrlIntercept())
+                        .listener(new ListDialog.OnItemSelectedListener() {
+                            @Override
+                            public void onSelect(String data, int pos) {
+                                tv_intercept_host.setText(WebUrlInterceptUtils.getName(pos));
+                                SettingUtils.getInstance().setUrlIntercept(pos);
+                            }
+                        })
+                        .show();
                 break;
             case R.id.ll_rv_anim:
                 ListDialog.with(getContext())

@@ -30,7 +30,7 @@ public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
 
             @Override
             public void onSuccess(int code, List<CollectionLinkBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCollectLinkListSuccess(code, data);
                 }
             }
@@ -57,14 +57,14 @@ public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
 
             @Override
             public void onSuccess(int code, List<CollectionLinkBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCollectLinkListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCollectLinkListFailed(code, msg);
                 }
             }
@@ -113,7 +113,7 @@ public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
 
             @Override
             public void onSuccess(int code, CollectionLinkBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().updateCollectLinkSuccess(code, data);
                 }
             }

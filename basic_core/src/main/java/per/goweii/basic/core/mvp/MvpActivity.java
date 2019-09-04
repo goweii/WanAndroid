@@ -3,7 +3,6 @@ package per.goweii.basic.core.mvp;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -65,7 +64,7 @@ public abstract class MvpActivity<P extends MvpPresenter> extends CacheActivity 
         }
         presenter = initPresenter();
         if (presenter != null) {
-            presenter.onCreate(this);
+            presenter.attach(this);
         }
         initialize();
     }
@@ -78,7 +77,7 @@ public abstract class MvpActivity<P extends MvpPresenter> extends CacheActivity 
     @Override
     protected void onDestroy() {
         if (presenter != null) {
-            presenter.onDestroy();
+            presenter.detach();
         }
         super.onDestroy();
     }

@@ -189,7 +189,7 @@
                     android:layout_marginRight="30dp"
                     android:layout_marginBottom="10dp"
                     android:gravity="center"
-                    android:text="呦~\nAPP做得不错呀\n我要请你喝咖啡"
+                    android:text="呦~\nAPP做得不错呀\n我想请你喝咖啡"
                     android:textColor="@color/text_white_alpha"
                     android:textSize="@dimen/text_auxiliary" />
 

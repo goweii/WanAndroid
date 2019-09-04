@@ -24,14 +24,14 @@ public class CoinRankPresenter extends BasePresenter<CoinRankView> {
 
             @Override
             public void onSuccess(int code, CoinRankBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCoinRankListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCoinRankListFail(code, msg);
                 }
             }

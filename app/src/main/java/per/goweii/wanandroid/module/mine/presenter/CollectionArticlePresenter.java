@@ -28,7 +28,7 @@ public class CollectionArticlePresenter extends BasePresenter<CollectionArticleV
 
             @Override
             public void onSuccess(int code, CollectionArticleBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCollectArticleListSuccess(code, data);
                 }
             }
@@ -55,14 +55,14 @@ public class CollectionArticlePresenter extends BasePresenter<CollectionArticleV
 
             @Override
             public void onSuccess(int code, CollectionArticleBean data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCollectArticleListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getCollectArticleListFailed(code, msg);
                 }
             }

@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.utils;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.google.gson.Gson;
 
@@ -36,9 +37,11 @@ public class UserUtils {
     public LoginBean getLoginBean() {
         if (mLoginBean == null) {
             String json = SPUtils.getInstance().get(KEY_LOGIN_BEAN, "");
-            try {
-                mLoginBean = new Gson().fromJson(json, LoginBean.class);
-            } catch (Exception ignore) {
+            if (!TextUtils.isEmpty(json)) {
+                try {
+                    mLoginBean = new Gson().fromJson(json, LoginBean.class);
+                } catch (Exception ignore) {
+                }
             }
         }
         return mLoginBean;

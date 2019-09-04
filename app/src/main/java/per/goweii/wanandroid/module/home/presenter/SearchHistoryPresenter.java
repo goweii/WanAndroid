@@ -30,14 +30,14 @@ public class SearchHistoryPresenter extends BasePresenter<SearchHistoryView> {
 
             @Override
             public void onSuccess(int code, List<HotKeyBean> data) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getHotKeyListSuccess(code, data);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
-                if (isAttachView()) {
+                if (isAttach()) {
                     getBaseView().getHotKeyListFail(code, msg);
                 }
             }
