@@ -19,11 +19,22 @@ public class SettingUtils {
     private static final String KEY_HIDE_OPEN = "KEY_HIDE_OPEN";
     private static final String KEY_WEB_SWIPE_BACK_EDGE = "KEY_WEB_SWIPE_BACK_EDGE";
     private static final String KEY_RV_ANIM = "KEY_RV_ANIM";
-    private static final String KEY_URL_INTERCEPT = "KEY_URL_INTERCEPT";
+    private static final String KEY_URL_INTERCEPT_TYPE = "KEY_URL_INTERCEPT_TYPE";
     private static final String KEY_SEARCH_HISTORY_MAX_COUNT = "KEY_SEARCH_HISTORY_MAX_COUNT";
     private static final String KEY_UPDATE_IGNORE_DURATION = "KEY_UPDATE_IGNORE_DURATION";
 
     private final SPUtils mSPUtils = SPUtils.newInstance(SP_NAME);
+
+    private boolean mShowReadLater = true;
+    private boolean mShowTop = true;
+    private boolean mShowBanner = true;
+    private boolean mHideAboutMe = false;
+    private boolean mHideOpen = false;
+    private boolean mWebSwipeBackEdge = true;
+    private int mRvAnim = RvAnimUtils.RvAnim.NONE;
+    private int mUrlInterceptType = WebUrlInterceptUtils.TYPE_NOTHING;
+    private int mSearchHistoryMaxCount = 20;
+    private long mUpdateIgnoreDuration = 7 * 24 * 60 * 60 * 1000L;
 
     private static class Holder {
         private static final SettingUtils INSTANCE = new SettingUtils();
@@ -34,85 +45,105 @@ public class SettingUtils {
     }
 
     private SettingUtils() {
+        mShowReadLater = mSPUtils.get(KEY_SHOW_READ_LATER, mShowReadLater);
+        mShowTop = mSPUtils.get(KEY_SHOW_TOP, mShowTop);
+        mShowBanner = mSPUtils.get(KEY_SHOW_BANNER, mShowBanner);
+        mHideAboutMe = mSPUtils.get(KEY_HIDE_ABOUT_ME, mHideAboutMe);
+        mHideOpen = mSPUtils.get(KEY_HIDE_OPEN, mHideOpen);
+        mWebSwipeBackEdge = mSPUtils.get(KEY_WEB_SWIPE_BACK_EDGE, mWebSwipeBackEdge);
+        mRvAnim = mSPUtils.get(KEY_RV_ANIM, mRvAnim);
+        mUrlInterceptType = mSPUtils.get(KEY_URL_INTERCEPT_TYPE, mUrlInterceptType);
+        mSearchHistoryMaxCount = mSPUtils.get(KEY_SEARCH_HISTORY_MAX_COUNT, mSearchHistoryMaxCount);
+        mUpdateIgnoreDuration = mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, mUpdateIgnoreDuration);
     }
 
     public void setShowReadLater(boolean showReadLater) {
+        mShowReadLater = showReadLater;
         mSPUtils.save(KEY_SHOW_READ_LATER, showReadLater);
     }
 
     public boolean isShowReadLater() {
-        return mSPUtils.get(KEY_SHOW_READ_LATER, true);
+        return mShowReadLater;
     }
 
     public void setShowTop(boolean showTop) {
+        mShowTop = showTop;
         mSPUtils.save(KEY_SHOW_TOP, showTop);
     }
 
     public boolean isShowTop() {
-        return mSPUtils.get(KEY_SHOW_TOP, true);
+        return mShowTop;
     }
 
     public void setShowBanner(boolean showBanner) {
+        mShowBanner = showBanner;
         mSPUtils.save(KEY_SHOW_BANNER, showBanner);
     }
 
     public boolean isShowBanner() {
-        return mSPUtils.get(KEY_SHOW_BANNER, true);
+        return mShowBanner;
     }
 
     public void setHideAboutMe(boolean hideAboutMe) {
+        mHideAboutMe = hideAboutMe;
         mSPUtils.save(KEY_HIDE_ABOUT_ME, hideAboutMe);
     }
 
     public boolean isHideAboutMe() {
-        return mSPUtils.get(KEY_HIDE_ABOUT_ME, false);
+        return mHideAboutMe;
     }
 
     public void setHideOpen(boolean hideOpen) {
+        mHideOpen = hideOpen;
         mSPUtils.save(KEY_HIDE_OPEN, hideOpen);
     }
 
     public boolean isHideOpen() {
-        return mSPUtils.get(KEY_HIDE_OPEN, false);
+        return mHideOpen;
     }
 
     public void setWebSwipeBackEdge(boolean webSwipeBackEdge) {
+        mWebSwipeBackEdge = webSwipeBackEdge;
         mSPUtils.save(KEY_WEB_SWIPE_BACK_EDGE, webSwipeBackEdge);
     }
 
     public boolean isWebSwipeBackEdge() {
-        return mSPUtils.get(KEY_WEB_SWIPE_BACK_EDGE, false);
+        return mWebSwipeBackEdge;
     }
 
-    public void setUrlIntercept(int type) {
-        mSPUtils.save(KEY_URL_INTERCEPT, type);
+    public void setUrlInterceptType(int type) {
+        mUrlInterceptType = type;
+        mSPUtils.save(KEY_URL_INTERCEPT_TYPE, type);
     }
 
-    public int getUrlIntercept() {
-        return mSPUtils.get(KEY_URL_INTERCEPT, WebUrlInterceptUtils.TYPE_NOTHING);
+    public int getUrlInterceptType() {
+        return mUrlInterceptType;
     }
 
     public void setRvAnim(int anim) {
+        mRvAnim = anim;
         mSPUtils.save(KEY_RV_ANIM, anim);
     }
 
     public int getRvAnim() {
-        return mSPUtils.get(KEY_RV_ANIM, RvAnimUtils.RvAnim.NONE);
+        return mRvAnim;
     }
 
     public void setSearchHistoryMaxCount(int count) {
+        mSearchHistoryMaxCount = count;
         mSPUtils.save(KEY_SEARCH_HISTORY_MAX_COUNT, count);
     }
 
     public int getSearchHistoryMaxCount() {
-        return mSPUtils.get(KEY_SEARCH_HISTORY_MAX_COUNT, 20);
+        return mSearchHistoryMaxCount;
     }
 
     public void setUpdateIgnoreDuration(long dur) {
+        mUpdateIgnoreDuration = dur;
         mSPUtils.save(KEY_UPDATE_IGNORE_DURATION, dur);
     }
 
     public long getUpdateIgnoreDuration() {
-        return mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, 7 * 24 * 60 * 60 * 1000L);
+        return mUpdateIgnoreDuration;
     }
 }

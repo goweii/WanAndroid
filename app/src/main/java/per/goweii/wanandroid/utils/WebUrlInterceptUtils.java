@@ -47,7 +47,8 @@ public class WebUrlInterceptUtils {
 
     private static final String[] BLACK_HOST = new String[]{
             "www.taobao.com",
-            "www.jd.com"
+            "www.jd.com",
+            "yun.tuisnake.com"
     };
 
     public static boolean isWhiteHost(String host) {

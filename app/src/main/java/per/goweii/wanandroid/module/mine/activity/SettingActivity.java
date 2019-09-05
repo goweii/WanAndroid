@@ -119,7 +119,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         sc_web_swipeback_edge.setChecked(SettingUtils.getInstance().isWebSwipeBackEdge());
         mRvAnim = SettingUtils.getInstance().getRvAnim();
         tv_rv_anim.setText(RvAnimUtils.getName(mRvAnim));
-        mUrlIntercept = SettingUtils.getInstance().getUrlIntercept();
+        mUrlIntercept = SettingUtils.getInstance().getUrlInterceptType();
         tv_intercept_host.setText(WebUrlInterceptUtils.getName(mUrlIntercept));
         sc_show_top.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -188,7 +188,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         boolean hideAboutMeChanged = mHideAboutMe != SettingUtils.getInstance().isHideAboutMe();
         boolean hideOpenChanged = mHideOpen != SettingUtils.getInstance().isHideOpen();
         boolean rvAnimChanged = mRvAnim != SettingUtils.getInstance().getRvAnim();
-        boolean urlInterceptChanged = mUrlIntercept != SettingUtils.getInstance().getUrlIntercept();
+        boolean urlInterceptChanged = mUrlIntercept != SettingUtils.getInstance().getUrlInterceptType();
         if (showReadLaterChanged || showTopChanged || showBannerChanged ||
                 hideAboutMeChanged || hideOpenChanged || rvAnimChanged ||
                 urlInterceptChanged) {
@@ -224,12 +224,12 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                         .datas(WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_NOTHING),
                                 WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_ONLY_WHITE),
                                 WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK))
-                        .currSelectPos(SettingUtils.getInstance().getUrlIntercept())
+                        .currSelectPos(SettingUtils.getInstance().getUrlInterceptType())
                         .listener(new ListDialog.OnItemSelectedListener() {
                             @Override
                             public void onSelect(String data, int pos) {
                                 tv_intercept_host.setText(WebUrlInterceptUtils.getName(pos));
-                                SettingUtils.getInstance().setUrlIntercept(pos);
+                                SettingUtils.getInstance().setUrlInterceptType(pos);
                             }
                         })
                         .show();

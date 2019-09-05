@@ -100,7 +100,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
             @Override
             public void onPageSelected(int i) {
                 if (mAdapter != null) {
-                    mAdapter.resumeAndPauseOthersAgentWeb(i);
+//                    mAdapter.resumeAndPauseOthersAgentWeb(i);
                     ArticleBean data = mAdapter.getBean(i);
                     if (cv_collect.isChecked() != data.isCollect()) {
                         cv_collect.toggle();
