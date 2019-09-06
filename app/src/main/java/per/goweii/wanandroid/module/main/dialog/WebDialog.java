@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
@@ -202,8 +203,8 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         }
         final ViewPager vp = getView(R.id.dialog_web_vp);
         ValueAnimator anim = ValueAnimator.ofInt(vp.getPageMargin(), (int) DisplayInfoUtils.getInstance().dp2px(10));
-        anim.setInterpolator(new DecelerateInterpolator());
-        anim.setDuration(300);
+        anim.setInterpolator(new AccelerateInterpolator());
+        anim.setDuration(150);
         anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
