@@ -149,7 +149,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     @Override
     protected void loadData() {
         mAgentWeb = AgentWebCreator.create(this, wc, mUrl, new AgentWebCreator.ClientCallback() {
-
             @Override
             public void onReceivedUrl(String url) {
                 mCurrUrl = url;

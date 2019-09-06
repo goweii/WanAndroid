@@ -285,7 +285,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 index += mHeaderTopItemBeans.size();
             }
         }
-        mWebDialog = new WebDialog(getContext(), mHeaderTopItemBeans, mAdapter.getData(), index);
+        mWebDialog = WebDialog.create(getContext(), mHeaderTopItemBeans, mAdapter.getData(), index);
         mWebDialog.setOnPageChangedListener(new WebDialog.OnPageChangedListener() {
             @Override
             public void onPageChanged(int pos, ArticleBean data) {

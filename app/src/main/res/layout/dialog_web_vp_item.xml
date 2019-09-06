@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="8dp"
-    android:paddingRight="8dp">
+    tools:background="@color/dialog_bg">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="76dp"
+        android:layout_marginBottom="76dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="@dimen/round_radius"
         app:cardElevation="0dp"
