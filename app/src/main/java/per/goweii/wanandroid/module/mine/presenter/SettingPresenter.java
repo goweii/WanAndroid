@@ -3,14 +3,16 @@ package per.goweii.wanandroid.module.mine.presenter;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Consumer;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.utils.file.CacheUtils;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.http.RequestListener;
+import per.goweii.wanandroid.http.WanCache;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.model.MineRequest;
@@ -90,7 +92,7 @@ public class SettingPresenter extends BasePresenter<SettingView> {
     }
 
     public void getCacheSize() {
-        addToRxLife(Observable.create(new ObservableOnSubscribe<String>() {
+        Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 String size = CacheUtils.getTotalCacheSize();
@@ -98,34 +100,61 @@ public class SettingPresenter extends BasePresenter<SettingView> {
                     emitter.onNext(size);
                 }
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
             @Override
-            public void accept(String size) throws Exception {
+            public void onSubscribe(Disposable d) {
+                addToRxLife(d);
+            }
+
+            @Override
+            public void onNext(String size) {
                 if (isAttach()) {
                     getBaseView().getCacheSizeSuccess(size);
                 }
             }
-        }));
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
     }
 
     public void clearCache() {
-        addToRxLife(Observable.create(new ObservableOnSubscribe<String>() {
+        Observable.create(new ObservableOnSubscribe<String>() {
             @Override
             public void subscribe(ObservableEmitter<String> emitter) throws Exception {
                 CacheUtils.clearAllCache();
                 String size = CacheUtils.getTotalCacheSize();
+                WanCache.getInstance().openDiskLruCache();
                 if (!emitter.isDisposed()) {
                     emitter.onNext(size);
                 }
             }
-        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Consumer<String>() {
+        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Observer<String>() {
             @Override
-            public void accept(String size) throws Exception {
+            public void onSubscribe(Disposable d) {
+                addToRxLife(d);
+            }
+
+            @Override
+            public void onNext(String size) {
                 if (isAttach()) {
                     getBaseView().getCacheSizeSuccess(size);
                 }
             }
-        }));
+
+            @Override
+            public void onError(Throwable e) {
+            }
+
+            @Override
+            public void onComplete() {
+            }
+        });
     }
 
 }

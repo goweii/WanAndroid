@@ -1,6 +1,7 @@
 package per.goweii.basic.utils.file;
 
 import android.os.Environment;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.math.BigDecimal;
@@ -15,6 +16,25 @@ public class FileUtils {
 
     public static boolean isSDCardAlive() {
         return Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+    }
+
+    public static void delete(File file, String except) {
+        if (file == null) {
+            return;
+        }
+        if (file.isDirectory()) {
+            String[] children = file.list();
+            for (String c : children) {
+                File childFile = new File(file, c);
+                if (!TextUtils.equals(childFile.getName(), except)) {
+                    delete(childFile);
+                }
+            }
+        } else {
+            if (!TextUtils.equals(file.getName(), except)) {
+                file.delete();
+            }
+        }
     }
 
     public static boolean delete(File file) {

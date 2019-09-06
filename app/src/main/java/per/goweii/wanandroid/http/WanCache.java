@@ -36,6 +36,7 @@ import per.goweii.basic.utils.listener.SimpleListener;
 public class WanCache {
 
     private static final int MAX_SIZE = 10 * 1024 * 1024;
+    public static final String DIR_NAME = "rx-cache";
 
     private static WanCache INSTANCE;
 
@@ -56,7 +57,25 @@ public class WanCache {
     }
 
     private WanCache() {
-        File file = new File(CacheUtils.getCacheDir(), "rx-cache");
+        openDiskLruCache();
+    }
+
+    private DiskLruCache getDiskLruCache() {
+        if (mDiskLruCache == null) {
+            throw new RuntimeException("WanCache未初始化或初始化失败");
+        }
+        return mDiskLruCache;
+    }
+
+    public void openDiskLruCache() {
+        if (mDiskLruCache != null && !mDiskLruCache.isClosed()) {
+            try {
+                mDiskLruCache.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        File file = new File(CacheUtils.getCacheDir(), DIR_NAME);
         if (!file.exists()) {
             file.mkdirs();
         }
@@ -65,13 +84,6 @@ public class WanCache {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private DiskLruCache getDiskLruCache() {
-        if (mDiskLruCache == null) {
-            throw new RuntimeException("WanCache未初始化或初始化失败");
-        }
-        return mDiskLruCache;
     }
 
     public <T> boolean isSame(T cache, T net){
