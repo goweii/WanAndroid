@@ -6,16 +6,16 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
-import com.just.agentweb.WebChromeClient;
-import com.just.agentweb.WebViewClient;
 
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.ResUtils;
@@ -41,87 +41,8 @@ public class AgentWebCreator {
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
                 .setMainFrameErrorView(R.layout.layout_agent_web_error, R.id.iv_404)
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)
-                .setWebChromeClient(new WebChromeClient() {
-                    @Override
-                    public void onReceivedTitle(WebView view, String title) {
-                        super.onReceivedTitle(view, title);
-                        if (clientCallback != null) {
-                            clientCallback.onReceivedTitle(title);
-                        }
-                    }
-                })
-                .setWebViewClient(new WebViewClient() {
-                    private boolean shouldInterceptRequest(Uri uri) {
-                        LogUtils.d("WebActivity", "interceptUrlRequest:" + uri.toString());
-                        switch (SettingUtils.getInstance().getUrlInterceptType()) {
-                            default:
-                            case WebUrlInterceptUtils.TYPE_NOTHING:
-                                return false;
-                            case WebUrlInterceptUtils.TYPE_ONLY_WHITE:
-                                return !WebUrlInterceptUtils.isWhiteHost(uri.getHost());
-                            case WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK:
-                                return WebUrlInterceptUtils.isBlackHost(uri.getHost());
-                        }
-                    }
-
-                    private boolean shouldOverrideUrlLoading(Uri uri) {
-                        LogUtils.d("WebActivity", "overrideUrlLoading:" + uri.toString());
-                        return false;
-                    }
-
-                    @Override
-                    public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-                        if (shouldInterceptRequest(Uri.parse(url))) {
-                            return new WebResourceResponse(null, null, null);
-                        }
-                        return super.shouldInterceptRequest(view, url);
-                    }
-
-                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                    @Override
-                    public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-                        if (shouldInterceptRequest(request.getUrl())) {
-                            return new WebResourceResponse(null, null, null);
-                        }
-                        return super.shouldInterceptRequest(view, request);
-                    }
-
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                        if (shouldOverrideUrlLoading(Uri.parse(url))) {
-                            view.loadUrl(url);
-                        }
-                        return true;
-                    }
-
-                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                    @Override
-                    public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-                        if (shouldOverrideUrlLoading(request.getUrl())) {
-                            view.loadUrl(request.getUrl().toString());
-                        }
-                        return true;
-                    }
-
-                    @Override
-                    public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                        super.onPageStarted(view, url, favicon);
-                        if (clientCallback != null) {
-                            clientCallback.onReceivedUrl(url);
-                            clientCallback.onReceivedTitle("");
-                        }
-                    }
-
-                    @Override
-                    public void onPageFinished(WebView view, String url) {
-                        super.onPageFinished(view, url);
-                        String title = view.getTitle();
-                        if (clientCallback != null) {
-                            clientCallback.onReceivedTitle(title == null ? "" : title);
-                            clientCallback.onPageFinished();
-                        }
-                    }
-                })
+                .setWebChromeClient(new AgentWebChromeClient(clientCallback))
+                .setWebViewClient(new AgentWebViewClient(clientCallback))
                 .createAgentWeb()
                 .ready()
                 .go(url);
@@ -145,6 +66,107 @@ public class AgentWebCreator {
         void onReceivedTitle(String title);
 
         void onPageFinished();
+    }
+
+    public static class AgentWebChromeClient extends WebChromeClient {
+        private final ClientCallback mClientCallback;
+
+        public AgentWebChromeClient() {
+            mClientCallback = null;
+        }
+
+        public AgentWebChromeClient(ClientCallback clientCallback) {
+            mClientCallback = clientCallback;
+        }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            super.onReceivedTitle(view, title);
+            if (mClientCallback != null) {
+                mClientCallback.onReceivedTitle(title);
+            }
+        }
+    }
+
+    public static class AgentWebViewClient extends WebViewClient {
+        private final ClientCallback mClientCallback;
+
+        public AgentWebViewClient() {
+            mClientCallback = null;
+        }
+
+        public AgentWebViewClient(ClientCallback clientCallback) {
+            mClientCallback = clientCallback;
+        }
+
+        private boolean shouldInterceptRequest(Uri uri) {
+            LogUtils.d("AgentWebCreator", "interceptUrlRequest:" + uri.toString());
+            return false;
+        }
+
+        /**
+         * true     拦截
+         * false    加载
+         */
+        private boolean shouldOverrideUrlLoading(Uri uri) {
+            LogUtils.d("AgentWebCreator", "overrideUrlLoading:" + uri.toString());
+            switch (SettingUtils.getInstance().getUrlInterceptType()) {
+                default:
+                case WebUrlInterceptUtils.TYPE_NOTHING:
+                    return false;
+                case WebUrlInterceptUtils.TYPE_ONLY_WHITE:
+                    return !WebUrlInterceptUtils.isWhiteHost(uri.getHost());
+                case WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK:
+                    return WebUrlInterceptUtils.isBlackHost(uri.getHost());
+            }
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
+            if (shouldInterceptRequest(Uri.parse(url))) {
+                return new WebResourceResponse(null, null, null);
+            }
+            return super.shouldInterceptRequest(view, url);
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
+            if (shouldInterceptRequest(request.getUrl())) {
+                return new WebResourceResponse(null, null, null);
+            }
+            return super.shouldInterceptRequest(view, request);
+        }
+
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, String url) {
+            return shouldOverrideUrlLoading(Uri.parse(url));
+        }
+
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+        @Override
+        public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            return shouldOverrideUrlLoading(request.getUrl());
+        }
+
+        @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            super.onPageStarted(view, url, favicon);
+            if (mClientCallback != null) {
+                mClientCallback.onReceivedUrl(url);
+                mClientCallback.onReceivedTitle("");
+            }
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+            String title = view.getTitle();
+            if (mClientCallback != null) {
+                mClientCallback.onReceivedTitle(title == null ? "" : title);
+                mClientCallback.onPageFinished();
+            }
+        }
     }
 
 }

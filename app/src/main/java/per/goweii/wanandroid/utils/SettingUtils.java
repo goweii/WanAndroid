@@ -32,7 +32,7 @@ public class SettingUtils {
     private boolean mHideOpen = false;
     private boolean mWebSwipeBackEdge = true;
     private int mRvAnim = RvAnimUtils.RvAnim.NONE;
-    private int mUrlInterceptType = WebUrlInterceptUtils.TYPE_NOTHING;
+    private int mUrlInterceptType = WebUrlInterceptUtils.TYPE_ONLY_WHITE;
     private int mSearchHistoryMaxCount = 20;
     private long mUpdateIgnoreDuration = 7 * 24 * 60 * 60 * 1000L;
 

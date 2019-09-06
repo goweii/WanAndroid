@@ -42,7 +42,7 @@ ext {
             photoView             : "2.1.3",
             materialProgressBar   : "1.4.2",
             realtimeBlurView      : "1.1.2",
-            agentWeb              : "4.0.3-alpha@aar",
+            agentWeb              : "4.0.0",
             banner                : "1.4.10",
             persistentCookieJar   : "v1.0.1",
 
