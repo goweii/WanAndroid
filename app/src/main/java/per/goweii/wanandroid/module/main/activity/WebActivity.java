@@ -2,6 +2,7 @@ package per.goweii.wanandroid.module.main.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PointF;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -124,7 +125,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 WebMenuDialog.show(abs, new WebMenuDialog.OnMenuClickListener() {
                     @Override
                     public void onCollect() {
-                        collect();
+                        collect(null);
                     }
 
                     @Override
@@ -145,8 +146,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
         wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
             @Override
-            public void onDoubleClick() {
-                collect();
+            public void onDoubleClick(float x, float y) {
+                collect(new PointF(x, y));
             }
         });
 
@@ -211,19 +212,19 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         return super.onKeyDown(keyCode, event);
     }
 
-    private void collect() {
+    private void collect(PointF p) {
         if (TextUtils.equals(mCurrUrl, mUrl)) {
             if (mArticleId != -1) {
-                presenter.collect(mArticleId);
+                presenter.collect(mArticleId, p);
             } else {
                 if (TextUtils.isEmpty(mAuthor)) {
-                    presenter.collect(mTitle, mUrl);
+                    presenter.collect(mTitle, mUrl, p);
                 } else {
-                    presenter.collect(mTitle, mAuthor, mUrl);
+                    presenter.collect(mTitle, mAuthor, mUrl, p);
                 }
             }
         } else {
-            presenter.collect(mCurrTitle, mCurrUrl);
+            presenter.collect(mCurrTitle, mCurrUrl, p);
         }
     }
 
@@ -240,8 +241,12 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     @Override
-    public void collectSuccess() {
-        ToastMaker.showShort("收藏成功");
+    public void collectSuccess(PointF p) {
+        if (p == null) {
+            wc.showCollectAnim();
+        } else {
+            wc.showCollectAnim(p.x, p.y);
+        }
     }
 
     @Override

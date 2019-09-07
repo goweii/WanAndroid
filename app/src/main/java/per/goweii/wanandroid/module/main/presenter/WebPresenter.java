@@ -1,5 +1,7 @@
 package per.goweii.wanandroid.module.main.presenter;
 
+import android.graphics.PointF;
+
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
@@ -19,7 +21,7 @@ import per.goweii.wanandroid.module.main.view.WebView;
  */
 public class WebPresenter extends BasePresenter<WebView> {
 
-    public void collect(int id) {
+    public void collect(int id, PointF p) {
         addToRxLife(MainRequest.collect(id, new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
@@ -30,7 +32,7 @@ public class WebPresenter extends BasePresenter<WebView> {
             public void onSuccess(int code, BaseBean data) {
                 CollectionEvent.postCollectWithArticleId(id);
                 if (isAttach()) {
-                    getBaseView().collectSuccess();
+                    getBaseView().collectSuccess(p);
                 }
             }
 
@@ -52,7 +54,7 @@ public class WebPresenter extends BasePresenter<WebView> {
         }));
     }
 
-    public void collect(String title, String author, String link) {
+    public void collect(String title, String author, String link, PointF p) {
         addToRxLife(MainRequest.collect(title, author, link, new RequestListener<CollectArticleBean>() {
             @Override
             public void onStart() {
@@ -63,7 +65,7 @@ public class WebPresenter extends BasePresenter<WebView> {
             public void onSuccess(int code, CollectArticleBean data) {
                 CollectionEvent.postCollectWithCollectId(data.getId());
                 if (isAttach()) {
-                    getBaseView().collectSuccess();
+                    getBaseView().collectSuccess(p);
                 }
             }
 
@@ -85,7 +87,7 @@ public class WebPresenter extends BasePresenter<WebView> {
         }));
     }
 
-    public void collect(String title, String link) {
+    public void collect(String title, String link, PointF p) {
         addToRxLife(MainRequest.collect(title, link, new RequestListener<CollectionLinkBean>() {
             @Override
             public void onStart() {
@@ -96,7 +98,7 @@ public class WebPresenter extends BasePresenter<WebView> {
             public void onSuccess(int code, CollectionLinkBean data) {
                 CollectionEvent.postCollectWithCollectId(data.getId());
                 if (isAttach()) {
-                    getBaseView().collectSuccess();
+                    getBaseView().collectSuccess(p);
                 }
             }
 

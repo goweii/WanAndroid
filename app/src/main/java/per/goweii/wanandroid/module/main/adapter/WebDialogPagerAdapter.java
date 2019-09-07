@@ -109,7 +109,7 @@ public class WebDialogPagerAdapter extends PagerAdapter {
         WebContainer wc = rootView.findViewById(R.id.dialog_web_wc);
         wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
             @Override
-            public void onDoubleClick() {
+            public void onDoubleClick(float x, float y) {
                 if (mOnDoubleClickListener != null) {
                     mOnDoubleClickListener.onDoubleClick(data);
                 }
