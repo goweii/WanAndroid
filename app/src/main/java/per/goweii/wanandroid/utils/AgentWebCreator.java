@@ -55,7 +55,6 @@ public class AgentWebCreator {
                 .ready()
                 .go(url);
         agentWeb.getWebCreator().getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
-        agentWeb.getWebCreator().getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         agentWeb.getWebCreator().getWebView().getSettings().setJavaScriptEnabled(false);
         agentWeb.getWebCreator().getWebView().getSettings().setLoadsImagesAutomatically(true);
         agentWeb.getWebCreator().getWebView().getSettings().setUseWideViewPort(true);
@@ -71,7 +70,7 @@ public class AgentWebCreator {
         return create(activity, container, url, null);
     }
 
-    public static void syncCookiesForWanAndroid(String url) {
+    private static void syncCookiesForWanAndroid(String url) {
         if (TextUtils.isEmpty(url)) {
             return;
         }
