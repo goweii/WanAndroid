@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -30,10 +29,8 @@ public class AboutActivity extends BaseActivity {
     TextView tv_web;
     @BindView(R.id.tv_about)
     TextView tv_about;
-    @BindView(R.id.ll_web)
-    LinearLayout ll_web;
-    @BindView(R.id.ll_about)
-    LinearLayout ll_about;
+    @BindView(R.id.tv_github)
+    TextView tv_github;
 
     public static void start(Context context){
         Intent intent = new Intent(context, AboutActivity.class);
@@ -62,7 +59,7 @@ public class AboutActivity extends BaseActivity {
     }
 
     @OnClick({
-            R.id.ll_web, R.id.ll_about
+            R.id.ll_web, R.id.ll_about, R.id.ll_github
     })
     @Override
     public void onClick(View v) {
@@ -79,6 +76,9 @@ public class AboutActivity extends BaseActivity {
                 break;
             case R.id.ll_about:
                 WebActivity.start(getContext(), tv_about.getText().toString(), "https://www.wanandroid.com/about");
+                break;
+            case R.id.ll_github:
+                WebActivity.start(getContext(), tv_github.getText().toString(), "https://github.com/goweii/WanAndroid");
                 break;
         }
     }
