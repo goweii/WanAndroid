@@ -33,8 +33,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_white"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="14dp"
+                    android:paddingRight="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -50,21 +50,21 @@
                         android:id="@+id/tv_show_read_later_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_below="@+id/tv_show_read_later_title"
-                        android:text="不同于收藏，此功能无需登录，为本地操作，更换手机或重置APP后已添加的数据将丢失"
-                        android:layout_toLeftOf="@+id/sc_show_read_later"
+                        android:layout_alignParentLeft="true"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
+                        android:layout_toLeftOf="@+id/sc_show_read_later"
+                        android:text="不同于收藏，此功能无需登录，为本地操作，更换手机或重置APP后已添加的数据将丢失"
                         android:textColor="@color/text_gray_light"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/sc_show_read_later"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
@@ -73,8 +73,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_white"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="14dp"
+                    android:paddingRight="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -90,21 +90,21 @@
                         android:id="@+id/tv_show_top_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_below="@+id/tv_show_top_title"
-                        android:text="开启后首页显示置顶文章"
-                        android:layout_toLeftOf="@+id/sc_show_top"
+                        android:layout_alignParentLeft="true"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
+                        android:layout_toLeftOf="@+id/sc_show_top"
+                        android:text="开启后首页显示置顶文章"
                         android:textColor="@color/text_gray_light"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/sc_show_top"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
@@ -113,8 +113,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_white"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="14dp"
+                    android:paddingRight="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -130,21 +130,21 @@
                         android:id="@+id/tv_show_banner_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_below="@+id/tv_show_banner_title"
-                        android:text="开启后首页显示轮播图"
-                        android:layout_toLeftOf="@+id/sc_show_banner"
+                        android:layout_alignParentLeft="true"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
+                        android:layout_toLeftOf="@+id/sc_show_banner"
+                        android:text="开启后首页显示轮播图"
                         android:textColor="@color/text_gray_light"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/sc_show_banner"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
@@ -153,8 +153,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_white"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="14dp"
+                    android:paddingRight="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -162,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="隐藏关于我"
+                        android:text="隐藏关于作者"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_content" />
 
@@ -170,21 +170,21 @@
                         android:id="@+id/tv_hide_about_me_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_below="@+id/tv_hide_about_me_title"
-                        android:text="开启后隐藏我的页面的关于我入口"
-                        android:layout_toLeftOf="@+id/sc_hide_about_me"
+                        android:layout_alignParentLeft="true"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
+                        android:layout_toLeftOf="@+id/sc_hide_about_me"
+                        android:text="开启后隐藏我的页面的关于作者入口"
                         android:textColor="@color/text_gray_light"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/sc_hide_about_me"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
@@ -193,8 +193,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_white"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="14dp"
+                    android:paddingRight="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -210,21 +210,21 @@
                         android:id="@+id/tv_hide_open_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_below="@+id/tv_hide_open_title"
-                        android:text="开启后隐藏我的页面的开源项目入口"
-                        android:layout_toLeftOf="@+id/sc_hide_open"
+                        android:layout_alignParentLeft="true"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
+                        android:layout_toLeftOf="@+id/sc_hide_open"
+                        android:text="开启后隐藏我的页面的开源项目入口"
                         android:textColor="@color/text_gray_light"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/sc_hide_open"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
@@ -233,8 +233,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_white"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
                     android:paddingTop="14dp"
+                    android:paddingRight="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -250,21 +250,21 @@
                         android:id="@+id/tv_web_swipeback_edge_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
                         android:layout_below="@+id/tv_web_swipeback_edge_title"
-                        android:text="开启后网页仅在边缘可触发滑动返回，避免左右滑动代码时误触发滑动返回"
-                        android:layout_toLeftOf="@+id/sc_web_swipeback_edge"
+                        android:layout_alignParentLeft="true"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
+                        android:layout_toLeftOf="@+id/sc_web_swipeback_edge"
+                        android:text="开启后网页仅在边缘可触发滑动返回，避免左右滑动代码时误触发滑动返回"
                         android:textColor="@color/text_gray_light"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/sc_web_swipeback_edge"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
 
                 </RelativeLayout>
 
@@ -295,9 +295,9 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        tools:text="无"
                         android:textColor="@color/text_gray_light"
-                        android:textSize="@dimen/text_notes" />
+                        android:textSize="@dimen/text_notes"
+                        tools:text="不拦截" />
 
                     <ImageView
                         android:layout_width="13dp"
@@ -336,9 +336,9 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        tools:text="无"
                         android:textColor="@color/text_gray_light"
-                        android:textSize="@dimen/text_notes" />
+                        android:textSize="@dimen/text_notes"
+                        tools:text="无" />
 
                     <ImageView
                         android:layout_width="13dp"
@@ -377,9 +377,9 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        tools:text="100MB"
                         android:textColor="@color/text_gray_light"
-                        android:textSize="@dimen/text_notes" />
+                        android:textSize="@dimen/text_notes"
+                        tools:text="100MB" />
 
                     <ImageView
                         android:layout_width="13dp"
@@ -418,9 +418,9 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        tools:text="已是最新版本"
                         android:textColor="@color/text_gray_light"
-                        android:textSize="@dimen/text_notes" />
+                        android:textSize="@dimen/text_notes"
+                        tools:text="已是最新版本" />
 
                     <ImageView
                         android:layout_width="13dp"
@@ -459,9 +459,9 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        tools:text="1.0.0"
                         android:textColor="@color/text_gray_light"
-                        android:textSize="@dimen/text_notes" />
+                        android:textSize="@dimen/text_notes"
+                        tools:text="1.0.0" />
 
                     <ImageView
                         android:layout_width="13dp"
