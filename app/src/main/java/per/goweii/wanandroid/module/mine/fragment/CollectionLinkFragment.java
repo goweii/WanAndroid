@@ -1,10 +1,12 @@
 package per.goweii.wanandroid.module.mine.fragment;
 
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewParent;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
@@ -18,7 +20,6 @@ import java.util.List;
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
-import per.goweii.basic.ui.dialog.ListDialog;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.IntentUtils;
@@ -122,63 +123,10 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new CollectionLinkAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                CollectionLinkBean item = mAdapter.getItem(position);
-                if (item != null) {
-                    WebActivity.start(getContext(), item.getName(), item.getLink());
-                }
-            }
-        });
-        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-                final CollectionLinkBean item = mAdapter.getItem(position);
-                if (item == null) {
-                    return true;
-                }
-                ListDialog.with(getContext())
-                        .datas("编辑", "删除", "复制链接", "浏览器打开")
-                        .noBtn()
-                        .listener(new ListDialog.OnItemSelectedListener() {
-                            @Override
-                            public void onSelect(String data, int pos) {
-                                switch (pos) {
-                                    default:
-                                        break;
-                                    case 0:
-                                        EditCollectLinkDialog.show(getContext(), item, new SimpleCallback<CollectionLinkBean>() {
-                                            @Override
-                                            public void onResult(CollectionLinkBean data) {
-                                                presenter.updateCollectLink(data);
-                                            }
-                                        });
-                                        break;
-                                    case 1:
-                                        presenter.uncollectLink(item);
-                                        break;
-                                    case 2:
-                                        CopyUtils.copyText(item.getLink());
-                                        ToastMaker.showShort("复制成功");
-                                        break;
-                                    case 3:
-                                        if (TextUtils.isEmpty(item.getLink())) {
-                                            ToastMaker.showShort("链接为空");
-                                            break;
-                                        }
-                                        IntentUtils.openBrowser(getContext(), item.getLink());
-                                        break;
-                                }
-                            }
-                        })
-                        .show();
-                return true;
-            }
-        });
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                mAdapter.closeAll(null);
                 CollectionLinkBean item = mAdapter.getItem(position);
                 if (item == null) {
                     return;
@@ -186,7 +134,31 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
                 switch (view.getId()) {
                     default:
                         break;
-                    case R.id.iv_remove:
+                    case R.id.rl_top:
+                        WebActivity.start(getContext(), item.getName(), item.getLink());
+                        break;
+                    case R.id.tv_copy:
+                        CopyUtils.copyText(item.getLink());
+                        ToastMaker.showShort("复制成功");
+                        break;
+                    case R.id.tv_open:
+                        if (TextUtils.isEmpty(item.getLink())) {
+                            ToastMaker.showShort("链接为空");
+                            break;
+                        }
+                        if (getContext() != null) {
+                            IntentUtils.openBrowser(getContext(), item.getLink());
+                        }
+                        break;
+                    case R.id.tv_edit:
+                        EditCollectLinkDialog.show(getContext(), item, new SimpleCallback<CollectionLinkBean>() {
+                            @Override
+                            public void onResult(CollectionLinkBean data) {
+                                presenter.updateCollectLink(data);
+                            }
+                        });
+                        break;
+                    case R.id.tv_delete:
                         presenter.uncollectLink(item);
                         break;
                 }
@@ -200,6 +172,30 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
                 presenter.getCollectLinkList(true);
             }
         });
+        if (getRootView() != null) {
+            ViewParent parent = getRootView().getParent();
+            if (parent instanceof ViewPager) {
+                ViewPager viewPager = (ViewPager) parent;
+                viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                    @Override
+                    public void onPageScrolled(int i, float v, int i1) {
+                    }
+
+                    @Override
+                    public void onPageSelected(int i) {
+                    }
+
+                    @Override
+                    public void onPageScrollStateChanged(int i) {
+                        if (i != ViewPager.SCROLL_STATE_IDLE) {
+                            if (mAdapter != null) {
+                                mAdapter.closeAll(null);
+                            }
+                        }
+                    }
+                });
+            }
+        }
     }
 
     @Override

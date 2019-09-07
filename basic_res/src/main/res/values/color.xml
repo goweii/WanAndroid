@@ -11,10 +11,15 @@
     <color name="ripple_dark">#11000000</color>
     <color name="ripple_light">#11ffffff</color>
 
+    <color name="blue">#4282f4</color>
+    <color name="green">#3cdc86</color>
+    <color name="orange">#f86734</color>
+
     <!--=======================通用颜色==========================-->
     <!--主题色-->
-    <color name="main">#4282f4</color>
-    <color name="accent">#f86734</color>
+    <color name="main">@color/blue</color>
+    <color name="assist">@color/green</color>
+    <color name="accent">@color/orange</color>
     <color name="transparent">#00000000</color>
     <color name="white">#ffffff</color>
     <color name="white_alpha">#ccffffff</color>
