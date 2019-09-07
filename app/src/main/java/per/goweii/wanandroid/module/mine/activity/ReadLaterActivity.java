@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -20,6 +21,9 @@ import butterknife.BindView;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
+import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.CopyUtils;
+import per.goweii.basic.utils.IntentUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
@@ -106,18 +110,10 @@ public class ReadLaterActivity extends BaseActivity {
                 getPageList();
             }
         }, rv);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                final ReadLaterEntity item = mAdapter.getItem(position);
-                if (item != null) {
-                    WebActivity.start(getContext(), item.getTitle(), item.getLink());
-                }
-            }
-        });
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                mAdapter.closeAll(null);
                 ReadLaterEntity item = mAdapter.getItem(position);
                 if (item == null) {
                     return;
@@ -125,7 +121,23 @@ public class ReadLaterActivity extends BaseActivity {
                 switch (view.getId()) {
                     default:
                         break;
-                    case R.id.iv_remove:
+                    case R.id.rl_top:
+                        WebActivity.start(getContext(), item.getTitle(), item.getLink());
+                        break;
+                    case R.id.tv_copy:
+                        CopyUtils.copyText(item.getLink());
+                        ToastMaker.showShort("复制成功");
+                        break;
+                    case R.id.tv_open:
+                        if (TextUtils.isEmpty(item.getLink())) {
+                            ToastMaker.showShort("链接为空");
+                            break;
+                        }
+                        if (getContext() != null) {
+                            IntentUtils.openBrowser(getContext(), item.getLink());
+                        }
+                        break;
+                    case R.id.tv_delete:
                         mRealmHelper.delete(item.getLink());
                         mAdapter.remove(position);
                         if (mAdapter.getData().isEmpty()) {

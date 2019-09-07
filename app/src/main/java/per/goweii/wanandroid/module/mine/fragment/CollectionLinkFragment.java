@@ -15,6 +15,8 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -214,9 +216,16 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
 
     @Override
     public void getCollectLinkListSuccess(int code, List<CollectionLinkBean> data) {
-        mAdapter.setNewData(data);
+        List<CollectionLinkBean> copyList;
+        if (data != null) {
+            copyList = new ArrayList<>(data);
+        } else {
+            copyList = new ArrayList<>(0);
+        }
+        Collections.reverse(copyList);
+        mAdapter.setNewData(copyList);
         mSmartRefreshUtils.success();
-        if (data == null || data.isEmpty()) {
+        if (copyList.isEmpty()) {
             MultiStateUtils.toEmpty(msv);
         } else {
             MultiStateUtils.toContent(msv);
