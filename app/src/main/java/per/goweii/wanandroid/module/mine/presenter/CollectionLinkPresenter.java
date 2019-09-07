@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.mine.presenter;
 
+import java.util.Collections;
 import java.util.List;
 
 import per.goweii.basic.core.base.BasePresenter;
@@ -30,6 +31,7 @@ public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
 
             @Override
             public void onSuccess(int code, List<CollectionLinkBean> data) {
+                Collections.reverse(data);
                 if (isAttach()) {
                     getBaseView().getCollectLinkListSuccess(code, data);
                 }
@@ -57,6 +59,7 @@ public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
 
             @Override
             public void onSuccess(int code, List<CollectionLinkBean> data) {
+                Collections.reverse(data);
                 if (isAttach()) {
                     getBaseView().getCollectLinkListSuccess(code, data);
                 }

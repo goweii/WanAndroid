@@ -15,6 +15,7 @@ import per.goweii.actionbarex.common.ActionBarSuper;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.IntentUtils;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
@@ -114,6 +115,12 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         abs.getRightActionView(0).setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
+                LogUtils.i("WebActivity", "mArticleId=" + mArticleId);
+                LogUtils.i("WebActivity", "mTitle=" + mTitle);
+                LogUtils.i("WebActivity", "mAuthor=" + mAuthor);
+                LogUtils.i("WebActivity", "mUrl=" + mUrl);
+                LogUtils.i("WebActivity", "mCurrUrl=" + mCurrUrl);
+                LogUtils.i("WebActivity", "mCurrTitle=" + mCurrTitle);
                 WebMenuDialog.show(abs, new WebMenuDialog.OnMenuClickListener() {
                     @Override
                     public void onCollect() {
@@ -152,6 +159,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             @Override
             public void onReceivedUrl(String url) {
                 mCurrUrl = url;
+                mCurrTitle = "";
             }
 
             @Override

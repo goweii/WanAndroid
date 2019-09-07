@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
     android:layout_gravity="top"
+    android:layout_margin="8dp"
     android:orientation="vertical">
 
     <View
@@ -21,57 +21,61 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"
+            android:layout_marginBottom="8dp"
             android:orientation="vertical">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/text_auxiliary"
+                android:text="网站标题"
                 android:textColor="@color/text_gray_light"
-                android:text="网站标题"/>
+                android:textSize="@dimen/text_auxiliary" />
 
             <EditText
                 android:id="@+id/dialog_edit_collect_link_et_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="top"
+                android:maxLines="5"
+                android:minLines="1"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:textSize="@dimen/text_content"
                 android:textColor="@color/text_black"
-                tools:text="wanandroid"
-                android:lines="1"
-                android:background="@color/transparent"/>
+                android:textSize="@dimen/text_content"
+                tools:text="wanandroid" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textSize="@dimen/text_auxiliary"
+                android:text="网站链接"
                 android:textColor="@color/text_gray_light"
-                android:text="网站链接"/>
+                android:textSize="@dimen/text_auxiliary" />
 
             <EditText
                 android:id="@+id/dialog_edit_collect_link_et_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="top"
+                android:maxLines="5"
+                android:minLines="1"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:textSize="@dimen/text_content"
                 android:textColor="@color/text_black"
-                tools:text="https://www.wanandroid.com"
-                android:lines="1"
-                android:background="@color/transparent"/>
+                android:textSize="@dimen/text_content"
+                tools:text="https://www.wanandroid.com" />
 
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/line"/>
+            android:background="@color/line" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -91,7 +95,7 @@
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/bg"/>
+                android:background="@color/bg" />
 
             <TextView
                 android:id="@+id/dialog_edit_collect_link_tv_yes"

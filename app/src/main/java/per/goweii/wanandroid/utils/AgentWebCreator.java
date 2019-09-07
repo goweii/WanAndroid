@@ -161,8 +161,9 @@ public class AgentWebCreator {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            String title = view.getTitle();
             if (mClientCallback != null) {
+                mClientCallback.onReceivedUrl(url);
+                String title = view.getTitle();
                 mClientCallback.onReceivedTitle(title == null ? "" : title);
                 mClientCallback.onPageFinished();
             }
