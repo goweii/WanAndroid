@@ -62,6 +62,16 @@ public class WebDialogPagerAdapter extends PagerAdapter {
         }
     }
 
+    public void pauseAllAgentWeb() {
+        for (int i = 0; i < mAgentWebs.size(); i++) {
+            AgentWeb agentWeb = mAgentWebs.valueAt(i);
+            if (agentWeb == null) {
+                continue;
+            }
+            agentWeb.getWebLifeCycle().onPause();
+        }
+    }
+
     public void destroyAllAgentWeb() {
         for (int i = 0; i < mAgentWebs.size(); i++) {
             AgentWeb agentWeb = mAgentWebs.valueAt(i);

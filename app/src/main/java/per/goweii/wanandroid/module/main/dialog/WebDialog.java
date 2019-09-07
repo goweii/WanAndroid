@@ -70,23 +70,55 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         contentAnimator(new AnimatorCreator() {
             @Override
             public Animator createInAnimator(View target) {
-                ViewPager vp = target.findViewById(R.id.dialog_web_vp);
+                final ViewPager vp = getView(R.id.dialog_web_vp);
+                View bar = target.findViewById(R.id.dialog_web_rl_bottom_bar);
+                bar.setTranslationY(1000);
+                vp.setPageMargin((int) DisplayInfoUtils.getInstance().dp2px(10));
+                ValueAnimator vpMargin = ValueAnimator.ofInt(vp.getPageMargin(), 0);
+                vpMargin.setInterpolator(new DecelerateInterpolator());
+                vpMargin.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        int value = (int) animation.getAnimatedValue();
+                        vp.setPageMargin(value);
+                    }
+                });
+                vpMargin.setStartDelay(150);
+                vpMargin.setDuration(300);
+                Animator barAnim = AnimatorHelper.createBottomInAnim(bar);
+                barAnim.setDuration(300);
+                barAnim.setStartDelay(150);
+                Animator vpAlpha = AnimatorHelper.createBottomInAnim(vp);
+                vpAlpha.setStartDelay(0);
+                vpAlpha.setDuration(300);
                 AnimatorSet set = new AnimatorSet();
-                set.playTogether(
-                        AnimatorHelper.createZoomAlphaInAnim(vp),
-                        AnimatorHelper.createBottomInAnim(target.findViewById(R.id.dialog_web_rl_bottom_bar))
-                );
+                set.playTogether(vpMargin, vpAlpha, barAnim);
                 return set;
             }
 
             @Override
             public Animator createOutAnimator(View target) {
-                ViewPager vp = target.findViewById(R.id.dialog_web_vp);
+                final ViewPager vp = getView(R.id.dialog_web_vp);
+                View bar = target.findViewById(R.id.dialog_web_rl_bottom_bar);
+                ValueAnimator vpMargin = ValueAnimator.ofInt(vp.getPageMargin(), vp.getPageMargin());
+                vpMargin.setInterpolator(new AccelerateInterpolator());
+                vpMargin.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        int value = (int) animation.getAnimatedValue();
+                        vp.setPageMargin(value);
+                    }
+                });
+                vpMargin.setStartDelay(0);
+                vpMargin.setDuration(300);
+                Animator barAnim = AnimatorHelper.createBottomOutAnim(bar);
+                barAnim.setDuration(300);
+                barAnim.setStartDelay(0);
+                Animator vpAlpha = AnimatorHelper.createBottomOutAnim(vp);
+                vpAlpha.setStartDelay(150);
+                vpAlpha.setDuration(300);
                 AnimatorSet set = new AnimatorSet();
-                set.playTogether(
-                        AnimatorHelper.createZoomAlphaOutAnim(vp),
-                        AnimatorHelper.createBottomOutAnim(target.findViewById(R.id.dialog_web_rl_bottom_bar))
-                );
+                set.playTogether(vpMargin, vpAlpha, barAnim);
                 return set;
             }
         });
@@ -109,7 +141,6 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         presenter = new WebDialogPresenter();
         presenter.attach(this);
         final ViewPager vp = getView(R.id.dialog_web_vp);
-        vp.setPageMargin((int) DisplayInfoUtils.getInstance().dp2px(10));
         final ImageView iv_back = getView(R.id.dialog_web_iv_back);
         final CollectView cv_collect = getView(R.id.dialog_web_cv_collect);
         if (singleTipMode) {
@@ -177,60 +208,15 @@ public class WebDialog extends DialogLayer implements WebDialogView {
 
     @Override
     public void onShow() {
-        if (singleTipMode) {
-            super.onShow();
-            return;
-        }
-        final ViewPager vp = getView(R.id.dialog_web_vp);
-        ValueAnimator anim = ValueAnimator.ofInt(vp.getPageMargin(), 0);
-        anim.setInterpolator(new DecelerateInterpolator());
-        anim.setDuration(300);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                vp.setPageMargin(value);
-            }
-        });
-        anim.start();
+        super.onShow();
     }
 
     @Override
     public void onPerRemove() {
-        if (singleTipMode) {
-            super.onPerRemove();
-            return;
+        if (mAdapter != null) {
+            mAdapter.pauseAllAgentWeb();
         }
-        final ViewPager vp = getView(R.id.dialog_web_vp);
-        ValueAnimator anim = ValueAnimator.ofInt(vp.getPageMargin(), (int) DisplayInfoUtils.getInstance().dp2px(10));
-        anim.setInterpolator(new AccelerateInterpolator());
-        anim.setDuration(150);
-        anim.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animation) {
-                int value = (int) animation.getAnimatedValue();
-                vp.setPageMargin(value);
-            }
-        });
-        anim.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                WebDialog.super.onPerRemove();
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
-        });
-        anim.start();
+        super.onPerRemove();
     }
 
     @Override
