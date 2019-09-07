@@ -26,6 +26,18 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class HomePresenter extends BasePresenter<HomeView> {
 
+    private boolean isGetBannerSuccess = false;
+    private boolean isGetArticleListSuccess = false;
+    private boolean isGetTopArticleListSuccess = false;
+
+    private void isAllFailed() {
+        if (!isGetBannerSuccess && !isGetArticleListSuccess && !isGetTopArticleListSuccess) {
+            if (isAttach()) {
+                getBaseView().allFail();
+            }
+        }
+    }
+
     public void getBanner(){
         HomeRequest.getBanner(getRxLife(), new RequestListener<List<BannerBean>>() {
             @Override
@@ -34,6 +46,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onSuccess(int code, List<BannerBean> data) {
+                isGetBannerSuccess = true;
                 if (isAttach()) {
                     getBaseView().getBannerSuccess(code, data);
                 }
@@ -52,6 +65,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onFinish() {
+                isAllFailed();
             }
         });
     }
@@ -64,6 +78,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onSuccess(int code, HomeBean data) {
+                isGetArticleListSuccess = true;
                 if (isAttach()) {
                     getBaseView().getArticleListSuccess(code, data);
                 }
@@ -82,6 +97,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onFinish() {
+                isAllFailed();
             }
         });
     }
@@ -94,6 +110,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onSuccess(int code, List<ArticleBean> data) {
+                isGetTopArticleListSuccess = true;
                 if (isAttach()) {
                     getBaseView().getTopArticleListSuccess(code, data);
                 }
@@ -112,6 +129,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onFinish() {
+                isAllFailed();
             }
         });
     }

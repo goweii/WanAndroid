@@ -559,4 +559,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     @Override
     public void getTopArticleListFailed(int code, String msg) {
     }
+
+    @Override
+    public void allFail() {
+        MultiStateUtils.toError(msv);
+    }
 }

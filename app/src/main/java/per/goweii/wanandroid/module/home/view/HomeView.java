@@ -15,6 +15,7 @@ import per.goweii.wanandroid.module.main.model.ArticleBean;
  * GitHub: https://github.com/goweii
  */
 public interface HomeView extends BaseView {
+    void allFail();
     void getBannerSuccess(int code, List<BannerBean> data);
     void getBannerFail(int code, String msg);
     void getArticleListSuccess(int code, HomeBean data);
