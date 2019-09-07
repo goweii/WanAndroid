@@ -5,7 +5,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.text.TextUtils;
 import android.view.ViewGroup;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebResourceResponse;
@@ -17,9 +20,14 @@ import android.widget.FrameLayout;
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.DefaultWebClient;
 
+import java.util.List;
+
+import okhttp3.Cookie;
+import okhttp3.HttpUrl;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.WanApp;
 
 /**
  * @author CuiZhen
@@ -53,11 +61,48 @@ public class AgentWebCreator {
         agentWeb.getWebCreator().getWebView().getSettings().setUseWideViewPort(true);
         agentWeb.getWebCreator().getWebView().getSettings().setLoadWithOverviewMode(true);
         agentWeb.getWebCreator().getWebView().getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager.getInstance().setAcceptThirdPartyCookies(agentWeb.getWebCreator().getWebView(), true);
+        }
         return agentWeb;
     }
 
     public static AgentWeb create(Activity activity, FrameLayout container, String url) {
         return create(activity, container, url, null);
+    }
+
+    public static void syncCookiesForWanAndroid(String url) {
+        if (TextUtils.isEmpty(url)) {
+            return;
+        }
+        String host = Uri.parse(url).getHost();
+        if (!TextUtils.equals(host, "www.wanandroid.com")) {
+            return;
+        }
+        List<Cookie> cookies = WanApp.getCookieJar().loadForRequest(HttpUrl.get(url));
+        if (cookies == null || cookies.isEmpty()) {
+            return;
+        }
+        CookieManager cookieManager = CookieManager.getInstance();
+        cookieManager.setAcceptCookie(true);
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            cookieManager.removeSessionCookie();
+            cookieManager.removeExpiredCookie();
+        } else {
+            cookieManager.removeSessionCookies(null);
+        }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            for (Cookie cookie : cookies) {
+                cookieManager.setCookie(url, cookie.name() + "=" + cookie.value());
+            }
+            CookieSyncManager.createInstance(WanApp.getAppContext());
+            CookieSyncManager.getInstance().sync();
+        } else {
+            for (Cookie cookie : cookies) {
+                cookieManager.setCookie(url, cookie.name() + "=" + cookie.value());
+            }
+            cookieManager.flush();
+        }
     }
 
     public interface ClientCallback {
@@ -100,6 +145,7 @@ public class AgentWebCreator {
         }
 
         private boolean shouldInterceptRequest(Uri uri) {
+            syncCookiesForWanAndroid(uri.toString());
             LogUtils.d("AgentWebCreator", "interceptUrlRequest:" + uri.toString());
             return false;
         }
