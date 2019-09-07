@@ -9,12 +9,12 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="关于" />
+        app:abc_titleText="关于我们" />
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/riv_logo"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="68dp"
+        android:layout_height="68dp"
         android:layout_below="@+id/abc"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
@@ -31,9 +31,9 @@
         android:layout_below="@+id/riv_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:textColor="@color/text_black"
+        android:textColor="@color/text_gray_dark"
         android:textSize="@dimen/text_content"
-        tools:text="1.0.0" />
+        tools:text="V1.0.0(1)" />
 
     <LinearLayout
         android:id="@+id/ll_web"

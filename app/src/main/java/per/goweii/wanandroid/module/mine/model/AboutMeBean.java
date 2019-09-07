@@ -16,6 +16,8 @@ public class AboutMeBean extends BaseBean {
      * desc : 不相信自己的人没有努力的价值
      * github : https://github.com/goweii
      * jianshu : https://www.jianshu.com/u/78fecab193fa
+     * qq : 302833254
+     * qq_group : 147715512
      * qq_qrcode : https://raw.githubusercontent.com/goweii/WanAndroidServer/master/about/qq_qrcode.png
      * wx_qrcode : https://raw.githubusercontent.com/goweii/WanAndroidServer/master/about/wx_qrcode.png
      */
@@ -25,6 +27,8 @@ public class AboutMeBean extends BaseBean {
     private String desc;
     private String github;
     private String jianshu;
+    private String qq;
+    private String qq_group;
     private String qq_qrcode;
     private String wx_qrcode;
 
@@ -66,6 +70,22 @@ public class AboutMeBean extends BaseBean {
 
     public void setJianshu(String jianshu) {
         this.jianshu = jianshu;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
+    }
+
+    public String getQq_group() {
+        return qq_group;
+    }
+
+    public void setQq_group(String qq_group) {
+        this.qq_group = qq_group;
     }
 
     public String getQq_qrcode() {

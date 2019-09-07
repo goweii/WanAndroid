@@ -53,7 +53,8 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        tv_version_name.setText(AppInfoUtils.getVersionName());
+        tv_version_name.setText(String.format("V%s(%d)",
+                AppInfoUtils.getVersionName(), AppInfoUtils.getVersionCode()));
     }
 
     @Override

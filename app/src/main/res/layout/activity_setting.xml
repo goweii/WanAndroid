@@ -82,7 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="显示置顶文章"
+                        android:text="显示置顶"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_content" />
 
@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="显示轮播图"
+                        android:text="显示轮播"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_content" />
 
@@ -448,7 +448,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
-                        android:text="关于"
+                        android:text="关于我们"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_content" />
 

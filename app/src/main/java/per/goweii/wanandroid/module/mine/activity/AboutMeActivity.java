@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
@@ -17,11 +18,15 @@ import android.widget.TextView;
 
 import com.daimajia.swipe.SwipeLayout;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.glide.GlideHelper;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.percentimageview.percentimageview.PercentImageView;
 import per.goweii.wanandroid.R;
@@ -54,10 +59,18 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
     LinearLayout ll_github;
     @BindView(R.id.ll_jianshu)
     LinearLayout ll_jianshu;
+    @BindView(R.id.ll_qq)
+    LinearLayout ll_qq;
+    @BindView(R.id.ll_qq_group)
+    LinearLayout ll_qq_group;
     @BindView(R.id.tv_github)
     TextView tv_github;
     @BindView(R.id.tv_jianshu)
     TextView tv_jianshu;
+    @BindView(R.id.tv_qq)
+    TextView tv_qq;
+    @BindView(R.id.tv_qq_group)
+    TextView tv_qq_group;
     @BindView(R.id.rl_info)
     RelativeLayout rl_info;
     @BindView(R.id.rl_reward)
@@ -67,7 +80,7 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
     @BindView(R.id.piv_wx_qrcode)
     PercentImageView piv_wx_qrcode;
 
-    public static void start(Context context){
+    public static void start(Context context) {
         Intent intent = new Intent(context, AboutMeActivity.class);
         context.startActivity(intent);
     }
@@ -85,7 +98,8 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
 
     @Override
     protected void initView() {
-        changeVisible(View.INVISIBLE, civ_icon, tv_name, tv_sign, ll_github, ll_jianshu);
+        changeVisible(View.INVISIBLE, civ_icon, tv_name, tv_sign);
+        changeVisible(View.GONE, ll_github, ll_jianshu, ll_qq, ll_qq_group);
     }
 
     @Override
@@ -94,7 +108,7 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
     }
 
     @OnClick({
-            R.id.ll_github, R.id.ll_jianshu
+            R.id.ll_github, R.id.ll_jianshu, R.id.ll_qq, R.id.ll_qq_group
     })
     @Override
     public void onClick(View v) {
@@ -112,10 +126,18 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
             case R.id.ll_jianshu:
                 WebActivity.start(getContext(), tv_name.getText().toString(), tv_jianshu.getText().toString());
                 break;
+            case R.id.ll_qq:
+                CopyUtils.copyText(tv_qq);
+                ToastMaker.showShort("QQ已复制");
+                break;
+            case R.id.ll_qq_group:
+                CopyUtils.copyText(tv_qq_group);
+                ToastMaker.showShort("QQ群已复制");
+                break;
         }
     }
 
-    private void changeVisible(int visible, View... views){
+    private void changeVisible(int visible, View... views) {
         for (View view : views) {
             view.setVisibility(visible);
         }
@@ -147,7 +169,7 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
         animator.start();
     }
 
-    private void doDelayShowAnim(long dur, long delay, View... targets){
+    private void doDelayShowAnim(long dur, long delay, View... targets) {
         for (int i = 0; i < targets.length; i++) {
             final View target = targets[i];
             target.setAlpha(0);
@@ -181,19 +203,8 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
         }
     }
 
-    private void doTranslationYAnim(View target, int to){
-        ObjectAnimator animatorY = ObjectAnimator.ofFloat(target, "translationY", target.getTranslationY(), to);
-        animatorY.setDuration(500);
-        animatorY.setInterpolator(new DecelerateInterpolator());
-        animatorY.start();
-    }
-
     @Override
     public void getAboutMeSuccess(int code, AboutMeBean data) {
-        tv_name.setText(data.getName());
-        tv_sign.setText(data.getDesc());
-        tv_github.setText(data.getGithub());
-        tv_jianshu.setText(data.getJianshu());
         ImageLoader.image(piv_qq_qrcode, data.getQq_qrcode());
         ImageLoader.image(piv_wx_qrcode, data.getWx_qrcode());
         GlideHelper.with(getContext())
@@ -213,21 +224,40 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
                         });
                     }
                 });
+
+        List<View> targets = new ArrayList<>();
+        targets.add(civ_icon);
+        if (!TextUtils.isEmpty(data.getName())) {
+            tv_name.setText(data.getName());
+            targets.add(tv_name);
+        }
+        if (!TextUtils.isEmpty(data.getDesc())) {
+            tv_sign.setText(data.getDesc());
+            targets.add(tv_sign);
+        }
+        if (!TextUtils.isEmpty(data.getGithub())) {
+            tv_github.setText(data.getGithub());
+            targets.add(ll_github);
+        }
+        if (!TextUtils.isEmpty(data.getJianshu())) {
+            tv_jianshu.setText(data.getJianshu());
+            targets.add(ll_jianshu);
+        }
+        if (!TextUtils.isEmpty(data.getQq())) {
+            tv_qq.setText(data.getQq());
+            targets.add(ll_qq);
+        }
+        if (!TextUtils.isEmpty(data.getQq_group())) {
+            tv_qq_group.setText(data.getQq_group());
+            targets.add(ll_qq_group);
+        }
         civ_icon.post(new Runnable() {
             @Override
             public void run() {
                 changeViewSize(civ_icon, 0, 1, 300);
-                doDelayShowAnim(800, 60, civ_icon, tv_name, tv_sign, ll_github, ll_jianshu);
+                doDelayShowAnim(800, 60, targets.toArray(new View[0]));
             }
         });
-//        rl_info.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                rl_info.setVisibility(View.VISIBLE);
-//                rl_reward.setTranslationY(rl_info.getMeasuredHeight());
-//                rl_reward.setVisibility(View.VISIBLE);
-//            }
-//        });
     }
 
     @Override
