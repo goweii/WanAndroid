@@ -90,6 +90,8 @@ public class OpenActivity extends BaseActivity {
         MultiStateUtils.toLoading(msv);
         List<OpenEntity> list = new ArrayList<>();
         list.add(new OpenEntity("goweii/RxHttp", "对RxJava2+Retrofit2+OkHttp3的封装", "https://github.com/goweii/RxHttp"));
+        list.add(new OpenEntity("goweii/SwipeBack", "Android Activity滑动返回。支持4个方向，支持下层Activity联动和自定义动效", "https://github.com/goweii/SwipeBack"));
+        list.add(new OpenEntity("goweii/LazyFragment", "懒加载Fragment，提供可见和隐藏的回调，支持在ViewPager中多重嵌套，支持support和androidx", "https://github.com/goweii/LazyFragment"));
         list.add(new OpenEntity("goweii/ActionBarEx", "高拓展高自定义性ActionBar，完美替代Android系统默认", "https://github.com/goweii/ActionBarEx"));
         list.add(new OpenEntity("goweii/AnyLayer", "用于替代Android自带Dialog和PopupWindow", "https://github.com/goweii/AnyLayer"));
         list.add(new OpenEntity("goweii/AnyDialog", "Android高定制性，高易用性Dialog。", "https://github.com/goweii/AnyDialog"));
@@ -98,7 +100,7 @@ public class OpenActivity extends BaseActivity {
         list.add(new OpenEntity("goweii/PercentImageView", "自由指定宽高比的ImageView", "https://github.com/goweii/PercentImageView"));
         list.add(new OpenEntity("goweii/Blurred", "Android高斯模糊库", "https://github.com/goweii/Blurred"));
         list.add(new OpenEntity("goweii/AnyPermission", "Android权限申请（运行时权限、未知应用安装权限、悬浮窗权限、显示通知和访问通知权限）", "https://github.com/goweii/AnyPermission"));
-        list.add(new OpenEntity("goweii/KeyboardCompat", "", "https://github.com/goweii/KeyboardCompat"));
+        list.add(new OpenEntity("goweii/KeyboardCompat", "Android软键盘兼容库，支持开启关闭监听和EditText获取焦点时布局上移", "https://github.com/goweii/KeyboardCompat"));
         list.add(new OpenEntity("goweii/PictureSelector", "forked from LuckSiege/PictureSelector. Picture Selector Library for Android  多图片及音视频选择器", "https://github.com/goweii/PictureSelector"));
         list.add(new OpenEntity("JakeWharton/butterknife", "Bind Android views and callbacks to fields and methods.", "https://github.com/JakeWharton/butterknife"));
         list.add(new OpenEntity("greenrobot/EventBus", "Event bus for Android and Java that simplifies communication between Activities, Fragments, Threads, Services, etc. Less code, better quality.", "https://github.com/greenrobot/EventBus"));

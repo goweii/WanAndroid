@@ -17,6 +17,6 @@ dependencies {
     implementation rootProject.ext.dependencies.glideOkhttp3
     api rootProject.ext.dependencies.rxHttp
     api rootProject.ext.dependencies.anyPermission
-    api 'com.github.goweii:SwipeBack:1.0.4'
-    api 'com.github.goweii.LazyFragment:lazyfragment:1.1.2'
+    api rootProject.ext.dependencies.swipeBack
+    api rootProject.ext.dependencies.lazyfragment
 }

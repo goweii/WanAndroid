@@ -31,11 +31,11 @@ dependencies {
     implementation rootProject.ext.dependencies.agentWeb
     implementation rootProject.ext.dependencies.banner
     implementation rootProject.ext.dependencies.persistentCookieJar
-    implementation 'com.github.goweii:RevealLayout:1.1.1'
-    implementation 'com.github.goweii:AnyView:1.0.2'
-    implementation 'com.github.goweii:KeyboardCompat:1.0.0'
-    implementation "com.daimajia.swipelayout:library:1.2.0@aar"
-    implementation 'com.jakewharton:disklrucache:2.0.2'
-    implementation 'com.github.Kennyc1012:MultiStateView:1.3.2'
-    implementation 'com.github.goweii:PictureSelector:v2.3.1'
+    implementation rootProject.ext.dependencies.revealLayout
+    implementation rootProject.ext.dependencies.anyView
+    implementation rootProject.ext.dependencies.keyboardCompat
+    implementation rootProject.ext.dependencies.swipelayout
+    implementation rootProject.ext.dependencies.disklrucache
+    implementation rootProject.ext.dependencies.multiStateView
+    implementation rootProject.ext.dependencies.pictureSelector
 }

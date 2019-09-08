@@ -181,9 +181,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
             public void onPageSelected(int i) {
                 if (mAdapter != null) {
                     ArticleBean data = mAdapter.getBean(i);
-                    if (cv_collect.isChecked() != data.isCollect()) {
-                        cv_collect.toggle();
-                    }
+                    cv_collect.setChecked(data.isCollect(), true);
                     if (mOnPageChangedListener != null) {
                         mOnPageChangedListener.onPageChanged(i, data);
                     }
