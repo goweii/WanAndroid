@@ -32,7 +32,6 @@ dependencies {
     implementation rootProject.ext.dependencies.banner
     implementation rootProject.ext.dependencies.persistentCookieJar
     implementation rootProject.ext.dependencies.revealLayout
-    implementation rootProject.ext.dependencies.anyView
     implementation rootProject.ext.dependencies.keyboardCompat
     implementation rootProject.ext.dependencies.swipelayout
     implementation rootProject.ext.dependencies.disklrucache

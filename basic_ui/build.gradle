@@ -18,6 +18,5 @@ dependencies {
     api rootProject.ext.dependencies.roundedimageview
     api rootProject.ext.dependencies.circleimageview
     api rootProject.ext.dependencies.magicIndicator
-    api rootProject.ext.dependencies.photoView
     api rootProject.ext.dependencies.materialProgressBar
 }
