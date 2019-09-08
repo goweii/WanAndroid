@@ -3,10 +3,13 @@ package per.goweii.wanandroid.module.main.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.dialog.PermissionDialog;
 import per.goweii.basic.ui.dialog.UpdateDialog;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
@@ -110,6 +114,77 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     protected void loadData() {
         presenter.update();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        LogUtils.d("MainActivity", "onCreate");
+        parseIntent(getIntent());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        LogUtils.d("MainActivity", "onNewIntent");
+        parseIntent(intent);
+    }
+
+    private void parseIntent(Intent intent) {
+        String action = intent.getAction();
+        LogUtils.d("MainActivity", "action=" + intent.getAction());
+        if (action == null) {
+            return;
+        }
+        switch (action) {
+            default:
+                break;
+            case Intent.ACTION_VIEW:
+                handleOpenUrl(intent);
+                break;
+            case Intent.ACTION_SEND:
+                handleShareText(intent);
+                break;
+        }
+    }
+
+    private void handleOpenUrl(Intent intent) {
+        Uri data = intent.getData();
+        LogUtils.d("MainActivity", "data=" + data);
+        if (data == null) {
+            return;
+        }
+        String scheme = data.getScheme();
+        if (!TextUtils.equals(scheme, "http") && !TextUtils.equals(scheme, "https")) {
+            return;
+        }
+        WebActivity.start(getContext(), data.toString());
+    }
+
+    private void handleShareText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        LogUtils.d("MainActivity", "sharedText=" + sharedText);
+        if (TextUtils.isEmpty(sharedText)) {
+            return;
+        }
+        int urlStartIndex = sharedText.indexOf("https://");
+        if (urlStartIndex < 0) {
+            urlStartIndex = sharedText.indexOf("http://");
+        }
+        if (urlStartIndex < 0) {
+            return;
+        }
+        StringBuilder urlBuilder = new StringBuilder();
+        for (int i = urlStartIndex; i < sharedText.length(); i++) {
+            char c = sharedText.charAt(i);
+            if (c == ' ') {
+                break;
+            }
+            urlBuilder.append(c);
+        }
+        String url = urlBuilder.toString();
+        LogUtils.d("MainActivity", "sharedUrl=" + url);
+        WebActivity.start(getContext(), url);
     }
 
     @OnClick({

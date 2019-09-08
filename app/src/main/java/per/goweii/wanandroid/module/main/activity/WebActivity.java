@@ -77,6 +77,12 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         context.startActivity(intent);
     }
 
+    public static void start(Context context, String url) {
+        Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra("url", url);
+        context.startActivity(intent);
+    }
+
     @Override
     protected boolean swipeBackOnlyEdge() {
         return SettingUtils.getInstance().isWebSwipeBackEdge();
@@ -97,8 +103,11 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     protected void initView() {
         mArticleId = getIntent().getIntExtra("articleId", -1);
         mTitle = getIntent().getStringExtra("title");
+        mTitle = mTitle == null ? "" : mTitle;
         mAuthor = getIntent().getStringExtra("author");
+        mAuthor = mAuthor == null ? "" : mAuthor;
         mUrl = getIntent().getStringExtra("url");
+        mUrl = mUrl == null ? "" : mUrl;
         mCurrUrl = mUrl;
         mCurrTitle = mTitle;
 
@@ -218,9 +227,9 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 presenter.collect(mArticleId, p);
             } else {
                 if (TextUtils.isEmpty(mAuthor)) {
-                    presenter.collect(mTitle, mUrl, p);
+                    presenter.collect(TextUtils.isEmpty(mTitle) ? mCurrTitle : mTitle, mUrl, p);
                 } else {
-                    presenter.collect(mTitle, mAuthor, mUrl, p);
+                    presenter.collect(TextUtils.isEmpty(mTitle) ? mCurrTitle : mTitle, mAuthor, mUrl, p);
                 }
             }
         } else {

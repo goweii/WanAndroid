@@ -62,6 +62,13 @@ public class WebContainer extends FrameLayout {
     }
 
     @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+        super.onSizeChanged(w, h, oldw, oldh);
+        mDownX = getWidth() / 2;
+        mDownY = getHeight() / 2;
+    }
+
+    @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             default:
