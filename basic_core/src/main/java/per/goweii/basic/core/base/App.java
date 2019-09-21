@@ -20,11 +20,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import per.goweii.basic.utils.LogUtils;
+
 /**
  * @author Cuizhen
  * @date 2018/6/25-上午10:39
  */
 class App extends Application {
+
+    private static final String TAG = App.class.getSimpleName();
 
     protected static final int FLAG_CLEAR_TOP = 0;
     protected static final int FLAG_CLEAR_OLD = 1;
@@ -317,6 +321,7 @@ class App extends Application {
             @Override
             public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
                 activityCreated(activity);
+                LogUtils.i(TAG, activities);
             }
 
             @Override
@@ -347,6 +352,7 @@ class App extends Application {
             @Override
             public void onActivityDestroyed(Activity activity) {
                 activityDestroyed(activity);
+                LogUtils.i(TAG, activities);
             }
         });
     }

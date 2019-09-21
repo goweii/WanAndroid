@@ -210,11 +210,11 @@ public class WebDialog extends DialogLayer implements WebDialogView {
     }
 
     @Override
-    public void onPerRemove() {
+    public void onPreRemove() {
         if (mAdapter != null) {
             mAdapter.pauseAllAgentWeb();
         }
-        super.onPerRemove();
+        super.onPreRemove();
     }
 
     @Override

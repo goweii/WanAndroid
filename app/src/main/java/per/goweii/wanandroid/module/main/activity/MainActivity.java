@@ -3,13 +3,10 @@ package per.goweii.wanandroid.module.main.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -96,6 +93,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void initView() {
+        LogUtils.i("MainActivity", "MainActivity started");
         vp.addOnPageChangeListener(this);
         vp.setOffscreenPageLimit(4);
         mPagerAdapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
@@ -114,77 +112,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     protected void loadData() {
         presenter.update();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        LogUtils.d("MainActivity", "onCreate");
-        parseIntent(getIntent());
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        LogUtils.d("MainActivity", "onNewIntent");
-        parseIntent(intent);
-    }
-
-    private void parseIntent(Intent intent) {
-        String action = intent.getAction();
-        LogUtils.d("MainActivity", "action=" + intent.getAction());
-        if (action == null) {
-            return;
-        }
-        switch (action) {
-            default:
-                break;
-            case Intent.ACTION_VIEW:
-                handleOpenUrl(intent);
-                break;
-            case Intent.ACTION_SEND:
-                handleShareText(intent);
-                break;
-        }
-    }
-
-    private void handleOpenUrl(Intent intent) {
-        Uri data = intent.getData();
-        LogUtils.d("MainActivity", "data=" + data);
-        if (data == null) {
-            return;
-        }
-        String scheme = data.getScheme();
-        if (!TextUtils.equals(scheme, "http") && !TextUtils.equals(scheme, "https")) {
-            return;
-        }
-        WebActivity.start(getContext(), data.toString());
-    }
-
-    private void handleShareText(Intent intent) {
-        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-        LogUtils.d("MainActivity", "sharedText=" + sharedText);
-        if (TextUtils.isEmpty(sharedText)) {
-            return;
-        }
-        int urlStartIndex = sharedText.indexOf("https://");
-        if (urlStartIndex < 0) {
-            urlStartIndex = sharedText.indexOf("http://");
-        }
-        if (urlStartIndex < 0) {
-            return;
-        }
-        StringBuilder urlBuilder = new StringBuilder();
-        for (int i = urlStartIndex; i < sharedText.length(); i++) {
-            char c = sharedText.charAt(i);
-            if (c == ' ') {
-                break;
-            }
-            urlBuilder.append(c);
-        }
-        String url = urlBuilder.toString();
-        LogUtils.d("MainActivity", "sharedUrl=" + url);
-        WebActivity.start(getContext(), url);
     }
 
     @OnClick({
@@ -307,7 +234,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private void download(final String versionName, final String url, final boolean isForce) {
         mRuntimeRequester = AnyPermission.with(getContext())
                 .runtime(REQ_CODE_PERMISSION)
-                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
+                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .onBeforeRequest(new RequestInterceptor<String>() {
                     @Override
                     public void intercept(@NonNull String data, @NonNull Executor executor) {

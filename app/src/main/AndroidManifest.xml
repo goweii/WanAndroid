@@ -24,14 +24,9 @@
             android:name=".module.main.activity.SplashActivity"
             android:theme="@style/AppTheme.Splash" />
         <activity
-            android:name=".module.main.activity.MainActivity"
+            android:name=".module.main.activity.RouterActivity"
             android:launchMode="singleTask"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
-            android:theme="@style/AppTheme.Main">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:theme="@style/AppTheme.Router">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -45,6 +40,15 @@
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".module.main.activity.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
+            android:theme="@style/AppTheme.Main">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
