@@ -22,7 +22,7 @@ public class MainRequest extends BaseRequest {
         return request(WanApi.api().collect(id), listener);
     }
 
-    public static Disposable collect(String title, String author, String link, @NonNull RequestListener<CollectArticleBean> listener) {
+    public static Disposable collect(String title, String author, String link, @NonNull RequestListener<ArticleBean> listener) {
         return request(WanApi.api().collect(title, author, link), listener);
     }
 

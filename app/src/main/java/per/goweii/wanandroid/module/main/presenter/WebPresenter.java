@@ -7,7 +7,7 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
-import per.goweii.wanandroid.module.main.model.CollectArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.module.main.view.WebView;
@@ -55,14 +55,14 @@ public class WebPresenter extends BasePresenter<WebView> {
     }
 
     public void collect(String title, String author, String link, PointF p) {
-        addToRxLife(MainRequest.collect(title, author, link, new RequestListener<CollectArticleBean>() {
+        addToRxLife(MainRequest.collect(title, author, link, new RequestListener<ArticleBean>() {
             @Override
             public void onStart() {
                 showLoadingBar();
             }
 
             @Override
-            public void onSuccess(int code, CollectArticleBean data) {
+            public void onSuccess(int code, ArticleBean data) {
                 CollectionEvent.postCollectWithCollectId(data.getId());
                 if (isAttach()) {
                     getBaseView().collectSuccess(p);

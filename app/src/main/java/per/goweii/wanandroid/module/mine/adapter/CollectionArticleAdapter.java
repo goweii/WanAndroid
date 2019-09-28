@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -23,7 +23,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class CollectionArticleAdapter extends BaseQuickAdapter<CollectionArticleBean.DatasBean, BaseViewHolder> {
+public class CollectionArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder> {
 
     private OnCollectViewClickListener mOnCollectViewClickListener = null;
 
@@ -36,7 +36,7 @@ public class CollectionArticleAdapter extends BaseQuickAdapter<CollectionArticle
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CollectionArticleBean.DatasBean item) {
+    protected void convert(BaseViewHolder helper, ArticleBean item) {
         TextView tv_title = helper.getView(R.id.tv_title);
         TextView tv_desc = helper.getView(R.id.tv_desc);
         if (TextUtils.isEmpty(item.getDesc())) {

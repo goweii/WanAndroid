@@ -13,7 +13,6 @@ import per.goweii.wanandroid.module.knowledge.model.KnowledgeArticleBean;
 import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
-import per.goweii.wanandroid.module.main.model.CollectArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
@@ -250,9 +249,9 @@ public class WanApi extends Api {
          */
         @FormUrlEncoded
         @POST("lg/collect/add/json")
-        Observable<WanResponse<CollectArticleBean>> collect(@Field("title") String title,
-                                                            @Field("author") String author,
-                                                            @Field("link") String link);
+        Observable<WanResponse<ArticleBean>> collect(@Field("title") String title,
+                                                     @Field("author") String author,
+                                                     @Field("link") String link);
 
         /**
          * 收藏网址

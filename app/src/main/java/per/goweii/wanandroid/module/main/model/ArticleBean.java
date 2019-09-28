@@ -1,5 +1,7 @@
 package per.goweii.wanandroid.module.main.model;
 
+import android.text.TextUtils;
+
 import java.util.List;
 
 import per.goweii.rxhttp.request.base.BaseBean;
@@ -41,6 +43,7 @@ public class ArticleBean extends BaseBean {
 
     private String apkLink;
     private String author;
+    private String shareUser;
     private int chapterId;
     private String chapterName;
     private boolean collect;
@@ -63,6 +66,7 @@ public class ArticleBean extends BaseBean {
     private int visible;
     private int zan;
     private List<TagsBean> tags;
+    private int originId;
 
     public String getApkLink() {
         return apkLink;
@@ -73,7 +77,29 @@ public class ArticleBean extends BaseBean {
     }
 
     public String getAuthor() {
-        return author;
+        if (!TextUtils.isEmpty(author)) {
+            return author;
+        }
+        if (!TextUtils.isEmpty(shareUser)) {
+            return shareUser;
+        }
+        return "匿名";
+    }
+
+    public String getShareUser() {
+        return shareUser;
+    }
+
+    public void setShareUser(String shareUser) {
+        this.shareUser = shareUser;
+    }
+
+    public int getOriginId() {
+        return originId;
+    }
+
+    public void setOriginId(int originId) {
+        this.originId = originId;
     }
 
     public void setAuthor(String author) {

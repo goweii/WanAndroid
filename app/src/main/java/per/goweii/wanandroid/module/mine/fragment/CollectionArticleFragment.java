@@ -25,6 +25,7 @@ import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.mine.adapter.CollectionArticleAdapter;
 import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 import per.goweii.wanandroid.module.mine.presenter.CollectionArticlePresenter;
@@ -72,9 +73,9 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             presenter.getCollectArticleList(currPage, true);
         } else {
             if (event.getArticleId() != -1 || event.getCollectId() != -1) {
-                List<CollectionArticleBean.DatasBean> list = mAdapter.getData();
+                List<ArticleBean> list = mAdapter.getData();
                 for (int i = 0; i < list.size(); i++) {
-                    CollectionArticleBean.DatasBean item = list.get(i);
+                    ArticleBean item = list.get(i);
                     if (event.getArticleId() != -1) {
                         if (item.getOriginId() == event.getArticleId()) {
                             mAdapter.remove(i);
@@ -142,7 +143,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                CollectionArticleBean.DatasBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     WebActivity.start(getContext(), item.getOriginId(), item.getTitle(), item.getLink());
                 }
@@ -151,7 +152,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mAdapter.setOnCollectViewClickListener(new CollectionArticleAdapter.OnCollectViewClickListener() {
             @Override
             public void onClick(BaseViewHolder helper, CollectView v, int position) {
-                CollectionArticleBean.DatasBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     presenter.uncollect(item, v);
                 }

@@ -5,6 +5,7 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 import per.goweii.wanandroid.module.mine.model.MineRequest;
@@ -77,7 +78,7 @@ public class CollectionArticlePresenter extends BasePresenter<CollectionArticleV
         });
     }
 
-    public void uncollect(CollectionArticleBean.DatasBean item, final CollectView v) {
+    public void uncollect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.uncollect(item.getId(), item.getOriginId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {

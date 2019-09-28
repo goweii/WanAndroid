@@ -203,10 +203,11 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
     public void getConfig() {
         ConfigBean configBean = ConfigUtils.getInstance().getConfig();
-        LogUtils.i("ConfigBean", configBean.toFormatJson());
+        LogUtils.i("ConfigBean", "getConfig" + configBean.toFormatJson());
         getBaseView().getConfigSuccess(configBean);
+        LogUtils.i("ConfigBean", ConfigUtils.getInstance().isTodayUpdate());
         if (ConfigUtils.getInstance().isTodayUpdate()) {
-//            return;
+            return;
         }
         MainRequest.getConfig(getRxLife(), new RequestListener<ConfigBean>() {
             @Override
@@ -215,7 +216,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onSuccess(int code, ConfigBean data) {
-                LogUtils.i("ConfigBean", data.toFormatJson());
+                LogUtils.i("ConfigBean", "onSuccess" + data.toFormatJson());
                 getBaseView().getConfigSuccess(data);
                 ConfigUtils.getInstance().setConfig(data);
             }

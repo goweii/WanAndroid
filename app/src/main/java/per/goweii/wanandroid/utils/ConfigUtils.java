@@ -38,13 +38,11 @@ public class ConfigUtils {
     }
 
     private ConfigUtils() {
-        mConfigBean = getConfig();
     }
 
     public boolean isTodayUpdate() {
         long last = getLastUpdate();
         long curr = System.currentTimeMillis();
-        setLastUpdate();
         Date lastDate = new Date(last);
         Date currDate = new Date(curr);
         return lastDate.getYear() == currDate.getYear() &&
@@ -74,9 +72,9 @@ public class ConfigUtils {
             mConfigBean = new ConfigBean();
         } else {
             mConfigBean = configBean;
+            setLastUpdate();
         }
-        mSPUtils.save(KEY_CONFIG, mConfigBean);
-        setLastUpdate();
+        mSPUtils.save(KEY_CONFIG, mGson.toJson(mConfigBean));
     }
 
     private long getLastUpdate() {
