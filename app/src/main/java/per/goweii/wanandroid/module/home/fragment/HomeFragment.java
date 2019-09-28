@@ -1,6 +1,9 @@
 package per.goweii.wanandroid.module.home.fragment;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -32,11 +35,13 @@ import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.anylayer.Layer;
 import per.goweii.basic.core.base.BaseFragment;
+import per.goweii.basic.core.glide.GlideHelper;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
@@ -52,6 +57,7 @@ import per.goweii.wanandroid.module.home.view.HomeView;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
@@ -344,6 +350,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         }
         currPage = PAGE_START;
         presenter.getArticleList(currPage, false);
+        presenter.getConfig();
     }
 
     @Override
@@ -558,6 +565,31 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     public void getTopArticleListFailed(int code, String msg) {
+    }
+
+    @Override
+    public void getConfigSuccess(ConfigBean configBean) {
+        if (TextUtils.isEmpty(configBean.getActionBarBgImageUrl())) {
+            if (TextUtils.isEmpty(configBean.getActionBarBgColor())) {
+                abc.setBackgroundResource(R.color.main);
+            } else {
+                try {
+                    int color = Color.parseColor(configBean.getActionBarBgColor());
+                    abc.setBackgroundColor(color);
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            GlideHelper.with(getContext())
+                    .load(configBean.getActionBarBgImageUrl())
+                    .get(new SimpleCallback<Bitmap>() {
+                        @Override
+                        public void onResult(Bitmap data) {
+                            abc.setBackground(new BitmapDrawable(data));
+                        }
+                    });
+        }
     }
 
     @Override

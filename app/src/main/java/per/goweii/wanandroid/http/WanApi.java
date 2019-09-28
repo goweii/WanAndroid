@@ -15,6 +15,7 @@ import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
+import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
@@ -63,6 +64,9 @@ public class WanApi extends Api {
 
         @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/about/about_me.json")
         Observable<WanResponse<AboutMeBean>> getAboutMe();
+
+        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/config/config.json")
+        Observable<WanResponse<ConfigBean>> getConfig();
 
         /**
          * 登录

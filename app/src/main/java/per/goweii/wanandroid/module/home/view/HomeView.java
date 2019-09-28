@@ -6,6 +6,7 @@ import per.goweii.basic.core.base.BaseView;
 import per.goweii.wanandroid.module.home.model.BannerBean;
 import per.goweii.wanandroid.module.home.model.HomeBean;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ConfigBean;
 
 /**
  * @author CuiZhen
@@ -22,4 +23,6 @@ public interface HomeView extends BaseView {
     void getArticleListFailed(int code, String msg);
     void getTopArticleListSuccess(int code, List<ArticleBean> data);
     void getTopArticleListFailed(int code, String msg);
+
+    void getConfigSuccess(ConfigBean configBean);
 }

@@ -1,0 +1,46 @@
+package per.goweii.wanandroid.module.main.model;
+
+import per.goweii.rxhttp.request.base.BaseBean;
+
+/**
+ * @author CuiZhen
+ * @date 2019/9/28
+ * QQ: 302833254
+ * E-mail: goweii@163.com
+ * GitHub: https://github.com/goweii
+ */
+public class ConfigBean extends BaseBean {
+    /**
+     * dailyMsg :
+     * actionBarBgColor :
+     * actionBarBgImageUrl :
+     */
+
+    private String dailyMsg;
+    private String actionBarBgColor;
+    private String actionBarBgImageUrl;
+
+    public String getDailyMsg() {
+        return dailyMsg;
+    }
+
+    public void setDailyMsg(String dailyMsg) {
+        this.dailyMsg = dailyMsg;
+    }
+
+    public String getActionBarBgColor() {
+        return actionBarBgColor;
+    }
+
+    public void setActionBarBgColor(String actionBarBgColor) {
+        this.actionBarBgColor = actionBarBgColor;
+    }
+
+    public String getActionBarBgImageUrl() {
+        return actionBarBgImageUrl;
+    }
+
+    public void setActionBarBgImageUrl(String actionBarBgImageUrl) {
+        this.actionBarBgImageUrl = actionBarBgImageUrl;
+    }
+}

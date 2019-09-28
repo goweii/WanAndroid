@@ -14,7 +14,9 @@ import per.goweii.wanandroid.module.home.model.HomeBean;
 import per.goweii.wanandroid.module.home.model.HomeRequest;
 import per.goweii.wanandroid.module.home.view.HomeView;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
+import per.goweii.wanandroid.utils.ConfigUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -38,7 +40,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
         }
     }
 
-    public void getBanner(){
+    public void getBanner() {
         HomeRequest.getBanner(getRxLife(), new RequestListener<List<BannerBean>>() {
             @Override
             public void onStart() {
@@ -70,8 +72,8 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
     }
 
-    public void getArticleList(@IntRange(from = 0) int page, boolean refresh){
-        HomeRequest.getArticleList(getRxLife(),refresh, page, new RequestListener<HomeBean>() {
+    public void getArticleList(@IntRange(from = 0) int page, boolean refresh) {
+        HomeRequest.getArticleList(getRxLife(), refresh, page, new RequestListener<HomeBean>() {
             @Override
             public void onStart() {
             }
@@ -102,7 +104,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
     }
 
-    public void getTopArticleList(boolean refresh){
+    public void getTopArticleList(boolean refresh) {
         HomeRequest.getTopArticleList(getRxLife(), refresh, new RequestListener<List<ArticleBean>>() {
             @Override
             public void onStart() {
@@ -134,7 +136,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
         });
     }
 
-    public void collect(ArticleBean item, final CollectView v){
+    public void collect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.collect(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
@@ -166,7 +168,7 @@ public class HomePresenter extends BasePresenter<HomeView> {
         }));
     }
 
-    public void uncollect(ArticleBean item, final CollectView v){
+    public void uncollect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.uncollect(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
@@ -196,6 +198,37 @@ public class HomePresenter extends BasePresenter<HomeView> {
             public void onFinish() {
             }
         }));
+    }
+
+    public void getConfig() {
+        ConfigBean configBean = ConfigUtils.getInstance().getConfig();
+        getBaseView().getConfigSuccess(configBean);
+        if (ConfigUtils.getInstance().isTodayUpdate()) {
+            return;
+        }
+        MainRequest.getConfig(getRxLife(), new RequestListener<ConfigBean>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, ConfigBean data) {
+                getBaseView().getConfigSuccess(data);
+                ConfigUtils.getInstance().setConfig(data);
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        });
     }
 
 }

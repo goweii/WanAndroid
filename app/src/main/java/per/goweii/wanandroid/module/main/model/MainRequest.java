@@ -46,4 +46,8 @@ public class MainRequest extends BaseRequest {
         rxLife.add(request(WanApi.api().update(), listener));
     }
 
+    public static void getConfig(RxLife rxLife, @NonNull RequestListener<ConfigBean> listener) {
+        rxLife.add(request(WanApi.api().getConfig(), listener));
+    }
+
 }
