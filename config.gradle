@@ -5,8 +5,8 @@ ext {
             minSdkVersion        : 19,
             targetSdkVersion     : 28,
             buildToolsVersion    : "28.0.3",
-            versionCode          : 20,
-            versionName          : "1.1.6",
+            versionCode          : 21,
+            versionName          : "1.1.7",
             androidSupportVersion: "28.0.0",
     ]
 
@@ -107,7 +107,6 @@ ext {
             swipeBack              : "com.github.goweii:SwipeBack:$versions.swipeBack",
             lazyfragment           : "com.github.goweii.LazyFragment:lazyfragment:$versions.lazyfragment",
 
-            //路由通讯
             arouterApi             : "com.alibaba:arouter-api:$versions.arouterApi",
             arouterCompiler        : "com.alibaba:arouter-compiler:$versions.arouterCompiler",
 
