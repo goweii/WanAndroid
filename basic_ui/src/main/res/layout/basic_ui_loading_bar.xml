@@ -15,7 +15,7 @@
         android:indeterminate="true"
         android:background="@color/transparent"
         app:mpb_showProgressBackground="false"
-        app:mpb_indeterminateTint="@color/accent"
+        app:mpb_indeterminateTint="@color/assist"
         app:mpb_progressStyle="horizontal"
         app:mpb_useIntrinsicPadding="false" />
 

@@ -25,6 +25,7 @@ import butterknife.OnClick;
 import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseFragment;
+import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
@@ -83,6 +84,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     @BindView(R.id.tv_coin)
     TextView tv_coin;
 
+    private SmartRefreshUtils mSmartRefreshUtils;
+
     public static MineFragment create() {
         return new MineFragment();
     }
@@ -92,11 +95,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         if (isDetached()) {
             return;
         }
+        setRefresh();
         changeUserInfo();
-        if (UserUtils.getInstance().isLogin()) {
-            presenter.getUserCoin();
-            presenter.getUserLevel();
-        }
+        loadUserInfo();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -191,7 +192,23 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 return true;
             }
         });
+        mSmartRefreshUtils = SmartRefreshUtils.with(srl);
+        mSmartRefreshUtils.pureScrollMode();
+        setRefresh();
         changeMenuVisible();
+    }
+
+    private void setRefresh() {
+        if (UserUtils.getInstance().isLogin()) {
+            mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
+                @Override
+                public void onRefresh() {
+                    loadUserInfo();
+                }
+            });
+        } else {
+            mSmartRefreshUtils.setRefreshListener(null);
+        }
     }
 
     @Override
@@ -199,14 +216,18 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         changeUserInfo();
     }
 
+    private void loadUserInfo() {
+        if (UserUtils.getInstance().isLogin()) {
+            presenter.getUserCoin();
+            presenter.getUserLevel();
+        }
+    }
+
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
-            if (UserUtils.getInstance().isLogin()) {
-                presenter.getUserCoin();
-                presenter.getUserLevel();
-            }
+            loadUserInfo();
         }
     }
 
@@ -329,23 +350,27 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
 
     @Override
     public void getUserCoinAndLevelSuccess(String coin, String lv, String ranking) {
+        mSmartRefreshUtils.success();
         tv_user_level.setText(lv);
         tv_user_ranking.setText(ranking);
     }
 
     @Override
     public void getUserCoinAndLevelFail() {
+        mSmartRefreshUtils.fail();
         tv_user_level.setText("--");
         tv_user_ranking.setText("--");
     }
 
     @Override
     public void getUserCoinSuccess(int code, int coin) {
+        mSmartRefreshUtils.success();
         tv_coin.setText(coin + "");
     }
 
     @Override
     public void getUserCoinFail(int code, String msg) {
+        mSmartRefreshUtils.fail();
         tv_coin.setText("");
     }
 }
