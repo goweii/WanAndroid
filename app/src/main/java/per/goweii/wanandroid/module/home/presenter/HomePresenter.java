@@ -5,6 +5,7 @@ import android.support.annotation.IntRange;
 import java.util.List;
 
 import per.goweii.basic.core.base.BasePresenter;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
@@ -202,9 +203,10 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
     public void getConfig() {
         ConfigBean configBean = ConfigUtils.getInstance().getConfig();
+        LogUtils.i("ConfigBean", configBean.toFormatJson());
         getBaseView().getConfigSuccess(configBean);
         if (ConfigUtils.getInstance().isTodayUpdate()) {
-            return;
+//            return;
         }
         MainRequest.getConfig(getRxLife(), new RequestListener<ConfigBean>() {
             @Override
@@ -213,16 +215,19 @@ public class HomePresenter extends BasePresenter<HomeView> {
 
             @Override
             public void onSuccess(int code, ConfigBean data) {
+                LogUtils.i("ConfigBean", data.toFormatJson());
                 getBaseView().getConfigSuccess(data);
                 ConfigUtils.getInstance().setConfig(data);
             }
 
             @Override
             public void onFailed(int code, String msg) {
+                LogUtils.i("ConfigBean", "onFailed");
             }
 
             @Override
             public void onError(ExceptionHandle handle) {
+                LogUtils.i("ConfigBean", "onError" + handle.getException().toString());
             }
 
             @Override

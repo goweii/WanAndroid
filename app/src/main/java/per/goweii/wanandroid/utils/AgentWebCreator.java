@@ -44,7 +44,7 @@ public class AgentWebCreator {
                                   final ClientCallback clientCallback) {
         AgentWeb agentWeb = AgentWeb.with(activity)
                 .setAgentWebParent(container, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-                .useDefaultIndicator(ResUtils.getColor(R.color.accent), 1)
+                .useDefaultIndicator(ResUtils.getColor(R.color.assist), 1)
                 .interceptUnkownUrl()
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
                 .setMainFrameErrorView(R.layout.layout_agent_web_error, R.id.iv_404)

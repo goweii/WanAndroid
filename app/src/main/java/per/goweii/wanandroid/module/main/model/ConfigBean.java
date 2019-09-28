@@ -17,6 +17,7 @@ public class ConfigBean extends BaseBean {
      */
 
     private String dailyMsg;
+    private String homeTitle;
     private String actionBarBgColor;
     private String actionBarBgImageUrl;
 
@@ -26,6 +27,14 @@ public class ConfigBean extends BaseBean {
 
     public void setDailyMsg(String dailyMsg) {
         this.dailyMsg = dailyMsg;
+    }
+
+    public String getHomeTitle() {
+        return homeTitle;
+    }
+
+    public void setHomeTitle(String homeTitle) {
+        this.homeTitle = homeTitle;
     }
 
     public String getActionBarBgColor() {

@@ -569,6 +569,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     public void getConfigSuccess(ConfigBean configBean) {
+        if (!TextUtils.isEmpty(configBean.getHomeTitle())) {
+            abc.getTitleTextView().setText(configBean.getHomeTitle());
+        }
         if (TextUtils.isEmpty(configBean.getActionBarBgImageUrl())) {
             if (TextUtils.isEmpty(configBean.getActionBarBgColor())) {
                 abc.setBackgroundResource(R.color.main);
@@ -581,6 +584,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 }
             }
         } else {
+            if (!TextUtils.isEmpty(configBean.getActionBarBgColor())) {
+                try {
+                    int color = Color.parseColor(configBean.getActionBarBgColor());
+                    abc.setBackgroundColor(color);
+                } catch (IllegalArgumentException e) {
+                    e.printStackTrace();
+                }
+            }
             GlideHelper.with(getContext())
                     .load(configBean.getActionBarBgImageUrl())
                     .get(new SimpleCallback<Bitmap>() {
