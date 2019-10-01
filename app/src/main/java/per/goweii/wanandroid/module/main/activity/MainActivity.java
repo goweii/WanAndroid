@@ -234,7 +234,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private void download(final String versionName, final String url, final boolean isForce) {
         mRuntimeRequester = AnyPermission.with(getContext())
                 .runtime(REQ_CODE_PERMISSION)
-                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
                 .onBeforeRequest(new RequestInterceptor<String>() {
                     @Override
                     public void intercept(@NonNull String data, @NonNull Executor executor) {

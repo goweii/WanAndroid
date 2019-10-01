@@ -98,7 +98,7 @@ public class PermissionDialog {
                             onCloseListener.onResult(null);
                         }
                     }
-                }, R.id.basic_ui_iv_dialog_permission_close)
+                }, R.id.basic_ui_tv_dialog_permission_close)
                 .onClickToDismiss(new Layer.OnClickListener() {
                     @Override
                     public void onClick(Layer layer, View v) {

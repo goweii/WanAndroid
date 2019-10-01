@@ -51,7 +51,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/main</item>
         <item name="ab_autoImmersion">true</item>
-        <item name="ab_bottomLineHeight">0dp</item>
+        <item name="ab_bottomLineHeight">@dimen/action_bar_bottom_line_height</item>
         <item name="ab_foregroundLayerLayout">@layout/basic_ui_loading_bar</item>
         <item name="ab_statusBarColor">@color/transparent</item>
         <item name="ab_titleBarHeight">@dimen/action_bar_height</item>

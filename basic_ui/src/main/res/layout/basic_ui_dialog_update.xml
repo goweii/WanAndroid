@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="44dp"
-    android:layout_marginRight="44dp">
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/margin_big">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,38 +29,41 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            tools:text="2.1.1"
             android:textColor="@color/text_gray_dark"
-            android:textSize="@dimen/text_title" />
+            android:textSize="@dimen/text_title"
+            tools:text="2.1.1" />
 
         <TextView
             android:id="@+id/basic_ui_tv_dialog_update_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
+            android:layout_marginLeft="@dimen/margin_def"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            tools:text="2019-03-15"
             android:textColor="@color/text_gray_dark"
-            android:textSize="@dimen/text_auxiliary" />
+            android:textSize="@dimen/text_auxiliary"
+            tools:text="2019-03-15" />
 
         <TextView
             android:id="@+id/basic_ui_tv_dialog_update_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="18dp"
-            android:gravity="left"
+            android:layout_marginLeft="@dimen/margin_def"
+            android:layout_marginTop="@dimen/margin_def"
+            android:layout_marginRight="@dimen/margin_def"
+            android:gravity="start"
             android:lineSpacingExtra="8dp"
+            android:maxHeight="100dp"
+            android:overScrollMode="never"
+            android:scrollbars="none"
             android:textColor="@color/text_gray_dark"
             android:textSize="@dimen/text_auxiliary"
-            tools:text="1.修复了一个重大BUG\n2.首页全新改版，UI更清晰" />
+            tools:text="1.修复了一个重大BUG\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="@dimen/margin_def">
 
             <View
                 android:layout_width="match_parent"
@@ -69,7 +72,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="@dimen/button_height"
                 android:orientation="horizontal">
 
                 <TextView
@@ -86,7 +89,6 @@
                     android:id="@+id/basic_ui_v_dialog_update_line"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
                     android:background="@color/line" />
 
                 <TextView

@@ -3,11 +3,13 @@ package per.goweii.wanandroid.module.main.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PointF;
-import android.os.Build;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 
 import com.just.agentweb.AgentWeb;
 
@@ -41,6 +43,16 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     ActionBarSuper abs;
     @BindView(R.id.wc)
     WebContainer wc;
+    @BindView(R.id.iv_back)
+    ImageView iv_back;
+    @BindView(R.id.iv_forward)
+    ImageView iv_forward;
+    @BindView(R.id.iv_menu)
+    ImageView iv_menu;
+    @BindView(R.id.iv_refresh)
+    ImageView iv_refresh;
+    @BindView(R.id.iv_home)
+    ImageView iv_home;
 
     private int mArticleId = -1;
     private String mTitle = "";
@@ -111,18 +123,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         mCurrUrl = mUrl;
         mCurrTitle = mTitle;
 
-        // forceHttpsForAndroid9();
-
         abs.getTitleTextView().setText(mTitle);
-        abs.getLeftActionView(0).setOnClickListener(new OnClickListener2() {
-            @Override
-            public void onClick2(View v) {
-                if (!mAgentWeb.back()) {
-                    finish();
-                }
-            }
-        });
-        abs.getRightActionView(0).setOnClickListener(new OnClickListener2() {
+        iv_menu.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
                 LogUtils.i("WebActivity", "mArticleId=" + mArticleId);
@@ -131,7 +133,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 LogUtils.i("WebActivity", "mUrl=" + mUrl);
                 LogUtils.i("WebActivity", "mCurrUrl=" + mCurrUrl);
                 LogUtils.i("WebActivity", "mCurrTitle=" + mCurrTitle);
-                WebMenuDialog.show(abs, new WebMenuDialog.OnMenuClickListener() {
+                WebMenuDialog.show(getContext(), new WebMenuDialog.OnMenuClickListener() {
                     @Override
                     public void onCollect() {
                         collect(null);
@@ -149,7 +151,48 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     public void onBrowser() {
                         IntentUtils.openBrowser(getContext(), mUrl);
                     }
+
+                    @Override
+                    public void onCloseActivity() {
+                        finish();
+                    }
                 });
+            }
+        });
+        iv_back.setOnClickListener(new OnClickListener2() {
+            @Override
+            public void onClick2(View v) {
+                if (mAgentWeb.getWebCreator().getWebView().canGoBack()) {
+                    mAgentWeb.getWebCreator().getWebView().goBack();
+                }
+            }
+        });
+        iv_forward.setOnClickListener(new OnClickListener2() {
+            @Override
+            public void onClick2(View v) {
+                if (mAgentWeb.getWebCreator().getWebView().canGoForward()) {
+                    mAgentWeb.getWebCreator().getWebView().goForward();
+                }
+            }
+        });
+        iv_refresh.setOnClickListener(new OnClickListener2() {
+            @Override
+            public void onClick2(View v) {
+                mAgentWeb.getWebCreator().getWebView().reload();
+            }
+        });
+        iv_home.setOnClickListener(new OnClickListener2() {
+            @Override
+            public void onClick2(View v) {
+                int step = 0;
+                while (true) {
+                    if (mAgentWeb.getWebCreator().getWebView().canGoBackOrForward(step - 1)) {
+                        step--;
+                    } else {
+                        break;
+                    }
+                }
+                mAgentWeb.getWebCreator().getWebView().goBackOrForward(step);
             }
         });
 
@@ -181,15 +224,55 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             }
 
             @Override
+            public void onHistoryUpdate(boolean isReload) {
+                switchIconEnable(iv_back, mAgentWeb.getWebCreator().getWebView().canGoBack());
+                switchIconEnable(iv_forward, mAgentWeb.getWebCreator().getWebView().canGoForward());
+                switchIconEnable(iv_home, mAgentWeb.getWebCreator().getWebView().canGoBack());
+            }
+
+            @Override
+            public void onPageStarted() {
+            }
+
+            @Override
+            public void onProgressChanged(int progress) {
+                if (progress < 95) {
+                    if (iv_refresh.getAnimation() == null) {
+                        RotateAnimation anim = new RotateAnimation(0, 360,
+                                Animation.RELATIVE_TO_SELF, 0.5F,
+                                Animation.RELATIVE_TO_SELF, 0.5F);
+                        anim.setDuration(1500);
+                        anim.setRepeatMode(Animation.RESTART);
+                        anim.setRepeatCount(Animation.INFINITE);
+                        iv_refresh.startAnimation(anim);
+                    }
+                } else {
+                    if (iv_refresh.getAnimation() != null) {
+                        iv_refresh.clearAnimation();
+                    }
+                }
+            }
+
+            @Override
             public void onPageFinished() {
                 if (!GuideSPUtils.getInstance().isWebGuideShown()) {
                     if (mWebGuideDialog == null) {
-                        mWebGuideDialog = new WebGuideDialog(abs);
+                        mWebGuideDialog = new WebGuideDialog(getContext());
                         mWebGuideDialog.show();
                     }
                 }
             }
         });
+    }
+
+    private void switchIconEnable(View view, boolean enable) {
+        if (enable) {
+            view.setEnabled(true);
+            view.setAlpha(1.0F);
+        } else {
+            view.setEnabled(false);
+            view.setAlpha(0.382F);
+        }
     }
 
     @Override
@@ -234,18 +317,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             }
         } else {
             presenter.collect(mCurrTitle, mCurrUrl, p);
-        }
-    }
-
-    private void forceHttpsForAndroid9() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
-            return;
-        }
-        if (mUrl == null) {
-            return;
-        }
-        if (mUrl.startsWith("http://")) {
-            mUrl = mUrl.replace("http://", "https://");
         }
     }
 

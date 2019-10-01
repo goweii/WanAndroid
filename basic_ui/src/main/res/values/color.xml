@@ -3,7 +3,7 @@
     <color name="basic_ui_action_bar_bg">#ffffff</color>
     <color name="basic_ui_action_bar_bottom_line">#f5f5f5</color>
     <!--loading dialog背景颜色-->
-    <color name="basic_ui_dialog_loading_rectangle">#55000000</color>
+    <color name="basic_ui_dialog_loading_rectangle">#00000000</color>
     <!--loading dialog圆圈颜色-->
-    <color name="basic_ui_dialog_loading_circle">#55ffffff</color>
+    <color name="basic_ui_dialog_loading_circle">@color/main</color>
 </resources>

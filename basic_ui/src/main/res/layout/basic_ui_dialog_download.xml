@@ -3,14 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="44dp"
-    android:layout_marginRight="44dp"
+    android:layout_margin="@dimen/margin_big"
     android:background="@drawable/bg_solid_round_color_white_radius_def"
     android:orientation="vertical"
-    android:paddingLeft="15dp"
-    android:paddingTop="17dp"
-    android:paddingRight="15dp"
-    android:paddingBottom="14dp">
+    android:paddingLeft="@dimen/margin_def"
+    android:paddingTop="@dimen/margin_def"
+    android:paddingRight="@dimen/margin_def"
+    android:paddingBottom="@dimen/margin_def">
 
     <TextView
         android:id="@+id/basic_ui_tv_dialog_download_state"
@@ -24,8 +23,8 @@
         android:id="@+id/basic_ui_pb_dialog_download"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:layout_marginTop="19dp"
+        android:layout_height="@dimen/margin_def"
+        android:layout_marginTop="@dimen/margin_def"
         android:max="100"
         android:progress="0"
         android:progressDrawable="@drawable/basic_ui_dialog_download_progress_bg"
@@ -34,7 +33,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="19dp">
+        android:layout_marginTop="@dimen/margin_def">
 
         <LinearLayout
             android:layout_width="wrap_content"

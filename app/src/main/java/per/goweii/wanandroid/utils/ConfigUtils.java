@@ -6,8 +6,6 @@ import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import java.util.Date;
-
 import per.goweii.basic.utils.SPUtils;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 
@@ -41,13 +39,14 @@ public class ConfigUtils {
     }
 
     public boolean isTodayUpdate() {
-        long last = getLastUpdate();
-        long curr = System.currentTimeMillis();
-        Date lastDate = new Date(last);
-        Date currDate = new Date(curr);
-        return lastDate.getYear() == currDate.getYear() &&
-                lastDate.getMonth() == currDate.getMonth() &&
-                lastDate.getDay() == currDate.getDay();
+        return false;
+//        long last = getLastUpdate();
+//        long curr = System.currentTimeMillis();
+//        Date lastDate = new Date(last);
+//        Date currDate = new Date(curr);
+//        return lastDate.getYear() == currDate.getYear() &&
+//                lastDate.getMonth() == currDate.getMonth() &&
+//                lastDate.getDay() == currDate.getDay();
     }
 
     @NonNull

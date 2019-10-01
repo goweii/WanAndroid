@@ -10,9 +10,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common"
-        app:abc_rightIconColor="@color/white"
-        app:abc_rightIconMarginRight="3dp"
-        app:abc_rightIconPadding="13dp"
+        app:abc_leftIconRes="@drawable/ic_article"
         app:abc_rightIconRes="@drawable/ic_search"
         app:abc_titleText="首页" />
 

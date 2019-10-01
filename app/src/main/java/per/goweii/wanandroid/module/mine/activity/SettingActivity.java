@@ -220,7 +220,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             case R.id.ll_intercept_host:
                 ListDialog.with(getContext())
                         .cancelable(true)
-                        .title("网页拦截")
+//                        .title("网页拦截")
                         .datas(WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_NOTHING),
                                 WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_ONLY_WHITE),
                                 WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK))
@@ -237,7 +237,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             case R.id.ll_rv_anim:
                 ListDialog.with(getContext())
                         .cancelable(true)
-                        .title("列表动画")
+//                        .title("列表动画")
                         .datas(RvAnimUtils.getName(RvAnimUtils.RvAnim.NONE),
                                 RvAnimUtils.getName(RvAnimUtils.RvAnim.ALPHAIN),
                                 RvAnimUtils.getName(RvAnimUtils.RvAnim.SCALEIN),

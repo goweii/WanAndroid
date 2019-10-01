@@ -219,6 +219,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 SearchActivity.start(getContext());
             }
         });
+        abc.setOnLeftIconClickListener(new OnActionBarChildClickListener() {
+            @Override
+            public void onClick(View v) {
+                WebActivity.start(getContext(), "https://www.wanandroid.com/user_article");
+            }
+        });
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);
         mSmartRefreshUtils.pureScrollMode();
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
@@ -567,40 +573,51 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     public void getTopArticleListFailed(int code, String msg) {
     }
 
+    private ConfigBean mConfigBean = null;
+
     @Override
     public void getConfigSuccess(ConfigBean configBean) {
         if (!TextUtils.isEmpty(configBean.getHomeTitle())) {
-            abc.getTitleTextView().setText(configBean.getHomeTitle());
+            if (mConfigBean == null || !TextUtils.equals(mConfigBean.getHomeTitle(), configBean.getHomeTitle())) {
+                abc.getTitleTextView().setText(configBean.getHomeTitle());
+            }
         }
         if (TextUtils.isEmpty(configBean.getActionBarBgImageUrl())) {
             if (TextUtils.isEmpty(configBean.getActionBarBgColor())) {
                 abc.setBackgroundResource(R.color.main);
             } else {
-                try {
-                    int color = Color.parseColor(configBean.getActionBarBgColor());
-                    abc.setBackgroundColor(color);
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
+                if (mConfigBean == null || !TextUtils.equals(mConfigBean.getActionBarBgColor(), configBean.getActionBarBgColor())) {
+                    try {
+                        int color = Color.parseColor(configBean.getActionBarBgColor());
+                        abc.setBackgroundColor(color);
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } else {
             if (!TextUtils.isEmpty(configBean.getActionBarBgColor())) {
-                try {
-                    int color = Color.parseColor(configBean.getActionBarBgColor());
-                    abc.setBackgroundColor(color);
-                } catch (IllegalArgumentException e) {
-                    e.printStackTrace();
+                if (mConfigBean == null || !TextUtils.equals(mConfigBean.getActionBarBgColor(), configBean.getActionBarBgColor())) {
+                    try {
+                        int color = Color.parseColor(configBean.getActionBarBgColor());
+                        abc.setBackgroundColor(color);
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-            GlideHelper.with(getContext())
-                    .load(configBean.getActionBarBgImageUrl())
-                    .get(new SimpleCallback<Bitmap>() {
-                        @Override
-                        public void onResult(Bitmap data) {
-                            abc.setBackground(new BitmapDrawable(data));
-                        }
-                    });
+            if (mConfigBean == null || !TextUtils.equals(mConfigBean.getActionBarBgImageUrl(), configBean.getActionBarBgImageUrl())) {
+                GlideHelper.with(getContext())
+                        .load(configBean.getActionBarBgImageUrl())
+                        .get(new SimpleCallback<Bitmap>() {
+                            @Override
+                            public void onResult(Bitmap data) {
+                                abc.setBackground(new BitmapDrawable(data));
+                            }
+                        });
+            }
         }
+        mConfigBean = configBean;
     }
 
     @Override

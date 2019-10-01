@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="44dp"
-    android:background="@drawable/bg_solid_round_color_white_radius_def"
+    android:background="@drawable/bg_solid_round_color_white_top_radius_def"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/basic_ui_tv_dialog_list_title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_marginTop="@dimen/round_radius"
+        android:layout_height="@dimen/button_height"
         android:gravity="center"
         android:textColor="@color/text_black"
         android:textSize="@dimen/text_title"
@@ -38,7 +38,7 @@
     <LinearLayout
         android:id="@+id/basic_ui_ll_dialog_list_yes_no"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="@dimen/button_height"
         android:orientation="horizontal">
 
         <TextView

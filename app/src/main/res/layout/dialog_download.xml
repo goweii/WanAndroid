@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="44dp"
-    android:layout_marginRight="44dp"
+    android:layout_margin="46dp"
+    android:layout_gravity="center"
     android:background="@drawable/bg_solid_round_color_white_radius_def"
     android:orientation="vertical">
 

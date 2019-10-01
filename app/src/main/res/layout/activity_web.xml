@@ -1,38 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".module.main.activity.MainActivity">
 
     <per.goweii.actionbarex.common.ActionBarSuper
         android:id="@+id/abs"
         style="@style/ActionBar"
-        app:absuper_left1Icon="@drawable/ic_back"
+        app:absuper_left1IconMarginLeft="3dp"
+        app:absuper_left1Icon="@drawable/ic_close"
+        app:absuper_left1IconClickToFinish="true"
         app:absuper_left1IconPadding="13dp"
-        app:absuper_left2Icon="@drawable/ic_close"
-        app:absuper_left2IconClickToFinish="true"
-        app:absuper_left2IconPadding="13dp"
-        app:absuper_right1Icon="@drawable/ic_more"
-        app:absuper_right1IconMarginRight="3dp"
-        app:absuper_right1IconPadding="13dp"
         app:absuper_titleTextColor="@color/text_white"
-        app:absuper_titleTextMaxWidth="200dp"
-        tools:absuper_titleText="网页网页网页网页网页网页" />
+        app:absuper_titleTextMaxWidth="260dp"
+        tools:absuper_titleText="网页网页网页网页网页网页网页网页网页网页网页网页" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/abs"
         app:srlEnablePureScrollMode="true">
 
         <per.goweii.wanandroid.widget.WebContainer
             android:id="@+id/wc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/bottom_bar_height" />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-</LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_bar_height"
+        android:layout_alignParentBottom="true"
+        android:alpha="0.95"
+        android:background="@color/white" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_bar_height"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="15.5dp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/black" />
+
+        <ImageView
+            android:id="@+id/iv_forward"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="15.5dp"
+            android:rotation="180"
+            android:src="@drawable/ic_back"
+            android:tint="@color/black" />
+
+        <ImageView
+            android:id="@+id/iv_menu"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="15.5dp"
+            android:src="@drawable/ic_menu"
+            android:tint="@color/black" />
+
+        <ImageView
+            android:id="@+id/iv_refresh"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="15.5dp"
+            android:src="@drawable/ic_refresh"
+            android:tint="@color/black" />
+
+        <ImageView
+            android:id="@+id/iv_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:padding="15.5dp"
+            android:src="@drawable/ic_home"
+            android:tint="@color/black" />
+
+    </LinearLayout>
+
+</RelativeLayout>

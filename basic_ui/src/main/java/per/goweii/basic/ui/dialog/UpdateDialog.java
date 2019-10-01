@@ -2,6 +2,7 @@ package per.goweii.basic.ui.dialog;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -107,6 +108,7 @@ public class UpdateDialog {
                             tvTime.setText(mTime);
                         }
                         tvDescription.setText(mDescription);
+                        tvDescription.setMovementMethod(ScrollingMovementMethod.getInstance());
 
                         if (mForce) {
                             tvNo.setVisibility(View.GONE);

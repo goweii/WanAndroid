@@ -109,6 +109,12 @@ public class AgentWebCreator {
 
         void onReceivedTitle(String title);
 
+        void onHistoryUpdate(boolean isReload);
+
+        void onPageStarted();
+
+        void onProgressChanged(int progress);
+
         void onPageFinished();
     }
 
@@ -128,6 +134,14 @@ public class AgentWebCreator {
             super.onReceivedTitle(view, title);
             if (mClientCallback != null) {
                 mClientCallback.onReceivedTitle(title);
+            }
+        }
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+            if (mClientCallback != null) {
+                mClientCallback.onProgressChanged(newProgress);
             }
         }
     }
@@ -200,6 +214,7 @@ public class AgentWebCreator {
             if (mClientCallback != null) {
                 mClientCallback.onReceivedUrl(url);
                 mClientCallback.onReceivedTitle("");
+                mClientCallback.onPageStarted();
             }
         }
 
@@ -211,6 +226,14 @@ public class AgentWebCreator {
                 String title = view.getTitle();
                 mClientCallback.onReceivedTitle(title == null ? "" : title);
                 mClientCallback.onPageFinished();
+            }
+        }
+
+        @Override
+        public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
+            super.doUpdateVisitedHistory(view, url, isReload);
+            if (mClientCallback != null) {
+                mClientCallback.onHistoryUpdate(isReload);
             }
         }
     }

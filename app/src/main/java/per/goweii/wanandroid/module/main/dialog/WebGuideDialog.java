@@ -2,13 +2,13 @@ package per.goweii.wanandroid.module.main.dialog;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
-import per.goweii.anylayer.Align;
 import per.goweii.anylayer.AnimatorHelper;
+import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
-import per.goweii.anylayer.PopupLayer;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.GuideSPUtils;
 
@@ -19,13 +19,10 @@ import per.goweii.wanandroid.utils.GuideSPUtils;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class WebGuideDialog extends PopupLayer {
-
-    public WebGuideDialog(View targetView) {
-        super(targetView);
-        direction(Align.Direction.VERTICAL)
-                .vertical(Align.Vertical.BELOW)
-                .contentView(R.layout.dialog_web_guide)
+public class WebGuideDialog extends DialogLayer {
+    public WebGuideDialog(Context context) {
+        super(context);
+        contentView(R.layout.dialog_web_guide)
                 .backgroundColorRes(R.color.dialog_bg)
                 .cancelableOnClickKeyBack(false)
                 .cancelableOnTouchOutside(false)

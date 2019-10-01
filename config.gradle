@@ -5,8 +5,8 @@ ext {
             minSdkVersion        : 19,
             targetSdkVersion     : 28,
             buildToolsVersion    : "28.0.3",
-            versionCode          : 21,
-            versionName          : "1.1.7",
+            versionCode          : 22,
+            versionName          : "1.1.8",
             androidSupportVersion: "28.0.0",
     ]
 
@@ -31,7 +31,7 @@ ext {
             smartRefreshLayout    : "1.1.0",
             smartRefreshHorizontal: "1.0.0-beta-1",
             rxHttp                : "2.2.9",
-            anyPermission         : "1.1.1",
+            anyPermission         : "1.1.2",
             anyDialog             : "3.0.3",
             anyLayer              : "3.2.2",
             actionBarEx           : "3.2.1",

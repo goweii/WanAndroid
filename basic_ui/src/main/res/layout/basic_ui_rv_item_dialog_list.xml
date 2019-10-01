@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/basic_ui_tv_dialog_list_name"
         android:layout_width="match_parent"
-        android:layout_height="44dp"
+        android:layout_height="@dimen/button_height"
         android:gravity="center"
         android:textSize="@dimen/text_content"
         android:textColor="@color/text_black"

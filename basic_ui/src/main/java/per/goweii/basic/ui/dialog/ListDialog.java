@@ -1,15 +1,12 @@
 package per.goweii.basic.ui.dialog;
 
 import android.animation.Animator;
-import android.animation.AnimatorSet;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
-import android.view.animation.AccelerateInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -123,32 +120,20 @@ public class ListDialog {
         AnyLayer.dialog(context)
                 .contentView(R.layout.basic_ui_dialog_list)
                 .backgroundColorRes(R.color.dialog_bg)
-                .gravity(Gravity.CENTER)
-                .cancelableOnTouchOutside(cancelable)
-                .cancelableOnClickKeyBack(cancelable)
+                .gravity(Gravity.BOTTOM)
                 .contentAnimator(new Layer.AnimatorCreator() {
                     @Override
                     public Animator createInAnimator(View target) {
-                        AnimatorSet set = new AnimatorSet();
-                        Animator a1 = AnimatorHelper.createBottomAlphaInAnim(target, 0.4F);
-                        a1.setInterpolator(new DecelerateInterpolator());
-                        Animator a2 = AnimatorHelper.createZoomAlphaInAnim(target, 0.9F);
-                        a2.setInterpolator(new AccelerateInterpolator());
-                        set.playTogether(a1, a2);
-                        return set;
+                        return AnimatorHelper.createBottomInAnim(target);
                     }
 
                     @Override
                     public Animator createOutAnimator(View target) {
-                        AnimatorSet set = new AnimatorSet();
-                        Animator a1 = AnimatorHelper.createBottomAlphaOutAnim(target, 0.4F);
-                        a1.setInterpolator(new AccelerateInterpolator());
-                        Animator a2 = AnimatorHelper.createZoomAlphaOutAnim(target, 0.9F);
-                        a2.setInterpolator(new DecelerateInterpolator());
-                        set.playTogether(a1, a2);
-                        return set;
+                        return AnimatorHelper.createBottomOutAnim(target);
                     }
                 })
+                .cancelableOnTouchOutside(cancelable)
+                .cancelableOnClickKeyBack(cancelable)
                 .bindData(new Layer.DataBinder() {
                     @Override
                     public void bindData(Layer layer) {
