@@ -10,8 +10,8 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:scrollbars="none"
         tools:background="@color/dialog_bg" />
 
@@ -21,13 +21,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp">
+        android:layout_marginBottom="@dimen/margin_def">
 
         <ImageView
             android:id="@+id/dialog_web_iv_back"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:layout_marginRight="30dp"
+            android:layout_marginRight="@dimen/margin_middle"
             android:layout_toLeftOf="@+id/dialog_web_iv_close"
             android:padding="13dp"
             android:src="@drawable/ic_back" />
@@ -46,7 +46,7 @@
             android:id="@+id/dialog_web_cv_collect"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="@dimen/margin_middle"
             android:layout_toRightOf="@+id/dialog_web_iv_close"
             android:padding="12dp" />
 

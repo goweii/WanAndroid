@@ -10,6 +10,8 @@ import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
 import per.goweii.wanandroid.http.WanCache;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 
 /**
  * @author CuiZhen
@@ -20,27 +22,27 @@ import per.goweii.wanandroid.http.WanCache;
  */
 public class ProjectRequest extends BaseRequest {
 
-    public static void getProjectChapters(RxLife rxLife, @NonNull RequestListener<List<ProjectChapterBean>> listener) {
+    public static void getProjectChapters(RxLife rxLife, @NonNull RequestListener<List<ChapterBean>> listener) {
         cacheAndNetList(rxLife,
                 WanApi.api().getProjectChapters(),
                 WanCache.CacheKey.PROJECT_CHAPTERS,
-                ProjectChapterBean.class,
+                ChapterBean.class,
                 listener);
     }
 
-    public static void getProjectArticleListCache(int id, @IntRange(from = 1) int page, @NonNull RequestListener<ProjectArticleBean> listener) {
+    public static void getProjectArticleListCache(int id, @IntRange(from = 1) int page, @NonNull RequestListener<ArticleListBean> listener) {
         cacheBean(WanCache.CacheKey.PROJECT_ARTICLE_LIST(id, page),
-                ProjectArticleBean.class,
+                ArticleListBean.class,
                 listener);
     }
 
-    public static void getProjectArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 1) int page, @NonNull RequestListener<ProjectArticleBean> listener) {
+    public static void getProjectArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 1) int page, @NonNull RequestListener<ArticleListBean> listener) {
         if (page == 1) {
             cacheAndNetBean(rxLife,
                     WanApi.api().getProjectArticleList(page, id),
                     refresh,
                     WanCache.CacheKey.PROJECT_ARTICLE_LIST(id, page),
-                    ProjectArticleBean.class,
+                    ArticleListBean.class,
                     listener);
         } else {
             rxLife.add(request(WanApi.api().getProjectArticleList(page, id), listener));

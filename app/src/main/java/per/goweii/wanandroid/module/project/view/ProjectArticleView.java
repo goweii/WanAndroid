@@ -1,7 +1,7 @@
 package per.goweii.wanandroid.module.project.view;
 
 import per.goweii.basic.core.base.BaseView;
-import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 
 /**
  * @author CuiZhen
@@ -11,6 +11,6 @@ import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
  * GitHub: https://github.com/goweii
  */
 public interface ProjectArticleView extends BaseView {
-    void getProjectArticleListSuccess(int code, ProjectArticleBean data);
+    void getProjectArticleListSuccess(int code, ArticleListBean data);
     void getProjectArticleListFailed(int code, String msg);
 }

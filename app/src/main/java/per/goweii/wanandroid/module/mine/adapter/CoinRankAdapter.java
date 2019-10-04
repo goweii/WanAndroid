@@ -15,7 +15,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.mine.model.CoinRankBean;
+import per.goweii.wanandroid.module.main.model.CoinInfoBean;
 
 /**
  * @author CuiZhen
@@ -24,7 +24,7 @@ import per.goweii.wanandroid.module.mine.model.CoinRankBean;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class CoinRankAdapter extends BaseQuickAdapter<CoinRankBean.DatasBean, BaseViewHolder> {
+public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHolder> {
 
     private int mMax = 0;
 
@@ -33,7 +33,7 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinRankBean.DatasBean, Ba
     }
 
     @Override
-    public void setNewData(@Nullable List<CoinRankBean.DatasBean> data) {
+    public void setNewData(@Nullable List<CoinInfoBean> data) {
         super.setNewData(data);
         if (data != null && !data.isEmpty()) {
             mMax = data.get(0).getCoinCount();
@@ -41,7 +41,7 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinRankBean.DatasBean, Ba
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, CoinRankBean.DatasBean item) {
+    protected void convert(BaseViewHolder helper, CoinInfoBean item) {
         ProgressBar pb = helper.getView(R.id.pb);
         doProgressAnim(pb, item.getCoinCount());
         int index = helper.getAdapterPosition() + 1;

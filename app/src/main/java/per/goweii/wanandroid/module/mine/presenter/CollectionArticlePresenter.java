@@ -6,8 +6,8 @@ import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
-import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 import per.goweii.wanandroid.module.mine.model.MineRequest;
 import per.goweii.wanandroid.module.mine.view.CollectionArticleView;
 import per.goweii.wanandroid.widget.CollectView;
@@ -22,13 +22,13 @@ import per.goweii.wanandroid.widget.CollectView;
 public class CollectionArticlePresenter extends BasePresenter<CollectionArticleView> {
 
     public void getCollectArticleListCache(int page) {
-        MineRequest.getCollectArticleListCache(page, new RequestListener<CollectionArticleBean>() {
+        MineRequest.getCollectArticleListCache(page, new RequestListener<ArticleListBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, CollectionArticleBean data) {
+            public void onSuccess(int code, ArticleListBean data) {
                 if (isAttach()) {
                     getBaseView().getCollectArticleListSuccess(code, data);
                 }
@@ -49,13 +49,13 @@ public class CollectionArticlePresenter extends BasePresenter<CollectionArticleV
     }
 
     public void getCollectArticleList(int page, boolean refresh) {
-        MineRequest.getCollectArticleList(getRxLife(), refresh, page, new RequestListener<CollectionArticleBean>() {
+        MineRequest.getCollectArticleList(getRxLife(), refresh, page, new RequestListener<ArticleListBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, CollectionArticleBean data) {
+            public void onSuccess(int code, ArticleListBean data) {
                 if (isAttach()) {
                     getBaseView().getCollectArticleListSuccess(code, data);
                 }

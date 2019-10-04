@@ -83,7 +83,6 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
         mCoinRecordAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                currPage++;
                 presenter.getCoinRecordList(currPage);
             }
         }, rv);
@@ -118,7 +117,8 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
 
     @Override
     public void getCoinRecordListSuccess(int code, CoinRecordBean data) {
-        if (currPage == PAGE_START) {
+        currPage = data.getCurPage() + PAGE_START;
+        if (data.getCurPage() == 1) {
             mCoinRecordAdapter.setNewData(data.getDatas());
             mCoinRecordAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {

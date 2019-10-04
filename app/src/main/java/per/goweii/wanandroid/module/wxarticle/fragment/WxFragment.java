@@ -18,7 +18,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.ScrollTopEvent;
-import per.goweii.wanandroid.module.wxarticle.model.WxChapterBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.wxarticle.presenter.WxPresenter;
 import per.goweii.wanandroid.module.wxarticle.view.WxView;
 import per.goweii.wanandroid.utils.MagicIndicatorUtils;
@@ -37,7 +37,7 @@ public class WxFragment extends BaseFragment<WxPresenter> implements ScrollTop, 
     @BindView(R.id.vp)
     ViewPager vp;
 
-    private MultiFragmentPagerAdapter<WxChapterBean, WxArticleFragment> mAdapter;
+    private MultiFragmentPagerAdapter<ChapterBean, WxArticleFragment> mAdapter;
     private CommonNavigator mCommonNavigator;
     private long lastClickTime = 0L;
     private int lastClickPos = 0;
@@ -61,14 +61,14 @@ public class WxFragment extends BaseFragment<WxPresenter> implements ScrollTop, 
     protected void initView() {
         mAdapter = new MultiFragmentPagerAdapter<>(
                 getChildFragmentManager(),
-                new MultiFragmentPagerAdapter.FragmentCreator<WxChapterBean, WxArticleFragment>() {
+                new MultiFragmentPagerAdapter.FragmentCreator<ChapterBean, WxArticleFragment>() {
                     @Override
-                    public WxArticleFragment create(WxChapterBean data, int pos) {
+                    public WxArticleFragment create(ChapterBean data, int pos) {
                         return WxArticleFragment.create(data, pos);
                     }
 
                     @Override
-                    public String getTitle(WxChapterBean data) {
+                    public String getTitle(ChapterBean data) {
                         return data.getName();
                     }
                 });
@@ -108,7 +108,7 @@ public class WxFragment extends BaseFragment<WxPresenter> implements ScrollTop, 
     }
 
     @Override
-    public void getWxArticleChaptersSuccess(int code, List<WxChapterBean> data) {
+    public void getWxArticleChaptersSuccess(int code, List<ChapterBean> data) {
         mAdapter.setDataList(data);
         mCommonNavigator.notifyDataSetChanged();
     }

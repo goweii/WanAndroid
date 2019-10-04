@@ -6,26 +6,20 @@ import io.reactivex.Observable;
 import per.goweii.rxhttp.request.Api;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.module.home.model.BannerBean;
-import per.goweii.wanandroid.module.home.model.HomeBean;
 import per.goweii.wanandroid.module.home.model.HotKeyBean;
-import per.goweii.wanandroid.module.home.model.SearchBean;
-import per.goweii.wanandroid.module.knowledge.model.KnowledgeArticleBean;
-import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
+import per.goweii.wanandroid.module.main.model.UserPageBean;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
 import per.goweii.wanandroid.module.mine.model.CoinRankBean;
 import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
-import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
-import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
-import per.goweii.wanandroid.module.project.model.ProjectChapterBean;
-import per.goweii.wanandroid.module.wxarticle.model.WxArticleBean;
-import per.goweii.wanandroid.module.wxarticle.model.WxChapterBean;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -105,7 +99,7 @@ public class WanApi extends Api {
          * 方法： GET
          */
         @GET("wxarticle/chapters/json")
-        Observable<WanResponse<List<WxChapterBean>>> getWxArticleChapters();
+        Observable<WanResponse<List<ChapterBean>>> getWxArticleChapters();
 
         /**
          * 查看某个公众号历史数据
@@ -115,8 +109,8 @@ public class WanApi extends Api {
          * 公众号页码：拼接在 url 中，eg:1
          */
         @GET("wxarticle/list/{id}/{page}/json")
-        Observable<WanResponse<WxArticleBean>> getWxArticleList(@Path("id") int id,
-                                                                @Path("page") int page);
+        Observable<WanResponse<ArticleListBean>> getWxArticleList(@Path("id") int id,
+                                                                  @Path("page") int page);
 
         /**
          * 在某个公众号中搜索历史文章
@@ -127,16 +121,16 @@ public class WanApi extends Api {
          * 公众号页码：拼接在 url 中，eg:1
          */
         @GET("wxarticle/list/{id}/{page}/json")
-        Observable<WanResponse<WxArticleBean>> getWxArticleList(@Path("id") int id,
-                                                                @Path("page") int page,
-                                                                @Query("k") String key);
+        Observable<WanResponse<ArticleListBean>> getWxArticleList(@Path("id") int id,
+                                                                  @Path("page") int page,
+                                                                  @Query("k") String key);
 
         /**
          * 项目分类
          * 方法： GET
          */
         @GET("project/tree/json")
-        Observable<WanResponse<List<ProjectChapterBean>>> getProjectChapters();
+        Observable<WanResponse<List<ChapterBean>>> getProjectChapters();
 
         /**
          * 项目列表数据
@@ -146,8 +140,8 @@ public class WanApi extends Api {
          * 页码：拼接在链接中，从1开始。
          */
         @GET("project/list/{page}/json")
-        Observable<WanResponse<ProjectArticleBean>> getProjectArticleList(@Path("page") int page,
-                                                                          @Query("cid") int id);
+        Observable<WanResponse<ArticleListBean>> getProjectArticleList(@Path("page") int page,
+                                                                       @Query("cid") int id);
 
         /**
          * 置顶文章
@@ -162,7 +156,7 @@ public class WanApi extends Api {
          * 参数：页码，拼接在连接中，从0开始。
          */
         @GET("article/list/{page}/json")
-        Observable<WanResponse<HomeBean>> getArticleList(@Path("page") int page);
+        Observable<WanResponse<ArticleListBean>> getArticleList(@Path("page") int page);
 
         /**
          * 首页banner
@@ -192,8 +186,8 @@ public class WanApi extends Api {
          */
         @FormUrlEncoded
         @POST("article/query/{page}/json")
-        Observable<WanResponse<SearchBean>> search(@Path("page") int page,
-                                                   @Field("k") String key);
+        Observable<WanResponse<ArticleListBean>> search(@Path("page") int page,
+                                                        @Field("k") String key);
 
         /**
          * 搜索热词
@@ -205,7 +199,7 @@ public class WanApi extends Api {
          * 体系数据
          */
         @GET("tree/json")
-        Observable<WanResponse<List<KnowledgeBean>>> getKnowledgeList();
+        Observable<WanResponse<List<ChapterBean>>> getKnowledgeList();
 
         /**
          * 知识体系下的文章
@@ -215,8 +209,8 @@ public class WanApi extends Api {
          * 页码：拼接在链接上，从0开始。
          */
         @GET("article/list/{page}/json")
-        Observable<WanResponse<KnowledgeArticleBean>> getKnowledgeArticleList(@Path("page") int page,
-                                                                              @Query("cid") int id);
+        Observable<WanResponse<ArticleListBean>> getKnowledgeArticleList(@Path("page") int page,
+                                                                         @Query("cid") int id);
 
         /**
          * 收藏文章列表
@@ -224,7 +218,7 @@ public class WanApi extends Api {
          * 参数： 页码：拼接在链接中，从0开始。
          */
         @GET("lg/collect/list/{page}/json")
-        Observable<WanResponse<CollectionArticleBean>> getCollectArticleList(@Path("page") int page);
+        Observable<WanResponse<ArticleListBean>> getCollectArticleList(@Path("page") int page);
 
         /**
          * 收藏网站列表
@@ -292,8 +286,8 @@ public class WanApi extends Api {
         @FormUrlEncoded
         @POST("lg/collect/updatetool/json")
         Observable<WanResponse<CollectionLinkBean>> updateCollectLink(@Field("id") int id,
-                                                            @Field("name") String name,
-                                                            @Field("link") String link);
+                                                                      @Field("name") String name,
+                                                                      @Field("link") String link);
 
         /**
          * 取消收藏 我的收藏页面（该页面包含自己录入的内容）
@@ -327,6 +321,22 @@ public class WanApi extends Api {
          */
         @GET("coin/rank/{page}/json")
         Observable<WanResponse<CoinRankBean>> getCoinRankList(@Path("page") int page);
+
+        /**
+         * 广场列表数据
+         * 可能出现返回列表数据<每页数据，因为有自见的文章被过滤掉了。
+         * page 0开始
+         */
+        @GET("user_article/list/{page}/json")
+        Observable<WanResponse<ArticleListBean>> getUserArticleList(@Path("page") int page);
+
+        /**
+         * 分享人对应列表数据
+         * page 从1开始
+         */
+        @GET("user/{userId}/share_articles/{page}/json")
+        Observable<WanResponse<UserPageBean>> getUserPage(@Path("userId") int userId,
+                                                          @Path("page") int page);
     }
 
 }

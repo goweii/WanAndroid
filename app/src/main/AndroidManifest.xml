@@ -22,9 +22,11 @@
         <!--module.main-->
         <activity
             android:name=".module.main.activity.SplashActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:theme="@style/AppTheme.Splash" />
         <activity
             android:name=".module.main.activity.RouterActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.Router">
             <intent-filter>
@@ -44,7 +46,7 @@
         </activity>
         <activity
             android:name=".module.main.activity.MainActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:theme="@style/AppTheme.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,50 +55,56 @@
         </activity>
         <activity
             android:name=".module.main.activity.WebActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:hardwareAccelerated="true" />
 
         <!--module.home-->
         <activity
             android:name=".module.home.activity.SearchActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
+        <activity
+            android:name=".module.home.activity.UserArticleActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
+        <activity
+            android:name=".module.home.activity.UserPageActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
 
         <!--module.knowledge-->
         <activity
             android:name=".module.knowledge.activity.KnowledgeArticleActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
 
         <!--module.login-->
         <activity
             android:name=".module.login.activity.LoginActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:theme="@style/AppTheme.Login" />
 
         <!--module.mine-->
         <activity
             android:name=".module.mine.activity.CollectionActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.ReadLaterActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.OpenActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.AboutMeActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.SettingActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.AboutActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.CoinActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.CoinRankActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

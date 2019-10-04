@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.module.knowledge.model;
+package per.goweii.wanandroid.module.main.model;
 
 import java.util.List;
 
@@ -6,20 +6,19 @@ import per.goweii.rxhttp.request.base.BaseBean;
 
 /**
  * @author CuiZhen
- * @date 2019/5/12
+ * @date 2019/5/8
  * QQ: 302833254
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class KnowledgeBean extends BaseBean {
-
+public class ChapterBean extends BaseBean {
     /**
-     * children : [{"children":[],"courseId":13,"id":60,"name":"Android Studio相关","order":1000,"parentChapterId":150,"userControlSetTop":false,"visible":1},{"children":[],"courseId":13,"id":169,"name":"gradle","order":1001,"parentChapterId":150,"userControlSetTop":false,"visible":1},{"children":[],"courseId":13,"id":269,"name":"官方发布","order":1002,"parentChapterId":150,"userControlSetTop":false,"visible":1}]
+     * children : []
      * courseId : 13
-     * id : 150
-     * name : 开发环境
-     * order : 1
-     * parentChapterId : 0
+     * id : 408
+     * name : 鸿洋
+     * order : 190000
+     * parentChapterId : 407
      * userControlSetTop : false
      * visible : 1
      */
@@ -31,7 +30,7 @@ public class KnowledgeBean extends BaseBean {
     private int parentChapterId;
     private boolean userControlSetTop;
     private int visible;
-    private List<KnowledgeBean> children;
+    private List<ChapterBean> children;
 
     public int getCourseId() {
         return courseId;
@@ -89,11 +88,11 @@ public class KnowledgeBean extends BaseBean {
         this.visible = visible;
     }
 
-    public List<KnowledgeBean> getChildren() {
+    public List<ChapterBean> getChildren() {
         return children;
     }
 
-    public void setChildren(List<KnowledgeBean> children) {
+    public void setChildren(List<ChapterBean> children) {
         this.children = children;
     }
 }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,42 +8,41 @@
     android:orientation="vertical"
     tools:context=".module.main.activity.MainActivity">
 
-    <per.goweii.actionbarex.common.ActionBarSuper
+    <per.goweii.actionbarex.common.ActionBarSearch
         android:id="@+id/abs"
         style="@style/ActionBar"
-        app:absuper_left1IconMarginLeft="3dp"
-        app:absuper_left1Icon="@drawable/ic_close"
-        app:absuper_left1IconClickToFinish="true"
-        app:absuper_left1IconPadding="13dp"
-        app:absuper_titleTextColor="@color/text_white"
-        app:absuper_titleTextMaxWidth="260dp"
-        tools:absuper_titleText="网页网页网页网页网页网页网页网页网页网页网页网页" />
+        app:abs_leftIconClickToFinish="true"
+        app:abs_leftIconColor="@color/white"
+        app:abs_leftIconPadding="13dp"
+        app:abs_leftIconRes="@drawable/ic_close"
+        app:abs_rightText="前往"
+        app:abs_rightTextColor="@color/white"
+        app:abs_rightTextPaddingRight="16dp"
+        app:abs_titleBgRes="@drawable/action_search_bg"
+        app:abs_titleHintColor="@color/white_alpha"
+        app:abs_titleHintText=""
+        app:abs_titleMarginVertical="6dp"
+        app:abs_titlePaddingHorizontal="15dp"
+        app:abs_titleTextColor="@color/text_white"
+        app:abs_titleTextSize="@dimen/text_content" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/abs"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:srlEnablePureScrollMode="true">
 
         <per.goweii.wanandroid.widget.WebContainer
             android:id="@+id/wc"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingBottom="@dimen/bottom_bar_height" />
+            android:layout_height="match_parent" />
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_bar_height"
-        android:layout_alignParentBottom="true"
-        android:alpha="0.95"
-        android:background="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
-        android:layout_alignParentBottom="true"
+        android:background="@color/bottom_bar_overlay"
         android:orientation="horizontal">
 
         <ImageView
@@ -94,4 +93,4 @@
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

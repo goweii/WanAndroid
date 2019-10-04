@@ -11,10 +11,10 @@ import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.home.model.BannerBean;
-import per.goweii.wanandroid.module.home.model.HomeBean;
 import per.goweii.wanandroid.module.home.model.HomeRequest;
 import per.goweii.wanandroid.module.home.view.HomeView;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.utils.ConfigUtils;
@@ -74,13 +74,13 @@ public class HomePresenter extends BasePresenter<HomeView> {
     }
 
     public void getArticleList(@IntRange(from = 0) int page, boolean refresh) {
-        HomeRequest.getArticleList(getRxLife(), refresh, page, new RequestListener<HomeBean>() {
+        HomeRequest.getArticleList(getRxLife(), refresh, page, new RequestListener<ArticleListBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, HomeBean data) {
+            public void onSuccess(int code, ArticleListBean data) {
                 isGetArticleListSuccess = true;
                 if (isAttach()) {
                     getBaseView().getArticleListSuccess(code, data);

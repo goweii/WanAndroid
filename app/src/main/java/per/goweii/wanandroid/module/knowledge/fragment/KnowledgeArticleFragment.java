@@ -26,13 +26,13 @@ import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.knowledge.adapter.KnowledgeArticleAdapter;
-import per.goweii.wanandroid.module.knowledge.model.KnowledgeArticleBean;
-import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
 import per.goweii.wanandroid.module.knowledge.presenter.KnowledgeArticlePresenter;
 import per.goweii.wanandroid.module.knowledge.view.KnowledgeArticleView;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
@@ -58,17 +58,17 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
     RecyclerView rv;
 
     private SmartRefreshUtils mSmartRefreshUtils;
-    private KnowledgeArticleAdapter mAdapter;
+    private ArticleAdapter mAdapter;
 
-    private KnowledgeBean mKnowledgeBean;
+    private ChapterBean mChapterBean;
     private int mPosition = -1;
 
     private int currPage = PAGE_START;
 
-    public static KnowledgeArticleFragment create(KnowledgeBean knowledgeBean, int position) {
+    public static KnowledgeArticleFragment create(ChapterBean chapterBean, int position) {
         KnowledgeArticleFragment fragment = new KnowledgeArticleFragment();
         Bundle args = new Bundle(2);
-        args.putSerializable("knowledgeBean", knowledgeBean);
+        args.putSerializable("chapterBean", chapterBean);
         args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
@@ -158,7 +158,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
     protected void initView() {
         Bundle args = getArguments();
         if (args != null) {
-            mKnowledgeBean = (KnowledgeBean) args.getSerializable("knowledgeBean");
+            mChapterBean = (ChapterBean) args.getSerializable("chapterBean");
             mPosition = args.getInt("position", -1);
         }
 
@@ -172,13 +172,12 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new KnowledgeArticleAdapter();
+        mAdapter = new ArticleAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                currPage++;
                 getKnowledgeArticleList(false);
             }
         }, rv);
@@ -191,9 +190,9 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
                 }
             }
         });
-        mAdapter.setOnCollectViewClickListener(new KnowledgeArticleAdapter.OnCollectViewClickListener() {
+        mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
-            public void onClick(BaseViewHolder helper, CollectView v, int position) {
+            public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
                 ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     if (!v.isChecked()) {
@@ -217,9 +216,9 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
 
     @Override
     protected void loadData() {
-        if (mKnowledgeBean != null) {
+        if (mChapterBean != null) {
             MultiStateUtils.toLoading(msv);
-            presenter.getKnowledgeArticleListCache(mKnowledgeBean.getId(), currPage);
+            presenter.getKnowledgeArticleListCache(mChapterBean.getId(), currPage);
         } else {
             MultiStateUtils.toError(msv);
         }
@@ -235,14 +234,15 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
     }
 
     public void getKnowledgeArticleList(boolean refresh) {
-        if (mKnowledgeBean != null) {
-            presenter.getKnowledgeArticleList(mKnowledgeBean.getId(), currPage, true);
+        if (mChapterBean != null) {
+            presenter.getKnowledgeArticleList(mChapterBean.getId(), currPage, true);
         }
     }
 
     @Override
-    public void getKnowledgeArticleListSuccess(int code, KnowledgeArticleBean data) {
-        if (currPage == PAGE_START) {
+    public void getKnowledgeArticleListSuccess(int code, ArticleListBean data) {
+        currPage = data.getCurPage() + PAGE_START;
+        if (data.getCurPage() == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {

@@ -16,9 +16,9 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.knowledge.activity.KnowledgeArticleActivity;
 import per.goweii.wanandroid.module.knowledge.adapter.KnowledgeAdapter;
-import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
 import per.goweii.wanandroid.module.knowledge.presenter.KnowledgePresenter;
 import per.goweii.wanandroid.module.knowledge.view.KnowledgeView;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 
@@ -60,7 +60,7 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnItemClickListener(new KnowledgeAdapter.OnItemClickListener() {
             @Override
-            public void onClick(KnowledgeBean bean, int pos) {
+            public void onClick(ChapterBean bean, int pos) {
                 KnowledgeArticleActivity.start(getContext(), bean, pos);
             }
         });
@@ -96,7 +96,7 @@ public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implemen
     }
 
     @Override
-    public void getKnowledgeListSuccess(int code, List<KnowledgeBean> data) {
+    public void getKnowledgeListSuccess(int code, List<ChapterBean> data) {
         mAdapter.setNewData(data);
         if (data == null || data.isEmpty()) {
             MultiStateUtils.toEmpty(msv);

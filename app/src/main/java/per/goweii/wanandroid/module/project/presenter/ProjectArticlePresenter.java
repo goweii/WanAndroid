@@ -5,8 +5,9 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
-import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
 import per.goweii.wanandroid.module.project.model.ProjectRequest;
 import per.goweii.wanandroid.module.project.view.ProjectArticleView;
 import per.goweii.wanandroid.widget.CollectView;
@@ -21,13 +22,13 @@ import per.goweii.wanandroid.widget.CollectView;
 public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
 
     public void getProjectArticleListCache(int id, int page) {
-        ProjectRequest.getProjectArticleListCache(id, page, new RequestListener<ProjectArticleBean>() {
+        ProjectRequest.getProjectArticleListCache(id, page, new RequestListener<ArticleListBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, ProjectArticleBean data) {
+            public void onSuccess(int code, ArticleListBean data) {
                 if (isAttach()) {
                     getBaseView().getProjectArticleListSuccess(code, data);
                 }
@@ -48,13 +49,13 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
     }
 
     public void getProjectArticleList(int id, int page, boolean refresh) {
-        ProjectRequest.getProjectArticleList(getRxLife(), refresh, id, page, new RequestListener<ProjectArticleBean>() {
+        ProjectRequest.getProjectArticleList(getRxLife(), refresh, id, page, new RequestListener<ArticleListBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, ProjectArticleBean data) {
+            public void onSuccess(int code, ArticleListBean data) {
                 if (isAttach()) {
                     getBaseView().getProjectArticleListSuccess(code, data);
                 }
@@ -77,7 +78,7 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
         });
     }
 
-    public void collect(ProjectArticleBean.DatasBean item, final CollectView v){
+    public void collect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.collect(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
@@ -109,7 +110,7 @@ public class ProjectArticlePresenter extends BasePresenter<ProjectArticleView> {
         }));
     }
 
-    public void uncollect(ProjectArticleBean.DatasBean item, final CollectView v){
+    public void uncollect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.uncollect(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {

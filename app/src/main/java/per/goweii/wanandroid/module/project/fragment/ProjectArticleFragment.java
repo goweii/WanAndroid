@@ -27,9 +27,10 @@ import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
-import per.goweii.wanandroid.module.project.adapter.ProjectArticleAdapter;
-import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
-import per.goweii.wanandroid.module.project.model.ProjectChapterBean;
+import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.project.presenter.ProjectArticlePresenter;
 import per.goweii.wanandroid.module.project.view.ProjectArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
@@ -57,17 +58,17 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
     RecyclerView rv;
 
     private SmartRefreshUtils mSmartRefreshUtils;
-    private ProjectArticleAdapter mAdapter;
+    private ArticleAdapter mAdapter;
 
-    private ProjectChapterBean mProjectChapterBean;
+    private ChapterBean mChapterBean;
     private int mPosition = -1;
 
     private int currPage = PAGE_START;
 
-    public static ProjectArticleFragment create(ProjectChapterBean projectChapterBean, int position) {
+    public static ProjectArticleFragment create(ChapterBean chapterBean, int position) {
         ProjectArticleFragment fragment = new ProjectArticleFragment();
         Bundle args = new Bundle(2);
-        args.putSerializable("projectChapterBean", projectChapterBean);
+        args.putSerializable("chapterBean", chapterBean);
         args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
@@ -81,9 +82,9 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         if (event.getArticleId() == -1) {
             return;
         }
-        List<ProjectArticleBean.DatasBean> list = mAdapter.getData();
+        List<ArticleBean> list = mAdapter.getData();
         for (int i = 0; i < list.size(); i++) {
-            ProjectArticleBean.DatasBean item = list.get(i);
+            ArticleBean item = list.get(i);
             if (item.getId() == event.getArticleId()) {
                 if (item.isCollect() != event.isCollect()) {
                     item.setCollect(event.isCollect());
@@ -103,9 +104,9 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             currPage = PAGE_START;
             getProjectArticleList(true);
         } else {
-            List<ProjectArticleBean.DatasBean> list = mAdapter.getData();
+            List<ArticleBean> list = mAdapter.getData();
             for (int i = 0; i < list.size(); i++) {
-                ProjectArticleBean.DatasBean item = list.get(i);
+                ArticleBean item = list.get(i);
                 if (item.isCollect()) {
                     item.setCollect(false);
                     mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
@@ -157,7 +158,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
     protected void initView() {
         Bundle args = getArguments();
         if (args != null) {
-            mProjectChapterBean = (ProjectChapterBean) args.getSerializable("projectChapterBean");
+            mChapterBean = (ChapterBean) args.getSerializable("chapterBean");
             mPosition = args.getInt("position", -1);
         }
 
@@ -171,7 +172,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new ProjectArticleAdapter();
+        mAdapter = new ArticleAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -184,16 +185,16 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ProjectArticleBean.DatasBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
                 }
             }
         });
-        mAdapter.setOnCollectViewClickListener(new ProjectArticleAdapter.OnCollectViewClickListener() {
+        mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
-            public void onClick(BaseViewHolder helper, CollectView v, int position) {
-                ProjectArticleBean.DatasBean item = mAdapter.getItem(position);
+            public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     if (!v.isChecked()) {
                         presenter.collect(item, v);
@@ -216,9 +217,9 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
 
     @Override
     protected void loadData() {
-        if (mProjectChapterBean != null) {
+        if (mChapterBean != null) {
             MultiStateUtils.toLoading(msv);
-            presenter.getProjectArticleListCache(mProjectChapterBean.getId(), currPage);
+            presenter.getProjectArticleListCache(mChapterBean.getId(), currPage);
         } else {
             MultiStateUtils.toError(msv);
         }
@@ -234,14 +235,15 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
     }
 
     public void getProjectArticleList(boolean refresh) {
-        if (mProjectChapterBean != null) {
-            presenter.getProjectArticleList(mProjectChapterBean.getId(), currPage, true);
+        if (mChapterBean != null) {
+            presenter.getProjectArticleList(mChapterBean.getId(), currPage, true);
         }
     }
 
     @Override
-    public void getProjectArticleListSuccess(int code, ProjectArticleBean data) {
-        if (currPage == PAGE_START) {
+    public void getProjectArticleListSuccess(int code, ArticleListBean data) {
+        currPage = data.getCurPage() + PAGE_START;
+        if (data.getCurPage() == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
@@ -253,7 +255,6 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
         }
-        currPage++;
         if (data.isOver()) {
             mAdapter.loadMoreEnd();
         }

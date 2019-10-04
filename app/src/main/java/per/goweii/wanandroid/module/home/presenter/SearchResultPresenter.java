@@ -8,9 +8,9 @@ import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.home.model.HomeRequest;
-import per.goweii.wanandroid.module.home.model.SearchBean;
 import per.goweii.wanandroid.module.home.view.SearchResultView;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -24,13 +24,13 @@ import per.goweii.wanandroid.widget.CollectView;
 public class SearchResultPresenter extends BasePresenter<SearchResultView> {
 
     public void searchCache(@IntRange(from = 0) int page, String key) {
-        HomeRequest.searchCache(page, key, new RequestListener<SearchBean>() {
+        HomeRequest.searchCache(page, key, new RequestListener<ArticleListBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, SearchBean data) {
+            public void onSuccess(int code, ArticleListBean data) {
                 if (isAttach()) {
                     getBaseView().searchSuccess(code, data);
                 }
@@ -51,13 +51,13 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
     }
 
     public void search(@IntRange(from = 0) int page, String key, boolean refresh){
-        HomeRequest.search(getRxLife(), refresh, page, key, new RequestListener<SearchBean>() {
+        HomeRequest.search(getRxLife(), refresh, page, key, new RequestListener<ArticleListBean>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, SearchBean data) {
+            public void onSuccess(int code, ArticleListBean data) {
                 if (isAttach()) {
                     getBaseView().searchSuccess(code, data);
                 }

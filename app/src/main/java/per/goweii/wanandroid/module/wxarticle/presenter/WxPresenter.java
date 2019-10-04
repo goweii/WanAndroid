@@ -5,7 +5,7 @@ import java.util.List;
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.http.RequestListener;
-import per.goweii.wanandroid.module.wxarticle.model.WxChapterBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.wxarticle.model.WxRequest;
 import per.goweii.wanandroid.module.wxarticle.view.WxView;
 
@@ -19,13 +19,13 @@ import per.goweii.wanandroid.module.wxarticle.view.WxView;
 public class WxPresenter extends BasePresenter<WxView> {
 
     public void getWxArticleChapters(){
-        WxRequest.getWxArticleChapters(getRxLife(), new RequestListener<List<WxChapterBean>>() {
+        WxRequest.getWxArticleChapters(getRxLife(), new RequestListener<List<ChapterBean>>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, List<WxChapterBean> data) {
+            public void onSuccess(int code, List<ChapterBean> data) {
                 if (isAttach()) {
                     getBaseView().getWxArticleChaptersSuccess(code, data);
                 }

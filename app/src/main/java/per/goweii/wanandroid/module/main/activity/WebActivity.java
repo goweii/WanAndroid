@@ -3,6 +3,7 @@ package per.goweii.wanandroid.module.main.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PointF;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -14,9 +15,11 @@ import android.widget.ImageView;
 import com.just.agentweb.AgentWeb;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.common.ActionBarSuper;
+import per.goweii.actionbarex.common.ActionBarSearch;
+import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
@@ -40,7 +43,7 @@ import per.goweii.wanandroid.widget.WebContainer;
 public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView {
 
     @BindView(R.id.abs)
-    ActionBarSuper abs;
+    ActionBarSearch abs;
     @BindView(R.id.wc)
     WebContainer wc;
     @BindView(R.id.iv_back)
@@ -123,7 +126,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         mCurrUrl = mUrl;
         mCurrTitle = mTitle;
 
-        abs.getTitleTextView().setText(mTitle);
+        setTitle();
         iv_menu.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
@@ -178,7 +181,11 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         iv_refresh.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                mAgentWeb.getWebCreator().getWebView().reload();
+                if (iv_refresh.getAnimation() == null) {
+                    mAgentWeb.getWebCreator().getWebView().reload();
+                } else {
+                    mAgentWeb.getWebCreator().getWebView().stopLoading();
+                }
             }
         });
         iv_home.setOnClickListener(new OnClickListener2() {
@@ -195,15 +202,54 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 mAgentWeb.getWebCreator().getWebView().goBackOrForward(step);
             }
         });
-
+        wc.setOnTouchDownListener(new WebContainer.OnTouchDownListener() {
+            @Override
+            public void onTouchDown() {
+                abs.getEditTextView().clearFocus();
+            }
+        });
         wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
             @Override
             public void onDoubleClick(float x, float y) {
                 collect(new PointF(x, y));
             }
         });
+        abs.setOnRightTextClickListener(new OnActionBarChildClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = abs.getEditTextView().getText().toString();
+                if (!TextUtils.isEmpty(url)) {
+                    Uri uri = Uri.parse(url);
+                    if (TextUtils.equals(uri.getScheme(), "http") || TextUtils.equals(uri.getScheme(), "https")) {
+                        mAgentWeb.getWebCreator().getWebView().loadUrl(url);
+                    }
+                }
+                abs.getEditTextView().clearFocus();
+            }
+        });
+        abs.getEditTextView().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    abs.getEditTextView().setText(mCurrUrl);
+                    InputMethodUtils.show(abs.getEditTextView());
+                } else {
+                    setTitle();
+                    InputMethodUtils.hide(abs.getEditTextView());
+                }
+            }
+        });
 
         mRealmHelper = RealmHelper.create();
+    }
+
+    private void setTitle() {
+        abs.getEditTextView().setTag(mCurrUrl);
+        if (!TextUtils.isEmpty(mCurrTitle)) {
+            abs.getEditTextView().setText(mCurrTitle);
+        } else {
+            abs.getEditTextView().setText(mCurrUrl);
+        }
     }
 
     @Override
@@ -218,9 +264,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             @Override
             public void onReceivedTitle(String title) {
                 mCurrTitle = title;
-                if (abs.getTitleTextView() != null) {
-                    abs.getTitleTextView().setText(mCurrTitle);
-                }
+                setTitle();
             }
 
             @Override
@@ -232,6 +276,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
             @Override
             public void onPageStarted() {
+                abs.getEditTextView().clearFocus();
             }
 
             @Override

@@ -6,10 +6,10 @@ import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestCallback;
 import per.goweii.wanandroid.http.RequestListener;
-import per.goweii.wanandroid.module.knowledge.model.KnowledgeArticleBean;
 import per.goweii.wanandroid.module.knowledge.model.KnowledgeRequest;
 import per.goweii.wanandroid.module.knowledge.view.KnowledgeArticleView;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -23,9 +23,9 @@ import per.goweii.wanandroid.widget.CollectView;
 public class KnowledgeArticlePresenter extends BasePresenter<KnowledgeArticleView> {
 
     public void getKnowledgeArticleListCache(int id, int page) {
-        KnowledgeRequest.getKnowledgeArticleListCache(id, page, new RequestCallback<KnowledgeArticleBean>() {
+        KnowledgeRequest.getKnowledgeArticleListCache(id, page, new RequestCallback<ArticleListBean>() {
             @Override
-            public void onSuccess(int code, KnowledgeArticleBean data) {
+            public void onSuccess(int code, ArticleListBean data) {
                 if (isAttach()) {
                     getBaseView().getKnowledgeArticleListSuccess(code, data);
                 }
@@ -38,9 +38,9 @@ public class KnowledgeArticlePresenter extends BasePresenter<KnowledgeArticleVie
     }
 
     public void getKnowledgeArticleList(int id, int page, boolean refresh){
-        KnowledgeRequest.getKnowledgeArticleList(getRxLife(), refresh, id, page, new RequestCallback<KnowledgeArticleBean>() {
+        KnowledgeRequest.getKnowledgeArticleList(getRxLife(), refresh, id, page, new RequestCallback<ArticleListBean>() {
             @Override
-            public void onSuccess(int code, KnowledgeArticleBean data) {
+            public void onSuccess(int code, ArticleListBean data) {
                 if (isAttach()) {
                     getBaseView().getKnowledgeArticleListSuccess(code, data);
                 }

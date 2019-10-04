@@ -1,16 +1,18 @@
 package per.goweii.wanandroid.module.home.fragment;
 
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.flexbox.FlexboxLayoutManager;
 
-import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -41,9 +43,16 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
     LinearLayout ll_history;
     @BindView(R.id.rv_history)
     RecyclerView rv_history;
+    @BindView(R.id.tv_clean)
+    TextView tv_clean;
+    @BindView(R.id.tv_down)
+    TextView tv_down;
 
     private BaseQuickAdapter<HotKeyBean, BaseViewHolder> mHotAdapter;
     private BaseQuickAdapter<String, BaseViewHolder> mHistoryAdapter;
+
+    private boolean mRemoveMode = false;
+    private boolean mRemoveModeChanging = false;
 
     public static SearchHistoryFragment create() {
         return new SearchHistoryFragment();
@@ -81,19 +90,80 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
             }
         });
         rv_hot.setAdapter(mHotAdapter);
-        rv_history.setLayoutManager(new LinearLayoutManager(getContext()));
+        rv_history.setLayoutManager(new FlexboxLayoutManager(getContext()));
         mHistoryAdapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.rv_item_search_history) {
             @Override
             protected void convert(BaseViewHolder helper, String item) {
-                helper.setText(R.id.tv_key, item)
-                        .addOnClickListener(R.id.iv_remove);
+                helper.setText(R.id.tv_key, item);
+                helper.addOnClickListener(R.id.iv_remove);
+                ImageView iv_remove = helper.getView(R.id.iv_remove);
+                if (!mRemoveModeChanging) {
+                    helper.setVisible(R.id.iv_remove, mRemoveMode);
+                } else {
+                    if (mRemoveMode) {
+                        ScaleAnimation scaleAnimation = new ScaleAnimation(
+                                0F, 1F, 0F, 1F,
+                                Animation.RELATIVE_TO_SELF, 0.5F,
+                                Animation.RELATIVE_TO_SELF, 0.5F
+                        );
+                        scaleAnimation.setDuration(300);
+                        scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                                iv_remove.setVisibility(View.VISIBLE);
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                mRemoveModeChanging = false;
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+                            }
+                        });
+                        iv_remove.startAnimation(scaleAnimation);
+                    } else {
+                        ScaleAnimation scaleAnimation = new ScaleAnimation(
+                                1F, 0F, 1F, 0F,
+                                Animation.RELATIVE_TO_SELF, 0.5F,
+                                Animation.RELATIVE_TO_SELF, 0.5F
+                        );
+                        scaleAnimation.setDuration(300);
+                        scaleAnimation.setAnimationListener(new Animation.AnimationListener() {
+                            @Override
+                            public void onAnimationStart(Animation animation) {
+                            }
+
+                            @Override
+                            public void onAnimationEnd(Animation animation) {
+                                mRemoveModeChanging = false;
+                                iv_remove.setVisibility(View.INVISIBLE);
+                            }
+
+                            @Override
+                            public void onAnimationRepeat(Animation animation) {
+                            }
+                        });
+                        iv_remove.startAnimation(scaleAnimation);
+                    }
+                }
             }
         };
+        mHistoryAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                changeRemoveMode(!mRemoveMode);
+                return true;
+            }
+        });
         mHistoryAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                String key = mHistoryAdapter.getItem(position);
-                search(key);
+                if (!mRemoveMode) {
+                    String key = mHistoryAdapter.getItem(position);
+                    search(key);
+                }
             }
         });
         mHistoryAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
@@ -125,6 +195,22 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
         }
     }
 
+    private void changeRemoveMode(boolean removeMode) {
+        if (mRemoveMode == removeMode) {
+            return;
+        }
+        mRemoveModeChanging = true;
+        mRemoveMode = removeMode;
+        mHistoryAdapter.notifyDataSetChanged();
+        if (removeMode) {
+            tv_down.setVisibility(View.VISIBLE);
+            tv_clean.setVisibility(View.GONE);
+        } else {
+            tv_down.setVisibility(View.GONE);
+            tv_clean.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void search(String key) {
         if (getActivity() instanceof SearchActivity) {
             SearchActivity activity = (SearchActivity) getActivity();
@@ -132,7 +218,7 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
         }
     }
 
-    @OnClick({R.id.tv_clean})
+    @OnClick({R.id.tv_clean, R.id.tv_down})
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -156,6 +242,9 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
                         })
                         .show();
                 break;
+            case R.id.tv_down:
+                changeRemoveMode(false);
+                break;
         }
     }
 
@@ -165,16 +254,14 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
         if (index == 0) {
             return;
         }
-        if (index >= 0) {
-            Collections.swap(datas, index, 0);
-            mHistoryAdapter.notifyItemMoved(index, 0);
-        } else {
-            mHistoryAdapter.addData(0, key);
-            int max = SettingUtils.getInstance().getSearchHistoryMaxCount();
-            List<String> list = mHistoryAdapter.getData();
-            if (list.size() > max) {
-                mHistoryAdapter.remove(list.size() - 1);
-            }
+        if (index > 0) {
+            mHistoryAdapter.remove(index);
+        }
+        mHistoryAdapter.addData(0, key);
+        int max = SettingUtils.getInstance().getSearchHistoryMaxCount();
+        List<String> list = mHistoryAdapter.getData();
+        if (list.size() > max) {
+            mHistoryAdapter.remove(list.size() - 1);
         }
         RvScrollTopUtils.smoothScrollTop(rv_history);
         presenter.saveHistory(mHistoryAdapter.getData());

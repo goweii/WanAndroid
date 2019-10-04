@@ -49,6 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ll_new"
+            android:background="@drawable/bg_press_color_white_radius_def"
             android:textColor="@color/text_gray_dark"
             android:textSize="@dimen/text_notes"
             tools:text="林帅并不帅" />
@@ -100,9 +101,9 @@
             android:background="@color/bg"
             android:scaleType="centerCrop"
             android:visibility="gone"
-            tools:src="@drawable/image_holder"
             app:riv_corner_radius="3dp"
             app:riv_mutate_background="true"
+            tools:src="@drawable/image_holder"
             tools:visibility="visible" />
 
         <LinearLayout
@@ -116,8 +117,8 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:includeFontPadding="false"
-                android:maxLines="3"
                 android:lineSpacingExtra="0dp"
+                android:maxLines="3"
                 android:singleLine="false"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/text_content"
@@ -132,8 +133,8 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:includeFontPadding="true"
-                android:maxLines="3"
                 android:lineSpacingExtra="0dp"
+                android:maxLines="3"
                 android:textColor="@color/text_gray_light"
                 android:textSize="@dimen/text_auxiliary"
                 android:visibility="gone"

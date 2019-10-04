@@ -12,6 +12,7 @@ import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
 import per.goweii.wanandroid.http.WanCache;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 
 /**
@@ -23,21 +24,21 @@ import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
  */
 public class MineRequest extends BaseRequest {
 
-    public static void getCollectArticleListCache(@IntRange(from = 0) int page, @NonNull RequestListener<CollectionArticleBean> listener) {
-        cacheBean(WanCache.CacheKey.COLLECT_ARTICLE_LIST(page), CollectionArticleBean.class, listener);
+    public static void getCollectArticleListCache(@IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
+        cacheBean(WanCache.CacheKey.COLLECT_ARTICLE_LIST(page), ArticleListBean.class, listener);
     }
 
-    public static void getCollectArticleListNet(RxLife rxLife, @IntRange(from = 0) int page, @NonNull RequestListener<CollectionArticleBean> listener) {
+    public static void getCollectArticleListNet(RxLife rxLife, @IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
         rxLife.add(request(WanApi.api().getCollectArticleList(page), listener));
     }
 
-    public static void getCollectArticleList(RxLife rxLife, boolean removeAndRefresh, @IntRange(from = 0) int page, @NonNull RequestListener<CollectionArticleBean> listener) {
+    public static void getCollectArticleList(RxLife rxLife, boolean removeAndRefresh, @IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
         if (page == 0) {
             cacheAndNetBean(rxLife,
                     WanApi.api().getCollectArticleList(page),
                     removeAndRefresh,
                     WanCache.CacheKey.COLLECT_ARTICLE_LIST(page),
-                    CollectionArticleBean.class,
+                    ArticleListBean.class,
                     listener);
         } else {
             rxLife.add(request(WanApi.api().getCollectArticleList(page), listener));

@@ -11,6 +11,7 @@ import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
 import per.goweii.wanandroid.http.WanCache;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 
 /**
  * @author CuiZhen
@@ -29,13 +30,13 @@ public class HomeRequest extends BaseRequest {
                 listener);
     }
 
-    public static void getArticleList(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, @NonNull RequestListener<HomeBean> listener) {
+    public static void getArticleList(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
         if (page == 0) {
             cacheAndNetBean(rxLife,
                     WanApi.api().getArticleList(page),
                     refresh,
                     WanCache.CacheKey.ARTICLE_LIST(page),
-                    HomeBean.class,
+                    ArticleListBean.class,
                     listener);
         } else {
             rxLife.add(request(WanApi.api().getArticleList(page), listener));
@@ -59,19 +60,19 @@ public class HomeRequest extends BaseRequest {
                 listener);
     }
 
-    public static void searchCache(@IntRange(from = 0) int page, String key, @NonNull RequestListener<SearchBean> listener) {
+    public static void searchCache(@IntRange(from = 0) int page, String key, @NonNull RequestListener<ArticleListBean> listener) {
         cacheBean(WanCache.CacheKey.SEARCH(key, page),
-                SearchBean.class,
+                ArticleListBean.class,
                 listener);
     }
 
-    public static void search(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, String key, @NonNull RequestListener<SearchBean> listener) {
+    public static void search(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, String key, @NonNull RequestListener<ArticleListBean> listener) {
         if (page == 0) {
             cacheAndNetBean(rxLife,
                     WanApi.api().search(page, key),
                     refresh,
                     WanCache.CacheKey.SEARCH(key, page),
-                    SearchBean.class,
+                    ArticleListBean.class,
                     listener);
         } else {
             rxLife.add(request(WanApi.api().search(page, key), listener));

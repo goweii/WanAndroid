@@ -49,14 +49,16 @@ import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.home.activity.SearchActivity;
-import per.goweii.wanandroid.module.home.adapter.HomeAdapter;
+import per.goweii.wanandroid.module.home.activity.UserArticleActivity;
+import per.goweii.wanandroid.module.home.activity.UserPageActivity;
 import per.goweii.wanandroid.module.home.model.BannerBean;
-import per.goweii.wanandroid.module.home.model.HomeBean;
 import per.goweii.wanandroid.module.home.presenter.HomePresenter;
 import per.goweii.wanandroid.module.home.view.HomeView;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.MultiStateUtils;
@@ -86,7 +88,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     RecyclerView rv;
 
     private Banner mBanner;
-    private HomeAdapter mAdapter;
+    private ArticleAdapter mAdapter;
 
     private int currPage = PAGE_START;
     private SmartRefreshUtils mSmartRefreshUtils;
@@ -222,7 +224,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         abc.setOnLeftIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
-                WebActivity.start(getContext(), "https://www.wanandroid.com/user_article");
+                UserArticleActivity.start(getContext());
             }
         });
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);
@@ -241,13 +243,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new HomeAdapter();
+        mAdapter = new ArticleAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                currPage++;
                 presenter.getArticleList(currPage, false);
             }
         }, rv);
@@ -267,9 +268,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 return true;
             }
         });
-        mAdapter.setOnCollectViewClickListener(new HomeAdapter.OnCollectViewClickListener() {
+        mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
-            public void onClick(BaseViewHolder helper, CollectView v, int position) {
+            public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
                 ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     if (!v.isChecked()) {
@@ -455,6 +456,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         } else {
             tv_tag.setVisibility(View.GONE);
         }
+        tv_author.setOnClickListener(new OnClickListener2() {
+            @Override
+            public void onClick2(View v) {
+                UserPageActivity.start(v.getContext(), item.getUserId());
+            }
+        });
         cv_collect.setOnClickListener(new CollectView.OnClickListener() {
             @Override
             public void onClick(CollectView v) {
@@ -535,8 +542,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     }
 
     @Override
-    public void getArticleListSuccess(int code, HomeBean data) {
-        if (currPage == PAGE_START) {
+    public void getArticleListSuccess(int code, ArticleListBean data) {
+        currPage = data.getCurPage() + PAGE_START;
+        if (data.getCurPage() == 1) {
             MultiStateUtils.toContent(msv);
             mAdapter.setNewData(data.getDatas());
         } else {
@@ -577,7 +585,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     public void getConfigSuccess(ConfigBean configBean) {
-        if (!TextUtils.isEmpty(configBean.getHomeTitle())) {
+        if (configBean.getHomeTitle() != null) {
             if (mConfigBean == null || !TextUtils.equals(mConfigBean.getHomeTitle(), configBean.getHomeTitle())) {
                 abc.getTitleTextView().setText(configBean.getHomeTitle());
             }
@@ -596,7 +604,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 }
             }
         } else {
-            if (!TextUtils.isEmpty(configBean.getActionBarBgColor())) {
+            if (TextUtils.isEmpty(configBean.getActionBarBgColor())) {
+                abc.setBackgroundResource(R.color.main);
+            } else {
                 if (mConfigBean == null || !TextUtils.equals(mConfigBean.getActionBarBgColor(), configBean.getActionBarBgColor())) {
                     try {
                         int color = Color.parseColor(configBean.getActionBarBgColor());

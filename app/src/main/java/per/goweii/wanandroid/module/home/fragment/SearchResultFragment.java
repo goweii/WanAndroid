@@ -23,12 +23,12 @@ import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.home.adapter.SearchResultAdapter;
-import per.goweii.wanandroid.module.home.model.SearchBean;
 import per.goweii.wanandroid.module.home.presenter.SearchResultPresenter;
 import per.goweii.wanandroid.module.home.view.SearchResultView;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
@@ -54,7 +54,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     private int currPage = PAGE_START;
     private SmartRefreshUtils mSmartRefreshUtils;
-    private SearchResultAdapter mAdapter;
+    private ArticleAdapter mAdapter;
 
     private String mKey;
 
@@ -121,13 +121,12 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new SearchResultAdapter();
+        mAdapter = new ArticleAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                currPage++;
                 presenter.search(currPage, mKey, false);
             }
         }, rv);
@@ -140,9 +139,9 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
                 }
             }
         });
-        mAdapter.setOnCollectViewClickListener(new SearchResultAdapter.OnCollectViewClickListener() {
+        mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
-            public void onClick(BaseViewHolder helper, CollectView v, int position) {
+            public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
                 ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     if (!v.isChecked()) {
@@ -178,8 +177,9 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
     }
 
     @Override
-    public void searchSuccess(int code, SearchBean data) {
-        if (currPage == PAGE_START) {
+    public void searchSuccess(int code, ArticleListBean data) {
+        currPage = data.getCurPage() + PAGE_START;
+        if (data.getCurPage() == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {

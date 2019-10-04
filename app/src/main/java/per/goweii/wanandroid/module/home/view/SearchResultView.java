@@ -1,7 +1,7 @@
 package per.goweii.wanandroid.module.home.view;
 
 import per.goweii.basic.core.base.BaseView;
-import per.goweii.wanandroid.module.home.model.SearchBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 
 /**
  * @author CuiZhen
@@ -11,6 +11,6 @@ import per.goweii.wanandroid.module.home.model.SearchBean;
  * GitHub: https://github.com/goweii
  */
 public interface SearchResultView extends BaseView {
-    void searchSuccess(int code, SearchBean data);
+    void searchSuccess(int code, ArticleListBean data);
     void searchFailed(int code, String msg);
 }

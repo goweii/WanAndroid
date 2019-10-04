@@ -25,9 +25,9 @@ import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
-import per.goweii.wanandroid.module.mine.adapter.CollectionArticleAdapter;
-import per.goweii.wanandroid.module.mine.model.CollectionArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.mine.presenter.CollectionArticlePresenter;
 import per.goweii.wanandroid.module.mine.view.CollectionArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
@@ -55,7 +55,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
     RecyclerView rv;
 
     private SmartRefreshUtils mSmartRefreshUtils;
-    private CollectionArticleAdapter mAdapter;
+    private ArticleAdapter mAdapter;
 
     private int currPage = PAGE_START;
 
@@ -130,13 +130,12 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new CollectionArticleAdapter();
+        mAdapter = new ArticleAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                currPage++;
                 presenter.getCollectArticleList(currPage, true);
             }
         }, rv);
@@ -149,9 +148,9 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
                 }
             }
         });
-        mAdapter.setOnCollectViewClickListener(new CollectionArticleAdapter.OnCollectViewClickListener() {
+        mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
-            public void onClick(BaseViewHolder helper, CollectView v, int position) {
+            public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
                 ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     presenter.uncollect(item, v);
@@ -185,8 +184,9 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
     }
 
     @Override
-    public void getCollectArticleListSuccess(int code, CollectionArticleBean data) {
-        if (currPage == PAGE_START) {
+    public void getCollectArticleListSuccess(int code, ArticleListBean data) {
+        currPage = data.getCurPage() + PAGE_START;
+        if (data.getCurPage() == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {

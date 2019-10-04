@@ -40,6 +40,7 @@ public class WebContainer extends FrameLayout {
     private long mLastTouchTime = 0L;
 
     private OnDoubleClickListener mOnDoubleClickListener = null;
+    private OnTouchDownListener mOnTouchDownListener = null;
     private ImageView mImageView;
 
     public WebContainer(@NonNull Context context) {
@@ -61,6 +62,10 @@ public class WebContainer extends FrameLayout {
         mOnDoubleClickListener = onDoubleClickListener;
     }
 
+    public void setOnTouchDownListener(OnTouchDownListener onTouchDownListener) {
+        mOnTouchDownListener = onTouchDownListener;
+    }
+
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
@@ -77,6 +82,7 @@ public class WebContainer extends FrameLayout {
                 mDownX = event.getX();
                 mDownY = event.getY();
                 mDownTime = System.currentTimeMillis();
+                onTouchDown();
                 break;
             case MotionEvent.ACTION_UP:
                 float upX = event.getX();
@@ -111,6 +117,12 @@ public class WebContainer extends FrameLayout {
     private void onDoubleClicked(float x, float y) {
         if (mOnDoubleClickListener != null) {
             mOnDoubleClickListener.onDoubleClick(x, y);
+        }
+    }
+
+    private void onTouchDown() {
+        if (mOnTouchDownListener != null) {
+            mOnTouchDownListener.onTouchDown();
         }
     }
 
@@ -184,5 +196,9 @@ public class WebContainer extends FrameLayout {
 
     public interface OnDoubleClickListener {
         void onDoubleClick(float x, float y);
+    }
+
+    public interface OnTouchDownListener {
+        void onTouchDown();
     }
 }

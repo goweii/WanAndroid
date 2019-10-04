@@ -44,11 +44,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
                 android:layout_gravity="center_vertical"
+                android:layout_marginLeft="16dp"
                 android:text="历史搜索"
                 android:textColor="@color/main"
                 android:textSize="@dimen/text_content" />
+
+            <TextView
+                android:id="@+id/tv_down"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical|right"
+                android:layout_marginRight="16dp"
+                android:text="完成"
+                android:visibility="gone"
+                tools:visibility="visible"
+                android:textColor="@color/main"
+                android:textSize="@dimen/text_notes" />
 
             <TextView
                 android:id="@+id/tv_clean"
@@ -68,10 +80,13 @@
             android:layout_height="match_parent"
             android:layout_marginTop="5dp"
             android:overScrollMode="never"
+            android:paddingLeft="11dp"
+            android:paddingRight="11dp"
             android:scrollbars="none"
             tools:itemCount="9"
-            tools:layoutManager="LinearLayoutManager"
-            tools:listitem="@layout/rv_item_search_history" />
+            tools:layoutManager="GridLayoutManager"
+            tools:listitem="@layout/rv_item_search_history"
+            tools:spanCount="3" />
 
     </LinearLayout>
 

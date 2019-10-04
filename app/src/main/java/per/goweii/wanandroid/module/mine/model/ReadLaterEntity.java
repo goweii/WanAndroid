@@ -1,7 +1,5 @@
 package per.goweii.wanandroid.module.mine.model;
 
-import java.util.UUID;
-
 import io.realm.RealmObject;
 
 /**

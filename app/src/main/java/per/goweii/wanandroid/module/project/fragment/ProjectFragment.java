@@ -18,7 +18,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.ScrollTopEvent;
-import per.goweii.wanandroid.module.project.model.ProjectChapterBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.project.presenter.ProjectPresenter;
 import per.goweii.wanandroid.module.project.view.ProjectView;
 import per.goweii.wanandroid.utils.MagicIndicatorUtils;
@@ -37,7 +37,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements S
     @BindView(R.id.vp)
     ViewPager vp;
 
-    private MultiFragmentPagerAdapter<ProjectChapterBean, ProjectArticleFragment> mAdapter;
+    private MultiFragmentPagerAdapter<ChapterBean, ProjectArticleFragment> mAdapter;
     private CommonNavigator mCommonNavigator;
     private long lastClickTime = 0L;
     private int lastClickPos = 0;
@@ -61,14 +61,14 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements S
     protected void initView() {
         mAdapter = new MultiFragmentPagerAdapter<>(
                 getChildFragmentManager(),
-                new MultiFragmentPagerAdapter.FragmentCreator<ProjectChapterBean, ProjectArticleFragment>() {
+                new MultiFragmentPagerAdapter.FragmentCreator<ChapterBean, ProjectArticleFragment>() {
                     @Override
-                    public ProjectArticleFragment create(ProjectChapterBean data, int pos) {
+                    public ProjectArticleFragment create(ChapterBean data, int pos) {
                         return ProjectArticleFragment.create(data, pos);
                     }
 
                     @Override
-                    public String getTitle(ProjectChapterBean data) {
+                    public String getTitle(ChapterBean data) {
                         return data.getName();
                     }
                 });
@@ -108,7 +108,7 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements S
     }
 
     @Override
-    public void getProjectChaptersSuccess(int code, List<ProjectChapterBean> data) {
+    public void getProjectChaptersSuccess(int code, List<ChapterBean> data) {
         mAdapter.setDataList(data);
         mCommonNavigator.notifyDataSetChanged();
     }

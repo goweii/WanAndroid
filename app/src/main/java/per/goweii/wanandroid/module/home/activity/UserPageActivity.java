@@ -1,0 +1,298 @@
+package per.goweii.wanandroid.module.home.activity;
+
+import android.content.Context;
+import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.kennyc.view.MultiStateView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
+
+import butterknife.BindView;
+import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.core.utils.SmartRefreshUtils;
+import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleListener;
+import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.event.CollectionEvent;
+import per.goweii.wanandroid.event.LoginEvent;
+import per.goweii.wanandroid.event.SettingChangeEvent;
+import per.goweii.wanandroid.module.home.presenter.UserPagePresenter;
+import per.goweii.wanandroid.module.home.view.UserPageView;
+import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.UserPageBean;
+import per.goweii.wanandroid.utils.MultiStateUtils;
+import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.widget.CollectView;
+
+/**
+ * @author CuiZhen
+ * @date 2019/5/18
+ * QQ: 302833254
+ * E-mail: goweii@163.com
+ * GitHub: https://github.com/goweii
+ */
+public class UserPageActivity extends BaseActivity<UserPagePresenter> implements UserPageView {
+
+    private static final int PAGE_START = 1;
+
+    @BindView(R.id.msv)
+    MultiStateView msv;
+    @BindView(R.id.srl)
+    SmartRefreshLayout srl;
+    @BindView(R.id.iv_blur)
+    ImageView iv_blur;
+    @BindView(R.id.rl_user_info)
+    RelativeLayout rl_user_info;
+    @BindView(R.id.rv)
+    RecyclerView rv;
+    @BindView(R.id.tv_user_name)
+    TextView tv_user_name;
+    @BindView(R.id.tv_user_id)
+    TextView tv_user_id;
+    @BindView(R.id.tv_user_coin)
+    TextView tv_user_coin;
+    @BindView(R.id.tv_user_ranking)
+    TextView tv_user_ranking;
+
+    private SmartRefreshUtils mSmartRefreshUtils;
+    private ArticleAdapter mAdapter;
+
+    private int currPage = PAGE_START;
+    private int mUserId = -1;
+
+    public static void start(Context context, int userId) {
+        Intent intent = new Intent(context, UserPageActivity.class);
+        intent.putExtra("userId", userId);
+        context.startActivity(intent);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCollectionEvent(CollectionEvent event) {
+        if (event.getArticleId() == -1) {
+            return;
+        }
+        List<ArticleBean> list = mAdapter.getData();
+        for (int i = 0; i < list.size(); i++) {
+            ArticleBean item = list.get(i);
+            if (item.getId() == event.getArticleId()) {
+                if (item.isCollect() != event.isCollect()) {
+                    item.setCollect(event.isCollect());
+                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
+                }
+                break;
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginEvent(LoginEvent event) {
+        if (event.isLogin()) {
+            currPage = PAGE_START;
+            getUserPage(true);
+        } else {
+            List<ArticleBean> list = mAdapter.getData();
+            for (int i = 0; i < list.size(); i++) {
+                ArticleBean item = list.get(i);
+                if (item.isCollect()) {
+                    item.setCollect(false);
+                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
+                }
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSettingChangeEvent(SettingChangeEvent event) {
+        if (event.isRvAnimChanged()) {
+            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        }
+    }
+
+    @Override
+    protected boolean isRegisterEventBus() {
+        return true;
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_user_page;
+    }
+
+    @Nullable
+    @Override
+    protected UserPagePresenter initPresenter() {
+        return new UserPagePresenter();
+    }
+
+    @Override
+    protected void initView() {
+        mUserId = getIntent().getIntExtra("userId", mUserId);
+        mSmartRefreshUtils = SmartRefreshUtils.with(srl);
+        mSmartRefreshUtils.pureScrollMode();
+        mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
+            @Override
+            public void onRefresh() {
+                currPage = PAGE_START;
+                getUserPage(true);
+            }
+        });
+        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        mAdapter = new ArticleAdapter();
+        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        mAdapter.setEnableLoadMore(false);
+        mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
+            @Override
+            public void onLoadMoreRequested() {
+                getUserPage(true);
+            }
+        }, rv);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ArticleBean item = mAdapter.getItem(position);
+                if (item != null) {
+                    WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
+                }
+            }
+        });
+        mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
+            @Override
+            public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
+                ArticleBean item = mAdapter.getItem(position);
+                if (item != null) {
+                    if (!v.isChecked()) {
+                        presenter.collect(item, v);
+                    } else {
+                        presenter.uncollect(item, v);
+                    }
+                }
+            }
+        });
+        rv.setAdapter(mAdapter);
+        MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
+            @Override
+            public void onResult() {
+                MultiStateUtils.toLoading(msv);
+                currPage = PAGE_START;
+                getUserPage(true);
+            }
+        });
+        srl.setOnMultiPurposeListener(new OnMultiPurposeListener() {
+            @Override
+            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
+                iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() + offset;
+                iv_blur.requestLayout();
+            }
+
+            @Override
+            public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onHeaderFinish(RefreshHeader header, boolean success) {
+            }
+
+            @Override
+            public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
+                iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() - offset;
+                iv_blur.requestLayout();
+            }
+
+            @Override
+            public void onFooterReleased(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onFooterStartAnimator(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onFooterFinish(RefreshFooter footer, boolean success) {
+            }
+
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+            }
+
+            @Override
+            public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
+            }
+        });
+    }
+
+    @Override
+    protected void loadData() {
+        MultiStateUtils.toLoading(msv);
+        currPage = PAGE_START;
+        getUserPage(false);
+    }
+
+    public void getUserPage(boolean refresh) {
+        presenter.getUserPage(mUserId, currPage, refresh);
+    }
+
+    @Override
+    public void getUserPageSuccess(int code, UserPageBean data) {
+        currPage = data.getShareArticles().getCurPage() + PAGE_START;
+        if (data.getShareArticles().getCurPage() == 1) {
+            tv_user_name.setText(data.getCoinInfo().getUsername());
+            tv_user_id.setText("" + data.getCoinInfo().getUserId());
+            tv_user_coin.setText("" + data.getCoinInfo().getCoinCount());
+            tv_user_ranking.setText("" + data.getCoinInfo().getRank());
+            mAdapter.setNewData(data.getShareArticles().getDatas());
+            mAdapter.setEnableLoadMore(true);
+            if (data.getShareArticles().getDatas() == null || data.getShareArticles().getDatas().isEmpty()) {
+                MultiStateUtils.toEmpty(msv);
+            } else {
+                MultiStateUtils.toContent(msv);
+            }
+        } else {
+            mAdapter.addData(data.getShareArticles().getDatas());
+            mAdapter.loadMoreComplete();
+        }
+        if (data.getShareArticles().isOver()) {
+            mAdapter.loadMoreEnd();
+        }
+        mSmartRefreshUtils.success();
+    }
+
+    @Override
+    public void getUserPageFailed(int code, String msg) {
+        ToastMaker.showShort(msg);
+        mSmartRefreshUtils.fail();
+        mAdapter.loadMoreFail();
+        if (currPage == PAGE_START) {
+            MultiStateUtils.toError(msv);
+        }
+    }
+}

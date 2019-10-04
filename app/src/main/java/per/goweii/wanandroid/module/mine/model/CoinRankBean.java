@@ -3,6 +3,7 @@ package per.goweii.wanandroid.module.mine.model;
 import java.util.List;
 
 import per.goweii.rxhttp.request.base.BaseBean;
+import per.goweii.wanandroid.module.main.model.CoinInfoBean;
 
 /**
  * @author CuiZhen
@@ -28,7 +29,7 @@ public class CoinRankBean extends BaseBean {
     private int pageCount;
     private int size;
     private int total;
-    private List<DatasBean> datas;
+    private List<CoinInfoBean> datas;
 
     public int getCurPage() {
         return curPage;
@@ -78,37 +79,11 @@ public class CoinRankBean extends BaseBean {
         this.total = total;
     }
 
-    public List<DatasBean> getDatas() {
+    public List<CoinInfoBean> getDatas() {
         return datas;
     }
 
-    public void setDatas(List<DatasBean> datas) {
+    public void setDatas(List<CoinInfoBean> datas) {
         this.datas = datas;
-    }
-
-    public static class DatasBean {
-        /**
-         * coinCount : 513
-         * username : S**24n
-         */
-
-        private int coinCount;
-        private String username;
-
-        public int getCoinCount() {
-            return coinCount;
-        }
-
-        public void setCoinCount(int coinCount) {
-            this.coinCount = coinCount;
-        }
-
-        public String getUsername() {
-            return username;
-        }
-
-        public void setUsername(String username) {
-            this.username = username;
-        }
     }
 }

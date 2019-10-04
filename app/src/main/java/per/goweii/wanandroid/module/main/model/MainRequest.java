@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.main.model;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 
 import io.reactivex.disposables.Disposable;
@@ -8,6 +9,7 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
+import per.goweii.wanandroid.http.WanCache;
 
 /**
  * @author CuiZhen
@@ -48,6 +50,32 @@ public class MainRequest extends BaseRequest {
 
     public static void getConfig(RxLife rxLife, @NonNull RequestListener<ConfigBean> listener) {
         rxLife.add(request(WanApi.api().getConfig(), listener));
+    }
+
+    public static void getUserArticleList(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
+        if (page == 0) {
+            cacheAndNetBean(rxLife,
+                    WanApi.api().getUserArticleList(page),
+                    refresh,
+                    WanCache.CacheKey.USER_ARTICLE_LIST(page),
+                    ArticleListBean.class,
+                    listener);
+        } else {
+            rxLife.add(request(WanApi.api().getUserArticleList(page), listener));
+        }
+    }
+
+    public static void getUserPage(RxLife rxLife, boolean refresh, int userId, @IntRange(from = 1) int page, @NonNull RequestListener<UserPageBean> listener) {
+        if (page == 1) {
+            cacheAndNetBean(rxLife,
+                    WanApi.api().getUserPage(userId, page),
+                    refresh,
+                    WanCache.CacheKey.USER_PAGE(userId, page),
+                    UserPageBean.class,
+                    listener);
+        } else {
+            rxLife.add(request(WanApi.api().getUserPage(userId, page), listener));
+        }
     }
 
 }

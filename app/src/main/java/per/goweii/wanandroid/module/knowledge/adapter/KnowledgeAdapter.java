@@ -13,7 +13,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 
 /**
  * @author CuiZhen
@@ -22,7 +22,7 @@ import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class KnowledgeAdapter extends BaseQuickAdapter<KnowledgeBean, BaseViewHolder> {
+public class KnowledgeAdapter extends BaseQuickAdapter<ChapterBean, BaseViewHolder> {
 
     private LayoutInflater mInflater = null;
     private Queue<TextView> mFlexItemTextViewCaches = new LinkedList<>();
@@ -37,11 +37,11 @@ public class KnowledgeAdapter extends BaseQuickAdapter<KnowledgeBean, BaseViewHo
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, KnowledgeBean item) {
+    protected void convert(BaseViewHolder helper, ChapterBean item) {
         helper.setText(R.id.tv_name, item.getName());
         FlexboxLayout fbl = helper.getView(R.id.fbl);
         for (int i = 0; i < item.getChildren().size(); i++) {
-            KnowledgeBean childItem = item.getChildren().get(i);
+            ChapterBean childItem = item.getChildren().get(i);
             TextView child = createOrGetCacheFlexItemTextView(fbl);
             child.setText(childItem.getName());
             int finalI = i;
@@ -91,6 +91,6 @@ public class KnowledgeAdapter extends BaseQuickAdapter<KnowledgeBean, BaseViewHo
     }
 
     public interface OnItemClickListener {
-        void onClick(KnowledgeBean bean, int pos);
+        void onClick(ChapterBean bean, int pos);
     }
 }

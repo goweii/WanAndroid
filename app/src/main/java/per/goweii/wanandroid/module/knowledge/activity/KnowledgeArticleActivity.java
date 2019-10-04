@@ -19,7 +19,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.module.knowledge.fragment.KnowledgeArticleFragment;
-import per.goweii.wanandroid.module.knowledge.model.KnowledgeBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.utils.MagicIndicatorUtils;
 
 /**
@@ -41,9 +41,9 @@ public class KnowledgeArticleActivity extends BaseActivity {
     private long lastClickTime = 0L;
     private int lastClickPos = 0;
 
-    public static void start(Context context, KnowledgeBean knowledgeBean, int currPos) {
+    public static void start(Context context, ChapterBean chapterBean, int currPos) {
         Intent intent = new Intent(context, KnowledgeArticleActivity.class);
-        intent.putExtra("knowledgeBean", knowledgeBean);
+        intent.putExtra("chapterBean", chapterBean);
         intent.putExtra("currPos", currPos);
         context.startActivity(intent);
     }
@@ -61,7 +61,7 @@ public class KnowledgeArticleActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        KnowledgeBean bean = (KnowledgeBean) getIntent().getSerializableExtra("knowledgeBean");
+        ChapterBean bean = (ChapterBean) getIntent().getSerializableExtra("chapterBean");
         int currPos = getIntent().getIntExtra("currPos", 0);
 
         abc.getTitleTextView().setText(bean.getName());
@@ -72,17 +72,17 @@ public class KnowledgeArticleActivity extends BaseActivity {
             }
         });
 
-        MultiFragmentPagerAdapter<KnowledgeBean, KnowledgeArticleFragment> adapter =
+        MultiFragmentPagerAdapter<ChapterBean, KnowledgeArticleFragment> adapter =
                 new MultiFragmentPagerAdapter<>(
                         getSupportFragmentManager(),
-                        new MultiFragmentPagerAdapter.FragmentCreator<KnowledgeBean, KnowledgeArticleFragment>() {
+                        new MultiFragmentPagerAdapter.FragmentCreator<ChapterBean, KnowledgeArticleFragment>() {
                             @Override
-                            public KnowledgeArticleFragment create(KnowledgeBean data, int pos) {
+                            public KnowledgeArticleFragment create(ChapterBean data, int pos) {
                                 return KnowledgeArticleFragment.create(data, pos);
                             }
 
                             @Override
-                            public String getTitle(KnowledgeBean data) {
+                            public String getTitle(ChapterBean data) {
                                 return data.getName();
                             }
                         });

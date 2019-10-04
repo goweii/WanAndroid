@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.module.project.adapter;
+package per.goweii.wanandroid.module.main.adapter;
 
 import android.text.Html;
 import android.text.TextUtils;
@@ -10,8 +10,10 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
+import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.project.model.ProjectArticleBean;
+import per.goweii.wanandroid.module.home.activity.UserPageActivity;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -22,36 +24,31 @@ import per.goweii.wanandroid.widget.CollectView;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class ProjectArticleAdapter extends BaseQuickAdapter<ProjectArticleBean.DatasBean, BaseViewHolder> {
+public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder> {
 
-    private OnCollectViewClickListener mOnCollectViewClickListener = null;
+    private OnItemChildViewClickListener mOnItemChildViewClickListener = null;
 
-    public ProjectArticleAdapter() {
+    public ArticleAdapter() {
         super(R.layout.rv_item_article);
     }
 
-    public void setOnCollectViewClickListener(OnCollectViewClickListener onCollectViewClickListener) {
-        mOnCollectViewClickListener = onCollectViewClickListener;
+    public void setOnItemChildViewClickListener(OnItemChildViewClickListener onItemChildViewClickListener) {
+        mOnItemChildViewClickListener = onItemChildViewClickListener;
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ProjectArticleBean.DatasBean item) {
-        TextView tv_title = helper.getView(R.id.tv_title);
-        TextView tv_desc = helper.getView(R.id.tv_desc);
-        if (TextUtils.isEmpty(item.getDesc())) {
-            tv_title.setSingleLine(false);
-            tv_desc.setVisibility(View.GONE);
-            tv_desc.setText("");
-        } else {
-            tv_title.setSingleLine(true);
-            tv_desc.setVisibility(View.VISIBLE);
-            tv_desc.setText(Html.fromHtml(item.getDesc()));
-        }
+    protected void convert(BaseViewHolder helper, ArticleBean item) {
         helper.setText(R.id.tv_title, Html.fromHtml(item.getTitle()));
-        helper.setText(R.id.tv_author, item.getAuthor());
         helper.setText(R.id.tv_time, item.getNiceDate());
         helper.setText(R.id.tv_super_chapter_name, item.getSuperChapterName());
         helper.setText(R.id.tv_chapter_name, item.getChapterName());
+        if (TextUtils.isEmpty(item.getSuperChapterName()) || TextUtils.isEmpty(item.getChapterName())) {
+            helper.setGone(R.id.fl_dot, false);
+        } else {
+            helper.setGone(R.id.fl_dot, true);
+        }
+        TextView tv_author = helper.getView(R.id.tv_author);
+        tv_author.setText(item.getAuthor());
         LinearLayout ll_new = helper.getView(R.id.ll_new);
         if (item.isFresh()) {
             ll_new.setVisibility(View.VISIBLE);
@@ -72,18 +69,29 @@ public class ProjectArticleAdapter extends BaseQuickAdapter<ProjectArticleBean.D
             cv_collect.setChecked(false);
         }
         TextView tv_tag = helper.getView(R.id.tv_tag);
-        tv_tag.setVisibility(View.GONE);
+        if (item.getTags() != null && item.getTags().size() > 0) {
+            tv_tag.setText(item.getTags().get(0).getName());
+            tv_tag.setVisibility(View.VISIBLE);
+        } else {
+            tv_tag.setVisibility(View.GONE);
+        }
+        tv_author.setOnClickListener(new OnClickListener2() {
+            @Override
+            public void onClick2(View v) {
+                UserPageActivity.start(v.getContext(), item.getUserId());
+            }
+        });
         cv_collect.setOnClickListener(new CollectView.OnClickListener() {
             @Override
             public void onClick(CollectView v) {
-                if (mOnCollectViewClickListener != null) {
-                    mOnCollectViewClickListener.onClick(helper, v, helper.getAdapterPosition() - getHeaderLayoutCount());
+                if (mOnItemChildViewClickListener != null) {
+                    mOnItemChildViewClickListener.onCollectClick(helper, v, helper.getAdapterPosition() - getHeaderLayoutCount());
                 }
             }
         });
     }
 
-    public interface OnCollectViewClickListener {
-        void onClick(BaseViewHolder helper, CollectView v, int position);
+    public interface OnItemChildViewClickListener {
+        void onCollectClick(BaseViewHolder helper, CollectView v, int position);
     }
 }

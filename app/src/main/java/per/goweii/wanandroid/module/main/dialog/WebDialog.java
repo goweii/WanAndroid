@@ -73,7 +73,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
                 final ViewPager vp = getView(R.id.dialog_web_vp);
                 View bar = target.findViewById(R.id.dialog_web_rl_bottom_bar);
                 bar.setTranslationY(1000);
-                vp.setPageMargin((int) DisplayInfoUtils.getInstance().dp2px(10));
+                vp.setPageMargin((int) DisplayInfoUtils.getInstance().dp2px(12));
                 ValueAnimator vpMargin = ValueAnimator.ofInt(vp.getPageMargin(), 0);
                 vpMargin.setInterpolator(new DecelerateInterpolator());
                 vpMargin.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {

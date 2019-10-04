@@ -5,7 +5,7 @@ import java.util.List;
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.http.RequestListener;
-import per.goweii.wanandroid.module.project.model.ProjectChapterBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.project.model.ProjectRequest;
 import per.goweii.wanandroid.module.project.view.ProjectView;
 
@@ -19,13 +19,13 @@ import per.goweii.wanandroid.module.project.view.ProjectView;
 public class ProjectPresenter extends BasePresenter<ProjectView> {
 
     public void getProjectChapters(){
-        ProjectRequest.getProjectChapters(getRxLife(), new RequestListener<List<ProjectChapterBean>>() {
+        ProjectRequest.getProjectChapters(getRxLife(), new RequestListener<List<ChapterBean>>() {
             @Override
             public void onStart() {
             }
 
             @Override
-            public void onSuccess(int code, List<ProjectChapterBean> data) {
+            public void onSuccess(int code, List<ChapterBean> data) {
                 if (isAttach()) {
                     getBaseView().getProjectChaptersSuccess(code, data);
                 }

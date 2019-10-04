@@ -27,9 +27,10 @@ import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
-import per.goweii.wanandroid.module.wxarticle.adapter.WxArticleAdapter;
-import per.goweii.wanandroid.module.wxarticle.model.WxArticleBean;
-import per.goweii.wanandroid.module.wxarticle.model.WxChapterBean;
+import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.wxarticle.presenter.WxArticlePresenter;
 import per.goweii.wanandroid.module.wxarticle.view.WxArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
@@ -57,17 +58,17 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
     RecyclerView rv;
 
     private SmartRefreshUtils mSmartRefreshUtils;
-    private WxArticleAdapter mAdapter;
+    private ArticleAdapter mAdapter;
 
-    private WxChapterBean mWxChapterBean;
+    private ChapterBean mChapterBean;
     private int mPosition = -1;
 
     private int currPage = PAGE_START;
 
-    public static WxArticleFragment create(WxChapterBean wxChapterBean, int position) {
+    public static WxArticleFragment create(ChapterBean chapterBean, int position) {
         WxArticleFragment fragment = new WxArticleFragment();
         Bundle args = new Bundle(2);
-        args.putSerializable("wxChapterBean", wxChapterBean);
+        args.putSerializable("chapterBean", chapterBean);
         args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
@@ -81,9 +82,9 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         if (event.getArticleId() == -1) {
             return;
         }
-        List<WxArticleBean.DatasBean> list = mAdapter.getData();
+        List<ArticleBean> list = mAdapter.getData();
         for (int i = 0; i < list.size(); i++) {
-            WxArticleBean.DatasBean item = list.get(i);
+            ArticleBean item = list.get(i);
             if (item.getId() == event.getArticleId()) {
                 if (item.isCollect() != event.isCollect()) {
                     item.setCollect(event.isCollect());
@@ -103,9 +104,9 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
             currPage = PAGE_START;
             getWxArticleList(true);
         } else {
-            List<WxArticleBean.DatasBean> list = mAdapter.getData();
+            List<ArticleBean> list = mAdapter.getData();
             for (int i = 0; i < list.size(); i++) {
-                WxArticleBean.DatasBean item = list.get(i);
+                ArticleBean item = list.get(i);
                 if (item.isCollect()) {
                     item.setCollect(false);
                     mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
@@ -157,7 +158,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
     protected void initView() {
         Bundle args = getArguments();
         if (args != null) {
-            mWxChapterBean = (WxChapterBean) args.getSerializable("wxChapterBean");
+            mChapterBean = (ChapterBean) args.getSerializable("chapterBean");
             mPosition = args.getInt("position", -1);
         }
 
@@ -171,29 +172,28 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new WxArticleAdapter();
+        mAdapter = new ArticleAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                currPage++;
                 getWxArticleList(false);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                WxArticleBean.DatasBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
                 }
             }
         });
-        mAdapter.setOnCollectViewClickListener(new WxArticleAdapter.OnCollectViewClickListener() {
+        mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
-            public void onClick(BaseViewHolder helper, CollectView v, int position) {
-                WxArticleBean.DatasBean item = mAdapter.getItem(position);
+            public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     if (!v.isChecked()) {
                         presenter.collect(item, v);
@@ -216,9 +216,9 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
 
     @Override
     protected void loadData() {
-        if (mWxChapterBean != null) {
+        if (mChapterBean != null) {
             MultiStateUtils.toLoading(msv);
-            presenter.getWxArticleListCache(mWxChapterBean.getId(), currPage);
+            presenter.getWxArticleListCache(mChapterBean.getId(), currPage);
         } else {
             MultiStateUtils.toError(msv);
         }
@@ -234,14 +234,15 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
     }
 
     public void getWxArticleList(boolean refresh) {
-        if (mWxChapterBean != null) {
-            presenter.getWxArticleList(mWxChapterBean.getId(), currPage, true);
+        if (mChapterBean != null) {
+            presenter.getWxArticleList(mChapterBean.getId(), currPage, true);
         }
     }
 
     @Override
-    public void getWxArticleListSuccess(int code, WxArticleBean data) {
-        if (currPage == PAGE_START) {
+    public void getWxArticleListSuccess(int code, ArticleListBean data) {
+        currPage = data.getCurPage() + PAGE_START;
+        if (data.getCurPage() == 1) {
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
@@ -253,7 +254,6 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
             mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
         }
-        currPage++;
         if (data.isOver()) {
             mAdapter.loadMoreEnd();
         }
@@ -271,7 +271,7 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
     }
 
     @Override
-    public void getWxArticleListSearchSuccess(int code, WxArticleBean data) {
+    public void getWxArticleListSearchSuccess(int code, ArticleListBean data) {
     }
 
     @Override
