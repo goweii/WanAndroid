@@ -22,6 +22,7 @@ public class UpdateDialog {
     private final Context mContext;
 
     private String mUrl = null;
+    private String mUrlBackup = null;
     private int mVersionCode = 0;
     private String mVersionName = null;
     private String mTime = null;
@@ -41,6 +42,11 @@ public class UpdateDialog {
 
     public UpdateDialog setUrl(String url) {
         mUrl = url;
+        return this;
+    }
+
+    public UpdateDialog setUrlBackup(String url) {
+        mUrlBackup = url;
         return this;
     }
 
@@ -123,7 +129,7 @@ public class UpdateDialog {
                     @Override
                     public void onClick(Layer layer, View v) {
                         if (mOnUpdateListener != null) {
-                            mOnUpdateListener.onDownload(mUrl, mForce);
+                            mOnUpdateListener.onDownload(mUrl, mUrlBackup, mForce);
                         }
                     }
                 }, R.id.basic_ui_tv_dialog_update_yes)
@@ -152,7 +158,7 @@ public class UpdateDialog {
     }
 
     public interface OnUpdateListener {
-        void onDownload(String url, boolean isForce);
+        void onDownload(String url, String urlBackup, boolean isForce);
         void onIgnore(int versionCode);
     }
 

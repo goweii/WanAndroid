@@ -325,6 +325,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         }
         UpdateDialog.with(getContext())
                 .setUrl(data.getUrl())
+                .setUrlBackup(data.getUrl_backup())
                 .setVersionCode(data.getVersion_code())
                 .setVersionName(data.getVersion_name())
                 .setForce(data.isForce())
@@ -332,8 +333,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 .setTime(data.getTime())
                 .setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
                     @Override
-                    public void onDownload(String url, boolean isForce) {
-                        download(data.getVersion_name(), url, isForce);
+                    public void onDownload(String url, String urlBackup, boolean isForce) {
+                        download(data.getVersion_name(), url, urlBackup, isForce);
                     }
 
                     @Override
@@ -372,7 +373,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         }
     }
 
-    private void download(final String versionName, final String url, final boolean isForce) {
+    private void download(final String versionName, final String url, final String urlBackup, final boolean isForce) {
         mRuntimeRequester = AnyPermission.with(getContext())
                 .runtime(REQ_CODE_PERMISSION)
                 .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -442,7 +443,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 .request(new RequestListener() {
                     @Override
                     public void onSuccess() {
-                        DownloadDialog.with(getActivity(), isForce, url, versionName);
+                        DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName);
                     }
 
                     @Override
