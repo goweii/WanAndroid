@@ -76,7 +76,7 @@
         android:background="@drawable/bg_solid_round_color_main_radius_max"
         android:gravity="center"
         android:text="注册"
-        android:textColor="@color/basic_ui_action_bar_text"
+        android:textColor="@color/text_invert"
         android:textSize="@dimen/text_content"
         app:sv_bindEditText1="@+id/piv_register_account"
         app:sv_bindEditText2="@+id/piv_register_password"

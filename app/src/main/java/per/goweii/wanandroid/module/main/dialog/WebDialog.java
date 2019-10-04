@@ -54,11 +54,11 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         return new WebDialog(context, topUrls, urls, currPos, false);
     }
 
-    public WebDialog(final Context context,
-                     final List<ArticleBean> topUrls,
-                     final List<ArticleBean> urls,
-                     final int currPos,
-                     final boolean singleTipMode) {
+    private WebDialog(final Context context,
+                      final List<ArticleBean> topUrls,
+                      final List<ArticleBean> urls,
+                      final int currPos,
+                      final boolean singleTipMode) {
         super(context);
         this.currPos = currPos;
         this.singleTipMode = singleTipMode;

@@ -15,6 +15,7 @@
         android:layout_marginTop="@dimen/margin_def"
         android:layout_marginBottom="@dimen/margin_def"
         android:scaleType="fitCenter"
+        android:tint="@color/text_surface"
         tools:src="@drawable/basic_ui_dialog_permission_camera" />
 
     <TextView
@@ -71,7 +72,7 @@
         android:layout_marginRight="@dimen/margin_middle"
         android:gravity="center"
         android:textSize="@dimen/text_auxiliary"
-        android:textColor="@color/text_second"
+        android:textColor="@color/text_third"
         android:layout_below="@+id/basic_ui_tv_dialog_permission_next"
         android:text="@string/basic_ui_dialog_permission_close" />
 

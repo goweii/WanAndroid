@@ -1,7 +1,9 @@
 package per.goweii.wanandroid.common;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Bundle;
 import android.support.v7.app.AppCompatDelegate;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
@@ -16,6 +18,8 @@ import per.goweii.burred.Blurred;
 import per.goweii.rxhttp.core.RxHttp;
 import per.goweii.wanandroid.http.RxHttpRequestSetting;
 import per.goweii.wanandroid.http.WanCache;
+import per.goweii.wanandroid.module.main.activity.MainActivity;
+import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 
@@ -29,6 +33,12 @@ import per.goweii.wanandroid.utils.UserUtils;
 public class WanApp extends BaseApp {
 
     private static PersistentCookieJar mCookieJar = null;
+
+    private static boolean mWebActivityStarted = false;
+
+    public static boolean isWebActivityStarted() {
+        return mWebActivityStarted;
+    }
 
     @Override
     public void onCreate() {
@@ -45,6 +55,30 @@ public class WanApp extends BaseApp {
             }
         });
         Realm.init(this);
+    }
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+        super.onActivityCreated(activity, savedInstanceState);
+        if (activity instanceof MainActivity) {
+            if (!mWebActivityStarted) {
+                Intent intent = new Intent(activity, WebActivity.class);
+                intent.putExtra("destroyOnCreated", true);
+                activity.startActivity(intent);
+            }
+        }
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+        super.onActivityStarted(activity);
+        if (activity instanceof WebActivity) {
+            boolean destroyOnCreated = activity.getIntent().getBooleanExtra("destroyOnCreated", false);
+            if (destroyOnCreated) {
+                activity.finish();
+            }
+            mWebActivityStarted = true;
+        }
     }
 
     public static boolean getDarkModeStatus() {

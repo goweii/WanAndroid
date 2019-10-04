@@ -48,7 +48,7 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:text="知道了"
-        android:textColor="@color/basic_ui_action_bar_text"
+        android:textColor="@color/text_invert"
         android:textSize="@dimen/text_content" />
 
 </RelativeLayout>

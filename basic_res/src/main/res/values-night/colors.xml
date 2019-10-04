@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--分割线-->
-    <!--Dialog弹出默认背景变暗的颜色-->
     <color name="dialog_bg">#aa000000</color>
-    <!--点击水波纹效果的颜色-->
+    <color name="toast_bg">#000000</color>
     <color name="ripple_dark">#114282f4</color>
     <color name="ripple_light">#114282f4</color>
 
@@ -11,13 +9,12 @@
     <color name="green">#64dc9c</color>
     <color name="orange">#f88b65</color>
 
-    <!--=======================通用颜色==========================-->
-    <!--主题色-->
+    <!--通用颜色-->
     <color name="main">@color/blue</color>
     <color name="assist">@color/green</color>
     <color name="accent">@color/orange</color>
     <color name="transparent">#00000000</color>
-    <color name="line">#1a1a1a</color>
+    <color name="line">#111111</color>
     <color name="background">#111111</color>
     <color name="background_alpha">#dd111111</color>
     <color name="background_mask">#11ffffff</color>
@@ -27,7 +24,6 @@
     <color name="surface">#1a1a1a</color>
     <color name="surface_alpha">#cc1a1a1a</color>
     <color name="surface_mask">#11ffffff</color>
-    <color name="invert_pure">#ffffff</color>
     <color name="invert">#e1e1e1</color>
     <color name="invert_alpha">#11e1e1e1</color>
     <color name="second">#9b9b9b</color>

@@ -114,7 +114,7 @@ public class ToastMaker {
                 .message(message)
                 .removeOthers(true)
                 .duration(2000)
-                .gravity(Gravity.BOTTOM | Gravity.LEFT)
+                .gravity(Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL)
                 .backgroundDrawable(R.drawable.basic_ui_toast_bg)
                 .marginBottom((int) mb)
                 .marginLeft(0)
@@ -123,12 +123,12 @@ public class ToastMaker {
                 .animator(new Layer.AnimatorCreator() {
                     @Override
                     public Animator createInAnimator(View target) {
-                        return AnimatorHelper.createLeftInAnim(target);
+                        return AnimatorHelper.createBottomAlphaInAnim(target);
                     }
 
                     @Override
                     public Animator createOutAnimator(View target) {
-                        return AnimatorHelper.createLeftOutAnim(target);
+                        return AnimatorHelper.createBottomAlphaOutAnim(target);
                     }
                 })
                 .show();

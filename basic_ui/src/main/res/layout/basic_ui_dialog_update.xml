@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/text_third"
+            android:textColor="@color/text_second"
             android:textSize="@dimen/text_title"
             tools:text="2.1.1" />
 
@@ -82,7 +82,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/basic_ui_dialog_update_no"
-                    android:textColor="@color/text_second"
+                    android:textColor="@color/text_third"
                     android:textSize="@dimen/text_content" />
 
                 <View

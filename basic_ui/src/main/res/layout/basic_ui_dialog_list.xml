@@ -48,7 +48,7 @@
             android:layout_weight="1"
             android:gravity="center"
             tools:text="@string/basic_ui_dialog_btn_no"
-            android:textColor="@color/text_second"
+            android:textColor="@color/text_third"
             android:textSize="@dimen/text_content" />
 
         <View
