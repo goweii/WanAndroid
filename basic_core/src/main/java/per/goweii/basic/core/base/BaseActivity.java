@@ -2,6 +2,7 @@ package per.goweii.basic.core.base;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.Bundle;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -30,6 +31,11 @@ public abstract class BaseActivity<P extends BasePresenter> extends MvpActivity<
      */
     protected boolean isRegisterEventBus() {
         return false;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override

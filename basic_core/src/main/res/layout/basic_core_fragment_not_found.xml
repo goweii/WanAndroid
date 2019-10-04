@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:padding="15dp"
-    android:background="@color/black">
+    android:background="@color/invert">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:textSize="@dimen/text_headline"
-        android:textColor="@color/text_white"
+        android:textColor="@color/text_surface"
         android:text="@string/basic_core_fragment_empty"/>
 
     <TextView
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:textSize="@dimen/text_content"
-        android:textColor="@color/text_white"
+        android:textColor="@color/text_surface"
         tools:text="/home/home"/>
 
 </LinearLayout>

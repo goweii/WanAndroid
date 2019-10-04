@@ -1,10 +1,10 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/bg</item>
+        <item name="android:windowBackground">@color/background</item>
     </style>
 
     <style name="AppTheme.Splash">
@@ -49,7 +49,7 @@
     <style name="ActionBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/main</item>
+        <item name="android:background">@color/basic_ui_action_bar_bg</item>
         <item name="ab_autoImmersion">true</item>
         <item name="ab_bottomLineHeight">@dimen/action_bar_bottom_line_height</item>
         <item name="ab_foregroundLayerLayout">@layout/basic_ui_loading_bar</item>
@@ -58,15 +58,15 @@
     </style>
 
     <style name="ActionBar.Common">
-        <item name="abc_titleTextColor">@color/text_white</item>
-        <item name="abc_leftIconColor">@color/white</item>
+        <item name="abc_titleTextColor">@color/basic_ui_action_bar_text</item>
+        <item name="abc_leftIconColor">@color/basic_ui_action_bar_icon</item>
         <item name="abc_leftIconPadding">13dp</item>
         <item name="abc_leftIconMarginLeft">3dp</item>
-        <item name="abc_leftTextColor">@color/white</item>
-        <item name="abc_rightIconColor">@color/white</item>
+        <item name="abc_leftTextColor">@color/basic_ui_action_bar_text</item>
+        <item name="abc_rightIconColor">@color/basic_ui_action_bar_icon</item>
         <item name="abc_rightIconPadding">13dp</item>
         <item name="abc_rightIconMarginRight">3dp</item>
-        <item name="abc_rightTextColor">@color/white</item>
+        <item name="abc_rightTextColor">@color/basic_ui_action_bar_text</item>
     </style>
 
     <style name="ActionBar.Common.Back">
@@ -79,15 +79,15 @@
         <!--标题栏高度-->
         <item name="picture.title_bar.height">@dimen/action_bar_height</item>
         <!--标题栏背景色-->
-        <item name="colorPrimary">@color/main</item>
+        <item name="colorPrimary">@color/basic_ui_action_bar_bg</item>
         <!--状态栏背景色-->
-        <item name="colorPrimaryDark">@color/main</item>
+        <item name="colorPrimaryDark">@color/basic_ui_action_bar_bg</item>
         <!--图片列表占位图-->
         <item name="picture.image.holder">@drawable/image_holder</item>
         <!--拍摄按钮背图标-->
         <!--<item name="picture.camera.icon">@drawable/ic_camera</item>-->
         <!--拍摄按钮背景色-->
-        <item name="picture.camera.bg">@color/white</item>
+        <item name="picture.camera.bg">@color/surface</item>
         <!--是否改变图片列表界面状态栏字体颜色为黑色-->
         <!--<item name="picture.statusFontColor">false</item>-->
         <!--返回键图标-->
@@ -99,9 +99,9 @@
         <!--标题上拉箭头-->
         <!--<item name="picture.arrow_up.icon">@drawable/arrow_up</item>-->
         <!--标题文字颜色-->
-        <item name="picture.title.textColor">@color/white</item>
+        <item name="picture.title.textColor">@color/basic_ui_action_bar_text</item>
         <!--标题栏右边文字-->
-        <item name="picture.right.textColor">@color/white</item>
+        <item name="picture.right.textColor">@color/basic_ui_action_bar_text</item>
         <!--图片列表勾选样式-->
         <item name="picture.checked.style">@drawable/picture_selector_checkbox</item>
         <!--开启图片列表勾选数字模式-->
@@ -109,9 +109,9 @@
         <!--选择图片样式0/9-->
         <item name="picture.style.numComplete">false</item>
         <!--图片列表背景色-->
-        <item name="picture.bg">@color/bg</item>
+        <item name="picture.bg">@color/background</item>
         <!--图片列表底部背景色-->
-        <item name="picture.bottom.bg">@color/white</item>
+        <item name="picture.bottom.bg">@color/surface</item>
         <!--图片列表底部高度-->
         <item name="picture.bottom.height">@dimen/bottom_bar_height</item>
         <!--图片列表预览文字颜色-->
@@ -121,17 +121,17 @@
         <!--图片已选数量圆点背景色-->
         <item name="picture.num.style">@drawable/picture_selector_num_oval</item>
         <!--预览界面标题文字颜色-->
-        <item name="picture.ac_preview.title.textColor">@color/white</item>
+        <item name="picture.ac_preview.title.textColor">@color/basic_ui_action_bar_text</item>
         <!--预览界面已完成文字颜色-->
         <item name="picture.ac_preview.complete.textColor">
             @color/picture_selector_preview_text_color
         </item>
         <!--预览界面标题栏背景色-->
-        <item name="picture.ac_preview.title.bg">@color/main</item>
+        <item name="picture.ac_preview.title.bg">@color/basic_ui_action_bar_bg</item>
         <!--预览界面背景色-->
-        <item name="picture.ac_preview.bg">@color/bg</item>
+        <item name="picture.ac_preview.bg">@color/background</item>
         <!--预览界面底部背景色-->
-        <item name="picture.ac_preview.bottom.bg">@color/white</item>
+        <item name="picture.ac_preview.bottom.bg">@color/surface</item>
         <!--预览界面底部高度-->
         <item name="picture.ac_preview.bottom.height">@dimen/bottom_bar_height</item>
         <!--预览界面返回箭头-->
@@ -139,11 +139,11 @@
         <!--裁剪页面标题高度-->
         <item name="picture.crop.toolbar.height">@dimen/action_bar_height</item>
         <!--裁剪页面标题背景色-->
-        <item name="picture.crop.toolbar.bg">@color/main</item>
+        <item name="picture.crop.toolbar.bg">@color/basic_ui_action_bar_bg</item>
         <!--裁剪页面状态栏颜色-->
-        <item name="picture.crop.status.color">@color/main</item>
+        <item name="picture.crop.status.color">@color/basic_ui_action_bar_bg</item>
         <!--裁剪页面标题文字颜色-->
-        <item name="picture.crop.title.color">@color/white</item>
+        <item name="picture.crop.title.color">@color/basic_ui_action_bar_text</item>
         <!--相册文件夹列表选中图标-->
         <item name="picture.folder_checked_dot">@drawable/orange_oval</item>
     </style>

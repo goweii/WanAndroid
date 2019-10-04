@@ -30,16 +30,17 @@
             android:layout_marginRight="@dimen/margin_middle"
             android:layout_toLeftOf="@+id/dialog_web_iv_close"
             android:padding="13dp"
+            android:tint="@color/basic_ui_action_bar_icon"
             android:src="@drawable/ic_back" />
 
         <ImageView
             android:id="@+id/dialog_web_iv_close"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:background="@drawable/bg_solid_round_color_white_radius_max"
+            android:background="@drawable/bg_solid_round_color_surface_radius_max"
             android:layout_centerInParent="true"
             android:padding="13dp"
-            android:tint="@color/black"
+            android:tint="@color/text_surface"
             android:src="@drawable/ic_close" />
 
         <per.goweii.wanandroid.widget.CollectView

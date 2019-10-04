@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/foreground">
 
     <ImageView
         android:id="@+id/iv_bg"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:background="@color/main"
+        android:background="@color/basic_ui_action_bar_bg"
         android:scaleType="centerCrop"
         android:tint="@color/mine_blur_overlay" />
 
@@ -29,7 +29,7 @@
         android:layout_alignBottom="@+id/iv_bg"
         android:gravity="center"
         android:lines="1"
-        android:textColor="@color/text_white"
+        android:textColor="@color/basic_ui_action_bar_text"
         android:textSize="80sp"
         tools:text="520" />
 

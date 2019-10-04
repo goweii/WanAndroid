@@ -28,6 +28,7 @@ import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
@@ -51,6 +52,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     private static final int REQ_CODE_PERMISSION = 1;
 
+    @BindView(R.id.sc_dark_theme)
+    SwitchCompat sc_dark_theme;
     @BindView(R.id.sc_show_read_later)
     SwitchCompat sc_show_read_later;
     @BindView(R.id.sc_show_top)
@@ -78,6 +81,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     private RuntimeRequester mRuntimeRequester;
     private UpdateUtils mUpdateUtils;
+    private boolean mDarkTheme;
     private boolean mShowTop;
     private boolean mShowBanner;
     private boolean mShowReadLater;
@@ -106,6 +110,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     protected void initView() {
         tv_has_update.setText("");
         tv_curr_version.setText("当前版本" + AppInfoUtils.getVersionName());
+        mDarkTheme = SettingUtils.getInstance().isDarkTheme();
+        sc_dark_theme.setChecked(mDarkTheme);
         mShowTop = SettingUtils.getInstance().isShowTop();
         sc_show_top.setChecked(mShowTop);
         mShowBanner = SettingUtils.getInstance().isShowBanner();
@@ -121,6 +127,18 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         tv_rv_anim.setText(RvAnimUtils.getName(mRvAnim));
         mUrlIntercept = SettingUtils.getInstance().getUrlInterceptType();
         tv_intercept_host.setText(WebUrlInterceptUtils.getName(mUrlIntercept));
+        sc_dark_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+                SettingUtils.getInstance().setDarkTheme(isChecked);
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        WanApp.killProcess();
+                    }
+                }, 300);
+            }
+        });
         sc_show_top.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
@@ -295,7 +313,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             tv_has_update.setTextColor(ResUtils.getColor(R.color.text_main));
             tv_has_update.setText("发现新版本");
         } else {
-            tv_has_update.setTextColor(ResUtils.getColor(R.color.text_gray_light));
+            tv_has_update.setTextColor(ResUtils.getColor(R.color.text_third));
             tv_has_update.setText("已是最新版");
         }
         if (!click) {

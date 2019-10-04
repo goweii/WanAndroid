@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_press_color_white"
+    android:background="@drawable/bg_press_color_surface"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
@@ -12,7 +12,7 @@
         android:layout_height="@dimen/button_height"
         android:gravity="center"
         android:textSize="@dimen/text_content"
-        android:textColor="@color/text_black"
+        android:textColor="@color/text_surface"
         tools:text="列表条目"/>
 
 </LinearLayout>

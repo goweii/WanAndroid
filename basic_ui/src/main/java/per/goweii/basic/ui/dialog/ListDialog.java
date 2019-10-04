@@ -184,7 +184,7 @@ public class ListDialog {
                                 if (helper.getAdapterPosition() == currSelectPos) {
                                     tvName.setTextColor(ResUtils.getColor(R.color.text_main));
                                 } else {
-                                    tvName.setTextColor(ResUtils.getColor(R.color.text_black));
+                                    tvName.setTextColor(ResUtils.getColor(R.color.text_surface));
                                 }
                                 tvName.setText(item);
                             }

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:background="@drawable/bg_solid_round_color_white_top_radius_def"
+    android:background="@drawable/bg_solid_round_color_surface_radius_top_def"
     android:orientation="vertical">
 
     <TextView
@@ -11,50 +11,50 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
         android:layout_marginTop="@dimen/round_radius"
-        android:background="@drawable/bg_press_color_white"
+        android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:text="收藏"
-        android:textColor="@color/text_black"
+        android:textColor="@color/text_surface"
         android:textSize="@dimen/text_content" />
 
     <TextView
         android:id="@+id/dialog_web_menu_tv_read_later"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
-        android:background="@drawable/bg_press_color_white"
+        android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:text="稍后阅读"
-        android:textColor="@color/text_black"
+        android:textColor="@color/text_surface"
         android:textSize="@dimen/text_content" />
 
     <TextView
         android:id="@+id/dialog_web_menu_tv_browser"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
-        android:background="@drawable/bg_press_color_white"
+        android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:text="浏览器打开"
-        android:textColor="@color/text_black"
+        android:textColor="@color/text_surface"
         android:textSize="@dimen/text_content" />
 
     <TextView
         android:id="@+id/dialog_web_menu_tv_close_activity"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
-        android:background="@drawable/bg_press_color_white"
+        android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:text="关闭页面"
-        android:textColor="@color/text_black"
+        android:textColor="@color/text_surface"
         android:textSize="@dimen/text_content" />
 
     <ImageView
         android:id="@+id/dialog_web_menu_iv_close"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
-        android:background="@drawable/bg_press_color_white"
+        android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:padding="15.5dp"
         android:src="@drawable/ic_close"
-        android:tint="@color/black" />
+        android:tint="@color/invert" />
 
 </LinearLayout>

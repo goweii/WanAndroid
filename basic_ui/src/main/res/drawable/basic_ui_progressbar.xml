@@ -19,8 +19,8 @@
                 <gradient
                     android:angle="0"
                     android:centerY="0.5"
-                    android:endColor="@color/gray_light"
-                    android:startColor="@color/gray_light"/>
+                    android:endColor="@color/third"
+                    android:startColor="@color/third" />
             </shape>
         </clip>
     </item>

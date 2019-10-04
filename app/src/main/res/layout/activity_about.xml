@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg">
+    android:background="@color/background">
 
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
@@ -31,7 +31,7 @@
         android:layout_below="@+id/riv_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:textColor="@color/text_gray_dark"
+        android:textColor="@color/text_third"
         android:textSize="@dimen/text_content"
         tools:text="V1.0.0(1)" />
 
@@ -42,7 +42,7 @@
         android:layout_below="@+id/tv_version_name"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
-        android:background="@drawable/bg_press_color_white"
+        android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
@@ -56,7 +56,7 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="官方网站"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_surface"
             android:textSize="@dimen/text_content" />
 
         <ImageView
@@ -65,7 +65,7 @@
             android:rotation="180"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_back"
-            android:tint="@color/gray_light" />
+            android:tint="@color/third" />
 
     </LinearLayout>
 
@@ -75,7 +75,7 @@
         android:layout_height="50dp"
         android:layout_below="@+id/ll_web"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/bg_press_color_white"
+        android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
@@ -89,7 +89,7 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="网站内容"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_surface"
             android:textSize="@dimen/text_content" />
 
         <ImageView
@@ -98,7 +98,7 @@
             android:rotation="180"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_back"
-            android:tint="@color/gray_light" />
+            android:tint="@color/third" />
 
     </LinearLayout>
 
@@ -108,7 +108,7 @@
         android:layout_height="50dp"
         android:layout_below="@+id/ll_about"
         android:layout_centerHorizontal="true"
-        android:background="@drawable/bg_press_color_white"
+        android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:orientation="horizontal"
         android:paddingLeft="16dp"
@@ -122,7 +122,7 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="项目仓库"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_surface"
             android:textSize="@dimen/text_content" />
 
         <ImageView
@@ -131,7 +131,7 @@
             android:rotation="180"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_back"
-            android:tint="@color/gray_light" />
+            android:tint="@color/third" />
 
     </LinearLayout>
 
@@ -142,7 +142,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
         android:text="本APP由Goweii独立开发"
-        android:textColor="@color/text_gray_light"
+        android:textColor="@color/text_second"
         android:textSize="@dimen/text_notes" />
 
 </RelativeLayout>

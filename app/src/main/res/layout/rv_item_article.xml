@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
-    android:background="@drawable/bg_press_color_white"
+    android:background="@drawable/bg_press_color_surface"
     android:orientation="vertical"
     android:padding="16dp">
 
@@ -39,7 +39,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="3dp"
                 android:layout_marginRight="3dp"
-                android:background="@drawable/bg_solid_round_color_bg_dark_radius_max" />
+                android:background="@drawable/bg_solid_round_color_background_mask_radius_max" />
 
         </LinearLayout>
 
@@ -49,8 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ll_new"
-            android:background="@drawable/bg_press_color_white_radius_def"
-            android:textColor="@color/text_gray_dark"
+            android:background="@drawable/bg_press_color_surface_radius_def"
+            android:textColor="@color/text_second"
             android:textSize="@dimen/text_notes"
             tools:text="林帅并不帅" />
 
@@ -79,7 +79,7 @@
             android:layout_alignBottom="@+id/tv_author"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/text_gray_light"
+            android:textColor="@color/text_third"
             android:textSize="@dimen/text_notes"
             tools:text="21小时前" />
 
@@ -98,7 +98,7 @@
             android:layout_width="120dp"
             android:layout_height="80dp"
             android:layout_marginRight="10dp"
-            android:background="@color/bg"
+            android:background="@color/background"
             android:scaleType="centerCrop"
             android:visibility="gone"
             app:riv_corner_radius="3dp"
@@ -120,7 +120,7 @@
                 android:lineSpacingExtra="0dp"
                 android:maxLines="3"
                 android:singleLine="false"
-                android:textColor="@color/text_black"
+                android:textColor="@color/text_surface"
                 android:textSize="@dimen/text_content"
                 tools:singleLine="true"
                 tools:text="公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势" />
@@ -135,7 +135,7 @@
                 android:includeFontPadding="true"
                 android:lineSpacingExtra="0dp"
                 android:maxLines="3"
-                android:textColor="@color/text_gray_light"
+                android:textColor="@color/text_second"
                 android:textSize="@dimen/text_auxiliary"
                 android:visibility="gone"
                 tools:text="公众号文章列表强势上线"
@@ -157,7 +157,7 @@
             android:id="@+id/tv_super_chapter_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_gray_light"
+            android:textColor="@color/text_third"
             android:textSize="@dimen/text_notes"
             tools:text="动画效果" />
 
@@ -172,7 +172,7 @@
                 android:layout_width="2dp"
                 android:layout_height="2dp"
                 android:layout_gravity="center"
-                android:background="@drawable/bg_solid_round_color_bg_dark_radius_max" />
+                android:background="@drawable/bg_solid_round_color_background_mask_radius_max" />
 
         </FrameLayout>
 
@@ -180,7 +180,7 @@
             android:id="@+id/tv_chapter_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_gray_light"
+            android:textColor="@color/text_third"
             android:textSize="@dimen/text_notes"
             tools:text="Lottie" />
 

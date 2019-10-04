@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/foreground">
 
     <ImageView
         android:id="@+id/iv_blur"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:background="@color/main"
+        android:background="@color/basic_ui_action_bar_bg"
         android:scaleType="centerCrop"
         android:tint="@color/mine_blur_overlay" />
 
@@ -44,7 +44,7 @@
                         android:layout_height="80dp"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="80dp"
-                        android:background="@color/white_alpha"
+                        android:background="@color/surface_mask"
                         android:scaleType="centerCrop"
                         app:riv_corner_radius="80dp"
                         app:riv_mutate_background="true" />
@@ -56,7 +56,7 @@
                         android:layout_below="@+id/civ_user_icon"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:textColor="@color/white"
+                        android:textColor="@color/basic_ui_action_bar_text"
                         android:textSize="@dimen/text_headline"
                         tools:text="GOWEII" />
 
@@ -74,14 +74,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="ID:"
-                            android:textColor="@color/white"
+                            android:textColor="@color/basic_ui_action_bar_text"
                             android:textSize="@dimen/text_notes" />
 
                         <TextView
                             android:id="@+id/tv_user_id"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="@color/basic_ui_action_bar_text"
                             android:textSize="@dimen/text_notes"
                             tools:text="-----" />
 
@@ -105,14 +105,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="等级:"
-                                android:textColor="@color/white"
+                                android:textColor="@color/basic_ui_action_bar_text"
                                 android:textSize="@dimen/text_notes" />
 
                             <TextView
                                 android:id="@+id/tv_user_level"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/white"
+                                android:textColor="@color/basic_ui_action_bar_text"
                                 android:textSize="@dimen/text_notes"
                                 tools:text="15" />
 
@@ -132,14 +132,14 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="排名:"
-                                android:textColor="@color/white"
+                                android:textColor="@color/basic_ui_action_bar_text"
                                 android:textSize="@dimen/text_notes" />
 
                             <TextView
                                 android:id="@+id/tv_user_ranking"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textColor="@color/white"
+                                android:textColor="@color/basic_ui_action_bar_text"
                                 android:textSize="@dimen/text_notes"
                                 tools:text="71" />
 
@@ -158,7 +158,7 @@
                         android:id="@+id/ll_coin"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@drawable/bg_press_color_white"
+                        android:background="@drawable/bg_press_color_surface"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="16dp"
@@ -179,7 +179,7 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:text="我的积分"
-                            android:textColor="@color/text_black"
+                            android:textColor="@color/text_surface"
                             android:textSize="@dimen/text_content" />
 
                         <TextView
@@ -189,7 +189,7 @@
                             android:layout_marginRight="5dp"
                             android:singleLine="true"
                             android:text=""
-                            android:textColor="@color/text_gray_light"
+                            android:textColor="@color/text_second"
                             android:textSize="@dimen/text_notes"
                             tools:text="520" />
 
@@ -199,7 +199,7 @@
                             android:rotation="180"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_back"
-                            android:tint="@color/gray_light" />
+                            android:tint="@color/third" />
 
                     </LinearLayout>
 
@@ -207,7 +207,7 @@
                         android:id="@+id/ll_collect"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@drawable/bg_press_color_white"
+                        android:background="@drawable/bg_press_color_surface"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="16dp"
@@ -228,7 +228,7 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:text="我的收藏"
-                            android:textColor="@color/text_black"
+                            android:textColor="@color/text_surface"
                             android:textSize="@dimen/text_content" />
 
                         <ImageView
@@ -237,7 +237,7 @@
                             android:rotation="180"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_back"
-                            android:tint="@color/gray_light" />
+                            android:tint="@color/third" />
 
                     </LinearLayout>
 
@@ -245,7 +245,7 @@
                         android:id="@+id/ll_read_later"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@drawable/bg_press_color_white"
+                        android:background="@drawable/bg_press_color_surface"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="16dp"
@@ -266,7 +266,7 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:text="稍后阅读"
-                            android:textColor="@color/text_black"
+                            android:textColor="@color/text_surface"
                             android:textSize="@dimen/text_content" />
 
                         <ImageView
@@ -275,7 +275,7 @@
                             android:rotation="180"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_back"
-                            android:tint="@color/gray_light" />
+                            android:tint="@color/third" />
 
                     </LinearLayout>
 
@@ -283,7 +283,7 @@
                         android:id="@+id/ll_open"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@drawable/bg_press_color_white"
+                        android:background="@drawable/bg_press_color_surface"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="16dp"
@@ -304,7 +304,7 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:text="开源项目"
-                            android:textColor="@color/text_black"
+                            android:textColor="@color/text_surface"
                             android:textSize="@dimen/text_content" />
 
                         <ImageView
@@ -313,7 +313,7 @@
                             android:rotation="180"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_back"
-                            android:tint="@color/gray_light" />
+                            android:tint="@color/third" />
 
                     </LinearLayout>
 
@@ -321,7 +321,7 @@
                         android:id="@+id/ll_about_me"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@drawable/bg_press_color_white"
+                        android:background="@drawable/bg_press_color_surface"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="16dp"
@@ -342,7 +342,7 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:text="关于作者"
-                            android:textColor="@color/text_black"
+                            android:textColor="@color/text_surface"
                             android:textSize="@dimen/text_content" />
 
                         <ImageView
@@ -351,7 +351,7 @@
                             android:rotation="180"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_back"
-                            android:tint="@color/gray_light" />
+                            android:tint="@color/third" />
 
                     </LinearLayout>
 
@@ -359,7 +359,7 @@
                         android:id="@+id/ll_setting"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
-                        android:background="@drawable/bg_press_color_white"
+                        android:background="@drawable/bg_press_color_surface"
                         android:gravity="center"
                         android:orientation="horizontal"
                         android:paddingLeft="16dp"
@@ -380,7 +380,7 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:text="系统设置"
-                            android:textColor="@color/text_black"
+                            android:textColor="@color/text_surface"
                             android:textSize="@dimen/text_content" />
 
                         <ImageView
@@ -389,7 +389,7 @@
                             android:rotation="180"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_back"
-                            android:tint="@color/gray_light" />
+                            android:tint="@color/third" />
 
                     </LinearLayout>
 

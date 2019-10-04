@@ -53,19 +53,19 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHold
         TextView tv_index = helper.getView(R.id.tv_index);
         if (index == 1) {
             iv_index.setImageResource(R.drawable.ic_rank_1);
-            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_white_alpha));
+            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_surface_alpha));
             tv_index.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv_index.getContext().getResources().getDimension(R.dimen.text_auxiliary));
         } else if (index == 2) {
             iv_index.setImageResource(R.drawable.ic_rank_2);
-            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_white_alpha));
+            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_surface_alpha));
             tv_index.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv_index.getContext().getResources().getDimension(R.dimen.text_auxiliary));
         } else if (index == 3) {
             iv_index.setImageResource(R.drawable.ic_rank_3);
-            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_white_alpha));
+            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_surface_alpha));
             tv_index.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv_index.getContext().getResources().getDimension(R.dimen.text_auxiliary));
         } else {
             iv_index.setImageResource(R.color.transparent);
-            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_gray_light));
+            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_second));
             tv_index.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv_index.getContext().getResources().getDimension(R.dimen.text_content));
         }
     }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
@@ -166,28 +167,28 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public void onPageSelected(int i) {
-        iv_bb_home.setImageResource(R.drawable.ic_home_normal);
-        iv_bb_knowledge.setImageResource(R.drawable.ic_book_normal);
-        iv_bb_wechat.setImageResource(R.drawable.ic_wechat_normal);
-        iv_bb_project.setImageResource(R.drawable.ic_project_normal);
-        iv_bb_mine.setImageResource(R.drawable.ic_mine_normal);
+        iv_bb_home.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
+        iv_bb_knowledge.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
+        iv_bb_wechat.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
+        iv_bb_project.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
+        iv_bb_mine.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
         switch (i) {
             default:
                 break;
             case 0:
-                iv_bb_home.setImageResource(R.drawable.ic_home_selected);
+                iv_bb_home.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
                 break;
             case 1:
-                iv_bb_knowledge.setImageResource(R.drawable.ic_book_selected);
+                iv_bb_knowledge.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
                 break;
             case 2:
-                iv_bb_wechat.setImageResource(R.drawable.ic_wechat_selected);
+                iv_bb_wechat.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
                 break;
             case 3:
-                iv_bb_project.setImageResource(R.drawable.ic_project_selected);
+                iv_bb_project.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
                 break;
             case 4:
-                iv_bb_mine.setImageResource(R.drawable.ic_mine_selected);
+                iv_bb_mine.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
                 break;
         }
     }

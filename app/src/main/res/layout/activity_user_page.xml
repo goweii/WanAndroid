@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg">
+    android:background="@color/background">
 
     <ImageView
         android:id="@+id/iv_blur"
         android:layout_width="match_parent"
         android:layout_height="260dp"
-        android:background="@color/main"
+        android:background="@color/basic_ui_action_bar_bg"
         android:scaleType="centerCrop"
         android:tint="@color/mine_blur_overlay" />
 
@@ -36,7 +36,7 @@
                     android:layout_height="80dp"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="80dp"
-                    android:background="@color/white_alpha"
+                    android:background="@color/surface_mask"
                     android:scaleType="centerCrop"
                     app:riv_corner_radius="80dp"
                     app:riv_mutate_background="true" />
@@ -48,7 +48,7 @@
                     android:layout_below="@+id/civ_user_icon"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/basic_ui_action_bar_text"
                     android:textSize="@dimen/text_headline"
                     android:text="-----" />
 
@@ -66,14 +66,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="ID:"
-                        android:textColor="@color/white"
+                        android:textColor="@color/basic_ui_action_bar_text"
                         android:textSize="@dimen/text_notes" />
 
                     <TextView
                         android:id="@+id/tv_user_id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/white"
+                        android:textColor="@color/basic_ui_action_bar_text"
                         android:textSize="@dimen/text_notes"
                         android:text="-----" />
 
@@ -97,14 +97,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="积分:"
-                            android:textColor="@color/white"
+                            android:textColor="@color/basic_ui_action_bar_text"
                             android:textSize="@dimen/text_notes" />
 
                         <TextView
                             android:id="@+id/tv_user_coin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="@color/basic_ui_action_bar_text"
                             android:textSize="@dimen/text_notes"
                             android:text="--" />
 
@@ -124,14 +124,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="排名:"
-                            android:textColor="@color/white"
+                            android:textColor="@color/basic_ui_action_bar_text"
                             android:textSize="@dimen/text_notes" />
 
                         <TextView
                             android:id="@+id/tv_user_ranking"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
+                            android:textColor="@color/basic_ui_action_bar_text"
                             android:textSize="@dimen/text_notes"
                             android:text="--" />
 

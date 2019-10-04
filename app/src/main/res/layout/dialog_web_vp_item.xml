@@ -13,7 +13,7 @@
         android:layout_marginBottom="76dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/surface"
         app:cardCornerRadius="@dimen/round_radius"
         app:cardElevation="0dp"
         tools:context=".module.main.activity.MainActivity">

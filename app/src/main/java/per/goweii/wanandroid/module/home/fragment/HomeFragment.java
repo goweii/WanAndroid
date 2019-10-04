@@ -587,12 +587,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     public void getConfigSuccess(ConfigBean configBean) {
         if (configBean.getHomeTitle() != null) {
             if (mConfigBean == null || !TextUtils.equals(mConfigBean.getHomeTitle(), configBean.getHomeTitle())) {
-                abc.getTitleTextView().setText(configBean.getHomeTitle());
+                if (configBean.getHomeTitle() == null) {
+                    abc.getTitleTextView().setText("首页");
+                } else {
+                    abc.getTitleTextView().setText(configBean.getHomeTitle());
+                }
             }
         }
         if (TextUtils.isEmpty(configBean.getActionBarBgImageUrl())) {
             if (TextUtils.isEmpty(configBean.getActionBarBgColor())) {
-                abc.setBackgroundResource(R.color.main);
+                abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
             } else {
                 if (mConfigBean == null || !TextUtils.equals(mConfigBean.getActionBarBgColor(), configBean.getActionBarBgColor())) {
                     try {
@@ -605,7 +609,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             }
         } else {
             if (TextUtils.isEmpty(configBean.getActionBarBgColor())) {
-                abc.setBackgroundResource(R.color.main);
+                abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
             } else {
                 if (mConfigBean == null || !TextUtils.equals(mConfigBean.getActionBarBgColor(), configBean.getActionBarBgColor())) {
                     try {

@@ -12,6 +12,7 @@ import per.goweii.basic.utils.SPUtils;
 public class SettingUtils {
 
     private static final String SP_NAME = "setting";
+    private static final String KEY_DARK_THEME = "KEY_DARK_THEME";
     private static final String KEY_SHOW_READ_LATER = "KEY_SHOW_READ_LATER";
     private static final String KEY_SHOW_TOP = "KEY_SHOW_TOP";
     private static final String KEY_SHOW_BANNER = "KEY_SHOW_BANNER";
@@ -25,6 +26,7 @@ public class SettingUtils {
 
     private final SPUtils mSPUtils = SPUtils.newInstance(SP_NAME);
 
+    private boolean mDarkTheme = false;
     private boolean mShowReadLater = true;
     private boolean mShowTop = true;
     private boolean mShowBanner = true;
@@ -45,6 +47,7 @@ public class SettingUtils {
     }
 
     private SettingUtils() {
+        mDarkTheme = mSPUtils.get(KEY_DARK_THEME, mDarkTheme);
         mShowReadLater = mSPUtils.get(KEY_SHOW_READ_LATER, mShowReadLater);
         mShowTop = mSPUtils.get(KEY_SHOW_TOP, mShowTop);
         mShowBanner = mSPUtils.get(KEY_SHOW_BANNER, mShowBanner);
@@ -55,6 +58,15 @@ public class SettingUtils {
         mUrlInterceptType = mSPUtils.get(KEY_URL_INTERCEPT_TYPE, mUrlInterceptType);
         mSearchHistoryMaxCount = mSPUtils.get(KEY_SEARCH_HISTORY_MAX_COUNT, mSearchHistoryMaxCount);
         mUpdateIgnoreDuration = mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, mUpdateIgnoreDuration);
+    }
+
+    public void setDarkTheme(boolean darkTheme) {
+        mDarkTheme = darkTheme;
+        mSPUtils.save(KEY_DARK_THEME, darkTheme);
+    }
+
+    public boolean isDarkTheme() {
+        return mDarkTheme;
     }
 
     public void setShowReadLater(boolean showReadLater) {

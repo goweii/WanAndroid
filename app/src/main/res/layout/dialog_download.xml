@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="46dp"
     android:layout_gravity="center"
-    android:background="@drawable/bg_solid_round_color_white_radius_def"
+    android:background="@drawable/bg_solid_round_color_surface_radius_def"
     android:orientation="vertical">
 
     <ImageView
@@ -26,7 +26,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginRight="16dp"
         android:text="@string/basic_ui_dialog_download_state_downloading"
-        android:textColor="@color/text_black"
+        android:textColor="@color/text_surface"
         android:textSize="@dimen/text_content" />
 
     <ProgressBar
@@ -59,7 +59,7 @@
             android:layout_centerVertical="true"
             android:gravity="center"
             tools:text="10%"
-            android:textColor="@color/text_gray_light"
+            android:textColor="@color/text_second"
             android:textSize="@dimen/text_notes" />
 
         <LinearLayout
@@ -73,7 +73,7 @@
                 android:id="@+id/tv_dialog_download_speed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_gray_light"
+                android:textColor="@color/text_second"
                 android:textSize="@dimen/text_notes"
                 tools:text="1MB/s" />
 
@@ -85,7 +85,7 @@
                 android:layout_marginLeft="5dp"
                 android:visibility="invisible"
                 android:layout_marginRight="5dp"
-                android:textColor="@color/text_gray_light"
+                android:textColor="@color/text_second"
                 android:textSize="@dimen/text_notes"
                 android:text="|" />
 
@@ -94,7 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@color/text_gray_light"
+                android:textColor="@color/text_second"
                 android:textSize="@dimen/text_notes"
                 tools:text="40M" />
 

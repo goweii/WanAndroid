@@ -14,7 +14,7 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:background="@color/foreground"
         app:srlEnablePureScrollMode="true">
 
         <ScrollView
@@ -31,7 +31,47 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="14dp">
+
+                    <TextView
+                        android:id="@+id/tv_dark_theme_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="暗色模式"
+                        android:textColor="@color/text_surface"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_dark_theme_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_dark_theme_title"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="80dp"
+                        android:layout_toLeftOf="@+id/sc_dark_theme"
+                        android:text="切换后需要重启APP"
+                        android:textColor="@color/text_third"
+                        android:textSize="@dimen/text_notes" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/sc_dark_theme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_press_color_surface"
                     android:paddingLeft="16dp"
                     android:paddingTop="14dp"
                     android:paddingRight="16dp"
@@ -43,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="稍后阅读"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -56,7 +96,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_read_later"
                         android:text="不同于收藏，此功能无需登录，为本地操作，更换手机或重置APP后已添加的数据将丢失"
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
@@ -71,7 +111,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:paddingLeft="16dp"
                     android:paddingTop="14dp"
                     android:paddingRight="16dp"
@@ -83,7 +123,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="显示置顶"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -96,7 +136,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_top"
                         android:text="开启后首页显示置顶文章"
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
@@ -111,7 +151,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:paddingLeft="16dp"
                     android:paddingTop="14dp"
                     android:paddingRight="16dp"
@@ -123,7 +163,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="显示轮播"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -136,7 +176,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_banner"
                         android:text="开启后首页显示轮播图"
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
@@ -151,7 +191,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:paddingLeft="16dp"
                     android:paddingTop="14dp"
                     android:paddingRight="16dp"
@@ -163,7 +203,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="隐藏关于作者"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -176,7 +216,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_hide_about_me"
                         android:text="开启后隐藏我的页面的关于作者入口"
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
@@ -191,7 +231,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:paddingLeft="16dp"
                     android:paddingTop="14dp"
                     android:paddingRight="16dp"
@@ -203,7 +243,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="隐藏开源项目"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -216,7 +256,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_hide_open"
                         android:text="开启后隐藏我的页面的开源项目入口"
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
@@ -231,7 +271,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:paddingLeft="16dp"
                     android:paddingTop="14dp"
                     android:paddingRight="16dp"
@@ -243,7 +283,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="网页边缘滑动返回"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -256,7 +296,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_web_swipeback_edge"
                         android:text="开启后网页仅在边缘可触发滑动返回，避免左右滑动代码时误触发滑动返回"
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
@@ -272,7 +312,7 @@
                     android:id="@+id/ll_intercept_host"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingLeft="16dp"
@@ -285,7 +325,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="网页拦截"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -295,7 +335,7 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes"
                         tools:text="不拦截" />
 
@@ -305,7 +345,7 @@
                         android:rotation="180"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_back"
-                        android:tint="@color/gray_light" />
+                        android:tint="@color/third" />
 
                 </LinearLayout>
 
@@ -313,7 +353,7 @@
                     android:id="@+id/ll_rv_anim"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingLeft="16dp"
@@ -326,7 +366,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="列表动画"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -336,7 +376,7 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes"
                         tools:text="无" />
 
@@ -346,7 +386,7 @@
                         android:rotation="180"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_back"
-                        android:tint="@color/gray_light" />
+                        android:tint="@color/third" />
 
                 </LinearLayout>
 
@@ -354,7 +394,7 @@
                     android:id="@+id/ll_cache"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingLeft="16dp"
@@ -367,7 +407,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="清除缓存"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -377,7 +417,7 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes"
                         tools:text="100MB" />
 
@@ -387,7 +427,7 @@
                         android:rotation="180"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_back"
-                        android:tint="@color/gray_light" />
+                        android:tint="@color/third" />
 
                 </LinearLayout>
 
@@ -395,7 +435,7 @@
                     android:id="@+id/ll_update"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingLeft="16dp"
@@ -408,7 +448,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="版本更新"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -418,7 +458,7 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes"
                         tools:text="已是最新版本" />
 
@@ -428,7 +468,7 @@
                         android:rotation="180"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_back"
-                        android:tint="@color/gray_light" />
+                        android:tint="@color/third" />
 
                 </LinearLayout>
 
@@ -436,7 +476,7 @@
                     android:id="@+id/ll_about"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingLeft="16dp"
@@ -449,7 +489,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="关于我们"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -459,7 +499,7 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_gray_light"
+                        android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes"
                         tools:text="1.0.0" />
 
@@ -469,7 +509,7 @@
                         android:rotation="180"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_back"
-                        android:tint="@color/gray_light" />
+                        android:tint="@color/third" />
 
                 </LinearLayout>
 
@@ -477,7 +517,7 @@
                     android:id="@+id/ll_logout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@drawable/bg_press_color_white"
+                    android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingLeft="16dp"
@@ -490,7 +530,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="退出登录"
-                        android:textColor="@color/text_black"
+                        android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                 </LinearLayout>

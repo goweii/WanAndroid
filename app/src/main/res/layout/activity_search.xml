@@ -10,18 +10,18 @@
     <per.goweii.actionbarex.common.ActionBarSearch
         android:id="@+id/abs"
         app:abs_leftIconRes="@drawable/ic_back"
-        app:abs_leftIconColor="@color/white"
+        app:abs_leftIconColor="@color/basic_ui_action_bar_icon"
         app:abs_leftIconPadding="13dp"
         app:abs_leftIconClickToFinish="true"
-        app:abs_titleHintColor="@color/white_alpha"
+        app:abs_titleHintColor="@color/basic_ui_action_bar_text_alpha"
         app:abs_titleBgRes="@drawable/action_search_bg"
         app:abs_titleMarginVertical="6dp"
         app:abs_rightText="搜索"
         app:abs_titleHintText="用空格隔开多个关键词"
         app:abs_titleTextSize="@dimen/text_content"
-        app:abs_titleTextColor="@color/text_white"
+        app:abs_titleTextColor="@color/basic_ui_action_bar_text"
         app:abs_titlePaddingHorizontal="15dp"
-        app:abs_rightTextColor="@color/white"
+        app:abs_rightTextColor="@color/basic_ui_action_bar_text"
         app:abs_rightTextPaddingRight="16dp"
         style="@style/ActionBar"/>
 

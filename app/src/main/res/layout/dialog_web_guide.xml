@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="双击网页任意位置收藏文章"
-        android:textColor="@color/text_white"
+        android:textColor="@color/basic_ui_action_bar_text"
         android:textSize="@dimen/text_title" />
 
     <TextView
@@ -48,7 +48,7 @@
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:text="知道了"
-        android:textColor="@color/text_white"
+        android:textColor="@color/basic_ui_action_bar_text"
         android:textSize="@dimen/text_content" />
 
 </RelativeLayout>

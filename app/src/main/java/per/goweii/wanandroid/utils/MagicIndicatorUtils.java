@@ -50,8 +50,8 @@ public class MagicIndicatorUtils {
                 SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
                 simplePagerTitleView.setText(Html.fromHtml(adapter.getPageTitle(index).toString()));
                 simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ResUtils.getDimens(R.dimen.title_bar_text_size_def));
-                simplePagerTitleView.setSelectedColor(ResUtils.getColor(R.color.text_white));
-                simplePagerTitleView.setNormalColor(ResUtils.getColor(R.color.text_white_alpha));
+                simplePagerTitleView.setSelectedColor(ResUtils.getColor(R.color.basic_ui_action_bar_text));
+                simplePagerTitleView.setNormalColor(ResUtils.getColor(R.color.basic_ui_action_bar_text_alpha));
                 int paddingH = (int) DisplayInfoUtils.getInstance().dp2px(8);
                 int paddingV = (int) DisplayInfoUtils.getInstance().dp2px(5);
                 simplePagerTitleView.setPadding(paddingH, paddingV, paddingH, paddingV);
@@ -69,11 +69,6 @@ public class MagicIndicatorUtils {
 
             @Override
             public IPagerIndicator getIndicator(Context context) {
-//                WrapPagerIndicator indicator = new WrapPagerIndicator(context);
-//                indicator.setFillColor(ResUtils.getColor(R.color.black_alpha));
-//                indicator.setVerticalPadding((int) DisplayInfoUtils.getInstance().dp2px(5));
-//                indicator.setHorizontalPadding((int) DisplayInfoUtils.getInstance().dp2px(15));
-//                return indicator;
                 return null;
             }
         });
@@ -101,8 +96,8 @@ public class MagicIndicatorUtils {
                 SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
                 simplePagerTitleView.setText(Html.fromHtml(adapter.getPageTitle(index).toString()));
                 simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ResUtils.getDimens(R.dimen.title_bar_title_text_size_def));
-                simplePagerTitleView.setSelectedColor(ResUtils.getColor(R.color.text_white));
-                simplePagerTitleView.setNormalColor(ResUtils.getColor(R.color.text_white_alpha));
+                simplePagerTitleView.setSelectedColor(ResUtils.getColor(R.color.basic_ui_action_bar_text));
+                simplePagerTitleView.setNormalColor(ResUtils.getColor(R.color.basic_ui_action_bar_text_alpha));
                 int paddingH = (int) DisplayInfoUtils.getInstance().dp2px(8);
                 int paddingV = (int) DisplayInfoUtils.getInstance().dp2px(5);
                 simplePagerTitleView.setPadding(paddingH, paddingV, paddingH, paddingV);
@@ -120,15 +115,6 @@ public class MagicIndicatorUtils {
 
             @Override
             public IPagerIndicator getIndicator(Context context) {
-//                LinePagerIndicator indicator = new LinePagerIndicator(context);
-//                indicator.setMode(LinePagerIndicator.MODE_EXACTLY);
-//                indicator.setLineHeight(UIUtil.dip2px(context, 3));
-//                indicator.setLineWidth(UIUtil.dip2px(context, 16));
-//                indicator.setRoundRadius(UIUtil.dip2px(context, 1.5));
-//                indicator.setStartInterpolator(new AccelerateInterpolator());
-//                indicator.setEndInterpolator(new DecelerateInterpolator(2.0f));
-//                indicator.setColors(ResUtils.getColor(R.color.white));
-//                return indicator;
                 return null;
             }
         });

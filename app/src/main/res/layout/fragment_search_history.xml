@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/foreground"
     android:orientation="vertical">
 
     <TextView
@@ -69,7 +69,7 @@
                 android:layout_gravity="center_vertical|right"
                 android:layout_marginRight="16dp"
                 android:text="清除"
-                android:textColor="@color/gray_light"
+                android:textColor="@color/third"
                 android:textSize="@dimen/text_notes" />
 
         </FrameLayout>

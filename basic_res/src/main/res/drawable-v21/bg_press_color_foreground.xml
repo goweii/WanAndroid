@@ -5,7 +5,7 @@
     <item>
         <shape>
             <!-- 中间的背景色-->
-            <solid android:color="@color/white"/>
+            <solid android:color="@color/foreground" />
         </shape>
     </item>
 </ripple>

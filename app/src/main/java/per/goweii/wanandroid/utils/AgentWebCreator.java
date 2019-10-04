@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -28,6 +29,7 @@ import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
+import per.goweii.wanandroid.widget.WebContainer;
 
 /**
  * @author CuiZhen
@@ -39,11 +41,20 @@ import per.goweii.wanandroid.common.WanApp;
 public class AgentWebCreator {
 
     public static AgentWeb create(Activity activity,
-                                  FrameLayout container,
+                                  WebContainer container,
                                   String url,
                                   final ClientCallback clientCallback) {
+        FrameLayout webContainer = container;
+        if (SettingUtils.getInstance().isDarkTheme()) {
+            webContainer = new FrameLayout(container.getContext());
+            container.addView(webContainer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            View view = new View(container.getContext());
+            view.setBackgroundResource(R.color.background);
+            view.setAlpha(0.6F);
+            container.addView(view, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        }
         AgentWeb agentWeb = AgentWeb.with(activity)
-                .setAgentWebParent(container, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+                .setAgentWebParent(webContainer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator(ResUtils.getColor(R.color.assist), 1)
                 .interceptUnkownUrl()
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
@@ -66,7 +77,7 @@ public class AgentWebCreator {
         return agentWeb;
     }
 
-    public static AgentWeb create(Activity activity, FrameLayout container, String url) {
+    public static AgentWeb create(Activity activity, WebContainer container, String url) {
         return create(activity, container, url, null);
     }
 
@@ -103,6 +114,7 @@ public class AgentWebCreator {
             cookieManager.flush();
         }
     }
+
 
     public interface ClientCallback {
         void onReceivedUrl(String url);

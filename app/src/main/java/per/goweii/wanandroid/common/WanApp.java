@@ -1,6 +1,8 @@
 package per.goweii.wanandroid.common;
 
 import android.app.Activity;
+import android.content.res.Configuration;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -14,6 +16,7 @@ import per.goweii.burred.Blurred;
 import per.goweii.rxhttp.core.RxHttp;
 import per.goweii.wanandroid.http.RxHttpRequestSetting;
 import per.goweii.wanandroid.http.WanCache;
+import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -30,6 +33,7 @@ public class WanApp extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
+        setDarkModeStatus();
         RxHttp.init(this);
         RxHttp.initRequest(new RxHttpRequestSetting(getCookieJar()));
         WanCache.init();
@@ -41,6 +45,19 @@ public class WanApp extends BaseApp {
             }
         });
         Realm.init(this);
+    }
+
+    public static boolean getDarkModeStatus() {
+        int mode = getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+        return mode == Configuration.UI_MODE_NIGHT_YES;
+    }
+
+    public static void setDarkModeStatus() {
+        if (SettingUtils.getInstance().isDarkTheme()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
     }
 
     public static PersistentCookieJar getCookieJar() {

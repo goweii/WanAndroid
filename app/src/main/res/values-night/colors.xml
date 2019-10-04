@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/main</color>
+    <color name="colorPrimaryDark">@color/transparent</color>
+    <color name="colorAccent">@color/main</color>
+
+    <color name="ic_launcher_background_start">@color/main</color>
+    <color name="ic_launcher_background_end">@color/main</color>
+
+    <color name="bottom_bar_overlay">@color/background_alpha</color>
+    <color name="mine_blur_overlay">@color/background_alpha</color>
+    <color name="about_me_blur_overlay">@color/background_alpha</color>
+</resources>

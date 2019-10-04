@@ -26,7 +26,7 @@ import per.goweii.basic.utils.LogUtils;
  * @author Cuizhen
  * @date 2018/6/25-上午10:39
  */
-class App extends Application {
+class App extends Application implements Application.ActivityLifecycleCallbacks {
 
     private static final String TAG = App.class.getSimpleName();
 
@@ -213,6 +213,14 @@ class App extends Application {
         finishAllActivity();
     }
 
+    /**
+     * 退出应用程序
+     */
+    public static void killProcess() {
+        exitApp();
+        Process.killProcess(Process.myPid());
+    }
+
     public static void finishActivityWithoutCount(int count) {
         if (activities == null || activities.isEmpty()) {
             return;
@@ -263,7 +271,8 @@ class App extends Application {
         MultiDex.install(this);
     }
 
-    public void activityCreated(Activity activity) {
+    @Override
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         if (activity == null) {
             return;
         }
@@ -302,9 +311,36 @@ class App extends Application {
                 break;
         }
         activities.add(activity);
+        LogUtils.i(TAG, activities);
     }
 
-    public void activityDestroyed(Activity activity) {
+    @Override
+    public void onActivityStarted(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
         if (activity == null) {
             return;
         }
@@ -314,47 +350,11 @@ class App extends Application {
         if (activities.contains(activity)) {
             activities.remove(activity);
         }
+        LogUtils.i(TAG, activities);
     }
 
     private void registerActivityListener() {
-        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
-            @Override
-            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-                activityCreated(activity);
-                LogUtils.i(TAG, activities);
-            }
-
-            @Override
-            public void onActivityStarted(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityResumed(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityPaused(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivityStopped(Activity activity) {
-
-            }
-
-            @Override
-            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
-            }
-
-            @Override
-            public void onActivityDestroyed(Activity activity) {
-                activityDestroyed(activity);
-                LogUtils.i(TAG, activities);
-            }
-        });
+        registerActivityLifecycleCallbacks(this);
     }
 
     @IntDef({FLAG_CLEAR_TOP, FLAG_CLEAR_OLD})

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main"
+    android:background="@color/basic_ui_action_bar_bg"
     android:clipChildren="false">
 
     <per.goweii.actionbarex.common.ActionBarCommon
@@ -33,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:text="欢迎使用"
-            android:textColor="@color/text_white"
+            android:textColor="@color/basic_ui_action_bar_text"
             android:textSize="@dimen/text_headline" />
 
         <TextView
@@ -42,7 +41,7 @@
             android:layout_marginTop="5dp"
             android:alpha="0.8"
             android:text="本APP由Goweii独立开发"
-            android:textColor="@color/text_white"
+            android:textColor="@color/basic_ui_action_bar_text"
             android:textSize="@dimen/text_notes" />
 
     </LinearLayout>
@@ -62,7 +61,7 @@
             android:layout_marginLeft="-170dp"
             android:layout_marginRight="-170dp"
             android:alpha="0.7"
-            android:background="@drawable/bg_solid_round_color_white_radius_max"
+            android:background="@drawable/bg_solid_round_color_surface_radius_max"
             app:piv_basics="width"
             app:piv_percent="1" />
 
@@ -73,7 +72,7 @@
             android:layout_marginLeft="-150dp"
             android:layout_marginRight="-190dp"
             android:alpha="0.7"
-            android:background="@drawable/bg_solid_round_color_white_radius_max"
+            android:background="@drawable/bg_solid_round_color_surface_radius_max"
             app:piv_basics="width"
             app:piv_percent="1" />
 
@@ -95,7 +94,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center"
         android:text=""
-        android:textColor="@color/text_gray_light"
+        android:textColor="@color/text_second"
         android:textSize="@dimen/text_notes" />
 
 </RelativeLayout>

@@ -17,12 +17,12 @@
             android:id="@+id/tv_copy"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/gray_light"
+            android:background="@color/third"
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="复制链接"
-            android:textColor="@color/text_white"
+            android:textColor="@color/text_surface"
             android:textSize="@dimen/text_content" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="浏览器打开"
-            android:textColor="@color/text_white"
+            android:textColor="@color/text_surface"
             android:textSize="@dimen/text_content" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="删除"
-            android:textColor="@color/text_white"
+            android:textColor="@color/text_surface"
             android:textSize="@dimen/text_content" />
 
     </LinearLayout>
@@ -55,7 +55,7 @@
         android:id="@+id/rl_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_press_color_white"
+        android:background="@drawable/bg_press_color_surface"
         android:paddingTop="16dp"
         android:paddingBottom="16dp">
 
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_surface"
             android:textSize="@dimen/text_content"
             tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
 
@@ -79,7 +79,7 @@
             android:layout_marginRight="16dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/text_gray_light"
+            android:textColor="@color/text_second"
             android:textSize="@dimen/text_notes"
             tools:text="2019-01-19" />
 

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:background="@color/background"
     android:orientation="vertical">
 
     <per.goweii.actionbarex.common.ActionBarCommon
@@ -16,7 +15,7 @@
         android:id="@+id/mi"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@color/main"
+        android:background="@color/basic_ui_action_bar_bg"
         android:overScrollMode="never"
         android:scrollbars="none" />
 

@@ -3,6 +3,7 @@ package per.goweii.wanandroid.module.login.activity;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -50,6 +51,11 @@ public class LoginActivity extends BaseActivity {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
+        if (context instanceof Activity) {
+            Activity activity = (Activity) context;
+            activity.overridePendingTransition(R.anim.swipeback_activity_open_bottom_in,
+                    R.anim.swipeback_activity_open_top_out);
+        }
     }
 
     @Override
@@ -93,6 +99,18 @@ public class LoginActivity extends BaseActivity {
         isRunning = false;
         stopCircleAnim();
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.swipeback_activity_close_top_in,
+                R.anim.swipeback_activity_close_bottom_out);
     }
 
     public RelativeLayout getRl_input() {

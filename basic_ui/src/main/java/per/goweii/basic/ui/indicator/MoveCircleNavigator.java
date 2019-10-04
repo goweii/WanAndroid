@@ -57,7 +57,7 @@ public class MoveCircleNavigator extends View implements IPagerNavigator {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         mRadius = UIUtil.dip2px(context, 3);
         mCircleSpacing = UIUtil.dip2px(context, 12);
-        mColorNormal = ResUtils.getColor(R.color.black);
+        mColorNormal = ResUtils.getColor(R.color.invert);
         mColorSelected = ResUtils.getColor(R.color.main);
     }
 

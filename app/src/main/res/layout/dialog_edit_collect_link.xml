@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_solid_round_color_white_radius_def"
+        android:background="@drawable/bg_solid_round_color_surface_radius_def"
         android:orientation="vertical">
 
         <LinearLayout
@@ -31,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="网站标题"
-                android:textColor="@color/text_gray_light"
+                android:textColor="@color/text_second"
                 android:textSize="@dimen/text_auxiliary" />
 
             <EditText
@@ -44,7 +44,7 @@
                 android:minLines="1"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:textColor="@color/text_black"
+                android:textColor="@color/text_surface"
                 android:textSize="@dimen/text_content"
                 tools:text="wanandroid" />
 
@@ -53,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="网站链接"
-                android:textColor="@color/text_gray_light"
+                android:textColor="@color/text_second"
                 android:textSize="@dimen/text_auxiliary" />
 
             <EditText
@@ -66,7 +66,7 @@
                 android:minLines="1"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:textColor="@color/text_black"
+                android:textColor="@color/text_surface"
                 android:textSize="@dimen/text_content"
                 tools:text="https://www.wanandroid.com" />
 
@@ -89,13 +89,13 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="取消"
-                android:textColor="@color/text_gray_light"
+                android:textColor="@color/text_second"
                 android:textSize="@dimen/text_content" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/bg" />
+                android:background="@color/background" />
 
             <TextView
                 android:id="@+id/dialog_edit_collect_link_tv_yes"

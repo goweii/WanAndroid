@@ -92,8 +92,8 @@ public class InputView extends FrameLayout implements View.OnFocusChangeListener
         etParams.rightMargin = icIconSize * ivIconRightCount + icIconMargin * (ivIconRightCount - 1) + etMargin;
         mEditText.setLayoutParams(etParams);
         mEditText.setBackgroundColor(Color.TRANSPARENT);
-        mEditText.setTextColor(ContextCompat.getColor(getContext(), R.color.text_black));
-        mEditText.setHintTextColor(ContextCompat.getColor(getContext(), R.color.text_gray_light));
+        mEditText.setTextColor(ContextCompat.getColor(getContext(), R.color.text_surface));
+        mEditText.setHintTextColor(ContextCompat.getColor(getContext(), R.color.text_third));
         mEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimension(R.dimen.text_content));
         mEditText.setSingleLine();
         mEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -101,7 +101,7 @@ public class InputView extends FrameLayout implements View.OnFocusChangeListener
         mEditText.addTextChangedListener(this);
         addView(mEditText);
 
-        mViewColorNormal = ContextCompat.getColor(getContext(), R.color.gray_light);
+        mViewColorNormal = ContextCompat.getColor(getContext(), R.color.third);
         mViewHeightNormal = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getContext().getResources().getDisplayMetrics());
         mViewColorFocus = ContextCompat.getColor(getContext(), R.color.main);
         mViewHeightFocus = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getContext().getResources().getDisplayMetrics());

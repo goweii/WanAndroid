@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="basic_ui_action_bar_bg">@color/background</color>
+    <color name="basic_ui_action_bar_icon">@color/text_surface</color>
+    <color name="basic_ui_action_bar_text">@color/text_surface</color>
+    <color name="basic_ui_action_bar_text_alpha">@color/text_surface_alpha</color>
+    <color name="basic_ui_action_bar_bottom_line">@color/line</color>
+    <!--loading dialog背景颜色-->
+    <color name="basic_ui_dialog_loading_rectangle">@color/transparent</color>
+    <!--loading dialog圆圈颜色-->
+    <color name="basic_ui_dialog_loading_circle">@color/main</color>
+</resources>

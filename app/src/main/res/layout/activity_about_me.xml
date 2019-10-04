@@ -4,15 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg"
+    android:background="@color/background"
     android:clipChildren="false">
 
     <ImageView
         android:id="@+id/iv_blur"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/bg"
+        android:background="@color/background"
         android:scaleType="centerCrop"
+        android:tint="@color/about_me_blur_overlay"
         tools:background="@color/main" />
 
     <com.daimajia.swipe.SwipeLayout
@@ -74,7 +75,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="100dp"
                 android:scaleType="centerCrop"
-                app:civ_circle_background_color="@color/white_alpha" />
+                app:civ_circle_background_color="@color/surface_mask" />
 
             <TextView
                 android:id="@+id/tv_name"
@@ -84,7 +85,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="20dp"
                 android:text="Goweii"
-                android:textColor="@color/text_white"
+                android:textColor="@color/basic_ui_action_bar_text"
                 android:textSize="@dimen/text_title" />
 
             <TextView
@@ -98,7 +99,7 @@
                 android:paddingLeft="30dp"
                 android:paddingRight="30dp"
                 android:text="不相信自己的人没有努力的价值"
-                android:textColor="@color/text_white"
+                android:textColor="@color/basic_ui_action_bar_text"
                 android:textSize="@dimen/text_auxiliary" />
 
             <LinearLayout
@@ -123,7 +124,8 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_github" />
+                        android:src="@drawable/ic_github"
+                        android:tint="@color/basic_ui_action_bar_icon" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -133,7 +135,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="Github"
-                        android:textColor="@color/text_white"
+                        android:textColor="@color/basic_ui_action_bar_text"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -141,9 +143,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        tools:text="https://github.com/goweii"
-                        android:textColor="@color/text_white_alpha"
-                        android:textSize="@dimen/text_notes" />
+                        android:textColor="@color/basic_ui_action_bar_text_alpha"
+                        android:textSize="@dimen/text_notes"
+                        tools:text="https://github.com/goweii" />
 
                 </LinearLayout>
 
@@ -161,7 +163,8 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_jianshu" />
+                        android:src="@drawable/ic_jianshu"
+                        android:tint="@color/basic_ui_action_bar_icon" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -171,7 +174,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="简书"
-                        android:textColor="@color/text_white"
+                        android:textColor="@color/basic_ui_action_bar_text"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -179,9 +182,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        tools:text="https://www.jianshu.com/u/78fecab193fa"
-                        android:textColor="@color/text_white_alpha"
-                        android:textSize="@dimen/text_notes" />
+                        android:textColor="@color/basic_ui_action_bar_text_alpha"
+                        android:textSize="@dimen/text_notes"
+                        tools:text="https://www.jianshu.com/u/78fecab193fa" />
 
                 </LinearLayout>
 
@@ -199,7 +202,8 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_qq" />
+                        android:src="@drawable/ic_qq"
+                        android:tint="@color/basic_ui_action_bar_icon" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -209,7 +213,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="QQ"
-                        android:textColor="@color/text_white"
+                        android:textColor="@color/basic_ui_action_bar_text"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -217,9 +221,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        tools:text="302833254"
-                        android:textColor="@color/text_white_alpha"
-                        android:textSize="@dimen/text_notes" />
+                        android:textColor="@color/basic_ui_action_bar_text_alpha"
+                        android:textSize="@dimen/text_notes"
+                        tools:text="302833254" />
 
                 </LinearLayout>
 
@@ -237,7 +241,8 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_qq_group" />
+                        android:src="@drawable/ic_qq_group"
+                        android:tint="@color/basic_ui_action_bar_icon" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -247,7 +252,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="QQ群"
-                        android:textColor="@color/text_white"
+                        android:textColor="@color/basic_ui_action_bar_text"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -255,9 +260,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        tools:text="147715512"
-                        android:textColor="@color/text_white_alpha"
-                        android:textSize="@dimen/text_notes" />
+                        android:textColor="@color/basic_ui_action_bar_text_alpha"
+                        android:textSize="@dimen/text_notes"
+                        tools:text="147715512" />
 
                 </LinearLayout>
 
@@ -273,7 +278,7 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:text="呦~\nAPP做得不错呀\n我想请你喝咖啡"
-                android:textColor="@color/text_white_alpha"
+                android:textColor="@color/basic_ui_action_bar_text_alpha"
                 android:textSize="@dimen/text_auxiliary" />
 
             <TextView
@@ -284,7 +289,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"
                 android:text="上滑"
-                android:textColor="@color/text_white_alpha"
+                android:textColor="@color/basic_ui_action_bar_text_alpha"
                 android:textSize="@dimen/text_auxiliary" />
 
             <ImageView
@@ -298,7 +303,7 @@
                 android:rotation="90"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_back"
-                android:tint="@color/white" />
+                android:tint="@color/basic_ui_action_bar_icon" />
 
         </RelativeLayout>
 
