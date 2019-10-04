@@ -35,6 +35,7 @@ public class DownloadDialog {
     private Layer mAnyLayer = null;
     private final boolean isForce;
     private final String url;
+    private final String urlBackup;
     private final String versionName;
     private boolean isAutoInstall = true;
 
@@ -49,17 +50,18 @@ public class DownloadDialog {
 
     private int retryCount = 0;
 
-    public static DownloadDialog with(Activity activity, boolean isForce, String url, String versionName) {
-        return new DownloadDialog(activity, isForce, url, versionName);
+    public static DownloadDialog with(Activity activity, boolean isForce, String url, String urlBackup, String versionName) {
+        return new DownloadDialog(activity, isForce, url, urlBackup, versionName);
     }
 
-    private DownloadDialog(Activity activity, boolean isForce, String url, String versionName) {
+    private DownloadDialog(Activity activity, boolean isForce, String url, String urlBackup, String versionName) {
         this.mActivity = activity;
         this.url = url;
+        this.urlBackup = urlBackup;
         this.isForce = isForce;
         this.versionName = versionName;
         showDialog();
-        startDownload();
+        startDownload(this.url);
     }
 
     public DownloadDialog setAutoInstall(boolean autoInstall) {
@@ -67,7 +69,7 @@ public class DownloadDialog {
         return this;
     }
 
-    private void startDownload() {
+    private void startDownload(String url) {
         DownloadInfo info = DownloadInfo.create(url, CacheUtils.getCacheDir(), MD5Coder.encode(url) + ".apk");
         mRxDownload = RxDownload.create(info)
                 .setProgressListener(new RxDownload.ProgressListener() {
@@ -113,7 +115,9 @@ public class DownloadDialog {
                         FileUtils.delete(new File(info.saveDirPath, info.saveFileName));
                         retryCount++;
                         if (retryCount <= 3) {
-                            startDownload();
+                            startDownload(DownloadDialog.this.url);
+                        } else if (retryCount <= 6) {
+                            startDownload(DownloadDialog.this.urlBackup);
                         } else {
                             ToastMaker.showShort("下载失败，可前往酷安手动更新");
                             dismiss();

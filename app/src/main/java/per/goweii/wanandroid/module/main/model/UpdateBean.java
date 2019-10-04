@@ -12,6 +12,7 @@ import per.goweii.rxhttp.request.base.BaseBean;
 public class UpdateBean extends BaseBean {
     /**
      * url :
+     * url_backup :
      * version_name : 1.0.0
      * version_code : 0
      * force : true
@@ -20,6 +21,7 @@ public class UpdateBean extends BaseBean {
      */
 
     private String url;
+    private String url_backup;
     private String version_name;
     private int version_code;
     private boolean force;
@@ -32,6 +34,14 @@ public class UpdateBean extends BaseBean {
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getUrl_backup() {
+        return url_backup;
+    }
+
+    public void setUrl_backup(String url_backup) {
+        this.url_backup = url_backup;
     }
 
     public String getVersion_name() {
