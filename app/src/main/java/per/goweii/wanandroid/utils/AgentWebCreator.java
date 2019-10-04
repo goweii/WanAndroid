@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
-import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -44,17 +43,8 @@ public class AgentWebCreator {
                                   WebContainer container,
                                   String url,
                                   final ClientCallback clientCallback) {
-        FrameLayout webContainer = container;
-        if (SettingUtils.getInstance().isDarkTheme()) {
-            webContainer = new FrameLayout(container.getContext());
-            container.addView(webContainer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            View view = new View(container.getContext());
-            view.setBackgroundResource(R.color.background);
-            view.setAlpha(0.6F);
-            container.addView(view, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        }
         AgentWeb agentWeb = AgentWeb.with(activity)
-                .setAgentWebParent(webContainer, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
+                .setAgentWebParent(container, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
                 .useDefaultIndicator(ResUtils.getColor(R.color.assist), 1)
                 .interceptUnkownUrl()
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)

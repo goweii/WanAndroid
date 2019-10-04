@@ -4,6 +4,8 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -17,7 +19,9 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import per.goweii.basic.utils.ColorUtils;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.utils.SettingUtils;
 
 /**
  * @author CuiZhen
@@ -31,6 +35,9 @@ public class WebContainer extends FrameLayout {
     private final float mTouchSlop;
     private final long mTapTimeout;
     private final long mDoubleTapTimeout;
+    private final boolean mDarkTheme;
+
+    private int mMaskColor = Color.TRANSPARENT;
 
     private long mDownTime = 0L;
     private float mDownX = 0;
@@ -56,6 +63,11 @@ public class WebContainer extends FrameLayout {
         mTouchSlop = ViewConfiguration.getTouchSlop();
         mTapTimeout = ViewConfiguration.getTapTimeout();
         mDoubleTapTimeout = ViewConfiguration.getDoubleTapTimeout();
+
+        mDarkTheme = SettingUtils.getInstance().isDarkTheme();
+        if (mDarkTheme) {
+            mMaskColor = ColorUtils.alphaColor(ContextCompat.getColor(getContext(), R.color.background), 0.6F);
+        }
     }
 
     public void setOnDoubleClickListener(OnDoubleClickListener onDoubleClickListener) {
@@ -108,6 +120,14 @@ public class WebContainer extends FrameLayout {
                 break;
         }
         return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    protected void dispatchDraw(Canvas canvas) {
+        super.dispatchDraw(canvas);
+        if (mDarkTheme) {
+            canvas.drawColor(mMaskColor);
+        }
     }
 
     private double getDistance(double x1, double y1, double x2, double y2) {

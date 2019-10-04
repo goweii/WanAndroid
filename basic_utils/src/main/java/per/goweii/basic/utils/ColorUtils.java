@@ -21,8 +21,10 @@ public class ColorUtils {
      * @return 最终的状态栏颜色
      */
     public static int alphaColor(@ColorInt int color, @IntRange(from = 0, to = 255) int alpha) {
-        float a = alpha / 255f;
-        return alphaColor(color, a);
+        int red = Color.red(color);
+        int green = Color.green(color);
+        int blue = Color.blue(color);
+        return Color.argb(alpha, red, green, blue);
     }
 
     /**
@@ -33,19 +35,7 @@ public class ColorUtils {
      * @return 最终的状态栏颜色
      */
     public static int alphaColor(@ColorInt int color, @FloatRange(from = 0, to = 1) float alpha) {
-        if (alpha == 1) {
-            return color;
-        }
-        if (alpha == 0){
-            return 0;
-        }
-        int red = color >> 16 & 0xff;
-        int green = color >> 8 & 0xff;
-        int blue = color & 0xff;
-        red = (int) (red * alpha + 0.5);
-        green = (int) (green * alpha + 0.5);
-        blue = (int) (blue * alpha + 0.5);
-        return 0xff << 24 | red << 16 | green << 8 | blue;
+        return alphaColor(color, (int) (alpha * 255));
     }
 
     /**
