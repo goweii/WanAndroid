@@ -22,7 +22,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="复制链接"
-            android:textColor="@color/text_surface"
+            android:textColor="@color/text_invert"
             android:textSize="@dimen/text_content" />
 
         <TextView
@@ -34,7 +34,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="浏览器打开"
-            android:textColor="@color/text_surface"
+            android:textColor="@color/text_invert"
             android:textSize="@dimen/text_content" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="删除"
-            android:textColor="@color/text_surface"
+            android:textColor="@color/text_invert"
             android:textSize="@dimen/text_content" />
 
     </LinearLayout>

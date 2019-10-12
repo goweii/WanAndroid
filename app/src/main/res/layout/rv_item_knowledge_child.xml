@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    android:background="@drawable/bg_press_color_background_mask_radius_max"
+    android:background="@drawable/bg_press_color_foreground_top_radius_max"
     android:paddingLeft="15dp"
     android:paddingTop="5dp"
     android:paddingRight="15dp"

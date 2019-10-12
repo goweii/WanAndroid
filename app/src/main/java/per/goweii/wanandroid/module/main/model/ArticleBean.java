@@ -50,6 +50,7 @@ public class ArticleBean extends BaseBean {
     private int courseId;
     private String desc;
     private String envelopePic;
+    private boolean top;
     private boolean fresh;
     private int id;
     private String link;
@@ -160,6 +161,14 @@ public class ArticleBean extends BaseBean {
 
     public void setFresh(boolean fresh) {
         this.fresh = fresh;
+    }
+
+    public boolean isTop() {
+        return top;
+    }
+
+    public void setTop(boolean top) {
+        this.top = top;
     }
 
     public int getId() {

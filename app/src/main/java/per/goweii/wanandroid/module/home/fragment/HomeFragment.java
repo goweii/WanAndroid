@@ -12,8 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -38,9 +36,7 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.glide.GlideHelper;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
-import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
-import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
@@ -51,7 +47,6 @@ import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.home.activity.SearchActivity;
 import per.goweii.wanandroid.module.home.activity.UserArticleActivity;
-import per.goweii.wanandroid.module.home.activity.UserPageActivity;
 import per.goweii.wanandroid.module.home.model.BannerBean;
 import per.goweii.wanandroid.module.home.presenter.HomePresenter;
 import per.goweii.wanandroid.module.home.view.HomeView;
@@ -425,61 +420,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     }
 
     private void bindHeaderTopItem(View view, ArticleBean item) {
-        TextView tv_title = view.findViewById(R.id.tv_title);
-        TextView tv_author = view.findViewById(R.id.tv_author);
-        TextView tv_time = view.findViewById(R.id.tv_time);
-        TextView tv_super_chapter_name = view.findViewById(R.id.tv_super_chapter_name);
-        TextView tv_chapter_name = view.findViewById(R.id.tv_chapter_name);
-        LinearLayout ll_new = view.findViewById(R.id.ll_new);
-        TextView tv_new = view.findViewById(R.id.tv_new);
-        ImageView iv_img = view.findViewById(R.id.iv_img);
-        CollectView cv_collect = view.findViewById(R.id.cv_collect);
-        TextView tv_tag = view.findViewById(R.id.tv_tag);
-        tv_title.setText(item.getTitle());
-        tv_author.setText(item.getAuthor());
-        tv_time.setText(item.getNiceDate());
-        tv_super_chapter_name.setText(item.getSuperChapterName());
-        tv_chapter_name.setText(item.getChapterName());
-        ll_new.setVisibility(View.VISIBLE);
-        tv_new.setText("置顶");
-        tv_new.setTextColor(ResUtils.getColor(R.color.text_accent));
-        if (!TextUtils.isEmpty(item.getEnvelopePic())) {
-            ImageLoader.image(iv_img, item.getEnvelopePic());
-            iv_img.setVisibility(View.VISIBLE);
-        } else {
-            iv_img.setVisibility(View.GONE);
-        }
-        if (item.isCollect()) {
-            cv_collect.setChecked(true);
-        } else {
-            cv_collect.setChecked(false);
-        }
-        if (item.getTags() != null && item.getTags().size() > 0) {
-            tv_tag.setText(item.getTags().get(0).getName());
-            tv_tag.setVisibility(View.VISIBLE);
-        } else {
-            tv_tag.setVisibility(View.GONE);
-        }
-        tv_author.setOnClickListener(new OnClickListener2() {
+        ArticleAdapter.bindArticle(view, item, new ArticleAdapter.OnCollectListener() {
             @Override
-            public void onClick2(View v) {
-                UserPageActivity.start(v.getContext(), item.getUserId());
+            public void collect(ArticleBean item, CollectView v) {
+                presenter.collect(item, v);
             }
-        });
-        cv_collect.setOnClickListener(new CollectView.OnClickListener() {
+
             @Override
-            public void onClick(CollectView v) {
-                if (!v.isChecked()) {
-                    presenter.collect(item, v);
-                } else {
-                    presenter.uncollect(item, v);
-                }
-            }
-        });
-        view.setOnClickListener(new OnClickListener2() {
-            @Override
-            public void onClick2(View v) {
-                WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
+            public void uncollect(ArticleBean item, CollectView v) {
+                presenter.uncollect(item, v);
             }
         });
     }
@@ -578,6 +527,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     @Override
     public void getTopArticleListSuccess(int code, List<ArticleBean> data) {
         MultiStateUtils.toContent(msv);
+        for (ArticleBean bean : data) {
+            bean.setTop(true);
+        }
         createHeaderTopItems(data);
     }
 
