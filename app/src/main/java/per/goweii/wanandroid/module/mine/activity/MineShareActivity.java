@@ -26,6 +26,7 @@ import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.event.ArticleDeleteEvent;
+import per.goweii.wanandroid.event.ArticleShareEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.ShareArticleActivity;
@@ -104,19 +105,19 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (isDestroyed()) {
-            return;
-        }
         if (event.isRvAnimChanged()) {
             RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onArticleShareEvent(ArticleShareEvent event) {
+        currPage = PAGE_START;
+        presenter.getMineShareArticleList(currPage, true);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onArticleDeleteEvent(ArticleDeleteEvent event) {
-        if (isDestroyed()) {
-            return;
-        }
         if (event.getArticleId() <= 0) {
             currPage = PAGE_START;
             presenter.getMineShareArticleList(currPage, true);

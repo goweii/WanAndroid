@@ -25,6 +25,7 @@ import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.event.ArticleShareEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
@@ -103,6 +104,12 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
                 }
             }
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onArticleShareEvent(ArticleShareEvent event) {
+        currPage = PAGE_START;
+        getProjectArticleList(true);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
