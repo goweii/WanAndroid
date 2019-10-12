@@ -131,10 +131,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
                 SettingUtils.getInstance().setDarkTheme(isChecked);
+                WanApp.setDarkModeStatus();
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        WanApp.killProcess();
+                        WanApp.restart();
                     }
                 }, 300);
             }

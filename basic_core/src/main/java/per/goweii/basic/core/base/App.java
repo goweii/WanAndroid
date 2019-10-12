@@ -221,6 +221,13 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         Process.killProcess(Process.myPid());
     }
 
+    public static void restart() {
+        finishActivityWithoutCount(1);
+        if (activities != null && !activities.isEmpty()) {
+            activities.get(0).recreate();
+        }
+    }
+
     public static void finishActivityWithoutCount(int count) {
         if (activities == null || activities.isEmpty()) {
             return;
