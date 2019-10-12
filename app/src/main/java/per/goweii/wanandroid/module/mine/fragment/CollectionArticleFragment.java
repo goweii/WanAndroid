@@ -185,6 +185,11 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
 
     @Override
     public void getCollectArticleListSuccess(int code, ArticleListBean data) {
+        if (data.getDatas() != null) {
+            for (ArticleBean articleBean : data.getDatas()) {
+                articleBean.setCollect(true);
+            }
+        }
         currPage = data.getCurPage() + PAGE_START;
         if (data.getCurPage() == 1) {
             mAdapter.setNewData(data.getDatas());
