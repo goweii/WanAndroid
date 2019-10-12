@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ll_new"
-            android:background="@drawable/bg_press_color_surface_radius_def"
+            android:background="@drawable/bg_press_color_surface_radius_small"
             android:textColor="@color/text_second"
             android:textSize="@dimen/text_notes"
             tools:text="林帅并不帅" />
@@ -93,7 +93,7 @@
             android:background="@color/background"
             android:scaleType="centerCrop"
             android:visibility="gone"
-            app:riv_corner_radius="3dp"
+            app:riv_corner_radius="@dimen/round_radius_small"
             app:riv_mutate_background="true"
             tools:src="@drawable/image_holder"
             tools:visibility="visible" />
