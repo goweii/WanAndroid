@@ -35,4 +35,5 @@
     <color name="text_third">#6a6a6a</color>
     <color name="text_invert">#111111</color>
     <color name="text_invert_alpha">#88111111</color>
+    <color name="text_on_main">#ffffff</color>
 </resources>

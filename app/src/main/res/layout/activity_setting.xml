@@ -42,22 +42,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
+                        android:layout_centerVertical="true"
                         android:text="暗色模式"
                         android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
-
-                    <TextView
-                        android:id="@+id/tv_dark_theme_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_dark_theme_title"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_dark_theme"
-                        android:text="切换后需要重启APP"
-                        android:textColor="@color/text_third"
-                        android:textSize="@dimen/text_notes" />
 
                     <android.support.v7.widget.SwitchCompat
                         android:id="@+id/sc_dark_theme"

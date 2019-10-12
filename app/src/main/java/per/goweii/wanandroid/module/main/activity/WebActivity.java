@@ -19,6 +19,7 @@ import per.goweii.actionbarex.common.ActionBarSearch;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.LogUtils;
@@ -98,6 +99,10 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         context.startActivity(intent);
     }
 
+    public void refreshSwipeBackOnlyEdge() {
+        mSwipeBackHelper.setSwipeBackOnlyEdge(swipeBackOnlyEdge());
+    }
+
     @Override
     protected boolean swipeBackOnlyEdge() {
         return SettingUtils.getInstance().isWebSwipeBackEdge();
@@ -158,6 +163,12 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     @Override
                     public void onBrowser() {
                         IntentUtils.openBrowser(getContext(), mUrl);
+                    }
+
+                    @Override
+                    public void onCopyLink() {
+                        CopyUtils.copyText(mCurrUrl);
+                        ToastMaker.showShort("已复制");
                     }
 
                     @Override

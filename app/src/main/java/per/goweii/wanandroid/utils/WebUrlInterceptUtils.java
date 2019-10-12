@@ -24,10 +24,10 @@ public class WebUrlInterceptUtils {
                 name = "不拦截";
                 break;
             case TYPE_ONLY_WHITE:
-                name = "仅放行白名单";
+                name = "仅白名单";
                 break;
             case TYPE_INTERCEPT_BLACK:
-                name = "仅拦截黑名单";
+                name = "拦截黑名单";
                 break;
         }
         return name;

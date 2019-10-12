@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:background="@color/foreground"
+    tools:layout_width="100dp">
+
+    <per.goweii.percentimageview.percentimageview.PercentImageView
+        android:id="@+id/dialog_web_menu_iv_icon"
+        android:layout_width="48dp"
+        android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/bg_press_color_background_radius_max"
+        android:gravity="center"
+        android:padding="10dp"
+        android:src="@drawable/ic_share"
+        android:tint="@color/main" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="@color/text_third"
+        android:textSize="@dimen/text_notes"
+        tools:text="浏览器打开" />
+
+</LinearLayout>

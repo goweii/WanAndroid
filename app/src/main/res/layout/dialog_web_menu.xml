@@ -1,70 +1,283 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
-    android:paddingTop="@dimen/round_radius"
     android:background="@drawable/bg_solid_round_color_surface_radius_top_def"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingTop="@dimen/round_radius"
+    android:paddingRight="16dp"
+    android:paddingBottom="@dimen/round_radius">
 
-    <TextView
-        android:id="@+id/dialog_web_menu_tv_share"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:background="@drawable/bg_press_color_surface"
-        android:gravity="center"
-        android:text="分享"
-        android:textColor="@color/text_surface"
-        android:textSize="@dimen/text_content" />
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/dialog_web_menu_tv_collect"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:background="@drawable/bg_press_color_surface"
-        android:gravity="center"
-        android:text="收藏"
-        android:textColor="@color/text_surface"
-        android:textSize="@dimen/text_content" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:background="@color/foreground"
+            tools:layout_width="100dp">
 
-    <TextView
-        android:id="@+id/dialog_web_menu_tv_read_later"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:background="@drawable/bg_press_color_surface"
-        android:gravity="center"
-        android:text="稍后阅读"
-        android:textColor="@color/text_surface"
-        android:textSize="@dimen/text_content" />
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_share"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_background_radius_max"
+                android:gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_share"
+                android:tint="@color/text_surface" />
 
-    <TextView
-        android:id="@+id/dialog_web_menu_tv_browser"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:background="@drawable/bg_press_color_surface"
-        android:gravity="center"
-        android:text="浏览器打开"
-        android:textColor="@color/text_surface"
-        android:textSize="@dimen/text_content" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="分享到广场"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
 
-    <TextView
-        android:id="@+id/dialog_web_menu_tv_close_activity"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
-        android:background="@drawable/bg_press_color_surface"
-        android:gravity="center"
-        android:text="关闭页面"
-        android:textColor="@color/text_surface"
-        android:textSize="@dimen/text_content" />
+        </LinearLayout>
 
-    <ImageView
-        android:id="@+id/dialog_web_menu_iv_close"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:background="@color/foreground"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_browser"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_background_radius_max"
+                android:gravity="center"
+                android:padding="11dp"
+                android:src="@drawable/ic_browser"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="浏览器打开"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:background="@color/foreground"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_collect"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_background_radius_max"
+                android:gravity="center"
+                android:padding="13dp"
+                android:src="@drawable/ic_collect"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="收藏"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:background="@color/foreground"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_read_later"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_background_radius_max"
+                android:gravity="center"
+                android:padding="13dp"
+                android:src="@drawable/ic_read_later"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="稍后阅读"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_bar_height"
-        android:background="@drawable/bg_press_color_surface"
-        android:gravity="center"
-        android:padding="15.5dp"
-        android:src="@drawable/ic_close"
-        android:tint="@color/invert" />
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:background="@color/foreground"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_copy_link"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_background_radius_max"
+                android:gravity="center"
+                android:padding="13dp"
+                android:src="@drawable/ic_copy_link"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="复制链接"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:background="@color/foreground"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_interrupt"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_background_radius_max"
+                android:gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_http_interrupt"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:id="@+id/dialog_web_menu_tv_interrupt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="网页拦截"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:background="@color/foreground"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_swipe_back"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_background_radius_max"
+                android:gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_swipe_back"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="边缘返回"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:background="@color/foreground"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_close_activity"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_background_radius_max"
+                android:gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_exit"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="退出"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>
