@@ -103,9 +103,11 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
         tv_title.setText(Html.fromHtml(item.getTitle()));
         if (TextUtils.isEmpty(item.getDesc())) {
             tv_desc.setVisibility(View.GONE);
+            tv_title.setSingleLine(false);
         } else {
             tv_desc.setVisibility(View.VISIBLE);
-            tv_desc.setText(Html.fromHtml(item.getDesc()));
+            tv_title.setSingleLine(true);
+            tv_desc.setText(item.getDesc().trim());
         }
         tv_chapter_name.setText(Html.fromHtml(formatChapterName(item.getSuperChapterName(), item.getChapterName())));
         if (item.isCollect()) {
