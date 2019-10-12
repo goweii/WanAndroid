@@ -69,6 +69,7 @@
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.home.activity.UserPageActivity"
+            android:launchMode="singleTask"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
 
         <!--module.knowledge-->

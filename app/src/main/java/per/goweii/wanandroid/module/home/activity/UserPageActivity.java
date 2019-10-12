@@ -257,6 +257,15 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         getUserPage(false);
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        int newUserId = getIntent().getIntExtra("userId", mUserId);
+        if (mUserId != newUserId) {
+            loadData();
+        }
+    }
+
     public void getUserPage(boolean refresh) {
         presenter.getUserPage(mUserId, currPage, refresh);
     }
