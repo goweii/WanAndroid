@@ -3,6 +3,7 @@ package per.goweii.wanandroid.module.mine.fragment;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -62,6 +63,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     ActionBarCommon abc;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
+    @BindView(R.id.nsv)
+    NestedScrollView nsv;
     @BindView(R.id.iv_blur)
     ImageView iv_blur;
     @BindView(R.id.rl_user_info)
@@ -135,11 +138,16 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 CoinRankActivity.start(getContext());
             }
         });
+        nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                setIvBlurHeight(rl_user_info.getMeasuredHeight() - scrollY);
+            }
+        });
         srl.setOnMultiPurposeListener(new OnMultiPurposeListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
-                iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() + offset;
-                iv_blur.requestLayout();
+                setIvBlurHeight(rl_user_info.getMeasuredHeight() - nsv.getScrollY() + offset);
             }
 
             @Override
@@ -156,8 +164,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
 
             @Override
             public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
-                iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() - offset;
-                iv_blur.requestLayout();
+                setIvBlurHeight(rl_user_info.getMeasuredHeight() - nsv.getScrollY() - offset);
             }
 
             @Override
@@ -197,6 +204,15 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         mSmartRefreshUtils.pureScrollMode();
         setRefresh();
         changeMenuVisible();
+    }
+
+    private void setIvBlurHeight(int h) {
+        if (h >= 0) {
+            iv_blur.getLayoutParams().height = h;
+        } else {
+            iv_blur.getLayoutParams().height = 0;
+        }
+        iv_blur.requestLayout();
     }
 
     private void setRefresh() {
