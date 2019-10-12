@@ -122,27 +122,36 @@ public class RouterActivity extends BaseActivity implements Runnable {
     }
 
     private void handleShareText(String sharedText) {
-        LogUtils.d(TAG, "sharedText=" + sharedText);
-        if (TextUtils.isEmpty(sharedText)) {
-            return;
-        }
-        int urlStartIndex = sharedText.indexOf("https://");
-        if (urlStartIndex < 0) {
-            urlStartIndex = sharedText.indexOf("http://");
-        }
-        if (urlStartIndex < 0) {
-            return;
-        }
-        StringBuilder urlBuilder = new StringBuilder();
-        for (int i = urlStartIndex; i < sharedText.length(); i++) {
-            char c = sharedText.charAt(i);
-            if (c == ' ') {
-                break;
+        try {
+            LogUtils.d(TAG, "sharedText=" + sharedText);
+            if (TextUtils.isEmpty(sharedText)) {
+                return;
             }
-            urlBuilder.append(c);
+            int urlStartIndex = sharedText.indexOf("https://");
+            if (urlStartIndex < 0) {
+                urlStartIndex = sharedText.indexOf("http://");
+            }
+            if (urlStartIndex < 0) {
+                return;
+            }
+            String msg = "";
+            if (urlStartIndex > 0) {
+                msg = sharedText.substring(0, urlStartIndex - 1);
+            }
+            LogUtils.d(TAG, "sharedMsg=" + msg);
+            StringBuilder urlBuilder = new StringBuilder();
+            for (int i = urlStartIndex; i < sharedText.length(); i++) {
+                char c = sharedText.charAt(i);
+                if (c == ' ') {
+                    break;
+                }
+                urlBuilder.append(c);
+            }
+            String url = urlBuilder.toString();
+            LogUtils.d(TAG, "sharedUrl=" + url);
+            ShareArticleActivity.start(getContext(), msg, url);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        String url = urlBuilder.toString();
-        LogUtils.d(TAG, "sharedUrl=" + url);
-        WebActivity.start(getContext(), url);
     }
 }

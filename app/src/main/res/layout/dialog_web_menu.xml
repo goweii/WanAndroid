@@ -3,14 +3,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="bottom"
+    android:paddingTop="@dimen/round_radius"
     android:background="@drawable/bg_solid_round_color_surface_radius_top_def"
     android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_web_menu_tv_share"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:background="@drawable/bg_press_color_surface"
+        android:gravity="center"
+        android:text="分享"
+        android:textColor="@color/text_surface"
+        android:textSize="@dimen/text_content" />
 
     <TextView
         android:id="@+id/dialog_web_menu_tv_collect"
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
-        android:layout_marginTop="@dimen/round_radius"
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:text="收藏"

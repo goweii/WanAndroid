@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.module.home.activity;
+package per.goweii.wanandroid.module.mine.activity;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -25,31 +24,33 @@ import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.event.ArticleDeleteEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
-import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.home.presenter.UserArticlePresenter;
-import per.goweii.wanandroid.module.home.view.UserArticleView;
 import per.goweii.wanandroid.module.main.activity.ShareArticleActivity;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.mine.adapter.MineShareArticleAdapter;
+import per.goweii.wanandroid.module.mine.presenter.MineSharePresenter;
+import per.goweii.wanandroid.module.mine.view.MineShareView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
  * @author CuiZhen
- * @date 2019/5/18
+ * @date 2019/5/17
  * QQ: 302833254
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class UserArticleActivity extends BaseActivity<UserArticlePresenter> implements UserArticleView {
+public class MineShareActivity extends BaseActivity<MineSharePresenter> implements MineShareView {
 
-    private static final int PAGE_START = 0;
+    public static final int PAGE_START = 1;
 
     @BindView(R.id.abc)
     ActionBarCommon abc;
@@ -61,45 +62,41 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
     RecyclerView rv;
 
     private SmartRefreshUtils mSmartRefreshUtils;
-    private ArticleAdapter mAdapter;
+    private MineShareArticleAdapter mAdapter;
 
     private int currPage = PAGE_START;
 
+    private long lastClickTime = 0L;
+
     public static void start(Context context) {
-        Intent intent = new Intent(context, UserArticleActivity.class);
+        Intent intent = new Intent(context, MineShareActivity.class);
         context.startActivity(intent);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onCollectionEvent(CollectionEvent event) {
-        if (event.getArticleId() == -1) {
+        if (isDestroyed()) {
             return;
         }
-        List<ArticleBean> list = mAdapter.getData();
-        for (int i = 0; i < list.size(); i++) {
-            ArticleBean item = list.get(i);
-            if (item.getId() == event.getArticleId()) {
-                if (item.isCollect() != event.isCollect()) {
-                    item.setCollect(event.isCollect());
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-                break;
-            }
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onLoginEvent(LoginEvent event) {
-        if (event.isLogin()) {
+        if (event.isCollect()) {
             currPage = PAGE_START;
-            getProjectArticleList(true);
+            presenter.getMineShareArticleList(currPage, true);
         } else {
-            List<ArticleBean> list = mAdapter.getData();
-            for (int i = 0; i < list.size(); i++) {
-                ArticleBean item = list.get(i);
-                if (item.isCollect()) {
-                    item.setCollect(false);
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
+            if (event.getArticleId() != -1 || event.getCollectId() != -1) {
+                List<ArticleBean> list = mAdapter.getData();
+                for (int i = 0; i < list.size(); i++) {
+                    ArticleBean item = list.get(i);
+                    if (event.getArticleId() != -1) {
+                        if (item.getOriginId() == event.getArticleId()) {
+                            mAdapter.remove(i);
+                            break;
+                        }
+                    } else if (event.getCollectId() != -1) {
+                        if (item.getId() == event.getCollectId()) {
+                            mAdapter.remove(i);
+                            break;
+                        }
+                    }
                 }
             }
         }
@@ -107,8 +104,31 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSettingChangeEvent(SettingChangeEvent event) {
+        if (isDestroyed()) {
+            return;
+        }
         if (event.isRvAnimChanged()) {
             RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onArticleDeleteEvent(ArticleDeleteEvent event) {
+        if (isDestroyed()) {
+            return;
+        }
+        if (event.getArticleId() <= 0) {
+            currPage = PAGE_START;
+            presenter.getMineShareArticleList(currPage, true);
+        } else {
+            List<ArticleBean> list = mAdapter.getData();
+            for (int i = 0; i < list.size(); i++) {
+                ArticleBean item = list.get(i);
+                if (event.getArticleId() == item.getId()) {
+                    mAdapter.remove(i);
+                    break;
+                }
+            }
         }
     }
 
@@ -119,13 +139,13 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_user_article;
+        return R.layout.activity_mine_share;
     }
 
     @Nullable
     @Override
-    protected UserArticlePresenter initPresenter() {
-        return new UserArticlePresenter();
+    protected MineSharePresenter initPresenter() {
+        return new MineSharePresenter();
     }
 
     @Override
@@ -136,44 +156,60 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
                 ShareArticleActivity.start(getContext());
             }
         });
+        abc.getTitleTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long currClickTime = System.currentTimeMillis();
+                if (currClickTime - lastClickTime <= Config.SCROLL_TOP_DOUBLE_CLICK_DELAY) {
+                    RvScrollTopUtils.smoothScrollTop(rv);
+                }
+                lastClickTime = currClickTime;
+            }
+        });
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);
         mSmartRefreshUtils.pureScrollMode();
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
             @Override
             public void onRefresh() {
                 currPage = PAGE_START;
-                getProjectArticleList(true);
+                presenter.getMineShareArticleList(currPage, true);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new ArticleAdapter();
+        mAdapter = new MineShareArticleAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                getProjectArticleList(true);
+                presenter.getMineShareArticleList(currPage, true);
             }
         }, rv);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+        mAdapter.setOnCollectListener(new ArticleAdapter.OnCollectListener() {
             @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
-                if (item != null) {
-                    WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
-                }
+            public void collect(ArticleBean item, CollectView v) {
+                presenter.collect(item, v);
+            }
+
+            @Override
+            public void uncollect(ArticleBean item, CollectView v) {
+                presenter.uncollect(item, v);
             }
         });
-        mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
+        mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
-            public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                mAdapter.closeAll(null);
                 ArticleBean item = mAdapter.getItem(position);
-                if (item != null) {
-                    if (!v.isChecked()) {
-                        presenter.collect(item, v);
-                    } else {
-                        presenter.uncollect(item, v);
-                    }
+                if (item == null) {
+                    return;
+                }
+                switch (view.getId()) {
+                    default:
+                        break;
+                    case R.id.tv_delete:
+                        presenter.deleteMineShareArticle(item);
+                        break;
                 }
             }
         });
@@ -183,7 +219,7 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
             public void onResult() {
                 MultiStateUtils.toLoading(msv);
                 currPage = PAGE_START;
-                getProjectArticleList(true);
+                presenter.getMineShareArticleList(currPage, true);
             }
         });
     }
@@ -192,15 +228,11 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
         currPage = PAGE_START;
-        getProjectArticleList(false);
-    }
-
-    public void getProjectArticleList(boolean refresh) {
-        presenter.getUserArticleList(currPage, refresh);
+        presenter.getMineShareArticleList(currPage, true);
     }
 
     @Override
-    public void getUserArticleListSuccess(int code, ArticleListBean data) {
+    public void getMineShareArticleListSuccess(int code, ArticleListBean data) {
         currPage = data.getCurPage() + PAGE_START;
         if (data.getCurPage() == 1) {
             mAdapter.setNewData(data.getDatas());
@@ -221,7 +253,7 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
     }
 
     @Override
-    public void getUserArticleListFailed(int code, String msg) {
+    public void getMineShareArticleListFailed(int code, String msg) {
         ToastMaker.showShort(msg);
         mSmartRefreshUtils.fail();
         mAdapter.loadMoreFail();

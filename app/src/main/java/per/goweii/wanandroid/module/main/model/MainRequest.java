@@ -78,4 +78,8 @@ public class MainRequest extends BaseRequest {
         }
     }
 
+    public static Disposable shareArticle(String title, String link, @NonNull RequestListener<BaseBean> listener) {
+        return request(WanApi.api().shareArticle(title, link), listener);
+    }
+
 }

@@ -11,7 +11,7 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         app:abc_rightIconRes="@drawable/ic_add"
-        app:abc_titleText="广场" />
+        app:abc_titleText="我的分享" />
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"
@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:overScrollMode="never"
-                android:scrollbars="none"
+                android:scrollbars="vertical"
                 tools:layoutmanager="LinearLayoutManager"
                 tools:listitem="@layout/rv_item_article" />
 

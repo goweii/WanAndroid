@@ -43,6 +43,11 @@ public class WebMenuDialog {
                         switch (v.getId()) {
                             default:
                                 break;
+                            case R.id.dialog_web_menu_tv_share:
+                                if (UserUtils.getInstance().doIfLogin(v.getContext())) {
+                                    listener.onShare();
+                                }
+                                break;
                             case R.id.dialog_web_menu_tv_collect:
                                 if (UserUtils.getInstance().doIfLogin(v.getContext())) {
                                     listener.onCollect();
@@ -60,6 +65,7 @@ public class WebMenuDialog {
                         }
                     }
                                   }, R.id.dialog_web_menu_iv_close,
+                        R.id.dialog_web_menu_tv_share,
                         R.id.dialog_web_menu_tv_read_later,
                         R.id.dialog_web_menu_tv_browser,
                         R.id.dialog_web_menu_tv_collect,
@@ -68,6 +74,8 @@ public class WebMenuDialog {
     }
 
     public interface OnMenuClickListener {
+        void onShare();
+
         void onCollect();
 
         void onReadLater();

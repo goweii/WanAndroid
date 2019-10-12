@@ -34,6 +34,7 @@ import per.goweii.wanandroid.module.mine.activity.AboutMeActivity;
 import per.goweii.wanandroid.module.mine.activity.CoinActivity;
 import per.goweii.wanandroid.module.mine.activity.CoinRankActivity;
 import per.goweii.wanandroid.module.mine.activity.CollectionActivity;
+import per.goweii.wanandroid.module.mine.activity.MineShareActivity;
 import per.goweii.wanandroid.module.mine.activity.OpenActivity;
 import per.goweii.wanandroid.module.mine.activity.ReadLaterActivity;
 import per.goweii.wanandroid.module.mine.activity.SettingActivity;
@@ -274,7 +275,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     @OnClick({
             R.id.civ_user_icon, R.id.tv_user_name, R.id.ll_user_id,
             R.id.ll_collect, R.id.ll_read_later, R.id.ll_about_me,
-            R.id.ll_open, R.id.ll_setting, R.id.ll_coin
+            R.id.ll_open, R.id.ll_setting, R.id.ll_coin, R.id.ll_share
     })
     @Override
     public void onClick(View v) {
@@ -302,6 +303,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 break;
             case R.id.ll_user_id:
                 UserUtils.getInstance().doIfLogin(getContext());
+                break;
+            case R.id.ll_share:
+                if (UserUtils.getInstance().doIfLogin(getContext())) {
+                    MineShareActivity.start(getContext());
+                }
                 break;
             case R.id.ll_collect:
                 if (UserUtils.getInstance().doIfLogin(getContext())) {

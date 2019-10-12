@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/foreground"
+    android:orientation="vertical">
+
+    <per.goweii.actionbarex.common.ActionBarCommon
+        android:id="@+id/abc"
+        style="@style/ActionBar.Common.Back"
+        app:abc_rightText="分享"
+        app:abc_titleText="分享文章" />
+
+    <RelativeLayout
+        android:id="@+id/ll_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/abc"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="文章标题"
+            android:textColor="@color/text_third"
+            android:textSize="@dimen/text_notes" />
+
+        <TextView
+            android:id="@+id/tv_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_title"
+            android:layout_alignParentRight="true"
+            android:text="刷新标题"
+            android:textColor="@color/text_main"
+            android:textSize="@dimen/text_notes" />
+
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginTop="10dp"
+            android:background="@color/transparent"
+            android:gravity="top"
+            android:hint="100字以内"
+            android:maxLines="5"
+            android:minLines="2"
+            android:textColor="@color/text_surface"
+            android:textColorHint="@color/text_third"
+            android:textSize="@dimen/text_content" />
+
+        <TextView
+            android:id="@+id/tv_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/et_title"
+            android:layout_marginTop="16dp"
+            android:text="文章链接"
+            android:textColor="@color/text_third"
+            android:textSize="@dimen/text_notes" />
+
+        <TextView
+            android:id="@+id/tv_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_link"
+            android:layout_alignParentRight="true"
+            android:text="打开链接"
+            android:textColor="@color/text_main"
+            android:textSize="@dimen/text_notes" />
+
+        <EditText
+            android:id="@+id/et_link"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_link"
+            android:layout_marginTop="10dp"
+            android:background="@color/transparent"
+            android:gravity="top"
+            android:hint="如：https://www.wanandroid.com/blog/show/2577"
+            android:maxLines="5"
+            android:minLines="2"
+            android:textColor="@color/text_surface"
+            android:textColorHint="@color/text_third"
+            android:textSize="@dimen/text_content" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:lineSpacingExtra="6sp"
+        android:padding="16dp"
+        android:text="1. 只要是任何好文都可以分享哈，并不一定要是原创！投递的文章会进入广场 tab;\n2. CSDN，掘金，简书等官方博客站点会直接通过，不需要审核;\n3. 其他个人站点会进入审核阶段，不要投递任何无效链接，否则可能会对你的账号产生一定影响;\n4. 如果你发现错误，可以提交日志，让我们一起使网站变得更好。\n5. 由于本站为个人开发与维护，会尽力保证24小时内审核，当然有可能哪天太累，会延期，请保持佛系..."
+        android:textColor="@color/text_third"
+        android:textSize="@dimen/text_notes" />
+
+    <per.goweii.wanandroid.widget.WebContainer
+        android:id="@+id/wc"
+        android:layout_width="0dp"
+        android:layout_height="0dp" />
+
+</RelativeLayout>

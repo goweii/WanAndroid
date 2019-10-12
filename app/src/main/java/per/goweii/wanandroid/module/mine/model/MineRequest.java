@@ -14,6 +14,7 @@ import per.goweii.wanandroid.http.WanApi;
 import per.goweii.wanandroid.http.WanCache;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
+import per.goweii.wanandroid.module.main.model.UserPageBean;
 
 /**
  * @author CuiZhen
@@ -88,5 +89,30 @@ public class MineRequest extends BaseRequest {
 
     public static Disposable getCoinRankList(int page, @NonNull RequestListener<CoinRankBean> listener) {
         return request(WanApi.api().getCoinRankList(page), listener);
+    }
+
+    public static void getMineShareArticleListCache(@IntRange(from = 1) int page, @NonNull RequestListener<ArticleListBean> listener) {
+        cacheBean(WanCache.CacheKey.MINE_SHARE_ARTICLE_LIST(page), ArticleListBean.class, listener);
+    }
+
+    public static void getMineShareArticleListNet(RxLife rxLife, @IntRange(from = 1) int page, @NonNull RequestListener<UserPageBean> listener) {
+        rxLife.add(request(WanApi.api().getMineShareArticleList(page), listener));
+    }
+
+    public static void getMineShareArticleList(RxLife rxLife, boolean removeAndRefresh, @IntRange(from = 1) int page, @NonNull RequestListener<UserPageBean> listener) {
+        if (page == 1) {
+            cacheAndNetBean(rxLife,
+                    WanApi.api().getMineShareArticleList(page),
+                    removeAndRefresh,
+                    WanCache.CacheKey.MINE_SHARE_ARTICLE_LIST(page),
+                    UserPageBean.class,
+                    listener);
+        } else {
+            rxLife.add(request(WanApi.api().getMineShareArticleList(page), listener));
+        }
+    }
+
+    public static Disposable deleteMineShareArticle(int id, @NonNull RequestListener<BaseBean> listener) {
+        return request(WanApi.api().deleteMineShareArticle(id), listener);
     }
 }

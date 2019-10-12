@@ -337,6 +337,31 @@ public class WanApi extends Api {
         @GET("user/{userId}/share_articles/{page}/json")
         Observable<WanResponse<UserPageBean>> getUserPage(@Path("userId") int userId,
                                                           @Path("page") int page);
+
+        /**
+         * 自己的分享的文章列表
+         * 页码，从1开始
+         */
+        @GET("user/lg/private_articles/{page}/json")
+        Observable<WanResponse<UserPageBean>> getMineShareArticleList(@Path("page") int page);
+
+        /**
+         * 删除自己分享的文章
+         * 文章id，拼接在链接上
+         */
+        @POST("lg/user_article/delete/{id}/json")
+        Observable<WanResponse<BaseBean>> deleteMineShareArticle(@Path("id") int id);
+
+        /**
+         * 分享文章
+         * 注意需要登录后查看，如果为CSDN，简书等链接会直接通过审核，在对外的分享文章列表中展示。
+         * title
+         * link
+         */
+        @FormUrlEncoded
+        @POST("lg/user_article/add/json")
+        Observable<WanResponse<BaseBean>> shareArticle(@Field("title") String title,
+                                                       @Field("link") String link);
     }
 
 }

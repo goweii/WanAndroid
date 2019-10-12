@@ -138,6 +138,11 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 LogUtils.i("WebActivity", "mCurrTitle=" + mCurrTitle);
                 WebMenuDialog.show(getContext(), new WebMenuDialog.OnMenuClickListener() {
                     @Override
+                    public void onShare() {
+                        ShareArticleActivity.start(getContext(), mCurrTitle, mCurrUrl);
+                    }
+
+                    @Override
                     public void onCollect() {
                         collect(null);
                     }

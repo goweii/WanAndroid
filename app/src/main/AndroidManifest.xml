@@ -36,7 +36,6 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="https" />
-                <data android:scheme="http" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -57,6 +56,9 @@
             android:name=".module.main.activity.WebActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:hardwareAccelerated="true" />
+        <activity
+            android:name=".module.main.activity.ShareArticleActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
 
         <!--module.home-->
         <activity
@@ -104,6 +106,9 @@
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.CoinRankActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
+        <activity
+            android:name=".module.mine.activity.MineShareActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
 
         <provider
