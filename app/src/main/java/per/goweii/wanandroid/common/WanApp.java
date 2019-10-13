@@ -81,6 +81,11 @@ public class WanApp extends BaseApp {
         }
     }
 
+    @Override
+    public void onActivityStopped(Activity activity) {
+        super.onActivityStopped(activity);
+    }
+
     public static boolean getDarkModeStatus() {
         int mode = getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return mode == Configuration.UI_MODE_NIGHT_YES;

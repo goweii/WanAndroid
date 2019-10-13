@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
 import per.goweii.basic.ui.R;
 import per.goweii.basic.utils.listener.SimpleCallback;
@@ -27,6 +28,7 @@ public class TipDialog {
     private SimpleCallback<Void> callbackYes = null;
     private SimpleCallback<Void> callbackNo = null;
     private SimpleCallback<Void> onDismissListener = null;
+    private DialogLayer mDialogLayer;
 
     public static TipDialog with(Context context) {
         return new TipDialog(context);
@@ -34,6 +36,78 @@ public class TipDialog {
 
     private TipDialog(Context context) {
         this.context = context;
+        mDialogLayer = AnyLayer.dialog(context);
+        mDialogLayer.contentView(R.layout.basic_ui_dialog_tip)
+                .gravity(Gravity.CENTER)
+                .backgroundColorRes(R.color.dialog_bg)
+                .cancelableOnTouchOutside(cancelable)
+                .cancelableOnClickKeyBack(cancelable)
+                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
+                    @Override
+                    public void onShow(Layer layer) {
+                    }
+
+                    @Override
+                    public void onDismiss(Layer layer) {
+                        if (onDismissListener != null) {
+                            onDismissListener.onResult(null);
+                        }
+                    }
+                })
+                .bindData(new Layer.DataBinder() {
+                    @Override
+                    public void bindData(Layer layer) {
+                        TextView tvYes = layer.getView(R.id.basic_ui_tv_dialog_tip_yes);
+                        TextView tvNo = layer.getView(R.id.basic_ui_tv_dialog_tip_no);
+                        View vLine = layer.getView(R.id.basic_ui_v_dialog_tip_line);
+
+                        if (singleBtnYes) {
+                            tvNo.setVisibility(View.GONE);
+                            vLine.setVisibility(View.GONE);
+                        } else {
+                            tvNo.setVisibility(View.VISIBLE);
+                            vLine.setVisibility(View.VISIBLE);
+                            if (noText != null) {
+                                tvNo.setText(noText);
+                            } else {
+                                tvNo.setText(R.string.basic_ui_dialog_btn_no);
+                            }
+                        }
+
+                        if (yesText != null) {
+                            tvYes.setText(yesText);
+                        } else {
+                            tvYes.setText(R.string.basic_ui_dialog_btn_yes);
+                        }
+
+                        TextView tvTitle = layer.getView(R.id.basic_ui_tv_dialog_tip_title);
+                        if (title == null) {
+                            tvTitle.setVisibility(View.GONE);
+                        } else {
+                            tvTitle.setVisibility(View.VISIBLE);
+                            tvTitle.setText(title);
+                        }
+
+                        TextView tvContent = layer.getView(R.id.basic_ui_tv_dialog_tip_content);
+                        tvContent.setText(msg);
+                    }
+                })
+                .onClickToDismiss(new Layer.OnClickListener() {
+                    @Override
+                    public void onClick(Layer layer, View v) {
+                        if (callbackYes != null) {
+                            callbackYes.onResult(null);
+                        }
+                    }
+                }, R.id.basic_ui_tv_dialog_tip_yes)
+                .onClickToDismiss(new Layer.OnClickListener() {
+                    @Override
+                    public void onClick(Layer layer, View v) {
+                        if (callbackNo != null) {
+                            callbackNo.onResult(null);
+                        }
+                    }
+                }, R.id.basic_ui_tv_dialog_tip_no);
     }
 
     public TipDialog yesText(CharSequence yesText) {
@@ -101,77 +175,15 @@ public class TipDialog {
         return this;
     }
 
+    public void dismiss() {
+        if (mDialogLayer != null) {
+            mDialogLayer.dismiss();
+        }
+    }
+
     public void show() {
-        AnyLayer.dialog(context)
-                .contentView(R.layout.basic_ui_dialog_tip)
-                .gravity(Gravity.CENTER)
-                .backgroundColorRes(R.color.dialog_bg)
-                .cancelableOnTouchOutside(cancelable)
-                .cancelableOnClickKeyBack(cancelable)
-                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
-                    @Override
-                    public void onShow(Layer layer) {
-
-                    }
-
-                    @Override
-                    public void onDismiss(Layer layer) {
-                        if (onDismissListener != null) {
-                            onDismissListener.onResult(null);
-                        }
-                    }
-                })
-                .bindData(new Layer.DataBinder() {
-                    @Override
-                    public void bindData(Layer layer) {
-                        TextView tvYes = layer.getView(R.id.basic_ui_tv_dialog_tip_yes);
-                        TextView tvNo = layer.getView(R.id.basic_ui_tv_dialog_tip_no);
-                        View vLine = layer.getView(R.id.basic_ui_v_dialog_tip_line);
-
-                        if (singleBtnYes) {
-                            tvNo.setVisibility(View.GONE);
-                            vLine.setVisibility(View.GONE);
-                        } else {
-                            if (noText != null) {
-                                tvNo.setText(noText);
-                            } else {
-                                tvNo.setText(R.string.basic_ui_dialog_btn_no);
-                            }
-                        }
-
-                        if (yesText != null) {
-                            tvYes.setText(yesText);
-                        } else {
-                            tvYes.setText(R.string.basic_ui_dialog_btn_yes);
-                        }
-
-                        TextView tvTitle = layer.getView(R.id.basic_ui_tv_dialog_tip_title);
-                        if (title == null) {
-                            tvTitle.setVisibility(View.GONE);
-                        } else {
-                            tvTitle.setText(title);
-                        }
-
-                        TextView tvContent = layer.getView(R.id.basic_ui_tv_dialog_tip_content);
-                        tvContent.setText(msg);
-                    }
-                })
-                .onClickToDismiss(new Layer.OnClickListener() {
-                    @Override
-                    public void onClick(Layer layer, View v) {
-                        if (callbackYes != null) {
-                            callbackYes.onResult(null);
-                        }
-                    }
-                }, R.id.basic_ui_tv_dialog_tip_yes)
-                .onClickToDismiss(new Layer.OnClickListener() {
-                    @Override
-                    public void onClick(Layer layer, View v) {
-                        if (callbackNo != null) {
-                            callbackNo.onResult(null);
-                        }
-                    }
-                }, R.id.basic_ui_tv_dialog_tip_no)
-                .show();
+        if (mDialogLayer != null) {
+            mDialogLayer.show();
+        }
     }
 }

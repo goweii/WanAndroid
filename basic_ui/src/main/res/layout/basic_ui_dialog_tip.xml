@@ -5,15 +5,17 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"
     android:layout_margin="@dimen/margin_big"
+    android:paddingTop="@dimen/margin_def"
     android:background="@drawable/bg_solid_round_color_surface_radius_def"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/basic_ui_tv_dialog_tip_title"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/round_radius"
-        android:layout_height="@dimen/button_height"
+        android:layout_height="wrap_content"
         android:gravity="center"
+        android:visibility="gone"
+        tools:visibility="visible"
         android:textColor="@color/text_surface"
         android:textSize="@dimen/text_title"
         tools:text="提示" />
@@ -24,7 +26,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:paddingLeft="@dimen/margin_middle"
-        android:paddingTop="@dimen/margin_middle"
+        android:paddingTop="@dimen/margin_def"
         android:paddingRight="@dimen/margin_middle"
         android:paddingBottom="@dimen/margin_middle"
         android:textColor="@color/text_surface"

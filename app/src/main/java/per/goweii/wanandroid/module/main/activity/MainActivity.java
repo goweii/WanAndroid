@@ -1,13 +1,17 @@
 package per.goweii.wanandroid.module.main.activity;
 
 import android.Manifest;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,6 +25,7 @@ import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.dialog.PermissionDialog;
+import per.goweii.basic.ui.dialog.TipDialog;
 import per.goweii.basic.ui.dialog.UpdateDialog;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
@@ -71,6 +76,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private int lastClickPos = 0;
     private UpdateUtils mUpdateUtils;
 
+    private String mLastCopyLink = "";
+    private TipDialog mTipDialog = null;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
@@ -113,6 +121,62 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     protected void loadData() {
         presenter.update();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        isNeedOpenLink();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mTipDialog != null) {
+            mTipDialog.dismiss();
+        }
+    }
+
+    private void isNeedOpenLink() {
+        ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = clipboardManager.getPrimaryClip();
+        if (clip == null || clip.getItemCount() <= 0) {
+            return;
+        }
+        for (int i = 0; i < clip.getItemCount(); i++) {
+            ClipData.Item item = clip.getItemAt(i);
+            LogUtils.i("WanApp", "" + item.toString());
+        }
+        ClipData.Item item = clip.getItemAt(0);
+        String text = item.getText().toString();
+        Uri uri = Uri.parse(text);
+        if (!TextUtils.equals(uri.getScheme(), "http") && !TextUtils.equals(uri.getScheme(), "https")) {
+            return;
+        }
+        if (TextUtils.equals(mLastCopyLink, text)) {
+            return;
+        }
+        if (mTipDialog == null) {
+            mTipDialog = TipDialog.with(getContext())
+                    .title("是否打开链接？")
+                    .message("检测到你复制了一个链接\n" + text)
+                    .noText("放弃")
+                    .yesText("打开")
+                    .onNo(new SimpleCallback<Void>() {
+                        @Override
+                        public void onResult(Void data) {
+                            mLastCopyLink = text;
+                        }
+                    })
+                    .onYes(new SimpleCallback<Void>() {
+                        @Override
+                        public void onResult(Void data) {
+                            mLastCopyLink = text;
+                            WebActivity.start(getContext(), text);
+                        }
+                    });
+        }
+        mTipDialog.show();
     }
 
     @OnClick({
