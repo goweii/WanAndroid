@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top"
@@ -25,45 +24,23 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="网站标题"
+                android:text="域名"
                 android:textColor="@color/text_second"
                 android:textSize="@dimen/text_auxiliary" />
 
             <EditText
-                android:id="@+id/dialog_edit_collect_link_et_title"
+                android:id="@+id/dialog_add_host_et_host"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:gravity="top"
-                android:maxLines="5"
+                android:maxLines="1"
                 android:minLines="1"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:textColor="@color/text_surface"
                 android:textSize="@dimen/text_content"
-                tools:text="wanandroid" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="网站链接"
-                android:textColor="@color/text_second"
-                android:textSize="@dimen/text_auxiliary" />
-
-            <EditText
-                android:id="@+id/dialog_edit_collect_link_et_link"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:gravity="top"
-                android:maxLines="5"
-                android:minLines="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/text_surface"
-                android:textSize="@dimen/text_content"
-                tools:text="https://www.wanandroid.com" />
+                android:hint="如：www.wanandroid.com" />
 
         </LinearLayout>
 
@@ -78,7 +55,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/dialog_edit_collect_link_tv_no"
+                android:id="@+id/dialog_add_host_tv_no"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -93,7 +70,7 @@
                 android:background="@color/background" />
 
             <TextView
-                android:id="@+id/dialog_edit_collect_link_tv_yes"
+                android:id="@+id/dialog_add_host_tv_yes"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"

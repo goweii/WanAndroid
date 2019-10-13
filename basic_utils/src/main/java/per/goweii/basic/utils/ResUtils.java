@@ -1,5 +1,6 @@
 package per.goweii.basic.utils;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -11,6 +12,7 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IntegerRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -36,8 +38,17 @@ public class ResUtils {
         return getResources().getString(id);
     }
 
+    @Deprecated
     public static int getColor(@ColorRes int id) {
         return ContextCompat.getColor(Utils.getAppContext(), id);
+    }
+
+    public static int getColor(Context context, @ColorRes int id) {
+        return context.getResources().getColor(id);
+    }
+
+    public static int getColor(View view, @ColorRes int id) {
+        return view.getContext().getResources().getColor(id);
     }
 
     public static float getDimens(@DimenRes int id) {

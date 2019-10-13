@@ -142,7 +142,7 @@ public class DownloadDialog {
         if (progress >= 100) {
             if (tvState != null) {
                 tvState.setText(R.string.basic_ui_dialog_download_state_install);
-                tvState.setTextColor(ResUtils.getColor(R.color.text_main));
+                tvState.setTextColor(ResUtils.getColor(mActivity, R.color.text_main));
             }
         }
     }

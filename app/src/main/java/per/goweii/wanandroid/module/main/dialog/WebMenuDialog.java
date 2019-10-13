@@ -13,9 +13,10 @@ import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.Layer;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.mine.activity.HostInterruptActivity;
+import per.goweii.wanandroid.utils.HostInterceptUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UserUtils;
-import per.goweii.wanandroid.utils.WebUrlInterceptUtils;
 
 /**
  * @author CuiZhen
@@ -88,14 +89,14 @@ public class WebMenuDialog {
                                      case R.id.dialog_web_menu_iv_interrupt:
                                          switch (SettingUtils.getInstance().getUrlInterceptType()) {
                                              default:
-                                             case WebUrlInterceptUtils.TYPE_NOTHING:
-                                                 SettingUtils.getInstance().setUrlInterceptType(WebUrlInterceptUtils.TYPE_ONLY_WHITE);
+                                             case HostInterceptUtils.TYPE_NOTHING:
+                                                 SettingUtils.getInstance().setUrlInterceptType(HostInterceptUtils.TYPE_ONLY_WHITE);
                                                  break;
-                                             case WebUrlInterceptUtils.TYPE_ONLY_WHITE:
-                                                 SettingUtils.getInstance().setUrlInterceptType(WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK);
+                                             case HostInterceptUtils.TYPE_ONLY_WHITE:
+                                                 SettingUtils.getInstance().setUrlInterceptType(HostInterceptUtils.TYPE_INTERCEPT_BLACK);
                                                  break;
-                                             case WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK:
-                                                 SettingUtils.getInstance().setUrlInterceptType(WebUrlInterceptUtils.TYPE_NOTHING);
+                                             case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
+                                                 SettingUtils.getInstance().setUrlInterceptType(HostInterceptUtils.TYPE_NOTHING);
                                                  break;
                                          }
                                          ImageView iv_interrupt = layer.getView(R.id.dialog_web_menu_iv_interrupt);
@@ -125,6 +126,14 @@ public class WebMenuDialog {
                         switchInterruptState(iv_interrupt, tv_interrupt);
                         ImageView iv_swipe_back = layer.getView(R.id.dialog_web_menu_iv_swipe_back);
                         switchSwipeBackState(iv_swipe_back);
+                        iv_interrupt.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View v) {
+                                HostInterruptActivity.start(context);
+                                layer.dismiss();
+                                return true;
+                            }
+                        });
                     }
                 })
                 .show();
@@ -133,17 +142,17 @@ public class WebMenuDialog {
     private static void switchInterruptState(ImageView iv_interrupt, TextView tv_interrupt) {
         switch (SettingUtils.getInstance().getUrlInterceptType()) {
             default:
-            case WebUrlInterceptUtils.TYPE_NOTHING:
+            case HostInterceptUtils.TYPE_NOTHING:
                 iv_interrupt.setBackgroundResource(R.drawable.bg_press_color_background_radius_max);
-                tv_interrupt.setText(WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_NOTHING));
+                tv_interrupt.setText(HostInterceptUtils.getName(HostInterceptUtils.TYPE_NOTHING));
                 break;
-            case WebUrlInterceptUtils.TYPE_ONLY_WHITE:
+            case HostInterceptUtils.TYPE_ONLY_WHITE:
                 iv_interrupt.setBackgroundResource(R.drawable.bg_press_color_main_radius_max);
-                tv_interrupt.setText(WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_ONLY_WHITE));
+                tv_interrupt.setText(HostInterceptUtils.getName(HostInterceptUtils.TYPE_ONLY_WHITE));
                 break;
-            case WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK:
+            case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
                 iv_interrupt.setBackgroundResource(R.drawable.bg_press_color_main_radius_max);
-                tv_interrupt.setText(WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK));
+                tv_interrupt.setText(HostInterceptUtils.getName(HostInterceptUtils.TYPE_INTERCEPT_BLACK));
                 break;
         }
     }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
 import per.goweii.anypermission.AnyPermission;
 import per.goweii.anypermission.RequestInterceptor;
 import per.goweii.anypermission.RequestListener;
@@ -35,11 +36,11 @@ import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.presenter.SettingPresenter;
 import per.goweii.wanandroid.module.mine.view.SettingView;
+import per.goweii.wanandroid.utils.HostInterceptUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UpdateUtils;
 import per.goweii.wanandroid.utils.UserUtils;
-import per.goweii.wanandroid.utils.WebUrlInterceptUtils;
 
 /**
  * @author CuiZhen
@@ -126,7 +127,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         mRvAnim = SettingUtils.getInstance().getRvAnim();
         tv_rv_anim.setText(RvAnimUtils.getName(mRvAnim));
         mUrlIntercept = SettingUtils.getInstance().getUrlInterceptType();
-        tv_intercept_host.setText(WebUrlInterceptUtils.getName(mUrlIntercept));
+        tv_intercept_host.setText(HostInterceptUtils.getName(mUrlIntercept));
         sc_dark_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
@@ -135,7 +136,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        WanApp.restart();
+                        WanApp.recreate();
+                        finish();
                     }
                 }, 300);
             }
@@ -222,8 +224,21 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         }
     }
 
+    @OnLongClick({R.id.rl_intercept_host})
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.rl_intercept_host:
+                HostInterruptActivity.start(getContext());
+                break;
+        }
+        return true;
+    }
+
+
     @OnClick({
-            R.id.ll_intercept_host, R.id.ll_rv_anim, R.id.ll_update,
+            R.id.rl_intercept_host, R.id.ll_rv_anim, R.id.ll_update,
             R.id.ll_cache, R.id.ll_about, R.id.ll_logout
     })
     @Override
@@ -236,18 +251,18 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         switch (v.getId()) {
             default:
                 break;
-            case R.id.ll_intercept_host:
+            case R.id.rl_intercept_host:
                 ListDialog.with(getContext())
                         .cancelable(true)
 //                        .title("网页拦截")
-                        .datas(WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_NOTHING),
-                                WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_ONLY_WHITE),
-                                WebUrlInterceptUtils.getName(WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK))
+                        .datas(HostInterceptUtils.getName(HostInterceptUtils.TYPE_NOTHING),
+                                HostInterceptUtils.getName(HostInterceptUtils.TYPE_ONLY_WHITE),
+                                HostInterceptUtils.getName(HostInterceptUtils.TYPE_INTERCEPT_BLACK))
                         .currSelectPos(SettingUtils.getInstance().getUrlInterceptType())
                         .listener(new ListDialog.OnItemSelectedListener() {
                             @Override
                             public void onSelect(String data, int pos) {
-                                tv_intercept_host.setText(WebUrlInterceptUtils.getName(pos));
+                                tv_intercept_host.setText(HostInterceptUtils.getName(pos));
                                 SettingUtils.getInstance().setUrlInterceptType(pos);
                             }
                         })
@@ -311,10 +326,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         }
         boolean isNewest = mUpdateUtils.isNewest(data.getVersion_code());
         if (isNewest) {
-            tv_has_update.setTextColor(ResUtils.getColor(R.color.text_main));
+            tv_has_update.setTextColor(ResUtils.getColor(getContext(), R.color.text_main));
             tv_has_update.setText("发现新版本");
         } else {
-            tv_has_update.setTextColor(ResUtils.getColor(R.color.text_third));
+            tv_has_update.setTextColor(ResUtils.getColor(getContext(), R.color.text_third));
             tv_has_update.setText("已是最新版");
         }
         if (!click) {

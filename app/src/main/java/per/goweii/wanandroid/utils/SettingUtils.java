@@ -1,6 +1,15 @@
 package per.goweii.wanandroid.utils;
 
+import android.support.annotation.NonNull;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import per.goweii.basic.utils.SPUtils;
+import per.goweii.wanandroid.module.mine.model.HostEntity;
 
 /**
  * @author CuiZhen
@@ -21,6 +30,8 @@ public class SettingUtils {
     private static final String KEY_WEB_SWIPE_BACK_EDGE = "KEY_WEB_SWIPE_BACK_EDGE";
     private static final String KEY_RV_ANIM = "KEY_RV_ANIM";
     private static final String KEY_URL_INTERCEPT_TYPE = "KEY_URL_INTERCEPT_TYPE";
+    private static final String KEY_HOST_WHITE = "KEY_HOST_WHITE";
+    private static final String KEY_HOST_BLACK = "KEY_HOST_BLACK";
     private static final String KEY_SEARCH_HISTORY_MAX_COUNT = "KEY_SEARCH_HISTORY_MAX_COUNT";
     private static final String KEY_UPDATE_IGNORE_DURATION = "KEY_UPDATE_IGNORE_DURATION";
 
@@ -34,7 +45,9 @@ public class SettingUtils {
     private boolean mHideOpen = false;
     private boolean mWebSwipeBackEdge = true;
     private int mRvAnim = RvAnimUtils.RvAnim.NONE;
-    private int mUrlInterceptType = WebUrlInterceptUtils.TYPE_ONLY_WHITE;
+    private int mUrlInterceptType = HostInterceptUtils.TYPE_ONLY_WHITE;
+    private final List<HostEntity> mHostWhite = new ArrayList<>();
+    private final List<HostEntity> mHostBlack = new ArrayList<>();
     private int mSearchHistoryMaxCount = 20;
     private long mUpdateIgnoreDuration = 7 * 24 * 60 * 60 * 1000L;
 
@@ -58,6 +71,29 @@ public class SettingUtils {
         mUrlInterceptType = mSPUtils.get(KEY_URL_INTERCEPT_TYPE, mUrlInterceptType);
         mSearchHistoryMaxCount = mSPUtils.get(KEY_SEARCH_HISTORY_MAX_COUNT, mSearchHistoryMaxCount);
         mUpdateIgnoreDuration = mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, mUpdateIgnoreDuration);
+        Gson gson = new Gson();
+        String jsonWhite = mSPUtils.get(KEY_HOST_WHITE, "");
+        try {
+            List<HostEntity> list = gson.fromJson(jsonWhite, new TypeToken<List<HostEntity>>() {
+            }.getType());
+            mHostWhite.addAll(list);
+        } catch (Exception e) {
+            for (String host : HostInterceptUtils.WHITE_HOST) {
+                mHostWhite.add(new HostEntity(host, false));
+            }
+            mSPUtils.save(KEY_HOST_WHITE, gson.toJson(mHostWhite));
+        }
+        String jsonBlack = mSPUtils.get(KEY_HOST_BLACK, "");
+        try {
+            List<HostEntity> list = gson.fromJson(jsonBlack, new TypeToken<List<HostEntity>>() {
+            }.getType());
+            mHostBlack.addAll(list);
+        } catch (Exception e) {
+            for (String host : HostInterceptUtils.BLACK_HOST) {
+                mHostBlack.add(new HostEntity(host, false));
+            }
+            mSPUtils.save(KEY_HOST_BLACK, gson.toJson(mHostBlack));
+        }
     }
 
     public void setDarkTheme(boolean darkTheme) {
@@ -130,6 +166,28 @@ public class SettingUtils {
 
     public int getUrlInterceptType() {
         return mUrlInterceptType;
+    }
+
+    public void setHostWhiteIntercept(@NonNull List<HostEntity> hosts) {
+        mHostWhite.clear();
+        mHostWhite.addAll(hosts);
+        mSPUtils.save(KEY_HOST_WHITE, new Gson().toJson(mHostWhite));
+    }
+
+    @NonNull
+    public List<HostEntity> getHostWhiteIntercept() {
+        return mHostWhite;
+    }
+
+    public void setHostBlackIntercept(@NonNull List<HostEntity> hosts) {
+        mHostBlack.clear();
+        mHostBlack.addAll(hosts);
+        mSPUtils.save(KEY_HOST_BLACK, new Gson().toJson(mHostBlack));
+    }
+
+    @NonNull
+    public List<HostEntity> getHostBlackIntercept() {
+        return mHostBlack;
     }
 
     public void setRvAnim(int anim) {

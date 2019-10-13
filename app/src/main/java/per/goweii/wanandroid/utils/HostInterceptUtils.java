@@ -2,6 +2,10 @@ package per.goweii.wanandroid.utils;
 
 import android.text.TextUtils;
 
+import java.util.List;
+
+import per.goweii.wanandroid.module.mine.model.HostEntity;
+
 /**
  * @author CuiZhen
  * @date 2019/9/4
@@ -9,7 +13,7 @@ import android.text.TextUtils;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class WebUrlInterceptUtils {
+public class HostInterceptUtils {
 
     public static final int TYPE_NOTHING = 0;
     public static final int TYPE_ONLY_WHITE = 1;
@@ -34,24 +38,26 @@ public class WebUrlInterceptUtils {
     }
 
     public static boolean isWhiteHost(String host) {
-        for (String s : WHITE_HOST) {
-            if (TextUtils.equals(s, host)) {
-                return true;
+        List<HostEntity> list = SettingUtils.getInstance().getHostWhiteIntercept();
+        for (HostEntity entity : list) {
+            if (TextUtils.equals(entity.getHost(), host)) {
+                return entity.isEnable();
             }
         }
         return false;
     }
 
     public static boolean isBlackHost(String host) {
-        for (String s : BLACK_HOST) {
-            if (TextUtils.equals(s, host)) {
-                return true;
+        List<HostEntity> list = SettingUtils.getInstance().getHostBlackIntercept();
+        for (HostEntity entity : list) {
+            if (TextUtils.equals(entity.getHost(), host)) {
+                return entity.isEnable();
             }
         }
         return false;
     }
 
-    private static final String[] WHITE_HOST = new String[]{
+    public static final String[] WHITE_HOST = new String[]{
             "www.wanandroid.com",
             "study.163.com",
             "juejin.im",
@@ -200,7 +206,7 @@ public class WebUrlInterceptUtils {
             "sug.so.360.cn"
     };
 
-    private static final String[] BLACK_HOST = new String[]{
+    public static final String[] BLACK_HOST = new String[]{
             "www.taobao.com",
             "www.jd.com",
             "yun.tuisnake.com"

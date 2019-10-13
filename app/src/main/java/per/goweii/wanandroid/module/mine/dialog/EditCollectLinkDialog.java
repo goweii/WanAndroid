@@ -38,7 +38,7 @@ public class EditCollectLinkDialog {
                         return AnimatorHelper.createTopOutAnim(target);
                     }
                 })
-                .asStatusBar(R.id.dialog_edit_collect_link_v_statusbar)
+                .avoidStatusBar(true)
                 .backgroundColorRes(R.color.dialog_bg)
                 .cancelableOnClickKeyBack(true)
                 .cancelableOnTouchOutside(true)

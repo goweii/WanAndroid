@@ -69,8 +69,8 @@
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.home.activity.UserPageActivity"
-            android:launchMode="singleTask"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
+            android:launchMode="singleTask" />
 
         <!--module.knowledge-->
         <activity
@@ -110,6 +110,9 @@
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.MineShareActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
+        <activity
+            android:name=".module.mine.activity.HostInterruptActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
 
         <provider

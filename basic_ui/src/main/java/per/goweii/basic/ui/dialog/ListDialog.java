@@ -182,9 +182,9 @@ public class ListDialog {
                             protected void convert(BaseViewHolder helper, String item) {
                                 TextView tvName = helper.getView(R.id.basic_ui_tv_dialog_list_name);
                                 if (helper.getAdapterPosition() == currSelectPos) {
-                                    tvName.setTextColor(ResUtils.getColor(R.color.text_main));
+                                    tvName.setTextColor(ResUtils.getColor(tvName.getContext(), R.color.text_main));
                                 } else {
-                                    tvName.setTextColor(ResUtils.getColor(R.color.text_surface));
+                                    tvName.setTextColor(ResUtils.getColor(tvName.getContext(), R.color.text_surface));
                                 }
                                 tvName.setText(item);
                             }

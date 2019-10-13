@@ -45,7 +45,7 @@ public class AgentWebCreator {
                                   final ClientCallback clientCallback) {
         AgentWeb agentWeb = AgentWeb.with(activity)
                 .setAgentWebParent(container, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT))
-                .useDefaultIndicator(ResUtils.getColor(R.color.assist), 1)
+                .useDefaultIndicator(ResUtils.getColor(activity, R.color.assist), 1)
                 .interceptUnkownUrl()
                 .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
                 .setMainFrameErrorView(R.layout.layout_agent_web_error, R.id.iv_404)
@@ -173,12 +173,12 @@ public class AgentWebCreator {
             LogUtils.d("AgentWebCreator", "overrideUrlLoading:" + uri.toString());
             switch (SettingUtils.getInstance().getUrlInterceptType()) {
                 default:
-                case WebUrlInterceptUtils.TYPE_NOTHING:
+                case HostInterceptUtils.TYPE_NOTHING:
                     return false;
-                case WebUrlInterceptUtils.TYPE_ONLY_WHITE:
-                    return !WebUrlInterceptUtils.isWhiteHost(uri.getHost());
-                case WebUrlInterceptUtils.TYPE_INTERCEPT_BLACK:
-                    return WebUrlInterceptUtils.isBlackHost(uri.getHost());
+                case HostInterceptUtils.TYPE_ONLY_WHITE:
+                    return !HostInterceptUtils.isWhiteHost(uri.getHost());
+                case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
+                    return HostInterceptUtils.isBlackHost(uri.getHost());
             }
         }
 

@@ -228,6 +228,14 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         }
     }
 
+    public static void recreate() {
+        if (activities != null && !activities.isEmpty()) {
+            for (Activity activity : activities) {
+                activity.recreate();
+            }
+        }
+    }
+
     public static void finishActivityWithoutCount(int count) {
         if (activities == null || activities.isEmpty()) {
             return;

@@ -296,31 +296,45 @@
 
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/ll_intercept_host"
+                <RelativeLayout
+                    android:id="@+id/rl_intercept_host"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_surface"
-                    android:gravity="center"
                     android:orientation="horizontal"
                     android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:paddingTop="14dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="14dp">
 
                     <TextView
-                        android:layout_width="0dp"
+                        android:id="@+id/tv_intercept_host_title"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
                         android:singleLine="true"
                         android:text="网页拦截"
                         android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
+                        android:id="@+id/tv_intercept_host_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_intercept_host_title"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="80dp"
+                        android:text="长按可自定义拦截列表"
+                        android:textColor="@color/text_third"
+                        android:textSize="@dimen/text_notes" />
+
+                    <TextView
                         android:id="@+id/tv_intercept_host"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginRight="5dp"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/iv_intercept_host_next"
                         android:singleLine="true"
                         android:text=""
                         android:textColor="@color/text_third"
@@ -328,14 +342,17 @@
                         tools:text="不拦截" />
 
                     <ImageView
+                        android:id="@+id/iv_intercept_host_next"
                         android:layout_width="13dp"
                         android:layout_height="13dp"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
                         android:rotation="180"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_back"
                         android:tint="@color/third" />
 
-                </LinearLayout>
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_rv_anim"
