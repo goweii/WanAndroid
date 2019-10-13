@@ -40,7 +40,7 @@
             android:layout_marginLeft="@dimen/margin_def"
             android:layout_marginTop="10dp"
             android:gravity="center"
-            android:textColor="@color/text_third"
+            android:textColor="@color/text_second"
             android:textSize="@dimen/text_auxiliary"
             tools:text="2019-03-15" />
 
@@ -53,10 +53,10 @@
             android:layout_marginRight="@dimen/margin_def"
             android:gravity="start"
             android:lineSpacingExtra="8dp"
-            android:maxHeight="100dp"
+            android:maxHeight="150dp"
             android:overScrollMode="never"
             android:scrollbars="none"
-            android:textColor="@color/text_third"
+            android:textColor="@color/text_second"
             android:textSize="@dimen/text_auxiliary"
             tools:text="1.修复了一个重大BUG\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰" />
 
