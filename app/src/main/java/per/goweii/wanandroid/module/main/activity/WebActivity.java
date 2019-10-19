@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 
@@ -183,6 +184,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             public void onClick2(View v) {
                 if (mAgentWeb.getWebCreator().getWebView().canGoBack()) {
                     mAgentWeb.getWebCreator().getWebView().goBack();
+                } else {
+                    finish();
                 }
             }
         });
@@ -285,7 +288,11 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
             @Override
             public void onHistoryUpdate(boolean isReload) {
-                switchIconEnable(iv_back, mAgentWeb.getWebCreator().getWebView().canGoBack());
+                if (mAgentWeb.getWebCreator().getWebView().canGoBack()) {
+                    iv_back.setImageResource(R.drawable.ic_back);
+                } else {
+                    iv_back.setImageResource(R.drawable.ic_close);
+                }
                 switchIconEnable(iv_forward, mAgentWeb.getWebCreator().getWebView().canGoForward());
                 switchIconEnable(iv_home, mAgentWeb.getWebCreator().getWebView().canGoBack());
             }
@@ -303,6 +310,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                                 Animation.RELATIVE_TO_SELF, 0.5F,
                                 Animation.RELATIVE_TO_SELF, 0.5F);
                         anim.setDuration(1500);
+                        anim.setInterpolator(new LinearInterpolator());
                         anim.setRepeatMode(Animation.RESTART);
                         anim.setRepeatCount(Animation.INFINITE);
                         iv_refresh.startAnimation(anim);

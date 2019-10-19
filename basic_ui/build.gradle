@@ -8,6 +8,7 @@ dependencies {
     api project(":basic_utils")
     api project(":basic_res")
 
+    api rootProject.ext.dependencies.design
     api rootProject.ext.dependencies.smartRefreshLayout
     api rootProject.ext.dependencies.bravh
     api rootProject.ext.dependencies.recyclerview

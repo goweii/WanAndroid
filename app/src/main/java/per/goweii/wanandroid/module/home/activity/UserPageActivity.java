@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -27,6 +30,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import butterknife.BindView;
+import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
@@ -59,6 +63,14 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
 
     @BindView(R.id.msv)
     MultiStateView msv;
+    @BindView(R.id.cl)
+    CoordinatorLayout cl;
+    @BindView(R.id.ctbl)
+    CollapsingToolbarLayout ctbl;
+    @BindView(R.id.abl)
+    AppBarLayout abl;
+    @BindView(R.id.abc)
+    ActionBarCommon abc;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.iv_blur)
@@ -248,6 +260,25 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
             }
         });
+        abl.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+            @Override
+            public void onOffsetChanged(AppBarLayout abl, int offset) {
+                if (Math.abs(offset) == abl.getTotalScrollRange()) {
+                    abc.getTitleTextView().setAlpha(1F);
+                    abc.setBackgroundResource(R.color.main);
+                } else {
+                    abc.getTitleTextView().setAlpha(0F);
+                    abc.setBackgroundResource(R.color.transparent);
+                }
+            }
+        });
+        ctbl.post(new Runnable() {
+            @Override
+            public void run() {
+                ctbl.setMinimumHeight(abc.getActionBarHeight());
+                ctbl.setScrimVisibleHeightTrigger(abc.getActionBarHeight());
+            }
+        });
     }
 
     @Override
@@ -274,6 +305,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
     public void getUserPageSuccess(int code, UserPageBean data) {
         currPage = data.getShareArticles().getCurPage() + PAGE_START;
         if (data.getShareArticles().getCurPage() == 1) {
+            abc.getTitleTextView().setText(data.getCoinInfo().getUsername());
             tv_user_name.setText(data.getCoinInfo().getUsername());
             tv_user_id.setText("" + data.getCoinInfo().getUserId());
             tv_user_coin.setText("" + data.getCoinInfo().getCoinCount());

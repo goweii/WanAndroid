@@ -65,6 +65,7 @@ ext {
 
     dependencies = [
             appcompatV7            : "com.android.support:appcompat-v7:$versions.appcompat",
+            design                 : "com.android.support:design:$versions.appcompat",
             multidex               : "com.android.support:multidex:$versions.multidex",
             constraintLayout       : "com.android.support.constraint:constraint-layout:$versions.constraintLayout",
             recyclerview           : "com.android.support:recyclerview-v7:$versions.appcompat",
