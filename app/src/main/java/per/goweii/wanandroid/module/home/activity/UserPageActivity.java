@@ -265,7 +265,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             public void onOffsetChanged(AppBarLayout abl, int offset) {
                 if (Math.abs(offset) == abl.getTotalScrollRange()) {
                     abc.getTitleTextView().setAlpha(1F);
-                    abc.setBackgroundResource(R.color.main);
+                    abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
                 } else {
                     abc.getTitleTextView().setAlpha(0F);
                     abc.setBackgroundResource(R.color.transparent);
