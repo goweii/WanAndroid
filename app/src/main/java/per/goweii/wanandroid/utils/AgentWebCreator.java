@@ -1,11 +1,13 @@
 package per.goweii.wanandroid.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -52,6 +54,7 @@ public class AgentWebCreator {
                 .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)
                 .setWebChromeClient(new AgentWebChromeClient(clientCallback))
                 .setWebViewClient(new AgentWebViewClient(clientCallback))
+                .setWebView(inflateWebView(activity))
                 .createAgentWeb()
                 .ready()
                 .go(url);
@@ -69,6 +72,10 @@ public class AgentWebCreator {
 
     public static AgentWeb create(Activity activity, WebContainer container, String url) {
         return create(activity, container, url, null);
+    }
+
+    private static WebView inflateWebView(Context context) {
+        return (WebView) LayoutInflater.from(context).inflate(R.layout.layout_web_view, null);
     }
 
     private static void syncCookiesForWanAndroid(String url) {
