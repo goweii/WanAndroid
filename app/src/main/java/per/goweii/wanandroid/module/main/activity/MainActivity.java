@@ -156,12 +156,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             LogUtils.i("WanApp", "" + item.toString());
         }
         ClipData.Item item = clip.getItemAt(0);
-        String text = item.getText().toString();
-        Uri uri = Uri.parse(text);
-        if (!TextUtils.equals(uri.getScheme(), "http") && !TextUtils.equals(uri.getScheme(), "https")) {
+        if (TextUtils.isEmpty(item.getText())) {
             return;
         }
+        String text = item.getText().toString();
         if (TextUtils.equals(mLastCopyLink, text)) {
+            return;
+        }
+        Uri uri = Uri.parse(text);
+        if (!TextUtils.equals(uri.getScheme(), "http") && !TextUtils.equals(uri.getScheme(), "https")) {
             return;
         }
         if (mCopiedLinkDialog == null) {

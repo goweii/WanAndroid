@@ -1,9 +1,10 @@
 # WanAndroid
 
+[WanAndroid](https://www.wanandroid.com/)官方内链APP，最美玩安卓客户端
 
-根据鸿洋大神的WanAndroid网站提供的开放API制作
-
-[GitHub主页](https://github.com/goweii/WanAndroid)
+- [Wanandroid主页](https://www.wanandroid.com/blog/show/2577)
+- [GitHub主页](https://github.com/goweii/WanAndroid)
+- [酷安主页](https://www.coolapk.com/apk/231591)
 
 
 
@@ -17,29 +18,20 @@
 
 # 功能及特色
 
-1、[玩Android开放API](https://www.wanandroid.com/blog/show/2)中除TODO的所有功能
-
-2、简洁美观的UI设计
-
-3、滑动返回
-
-4、稍后阅读
-
-5、夜间模式（是否开发待定，因为考虑使用时间基本在早上）
-
-6、字体大小（是否开发待定，因为考虑使用人群基本为青年）
-
-7、版本更新
-
-8、离线缓存
-
-9、更换头像
-
-10、更换个人中心背景
-
-11、等级积分和排名显示
-
-12、首页列表长按显示文章概览
+1. [玩Android开放API](https://www.wanandroid.com/blog/show/2)中除TODO的所有功能
+2. 简洁美观的UI设计
+3. 暗黑模式
+4. 滑动返回
+5. 稍后阅读
+6. 恶意网址拦截
+7. 版本更新
+8. 离线缓存
+9. 更换头像和个人中心背景
+10. 等级积分和排名显示
+11. 首页文章概览
+12. 用户主页
+13. 广场
+14. 文章分享（支持一键分享）
 
 
 
@@ -52,15 +44,10 @@
 
 # 截图展示
 
-![](https://upload-images.jianshu.io/upload_images/9231307-be0daaeb178e2add.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
-
-![](https://upload-images.jianshu.io/upload_images/9231307-005e8928ae00920b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
-
-![](https://upload-images.jianshu.io/upload_images/9231307-21b76c1e5591d7ae.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
-
-![](https://upload-images.jianshu.io/upload_images/9231307-4aee4e6eaa53dd9d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
-
-![](https://upload-images.jianshu.io/upload_images/9231307-abebdbc1e202a53d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1000/format/webp)
+| ![1.jpg](https://upload-images.jianshu.io/upload_images/9231307-f8720505b7ceefb1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) | ![4.jpg](https://upload-images.jianshu.io/upload_images/9231307-b4787c2cffda5587.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| ![2.jpg](https://upload-images.jianshu.io/upload_images/9231307-173f647644377fbd.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) | ![5.jpg](https://upload-images.jianshu.io/upload_images/9231307-b15e62aa717585ad.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) |
+| ![3.jpg](https://upload-images.jianshu.io/upload_images/9231307-4c99a7561fa76317.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) | ![6.jpg](https://upload-images.jianshu.io/upload_images/9231307-8a09ef4d98cea3ba.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240) |
 
 
 
@@ -99,6 +86,13 @@
 
 
 # 更新日志
+
+## 1.2.3(26)
+
+- 【优化】网页返回键可关闭网页
+- 【优化】已复制链接检测弹窗交互
+- 【优化】他人主页头部可折叠
+- 【优化】文章描述文本显示
 
 ## 1.2.2(25)
 
