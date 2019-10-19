@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical|horizontal"
-    android:scrollbarSize="8dp"
+    android:scrollbarSize="2dp"
     android:scrollbarStyle="insideOverlay"
     android:scrollbarThumbVertical="@drawable/scrollbar"
     android:scrollbarThumbHorizontal="@drawable/scrollbar" />

@@ -28,6 +28,7 @@ import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.dialog.PermissionDialog;
 import per.goweii.basic.ui.dialog.UpdateDialog;
 import per.goweii.basic.utils.LogUtils;
+import per.goweii.basic.utils.SPUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
@@ -120,6 +121,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         );
         vp.setCurrentItem(0);
         onPageSelected(vp.getCurrentItem());
+        mLastCopyLink = SPUtils.getInstance().get("LastCopyLink", "");
     }
 
     @Override
@@ -167,6 +169,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 @Override
                 public void onResult() {
                     mLastCopyLink = text;
+                    SPUtils.getInstance().save("LastCopyLink", mLastCopyLink);
                 }
             });
         }
