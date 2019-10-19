@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.BindView;
@@ -25,14 +26,15 @@ import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.dialog.PermissionDialog;
-import per.goweii.basic.ui.dialog.TipDialog;
 import per.goweii.basic.ui.dialog.UpdateDialog;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.home.fragment.HomeFragment;
+import per.goweii.wanandroid.module.main.dialog.CopiedLinkDialog;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.fragment.KnowledgeNavigationFragment;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
@@ -49,6 +51,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @BindView(R.id.vp)
     ViewPager vp;
+    @BindView(R.id.ll_bb)
+    LinearLayout ll_bb;
     @BindView(R.id.iv_bb_home)
     ImageView iv_bb_home;
     @BindView(R.id.tv_bb_home)
@@ -77,7 +81,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private UpdateUtils mUpdateUtils;
 
     private String mLastCopyLink = "";
-    private TipDialog mTipDialog = null;
+    private CopiedLinkDialog mCopiedLinkDialog = null;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -126,15 +130,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     protected void onStart() {
         super.onStart();
-        isNeedOpenLink();
+        ll_bb.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                isNeedOpenLink();
+            }
+        }, 500L);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if (mTipDialog != null) {
-            mTipDialog.dismiss();
-        }
     }
 
     private void isNeedOpenLink() {
@@ -156,27 +162,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         if (TextUtils.equals(mLastCopyLink, text)) {
             return;
         }
-        if (mTipDialog == null) {
-            mTipDialog = TipDialog.with(getContext())
-                    .title("是否打开链接？")
-                    .message("检测到你复制了一个链接\n" + text)
-                    .noText("放弃")
-                    .yesText("打开")
-                    .onNo(new SimpleCallback<Void>() {
-                        @Override
-                        public void onResult(Void data) {
-                            mLastCopyLink = text;
-                        }
-                    })
-                    .onYes(new SimpleCallback<Void>() {
-                        @Override
-                        public void onResult(Void data) {
-                            mLastCopyLink = text;
-                            WebActivity.start(getContext(), text);
-                        }
-                    });
+        if (mCopiedLinkDialog == null) {
+            mCopiedLinkDialog = new CopiedLinkDialog(ll_bb, text, new SimpleListener() {
+                @Override
+                public void onResult() {
+                    mLastCopyLink = text;
+                }
+            });
         }
-        mTipDialog.show();
+        if (!mCopiedLinkDialog.isShow()) {
+            mCopiedLinkDialog.show();
+        }
     }
 
     @OnClick({

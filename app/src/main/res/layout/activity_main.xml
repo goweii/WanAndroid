@@ -24,6 +24,7 @@
         app:realtimeOverlayColor="@color/bottom_bar_overlay" />
 
     <LinearLayout
+        android:id="@+id/ll_bb"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
         android:layout_gravity="bottom"
