@@ -9,9 +9,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.IntDef;
+import android.support.annotation.Nullable;
 import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Collections;
@@ -106,17 +110,39 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
     public static boolean isMainProcess() {
         String mainProcessName = getAppContext().getPackageName();
         String processName = currentProcessName();
-        return TextUtils.equals(processName, mainProcessName);
+        return processName == null || TextUtils.equals(processName, mainProcessName);
     }
 
+    @Nullable
     public static String currentProcessName() {
-        int pid = Process.myPid();
-        ActivityManager activityManager = (ActivityManager) getAppContext().getSystemService(Context.ACTIVITY_SERVICE);
-        if (activityManager != null) {
-            for (ActivityManager.RunningAppProcessInfo processInfo : activityManager.getRunningAppProcesses()) {
-                if (processInfo.pid == pid) {
-                    return processInfo.processName;
+        return getProcessName(Process.myPid());
+    }
+
+    /**
+     * 获取进程号对应的进程名
+     *
+     * @param pid 进程号
+     * @return 进程名
+     */
+    @Nullable
+    private static String getProcessName(int pid) {
+        BufferedReader reader = null;
+        try {
+            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+            String processName = reader.readLine();
+            if (!TextUtils.isEmpty(processName)) {
+                processName = processName.trim();
+            }
+            return processName;
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        } finally {
+            try {
+                if (reader != null) {
+                    reader.close();
                 }
+            } catch (IOException exception) {
+                exception.printStackTrace();
             }
         }
         return null;
@@ -125,6 +151,7 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
     /**
      * 获取当前Activity
      */
+    @Nullable
     public static Activity currentActivity() {
         if (activities == null || activities.isEmpty()) {
             return null;
@@ -135,6 +162,7 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
     /**
      * 按照指定类名找到activity
      */
+    @Nullable
     public static Activity findActivity(Class<?> cls) {
         if (cls == null) {
             return null;

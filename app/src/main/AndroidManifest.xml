@@ -4,8 +4,10 @@
     package="per.goweii.wanandroid">
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:name=".common.WanApp"
@@ -53,9 +55,12 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".module.main.activity.WebActivity"
+            android:name=".module.main.activity.CrashActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
-            android:hardwareAccelerated="true" />
+            android:process=":error_activity" />
+        <activity
+            android:name=".module.main.activity.WebActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.main.activity.ShareArticleActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
@@ -117,7 +122,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="per.goweii.wanandroid.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

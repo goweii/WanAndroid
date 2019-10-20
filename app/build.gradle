@@ -37,4 +37,7 @@ dependencies {
     implementation rootProject.ext.dependencies.disklrucache
     implementation rootProject.ext.dependencies.multiStateView
     implementation rootProject.ext.dependencies.pictureSelector
+    implementation rootProject.ext.dependencies.buglyCrashreport
+    implementation rootProject.ext.dependencies.crashActivity
+
 }
