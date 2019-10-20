@@ -17,8 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.tencent.bugly.crashreport.CrashReport;
-
 import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.anypermission.AnyPermission;
@@ -198,7 +196,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 return false;
             case R.id.ll_bb_home:
                 vp.setCurrentItem(0);
-                CrashReport.testJavaCrash();
                 break;
             case R.id.ll_bb_knowledge:
                 vp.setCurrentItem(1);
