@@ -66,10 +66,12 @@ public class WanApp extends BaseApp {
     }
 
     private void initBugly() {
-        CrashReport.setIsDevelopmentDevice(this, DebugUtils.isDebug());
-        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
-        strategy.setUploadProcess(isMainProcess());
-        CrashReport.initCrashReport(this, "0411151084", DebugUtils.isDebug(), strategy);
+        if (!DebugUtils.isDebug()) {
+            CrashReport.setIsDevelopmentDevice(this, DebugUtils.isDebug());
+            CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
+            strategy.setUploadProcess(isMainProcess());
+            CrashReport.initCrashReport(this, "0411151084", DebugUtils.isDebug(), strategy);
+        }
     }
 
     private void initCrashActivity() {
