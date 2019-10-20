@@ -7,7 +7,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import com.google.gson.reflect.TypeToken;
 import com.jakewharton.disklrucache.DiskLruCache;
 
 import java.io.File;
@@ -86,13 +85,13 @@ public class WanCache {
         }
     }
 
-    public <T> boolean isSame(T cache, T net){
-        String cacheJson = mGson.toJson(cache, new TypeToken<T>() {}.getType());
-        String netJson = mGson.toJson(net, new TypeToken<T>() {}.getType());
+    public boolean isSame(Object cache, Object net) {
+        String cacheJson = mGson.toJson(cache);
+        String netJson = mGson.toJson(net);
         return TextUtils.equals(cacheJson, netJson);
     }
 
-    public <T> void save(String key, T bean) {
+    public void save(String key, Object bean) {
         Observable.create(new ObservableOnSubscribe<Void>() {
             @Override
             public void subscribe(ObservableEmitter<Void> emitter) throws Exception {
@@ -166,11 +165,10 @@ public class WanCache {
         }
     }
 
-    private <T> void saveSync(String key, T bean) throws IOException {
+    private void saveSync(String key, Object bean) throws IOException {
         synchronized (getDiskLruCache()) {
             DiskLruCache.Editor editor = getDiskLruCache().edit(MD5Coder.encode(key));
-            editor.set(0, mGson.toJson(bean, new TypeToken<T>() {
-            }.getType()));
+            editor.set(0, mGson.toJson(bean));
             editor.commit();
             getDiskLruCache().flush();
         }

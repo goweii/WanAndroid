@@ -16,6 +16,8 @@ import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.functions.Consumer;
+import io.reactivex.plugins.RxJavaPlugins;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.Utils;
 
@@ -74,6 +76,12 @@ public abstract class BaseApp extends App {
     public void onCreate() {
         super.onCreate();
         Utils.init(this);
+        RxJavaPlugins.setErrorHandler(new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                throwable.printStackTrace();
+            }
+        });
         onAppLikeCreate();
     }
 
