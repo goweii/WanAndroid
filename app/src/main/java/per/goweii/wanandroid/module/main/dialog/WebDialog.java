@@ -10,8 +10,6 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
-import com.just.agentweb.AgentWeb;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +22,7 @@ import per.goweii.wanandroid.module.home.presenter.WebDialogPresenter;
 import per.goweii.wanandroid.module.home.view.WebDialogView;
 import per.goweii.wanandroid.module.main.adapter.WebDialogPagerAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.utils.WebHolder;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -153,9 +152,9 @@ public class WebDialog extends DialogLayer implements WebDialogView {
                 @Override
                 public void onClick2(View v) {
                     if (mAdapter != null) {
-                        AgentWeb agentWeb = mAdapter.getAgentWeb(vp.getCurrentItem());
-                        if (agentWeb != null) {
-                            agentWeb.back();
+                        WebHolder web = mAdapter.getWeb(vp.getCurrentItem());
+                        if (web != null) {
+                            web.goBack();
                         }
                     }
                 }

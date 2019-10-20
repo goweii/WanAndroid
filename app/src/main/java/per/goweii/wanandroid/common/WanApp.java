@@ -47,20 +47,22 @@ public class WanApp extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
-        setDarkModeStatus();
+        if (isMainProcess()) {
+            setDarkModeStatus();
+            RxHttp.init(this);
+            RxHttp.initRequest(new RxHttpRequestSetting(getCookieJar()));
+            WanCache.init();
+            Blurred.init(getAppContext());
+            CoreInit.getInstance().setOnGoLoginCallback(new SimpleCallback<Activity>() {
+                @Override
+                public void onResult(Activity data) {
+                    UserUtils.getInstance().doIfLogin(data);
+                }
+            });
+            Realm.init(this);
+        }
         initBugly();
         initCrashActivity();
-        RxHttp.init(this);
-        RxHttp.initRequest(new RxHttpRequestSetting(getCookieJar()));
-        WanCache.init();
-        Blurred.init(getAppContext());
-        CoreInit.getInstance().setOnGoLoginCallback(new SimpleCallback<Activity>() {
-            @Override
-            public void onResult(Activity data) {
-                UserUtils.getInstance().doIfLogin(data);
-            }
-        });
-        Realm.init(this);
     }
 
     private void initBugly() {

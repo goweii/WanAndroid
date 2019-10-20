@@ -8,13 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.just.agentweb.AgentWeb;
-
 import java.util.List;
 
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
-import per.goweii.wanandroid.utils.AgentWebCreator;
+import per.goweii.wanandroid.utils.WebHolder;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**
@@ -29,7 +27,7 @@ public class WebDialogPagerAdapter extends PagerAdapter {
     private final Activity mActivity;
     private final List<ArticleBean> mTopUrls;
     private final List<ArticleBean> mUrls;
-    private final SparseArray<AgentWeb> mAgentWebs = new SparseArray<>();
+    private final SparseArray<WebHolder> mWebs = new SparseArray<>();
 
     private OnDoubleClickListener mOnDoubleClickListener = null;
 
@@ -43,40 +41,40 @@ public class WebDialogPagerAdapter extends PagerAdapter {
         mOnDoubleClickListener = onDoubleClickListener;
     }
 
-    public AgentWeb getAgentWeb(int pos) {
-        return mAgentWebs.get(pos);
+    public WebHolder getWeb(int pos) {
+        return mWebs.get(pos);
     }
 
     public void resumeAndPauseOthersAgentWeb(int pos) {
-        for (int i = 0; i < mAgentWebs.size(); i++) {
-            int index = mAgentWebs.keyAt(i);
-            AgentWeb agentWeb = mAgentWebs.valueAt(i);
-            if (agentWeb == null) {
+        for (int i = 0; i < mWebs.size(); i++) {
+            int index = mWebs.keyAt(i);
+            WebHolder web = mWebs.valueAt(i);
+            if (web == null) {
                 continue;
             }
             if (index == pos) {
-                agentWeb.getWebLifeCycle().onResume();
+                web.onResume();
             } else {
-                agentWeb.getWebLifeCycle().onPause();
+                web.onPause();
             }
         }
     }
 
     public void pauseAllAgentWeb() {
-        for (int i = 0; i < mAgentWebs.size(); i++) {
-            AgentWeb agentWeb = mAgentWebs.valueAt(i);
-            if (agentWeb == null) {
+        for (int i = 0; i < mWebs.size(); i++) {
+            WebHolder web = mWebs.valueAt(i);
+            if (web == null) {
                 continue;
             }
-            agentWeb.getWebLifeCycle().onPause();
+            web.onPause();
         }
     }
 
     public void destroyAllAgentWeb() {
-        for (int i = 0; i < mAgentWebs.size(); i++) {
-            AgentWeb agentWeb = mAgentWebs.valueAt(i);
-            if (agentWeb != null) {
-                agentWeb.getWebLifeCycle().onDestroy();
+        for (int i = 0; i < mWebs.size(); i++) {
+            WebHolder web = mWebs.valueAt(i);
+            if (web != null) {
+                web.onDestroy();
             }
         }
     }
@@ -115,23 +113,17 @@ public class WebDialogPagerAdapter extends PagerAdapter {
                 }
             }
         });
-        AgentWeb agentWeb = AgentWebCreator.create(mActivity, wc, data.getLink());
-        rootView.setTag(agentWeb);
-        mAgentWebs.put(position, agentWeb);
+        WebHolder web = WebHolder.with(mActivity, wc).loadUrl(data.getLink());
+        mWebs.put(position, web);
         container.addView(rootView);
         return rootView;
     }
 
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        mAgentWebs.remove(position);
-        View rootView = (View) object;
-        Object tag = rootView.getTag();
-        if (tag instanceof AgentWeb) {
-            AgentWeb agentWeb = (AgentWeb) tag;
-            agentWeb.getWebLifeCycle().onDestroy();
-            rootView.setTag(null);
-        }
+        WebHolder web = mWebs.get(position);
+        web.onDestroy();
+        mWebs.remove(position);
     }
 
     @Override
