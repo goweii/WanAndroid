@@ -137,7 +137,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                     @Override
                     public void run() {
                         WanApp.recreate();
-                        finish();
                     }
                 }, 300);
             }

@@ -5,6 +5,8 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -55,6 +57,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     public boolean swipeBackEnable() {
         return false;
+    }
+
+    @Override
+    protected void initWindow() {
+        super.initWindow();
+        setTheme(R.style.AppTheme);
+        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }
 
     @Override

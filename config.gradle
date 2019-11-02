@@ -33,7 +33,7 @@ ext {
             anyPermission         : "1.1.2",
             anyDialog             : "3.0.3",
             anyLayer              : "3.2.2",
-            actionBarEx           : "3.2.1",
+            actionBarEx           : "3.2.4",
             percentImageView      : "1.0.2",
             roundedimageview      : "2.3.0",
             circleimageview       : "2.2.0",
@@ -51,7 +51,7 @@ ext {
             disklrucache          : "2.0.2",
             multiStateView        : "1.3.2",
             pictureSelector       : "v2.3.1",
-            swipeBack             : "1.0.7",
+            swipeBack             : "1.1.0",
             lazyfragment          : "1.1.2",
             heartView             : "1.0.0",
 
