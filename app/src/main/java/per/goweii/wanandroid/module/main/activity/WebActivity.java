@@ -161,6 +161,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             CollectArticleEntity entity = new CollectArticleEntity();
             entity.setArticleId(mArticleId);
             entity.setTitle(mTitle);
+            entity.setAuthor(mAuthor);
             entity.setUrl(mUrl);
             entity.setCollect(true);
             mCollectedList.add(entity);

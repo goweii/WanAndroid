@@ -6,11 +6,9 @@
     android:layout_height="match_parent"
     app:heart_centerX="-0.5"
     app:heart_centerY="-0.5"
-    app:heart_color="@color/background"
-    app:heart_edgeColor="@color/background"
+    app:heart_color="@color/surface"
+    app:heart_edgeColor="@color/surface"
     app:heart_strokeColor="@color/accent"
     app:heart_strokeWidth="0.5dp"
-    tools:heart_color="@color/main"
-    tools:heart_edgeColor="@color/main"
     tools:layout_height="150dp"
     tools:layout_width="150dp" />
