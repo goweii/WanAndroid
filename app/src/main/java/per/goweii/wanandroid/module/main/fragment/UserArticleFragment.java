@@ -1,7 +1,5 @@
-package per.goweii.wanandroid.module.home.activity;
+package per.goweii.wanandroid.module.main.fragment;
 
-import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +18,7 @@ import java.util.List;
 import butterknife.BindView;
 import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
-import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
@@ -29,13 +27,13 @@ import per.goweii.wanandroid.event.ArticleShareEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.home.presenter.UserArticlePresenter;
-import per.goweii.wanandroid.module.home.view.UserArticleView;
 import per.goweii.wanandroid.module.main.activity.ShareArticleActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.main.presenter.UserArticlePresenter;
+import per.goweii.wanandroid.module.main.view.UserArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
@@ -48,7 +46,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class UserArticleActivity extends BaseActivity<UserArticlePresenter> implements UserArticleView {
+public class UserArticleFragment extends BaseFragment<UserArticlePresenter> implements UserArticleView {
 
     private static final int PAGE_START = 0;
 
@@ -66,9 +64,8 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
 
     private int currPage = PAGE_START;
 
-    public static void start(Context context) {
-        Intent intent = new Intent(context, UserArticleActivity.class);
-        context.startActivity(intent);
+    public static UserArticleFragment create() {
+        return new UserArticleFragment();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -125,8 +122,8 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_user_article;
+    protected int getLayoutRes() {
+        return R.layout.fragment_user_article;
     }
 
     @Nullable
@@ -197,9 +194,16 @@ public class UserArticleActivity extends BaseActivity<UserArticlePresenter> impl
 
     @Override
     protected void loadData() {
-        MultiStateUtils.toLoading(msv);
-        currPage = PAGE_START;
-        getProjectArticleList(false);
+    }
+
+    @Override
+    protected void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        if (isFirstVisible) {
+            MultiStateUtils.toLoading(msv);
+            currPage = PAGE_START;
+            getProjectArticleList(false);
+        }
     }
 
     public void getProjectArticleList(boolean refresh) {

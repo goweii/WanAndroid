@@ -8,17 +8,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import per.goweii.anypermission.AnyPermission;
 import per.goweii.anypermission.RequestInterceptor;
 import per.goweii.anypermission.RequestListener;
@@ -32,18 +25,13 @@ import per.goweii.basic.utils.SPUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.common.Config;
-import per.goweii.wanandroid.common.ScrollTop;
-import per.goweii.wanandroid.module.home.fragment.HomeFragment;
 import per.goweii.wanandroid.module.main.dialog.CopiedLinkDialog;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
-import per.goweii.wanandroid.module.main.fragment.KnowledgeNavigationFragment;
+import per.goweii.wanandroid.module.main.fragment.MainFragment;
+import per.goweii.wanandroid.module.main.fragment.UserArticleFragment;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.presenter.MainPresenter;
 import per.goweii.wanandroid.module.main.view.MainView;
-import per.goweii.wanandroid.module.mine.fragment.MineFragment;
-import per.goweii.wanandroid.module.project.fragment.ProjectFragment;
-import per.goweii.wanandroid.module.wxarticle.fragment.WxFragment;
 import per.goweii.wanandroid.utils.UpdateUtils;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainView, ViewPager.OnPageChangeListener {
@@ -52,35 +40,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @BindView(R.id.vp)
     ViewPager vp;
-    @BindView(R.id.ll_bb)
-    LinearLayout ll_bb;
-    @BindView(R.id.iv_bb_home)
-    ImageView iv_bb_home;
-    @BindView(R.id.tv_bb_home)
-    TextView tv_bb_home;
-    @BindView(R.id.iv_bb_knowledge)
-    ImageView iv_bb_knowledge;
-    @BindView(R.id.tv_bb_knowledge)
-    TextView tv_bb_knowledge;
-    @BindView(R.id.iv_bb_wechat)
-    ImageView iv_bb_wechat;
-    @BindView(R.id.tv_bb_wechat)
-    TextView tv_bb_wechat;
-    @BindView(R.id.iv_bb_project)
-    ImageView iv_bb_project;
-    @BindView(R.id.tv_bb_project)
-    TextView tv_bb_project;
-    @BindView(R.id.iv_bb_mine)
-    ImageView iv_bb_mine;
-    @BindView(R.id.tv_bb_mine)
-    TextView tv_bb_mine;
 
     private FixedFragmentPagerAdapter mPagerAdapter;
     private RuntimeRequester mRuntimeRequester;
-    private long lastClickTime = 0L;
-    private int lastClickPos = 0;
     private UpdateUtils mUpdateUtils;
-
     private String mLastCopyLink = "";
     private CopiedLinkDialog mCopiedLinkDialog = null;
 
@@ -107,19 +70,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void initView() {
-        LogUtils.i("MainActivity", "MainActivity started");
         vp.addOnPageChangeListener(this);
-        vp.setOffscreenPageLimit(4);
+        vp.setOffscreenPageLimit(1);
         mPagerAdapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(mPagerAdapter);
         mPagerAdapter.setFragmentList(
-                HomeFragment.create(),
-                KnowledgeNavigationFragment.create(),
-                WxFragment.create(),
-                ProjectFragment.create(),
-                MineFragment.create()
+                UserArticleFragment.create(),
+                MainFragment.create()
         );
-        vp.setCurrentItem(0);
+        vp.setCurrentItem(1);
         onPageSelected(vp.getCurrentItem());
         mLastCopyLink = SPUtils.getInstance().get("LastCopyLink", "");
     }
@@ -132,7 +91,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     protected void onStart() {
         super.onStart();
-        ll_bb.postDelayed(new Runnable() {
+        vp.postDelayed(new Runnable() {
             @Override
             public void run() {
                 isNeedOpenLink();
@@ -168,7 +127,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             return;
         }
         if (mCopiedLinkDialog == null) {
-            mCopiedLinkDialog = new CopiedLinkDialog(ll_bb, text, new SimpleListener() {
+            mCopiedLinkDialog = new CopiedLinkDialog(vp, text, new SimpleListener() {
                 @Override
                 public void onResult() {
                     mLastCopyLink = text;
@@ -181,50 +140,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         }
     }
 
-    @OnClick({
-            R.id.ll_bb_home, R.id.ll_bb_knowledge, R.id.ll_bb_wechat, R.id.ll_bb_project, R.id.ll_bb_mine
-    })
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-    }
-
-    @Override
-    protected boolean onClick1(View v) {
-        switch (v.getId()) {
-            default:
-                return false;
-            case R.id.ll_bb_home:
-                vp.setCurrentItem(0);
-                break;
-            case R.id.ll_bb_knowledge:
-                vp.setCurrentItem(1);
-                break;
-            case R.id.ll_bb_wechat:
-                vp.setCurrentItem(2);
-                break;
-            case R.id.ll_bb_project:
-                vp.setCurrentItem(3);
-                break;
-            case R.id.ll_bb_mine:
-                vp.setCurrentItem(4);
-                break;
-        }
-        notifyScrollTop(vp.getCurrentItem());
-        return true;
-    }
-
-    private void notifyScrollTop(int pos) {
-        long currClickTime = System.currentTimeMillis();
-        if (lastClickPos == pos && currClickTime - lastClickTime <= Config.SCROLL_TOP_DOUBLE_CLICK_DELAY) {
-            Fragment fragment = mPagerAdapter.getItem(pos);
-            if (fragment instanceof ScrollTop) {
-                ScrollTop scrollTop = (ScrollTop) fragment;
-                scrollTop.scrollTop();
-            }
-        }
-        lastClickPos = pos;
-        lastClickTime = currClickTime;
+    public void openUserArticle() {
+        vp.setCurrentItem(0);
     }
 
     @Override
@@ -233,30 +150,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     public void onPageSelected(int i) {
-        iv_bb_home.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
-        iv_bb_knowledge.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
-        iv_bb_wechat.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
-        iv_bb_project.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
-        iv_bb_mine.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
-        switch (i) {
-            default:
-                break;
-            case 0:
-                iv_bb_home.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
-            case 1:
-                iv_bb_knowledge.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
-            case 2:
-                iv_bb_wechat.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
-            case 3:
-                iv_bb_project.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
-            case 4:
-                iv_bb_mine.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
-        }
     }
 
     @Override

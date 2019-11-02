@@ -67,9 +67,6 @@
             android:name=".module.home.activity.SearchActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
-            android:name=".module.home.activity.UserArticleActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
-        <activity
             android:name=".module.home.activity.UserPageActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode"
             android:launchMode="singleTask" />

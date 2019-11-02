@@ -39,7 +39,7 @@ public class CopiedLinkDialog extends PopupLayer implements View.OnTouchListener
         interceptKeyEvent(false);
         outsideInterceptTouchEvent(false);
         horizontal(Align.Horizontal.ALIGN_LEFT);
-        vertical(Align.Vertical.ABOVE);
+        vertical(Align.Vertical.ALIGN_BOTTOM);
         direction(Align.Direction.HORIZONTAL);
         contentAnimator(new AnimatorCreator() {
             @Override
