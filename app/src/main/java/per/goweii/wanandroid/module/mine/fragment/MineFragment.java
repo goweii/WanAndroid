@@ -279,7 +279,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             tv_coin.setText("");
         } else {
             civ_user_icon.setImageResource(R.color.transparent);
-            ImageLoader.userBlur(iv_blur, R.color.transparent);
+            iv_blur.setImageResource(R.color.transparent);
             tv_user_name.setText("去登陆");
             tv_user_id.setText("-----");
             tv_user_level.setText("--");
