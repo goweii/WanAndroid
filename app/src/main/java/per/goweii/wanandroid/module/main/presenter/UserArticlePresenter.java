@@ -20,6 +20,33 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class UserArticlePresenter extends BasePresenter<UserArticleView> {
 
+    public void getUserArticleListCache(int page) {
+        MainRequest.getUserArticleListCache(page, new RequestListener<ArticleListBean>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, ArticleListBean data) {
+                if (isAttach()) {
+                    getBaseView().getUserArticleListSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        });
+    }
+
     public void getUserArticleList(int page, boolean refresh) {
         MainRequest.getUserArticleList(getRxLife(), refresh, page, new RequestListener<ArticleListBean>() {
             @Override

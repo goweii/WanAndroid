@@ -194,13 +194,15 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
+        currPage = PAGE_START;
+        presenter.getUserArticleListCache(currPage);
     }
 
     @Override
     protected void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
         if (isFirstVisible) {
-            MultiStateUtils.toLoading(msv);
             currPage = PAGE_START;
             getProjectArticleList(false);
         }
