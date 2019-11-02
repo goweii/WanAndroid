@@ -75,11 +75,23 @@ public abstract class MvpFragment<T extends MvpPresenter> extends LazyFragment i
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter = initPresenter();
+        attachPresenter();
+        initialize();
+    }
+
+    @Override
+    protected void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        attachPresenter();
+    }
+
+    private void attachPresenter() {
+        if (presenter == null) {
+            presenter = initPresenter();
+        }
         if (presenter != null) {
             presenter.attach(this);
         }
-        initialize();
     }
 
     @Override
