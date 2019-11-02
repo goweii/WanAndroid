@@ -27,11 +27,11 @@ public class WebDialogPresenter extends BasePresenter<WebDialogView> {
 
             @Override
             public void onSuccess(int code, BaseBean data) {
+                CollectionEvent.postCollectWithArticleId(item.getId());
                 item.setCollect(true);
                 if (!v.isChecked()) {
                     v.toggle();
                 }
-                CollectionEvent.postCollectWithArticleId(item.getId());
             }
 
             @Override
@@ -59,11 +59,11 @@ public class WebDialogPresenter extends BasePresenter<WebDialogView> {
 
             @Override
             public void onSuccess(int code, BaseBean data) {
+                CollectionEvent.postUnCollectWithArticleId(item.getId());
                 item.setCollect(false);
                 if (v.isChecked()) {
                     v.toggle();
                 }
-                CollectionEvent.postUnCollectWithArticleId(item.getId());
             }
 
             @Override
