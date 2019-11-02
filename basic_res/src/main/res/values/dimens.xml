@@ -9,6 +9,7 @@
     <dimen name="round_radius">12dp</dimen>
     <dimen name="round_radius_small">3dp</dimen>
 
+    <dimen name="margin_thin">6dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_def">16dp</dimen>
     <dimen name="margin_middle">32dp</dimen>

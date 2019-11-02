@@ -17,9 +17,13 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Random;
 
 import per.goweii.basic.utils.ColorUtils;
+import per.goweii.heartview.HeartView;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.SettingUtils;
 
@@ -48,7 +52,16 @@ public class WebContainer extends FrameLayout {
 
     private OnDoubleClickListener mOnDoubleClickListener = null;
     private OnTouchDownListener mOnTouchDownListener = null;
-    private ImageView mImageView;
+
+    private List<Animator> mHeartAnimators = new LinkedList<>();
+
+    private boolean doubleClicked = false;
+    private Runnable doubleClickTimeoutRunnable = new Runnable() {
+        @Override
+        public void run() {
+            doubleClicked = false;
+        }
+    };
 
     public WebContainer(@NonNull Context context) {
         this(context, null);
@@ -100,23 +113,27 @@ public class WebContainer extends FrameLayout {
                 float upX = event.getX();
                 float upY = event.getY();
                 long currTime = System.currentTimeMillis();
-                boolean isClick = getDistance(mDownX, mDownY, upX, upY) < mTouchSlop &&
-                        currTime - mDownTime < mTapTimeout;
+                boolean inTouchSlop = getDistance(mDownX, mDownY, upX, upY) < mTouchSlop;
+                boolean inTapTimeout = currTime - mDownTime < mTapTimeout;
+                boolean isClick = inTouchSlop && inTapTimeout;
                 if (isClick) {
-                    if (currTime - mLastTouchTime < mDoubleTapTimeout &&
-                            getDistance(mDownX, mDownY, mLastDownX, mLastDownY) < mTouchSlop * 5) {
-                        onDoubleClicked(mDownX, mDownY);
+                    if (currTime - mLastTouchTime < mDoubleTapTimeout) {
+                        if (getDistance(mDownX, mDownY, mLastDownX, mLastDownY) < mTouchSlop * 5) {
+                            if (!doubleClicked) {
+                                doubleClicked = true;
+                                onDoubleClicked(upX, upY);
+                            }
+                        }
                     }
                     mLastDownX = mDownX;
                     mLastDownY = mDownY;
-                    mDownX = getWidth() / 2;
-                    mDownY = getHeight() / 2;
                     mLastTouchTime = currTime;
                 }
-                break;
-            case MotionEvent.ACTION_CANCEL:
-                mDownX = getWidth() / 2;
-                mDownY = getHeight() / 2;
+                if (doubleClicked && inTouchSlop) {
+                    onDoubleClicking(upX, upY);
+                }
+                removeCallbacks(doubleClickTimeoutRunnable);
+                postDelayed(doubleClickTimeoutRunnable, mDoubleTapTimeout * 3);
                 break;
         }
         return super.dispatchTouchEvent(event);
@@ -130,6 +147,15 @@ public class WebContainer extends FrameLayout {
         }
     }
 
+    @Override
+    protected void onDetachedFromWindow() {
+        for (Animator animator : mHeartAnimators) {
+            animator.cancel();
+        }
+        mHeartAnimators.clear();
+        super.onDetachedFromWindow();
+    }
+
     private double getDistance(double x1, double y1, double x2, double y2) {
         return Math.sqrt(Math.pow(Math.abs(x2 - x1), 2) + Math.pow(Math.abs(y2 - y1), 2));
     }
@@ -140,49 +166,80 @@ public class WebContainer extends FrameLayout {
         }
     }
 
+    private void onDoubleClicking(float x, float y) {
+        showHeartAnim(x, y);
+    }
+
     private void onTouchDown() {
         if (mOnTouchDownListener != null) {
             mOnTouchDownListener.onTouchDown();
         }
     }
 
-    public void showCollectAnim() {
-        showCollectAnim(mDownX, mDownY);
+    public void showHeartAnim(float x, float y) {
+        final View heartView = createHeartView();
+        heartView.setVisibility(View.INVISIBLE);
+        heartView.post(new Runnable() {
+            @Override
+            public void run() {
+                heartView.setPivotX(heartView.getWidth() / 2F);
+                heartView.setPivotY(heartView.getHeight());
+                heartView.setX(x - heartView.getWidth() / 2F);
+                heartView.setY(y - heartView.getHeight());
+                Animator animator = createHeartAnim(heartView);
+                mHeartAnimators.add(animator);
+                animator.start();
+            }
+        });
+        addView(heartView);
     }
 
-    public void showCollectAnim(float x, float y) {
-        mImageView = createImageView();
-        ObjectAnimator alphaIn = ObjectAnimator.ofFloat(mImageView, "alpha", 0F, 1F);
+    private final Random mRandom = new Random();
+
+    public Animator createHeartAnim(final View heartView) {
+        final float rotation;
+        final float random = mRandom.nextFloat();
+        if (random < 0.3F) {
+            rotation = 15F;
+        } else if (random > 0.7F) {
+            rotation = -15F;
+        } else {
+            rotation = 0F;
+        }
+        heartView.setRotation(rotation);
+        ObjectAnimator alphaIn = ObjectAnimator.ofFloat(heartView, "alpha", 0F, 1F);
         alphaIn.setInterpolator(new DecelerateInterpolator());
-        ObjectAnimator scaleXIn = ObjectAnimator.ofFloat(mImageView, "scaleX", 0.3F, 1F);
+        ObjectAnimator scaleXIn = ObjectAnimator.ofFloat(heartView, "scaleX", 0.3F, 1F);
         scaleXIn.setInterpolator(new OvershootInterpolator());
-        ObjectAnimator scaleYIn = ObjectAnimator.ofFloat(mImageView, "scaleY", 0.3F, 1F);
+        ObjectAnimator scaleYIn = ObjectAnimator.ofFloat(heartView, "scaleY", 0.3F, 1F);
         scaleYIn.setInterpolator(new OvershootInterpolator());
         AnimatorSet setIn = new AnimatorSet();
         setIn.playTogether(alphaIn, scaleXIn, scaleYIn);
         setIn.setDuration(300);
-        ObjectAnimator alphaOut = ObjectAnimator.ofFloat(mImageView, "alpha", 1F, 0F);
-        alphaIn.setInterpolator(new AccelerateInterpolator());
-        ObjectAnimator scaleXOut = ObjectAnimator.ofFloat(mImageView, "scaleX", 1F, 0.3F);
+        ObjectAnimator alphaOut = ObjectAnimator.ofFloat(heartView, "alpha", 1F, 0F);
+        alphaOut.setInterpolator(new AccelerateInterpolator());
+        ObjectAnimator scaleXOut = ObjectAnimator.ofFloat(heartView, "scaleX", 1F, 1.5F);
         scaleXOut.setInterpolator(new AccelerateInterpolator());
-        ObjectAnimator scaleYOut = ObjectAnimator.ofFloat(mImageView, "scaleY", 1F, 0.3F);
+        ObjectAnimator scaleYOut = ObjectAnimator.ofFloat(heartView, "scaleY", 1F, 1.5F);
         scaleYOut.setInterpolator(new AccelerateInterpolator());
+        ObjectAnimator transYOut = ObjectAnimator.ofFloat(heartView, "translationY",
+                heartView.getTranslationY(), heartView.getTranslationY() - heartView.getHeight() * 1.5F);
+        transYOut.setInterpolator(new AccelerateInterpolator());
         AnimatorSet setOut = new AnimatorSet();
-        setOut.playTogether(alphaOut, scaleXOut, scaleYOut);
-        setOut.setDuration(300);
+        setOut.playTogether(alphaOut, scaleXOut, scaleYOut, transYOut);
+        setOut.setDuration(500);
         setOut.setStartDelay(200);
         AnimatorSet set = new AnimatorSet();
         set.playSequentially(setIn, setOut);
         set.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animation) {
-                mImageView.setVisibility(View.VISIBLE);
+                heartView.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onAnimationEnd(Animator animation) {
-                removeView(mImageView);
-                mImageView = null;
+                removeView(heartView);
             }
 
             @Override
@@ -193,25 +250,18 @@ public class WebContainer extends FrameLayout {
             public void onAnimationRepeat(Animator animation) {
             }
         });
-        mImageView.setVisibility(View.INVISIBLE);
-        mImageView.post(new Runnable() {
-            @Override
-            public void run() {
-                mImageView.setX(x - mImageView.getWidth() / 2);
-                mImageView.setY(y - mImageView.getHeight() / 2);
-                set.start();
-            }
-        });
-        addView(mImageView);
+        return set;
     }
 
-    private ImageView createImageView() {
-        ImageView imageView = new ImageView(getContext());
-        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        imageView.setImageResource(R.drawable.ic_heart);
-        imageView.setColorFilter(ContextCompat.getColor(getContext(), R.color.accent));
-        imageView.setLayoutParams(new LayoutParams(getWidth() / 3, getWidth() / 3));
-        return imageView;
+    private View createHeartView() {
+        HeartView heartView = new HeartView(getContext());
+        heartView.setCenter(-0.5f, -0.5f);
+        heartView.setColor(Color.parseColor("#ffccee"));
+        heartView.setEdgeColor(ContextCompat.getColor(getContext(), R.color.accent));
+        heartView.setStrokeWidthDp(0);
+        int size = (int) (getWidth() * 0.27F);
+        heartView.setLayoutParams(new LayoutParams(size, size));
+        return heartView;
     }
 
     public interface OnDoubleClickListener {

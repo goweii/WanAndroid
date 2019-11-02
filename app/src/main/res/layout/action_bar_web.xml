@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/action_bar_height"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/basic_ui_action_bar_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/margin_small"
+        android:layout_marginTop="@dimen/margin_thin"
+        android:layout_marginEnd="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_thin"
+        android:background="@drawable/action_search_bg"
+        android:gravity="center_vertical">
+
+        <per.goweii.wanandroid.widget.CollectView
+            android:id="@+id/cv_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_small" />
+
+        <EditText
+            android:id="@+id/et_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:hint="请输入网址"
+            android:lines="1"
+            android:imeOptions="actionGo"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_content"
+            android:textColorHint="@color/basic_ui_action_bar_text_alpha"
+            android:textColor="@color/basic_ui_action_bar_text"
+            android:background="@color/transparent" />
+
+        <ImageView
+            android:id="@+id/iv_into"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/margin_small"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_into" />
+
+    </LinearLayout>
+
+</FrameLayout>

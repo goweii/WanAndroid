@@ -178,10 +178,10 @@
 
     <per.goweii.wanandroid.widget.CollectView
         android:id="@+id/cv_collect"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        tools:rl_checked="false"
         android:layout_alignBottom="@+id/ll_chapter"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="-3dp" />
+        android:layout_alignParentRight="true" />
 
 </RelativeLayout>

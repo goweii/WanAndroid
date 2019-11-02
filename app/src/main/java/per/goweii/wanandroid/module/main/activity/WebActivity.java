@@ -2,7 +2,6 @@ package per.goweii.wanandroid.module.main.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PointF;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,26 +11,33 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.common.ActionBarSearch;
-import per.goweii.actionbarex.common.OnActionBarChildClickListener;
+import per.goweii.actionbarex.ActionBarEx;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
-import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
 import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.WebHolder;
+import per.goweii.wanandroid.widget.CollectView;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**
@@ -43,8 +49,14 @@ import per.goweii.wanandroid.widget.WebContainer;
  */
 public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView {
 
-    @BindView(R.id.abs)
-    ActionBarSearch abs;
+    @BindView(R.id.ab)
+    ActionBarEx ab;
+    @BindView(R.id.et_title)
+    EditText et_title;
+    @BindView(R.id.cv_collect)
+    CollectView cv_collect;
+    @BindView(R.id.iv_into)
+    ImageView iv_into;
     @BindView(R.id.wc)
     WebContainer wc;
     @BindView(R.id.iv_back)
@@ -67,32 +79,51 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     private WebGuideDialog mWebGuideDialog = null;
     private WebHolder mWebHolder;
 
-    public static void start(Context context, int articleId, String title, String url) {
+    private List<CollectArticleEntity> mCollectedList = new ArrayList<>(1);
+
+    public static void start(Context context, ArticleBean article) {
+        int articleId = article.getOriginId() != 0 ? article.getOriginId() : article.getId();
+        start(context, articleId, article.getTitle(), article.getLink(), article.isCollect());
+    }
+
+    public static void start(Context context, int articleId, String title, String url, boolean collected) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("articleId", articleId);
         intent.putExtra("title", title);
         intent.putExtra("url", url);
+        intent.putExtra("collected", collected);
         context.startActivity(intent);
     }
 
-    public static void start(Context context, String title, String author, String url) {
+    public static void start(Context context, String title, String author, String url, boolean collected) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("author", author);
         intent.putExtra("url", url);
+        intent.putExtra("collected", collected);
         context.startActivity(intent);
     }
 
     public static void start(Context context, String title, String url) {
+        start(context, title, url, false);
+    }
+
+    public static void start(Context context, String title, String url, boolean collected) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("url", url);
+        intent.putExtra("collected", collected);
         context.startActivity(intent);
     }
 
     public static void start(Context context, String url) {
+        start(context, url, false);
+    }
+
+    public static void start(Context context, String url, boolean collected) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("url", url);
+        intent.putExtra("collected", collected);
         context.startActivity(intent);
     }
 
@@ -125,17 +156,19 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         mAuthor = mAuthor == null ? "" : mAuthor;
         mUrl = getIntent().getStringExtra("url");
         mUrl = mUrl == null ? "" : mUrl;
-
+        boolean collected = getIntent().getBooleanExtra("collected", false);
+        if (collected) {
+            CollectArticleEntity entity = new CollectArticleEntity();
+            entity.setArticleId(mArticleId);
+            entity.setTitle(mTitle);
+            entity.setUrl(mUrl);
+            entity.setCollect(true);
+            mCollectedList.add(entity);
+        }
         iv_menu.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                LogUtils.i("WebActivity", "mArticleId=" + mArticleId);
-                LogUtils.i("WebActivity", "mTitle=" + mTitle);
-                LogUtils.i("WebActivity", "mAuthor=" + mAuthor);
-                LogUtils.i("WebActivity", "mUrl=" + mUrl);
-                LogUtils.i("WebActivity", "mCurrUrl=" + mWebHolder.getUrl());
-                LogUtils.i("WebActivity", "mCurrTitle=" + mWebHolder.getTitle());
-                WebMenuDialog.show(getContext(), new WebMenuDialog.OnMenuClickListener() {
+                WebMenuDialog.show(getContext(), isCollect(), new WebMenuDialog.OnMenuClickListener() {
                     @Override
                     public void onShare() {
                         ShareArticleActivity.start(getContext(), mWebHolder.getTitle(), mWebHolder.getUrl());
@@ -143,7 +176,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
                     @Override
                     public void onCollect() {
-                        collect(null);
+                        toggleCollect();
                     }
 
                     @Override
@@ -217,37 +250,57 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         wc.setOnTouchDownListener(new WebContainer.OnTouchDownListener() {
             @Override
             public void onTouchDown() {
-                abs.getEditTextView().clearFocus();
+                et_title.clearFocus();
             }
         });
         wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
             @Override
             public void onDoubleClick(float x, float y) {
-                collect(new PointF(x, y));
+                collect();
             }
         });
-        abs.setOnRightTextClickListener(new OnActionBarChildClickListener() {
+        iv_into.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = abs.getEditTextView().getText().toString();
+                String url = et_title.getText().toString();
                 if (!TextUtils.isEmpty(url)) {
                     Uri uri = Uri.parse(url);
                     if (TextUtils.equals(uri.getScheme(), "http") || TextUtils.equals(uri.getScheme(), "https")) {
                         mWebHolder.loadUrl(url);
                     }
                 }
-                abs.getEditTextView().clearFocus();
+                et_title.clearFocus();
             }
         });
-        abs.getEditTextView().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_title.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    iv_into.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+        et_title.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    abs.getEditTextView().setText(mWebHolder.getUrl());
-                    InputMethodUtils.show(abs.getEditTextView());
+                    et_title.setText(mWebHolder.getUrl());
+                    InputMethodUtils.show(et_title);
                 } else {
                     setTitle();
-                    InputMethodUtils.hide(abs.getEditTextView());
+                    InputMethodUtils.hide(et_title);
+                }
+            }
+        });
+        cv_collect.setOnClickListener(new CollectView.OnClickListener() {
+            @Override
+            public void onClick(CollectView v) {
+                if (!v.isChecked()) {
+                    collect();
+                } else {
+                    uncollect();
                 }
             }
         });
@@ -256,12 +309,24 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     private void setTitle() {
-        abs.getEditTextView().setTag(mWebHolder.getUrl());
+        et_title.setTag(mWebHolder.getUrl());
         if (!TextUtils.isEmpty(mWebHolder.getTitle())) {
-            abs.getEditTextView().setText(mWebHolder.getTitle());
+            et_title.setText(mWebHolder.getTitle());
         } else {
-            abs.getEditTextView().setText(mWebHolder.getUrl());
+            et_title.setText(mWebHolder.getUrl());
         }
+    }
+
+    private void setCollect() {
+        String url = mWebHolder.getUrl();
+        boolean contains = false;
+        for (CollectArticleEntity entity : mCollectedList) {
+            if (TextUtils.equals(entity.getUrl(), url)) {
+                contains = true;
+                break;
+            }
+        }
+        cv_collect.setChecked(contains, true);
     }
 
     @Override
@@ -276,7 +341,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 .setOnPageLoadCallback(new WebHolder.OnPageLoadCallback() {
                     @Override
                     public void onPageStarted() {
-                        abs.getEditTextView().clearFocus();
+                        et_title.clearFocus();
                     }
 
                     @Override
@@ -292,6 +357,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 .setOnHistoryUpdateCallback(new WebHolder.OnHistoryUpdateCallback() {
                     @Override
                     public void onHistoryUpdate(boolean isReload) {
+                        setCollect();
                         if (mWebHolder.canGoBack()) {
                             iv_back.setImageResource(R.drawable.ic_back);
                         } else {
@@ -369,33 +435,92 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         return super.onKeyDown(keyCode, event);
     }
 
-    private void collect(PointF p) {
-        if (TextUtils.equals(mWebHolder.getUrl(), mUrl)) {
-            if (mArticleId != -1) {
-                presenter.collect(mArticleId, p);
-            } else {
-                if (TextUtils.isEmpty(mAuthor)) {
-                    presenter.collect(TextUtils.isEmpty(mTitle) ? mWebHolder.getTitle() : mTitle, mUrl, p);
-                } else {
-                    presenter.collect(TextUtils.isEmpty(mTitle) ? mWebHolder.getTitle() : mTitle, mAuthor, mUrl, p);
-                }
+    private boolean isCollect() {
+        String url = mWebHolder.getUrl();
+        boolean contains = false;
+        for (CollectArticleEntity entity : mCollectedList) {
+            if (TextUtils.equals(entity.getUrl(), url)) {
+                contains = true;
+                break;
             }
+        }
+        return contains;
+    }
+
+    private void toggleCollect() {
+        if (isCollect()) {
+            uncollect();
         } else {
-            presenter.collect(mWebHolder.getTitle(), mWebHolder.getUrl(), p);
+            collect();
         }
     }
 
-    @Override
-    public void collectSuccess(PointF p) {
-        if (p == null) {
-            wc.showCollectAnim();
-        } else {
-            wc.showCollectAnim(p.x, p.y);
+    private void collect() {
+        String url = mWebHolder.getUrl();
+        boolean contains = false;
+        for (CollectArticleEntity entity : mCollectedList) {
+            if (TextUtils.equals(entity.getUrl(), url)) {
+                contains = true;
+                break;
+            }
         }
+        if (contains) {
+            setCollect();
+            return;
+        }
+        CollectArticleEntity entity = new CollectArticleEntity();
+        entity.setCollect(false);
+        entity.setUrl(url);
+        if (TextUtils.equals(url, mUrl)) {
+            if (mArticleId > 0) {
+                entity.setArticleId(mArticleId);
+            } else {
+                entity.setAuthor(mAuthor);
+                entity.setTitle(TextUtils.isEmpty(mTitle) ? mWebHolder.getTitle() : mTitle);
+            }
+        } else {
+            entity.setTitle(mWebHolder.getTitle());
+        }
+        presenter.collect(entity);
+    }
+
+    private void uncollect() {
+        String url = mWebHolder.getUrl();
+        CollectArticleEntity collectArticleEntity = null;
+        for (CollectArticleEntity entity : mCollectedList) {
+            if (TextUtils.equals(entity.getUrl(), url)) {
+                collectArticleEntity = entity;
+                break;
+            }
+        }
+        if (collectArticleEntity == null) {
+            setCollect();
+            return;
+        }
+        presenter.uncollect(collectArticleEntity);
+    }
+
+    @Override
+    public void collectSuccess(CollectArticleEntity entity) {
+        mCollectedList.add(entity);
+        setCollect();
     }
 
     @Override
     public void collectFailed(String msg) {
         ToastMaker.showShort(msg);
+        setCollect();
+    }
+
+    @Override
+    public void uncollectSuccess(CollectArticleEntity entity) {
+        mCollectedList.remove(entity);
+        setCollect();
+    }
+
+    @Override
+    public void uncollectFailed(String msg) {
+        ToastMaker.showShort(msg);
+        setCollect();
     }
 }

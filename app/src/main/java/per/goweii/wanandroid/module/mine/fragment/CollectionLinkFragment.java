@@ -137,7 +137,7 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
                     default:
                         break;
                     case R.id.rl_top:
-                        WebActivity.start(getContext(), item.getName(), item.getLink());
+                        WebActivity.start(getContext(), item.getName(), item.getLink(), true);
                         break;
                     case R.id.tv_copy:
                         CopyUtils.copyText(item.getLink());

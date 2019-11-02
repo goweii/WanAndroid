@@ -100,6 +100,7 @@
                 android:tint="@color/text_surface" />
 
             <TextView
+                android:id="@+id/dialog_web_menu_tv_collect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

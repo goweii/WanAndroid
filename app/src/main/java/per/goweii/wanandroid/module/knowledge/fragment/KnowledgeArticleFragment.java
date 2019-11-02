@@ -186,7 +186,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
+                    WebActivity.start(getContext(), item);
                 }
             }
         });

@@ -1,8 +1,7 @@
 package per.goweii.wanandroid.module.main.view;
 
-import android.graphics.PointF;
-
 import per.goweii.basic.core.base.BaseView;
+import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 
 /**
  * @author CuiZhen
@@ -12,6 +11,10 @@ import per.goweii.basic.core.base.BaseView;
  * GitHub: https://github.com/goweii
  */
 public interface WebView extends BaseView {
-    void collectSuccess(PointF p);
+    void collectSuccess(CollectArticleEntity entity);
     void collectFailed(String msg);
+
+    void uncollectSuccess(CollectArticleEntity entity);
+
+    void uncollectFailed(String msg);
 }

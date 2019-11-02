@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ImageView xmlns:android="http://schemas.android.com/apk/res/android"
+<per.goweii.heartview.HeartView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scaleType="fitCenter"
-    android:src="@drawable/ic_favorite"
-    android:tint="@color/background_alpha" />
+    app:heart_centerX="-0.5"
+    app:heart_centerY="-0.5"
+    app:heart_color="@color/background"
+    app:heart_edgeColor="@color/background"
+    app:heart_strokeColor="@color/accent"
+    app:heart_strokeWidth="0.5dp"
+    tools:heart_color="@color/main"
+    tools:heart_edgeColor="@color/main"
+    tools:layout_height="150dp"
+    tools:layout_width="150dp" />

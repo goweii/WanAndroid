@@ -27,7 +27,9 @@ import per.goweii.wanandroid.utils.UserUtils;
  */
 public class WebMenuDialog {
 
-    public static void show(@NonNull Context context, @NonNull OnMenuClickListener listener) {
+    public static void show(@NonNull Context context,
+                            final boolean collected,
+                            @NonNull OnMenuClickListener listener) {
         AnyLayer.dialog(context)
                 .contentView(R.layout.dialog_web_menu)
                 .gravity(Gravity.BOTTOM)
@@ -121,6 +123,9 @@ public class WebMenuDialog {
                 .bindData(new Layer.DataBinder() {
                     @Override
                     public void bindData(Layer layer) {
+                        ImageView iv_collect = layer.getView(R.id.dialog_web_menu_iv_collect);
+                        TextView tv_collect = layer.getView(R.id.dialog_web_menu_tv_collect);
+                        switchCollectState(iv_collect, tv_collect, collected);
                         ImageView iv_interrupt = layer.getView(R.id.dialog_web_menu_iv_interrupt);
                         TextView tv_interrupt = layer.getView(R.id.dialog_web_menu_tv_interrupt);
                         switchInterruptState(iv_interrupt, tv_interrupt);
@@ -139,29 +144,42 @@ public class WebMenuDialog {
                 .show();
     }
 
+    private static void switchCollectState(ImageView iv_collect, TextView tv_collect, boolean collected) {
+        setIconChecked(iv_collect, collected);
+        if (collected) {
+            tv_collect.setText("已收藏");
+        } else {
+            tv_collect.setText("收藏");
+        }
+    }
+
     private static void switchInterruptState(ImageView iv_interrupt, TextView tv_interrupt) {
         switch (SettingUtils.getInstance().getUrlInterceptType()) {
             default:
             case HostInterceptUtils.TYPE_NOTHING:
-                iv_interrupt.setBackgroundResource(R.drawable.bg_press_color_background_radius_max);
+                setIconChecked(iv_interrupt, false);
                 tv_interrupt.setText(HostInterceptUtils.getName(HostInterceptUtils.TYPE_NOTHING));
                 break;
             case HostInterceptUtils.TYPE_ONLY_WHITE:
-                iv_interrupt.setBackgroundResource(R.drawable.bg_press_color_main_radius_max);
+                setIconChecked(iv_interrupt, true);
                 tv_interrupt.setText(HostInterceptUtils.getName(HostInterceptUtils.TYPE_ONLY_WHITE));
                 break;
             case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
-                iv_interrupt.setBackgroundResource(R.drawable.bg_press_color_main_radius_max);
+                setIconChecked(iv_interrupt, true);
                 tv_interrupt.setText(HostInterceptUtils.getName(HostInterceptUtils.TYPE_INTERCEPT_BLACK));
                 break;
         }
     }
 
     private static void switchSwipeBackState(ImageView iv_swipe_back) {
-        if (SettingUtils.getInstance().isWebSwipeBackEdge()) {
-            iv_swipe_back.setBackgroundResource(R.drawable.bg_press_color_main_radius_max);
+        setIconChecked(iv_swipe_back, SettingUtils.getInstance().isWebSwipeBackEdge());
+    }
+
+    private static void setIconChecked(ImageView iv, boolean checked) {
+        if (checked) {
+            iv.setBackgroundResource(R.drawable.bg_press_color_main_radius_max);
         } else {
-            iv_swipe_back.setBackgroundResource(R.drawable.bg_press_color_background_radius_max);
+            iv.setBackgroundResource(R.drawable.bg_press_color_background_radius_max);
         }
     }
 

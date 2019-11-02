@@ -141,7 +141,7 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
         view.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                WebActivity.start(v.getContext(), item.getId(), item.getTitle(), item.getLink());
+                WebActivity.start(v.getContext(), item);
             }
         });
     }

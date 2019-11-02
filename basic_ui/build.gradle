@@ -20,4 +20,8 @@ dependencies {
     api rootProject.ext.dependencies.circleimageview
     api rootProject.ext.dependencies.magicIndicator
     api rootProject.ext.dependencies.materialProgressBar
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }

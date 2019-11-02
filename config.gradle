@@ -53,6 +53,7 @@ ext {
             pictureSelector       : "v2.3.1",
             swipeBack             : "1.0.7",
             lazyfragment          : "1.1.2",
+            heartView             : "1.0.0",
 
             arouterApi            : "1.4.1",
             arouterCompiler       : "1.2.2",
@@ -109,6 +110,7 @@ ext {
             pictureSelector        : "com.github.goweii:PictureSelector:$versions.pictureSelector",
             swipeBack              : "com.github.goweii:SwipeBack:$versions.swipeBack",
             lazyfragment           : "com.github.goweii.LazyFragment:lazyfragment:$versions.lazyfragment",
+            heartView              : "com.github.goweii:HeartView:$versions.heartView",
 
             arouterApi             : "com.alibaba:arouter-api:$versions.arouterApi",
             arouterCompiler        : "com.alibaba:arouter-compiler:$versions.arouterCompiler",

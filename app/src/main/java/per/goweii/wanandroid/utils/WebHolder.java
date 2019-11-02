@@ -293,7 +293,7 @@ public class WebHolder {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             if (mOnPageTitleCallback != null) {
-                mOnPageTitleCallback.onReceivedTitle("");
+                mOnPageTitleCallback.onReceivedTitle(getUrl());
             }
             if (mOnPageLoadCallback != null) {
                 mOnPageLoadCallback.onPageStarted();
