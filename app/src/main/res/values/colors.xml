@@ -11,4 +11,6 @@
     <color name="mine_blur_overlay">@color/background_mask</color>
     <color name="about_me_blur_overlay">@color/background_mask</color>
     <color name="scrollbar">#22000000</color>
+    <color name="heart_center">#FFA07C</color>
+    <color name="heart_edge">@color/accent</color>
 </resources>

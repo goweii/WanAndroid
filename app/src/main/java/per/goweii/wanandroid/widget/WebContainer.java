@@ -256,7 +256,8 @@ public class WebContainer extends FrameLayout {
     private View createHeartView() {
         HeartView heartView = new HeartView(getContext());
         heartView.setCenter(-0.5f, -0.5f);
-        heartView.setColor(Color.parseColor("#ffccee"));
+        heartView.setRadiusPercent(0.6F);
+        heartView.setColor(ContextCompat.getColor(getContext(), R.color.heart_center));
         heartView.setEdgeColor(ContextCompat.getColor(getContext(), R.color.accent));
         heartView.setStrokeWidthDp(0);
         int size = (int) (getWidth() * 0.27F);
