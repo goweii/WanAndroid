@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
-import android.provider.MediaStore;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,7 +47,7 @@ public class BitmapUtils {
         if (file == null) {
             return false;
         }
-        MediaStore.Images.Media.insertImage(Utils.getAppContext().getContentResolver(), bmp, file.getPath(), null);
+        //MediaStore.Images.Media.insertImage(Utils.getAppContext().getContentResolver(), bmp, file.getPath(), null);
         Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         Uri uri = Uri.fromFile(file);
         intent.setData(uri);
