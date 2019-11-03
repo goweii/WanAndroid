@@ -8,23 +8,19 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
 import butterknife.BindView;
-import per.goweii.anypermission.AnyPermission;
-import per.goweii.anypermission.RequestInterceptor;
 import per.goweii.anypermission.RequestListener;
 import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
-import per.goweii.basic.ui.dialog.PermissionDialog;
+import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.dialog.UpdateDialog;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.SPUtils;
-import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.CopiedLinkDialog;
@@ -202,81 +198,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     private void download(final String versionName, final String url, final String urlBackup, final boolean isForce) {
-        mRuntimeRequester = AnyPermission.with(getContext())
-                .runtime(REQ_CODE_PERMISSION)
-                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE)
-                .onBeforeRequest(new RequestInterceptor<String>() {
-                    @Override
-                    public void intercept(@NonNull String data, @NonNull Executor executor) {
-                        PermissionDialog.with(getContext())
-                                .setGoSetting(false)
-                                .setGroupType(PermissionDialog.GroupType.STORAGE)
-                                .setOnNextListener(new SimpleCallback<Void>() {
-                                    @Override
-                                    public void onResult(Void data) {
-                                        executor.execute();
-                                    }
-                                })
-                                .setOnCloseListener(new SimpleCallback<Void>() {
-                                    @Override
-                                    public void onResult(Void data) {
-                                        executor.cancel();
-                                    }
-                                })
-                                .show();
-                    }
-                })
-                .onBeenDenied(new RequestInterceptor<String>() {
-                    @Override
-                    public void intercept(@NonNull String data, @NonNull Executor executor) {
-                        PermissionDialog.with(getContext())
-                                .setGoSetting(false)
-                                .setGroupType(PermissionDialog.GroupType.STORAGE)
-                                .setOnNextListener(new SimpleCallback<Void>() {
-                                    @Override
-                                    public void onResult(Void data) {
-                                        executor.execute();
-                                    }
-                                })
-                                .setOnCloseListener(new SimpleCallback<Void>() {
-                                    @Override
-                                    public void onResult(Void data) {
-                                        executor.cancel();
-                                    }
-                                })
-                                .show();
-                    }
-                })
-                .onGoSetting(new RequestInterceptor<String>() {
-                    @Override
-                    public void intercept(@NonNull String data, @NonNull Executor executor) {
-                        PermissionDialog.with(getContext())
-                                .setGoSetting(true)
-                                .setGroupType(PermissionDialog.GroupType.STORAGE)
-                                .setOnNextListener(new SimpleCallback<Void>() {
-                                    @Override
-                                    public void onResult(Void data) {
-                                        executor.execute();
-                                    }
-                                })
-                                .setOnCloseListener(new SimpleCallback<Void>() {
-                                    @Override
-                                    public void onResult(Void data) {
-                                        executor.cancel();
-                                    }
-                                })
-                                .show();
-                    }
-                })
-                .request(new RequestListener() {
-                    @Override
-                    public void onSuccess() {
-                        DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName);
-                    }
+        mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+            @Override
+            public void onSuccess() {
+                DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName);
+            }
 
-                    @Override
-                    public void onFailed() {
-                    }
-                });
+            @Override
+            public void onFailed() {
+            }
+        }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 }

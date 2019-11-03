@@ -18,6 +18,7 @@
     <string name="basic_ui_dialog_permission_close">暂不授权</string>
     <string name="basic_ui_dialog_permission_next">去授权</string>
     <string name="basic_ui_dialog_permission_next_go_setting">去设置</string>
+    <string name="basic_ui_dialog_permission_title_unknow">未知</string>
     <string name="basic_ui_dialog_permission_title_calendar">日历</string>
     <string name="basic_ui_dialog_permission_title_camera">照相机</string>
     <string name="basic_ui_dialog_permission_title_contacts">通讯录</string>
