@@ -40,4 +40,5 @@ dependencies {
     implementation rootProject.ext.dependencies.buglyCrashreport
     implementation rootProject.ext.dependencies.crashActivity
     implementation rootProject.ext.dependencies.heartView
+    implementation rootProject.ext.dependencies.zxingLibrary
 }

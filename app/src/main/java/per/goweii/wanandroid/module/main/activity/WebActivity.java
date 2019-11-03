@@ -1,8 +1,12 @@
 package per.goweii.wanandroid.module.main.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -12,24 +16,35 @@ import android.view.animation.Animation;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.inputmethod.EditorInfo;
+import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.luck.picture.lib.tools.ScreenUtils;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import per.goweii.actionbarex.ActionBarEx;
+import per.goweii.anypermission.RequestListener;
+import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.CaptureUtils;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
+import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.listener.OnClickListener2;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
+import per.goweii.wanandroid.module.main.dialog.WebShareDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
@@ -48,6 +63,8 @@ import per.goweii.wanandroid.widget.WebContainer;
  * GitHub: https://github.com/goweii
  */
 public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView {
+
+    private static final int REQ_CODE_PERMISSION = 1;
 
     @BindView(R.id.ab)
     ActionBarEx ab;
@@ -69,6 +86,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     ImageView iv_refresh;
     @BindView(R.id.iv_home)
     ImageView iv_home;
+
+    private RuntimeRequester mRuntimeRequester = null;
 
     private int mArticleId = -1;
     private String mTitle = "";
@@ -169,41 +188,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         iv_menu.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                WebMenuDialog.show(getContext(), isCollect(), new WebMenuDialog.OnMenuClickListener() {
-                    @Override
-                    public void onShare() {
-                        ShareArticleActivity.start(getContext(), mWebHolder.getTitle(), mWebHolder.getUrl());
-                    }
-
-                    @Override
-                    public void onCollect() {
-                        toggleCollect();
-                    }
-
-                    @Override
-                    public void onReadLater() {
-                        if (mRealmHelper != null) {
-                            mRealmHelper.add(mWebHolder.getTitle(), mWebHolder.getUrl());
-                            ToastMaker.showShort("已加入稍后阅读");
-                        }
-                    }
-
-                    @Override
-                    public void onBrowser() {
-                        IntentUtils.openBrowser(getContext(), mUrl);
-                    }
-
-                    @Override
-                    public void onCopyLink() {
-                        CopyUtils.copyText(mWebHolder.getUrl());
-                        ToastMaker.showShort("已复制");
-                    }
-
-                    @Override
-                    public void onCloseActivity() {
-                        finish();
-                    }
-                });
+                showMenuDialog();
             }
         });
         iv_back.setOnClickListener(new OnClickListener2() {
@@ -309,6 +294,88 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         mRealmHelper = RealmHelper.create();
     }
 
+    private void showMenuDialog() {
+        WebMenuDialog.show(getContext(), isCollect(), new WebMenuDialog.OnMenuClickListener() {
+            @Override
+            public void onShareArticle() {
+                ShareArticleActivity.start(getContext(), mWebHolder.getTitle(), mWebHolder.getUrl());
+            }
+
+            @Override
+            public void onCollect() {
+                toggleCollect();
+            }
+
+            @Override
+            public void onReadLater() {
+                if (mRealmHelper != null) {
+                    mRealmHelper.add(mWebHolder.getTitle(), mWebHolder.getUrl());
+                    ToastMaker.showShort("已加入稍后阅读");
+                }
+            }
+
+            @Override
+            public void onBrowser() {
+                IntentUtils.openBrowser(getContext(), mUrl);
+            }
+
+            @Override
+            public void onCopyLink() {
+                CopyUtils.copyText(mWebHolder.getUrl());
+                ToastMaker.showShort("已复制");
+            }
+
+            @Override
+            public void onCloseActivity() {
+                finish();
+            }
+
+            @Override
+            public void onShare() {
+                showShareDialog();
+            }
+        });
+    }
+
+    private void showShareDialog() {
+        WebShareDialog.show(getContext(), new WebShareDialog.OnShareClickListener() {
+            @Override
+            public void onCapture() {
+                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = CaptureUtils.captureWebView(mWebHolder.getWebView());
+                        presenter.saveGallery(bitmap, "wanandroid_article_capture_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
+                    }
+
+                    @Override
+                    public void onFailed() {
+                    }
+                }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+
+            @Override
+            public void onQrcode() {
+                int size = ScreenUtils.getScreenWidth(getContext());
+                Bitmap qrcode = CodeUtils.createImage(mWebHolder.getUrl(), size, size, BitmapFactory.decodeResource(getResources(), R.drawable.ic_icon));
+                presenter.createQrcodeImage(qrcode, mWebHolder.getTitle(), new SimpleCallback<Bitmap>() {
+                    @Override
+                    public void onResult(Bitmap data) {
+                        presenter.saveGallery(data, "wanandroid_article_qrcode_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mRuntimeRequester != null) {
+            mRuntimeRequester.onActivityResult(requestCode);
+        }
+    }
+
     private void setTitle() {
         et_title.setTag(mWebHolder.getUrl());
         if (!TextUtils.isEmpty(mWebHolder.getTitle())) {
@@ -332,6 +399,9 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     protected void loadData() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            WebView.enableSlowWholeDocumentDraw();
+        }
         mWebHolder = WebHolder.with(this, wc)
                 .setOnPageTitleCallback(new WebHolder.OnPageTitleCallback() {
                     @Override

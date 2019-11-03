@@ -14,6 +14,7 @@ import per.goweii.anylayer.Layer;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.activity.HostInterruptActivity;
+import per.goweii.wanandroid.module.mine.activity.SettingActivity;
 import per.goweii.wanandroid.utils.HostInterceptUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UserUtils;
@@ -51,9 +52,9 @@ public class WebMenuDialog {
                                           switch (v.getId()) {
                                               default:
                                                   break;
-                                              case R.id.dialog_web_menu_iv_share:
+                                              case R.id.dialog_web_menu_iv_share_article:
                                                   if (UserUtils.getInstance().doIfLogin(v.getContext())) {
-                                                      listener.onShare();
+                                                      listener.onShareArticle();
                                                   }
                                                   break;
                                               case R.id.dialog_web_menu_iv_collect:
@@ -73,15 +74,24 @@ public class WebMenuDialog {
                                               case R.id.dialog_web_menu_iv_close_activity:
                                                   listener.onCloseActivity();
                                                   break;
+                                              case R.id.dialog_web_menu_iv_setting:
+                                                  SettingActivity.start(context);
+                                                  break;
+                                              case R.id.dialog_web_menu_iv_share:
+                                                  listener.onShare();
+                                                  break;
                                           }
                                       }
                                   },
-                        R.id.dialog_web_menu_iv_share,
+                        R.id.dialog_web_menu_iv_share_article,
                         R.id.dialog_web_menu_iv_read_later,
                         R.id.dialog_web_menu_iv_browser,
                         R.id.dialog_web_menu_iv_collect,
                         R.id.dialog_web_menu_iv_copy_link,
-                        R.id.dialog_web_menu_iv_close_activity)
+                        R.id.dialog_web_menu_iv_close_activity,
+                        R.id.dialog_web_menu_iv_dismiss,
+                        R.id.dialog_web_menu_iv_setting,
+                        R.id.dialog_web_menu_iv_share)
                 .onClick(new Layer.OnClickListener() {
                              @Override
                              public void onClick(Layer layer, View v) {
@@ -184,7 +194,7 @@ public class WebMenuDialog {
     }
 
     public interface OnMenuClickListener {
-        void onShare();
+        void onShareArticle();
 
         void onCollect();
 
@@ -195,6 +205,8 @@ public class WebMenuDialog {
         void onCopyLink();
 
         void onCloseActivity();
+
+        void onShare();
     }
 
 }

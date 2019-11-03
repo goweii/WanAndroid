@@ -1,12 +1,12 @@
 ext {
     android = [
-            applicationId        : "per.goweii.wanandroid",
-            compileSdkVersion    : 28,
-            minSdkVersion        : 19,
-            targetSdkVersion     : 28,
-            buildToolsVersion    : "28.0.3",
-            versionCode          : 29,
-            versionName          : "1.2.6",
+            applicationId    : "per.goweii.wanandroid",
+            compileSdkVersion: 28,
+            minSdkVersion    : 19,
+            targetSdkVersion : 28,
+            buildToolsVersion: "28.0.3",
+            versionCode      : 29,
+            versionName      : "1.2.6",
     ]
 
     compileOptions = [
@@ -54,6 +54,7 @@ ext {
             swipeBack             : "1.1.0",
             lazyfragment          : "1.1.2",
             heartView             : "1.0.0",
+            zxingLibrary          : "2.2",
 
             arouterApi            : "1.4.1",
             arouterCompiler       : "1.2.2",
@@ -111,6 +112,7 @@ ext {
             swipeBack              : "com.github.goweii:SwipeBack:$versions.swipeBack",
             lazyfragment           : "com.github.goweii.LazyFragment:lazyfragment:$versions.lazyfragment",
             heartView              : "com.github.goweii:HeartView:$versions.heartView",
+            zxingLibrary           : "cn.yipianfengye.android:zxing-library:$versions.zxingLibrary",
 
             arouterApi             : "com.alibaba:arouter-api:$versions.arouterApi",
             arouterCompiler        : "com.alibaba:arouter-compiler:$versions.arouterCompiler",
