@@ -356,14 +356,23 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
             @Override
             public void onQrcode() {
-                int size = ScreenUtils.getScreenWidth(getContext());
-                Bitmap qrcode = CodeUtils.createImage(mWebHolder.getUrl(), size, size, BitmapFactory.decodeResource(getResources(), R.drawable.ic_icon));
-                presenter.createQrcodeImage(qrcode, mWebHolder.getTitle(), new SimpleCallback<Bitmap>() {
+                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
                     @Override
-                    public void onResult(Bitmap data) {
-                        presenter.saveGallery(data, "wanandroid_article_qrcode_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
+                    public void onSuccess() {
+                        int size = ScreenUtils.getScreenWidth(getContext());
+                        Bitmap qrcode = CodeUtils.createImage(mWebHolder.getUrl(), size, size, BitmapFactory.decodeResource(getResources(), R.drawable.ic_icon));
+                        presenter.createQrcodeImage(qrcode, mWebHolder.getTitle(), new SimpleCallback<Bitmap>() {
+                            @Override
+                            public void onResult(Bitmap data) {
+                                presenter.saveGallery(data, "wanandroid_article_qrcode_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
+                            }
+                        });
                     }
-                });
+
+                    @Override
+                    public void onFailed() {
+                    }
+                }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
             }
         });
     }
