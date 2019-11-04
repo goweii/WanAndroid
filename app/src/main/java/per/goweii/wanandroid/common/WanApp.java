@@ -9,15 +9,19 @@ import android.support.v7.app.AppCompatDelegate;
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.tencent.bugly.crashreport.CrashReport;
 
+import cat.ereza.customactivityoncrash.config.CaocConfig;
 import io.realm.Realm;
 import per.goweii.basic.core.CoreInit;
 import per.goweii.basic.core.base.BaseApp;
+import per.goweii.basic.utils.DebugUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.burred.Blurred;
 import per.goweii.rxhttp.core.RxHttp;
 import per.goweii.wanandroid.http.RxHttpRequestSetting;
 import per.goweii.wanandroid.http.WanCache;
+import per.goweii.wanandroid.module.main.activity.CrashActivity;
 import per.goweii.wanandroid.module.main.activity.MainActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.utils.SettingUtils;
@@ -43,18 +47,45 @@ public class WanApp extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
-        setDarkModeStatus();
-        RxHttp.init(this);
-        RxHttp.initRequest(new RxHttpRequestSetting(getCookieJar()));
-        WanCache.init();
-        Blurred.init(getAppContext());
-        CoreInit.getInstance().setOnGoLoginCallback(new SimpleCallback<Activity>() {
-            @Override
-            public void onResult(Activity data) {
-                UserUtils.getInstance().doIfLogin(data);
-            }
-        });
-        Realm.init(this);
+        if (isMainProcess()) {
+            setDarkModeStatus();
+            RxHttp.init(this);
+            RxHttp.initRequest(new RxHttpRequestSetting(getCookieJar()));
+            WanCache.init();
+            Blurred.init(getAppContext());
+            CoreInit.getInstance().setOnGoLoginCallback(new SimpleCallback<Activity>() {
+                @Override
+                public void onResult(Activity data) {
+                    UserUtils.getInstance().doIfLogin(data);
+                }
+            });
+            Realm.init(this);
+        }
+        initBugly();
+        initCrashActivity();
+    }
+
+    private void initBugly() {
+        if (!DebugUtils.isDebug()) {
+            CrashReport.setIsDevelopmentDevice(this, DebugUtils.isDebug());
+            CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
+            strategy.setUploadProcess(isMainProcess());
+            CrashReport.initCrashReport(this, "0411151084", DebugUtils.isDebug(), strategy);
+        }
+    }
+
+    private void initCrashActivity() {
+        CaocConfig.Builder.create()
+                .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
+                .enabled(true)
+                .showErrorDetails(true)
+                .showRestartButton(true)
+                .logErrorOnRestart(false)
+                .trackActivities(false)
+                .minTimeBetweenCrashesMs(2000)
+                .restartActivity(MainActivity.class)
+                .errorActivity(CrashActivity.class)
+                .apply();
     }
 
     @Override

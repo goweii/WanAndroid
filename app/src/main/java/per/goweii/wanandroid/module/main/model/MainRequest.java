@@ -52,6 +52,12 @@ public class MainRequest extends BaseRequest {
         rxLife.add(request(WanApi.api().getConfig(), listener));
     }
 
+    public static void getUserArticleListCache(@IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
+        cacheBean(WanCache.CacheKey.USER_ARTICLE_LIST(page),
+                ArticleListBean.class,
+                listener);
+    }
+
     public static void getUserArticleList(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
         if (page == 0) {
             cacheAndNetBean(rxLife,

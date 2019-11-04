@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.mine.activity;
 
+import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -23,10 +24,13 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnLongClick;
+import per.goweii.anypermission.RequestListener;
+import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.glide.GlideHelper;
+import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
-import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.percentimageview.percentimageview.PercentImageView;
 import per.goweii.wanandroid.R;
@@ -44,6 +48,8 @@ import per.goweii.wanandroid.utils.ImageLoader;
  * GitHub: https://github.com/goweii
  */
 public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements AboutMeView {
+
+    private static final int REQUEST_CODE_PERMISSION = 1;
 
     @BindView(R.id.sl)
     SwipeLayout sl;
@@ -79,6 +85,8 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
     PercentImageView piv_qq_qrcode;
     @BindView(R.id.piv_wx_qrcode)
     PercentImageView piv_wx_qrcode;
+
+    private RuntimeRequester mRuntimeRequester;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AboutMeActivity.class);
@@ -127,13 +135,52 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
                 WebActivity.start(getContext(), tv_name.getText().toString(), tv_jianshu.getText().toString());
                 break;
             case R.id.ll_qq:
-                CopyUtils.copyText(tv_qq);
-                ToastMaker.showShort("QQ已复制");
+                presenter.openQQChat();
                 break;
             case R.id.ll_qq_group:
-                CopyUtils.copyText(tv_qq_group);
-                ToastMaker.showShort("QQ群已复制");
+                presenter.openQQGroup();
                 break;
+        }
+    }
+
+    @OnLongClick({R.id.piv_qq_qrcode, R.id.piv_wx_qrcode})
+    public boolean onLongClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.piv_qq_qrcode:
+                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+                    @Override
+                    public void onSuccess() {
+                        presenter.saveQQQrcode();
+                    }
+
+                    @Override
+                    public void onFailed() {
+                    }
+                }, getContext(), REQUEST_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+                break;
+            case R.id.piv_wx_qrcode:
+                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+                    @Override
+                    public void onSuccess() {
+                        presenter.saveWXQrcode();
+                    }
+
+                    @Override
+                    public void onFailed() {
+                    }
+                }, getContext(), REQUEST_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mRuntimeRequester != null) {
+            mRuntimeRequester.onActivityResult(requestCode);
         }
     }
 

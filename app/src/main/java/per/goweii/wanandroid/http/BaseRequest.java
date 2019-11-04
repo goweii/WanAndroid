@@ -79,7 +79,7 @@ public class BaseRequest {
                 .request(new RxRequest.ResultCallback<T>() {
                     @Override
                     public void onSuccess(int code, T data) {
-                        if (responseToCache.onResponce(data)) {
+                        if (responseToCache.onResponse(data)) {
                             listener.onSuccess(code, data);
                         }
                     }
@@ -144,7 +144,7 @@ public class BaseRequest {
         if (refresh) {
             rxLife.add(request(observable, listener, new ResponseToCache<List<T>>() {
                 @Override
-                public boolean onResponce(List<T> resp) {
+                public boolean onResponse(List<T> resp) {
                     WanCache.getInstance().save(key, resp);
                     return true;
                 }
@@ -157,7 +157,7 @@ public class BaseRequest {
                 listener.onSuccess(code, data);
                 rxLife.add(request(observable, listener, new ResponseToCache<List<T>>() {
                     @Override
-                    public boolean onResponce(List<T> resp) {
+                    public boolean onResponse(List<T> resp) {
                         if (WanCache.getInstance().isSame(data, resp)) {
                             return false;
                         }
@@ -171,7 +171,7 @@ public class BaseRequest {
             public void onFailed() {
                 rxLife.add(request(observable, listener, new ResponseToCache<List<T>>() {
                     @Override
-                    public boolean onResponce(List<T> resp) {
+                    public boolean onResponse(List<T> resp) {
                         WanCache.getInstance().save(key, resp);
                         return true;
                     }
@@ -197,7 +197,7 @@ public class BaseRequest {
         if (refresh) {
             rxLife.add(request(observable, listener, new ResponseToCache<T>() {
                 @Override
-                public boolean onResponce(T resp) {
+                public boolean onResponse(T resp) {
                     WanCache.getInstance().save(key, resp);
                     return true;
                 }
@@ -210,7 +210,7 @@ public class BaseRequest {
                 listener.onSuccess(code, data);
                 rxLife.add(request(observable, listener, new ResponseToCache<T>() {
                     @Override
-                    public boolean onResponce(T resp) {
+                    public boolean onResponse(T resp) {
                         if (WanCache.getInstance().isSame(data, resp)) {
                             return false;
                         }
@@ -224,7 +224,7 @@ public class BaseRequest {
             public void onFailed() {
                 rxLife.add(request(observable, listener, new ResponseToCache<T>() {
                     @Override
-                    public boolean onResponce(T resp) {
+                    public boolean onResponse(T resp) {
                         WanCache.getInstance().save(key, resp);
                         return true;
                     }
@@ -234,7 +234,7 @@ public class BaseRequest {
     }
 
     public interface ResponseToCache<T> {
-        boolean onResponce(T resp);
+        boolean onResponse(T resp);
     }
 
 }

@@ -1,14 +1,14 @@
-package per.goweii.wanandroid.module.home.presenter;
+package per.goweii.wanandroid.module.main.presenter;
 
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.http.RequestListener;
-import per.goweii.wanandroid.module.home.view.UserArticleView;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
+import per.goweii.wanandroid.module.main.view.UserArticleView;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -19,6 +19,33 @@ import per.goweii.wanandroid.widget.CollectView;
  * GitHub: https://github.com/goweii
  */
 public class UserArticlePresenter extends BasePresenter<UserArticleView> {
+
+    public void getUserArticleListCache(int page) {
+        MainRequest.getUserArticleListCache(page, new RequestListener<ArticleListBean>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, ArticleListBean data) {
+                if (isAttach()) {
+                    getBaseView().getUserArticleListSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        });
+    }
 
     public void getUserArticleList(int page, boolean refresh) {
         MainRequest.getUserArticleList(getRxLife(), refresh, page, new RequestListener<ArticleListBean>() {

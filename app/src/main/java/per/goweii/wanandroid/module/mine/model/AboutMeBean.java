@@ -29,6 +29,7 @@ public class AboutMeBean extends BaseBean {
     private String jianshu;
     private String qq;
     private String qq_group;
+    private String qq_group_key;
     private String qq_qrcode;
     private String wx_qrcode;
 
@@ -86,6 +87,14 @@ public class AboutMeBean extends BaseBean {
 
     public void setQq_group(String qq_group) {
         this.qq_group = qq_group;
+    }
+
+    public String getQq_group_key() {
+        return qq_group_key;
+    }
+
+    public void setQq_group_key(String qq_group_key) {
+        this.qq_group_key = qq_group_key;
     }
 
     public String getQq_qrcode() {

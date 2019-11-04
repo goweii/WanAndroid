@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.home.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -46,10 +47,10 @@ import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.home.activity.SearchActivity;
-import per.goweii.wanandroid.module.home.activity.UserArticleActivity;
 import per.goweii.wanandroid.module.home.model.BannerBean;
 import per.goweii.wanandroid.module.home.presenter.HomePresenter;
 import per.goweii.wanandroid.module.home.view.HomeView;
+import per.goweii.wanandroid.module.main.activity.MainActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
@@ -220,7 +221,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         abc.setOnLeftIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
-                UserArticleActivity.start(getContext());
+                Activity activity = getActivity();
+                if (activity instanceof MainActivity) {
+                    MainActivity mainActivity = (MainActivity) activity;
+                    mainActivity.openUserArticle();
+                }
             }
         });
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);
@@ -253,7 +258,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item.getId(), item.getTitle(), item.getLink());
+                    WebActivity.start(getContext(), item);
                 }
             }
         });

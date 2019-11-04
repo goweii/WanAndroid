@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:background="@drawable/bg_solid_round_color_surface_radius_top_def"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/round_radius">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginBottom="@dimen/round_radius"
+        android:gravity="center"
+        android:singleLine="true"
+        android:text="选择分享方式"
+        android:textColor="@color/text_surface"
+        android:textSize="@dimen/text_title" />
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                tools:background="@color/foreground">
+
+                <per.goweii.percentimageview.percentimageview.PercentImageView
+                    android:id="@+id/dialog_web_share_iv_capture"
+                    android:layout_width="48dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/bg_press_color_background_radius_max"
+                    android:gravity="center"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_capture"
+                    android:tint="@color/text_surface" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="长图"
+                    android:textColor="@color/text_surface"
+                    android:textSize="@dimen/text_notes" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="90dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp"
+                tools:background="@color/foreground">
+
+                <per.goweii.percentimageview.percentimageview.PercentImageView
+                    android:id="@+id/dialog_web_share_iv_qrcode"
+                    android:layout_width="48dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/bg_press_color_background_radius_max"
+                    android:gravity="center"
+                    android:padding="12dp"
+                    android:src="@drawable/ic_qrcode"
+                    android:tint="@color/text_surface" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:text="二维码"
+                    android:textColor="@color/text_surface"
+                    android:textSize="@dimen/text_notes" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/round_radius"
+        android:background="@color/line" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_bar_height">
+
+        <ImageView
+            android:id="@+id/dialog_web_share_iv_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_press_color_surface"
+            android:padding="16dp"
+            android:src="@drawable/ic_close"
+            android:tint="@color/text_third" />
+
+    </FrameLayout>
+
+</LinearLayout>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".module.main.activity.MainActivity">
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:overScrollMode="never"
+        android:scrollbars="none" />
+
+    <com.github.mmin18.widget.RealtimeBlurView
+        android:id="@+id/blurView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_bar_height"
+        android:layout_gravity="bottom"
+        android:visibility="visible"
+        app:realtimeBlurRadius="16dp"
+        app:realtimeOverlayColor="@color/bottom_bar_overlay" />
+
+    <LinearLayout
+        android:id="@+id/ll_bb"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_bar_height"
+        android:layout_gravity="bottom"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/ll_bb_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/iv_bb_home"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_bottom_bar_home"
+                android:tint="@color/fourth"
+                app:piv_basics="height"
+                app:piv_percent="1" />
+
+            <TextView
+                android:id="@+id/tv_bb_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="首页"
+                android:textColor="@color/text_third"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bb_knowledge"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/iv_bb_knowledge"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_bottom_bar_navi"
+                android:tint="@color/fourth"
+                app:piv_basics="height"
+                app:piv_percent="1" />
+
+            <TextView
+                android:id="@+id/tv_bb_knowledge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="体系"
+                android:textColor="@color/text_third"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bb_wechat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/iv_bb_wechat"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_bottom_bar_wechat"
+                android:tint="@color/fourth"
+                app:piv_basics="height"
+                app:piv_percent="1" />
+
+            <TextView
+                android:id="@+id/tv_bb_wechat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="公众号"
+                android:textColor="@color/text_third"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bb_project"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/iv_bb_project"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_bottom_bar_project"
+                android:tint="@color/fourth"
+                app:piv_basics="height"
+                app:piv_percent="1" />
+
+            <TextView
+                android:id="@+id/tv_bb_project"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="项目"
+                android:textColor="@color/text_third"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_bb_mine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="3dp"
+            android:paddingBottom="3dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/iv_bb_mine"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="3dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_bottom_bar_mine"
+                android:tint="@color/fourth"
+                app:piv_basics="height"
+                app:piv_percent="1" />
+
+            <TextView
+                android:id="@+id/tv_bb_mine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:text="我的"
+                android:textColor="@color/text_third"
+                android:textSize="10dp" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

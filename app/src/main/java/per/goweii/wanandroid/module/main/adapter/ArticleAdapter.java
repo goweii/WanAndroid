@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
+import per.goweii.basic.utils.StringUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.home.activity.UserPageActivity;
@@ -107,7 +108,9 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
         } else {
             tv_desc.setVisibility(View.VISIBLE);
             tv_title.setSingleLine(true);
-            tv_desc.setText(item.getDesc().trim());
+            String desc = Html.fromHtml(item.getDesc()).toString();
+            desc = StringUtils.removeAllBank(desc, 2);
+            tv_desc.setText(desc);
         }
         tv_chapter_name.setText(Html.fromHtml(formatChapterName(item.getSuperChapterName(), item.getChapterName())));
         if (item.isCollect()) {
@@ -138,7 +141,7 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
         view.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                WebActivity.start(v.getContext(), item.getId(), item.getTitle(), item.getLink());
+                WebActivity.start(v.getContext(), item);
             }
         });
     }

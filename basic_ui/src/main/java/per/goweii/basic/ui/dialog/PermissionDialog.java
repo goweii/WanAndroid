@@ -111,13 +111,12 @@ public class PermissionDialog {
     }
 
     private int getIconResId() {
-        int resId = 0;
+        int resId = R.drawable.basic_ui_dialog_permission_unknow;
         if (mGroupType == null) {
             return resId;
         }
         switch (mGroupType) {
             default:
-                resId = 0;
                 break;
             case CALENDAR:
                 resId = R.drawable.basic_ui_dialog_permission_calendar;
@@ -151,13 +150,12 @@ public class PermissionDialog {
     }
     
     private int getTitleResId(){
-        int resId = 0;
+        int resId = R.string.basic_ui_dialog_permission_title_unknow;
         if (mGroupType == null) {
             return resId;
         }
         switch (mGroupType) {
             default:
-                resId = 0;
                 break;
             case CALENDAR:
                 resId = R.string.basic_ui_dialog_permission_title_calendar;

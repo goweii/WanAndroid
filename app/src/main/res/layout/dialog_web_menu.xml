@@ -6,10 +6,7 @@
     android:layout_gravity="bottom"
     android:background="@drawable/bg_solid_round_color_surface_radius_top_def"
     android:orientation="vertical"
-    android:paddingLeft="16dp"
-    android:paddingTop="@dimen/round_radius"
-    android:paddingRight="16dp"
-    android:paddingBottom="@dimen/round_radius">
+    android:paddingTop="@dimen/round_radius">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -25,14 +22,14 @@
             tools:layout_width="100dp">
 
             <per.goweii.percentimageview.percentimageview.PercentImageView
-                android:id="@+id/dialog_web_menu_iv_share"
+                android:id="@+id/dialog_web_menu_iv_share_article"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_press_color_background_radius_max"
                 android:gravity="center"
                 android:padding="12dp"
-                android:src="@drawable/ic_share"
+                android:src="@drawable/ic_share_article"
                 android:tint="@color/text_surface" />
 
             <TextView
@@ -100,6 +97,7 @@
                 android:tint="@color/text_surface" />
 
             <TextView
+                android:id="@+id/dialog_web_menu_tv_collect"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -279,5 +277,69 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/round_radius"
+        android:background="@color/line" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bottom_bar_height">
+
+        <ImageView
+            android:id="@+id/dialog_web_menu_iv_dismiss"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_press_color_surface"
+            android:padding="16dp"
+            android:src="@drawable/ic_close"
+            android:tint="@color/text_third" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/dialog_web_menu_iv_share"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_share"
+                    android:tint="@color/text_surface" />
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="2" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/dialog_web_menu_iv_setting"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center"
+                    android:padding="16dp"
+                    android:src="@drawable/ic_setting"
+                    android:tint="@color/text_surface" />
+
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
 
 </LinearLayout>

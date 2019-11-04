@@ -49,7 +49,7 @@ public class MagicIndicatorUtils {
             public IPagerTitleView getTitleView(Context context, final int index) {
                 SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
                 simplePagerTitleView.setText(Html.fromHtml(adapter.getPageTitle(index).toString()));
-                simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ResUtils.getDimens(R.dimen.title_bar_text_size_def));
+                simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ResUtils.getDimens(R.dimen.actionbarex_common_title_bar_text_size_def));
                 simplePagerTitleView.setSelectedColor(ResUtils.getColor(context, R.color.basic_ui_action_bar_text));
                 simplePagerTitleView.setNormalColor(ResUtils.getColor(context, R.color.basic_ui_action_bar_text_alpha));
                 int paddingH = (int) DisplayInfoUtils.getInstance().dp2px(8);
@@ -95,7 +95,7 @@ public class MagicIndicatorUtils {
             public IPagerTitleView getTitleView(Context context, final int index) {
                 SimplePagerTitleView simplePagerTitleView = new SimplePagerTitleView(context);
                 simplePagerTitleView.setText(Html.fromHtml(adapter.getPageTitle(index).toString()));
-                simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ResUtils.getDimens(R.dimen.title_bar_title_text_size_def));
+                simplePagerTitleView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ResUtils.getDimens(R.dimen.actionbarex_common_title_bar_title_text_size_def));
                 simplePagerTitleView.setSelectedColor(ResUtils.getColor(context, R.color.basic_ui_action_bar_text));
                 simplePagerTitleView.setNormalColor(ResUtils.getColor(context, R.color.basic_ui_action_bar_text_alpha));
                 int paddingH = (int) DisplayInfoUtils.getInstance().dp2px(8);

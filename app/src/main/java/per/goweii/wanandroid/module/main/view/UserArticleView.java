@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.module.home.view;
+package per.goweii.wanandroid.module.main.view;
 
 import per.goweii.basic.core.base.BaseView;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;

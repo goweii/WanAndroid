@@ -1,13 +1,12 @@
 ext {
     android = [
-            applicationId        : "per.goweii.wanandroid",
-            compileSdkVersion    : 28,
-            minSdkVersion        : 19,
-            targetSdkVersion     : 28,
-            buildToolsVersion    : "28.0.3",
-            versionCode          : 25,
-            versionName          : "1.2.2",
-            androidSupportVersion: "28.0.0",
+            applicationId    : "per.goweii.wanandroid",
+            compileSdkVersion: 28,
+            minSdkVersion    : 19,
+            targetSdkVersion : 28,
+            buildToolsVersion: "28.0.3",
+            versionCode      : 29,
+            versionName      : "1.2.6",
     ]
 
     compileOptions = [
@@ -34,7 +33,7 @@ ext {
             anyPermission         : "1.1.2",
             anyDialog             : "3.0.3",
             anyLayer              : "3.2.2",
-            actionBarEx           : "3.2.1",
+            actionBarEx           : "3.2.4",
             percentImageView      : "1.0.2",
             roundedimageview      : "2.3.0",
             circleimageview       : "2.2.0",
@@ -52,8 +51,10 @@ ext {
             disklrucache          : "2.0.2",
             multiStateView        : "1.3.2",
             pictureSelector       : "v2.3.1",
-            swipeBack             : "1.0.7",
+            swipeBack             : "1.1.0",
             lazyfragment          : "1.1.2",
+            heartView             : "1.0.0",
+            zxingLibrary          : "2.2",
 
             arouterApi            : "1.4.1",
             arouterCompiler       : "1.2.2",
@@ -61,10 +62,14 @@ ext {
             tinypinyin            : "2.0.3",
             blurred               : "1.3.0",
             lottie                : "2.7.0",
+
+            buglyCrashreport      : "3.1.0",
+            crashActivity         : "2.2.0",
     ]
 
     dependencies = [
             appcompatV7            : "com.android.support:appcompat-v7:$versions.appcompat",
+            design                 : "com.android.support:design:$versions.appcompat",
             multidex               : "com.android.support:multidex:$versions.multidex",
             constraintLayout       : "com.android.support.constraint:constraint-layout:$versions.constraintLayout",
             recyclerview           : "com.android.support:recyclerview-v7:$versions.appcompat",
@@ -106,6 +111,8 @@ ext {
             pictureSelector        : "com.github.goweii:PictureSelector:$versions.pictureSelector",
             swipeBack              : "com.github.goweii:SwipeBack:$versions.swipeBack",
             lazyfragment           : "com.github.goweii.LazyFragment:lazyfragment:$versions.lazyfragment",
+            heartView              : "com.github.goweii:HeartView:$versions.heartView",
+            zxingLibrary           : "cn.yipianfengye.android:zxing-library:$versions.zxingLibrary",
 
             arouterApi             : "com.alibaba:arouter-api:$versions.arouterApi",
             arouterCompiler        : "com.alibaba:arouter-compiler:$versions.arouterCompiler",
@@ -113,5 +120,8 @@ ext {
             tinypinyin             : "com.github.promeg:tinypinyin:$versions.tinypinyin",
             blurred                : "com.github.goweii:blurred:$versions.blurred",
             lottie                 : "com.airbnb.android:lottie:$versions.lottie",
+
+            buglyCrashreport       : "com.tencent.bugly:crashreport:$versions.buglyCrashreport",
+            crashActivity          : "cat.ereza:customactivityoncrash:$versions.crashActivity",
     ]
 }

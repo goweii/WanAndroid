@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/foreground"
+    android:orientation="vertical">
+
+    <per.goweii.actionbarex.common.ActionBarCommon
+        android:id="@+id/abc"
+        style="@style/ActionBar.Common"
+        android:background="@color/transparent" />
+
+    <per.goweii.basic.ui.widget.StatusBarView
+        android:id="@+id/sbv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/sbv"
+        android:padding="@dimen/margin_def">
+
+        <LinearLayout
+            android:id="@+id/ll_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="发生了可怕的事情~"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_headline"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_tip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_def"
+                android:lineSpacingExtra="8dp"
+                android:text="什么鬼？应用崩了？淡定淡定！\n我觉得吧，不是你手机有问题就是Android系统有问题，怎么可能是我的代码有BUG。\n现在你有下面2个解决方法：\n1.点下面的重启看下是否可以复现\n2.点下面的查看日志截图去Github提BUG（不过我还是觉得我的代码没问题，哼~）"
+                android:textColor="@color/text_second"
+                android:textSize="@dimen/text_content" />
+
+            <TextView
+                android:id="@+id/tv_show_log"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:lineSpacingExtra="8dp"
+                android:text="查看日志"
+                android:textColor="@color/text_third"
+                android:textSize="@dimen/text_auxiliary" />
+
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/tv_exit"
+            android:layout_below="@+id/ll_tip"
+            android:layout_marginTop="@dimen/margin_def"
+            android:layout_marginBottom="@dimen/margin_def">
+
+            <ImageView
+                android:id="@+id/iv_bug"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/customactivityoncrash_error_image" />
+
+            <ScrollView
+                android:id="@+id/sv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none"
+                android:visibility="invisible"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tv_log"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_third"
+                    android:textSize="@dimen/text_content"
+                    tools:text="logcat" />
+
+            </ScrollView>
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/tv_exit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/tv_restart"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/margin_def"
+            android:text="关闭应用"
+            android:textColor="@color/text_third"
+            android:textSize="@dimen/text_content" />
+
+        <TextView
+            android:id="@+id/tv_restart"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/margin_def"
+            android:layout_marginRight="@dimen/margin_def"
+            android:background="@drawable/bg_press_color_main_radius_max"
+            android:gravity="center"
+            android:text="重新启动"
+            android:textColor="@color/text_invert"
+            android:textSize="@dimen/text_content" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

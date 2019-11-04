@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_copied_link_rl"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:layout_marginBottom="@dimen/bottom_bar_height"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_small"
+        android:background="@drawable/bg_press_color_main_radius_def"
+        android:paddingEnd="@dimen/margin_def">
+
+        <ImageView
+            android:id="@+id/dialog_copied_link_iv_close"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="11dp"
+            android:background="@drawable/bg_press_color_main_radius_max"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_close"
+            android:tint="@color/text_invert" />
+
+        <TextView
+            android:id="@+id/dialog_copied_link_tv_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_def"
+            android:layout_toRightOf="@+id/dialog_copied_link_iv_close"
+            android:text="打开链接"
+            android:textColor="@color/text_invert"
+            android:textSize="@dimen/text_content" />
+
+        <TextView
+            android:id="@+id/dialog_copied_link_tv_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_copied_link_tv_open"
+            android:layout_alignLeft="@+id/dialog_copied_link_tv_open"
+            android:layout_marginBottom="@dimen/margin_def"
+            android:maxWidth="200dp"
+            android:textColor="@color/text_invert_alpha"
+            android:textSize="@dimen/text_notes"
+            tools:text="https://www.github.goweii/WanAndroid" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

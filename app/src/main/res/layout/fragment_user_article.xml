@@ -9,7 +9,7 @@
 
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
-        style="@style/ActionBar.Common.Back"
+        style="@style/ActionBar.Common"
         app:abc_rightIconRes="@drawable/ic_add"
         app:abc_titleText="广场" />
 

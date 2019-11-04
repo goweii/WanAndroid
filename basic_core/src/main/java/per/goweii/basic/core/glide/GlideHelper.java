@@ -27,6 +27,7 @@ import per.goweii.basic.core.glide.progress.OnProgressListener;
 import per.goweii.basic.core.glide.progress.ProgressInterceptor;
 import per.goweii.basic.utils.Utils;
 import per.goweii.basic.utils.listener.SimpleCallback;
+import per.goweii.basic.utils.listener.SimpleListener;
 
 /**
  * Glide图片加载框架的帮助类
@@ -183,6 +184,25 @@ public class GlideHelper {
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                 if (callback != null) {
                     callback.onResult(resource);
+                }
+            }
+        });
+    }
+
+    public void get(final SimpleCallback<Bitmap> onSuccess, final SimpleListener onFail) {
+        getBuilder().apply(getOptions()).into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                if (onSuccess != null) {
+                    onSuccess.onResult(resource);
+                }
+            }
+
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                super.onLoadFailed(errorDrawable);
+                if (onFail != null) {
+                    onFail.onResult();
                 }
             }
         });

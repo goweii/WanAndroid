@@ -15,7 +15,7 @@
 
     <per.goweii.actionbarex.common.ActionIconView
         android:id="@+id/action_bar_fixed_magic_indicator_iv_back"
-        style="@style/action_bar_icon"
+        style="@style/actionbarex_common_action_bar_icon"
         android:visibility="gone"
         android:src="@drawable/ic_back"
         android:tint="@color/basic_ui_action_bar_icon"

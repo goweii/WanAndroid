@@ -2,13 +2,12 @@ package per.goweii.wanandroid.module.main.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
-
-import com.just.agentweb.AgentWeb;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -23,8 +22,8 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.presenter.ShareArticlePresenter;
 import per.goweii.wanandroid.module.main.view.ShareArticleView;
-import per.goweii.wanandroid.utils.AgentWebCreator;
 import per.goweii.wanandroid.utils.UserUtils;
+import per.goweii.wanandroid.utils.WebHolder;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**
@@ -46,7 +45,8 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
     EditText et_title;
     @BindView(R.id.et_link)
     EditText et_link;
-    private AgentWeb mAgentWeb;
+
+    private WebHolder mWebHolder;
 
     public static void start(Context context) {
         start(context, "");
@@ -120,24 +120,24 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
     @Override
     protected void onResume() {
         super.onResume();
-        if (mAgentWeb != null) {
-            mAgentWeb.getWebLifeCycle().onResume();
+        if (mWebHolder != null) {
+            mWebHolder.onResume();
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mAgentWeb != null) {
-            mAgentWeb.getWebLifeCycle().onPause();
+        if (mWebHolder != null) {
+            mWebHolder.onPause();
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mAgentWeb != null) {
-            mAgentWeb.getWebLifeCycle().onDestroy();
+        if (mWebHolder != null) {
+            mWebHolder.onDestroy();
         }
     }
 
@@ -147,36 +147,19 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
             et_title.setText("");
             return;
         }
-        if (mAgentWeb == null) {
-            mAgentWeb = AgentWebCreator.create(this, wc, url, new AgentWebCreator.ClientCallback() {
-                @Override
-                public void onReceivedUrl(String url) {
-                }
-
-                @Override
-                public void onReceivedTitle(String title) {
-                    et_title.setText(title);
-                }
-
-                @Override
-                public void onHistoryUpdate(boolean isReload) {
-                }
-
-                @Override
-                public void onPageStarted() {
-                }
-
-                @Override
-                public void onProgressChanged(int progress) {
-                }
-
-                @Override
-                public void onPageFinished() {
-                }
-            });
+        if (mWebHolder == null) {
+            mWebHolder = WebHolder.with(this, wc)
+                    .setOnPageTitleCallback(new WebHolder.OnPageTitleCallback() {
+                        @Override
+                        public void onReceivedTitle(@NonNull String title) {
+                            et_title.setText(title);
+                            et_title.setSelection(title.length());
+                        }
+                    })
+                    .loadUrl(url);
         } else {
-            mAgentWeb.getWebCreator().getWebView().stopLoading();
-            mAgentWeb.getWebCreator().getWebView().loadUrl(url);
+            mWebHolder.stopLoading();
+            mWebHolder.loadUrl(url);
         }
     }
 

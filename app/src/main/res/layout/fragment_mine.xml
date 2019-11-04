@@ -218,7 +218,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:scaleType="fitCenter"
-                            android:src="@drawable/ic_share"
+                            android:src="@drawable/ic_share_article"
                             android:tint="@color/main" />
 
                         <TextView

@@ -8,23 +8,10 @@
     android:orientation="vertical"
     tools:context=".module.main.activity.MainActivity">
 
-    <per.goweii.actionbarex.common.ActionBarSearch
-        android:id="@+id/abs"
+    <per.goweii.actionbarex.ActionBarEx
+        android:id="@+id/ab"
         style="@style/ActionBar"
-        app:abs_leftIconClickToFinish="true"
-        app:abs_leftIconColor="@color/basic_ui_action_bar_icon"
-        app:abs_leftIconPadding="13dp"
-        app:abs_leftIconRes="@drawable/ic_close"
-        app:abs_rightText="前往"
-        app:abs_rightTextColor="@color/basic_ui_action_bar_text"
-        app:abs_rightTextPaddingRight="16dp"
-        app:abs_titleBgRes="@drawable/action_search_bg"
-        app:abs_titleHintColor="@color/basic_ui_action_bar_text_alpha"
-        app:abs_titleHintText=""
-        app:abs_titleMarginVertical="6dp"
-        app:abs_titlePaddingHorizontal="15dp"
-        app:abs_titleTextColor="@color/basic_ui_action_bar_text"
-        app:abs_titleTextSize="@dimen/text_content" />
+        app:ab_titleBarLayout="@layout/action_bar_web" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"

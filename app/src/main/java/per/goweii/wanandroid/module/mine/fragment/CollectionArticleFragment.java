@@ -144,7 +144,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item.getOriginId(), item.getTitle(), item.getLink());
+                    WebActivity.start(getContext(), item);
                 }
             }
         });

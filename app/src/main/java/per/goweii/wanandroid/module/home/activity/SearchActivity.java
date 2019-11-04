@@ -40,7 +40,7 @@ public class SearchActivity extends BaseActivity {
 
     private SearchHistoryFragment mSearchHistoryFragment;
     private SearchResultFragment mSearchResultFragment;
-    private FragmentManager mFm;
+    private FragmentManager mFragmentManager;
 
     private boolean mIsResultPage = false;
 
@@ -92,25 +92,25 @@ public class SearchActivity extends BaseActivity {
                 return false;
             }
         });
-        mFm = getSupportFragmentManager();
-        Fragment searchHistoryFragment = mFm.findFragmentByTag(SearchHistoryFragment.class.getName());
+        mFragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        Fragment searchHistoryFragment = mFragmentManager.findFragmentByTag(SearchHistoryFragment.class.getName());
         if (searchHistoryFragment == null) {
             mSearchHistoryFragment = SearchHistoryFragment.create();
+            transaction.add(R.id.fl, mSearchHistoryFragment, SearchHistoryFragment.class.getName());
         } else {
             mSearchHistoryFragment = (SearchHistoryFragment) searchHistoryFragment;
         }
-        Fragment searchResultFragment = mFm.findFragmentByTag(SearchResultFragment.class.getName());
+        Fragment searchResultFragment = mFragmentManager.findFragmentByTag(SearchResultFragment.class.getName());
         if (searchResultFragment == null) {
             mSearchResultFragment = SearchResultFragment.create();
+            transaction.add(R.id.fl, mSearchResultFragment, SearchResultFragment.class.getName());
         } else {
             mSearchResultFragment = (SearchResultFragment) searchResultFragment;
         }
-        FragmentTransaction t = mFm.beginTransaction();
-        t.add(R.id.fl, mSearchHistoryFragment, SearchHistoryFragment.class.getName());
-        t.add(R.id.fl, mSearchResultFragment, SearchResultFragment.class.getName());
-        t.show(mSearchHistoryFragment);
-        t.hide(mSearchResultFragment);
-        t.commit();
+        transaction.show(mSearchHistoryFragment);
+        transaction.hide(mSearchResultFragment);
+        transaction.commit();
     }
 
     @Override
@@ -145,7 +145,7 @@ public class SearchActivity extends BaseActivity {
 
     private void showHistoryFragment() {
         mIsResultPage = false;
-        FragmentTransaction t = mFm.beginTransaction();
+        FragmentTransaction t = mFragmentManager.beginTransaction();
         t.hide(mSearchResultFragment);
         t.show(mSearchHistoryFragment);
         t.commit();
@@ -153,7 +153,7 @@ public class SearchActivity extends BaseActivity {
 
     private void showResultFragment() {
         mIsResultPage = true;
-        FragmentTransaction t = mFm.beginTransaction();
+        FragmentTransaction t = mFragmentManager.beginTransaction();
         t.hide(mSearchHistoryFragment);
         t.show(mSearchResultFragment);
         t.commit();

@@ -10,4 +10,5 @@
     <color name="bottom_bar_overlay">@color/background_alpha</color>
     <color name="mine_blur_overlay">@color/background_alpha</color>
     <color name="about_me_blur_overlay">@color/background_alpha</color>
+    <color name="scrollbar">#33000000</color>
 </resources>

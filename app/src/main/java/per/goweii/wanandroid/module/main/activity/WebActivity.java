@@ -1,37 +1,58 @@
 package per.goweii.wanandroid.module.main.activity;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.PointF;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
+import android.view.inputmethod.EditorInfo;
+import android.webkit.WebView;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.just.agentweb.AgentWeb;
+import com.luck.picture.lib.tools.ScreenUtils;
+import com.uuzuche.lib_zxing.activity.CodeUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.common.ActionBarSearch;
-import per.goweii.actionbarex.common.OnActionBarChildClickListener;
+import per.goweii.actionbarex.ActionBarEx;
+import per.goweii.anypermission.RequestListener;
+import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.CaptureUtils;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
-import per.goweii.basic.utils.LogUtils;
+import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.listener.OnClickListener2;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
+import per.goweii.wanandroid.module.main.dialog.WebShareDialog;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
-import per.goweii.wanandroid.utils.AgentWebCreator;
 import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.WebHolder;
+import per.goweii.wanandroid.widget.CollectView;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**
@@ -43,8 +64,16 @@ import per.goweii.wanandroid.widget.WebContainer;
  */
 public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView {
 
-    @BindView(R.id.abs)
-    ActionBarSearch abs;
+    private static final int REQ_CODE_PERMISSION = 1;
+
+    @BindView(R.id.ab)
+    ActionBarEx ab;
+    @BindView(R.id.et_title)
+    EditText et_title;
+    @BindView(R.id.cv_collect)
+    CollectView cv_collect;
+    @BindView(R.id.iv_into)
+    ImageView iv_into;
     @BindView(R.id.wc)
     WebContainer wc;
     @BindView(R.id.iv_back)
@@ -58,44 +87,62 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     @BindView(R.id.iv_home)
     ImageView iv_home;
 
+    private RuntimeRequester mRuntimeRequester = null;
+
     private int mArticleId = -1;
     private String mTitle = "";
     private String mAuthor = "";
     private String mUrl = "";
 
-    private String mCurrTitle = "";
-    private String mCurrUrl = "";
-
-    private AgentWeb mAgentWeb = null;
     private RealmHelper mRealmHelper = null;
     private WebGuideDialog mWebGuideDialog = null;
+    private WebHolder mWebHolder;
 
-    public static void start(Context context, int articleId, String title, String url) {
+    private List<CollectArticleEntity> mCollectedList = new ArrayList<>(1);
+
+    public static void start(Context context, ArticleBean article) {
+        int articleId = article.getOriginId() != 0 ? article.getOriginId() : article.getId();
+        start(context, articleId, article.getTitle(), article.getLink(), article.isCollect());
+    }
+
+    public static void start(Context context, int articleId, String title, String url, boolean collected) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("articleId", articleId);
         intent.putExtra("title", title);
         intent.putExtra("url", url);
+        intent.putExtra("collected", collected);
         context.startActivity(intent);
     }
 
-    public static void start(Context context, String title, String author, String url) {
+    public static void start(Context context, String title, String author, String url, boolean collected) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("author", author);
         intent.putExtra("url", url);
+        intent.putExtra("collected", collected);
         context.startActivity(intent);
     }
 
     public static void start(Context context, String title, String url) {
+        start(context, title, url, false);
+    }
+
+    public static void start(Context context, String title, String url, boolean collected) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("url", url);
+        intent.putExtra("collected", collected);
         context.startActivity(intent);
     }
 
     public static void start(Context context, String url) {
+        start(context, url, false);
+    }
+
+    public static void start(Context context, String url, boolean collected) {
         Intent intent = new Intent(context, WebActivity.class);
         intent.putExtra("url", url);
+        intent.putExtra("collected", collected);
         context.startActivity(intent);
     }
 
@@ -128,69 +175,37 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         mAuthor = mAuthor == null ? "" : mAuthor;
         mUrl = getIntent().getStringExtra("url");
         mUrl = mUrl == null ? "" : mUrl;
-        mCurrUrl = mUrl;
-        mCurrTitle = mTitle;
-
-        setTitle();
+        boolean collected = getIntent().getBooleanExtra("collected", false);
+        if (collected) {
+            CollectArticleEntity entity = new CollectArticleEntity();
+            entity.setArticleId(mArticleId);
+            entity.setTitle(mTitle);
+            entity.setAuthor(mAuthor);
+            entity.setUrl(mUrl);
+            entity.setCollect(true);
+            mCollectedList.add(entity);
+        }
         iv_menu.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                LogUtils.i("WebActivity", "mArticleId=" + mArticleId);
-                LogUtils.i("WebActivity", "mTitle=" + mTitle);
-                LogUtils.i("WebActivity", "mAuthor=" + mAuthor);
-                LogUtils.i("WebActivity", "mUrl=" + mUrl);
-                LogUtils.i("WebActivity", "mCurrUrl=" + mCurrUrl);
-                LogUtils.i("WebActivity", "mCurrTitle=" + mCurrTitle);
-                WebMenuDialog.show(getContext(), new WebMenuDialog.OnMenuClickListener() {
-                    @Override
-                    public void onShare() {
-                        ShareArticleActivity.start(getContext(), mCurrTitle, mCurrUrl);
-                    }
-
-                    @Override
-                    public void onCollect() {
-                        collect(null);
-                    }
-
-                    @Override
-                    public void onReadLater() {
-                        if (mRealmHelper != null) {
-                            mRealmHelper.add(mCurrTitle, mCurrUrl);
-                            ToastMaker.showShort("已加入稍后阅读");
-                        }
-                    }
-
-                    @Override
-                    public void onBrowser() {
-                        IntentUtils.openBrowser(getContext(), mUrl);
-                    }
-
-                    @Override
-                    public void onCopyLink() {
-                        CopyUtils.copyText(mCurrUrl);
-                        ToastMaker.showShort("已复制");
-                    }
-
-                    @Override
-                    public void onCloseActivity() {
-                        finish();
-                    }
-                });
+                showMenuDialog();
             }
         });
         iv_back.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                if (mAgentWeb.getWebCreator().getWebView().canGoBack()) {
-                    mAgentWeb.getWebCreator().getWebView().goBack();
+                if (mWebHolder.canGoBack()) {
+                    mWebHolder.goBack();
+                } else {
+                    finish();
                 }
             }
         });
         iv_forward.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                if (mAgentWeb.getWebCreator().getWebView().canGoForward()) {
-                    mAgentWeb.getWebCreator().getWebView().goForward();
+                if (mWebHolder.canGoForward()) {
+                    mWebHolder.goForward();
                 }
             }
         });
@@ -198,9 +213,9 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             @Override
             public void onClick2(View v) {
                 if (iv_refresh.getAnimation() == null) {
-                    mAgentWeb.getWebCreator().getWebView().reload();
+                    mWebHolder.reload();
                 } else {
-                    mAgentWeb.getWebCreator().getWebView().stopLoading();
+                    mWebHolder.stopLoading();
                 }
             }
         });
@@ -209,49 +224,69 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             public void onClick2(View v) {
                 int step = 0;
                 while (true) {
-                    if (mAgentWeb.getWebCreator().getWebView().canGoBackOrForward(step - 1)) {
+                    if (mWebHolder.canGoBackOrForward(step - 1)) {
                         step--;
                     } else {
                         break;
                     }
                 }
-                mAgentWeb.getWebCreator().getWebView().goBackOrForward(step);
+                mWebHolder.goBackOrForward(step);
             }
         });
         wc.setOnTouchDownListener(new WebContainer.OnTouchDownListener() {
             @Override
             public void onTouchDown() {
-                abs.getEditTextView().clearFocus();
+                et_title.clearFocus();
             }
         });
         wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
             @Override
             public void onDoubleClick(float x, float y) {
-                collect(new PointF(x, y));
+                collect();
             }
         });
-        abs.setOnRightTextClickListener(new OnActionBarChildClickListener() {
+        iv_into.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = abs.getEditTextView().getText().toString();
+                String url = et_title.getText().toString();
                 if (!TextUtils.isEmpty(url)) {
                     Uri uri = Uri.parse(url);
                     if (TextUtils.equals(uri.getScheme(), "http") || TextUtils.equals(uri.getScheme(), "https")) {
-                        mAgentWeb.getWebCreator().getWebView().loadUrl(url);
+                        mWebHolder.loadUrl(url);
                     }
                 }
-                abs.getEditTextView().clearFocus();
+                et_title.clearFocus();
             }
         });
-        abs.getEditTextView().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        et_title.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_GO) {
+                    iv_into.performClick();
+                    return true;
+                }
+                return false;
+            }
+        });
+        et_title.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
-                    abs.getEditTextView().setText(mCurrUrl);
-                    InputMethodUtils.show(abs.getEditTextView());
+                    et_title.setText(mWebHolder.getUrl());
+                    InputMethodUtils.show(et_title);
                 } else {
                     setTitle();
-                    InputMethodUtils.hide(abs.getEditTextView());
+                    InputMethodUtils.hide(et_title);
+                }
+            }
+        });
+        cv_collect.setOnClickListener(new CollectView.OnClickListener() {
+            @Override
+            public void onClick(CollectView v) {
+                if (!v.isChecked()) {
+                    collect();
+                } else {
+                    uncollect();
                 }
             }
         });
@@ -259,71 +294,177 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         mRealmHelper = RealmHelper.create();
     }
 
-    private void setTitle() {
-        abs.getEditTextView().setTag(mCurrUrl);
-        if (!TextUtils.isEmpty(mCurrTitle)) {
-            abs.getEditTextView().setText(mCurrTitle);
-        } else {
-            abs.getEditTextView().setText(mCurrUrl);
+    private void showMenuDialog() {
+        WebMenuDialog.show(getContext(), isCollect(), new WebMenuDialog.OnMenuClickListener() {
+            @Override
+            public void onShareArticle() {
+                ShareArticleActivity.start(getContext(), mWebHolder.getTitle(), mWebHolder.getUrl());
+            }
+
+            @Override
+            public void onCollect() {
+                toggleCollect();
+            }
+
+            @Override
+            public void onReadLater() {
+                if (mRealmHelper != null) {
+                    mRealmHelper.add(mWebHolder.getTitle(), mWebHolder.getUrl());
+                    ToastMaker.showShort("已加入稍后阅读");
+                }
+            }
+
+            @Override
+            public void onBrowser() {
+                IntentUtils.openBrowser(getContext(), mUrl);
+            }
+
+            @Override
+            public void onCopyLink() {
+                CopyUtils.copyText(mWebHolder.getUrl());
+                ToastMaker.showShort("已复制");
+            }
+
+            @Override
+            public void onCloseActivity() {
+                finish();
+            }
+
+            @Override
+            public void onShare() {
+                showShareDialog();
+            }
+        });
+    }
+
+    private void showShareDialog() {
+        WebShareDialog.show(getContext(), new WebShareDialog.OnShareClickListener() {
+            @Override
+            public void onCapture() {
+                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = CaptureUtils.captureWebView(mWebHolder.getWebView());
+                        presenter.saveGallery(bitmap, "wanandroid_article_capture_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
+                    }
+
+                    @Override
+                    public void onFailed() {
+                    }
+                }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+
+            @Override
+            public void onQrcode() {
+                int size = ScreenUtils.getScreenWidth(getContext());
+                Bitmap qrcode = CodeUtils.createImage(mWebHolder.getUrl(), size, size, BitmapFactory.decodeResource(getResources(), R.drawable.ic_icon));
+                presenter.createQrcodeImage(qrcode, mWebHolder.getTitle(), new SimpleCallback<Bitmap>() {
+                    @Override
+                    public void onResult(Bitmap data) {
+                        presenter.saveGallery(data, "wanandroid_article_qrcode_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mRuntimeRequester != null) {
+            mRuntimeRequester.onActivityResult(requestCode);
         }
+    }
+
+    private void setTitle() {
+        et_title.setTag(mWebHolder.getUrl());
+        if (!TextUtils.isEmpty(mWebHolder.getTitle())) {
+            et_title.setText(mWebHolder.getTitle());
+        } else {
+            et_title.setText(mWebHolder.getUrl());
+        }
+    }
+
+    private void setCollect() {
+        String url = mWebHolder.getUrl();
+        boolean contains = false;
+        for (CollectArticleEntity entity : mCollectedList) {
+            if (TextUtils.equals(entity.getUrl(), url)) {
+                contains = true;
+                break;
+            }
+        }
+        cv_collect.setChecked(contains, true);
     }
 
     @Override
     protected void loadData() {
-        mAgentWeb = AgentWebCreator.create(this, wc, mUrl, new AgentWebCreator.ClientCallback() {
-            @Override
-            public void onReceivedUrl(String url) {
-                mCurrUrl = url;
-                mCurrTitle = "";
-            }
-
-            @Override
-            public void onReceivedTitle(String title) {
-                mCurrTitle = title;
-                setTitle();
-            }
-
-            @Override
-            public void onHistoryUpdate(boolean isReload) {
-                switchIconEnable(iv_back, mAgentWeb.getWebCreator().getWebView().canGoBack());
-                switchIconEnable(iv_forward, mAgentWeb.getWebCreator().getWebView().canGoForward());
-                switchIconEnable(iv_home, mAgentWeb.getWebCreator().getWebView().canGoBack());
-            }
-
-            @Override
-            public void onPageStarted() {
-                abs.getEditTextView().clearFocus();
-            }
-
-            @Override
-            public void onProgressChanged(int progress) {
-                if (progress < 95) {
-                    if (iv_refresh.getAnimation() == null) {
-                        RotateAnimation anim = new RotateAnimation(0, 360,
-                                Animation.RELATIVE_TO_SELF, 0.5F,
-                                Animation.RELATIVE_TO_SELF, 0.5F);
-                        anim.setDuration(1500);
-                        anim.setRepeatMode(Animation.RESTART);
-                        anim.setRepeatCount(Animation.INFINITE);
-                        iv_refresh.startAnimation(anim);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            WebView.enableSlowWholeDocumentDraw();
+        }
+        mWebHolder = WebHolder.with(this, wc)
+                .setOnPageTitleCallback(new WebHolder.OnPageTitleCallback() {
+                    @Override
+                    public void onReceivedTitle(@NonNull String title) {
+                        setTitle();
                     }
-                } else {
-                    if (iv_refresh.getAnimation() != null) {
-                        iv_refresh.clearAnimation();
+                })
+                .setOnPageLoadCallback(new WebHolder.OnPageLoadCallback() {
+                    @Override
+                    public void onPageStarted() {
+                        et_title.clearFocus();
                     }
-                }
-            }
 
-            @Override
-            public void onPageFinished() {
-                if (!GuideSPUtils.getInstance().isWebGuideShown()) {
-                    if (mWebGuideDialog == null) {
-                        mWebGuideDialog = new WebGuideDialog(getContext());
-                        mWebGuideDialog.show();
+                    @Override
+                    public void onPageFinished() {
+                        if (!GuideSPUtils.getInstance().isWebGuideShown()) {
+                            if (mWebGuideDialog == null) {
+                                mWebGuideDialog = new WebGuideDialog(getContext());
+                                mWebGuideDialog.show();
+                            }
+                        }
                     }
-                }
-            }
-        });
+                })
+                .setOnHistoryUpdateCallback(new WebHolder.OnHistoryUpdateCallback() {
+                    @Override
+                    public void onHistoryUpdate(boolean isReload) {
+                        setCollect();
+                        if (mWebHolder.canGoBack()) {
+                            iv_back.setImageResource(R.drawable.ic_back);
+                        } else {
+                            iv_back.setImageResource(R.drawable.ic_close);
+                        }
+                        switchIconEnable(iv_forward, mWebHolder.canGoForward());
+                        switchIconEnable(iv_home, mWebHolder.canGoBack());
+                    }
+                })
+                .setOnPageProgressCallback(new WebHolder.OnPageProgressCallback() {
+                    @Override
+                    public void onShowProgress() {
+                        if (iv_refresh.getAnimation() == null) {
+                            RotateAnimation anim = new RotateAnimation(0, 360,
+                                    Animation.RELATIVE_TO_SELF, 0.5F,
+                                    Animation.RELATIVE_TO_SELF, 0.5F);
+                            anim.setDuration(1500);
+                            anim.setInterpolator(new LinearInterpolator());
+                            anim.setRepeatMode(Animation.RESTART);
+                            anim.setRepeatCount(Animation.INFINITE);
+                            iv_refresh.startAnimation(anim);
+                        }
+                    }
+
+                    @Override
+                    public void onProgressChanged(int progress) {
+                    }
+
+                    @Override
+                    public void onHideProgress() {
+                        if (iv_refresh.getAnimation() != null) {
+                            iv_refresh.clearAnimation();
+                        }
+                    }
+                });
+        mWebHolder.loadUrl(mUrl);
     }
 
     private void switchIconEnable(View view, boolean enable) {
@@ -338,19 +479,19 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     protected void onPause() {
-        mAgentWeb.getWebLifeCycle().onPause();
+        mWebHolder.onPause();
         super.onPause();
     }
 
     @Override
     protected void onResume() {
-        mAgentWeb.getWebLifeCycle().onResume();
+        mWebHolder.onResume();
         super.onResume();
     }
 
     @Override
     protected void onDestroy() {
-        mAgentWeb.getWebLifeCycle().onDestroy();
+        mWebHolder.onDestroy();
         if (mRealmHelper != null) {
             mRealmHelper.destroy();
         }
@@ -359,39 +500,98 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (mAgentWeb.handleKeyEvent(keyCode, event)) {
+        if (mWebHolder.handleKeyEvent(keyCode, event)) {
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    private void collect(PointF p) {
-        if (TextUtils.equals(mCurrUrl, mUrl)) {
-            if (mArticleId != -1) {
-                presenter.collect(mArticleId, p);
-            } else {
-                if (TextUtils.isEmpty(mAuthor)) {
-                    presenter.collect(TextUtils.isEmpty(mTitle) ? mCurrTitle : mTitle, mUrl, p);
-                } else {
-                    presenter.collect(TextUtils.isEmpty(mTitle) ? mCurrTitle : mTitle, mAuthor, mUrl, p);
-                }
+    private boolean isCollect() {
+        String url = mWebHolder.getUrl();
+        boolean contains = false;
+        for (CollectArticleEntity entity : mCollectedList) {
+            if (TextUtils.equals(entity.getUrl(), url)) {
+                contains = true;
+                break;
             }
+        }
+        return contains;
+    }
+
+    private void toggleCollect() {
+        if (isCollect()) {
+            uncollect();
         } else {
-            presenter.collect(mCurrTitle, mCurrUrl, p);
+            collect();
         }
     }
 
-    @Override
-    public void collectSuccess(PointF p) {
-        if (p == null) {
-            wc.showCollectAnim();
-        } else {
-            wc.showCollectAnim(p.x, p.y);
+    private void collect() {
+        String url = mWebHolder.getUrl();
+        boolean contains = false;
+        for (CollectArticleEntity entity : mCollectedList) {
+            if (TextUtils.equals(entity.getUrl(), url)) {
+                contains = true;
+                break;
+            }
         }
+        if (contains) {
+            setCollect();
+            return;
+        }
+        CollectArticleEntity entity = new CollectArticleEntity();
+        entity.setCollect(false);
+        entity.setUrl(url);
+        if (TextUtils.equals(url, mUrl)) {
+            if (mArticleId > 0) {
+                entity.setArticleId(mArticleId);
+            } else {
+                entity.setAuthor(mAuthor);
+                entity.setTitle(TextUtils.isEmpty(mTitle) ? mWebHolder.getTitle() : mTitle);
+            }
+        } else {
+            entity.setTitle(mWebHolder.getTitle());
+        }
+        presenter.collect(entity);
+    }
+
+    private void uncollect() {
+        String url = mWebHolder.getUrl();
+        CollectArticleEntity collectArticleEntity = null;
+        for (CollectArticleEntity entity : mCollectedList) {
+            if (TextUtils.equals(entity.getUrl(), url)) {
+                collectArticleEntity = entity;
+                break;
+            }
+        }
+        if (collectArticleEntity == null) {
+            setCollect();
+            return;
+        }
+        presenter.uncollect(collectArticleEntity);
+    }
+
+    @Override
+    public void collectSuccess(CollectArticleEntity entity) {
+        mCollectedList.add(entity);
+        setCollect();
     }
 
     @Override
     public void collectFailed(String msg) {
         ToastMaker.showShort(msg);
+        setCollect();
+    }
+
+    @Override
+    public void uncollectSuccess(CollectArticleEntity entity) {
+        mCollectedList.remove(entity);
+        setCollect();
+    }
+
+    @Override
+    public void uncollectFailed(String msg) {
+        ToastMaker.showShort(msg);
+        setCollect();
     }
 }
