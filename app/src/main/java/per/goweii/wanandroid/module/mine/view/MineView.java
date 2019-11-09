@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.module.mine.view;
 
 import per.goweii.basic.core.base.BaseView;
+import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 
 /**
  * @author CuiZhen
@@ -10,8 +11,7 @@ import per.goweii.basic.core.base.BaseView;
  * GitHub: https://github.com/goweii
  */
 public interface MineView extends BaseView {
-    void getUserCoinAndLevelSuccess(String coin, String lv, String ranking);
-    void getUserCoinAndLevelFail();
-    void getUserCoinSuccess(int code, int coin);
-    void getUserCoinFail(int code, String msg);
+    void getUserInfoSuccess(int code, UserInfoBean coin);
+
+    void getUserInfoFail(int code, String msg);
 }

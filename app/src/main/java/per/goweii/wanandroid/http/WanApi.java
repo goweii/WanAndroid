@@ -19,6 +19,7 @@ import per.goweii.wanandroid.module.main.model.UserPageBean;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
 import per.goweii.wanandroid.module.mine.model.CoinRankBean;
 import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
+import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -307,6 +308,12 @@ public class WanApi extends Api {
          */
         @GET("lg/coin/getcount/json")
         Observable<WanResponse<Integer>> getCoin();
+
+        /**
+         * 获取个人积分
+         */
+        @GET("lg/coin/userinfo/json")
+        Observable<WanResponse<UserInfoBean>> getUserInfo();
 
         /**
          * 获取个人积分获取列表

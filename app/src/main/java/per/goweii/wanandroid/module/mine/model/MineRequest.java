@@ -83,6 +83,10 @@ public class MineRequest extends BaseRequest {
         return request(WanApi.api().getCoin(), listener);
     }
 
+    public static Disposable getUserInfo(@NonNull RequestListener<UserInfoBean> listener) {
+        return request(WanApi.api().getUserInfo(), listener);
+    }
+
     public static Disposable getCoinRecordList(int page, @NonNull RequestListener<CoinRecordBean> listener) {
         return request(WanApi.api().getCoinRecordList(page), listener);
     }

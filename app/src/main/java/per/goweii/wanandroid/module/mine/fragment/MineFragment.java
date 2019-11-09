@@ -39,6 +39,7 @@ import per.goweii.wanandroid.module.mine.activity.MineShareActivity;
 import per.goweii.wanandroid.module.mine.activity.OpenActivity;
 import per.goweii.wanandroid.module.mine.activity.ReadLaterActivity;
 import per.goweii.wanandroid.module.mine.activity.SettingActivity;
+import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 import per.goweii.wanandroid.module.mine.presenter.MinePresenter;
 import per.goweii.wanandroid.module.mine.view.MineView;
 import per.goweii.wanandroid.utils.ImageLoader;
@@ -235,8 +236,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
 
     private void loadUserInfo() {
         if (UserUtils.getInstance().isLogin()) {
-            presenter.getUserCoin();
-            presenter.getUserLevel();
+            presenter.getUserInfo();
         }
     }
 
@@ -371,28 +371,18 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     }
 
     @Override
-    public void getUserCoinAndLevelSuccess(String coin, String lv, String ranking) {
+    public void getUserInfoSuccess(int code, UserInfoBean data) {
         mSmartRefreshUtils.success();
-        tv_user_level.setText(lv);
-        tv_user_ranking.setText(ranking);
+        tv_coin.setText(data.getCoinCount() + "");
+        tv_user_level.setText(data.getLevel() + "");
+        tv_user_ranking.setText(data.getRank() + "");
     }
 
     @Override
-    public void getUserCoinAndLevelFail() {
-        mSmartRefreshUtils.fail();
-        tv_user_level.setText("--");
-        tv_user_ranking.setText("--");
-    }
-
-    @Override
-    public void getUserCoinSuccess(int code, int coin) {
-        mSmartRefreshUtils.success();
-        tv_coin.setText(coin + "");
-    }
-
-    @Override
-    public void getUserCoinFail(int code, String msg) {
+    public void getUserInfoFail(int code, String msg) {
         mSmartRefreshUtils.fail();
         tv_coin.setText("");
+        tv_user_level.setText("--");
+        tv_user_ranking.setText("--");
     }
 }
