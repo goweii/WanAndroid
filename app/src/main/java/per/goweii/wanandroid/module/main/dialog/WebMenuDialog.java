@@ -65,11 +65,11 @@ public class WebMenuDialog {
                                               case R.id.dialog_web_menu_iv_read_later:
                                                   listener.onReadLater();
                                                   break;
-                                              case R.id.dialog_web_menu_iv_browser:
-                                                  listener.onBrowser();
+                                              case R.id.dialog_web_menu_iv_home:
+                                                  listener.onHome();
                                                   break;
-                                              case R.id.dialog_web_menu_iv_copy_link:
-                                                  listener.onCopyLink();
+                                              case R.id.dialog_web_menu_iv_refresh:
+                                                  listener.onRefresh();
                                                   break;
                                               case R.id.dialog_web_menu_iv_close_activity:
                                                   listener.onCloseActivity();
@@ -85,9 +85,9 @@ public class WebMenuDialog {
                                   },
                         R.id.dialog_web_menu_iv_share_article,
                         R.id.dialog_web_menu_iv_read_later,
-                        R.id.dialog_web_menu_iv_browser,
+                        R.id.dialog_web_menu_iv_home,
                         R.id.dialog_web_menu_iv_collect,
-                        R.id.dialog_web_menu_iv_copy_link,
+                        R.id.dialog_web_menu_iv_refresh,
                         R.id.dialog_web_menu_iv_close_activity,
                         R.id.dialog_web_menu_iv_dismiss,
                         R.id.dialog_web_menu_iv_setting,
@@ -200,9 +200,9 @@ public class WebMenuDialog {
 
         void onReadLater();
 
-        void onBrowser();
+        void onHome();
 
-        void onCopyLink();
+        void onRefresh();
 
         void onCloseActivity();
 

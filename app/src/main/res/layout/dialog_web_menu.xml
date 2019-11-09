@@ -22,6 +22,38 @@
             tools:layout_width="100dp">
 
             <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_home"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_background_radius_max"
+                android:gravity="center"
+                android:padding="12dp"
+                android:src="@drawable/ic_home"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="回到首页"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:background="@color/foreground"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
                 android:id="@+id/dialog_web_menu_iv_share_article"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
@@ -39,38 +71,6 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="分享到广场"
-                android:textColor="@color/text_surface"
-                android:textSize="@dimen/text_notes" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp"
-            tools:background="@color/foreground"
-            tools:layout_width="100dp">
-
-            <per.goweii.percentimageview.percentimageview.PercentImageView
-                android:id="@+id/dialog_web_menu_iv_browser"
-                android:layout_width="48dp"
-                android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bg_press_color_background_radius_max"
-                android:gravity="center"
-                android:padding="11dp"
-                android:src="@drawable/ic_browser"
-                android:tint="@color/text_surface" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="浏览器打开"
                 android:textColor="@color/text_surface"
                 android:textSize="@dimen/text_notes" />
 
@@ -157,14 +157,14 @@
             tools:layout_width="100dp">
 
             <per.goweii.percentimageview.percentimageview.PercentImageView
-                android:id="@+id/dialog_web_menu_iv_copy_link"
+                android:id="@+id/dialog_web_menu_iv_refresh"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/bg_press_color_background_radius_max"
                 android:gravity="center"
-                android:padding="13dp"
-                android:src="@drawable/ic_copy_link"
+                android:padding="12dp"
+                android:src="@drawable/ic_refresh"
                 android:tint="@color/text_surface" />
 
             <TextView
@@ -173,7 +173,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="复制链接"
+                android:text="刷新"
                 android:textColor="@color/text_surface"
                 android:textSize="@dimen/text_notes" />
 

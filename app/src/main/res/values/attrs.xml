@@ -5,4 +5,7 @@
         <attr name="sv_bindEditText2" format="reference" />
         <attr name="sv_bindEditText3" format="reference" />
     </declare-styleable>
+    <declare-styleable name="CollectView">
+        <attr name="cv_uncheckedColor" format="color|reference" />
+    </declare-styleable>
 </resources>
