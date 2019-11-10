@@ -9,7 +9,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import per.goweii.basic.utils.UriUtils;
 import per.goweii.basic.utils.Utils;
+import per.goweii.basic.utils.file.CacheUtils;
 
 /**
  * @author CuiZhen
@@ -24,17 +26,21 @@ public class BitmapUtils {
      * @param bmp     获取的bitmap数据
      * @param picName 自定义的图片名
      */
-    public static boolean saveGallery(Bitmap bmp, String picName) {
-        File file;
+    public static File saveGallery(Bitmap bmp, String picName) {
         FileOutputStream outStream = null;
         try {
             File gallery = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            file = new File(gallery, picName + ".jpg");
+            File file = new File(gallery, picName + ".jpg");
             outStream = new FileOutputStream(file.getPath());
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri uri = UriUtils.getFileUri(file);
+            intent.setData(uri);
+            Utils.getAppContext().sendBroadcast(intent);
+            return file;
         } catch (Exception e) {
             e.getStackTrace();
-            file = null;
+            return null;
         } finally {
             try {
                 if (outStream != null) {
@@ -44,14 +50,29 @@ public class BitmapUtils {
                 e.printStackTrace();
             }
         }
-        if (file == null) {
-            return false;
+    }
+
+    public static File saveBitmapToCache(Bitmap bm) {
+        FileOutputStream outStream = null;
+        try {
+            String dir = CacheUtils.getCacheDir();
+            File f = new File(dir, System.currentTimeMillis() + ".jpg");
+            outStream = new FileOutputStream(f);
+            bm.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            outStream.flush();
+            outStream.close();
+            return f;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            try {
+                if (outStream != null) {
+                    outStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        //MediaStore.Images.Media.insertImage(Utils.getAppContext().getContentResolver(), bmp, file.getPath(), null);
-        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        Uri uri = Uri.fromFile(file);
-        intent.setData(uri);
-        Utils.getAppContext().sendBroadcast(intent);
-        return true;
     }
 }

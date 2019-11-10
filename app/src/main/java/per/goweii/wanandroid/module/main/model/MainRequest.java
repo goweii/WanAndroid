@@ -2,11 +2,13 @@ package per.goweii.wanandroid.module.main.model;
 
 import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import io.reactivex.disposables.Disposable;
 import per.goweii.rxhttp.core.RxLife;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.http.BaseRequest;
+import per.goweii.wanandroid.http.RequestCallback;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
 import per.goweii.wanandroid.http.WanCache;
@@ -86,6 +88,38 @@ public class MainRequest extends BaseRequest {
 
     public static Disposable shareArticle(String title, String link, @NonNull RequestListener<BaseBean> listener) {
         return request(WanApi.api().shareArticle(title, link), listener);
+    }
+
+    public static void getJinrishici(RxLife rxLife, @NonNull RequestListener<JinrishiciBean> listener) {
+        getJinrishiciToken(rxLife, new RequestCallback<String>() {
+            @Override
+            public void onSuccess(int code, String data) {
+                request(WanApi.api().getJinrishici(data), listener);
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                listener.onFailed(code, msg);
+            }
+        });
+    }
+
+    private static void getJinrishiciToken(RxLife rxLife, @NonNull RequestListener<String> listener) {
+        cacheBean(WanCache.CacheKey.JINRISHICI_TOKEN, String.class, new RequestCallback<String>() {
+            @Override
+            public void onSuccess(int code, String data) {
+                if (TextUtils.isEmpty(data)) {
+                    rxLife.add(request(WanApi.api().getJinrishiciToken(), listener));
+                } else {
+                    listener.onSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                rxLife.add(request(WanApi.api().getJinrishiciToken(), listener));
+            }
+        });
     }
 
 }

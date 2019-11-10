@@ -1,0 +1,24 @@
+package per.goweii.basic.utils;
+
+import android.net.Uri;
+import android.os.Build;
+import android.support.v4.content.FileProvider;
+
+import java.io.File;
+
+/**
+ * @author CuiZhen
+ * @date 2019/11/10
+ * QQ: 302833254
+ * E-mail: goweii@163.com
+ * GitHub: https://github.com/goweii
+ */
+public class UriUtils {
+
+    public static Uri getFileUri(File file) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return FileProvider.getUriForFile(Utils.getAppContext(), Utils.getAppContext().getPackageName() + ".file.path.share", file);
+        }
+        return Uri.fromFile(file);
+    }
+}

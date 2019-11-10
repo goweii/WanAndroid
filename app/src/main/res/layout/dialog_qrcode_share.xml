@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_qrcode_share_rl_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:padding="@dimen/margin_big">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_above="@+id/dialog_qrcode_share_ll_btn"
+        android:layout_alignParentTop="true">
+
+        <RelativeLayout
+            android:id="@+id/dialog_qrcode_share_rl_card"
+            android:clickable="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:layout_gravity="center">
+
+            <RelativeLayout
+                android:id="@+id/dialog_qrcode_share_rv_shici"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/main">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="@dimen/margin_def"
+                    android:layout_marginEnd="@dimen/margin_def"
+                    android:src="@drawable/ic_wind" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:layout_marginTop="@dimen/margin_def"
+                    android:src="@drawable/ic_cloud" />
+
+                <TextView
+                    android:id="@+id/dialog_qrcode_share_tv_shici"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:layout_marginTop="@dimen/margin_big"
+                    android:layout_marginEnd="@dimen/margin_def"
+                    android:layout_marginBottom="@dimen/margin_def"
+                    android:gravity="center"
+                    android:lineSpacingExtra="@dimen/text_auxiliary"
+                    android:textColor="@color/text_on_main"
+                    android:textSize="@dimen/text_headline"
+                    tools:text="竹里缲丝挑网车\n青蝉独噪日光斜" />
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/dialog_qrcode_share_ll_article"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dialog_qrcode_share_rv_shici"
+                android:padding="@dimen/margin_def">
+
+                <per.goweii.percentimageview.percentimageview.PercentImageView
+                    android:id="@+id/dialog_qrcode_share_piv_qrcode"
+                    android:layout_width="70dp"
+                    android:layout_height="0dp"
+                    android:scaleType="fitCenter"
+                    app:piv_basics="width"
+                    app:piv_percent="1"
+                    tools:background="@color/black" />
+
+                <TextView
+                    android:id="@+id/dialog_qrcode_share_tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLines="3"
+                    android:ellipsize="end"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:textColor="#232323"
+                    android:textSize="@dimen/text_content"
+                    tools:text="文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/dialog_qrcode_share_ll_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_qrcode_share_iv_album"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_radius_max"
+                android:gravity="center"
+                android:padding="13dp"
+                android:src="@drawable/ic_album"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="保存相册"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_qrcode_share_iv_share"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_radius_max"
+                android:gravity="center"
+                android:padding="13dp"
+                android:src="@drawable/ic_share"
+                android:tint="@color/text_surface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="立即分享"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

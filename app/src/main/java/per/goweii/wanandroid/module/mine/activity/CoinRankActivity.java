@@ -16,6 +16,8 @@ import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.module.home.activity.UserPageActivity;
+import per.goweii.wanandroid.module.main.model.CoinInfoBean;
 import per.goweii.wanandroid.module.mine.adapter.CoinRankAdapter;
 import per.goweii.wanandroid.module.mine.model.CoinRankBean;
 import per.goweii.wanandroid.module.mine.presenter.CoinRankPresenter;
@@ -79,6 +81,15 @@ public class CoinRankActivity extends BaseActivity<CoinRankPresenter> implements
                 presenter.getCoinRankList(currPage);
             }
         }, rv);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                CoinInfoBean item = mAdapter.getItem(position);
+                if (item != null) {
+                    UserPageActivity.start(getContext(), item.getUserId());
+                }
+            }
+        });
         rv.setAdapter(mAdapter);
         MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
             @Override

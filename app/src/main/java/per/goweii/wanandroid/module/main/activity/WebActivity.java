@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -17,9 +16,6 @@ import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.luck.picture.lib.tools.ScreenUtils;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,12 +31,14 @@ import per.goweii.basic.utils.CaptureUtils;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
+import per.goweii.basic.utils.ShareUtils;
 import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.listener.OnClickListener2;
-import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.module.main.dialog.QrcodeShareDialog;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
+import per.goweii.wanandroid.module.main.dialog.WebQuickDialog;
 import per.goweii.wanandroid.module.main.dialog.WebShareDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
@@ -359,25 +357,36 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
             @Override
             public void onQrcode() {
-                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+                new QrcodeShareDialog(getContext(), mWebHolder.getUrl(), mWebHolder.getTitle(), new QrcodeShareDialog.OnShareClickListener() {
                     @Override
-                    public void onSuccess() {
-                        int size = ScreenUtils.getScreenWidth(getContext());
-                        Bitmap qrcode = CodeUtils.createImage(mWebHolder.getUrl(), size, size, BitmapFactory.decodeResource(getResources(), R.drawable.ic_icon));
-                        presenter.createQrcodeImage(qrcode, mWebHolder.getTitle(), new SimpleCallback<Bitmap>() {
-                            @Override
-                            public void onResult(Bitmap data) {
-                                presenter.saveGallery(data, "wanandroid_article_qrcode_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
-                            }
-                        });
+                    public void onSave(Bitmap bitmap) {
+                        saveQrcodeGallery(bitmap);
                     }
 
                     @Override
-                    public void onFailed() {
+                    public void onShare(Bitmap bitmap) {
+                        shareBitmap(bitmap);
                     }
-                }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+                }).show();
             }
         });
+    }
+
+    private void shareBitmap(final Bitmap bitmap) {
+        ShareUtils.shareBitmap(getContext(), bitmap);
+    }
+
+    private void saveQrcodeGallery(final Bitmap bitmap) {
+        mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+            @Override
+            public void onSuccess() {
+                presenter.saveGallery(bitmap, "wanandroid_article_qrcode_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
+            }
+
+            @Override
+            public void onFailed() {
+            }
+        }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override

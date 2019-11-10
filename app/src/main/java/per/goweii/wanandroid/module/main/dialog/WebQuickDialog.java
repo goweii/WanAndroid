@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.module.main.activity;
+package per.goweii.wanandroid.module.main.dialog;
 
 import android.animation.Animator;
 import android.view.View;
@@ -26,12 +26,12 @@ public class WebQuickDialog extends PopupLayer {
         contentAnimator(new AnimatorCreator() {
             @Override
             public Animator createInAnimator(View target) {
-                return AnimatorHelper.createTopInAnim(target);
+                return AnimatorHelper.createAlphaInAnim(target);
             }
 
             @Override
             public Animator createOutAnimator(View target) {
-                return AnimatorHelper.createTopOutAnim(target);
+                return AnimatorHelper.createAlphaOutAnim(target);
             }
         });
         onClickToDismiss(new OnClickListener() {

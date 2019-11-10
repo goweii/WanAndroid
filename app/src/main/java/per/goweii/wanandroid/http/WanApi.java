@@ -13,6 +13,7 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
+import per.goweii.wanandroid.module.main.model.JinrishiciBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
 import per.goweii.wanandroid.module.main.model.UserPageBean;
@@ -52,6 +53,12 @@ public class WanApi extends Api {
     }
 
     public interface ApiService {
+
+        @GET("https://v2.jinrishici.com/token")
+        Observable<WanResponse<String>> getJinrishiciToken();
+
+        @GET("https://v2.jinrishici.com/sentence")
+        Observable<WanResponse<JinrishiciBean>> getJinrishici(@retrofit2.http.Header("Token") String token);
 
         @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/update/update.json")
         Observable<WanResponse<UpdateBean>> update();
