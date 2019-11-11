@@ -13,12 +13,14 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
+import per.goweii.wanandroid.module.main.model.JinrishiciBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
 import per.goweii.wanandroid.module.main.model.UserPageBean;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
 import per.goweii.wanandroid.module.mine.model.CoinRankBean;
 import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
+import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
@@ -51,6 +53,12 @@ public class WanApi extends Api {
     }
 
     public interface ApiService {
+
+        @GET("https://v2.jinrishici.com/token")
+        Observable<WanResponse<String>> getJinrishiciToken();
+
+        @GET("https://v2.jinrishici.com/sentence")
+        Observable<WanResponse<JinrishiciBean>> getJinrishici(@retrofit2.http.Header("Token") String token);
 
         @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/update/update.json")
         Observable<WanResponse<UpdateBean>> update();
@@ -307,6 +315,12 @@ public class WanApi extends Api {
          */
         @GET("lg/coin/getcount/json")
         Observable<WanResponse<Integer>> getCoin();
+
+        /**
+         * 获取个人积分
+         */
+        @GET("lg/coin/userinfo/json")
+        Observable<WanResponse<UserInfoBean>> getUserInfo();
 
         /**
          * 获取个人积分获取列表

@@ -170,17 +170,26 @@
 
                     </android.support.design.widget.AppBarLayout>
 
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/rv"
+                    <com.kennyc.view.MultiStateView
+                        android:id="@+id/msv_list"
+                        style="@style/StateView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@color/background"
-                        android:overScrollMode="never"
-                        android:scrollbars="none"
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                        tools:layoutmanager="LinearLayoutManager"
-                        tools:listitem="@layout/rv_item_article" />
+                        app:msv_viewState="empty">
 
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:background="@color/background"
+                            android:overScrollMode="never"
+                            android:scrollbars="none"
+                            tools:layoutmanager="LinearLayoutManager"
+                            tools:listitem="@layout/rv_item_article" />
+
+                    </com.kennyc.view.MultiStateView>
 
                 </android.support.design.widget.CoordinatorLayout>
 

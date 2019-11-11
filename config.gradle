@@ -5,8 +5,8 @@ ext {
             minSdkVersion    : 19,
             targetSdkVersion : 28,
             buildToolsVersion: "28.0.3",
-            versionCode      : 29,
-            versionName      : "1.2.6",
+            versionCode      : 30,
+            versionName      : "1.2.7",
     ]
 
     compileOptions = [
@@ -32,7 +32,7 @@ ext {
             rxHttp                : "2.2.9",
             anyPermission         : "1.1.2",
             anyDialog             : "3.0.3",
-            anyLayer              : "3.2.2",
+            anyLayer              : "3.2.5",
             actionBarEx           : "3.2.4",
             percentImageView      : "1.0.2",
             roundedimageview      : "2.3.0",
@@ -65,6 +65,7 @@ ext {
 
             buglyCrashreport      : "3.1.0",
             crashActivity         : "2.2.0",
+            jinrishici            : "1.2",
     ]
 
     dependencies = [
@@ -123,5 +124,6 @@ ext {
 
             buglyCrashreport       : "com.tencent.bugly:crashreport:$versions.buglyCrashreport",
             crashActivity          : "cat.ereza:customactivityoncrash:$versions.crashActivity",
+            jinrishici             : "com.jinrishici:android-sdk:$versions.jinrishici",
     ]
 }

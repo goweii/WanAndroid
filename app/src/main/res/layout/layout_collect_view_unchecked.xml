@@ -9,6 +9,6 @@
     app:heart_color="@color/surface"
     app:heart_edgeColor="@color/surface"
     app:heart_strokeColor="@color/accent"
-    app:heart_strokeWidth="0.5dp"
+    app:heart_strokeWidth="1dp"
     tools:layout_height="150dp"
     tools:layout_width="150dp" />

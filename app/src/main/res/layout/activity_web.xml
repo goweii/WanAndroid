@@ -38,17 +38,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="15.5dp"
-            android:src="@drawable/ic_back"
-            android:tint="@color/invert" />
-
-        <ImageView
-            android:id="@+id/iv_forward"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="15.5dp"
-            android:rotation="180"
-            android:src="@drawable/ic_back"
+            android:src="@drawable/ic_close"
             android:tint="@color/invert" />
 
         <ImageView
@@ -61,21 +51,13 @@
             android:tint="@color/invert" />
 
         <ImageView
-            android:id="@+id/iv_refresh"
+            android:id="@+id/iv_forward"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:padding="15.5dp"
-            android:src="@drawable/ic_refresh"
-            android:tint="@color/invert" />
-
-        <ImageView
-            android:id="@+id/iv_home"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:padding="15.5dp"
-            android:src="@drawable/ic_home"
+            android:rotation="180"
+            android:src="@drawable/ic_back"
             android:tint="@color/invert" />
 
     </LinearLayout>

@@ -209,6 +209,7 @@ public class WanCache {
 
     @SuppressLint("DefaultLocale")
     public static class CacheKey {
+        public static final String JINRISHICI_TOKEN = "https://v2.jinrishici.com/token";
         public static final String UPDATE = "https://raw.githubusercontent.com/goweii/WanAndroidServer/master/update/update.json";
         public static final String ABOUT_ME = "https://raw.githubusercontent.com/goweii/WanAndroidServer/master/about/about_me.json";
         public static final String WXARTICLE_CHAPTERS = "wxarticle/chapters/json";

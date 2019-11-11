@@ -1,10 +1,12 @@
 package per.goweii.wanandroid.widget;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import per.goweii.heartview.HeartView;
 import per.goweii.reveallayout.RevealLayout;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.UserUtils;
@@ -19,6 +21,7 @@ import per.goweii.wanandroid.utils.UserUtils;
 public class CollectView extends RevealLayout implements View.OnTouchListener {
 
     private OnClickListener mOnClickListener = null;
+    private int mUncheckedColor;
 
     public CollectView(Context context) {
         this(context, null);
@@ -35,6 +38,9 @@ public class CollectView extends RevealLayout implements View.OnTouchListener {
     @Override
     protected void initAttr(AttributeSet attrs) {
         super.initAttr(attrs);
+        TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.CollectView);
+        mUncheckedColor = typedArray.getColor(R.styleable.CollectView_cv_uncheckedColor, 0);
+        typedArray.recycle();
         setCheckWithExpand(true);
         setUncheckWithExpand(false);
         setCheckedLayoutId(R.layout.layout_collect_view_checked);
@@ -42,6 +48,19 @@ public class CollectView extends RevealLayout implements View.OnTouchListener {
         setAnimDuration(500);
         setAllowRevert(true);
         setOnTouchListener(this);
+    }
+
+    @Override
+    protected View createUncheckedView() {
+        View view = super.createUncheckedView();
+        if (view instanceof HeartView) {
+            HeartView heartView = (HeartView) view;
+            if (mUncheckedColor != 0) {
+                heartView.setColor(mUncheckedColor);
+                heartView.setEdgeColor(mUncheckedColor);
+            }
+        }
+        return view;
     }
 
     @Override

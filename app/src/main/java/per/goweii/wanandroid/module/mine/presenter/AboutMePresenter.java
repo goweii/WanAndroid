@@ -83,8 +83,7 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
                 .get(new SimpleCallback<Bitmap>() {
                     @Override
                     public void onResult(Bitmap data) {
-                        if (BitmapUtils.saveGallery(data,
-                                mAboutMeBean.getName() + "_qq_qrcode_" + System.currentTimeMillis())) {
+                        if (null != BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_qq_qrcode_" + System.currentTimeMillis())) {
                             ToastMaker.showShort("保存成功");
                         } else {
                             ToastMaker.showShort("保存失败");
@@ -102,8 +101,7 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
                 .get(new SimpleCallback<Bitmap>() {
                     @Override
                     public void onResult(Bitmap data) {
-                        if (BitmapUtils.saveGallery(data,
-                                mAboutMeBean.getName() + "_wx_qrcode_" + System.currentTimeMillis())) {
+                        if (null != BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_wx_qrcode_" + System.currentTimeMillis())) {
                             ToastMaker.showShort("保存成功");
                         } else {
                             ToastMaker.showShort("保存失败");

@@ -63,6 +63,8 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
 
     @BindView(R.id.msv)
     MultiStateView msv;
+    @BindView(R.id.msv_list)
+    MultiStateView msv_list;
     @BindView(R.id.cl)
     CoordinatorLayout cl;
     @BindView(R.id.ctbl)
@@ -284,6 +286,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
     @Override
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
+        msv_list.setVisibility(View.GONE);
         currPage = PAGE_START;
         getUserPage(false);
     }
@@ -303,6 +306,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
 
     @Override
     public void getUserPageSuccess(int code, UserPageBean data) {
+        MultiStateUtils.toContent(msv);
         currPage = data.getShareArticles().getCurPage() + PAGE_START;
         if (data.getShareArticles().getCurPage() == 1) {
             abc.getTitleTextView().setText(data.getCoinInfo().getUsername());
@@ -312,10 +316,11 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             tv_user_ranking.setText("" + data.getCoinInfo().getRank());
             mAdapter.setNewData(data.getShareArticles().getDatas());
             mAdapter.setEnableLoadMore(true);
+            msv_list.setVisibility(View.VISIBLE);
             if (data.getShareArticles().getDatas() == null || data.getShareArticles().getDatas().isEmpty()) {
-                MultiStateUtils.toEmpty(msv);
+                MultiStateUtils.toEmpty(msv_list);
             } else {
-                MultiStateUtils.toContent(msv);
+                MultiStateUtils.toContent(msv_list);
             }
         } else {
             mAdapter.addData(data.getShareArticles().getDatas());

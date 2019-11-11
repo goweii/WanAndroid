@@ -237,7 +237,7 @@ public class WebPresenter extends BasePresenter<WebView> {
     }
 
     public void saveGallery(Bitmap bitmap, String name) {
-        if (BitmapUtils.saveGallery(bitmap, name)) {
+        if (null != BitmapUtils.saveGallery(bitmap, name)) {
             ToastMaker.showShort("以保存到相册");
         } else {
             ToastMaker.showShort("保存失败");
