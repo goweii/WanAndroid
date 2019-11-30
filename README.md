@@ -58,14 +58,12 @@
 - [goweii/AnyLayer](https://github.com/goweii/AnyLayer)
 - [goweii/AnyDialog](https://github.com/goweii/AnyDialog)
 - [goweii/RevealLayout](https://github.com/goweii/RevealLayout)
-- [goweii/AnyView](https://github.com/goweii/AnyView)
 - [goweii/PercentImageView](https://github.com/goweii/PercentImageView)
 - [goweii/Blurred](https://github.com/goweii/Blurred)
 - [goweii/AnyPermission](https://github.com/goweii/AnyPermission)
 - [goweii/KeyboardCompat](https://github.com/goweii/KeyboardCompat)
 - [JakeWharton/butterknife](https://github.com/JakeWharton/butterknife)
 - [greenrobot/EventBus](https://github.com/greenrobot/EventBus)
-- [Justson/AgentWeb](https://github.com/Justson/AgentWeb)
 - [google/gson](https://github.com/google/gson)
 - [franmontiel/PersistentCookieJar](https://github.com/franmontiel/PersistentCookieJar)
 - [bumptech/glide](https://github.com/bumptech/glide)
@@ -74,7 +72,6 @@
 - [vinc3m1/RoundedImageView](https://github.com/vinc3m1/RoundedImageView)
 - [hdodenhof/CircleImageView](https://github.com/hdodenhof/CircleImageView)
 - [hackware1993/MagicIndicator](https://github.com/hackware1993/MagicIndicator)
-- [chrisbanes/PhotoView](https://github.com/chrisbanes/PhotoView)
 - [zhanghai/MaterialProgressBar](https://github.com/zhanghai/MaterialProgressBar)
 - [google/flexbox-layout](https://github.com/google/flexbox-layout)
 - [youth5201314/banner](https://github.com/youth5201314/banner)
@@ -86,6 +83,11 @@
 
 
 # 更新日志
+
+## 1.3.0(31)
+
+- 【优化】暗黑模式配色
+- 【优化】更换腾讯X5内核
 
 ## 1.2.7(30)
 

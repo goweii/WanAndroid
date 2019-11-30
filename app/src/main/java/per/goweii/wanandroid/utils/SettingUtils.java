@@ -45,7 +45,7 @@ public class SettingUtils {
     private boolean mHideOpen = false;
     private boolean mWebSwipeBackEdge = true;
     private int mRvAnim = RvAnimUtils.RvAnim.NONE;
-    private int mUrlInterceptType = HostInterceptUtils.TYPE_ONLY_WHITE;
+    private int mUrlInterceptType = HostInterceptUtils.TYPE_NOTHING;
     private final List<HostEntity> mHostWhite = new ArrayList<>();
     private final List<HostEntity> mHostBlack = new ArrayList<>();
     private int mSearchHistoryMaxCount = 20;
