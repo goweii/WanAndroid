@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
 
+import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
 import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
@@ -102,7 +103,7 @@ public class WebHolder {
         container.addView(mProgressBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 activity.getResources().getDimensionPixelSize(R.dimen.basic_ui_action_bar_loading_bar_height)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            CookieManager.getInstance().setAcceptThirdPartyCookies(getWebView(), true);
+            CookieManager.getInstance().setAcceptThirdPartyCookies(mWebView, true);
         }
         mWebView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         mWebView.getView().setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -128,89 +129,88 @@ public class WebHolder {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSetting.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
         }
-        mWebView.getSettingsExtension().setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
-    }
-
-    public WebView getWebView() {
-        return mWebView;
+        IX5WebSettingsExtension ext = mWebView.getSettingsExtension();
+        if (ext != null) {
+            ext.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
+        }
     }
 
     public WebHolder loadUrl(String url) {
-        getWebView().loadUrl(url);
+        mWebView.loadUrl(url);
         return this;
     }
 
     @NonNull
     public String getUrl() {
-        String url = getWebView().getUrl();
+        String url = mWebView.getUrl();
         return url == null ? "" : url;
     }
 
     @NonNull
     public String getTitle() {
-        String title = getWebView().getTitle();
+        String title = mWebView.getTitle();
         return title == null ? "" : title;
     }
 
     public boolean canGoBack() {
-        return getWebView().canGoBack();
+        return mWebView.canGoBack();
     }
 
     public boolean canGoForward() {
-        return getWebView().canGoForward();
+        return mWebView.canGoForward();
     }
 
     public boolean canGoBackOrForward(int steps) {
-        return getWebView().canGoBackOrForward(steps);
+        return mWebView.canGoBackOrForward(steps);
     }
 
     public void goBack() {
-        getWebView().goBack();
+        mWebView.goBack();
     }
 
     public void goForward() {
-        getWebView().goForward();
+        mWebView.goForward();
     }
 
     public void goBackOrForward(int steps) {
-        getWebView().goBackOrForward(steps);
+        mWebView.goBackOrForward(steps);
     }
 
     public void reload() {
-        getWebView().reload();
+        mWebView.reload();
     }
 
     public void stopLoading() {
-        getWebView().stopLoading();
+        mWebView.stopLoading();
     }
 
     public void onPause() {
-        getWebView().onPause();
+        mWebView.onPause();
     }
 
     public void onResume() {
-        getWebView().onResume();
+        mWebView.onResume();
     }
 
     public void onDestroy() {
-        ViewParent parent = getWebView().getParent();
+        ViewParent parent = mWebView.getParent();
         if (parent != null) {
-            ((ViewGroup) parent).removeView(getWebView());
+            ((ViewGroup) parent).removeView(mWebView);
         }
-        getWebView().removeAllViews();
-        getWebView().loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
-        getWebView().stopLoading();
-        getWebView().setWebChromeClient(null);
-        getWebView().setWebViewClient(null);
-        getWebView().destroy();
+        mWebView.removeAllViews();
+        mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+        mWebView.stopLoading();
+        mWebView.setWebChromeClient(null);
+        mWebView.setWebViewClient(null);
+        mWebView.destroy();
     }
 
     public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {
         if (keyCode != KeyEvent.KEYCODE_BACK) {
             return false;
         }
-        if (getWebView().canGoBack()) {
-            getWebView().goBack();
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
             return true;
         }
         return false;
