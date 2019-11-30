@@ -39,7 +39,6 @@ import per.goweii.wanandroid.module.main.dialog.QrcodeShareDialog;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
 import per.goweii.wanandroid.module.main.dialog.WebQuickDialog;
-import per.goweii.wanandroid.module.main.dialog.WebShareDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
@@ -343,30 +342,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
             @Override
             public void onShare() {
-                showShareDialog();
-            }
-        });
-    }
-
-    private void showShareDialog() {
-        WebShareDialog.show(getContext(), new WebShareDialog.OnShareClickListener() {
-            @Override
-            public void onCapture() {
-                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
-                    @Override
-                    public void onSuccess() {
-//                        Bitmap bitmap = CaptureUtils.captureWebView(mWebHolder.getWebView());
-//                        presenter.saveGallery(bitmap, "wanandroid_article_capture_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
-                    }
-
-                    @Override
-                    public void onFailed() {
-                    }
-                }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            }
-
-            @Override
-            public void onQrcode() {
                 new QrcodeShareDialog(getContext(), mWebHolder.getUrl(), mWebHolder.getTitle(), new QrcodeShareDialog.OnShareClickListener() {
                     @Override
                     public void onSave(Bitmap bitmap) {
