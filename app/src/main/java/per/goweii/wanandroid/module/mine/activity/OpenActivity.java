@@ -96,7 +96,7 @@ public class OpenActivity extends BaseActivity {
         list.add(new OpenEntity("goweii/AnyLayer", "用于替代Android自带Dialog和PopupWindow", "https://github.com/goweii/AnyLayer"));
         list.add(new OpenEntity("goweii/AnyDialog", "Android高定制性，高易用性Dialog。", "https://github.com/goweii/AnyDialog"));
         list.add(new OpenEntity("goweii/RevealLayout", "揭示效果布局，可以指定2个子布局，以圆形揭示效果切换选中状态", "https://github.com/goweii/RevealLayout"));
-        list.add(new OpenEntity("goweii/AnyView", "快速将一个布局封装成一个自定义View", "https://github.com/goweii/AnyView"));
+        // list.add(new OpenEntity("goweii/AnyView", "快速将一个布局封装成一个自定义View", "https://github.com/goweii/AnyView"));
         list.add(new OpenEntity("goweii/PercentImageView", "自由指定宽高比的ImageView", "https://github.com/goweii/PercentImageView"));
         list.add(new OpenEntity("goweii/Blurred", "Android高斯模糊库", "https://github.com/goweii/Blurred"));
         list.add(new OpenEntity("goweii/AnyPermission", "Android权限申请（运行时权限、未知应用安装权限、悬浮窗权限、显示通知和访问通知权限）", "https://github.com/goweii/AnyPermission"));
@@ -104,7 +104,7 @@ public class OpenActivity extends BaseActivity {
         list.add(new OpenEntity("goweii/PictureSelector", "forked from LuckSiege/PictureSelector. Picture Selector Library for Android  多图片及音视频选择器", "https://github.com/goweii/PictureSelector"));
         list.add(new OpenEntity("JakeWharton/butterknife", "Bind Android views and callbacks to fields and methods.", "https://github.com/JakeWharton/butterknife"));
         list.add(new OpenEntity("greenrobot/EventBus", "Event bus for Android and Java that simplifies communication between Activities, Fragments, Threads, Services, etc. Less code, better quality.", "https://github.com/greenrobot/EventBus"));
-        list.add(new OpenEntity("Justson/AgentWeb", "AgentWeb is a powerful library based on Android WebView.", "https://github.com/Justson/AgentWeb"));
+        // list.add(new OpenEntity("Justson/AgentWeb", "AgentWeb is a powerful library based on Android WebView.", "https://github.com/Justson/AgentWeb"));
         list.add(new OpenEntity("google/gson", "A Java serialization/deserialization library to convert Java Objects into JSON and back", "https://github.com/google/gson"));
         list.add(new OpenEntity("franmontiel/PersistentCookieJar", "A persistent CookieJar implementation for OkHttp 3 based on SharedPreferences.", "https://github.com/franmontiel/PersistentCookieJar"));
         list.add(new OpenEntity("bumptech/glide", "An image loading and caching library for Android focused on smooth scrolling", "https://github.com/bumptech/glide"));
@@ -113,7 +113,7 @@ public class OpenActivity extends BaseActivity {
         list.add(new OpenEntity("vinc3m1/RoundedImageView", "A fast ImageView that supports rounded corners, ovals, and circles.", "https://github.com/vinc3m1/RoundedImageView"));
         list.add(new OpenEntity("hdodenhof/CircleImageView", "A circular ImageView for Android", "https://github.com/hdodenhof/CircleImageView"));
         list.add(new OpenEntity("hackware1993/MagicIndicator", "A powerful, customizable and extensible ViewPager indicator framework. As the best alternative of ViewPagerIndicator, TabLayout and PagerSlidingTabStrip —— 强大、可定制、易扩展的 ViewPager 指示器框架。是ViewPagerIndicator、TabLayout、PagerSlidingTabStrip的最佳替代品。支持角标，更支持在非ViewPager场景下使用（使用hide()、show()切换Fragment或使用setVisibility切换FrameLayout里的View等）", "https://github.com/hackware1993/MagicIndicator"));
-        list.add(new OpenEntity("chrisbanes/PhotoView", "Implementation of ImageView for Android that supports zooming, by various touch gestures.", "https://github.com/chrisbanes/PhotoView"));
+        // list.add(new OpenEntity("chrisbanes/PhotoView", "Implementation of ImageView for Android that supports zooming, by various touch gestures.", "https://github.com/chrisbanes/PhotoView"));
         list.add(new OpenEntity("zhanghai/MaterialProgressBar", "Material Design ProgressBar with consistent appearance", "https://github.com/zhanghai/MaterialProgressBar"));
         list.add(new OpenEntity("google/flexbox-layout", "Flexbox for Android", "https://github.com/google/flexbox-layout"));
         list.add(new OpenEntity("youth5201314/banner", "Android广告图片轮播控件，支持无限循环和多种主题，可以灵活设置轮播样式、动画、轮播和切换时间、位置、图片加载框架等！", "https://github.com/youth5201314/banner"));
