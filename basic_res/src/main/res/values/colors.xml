@@ -21,6 +21,9 @@
     <color name="surface">#ffffff</color>
     <color name="surface_alpha">#ccffffff</color>
     <color name="surface_mask">#ccffffff</color>
+    <color name="surface_top">#f5f5f5</color>
+    <color name="surface_top_alpha">#ccf5f5f5</color>
+    <color name="surface_top_mask">#11000000</color>
     <color name="invert">#333333</color>
     <color name="invert_alpha">#11000000</color>
     <color name="second">#666666</color>

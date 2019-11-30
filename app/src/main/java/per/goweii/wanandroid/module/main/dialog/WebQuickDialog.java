@@ -26,12 +26,12 @@ public class WebQuickDialog extends PopupLayer {
         contentAnimator(new AnimatorCreator() {
             @Override
             public Animator createInAnimator(View target) {
-                return AnimatorHelper.createAlphaInAnim(target);
+                return AnimatorHelper.createTopInAnim(target);
             }
 
             @Override
             public Animator createOutAnimator(View target) {
-                return AnimatorHelper.createAlphaOutAnim(target);
+                return AnimatorHelper.createTopOutAnim(target);
             }
         });
         onClickToDismiss(new OnClickListener() {

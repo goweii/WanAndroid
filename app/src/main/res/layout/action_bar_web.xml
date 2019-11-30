@@ -44,6 +44,7 @@
             android:layout_height="match_parent"
             android:padding="@dimen/margin_small"
             android:scaleType="fitCenter"
+            android:tint="@color/basic_ui_action_bar_icon"
             android:src="@drawable/ic_into" />
 
     </LinearLayout>

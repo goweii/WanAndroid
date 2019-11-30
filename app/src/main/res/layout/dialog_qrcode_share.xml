@@ -5,6 +5,7 @@
     android:id="@+id/dialog_qrcode_share_rl_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:background="@color/dialog_bg"
     android:clipToPadding="false"
     android:padding="@dimen/margin_big">
 
@@ -124,7 +125,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="保存相册"
-                android:textColor="@color/text_surface"
+                android:textColor="@color/text_on_main"
                 android:textSize="@dimen/text_notes" />
 
         </LinearLayout>
@@ -155,7 +156,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="立即分享"
-                android:textColor="@color/text_surface"
+                android:textColor="@color/text_on_main"
                 android:textSize="@dimen/text_notes" />
 
         </LinearLayout>

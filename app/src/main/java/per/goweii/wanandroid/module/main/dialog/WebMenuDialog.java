@@ -189,7 +189,7 @@ public class WebMenuDialog {
         if (checked) {
             iv.setBackgroundResource(R.drawable.bg_press_color_main_radius_max);
         } else {
-            iv.setBackgroundResource(R.drawable.bg_press_color_background_radius_max);
+            iv.setBackgroundResource(R.drawable.bg_press_color_surface_top_radius_max);
         }
     }
 

@@ -2,13 +2,13 @@
 <resources>
     <color name="dialog_bg">#aa000000</color>
     <color name="toast_bg">#000000</color>
-    <color name="ripple_dark">#114282f4</color>
-    <color name="ripple_light">#114282f4</color>
+    <color name="ripple_dark">#0773a3f5</color>
+    <color name="ripple_light">#0773a3f5</color>
 
     <!--通用颜色-->
-    <color name="main">#6f9ff4</color>
-    <color name="assist">#64dc9c</color>
-    <color name="accent">#f88b65</color>
+    <color name="main">#73a3f5</color>
+    <color name="assist">#67db9d</color>
+    <color name="accent">#f78c65</color>
     <color name="transparent">#00000000</color>
     <color name="line">#111111</color>
     <color name="background">#111111</color>
@@ -17,22 +17,25 @@
     <color name="foreground">#111111</color>
     <color name="foreground_alpha">#dd111111</color>
     <color name="foreground_mask">#11ffffff</color>
-    <color name="foreground_top">#1a1a1a</color>
-    <color name="surface">#1a1a1a</color>
-    <color name="surface_alpha">#cc1a1a1a</color>
+    <color name="foreground_top">#141516</color>
+    <color name="surface">#141516</color>
+    <color name="surface_alpha">#cc141516</color>
     <color name="surface_mask">#11ffffff</color>
-    <color name="invert">#e1e1e1</color>
-    <color name="invert_alpha">#11e1e1e1</color>
-    <color name="second">#9b9b9b</color>
+    <color name="surface_top">#222425</color>
+    <color name="surface_top_alpha">#cc222425</color>
+    <color name="surface_top_mask">#11ffffff</color>
+    <color name="invert">#bbbbbb</color>
+    <color name="invert_alpha">#11bbbbbb</color>
+    <color name="second">#67676a</color>
     <color name="third">#616161</color>
     <color name="fourth">#393939</color>
     <!--文字颜色-->
     <color name="text_main">@color/main</color>
     <color name="text_accent">@color/accent</color>
-    <color name="text_surface">#dddddd</color>
-    <color name="text_surface_alpha">#88dddddd</color>
-    <color name="text_second">#9b9b9b</color>
-    <color name="text_third">#6a6a6a</color>
+    <color name="text_surface">#bbbbbb</color>
+    <color name="text_surface_alpha">#88bbbbbb</color>
+    <color name="text_second">#67676a</color>
+    <color name="text_third">#434346</color>
     <color name="text_invert">#111111</color>
     <color name="text_invert_alpha">#88111111</color>
     <color name="text_on_main">#ffffff</color>

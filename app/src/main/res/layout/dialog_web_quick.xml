@@ -13,7 +13,7 @@
         android:textColor="@color/text_third"
         android:gravity="center"
         android:text="复制链接"
-        android:textSize="@dimen/text_notes" />
+        android:textSize="@dimen/text_auxiliary" />
 
     <TextView
         android:id="@+id/dialog_web_quick_tv_browser"
@@ -24,6 +24,6 @@
         android:textColor="@color/text_third"
         android:gravity="center"
         android:text="浏览器打开"
-        android:textSize="@dimen/text_notes" />
+        android:textSize="@dimen/text_auxiliary" />
 
 </LinearLayout>

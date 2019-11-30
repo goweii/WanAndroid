@@ -22,6 +22,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import per.goweii.actionbarex.ActionBarEx;
+import per.goweii.anylayer.Layer;
 import per.goweii.anypermission.RequestListener;
 import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.base.BaseActivity;
@@ -276,6 +277,16 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 @Override
                 public void onBrowser() {
                     IntentUtils.openBrowser(getContext(), mUrl);
+                }
+            });
+            mWebQuickDialog.onDismissListener(new Layer.OnDismissListener() {
+                @Override
+                public void onDismissing(Layer layer) {
+                }
+
+                @Override
+                public void onDismissed(Layer layer) {
+                    et_title.clearFocus();
                 }
             });
         }
