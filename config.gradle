@@ -55,6 +55,7 @@ ext {
             lazyfragment          : "1.1.2",
             heartView             : "1.0.0",
             zxingLibrary          : "2.2",
+            tbs                   : "43697",
 
             arouterApi            : "1.4.1",
             arouterCompiler       : "1.2.2",
@@ -114,6 +115,7 @@ ext {
             lazyfragment           : "com.github.goweii.LazyFragment:lazyfragment:$versions.lazyfragment",
             heartView              : "com.github.goweii:HeartView:$versions.heartView",
             zxingLibrary           : "cn.yipianfengye.android:zxing-library:$versions.zxingLibrary",
+            tbs                    : "com.tencent.tbs.tbssdk:sdk:$versions.tbs",
 
             arouterApi             : "com.alibaba:arouter-api:$versions.arouterApi",
             arouterCompiler        : "com.alibaba:arouter-compiler:$versions.arouterCompiler",

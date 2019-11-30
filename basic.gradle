@@ -24,6 +24,11 @@ android {
         sourceCompatibility rootProject.ext.compileOptions.sourceCompatibility
         targetCompatibility rootProject.ext.compileOptions.targetCompatibility
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     resourcePrefix project.name + "_"
 }
 

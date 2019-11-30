@@ -28,7 +28,6 @@ import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
-import per.goweii.basic.utils.CaptureUtils;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
@@ -356,8 +355,8 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 mRuntimeRequester = PermissionUtils.request(new RequestListener() {
                     @Override
                     public void onSuccess() {
-                        Bitmap bitmap = CaptureUtils.captureWebView(mWebHolder.getWebView());
-                        presenter.saveGallery(bitmap, "wanandroid_article_capture_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
+//                        Bitmap bitmap = CaptureUtils.captureWebView(mWebHolder.getWebView());
+//                        presenter.saveGallery(bitmap, "wanandroid_article_capture_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
                     }
 
                     @Override

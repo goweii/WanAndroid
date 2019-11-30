@@ -79,7 +79,7 @@ public class WebContainer extends FrameLayout {
 
         mDarkTheme = SettingUtils.getInstance().isDarkTheme();
         if (mDarkTheme) {
-            mMaskColor = ColorUtils.alphaColor(ContextCompat.getColor(getContext(), R.color.background), 0.6F);
+            mMaskColor = ColorUtils.alphaColor(ContextCompat.getColor(getContext(), R.color.background), 0.4F);
         }
     }
 

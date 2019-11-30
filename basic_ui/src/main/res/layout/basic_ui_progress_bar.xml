@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<me.zhanghai.android.materialprogressbar.MaterialProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/basic_ui_LoadingBarH"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/basic_ui_action_bar_loading_bar_height"
+    android:layout_gravity="top"
+    android:indeterminate="false"
+    android:background="@color/transparent"
+    app:mpb_showProgressBackground="false"
+    tools:progress="50"
+    app:mpb_progressTint="@color/assist"
+    app:mpb_indeterminateTint="@color/assist"
+    app:mpb_progressStyle="horizontal"
+    app:mpb_useIntrinsicPadding="false" />
