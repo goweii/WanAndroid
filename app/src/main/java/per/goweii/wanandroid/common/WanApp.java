@@ -12,6 +12,9 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import cat.ereza.customactivityoncrash.config.CaocConfig;
 import io.realm.Realm;
 import per.goweii.basic.core.CoreInit;
@@ -62,26 +65,48 @@ public class WanApp extends BaseApp {
                 }
             });
             Realm.init(this);
-            QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
-                @Override
-                public void onCoreInitFinished() {
-                    LogUtils.d("x5", "initX5Environment->onCoreInitFinished");
-                }
-
-                @Override
-                public void onViewInitFinished(boolean b) {
-                    LogUtils.d("x5", "initX5Environment->onViewInitFinished=" + b);
-                }
-            });
         }
+        initX5();
         initBugly();
         initCrashActivity();
+    }
+
+    private void initX5() {
+        QbSdk.initX5Environment(this, new QbSdk.PreInitCallback() {
+            @Override
+            public void onCoreInitFinished() {
+                LogUtils.d("x5", "initX5Environment->onCoreInitFinished");
+            }
+
+            @Override
+            public void onViewInitFinished(boolean b) {
+                LogUtils.d("x5", "initX5Environment->onViewInitFinished=" + b);
+            }
+        });
     }
 
     private void initBugly() {
         if (!DebugUtils.isDebug()) {
             CrashReport.setIsDevelopmentDevice(this, DebugUtils.isDebug());
             CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
+            strategy.setCrashHandleCallback(new CrashReport.CrashHandleCallback() {
+                @Override
+                public Map<String, String> onCrashHandleStart(int crashType, String errorType, String errorMessage, String errorStack) {
+                    LinkedHashMap<String, String> map = new LinkedHashMap<>();
+                    String x5CrashInfo = com.tencent.smtt.sdk.WebView.getCrashExtraMessage(getAppContext());
+                    map.put("x5crashInfo", x5CrashInfo);
+                    return map;
+                }
+
+                @Override
+                public byte[] onCrashHandleStart2GetExtraDatas(int crashType, String errorType, String errorMessage, String errorStack) {
+                    try {
+                        return "Extra data.".getBytes("UTF-8");
+                    } catch (Exception e) {
+                        return null;
+                    }
+                }
+            });
             strategy.setUploadProcess(isMainProcess());
             CrashReport.initCrashReport(this, "0411151084", DebugUtils.isDebug(), strategy);
         }

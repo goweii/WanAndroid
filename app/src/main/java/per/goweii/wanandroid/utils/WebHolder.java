@@ -111,11 +111,11 @@ public class WebHolder {
         mWebView.setWebViewClient(new WanWebViewClient());
         WebSettings webSetting = mWebView.getSettings();
         webSetting.setJavaScriptEnabled(true);
-        webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
+        webSetting.setJavaScriptCanOpenWindowsAutomatically(false);
         webSetting.setAllowFileAccess(true);
         webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        webSetting.setSupportZoom(true);
-        webSetting.setBuiltInZoomControls(true);
+        webSetting.setSupportZoom(false);
+        webSetting.setBuiltInZoomControls(false);
         webSetting.setUseWideViewPort(true);
         webSetting.setSupportMultipleWindows(true);
         webSetting.setLoadWithOverviewMode(true);
