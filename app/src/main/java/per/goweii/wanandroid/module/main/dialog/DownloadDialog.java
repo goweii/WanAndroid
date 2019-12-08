@@ -138,7 +138,7 @@ public class DownloadDialog {
     private void showDialog() {
         mAnyLayer = AnyLayer.dialog(mActivity)
                 .contentView(R.layout.dialog_download)
-                .backgroundColorRes(R.color.dialog_bg)
+                .backgroundDimDefault()
                 .gravity(Gravity.CENTER)
                 .cancelableOnTouchOutside(false)
                 .cancelableOnClickKeyBack(false)

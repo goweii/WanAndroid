@@ -29,6 +29,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
+import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.presenter.SettingPresenter;
@@ -235,7 +236,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @OnClick({
             R.id.rl_intercept_host, R.id.ll_rv_anim, R.id.ll_update,
-            R.id.ll_cache, R.id.ll_about, R.id.ll_logout
+            R.id.ll_cache, R.id.ll_about, R.id.ll_privacy_policy, R.id.ll_logout
     })
     @Override
     public void onClick(View v) {
@@ -300,6 +301,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 break;
             case R.id.ll_about:
                 AboutActivity.start(getContext());
+                break;
+            case R.id.ll_privacy_policy:
+                WebActivity.start(getContext(), "file:///android_asset/privacy_policy.html");
                 break;
             case R.id.ll_logout:
                 TipDialog.with(getContext())

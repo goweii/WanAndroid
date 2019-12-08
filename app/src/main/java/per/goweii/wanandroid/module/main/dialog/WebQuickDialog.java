@@ -1,9 +1,8 @@
 package per.goweii.wanandroid.module.main.dialog;
 
-import android.animation.Animator;
 import android.view.View;
 
-import per.goweii.anylayer.AnimatorHelper;
+import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
 import per.goweii.anylayer.PopupLayer;
 import per.goweii.wanandroid.R;
@@ -20,20 +19,10 @@ public class WebQuickDialog extends PopupLayer {
     public WebQuickDialog(View targetView, OnQuickClickListener onQuickClickListener) {
         super(targetView);
         contentView(R.layout.dialog_web_quick);
-        backgroundColorRes(R.color.dialog_bg);
         outsideInterceptTouchEvent(false);
         interceptKeyEvent(false);
-        contentAnimator(new AnimatorCreator() {
-            @Override
-            public Animator createInAnimator(View target) {
-                return AnimatorHelper.createTopInAnim(target);
-            }
-
-            @Override
-            public Animator createOutAnimator(View target) {
-                return AnimatorHelper.createTopOutAnim(target);
-            }
-        });
+        backgroundDimDefault();
+        dragDismiss(DragLayout.DragStyle.Top);
         onClickToDismiss(new OnClickListener() {
             @Override
             public void onClick(Layer layer, View v) {

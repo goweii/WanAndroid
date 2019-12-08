@@ -1,13 +1,13 @@
 package per.goweii.wanandroid.module.mine.dialog;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 
-import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DialogLayer;
+import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
@@ -25,31 +25,34 @@ public class AddHostDialog {
     public static void show(Context context, SimpleCallback<String> callback) {
         AnyLayer.dialog(context)
                 .contentView(R.layout.dialog_add_host)
-                .contentAnimator(new Layer.AnimatorCreator() {
-                    @Override
-                    public Animator createInAnimator(View target) {
-                        return AnimatorHelper.createTopInAnim(target);
-                    }
-
-                    @Override
-                    public Animator createOutAnimator(View target) {
-                        return AnimatorHelper.createTopOutAnim(target);
-                    }
-                })
-                .avoidStatusBar(true)
-                .backgroundColorRes(R.color.dialog_bg)
+                .dragDismiss(DragLayout.DragStyle.Bottom)
+                .backgroundDimDefault()
                 .cancelableOnClickKeyBack(true)
                 .cancelableOnTouchOutside(true)
-                .gravity(Gravity.TOP)
-                .onDismissListener(new Layer.OnDismissListener() {
+                .gravity(Gravity.BOTTOM)
+                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
                     @Override
-                    public void onDismissing(Layer layer) {
+                    public void onShow(Layer layer) {
+                        DialogLayer dialogLayer = (DialogLayer) layer;
                         EditText et_host = layer.getView(R.id.dialog_add_host_et_host);
-                        InputMethodUtils.hide(et_host);
+                        dialogLayer.compatSoftInput(et_host);
+                        View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
+                            @Override
+                            public void onFocusChange(View v, boolean hasFocus) {
+                                if (!et_host.isFocused()) {
+                                    InputMethodUtils.hide(et_host);
+                                }
+                            }
+                        };
+                        et_host.setOnFocusChangeListener(listener);
                     }
 
                     @Override
-                    public void onDismissed(Layer layer) {
+                    public void onDismiss(Layer layer) {
+                        DialogLayer dialogLayer = (DialogLayer) layer;
+                        dialogLayer.removeSoftInput();
+                        EditText et_host = layer.getView(R.id.dialog_add_host_et_host);
+                        InputMethodUtils.hide(et_host);
                     }
                 })
                 .onClickToDismiss(R.id.dialog_add_host_tv_no)

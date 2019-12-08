@@ -519,6 +519,36 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_privacy_policy"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_press_color_surface"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:singleLine="true"
+                        android:text="隐私政策"
+                        android:textColor="@color/text_surface"
+                        android:textSize="@dimen/text_content" />
+
+                    <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:rotation="180"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_back"
+                        android:tint="@color/third" />
+
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/ll_logout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

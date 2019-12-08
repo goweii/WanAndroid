@@ -5,8 +5,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -25,6 +23,7 @@ import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.CopiedLinkDialog;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
+import per.goweii.wanandroid.module.main.dialog.PrivacyPolicyDialog;
 import per.goweii.wanandroid.module.main.fragment.MainFragment;
 import per.goweii.wanandroid.module.main.fragment.UserArticleFragment;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
@@ -58,8 +57,9 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     protected void initWindow() {
         super.initWindow();
-        setTheme(R.style.AppTheme);
-        getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        setTheme(R.style.AppTheme);
+//        getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.background)));
+//        getWindow().getDecorView().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.background)));
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         );
         vp.setCurrentItem(1);
         onPageSelected(vp.getCurrentItem());
-        mLastCopyLink = SPUtils.getInstance().get("LastCopyLink", "");
+        PrivacyPolicyDialog.showIfFirst(getContext());
     }
 
     @Override
@@ -194,6 +194,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         super.onActivityResult(requestCode, resultCode, data);
         if (mRuntimeRequester != null) {
             mRuntimeRequester.onActivityResult(requestCode);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (vp.getCurrentItem() == 1) {
+            super.onBackPressed();
+        } else {
+            vp.setCurrentItem(1);
         }
     }
 

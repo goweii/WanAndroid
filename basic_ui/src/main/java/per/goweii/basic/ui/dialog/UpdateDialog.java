@@ -88,7 +88,7 @@ public class UpdateDialog {
     public void show() {
         AnyLayer.dialog(mContext)
                 .contentView(R.layout.basic_ui_dialog_update)
-                .backgroundColorRes(R.color.dialog_bg)
+                .backgroundDimDefault()
                 .gravity(Gravity.CENTER)
                 .cancelableOnTouchOutside(!mForce)
                 .cancelableOnClickKeyBack(!mForce)

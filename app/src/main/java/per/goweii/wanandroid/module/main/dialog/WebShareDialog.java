@@ -1,13 +1,12 @@
 package per.goweii.wanandroid.module.main.dialog;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
 
-import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
 import per.goweii.wanandroid.R;
 
@@ -25,18 +24,8 @@ public class WebShareDialog {
         AnyLayer.dialog(context)
                 .contentView(R.layout.dialog_web_share)
                 .gravity(Gravity.BOTTOM)
-                .backgroundColorRes(R.color.dialog_bg)
-                .contentAnimator(new Layer.AnimatorCreator() {
-                    @Override
-                    public Animator createInAnimator(View target) {
-                        return AnimatorHelper.createBottomInAnim(target);
-                    }
-
-                    @Override
-                    public Animator createOutAnimator(View target) {
-                        return AnimatorHelper.createBottomOutAnim(target);
-                    }
-                })
+                .backgroundDimDefault()
+                .dragDismiss(DragLayout.DragStyle.Bottom)
                 .onClickToDismiss(new Layer.OnClickListener() {
                                       @Override
                                       public void onClick(Layer layer, View v) {

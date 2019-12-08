@@ -1,13 +1,13 @@
 package per.goweii.wanandroid.module.mine.dialog;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 
-import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DialogLayer;
+import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
 import per.goweii.basic.utils.EditTextUtils;
 import per.goweii.basic.utils.InputMethodUtils;
@@ -24,25 +24,14 @@ import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
  */
 public class EditCollectLinkDialog {
 
-    public static void show(Context context, CollectionLinkBean data, SimpleCallback<CollectionLinkBean> callback){
+    public static void show(Context context, CollectionLinkBean data, SimpleCallback<CollectionLinkBean> callback) {
         AnyLayer.dialog(context)
                 .contentView(R.layout.dialog_edit_collect_link)
-                .contentAnimator(new Layer.AnimatorCreator() {
-                    @Override
-                    public Animator createInAnimator(View target) {
-                        return AnimatorHelper.createTopInAnim(target);
-                    }
-
-                    @Override
-                    public Animator createOutAnimator(View target) {
-                        return AnimatorHelper.createTopOutAnim(target);
-                    }
-                })
-                .avoidStatusBar(true)
-                .backgroundColorRes(R.color.dialog_bg)
+                .dragDismiss(DragLayout.DragStyle.Bottom)
+                .backgroundDimDefault()
                 .cancelableOnClickKeyBack(true)
                 .cancelableOnTouchOutside(true)
-                .gravity(Gravity.TOP)
+                .gravity(Gravity.BOTTOM)
                 .bindData(new Layer.DataBinder() {
                     @Override
                     public void bindData(Layer layer) {
@@ -52,18 +41,34 @@ public class EditCollectLinkDialog {
                         EditTextUtils.setTextWithSelection(et_link, data.getLink());
                     }
                 })
-                .onDismissListener(new Layer.OnDismissListener() {
+                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
                     @Override
-                    public void onDismissing(Layer layer) {
+                    public void onShow(Layer layer) {
+                        DialogLayer dialogLayer = (DialogLayer) layer;
+                        EditText et_title = layer.getView(R.id.dialog_edit_collect_link_et_title);
+                        EditText et_link = layer.getView(R.id.dialog_edit_collect_link_et_link);
+                        View.OnFocusChangeListener listener = new View.OnFocusChangeListener() {
+                            @Override
+                            public void onFocusChange(View v, boolean hasFocus) {
+                                if (!et_title.isFocused() && !et_link.isFocused()) {
+                                    InputMethodUtils.hide(et_title);
+                                    InputMethodUtils.hide(et_link);
+                                }
+                            }
+                        };
+                        et_title.setOnFocusChangeListener(listener);
+                        et_link.setOnFocusChangeListener(listener);
+                        dialogLayer.compatSoftInput(et_title, et_link);
+                    }
+
+                    @Override
+                    public void onDismiss(Layer layer) {
+                        DialogLayer dialogLayer = (DialogLayer) layer;
+                        dialogLayer.removeSoftInput();
                         EditText et_title = layer.getView(R.id.dialog_edit_collect_link_et_title);
                         EditText et_link = layer.getView(R.id.dialog_edit_collect_link_et_link);
                         InputMethodUtils.hide(et_title);
                         InputMethodUtils.hide(et_link);
-                    }
-
-                    @Override
-                    public void onDismissed(Layer layer) {
-
                     }
                 })
                 .onClickToDismiss(R.id.dialog_edit_collect_link_tv_no)

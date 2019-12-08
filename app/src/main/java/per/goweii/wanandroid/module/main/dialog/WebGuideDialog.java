@@ -1,12 +1,10 @@
 package per.goweii.wanandroid.module.main.dialog;
 
-import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
-import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
 import per.goweii.wanandroid.R;
@@ -23,20 +21,10 @@ public class WebGuideDialog extends DialogLayer {
     public WebGuideDialog(Context context) {
         super(context);
         contentView(R.layout.dialog_web_guide)
-                .backgroundColorRes(R.color.dialog_bg)
+                .backgroundDimDefault()
                 .cancelableOnClickKeyBack(false)
                 .cancelableOnTouchOutside(false)
-                .contentAnimator(new Layer.AnimatorCreator() {
-                    @Override
-                    public Animator createInAnimator(View target) {
-                        return AnimatorHelper.createAlphaInAnim(target);
-                    }
-
-                    @Override
-                    public Animator createOutAnimator(View target) {
-                        return AnimatorHelper.createAlphaOutAnim(target);
-                    }
-                })
+                .animStyle(AnimStyle.ALPHA)
                 .onClick(new Layer.OnClickListener() {
                     @Override
                     public void onClick(Layer layer, View v) {

@@ -1,6 +1,5 @@
 package per.goweii.wanandroid.module.main.dialog;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
@@ -8,8 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
@@ -33,19 +32,9 @@ public class WebMenuDialog {
                             @NonNull OnMenuClickListener listener) {
         AnyLayer.dialog(context)
                 .contentView(R.layout.dialog_web_menu)
+                .backgroundDimDefault()
+                .dragDismiss(DragLayout.DragStyle.Bottom)
                 .gravity(Gravity.BOTTOM)
-                .backgroundColorRes(R.color.dialog_bg)
-                .contentAnimator(new Layer.AnimatorCreator() {
-                    @Override
-                    public Animator createInAnimator(View target) {
-                        return AnimatorHelper.createBottomInAnim(target);
-                    }
-
-                    @Override
-                    public Animator createOutAnimator(View target) {
-                        return AnimatorHelper.createBottomOutAnim(target);
-                    }
-                })
                 .onClickToDismiss(new Layer.OnClickListener() {
                                       @Override
                                       public void onClick(Layer layer, View v) {

@@ -13,6 +13,7 @@ public class GuideSPUtils {
 
     private static final String SP_NAME = "guide";
     private static final String KEY_WEB_GUIDE = "KEY_WEB_GUIDE";
+    private static final String KEY_PRIVACY_POLICY = "KEY_PRIVACY_POLICY";
 
     private final SPUtils mSPUtils = SPUtils.newInstance(SP_NAME);
 
@@ -33,6 +34,14 @@ public class GuideSPUtils {
 
     public void setWebGuideShown() {
         mSPUtils.save(KEY_WEB_GUIDE, true);
+    }
+
+    public boolean isPrivacyPolicyShown() {
+        return mSPUtils.get(KEY_PRIVACY_POLICY, false);
+    }
+
+    public void setPrivacyPolicyShown() {
+        mSPUtils.save(KEY_PRIVACY_POLICY, true);
     }
 
 }

@@ -89,7 +89,7 @@ public class DownloadDialog {
         mAnyLayer = AnyLayer.dialog(mActivity)
                 .contentView(R.layout.basic_ui_dialog_download)
                 .gravity(Gravity.CENTER)
-                .backgroundColorRes(R.color.dialog_bg)
+                .backgroundDimDefault()
                 .cancelableOnTouchOutside(false)
                 .cancelableOnClickKeyBack(false)
                 .bindData(new Layer.DataBinder() {

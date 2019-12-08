@@ -57,8 +57,8 @@ public class PermissionDialog {
     public void show() {
         AnyLayer.dialog(mContext)
                 .contentView(R.layout.basic_ui_dialog_permission)
-                .backgroundColorRes(R.color.dialog_bg)
                 .gravity(Gravity.CENTER)
+                .backgroundDimDefault()
                 .cancelableOnTouchOutside(false)
                 .cancelableOnClickKeyBack(false)
                 .bindData(new Layer.DataBinder() {

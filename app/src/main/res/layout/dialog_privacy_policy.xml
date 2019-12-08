@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:layout_margin="@dimen/margin_big"
+    android:padding="@dimen/margin_def"
+    android:background="@drawable/bg_solid_round_color_surface_radius_def"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_surface"
+        android:textSize="@dimen/text_title"
+        android:text="隐私政策" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_def"
+        android:overScrollMode="never"
+        android:scrollbarSize="3dp"
+        android:scrollbarStyle="insideOverlay"
+        android:scrollbarThumbVertical="@drawable/scrollbar">
+
+        <TextView
+            android:id="@+id/dialog_privacy_policy_tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_surface"
+            android:textSize="@dimen/text_content"
+            android:text="@string/privacy_policy_content" />
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/dialog_privacy_policy_tv_yes"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/margin_middle"
+        android:gravity="center"
+        android:textSize="@dimen/text_content"
+        android:textColor="@color/text_on_main"
+        android:text="同意"
+        android:background="@drawable/bg_solid_round_color_main_radius_max" />
+
+    <TextView
+        android:id="@+id/dialog_privacy_policy_tv_no"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:layout_marginTop="@dimen/margin_def"
+        android:layout_marginBottom="@dimen/margin_def"
+        android:gravity="center"
+        android:textSize="@dimen/text_content"
+        android:textColor="@color/text_main"
+        android:text="退出应用"
+        android:background="@drawable/bg_stroke_round_color_main_radius_max" />
+
+</LinearLayout>

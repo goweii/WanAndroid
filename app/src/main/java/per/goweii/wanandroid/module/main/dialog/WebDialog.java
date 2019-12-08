@@ -62,7 +62,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         this.currPos = currPos;
         this.singleTipMode = singleTipMode;
         contentView(R.layout.dialog_web);
-        backgroundColorRes(R.color.dialog_bg);
+        backgroundDimDefault();
         cancelableOnTouchOutside(true);
         cancelableOnClickKeyBack(true);
         onClickToDismiss(R.id.dialog_web_iv_close);

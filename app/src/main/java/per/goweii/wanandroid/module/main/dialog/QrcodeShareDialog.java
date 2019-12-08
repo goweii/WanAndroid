@@ -42,7 +42,7 @@ public class QrcodeShareDialog extends DialogLayer {
         mTitle = title;
         mOnShareClickListener = listener;
         contentView(R.layout.dialog_qrcode_share);
-        backgroundColorRes(R.color.dialog_bg);
+        backgroundDimDefault();
         contentAnimator(new AnimatorCreator() {
             @Override
             public Animator createInAnimator(View target) {
