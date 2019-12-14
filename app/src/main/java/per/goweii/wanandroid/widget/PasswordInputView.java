@@ -43,6 +43,7 @@ public class PasswordInputView extends InputView {
     protected void initViews(AttributeSet attrs) {
         super.initViews(attrs);
         getEditText().setHint("请输入密码");
+        changeFocusMode(false);
         changePwdHideMode(true);
     }
 
@@ -86,7 +87,11 @@ public class PasswordInputView extends InputView {
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         super.onFocusChange(v, hasFocus);
-        if (hasFocus) {
+        changeFocusMode(hasFocus);
+    }
+
+    private void changeFocusMode(boolean focus) {
+        if (focus) {
             if (isEmpty()) {
                 mIvDeleteIcon.setVisibility(INVISIBLE);
             } else {
