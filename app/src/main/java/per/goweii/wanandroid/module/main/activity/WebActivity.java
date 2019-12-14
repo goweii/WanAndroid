@@ -5,14 +5,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -405,9 +403,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     protected void loadData() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            WebView.enableSlowWholeDocumentDraw();
-        }
         mWebHolder = WebHolder.with(this, wc)
                 .setOnPageTitleCallback(new WebHolder.OnPageTitleCallback() {
                     @Override

@@ -142,12 +142,14 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView nestedScrollView, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (nsv == null || rl_user_info == null) return;
                 setIvBlurHeight(rl_user_info.getMeasuredHeight() - scrollY);
             }
         });
         srl.setOnMultiPurposeListener(new OnMultiPurposeListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
+                if (nsv == null || rl_user_info == null) return;
                 setIvBlurHeight(rl_user_info.getMeasuredHeight() - nsv.getScrollY() + offset);
             }
 
@@ -208,6 +210,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     }
 
     private void setIvBlurHeight(int h) {
+        if (iv_blur == null) return;
         if (h >= 0) {
             iv_blur.getLayoutParams().height = h;
         } else {
