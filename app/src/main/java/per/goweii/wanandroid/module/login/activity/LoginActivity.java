@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -42,6 +44,8 @@ public class LoginActivity extends BaseActivity {
     ImageView iv_circle_2;
     @BindView(R.id.vp)
     ViewPager vp;
+    @BindView(R.id.fl_eye)
+    FrameLayout fl_eye;
 
     private boolean isRunning = false;
     private AnimatorSet mSet1;
@@ -139,6 +143,17 @@ public class LoginActivity extends BaseActivity {
             mSet2.cancel();
             mSet2 = null;
         }
+    }
+
+    public void doEyeAnim(boolean close) {
+        int h = fl_eye.getHeight();
+        if (h <= 0) {
+            return;
+        }
+        float endY = close ? h : 0;
+        ObjectAnimator anim = ObjectAnimator.ofFloat(fl_eye, "translationY", fl_eye.getTranslationY(), endY);
+        anim.setInterpolator(new AccelerateDecelerateInterpolator());
+        anim.start();
     }
 
     private AnimatorSet startCircleAnim(View target) {

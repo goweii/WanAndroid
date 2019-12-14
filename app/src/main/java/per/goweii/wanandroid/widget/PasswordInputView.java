@@ -26,6 +26,7 @@ public class PasswordInputView extends InputView {
     private ImageView mIcEyeIcon;
 
     private boolean isHidePwdMode = true;
+    private OnPwdFocusChangedListener mOnPwdFocusChangedListener = null;
 
     public PasswordInputView(Context context) {
         super(context);
@@ -37,6 +38,10 @@ public class PasswordInputView extends InputView {
 
     public PasswordInputView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+    }
+
+    public void setOnPwdFocusChangedListener(OnPwdFocusChangedListener onPwdFocusChangedListener) {
+        mOnPwdFocusChangedListener = onPwdFocusChangedListener;
     }
 
     @Override
@@ -88,6 +93,9 @@ public class PasswordInputView extends InputView {
     public void onFocusChange(View v, boolean hasFocus) {
         super.onFocusChange(v, hasFocus);
         changeFocusMode(hasFocus);
+        if (mOnPwdFocusChangedListener != null) {
+            mOnPwdFocusChangedListener.onFocusChanged(hasFocus);
+        }
     }
 
     private void changeFocusMode(boolean focus) {
@@ -128,5 +136,9 @@ public class PasswordInputView extends InputView {
         } else {
             mIvDeleteIcon.setVisibility(VISIBLE);
         }
+    }
+
+    public interface OnPwdFocusChangedListener {
+        void onFocusChanged(boolean focus);
     }
 }

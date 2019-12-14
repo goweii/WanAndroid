@@ -17,6 +17,7 @@ import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.login.presenter.LoginPresenter;
 import per.goweii.wanandroid.module.login.view.LoginView;
 import per.goweii.wanandroid.widget.InputView;
+import per.goweii.wanandroid.widget.PasswordInputView;
 import per.goweii.wanandroid.widget.SubmitView;
 
 /**
@@ -33,7 +34,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @BindView(R.id.piv_login_account)
     InputView piv_account;
     @BindView(R.id.piv_login_password)
-    InputView piv_password;
+    PasswordInputView piv_password;
     @BindView(R.id.sv_login)
     SubmitView sv_login;
 
@@ -62,6 +63,12 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     protected void initView() {
+        piv_password.setOnPwdFocusChangedListener(new PasswordInputView.OnPwdFocusChangedListener() {
+            @Override
+            public void onFocusChanged(boolean focus) {
+                mActivity.doEyeAnim(focus);
+            }
+        });
     }
 
     @Override
