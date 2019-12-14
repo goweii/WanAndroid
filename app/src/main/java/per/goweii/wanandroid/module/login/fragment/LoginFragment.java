@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.module.login.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,7 +16,6 @@ import per.goweii.wanandroid.module.login.activity.LoginActivity;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.login.presenter.LoginPresenter;
 import per.goweii.wanandroid.module.login.view.LoginView;
-import per.goweii.wanandroid.utils.KeyboardHelper;
 import per.goweii.wanandroid.widget.InputView;
 import per.goweii.wanandroid.widget.SubmitView;
 
@@ -37,10 +37,9 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @BindView(R.id.sv_login)
     SubmitView sv_login;
 
-    private KeyboardHelper mKeyboardHelper;
     private LoginActivity mActivity;
 
-    public static LoginFragment create(){
+    public static LoginFragment create() {
         return new LoginFragment();
     }
 
@@ -67,32 +66,30 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     protected void loadData() {
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mActivity.getSoftInputHelper()
+                .moveWith(sv_login,
+                        piv_account.getEditText(),
+                        piv_password.getEditText()
+                );
     }
 
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
-        mKeyboardHelper = KeyboardHelper.attach(mActivity)
-                .init(mActivity.getRl_input(), sv_login, piv_account.getEditText(), piv_password.getEditText())
-                .moveWithTranslation();
     }
 
     @Override
     public void onInvisible() {
         super.onInvisible();
-        if (mKeyboardHelper != null) {
-            mKeyboardHelper.detach();
-            mKeyboardHelper = null;
-        }
     }
 
     @Override
     public void onDestroyView() {
-        if (mKeyboardHelper != null) {
-            mKeyboardHelper.detach();
-            mKeyboardHelper = null;
-        }
         super.onDestroyView();
     }
 

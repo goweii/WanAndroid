@@ -19,6 +19,7 @@ import butterknife.BindView;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.utils.LogUtils;
+import per.goweii.basic.utils.SoftInputHelper;
 import per.goweii.swipeback.SwipeBackDirection;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.login.fragment.LoginFragment;
@@ -46,6 +47,9 @@ public class LoginActivity extends BaseActivity {
     private boolean isRunning = false;
     private AnimatorSet mSet1;
     private AnimatorSet mSet2;
+    private LoginFragment mLoginFragment;
+    private RegisterFragment mRegisterFragment;
+    private SoftInputHelper mSoftInputHelper;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -76,7 +80,9 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        mSoftInputHelper = SoftInputHelper.attach(this)
+                .moveBy(rl_input);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED);
         FixedFragmentPagerAdapter adapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(adapter);
         adapter.setFragmentList(LoginFragment.create(), RegisterFragment.create());
@@ -113,8 +119,8 @@ public class LoginActivity extends BaseActivity {
                 R.anim.swipeback_activity_close_bottom_out);
     }
 
-    public RelativeLayout getRl_input() {
-        return rl_input;
+    public SoftInputHelper getSoftInputHelper() {
+        return mSoftInputHelper;
     }
 
     public void changeToRegister() {
