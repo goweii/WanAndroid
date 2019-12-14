@@ -43,17 +43,11 @@ public class WanApp extends BaseApp {
 
     private static PersistentCookieJar mCookieJar = null;
 
-    private static boolean mWebActivityStarted = false;
-
-    public static boolean isWebActivityStarted() {
-        return mWebActivityStarted;
-    }
-
     @Override
     public void onCreate() {
         super.onCreate();
         if (isMainProcess()) {
-            setDarkModeStatus();
+            initDarkMode();
             RxHttp.init(this);
             RxHttp.initRequest(new RxHttpRequestSetting(getCookieJar()));
             WanCache.init();
@@ -126,6 +120,8 @@ public class WanApp extends BaseApp {
                 .apply();
     }
 
+    private static boolean mWebActivityStarted = false;
+
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
@@ -134,6 +130,7 @@ public class WanApp extends BaseApp {
                 Intent intent = new Intent(activity, WebActivity.class);
                 intent.putExtra("destroyOnCreated", true);
                 activity.startActivity(intent);
+                activity.overridePendingTransition(0, 0);
             }
         }
     }
@@ -145,22 +142,18 @@ public class WanApp extends BaseApp {
             boolean destroyOnCreated = activity.getIntent().getBooleanExtra("destroyOnCreated", false);
             if (destroyOnCreated) {
                 activity.finish();
+                activity.overridePendingTransition(0, 0);
             }
             mWebActivityStarted = true;
         }
     }
 
-    @Override
-    public void onActivityStopped(Activity activity) {
-        super.onActivityStopped(activity);
-    }
-
-    public static boolean getDarkModeStatus() {
+    public static boolean isDarkMode() {
         int mode = getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
         return mode == Configuration.UI_MODE_NIGHT_YES;
     }
 
-    public static void setDarkModeStatus() {
+    public static void initDarkMode() {
         if (SettingUtils.getInstance().isDarkTheme()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {

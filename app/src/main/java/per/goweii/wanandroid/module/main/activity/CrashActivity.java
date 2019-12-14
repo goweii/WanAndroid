@@ -46,8 +46,8 @@ public class CrashActivity extends AppCompatActivity {
             finish();
             return;
         }
-        WanApp.setDarkModeStatus();
-        StatusBarCompat.setIconMode(this, !WanApp.getDarkModeStatus());
+        WanApp.initDarkMode();
+        StatusBarCompat.setIconMode(this, !WanApp.isDarkMode());
         setContentView(R.layout.activity_crash);
         mUnbinder = ButterKnife.bind(this);
     }

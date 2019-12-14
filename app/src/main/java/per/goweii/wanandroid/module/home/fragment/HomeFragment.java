@@ -42,7 +42,6 @@ import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
-import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
@@ -293,9 +292,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     }
 
     private void showWebDialog(boolean header, int position) {
-        if (!WanApp.isWebActivityStarted()) {
-//            return;
-        }
         int index = position;
         if (!header) {
             if (mHeaderTopItemBeans != null) {
