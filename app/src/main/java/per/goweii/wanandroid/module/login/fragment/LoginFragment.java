@@ -71,11 +71,8 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActivity.getSoftInputHelper()
-                .moveWith(sv_login,
-                        piv_account.getEditText(),
-                        piv_password.getEditText()
-                );
+        mActivity.getSoftInputHelper().moveWith(sv_login,
+                piv_account.getEditText(), piv_password.getEditText());
     }
 
     @Override

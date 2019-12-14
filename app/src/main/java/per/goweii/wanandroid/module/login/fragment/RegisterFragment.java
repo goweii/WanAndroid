@@ -73,12 +73,8 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActivity.getSoftInputHelper()
-                .moveWith(sv_register,
-                        piv_account.getEditText(),
-                        piv_password.getEditText(),
-                        piv_password_again.getEditText()
-                );
+        mActivity.getSoftInputHelper().moveWith(sv_register,
+                piv_account.getEditText(), piv_password.getEditText(), piv_password_again.getEditText());
     }
 
     @Override

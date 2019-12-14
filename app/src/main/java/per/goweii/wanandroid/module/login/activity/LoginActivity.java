@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -47,8 +46,6 @@ public class LoginActivity extends BaseActivity {
     private boolean isRunning = false;
     private AnimatorSet mSet1;
     private AnimatorSet mSet2;
-    private LoginFragment mLoginFragment;
-    private RegisterFragment mRegisterFragment;
     private SoftInputHelper mSoftInputHelper;
 
     public static void start(Context context) {
@@ -80,9 +77,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mSoftInputHelper = SoftInputHelper.attach(this)
-                .moveBy(rl_input);
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNCHANGED);
+        mSoftInputHelper = SoftInputHelper.attach(this).moveBy(rl_input);
         FixedFragmentPagerAdapter adapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(adapter);
         adapter.setFragmentList(LoginFragment.create(), RegisterFragment.create());

@@ -49,7 +49,7 @@ public final class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutLis
         ViewTreeObserver observer = rootView.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(this);
         observer.addOnGlobalFocusChangeListener(this);
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     public void detach() {
