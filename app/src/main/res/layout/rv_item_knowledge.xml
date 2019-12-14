@@ -14,7 +14,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginRight="16dp"
-        android:textColor="@color/text_second"
+        android:textColor="@color/text_third"
         android:textSize="@dimen/text_content"
         tools:text="公众号文章列表强势上线" />
 
