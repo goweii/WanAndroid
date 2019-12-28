@@ -24,6 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.file.CacheUtils;
 import per.goweii.basic.utils.listener.SimpleListener;
+import per.goweii.wanandroid.utils.UserUtils;
 
 /**
  * @author CuiZhen
@@ -227,10 +228,15 @@ public class WanCache {
         public static final String KNOWLEDGE_LIST = "tree/json";
         private static final String KNOWLEDGE_ARTICLE_LIST = "article/list/%d/json?cid=%d";//page+id
         private static final String COLLECT_ARTICLE_LIST = "lg/collect/list/%d/json";//page
-        public static final String COLLECT_LINK_LIST = "lg/collect/usertools/json";
+        private static final String COLLECT_LINK_LIST = "lg/collect/usertools/json";
         private static final String USER_ARTICLE_LIST = "user_article/list/%d/json";//page
         private static final String USER_PAGE = "user/%d/share_articles/%d/json";//userId+page
-        private static final String MINE_SHARE_ARTICLE_LIST = "user/lg/private_articles/{page}/json";//page
+        private static final String MINE_SHARE_ARTICLE_LIST = "user/lg/private_articles/%d/json";//page
+
+        private static String addUserId(String key) {
+            int userId = UserUtils.getInstance().getUserId();
+            return userId + "@" + key;
+        }
 
         public static String WXARTICLE_LIST(int id, int page) {
             return String.format(WXARTICLE_LIST, id, page);
@@ -257,7 +263,11 @@ public class WanCache {
         }
 
         public static String COLLECT_ARTICLE_LIST(int page) {
-            return String.format(COLLECT_ARTICLE_LIST, page);
+            return addUserId(String.format(COLLECT_ARTICLE_LIST, page));
+        }
+
+        public static String COLLECT_LINK_LIST() {
+            return addUserId(COLLECT_LINK_LIST);
         }
 
         public static String USER_ARTICLE_LIST(int page) {
@@ -269,7 +279,7 @@ public class WanCache {
         }
 
         public static String MINE_SHARE_ARTICLE_LIST(int page) {
-            return String.format(MINE_SHARE_ARTICLE_LIST, page);
+            return addUserId(String.format(MINE_SHARE_ARTICLE_LIST, page));
         }
     }
 

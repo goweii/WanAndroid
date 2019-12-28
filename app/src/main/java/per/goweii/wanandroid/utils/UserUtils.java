@@ -74,6 +74,14 @@ public class UserUtils {
         return false;
     }
 
+    public int getUserId() {
+        LoginBean loginBean = getLoginBean();
+        if (loginBean == null) {
+            return 0;
+        }
+        return loginBean.getId();
+    }
+
     public boolean doIfLogin(Context context) {
         if (isLogin()) {
             return true;

@@ -47,7 +47,7 @@ public class MineRequest extends BaseRequest {
     }
 
     public static void getCollectLinkListCache(@NonNull RequestListener<List<CollectionLinkBean>> listener) {
-        cacheList(WanCache.CacheKey.COLLECT_LINK_LIST, CollectionLinkBean.class, listener);
+        cacheList(WanCache.CacheKey.COLLECT_LINK_LIST(), CollectionLinkBean.class, listener);
     }
 
     public static void getCollectLinkListNet(RxLife rxLife, @NonNull RequestListener<List<CollectionLinkBean>> listener) {
@@ -58,7 +58,7 @@ public class MineRequest extends BaseRequest {
         cacheAndNetList(rxLife,
                 WanApi.api().getCollectLinkList(),
                 removeAndRefresh,
-                WanCache.CacheKey.COLLECT_LINK_LIST,
+                WanCache.CacheKey.COLLECT_LINK_LIST(),
                 CollectionLinkBean.class,
                 listener);
     }
