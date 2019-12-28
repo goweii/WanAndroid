@@ -23,6 +23,7 @@ android {
         def WANPWD_TYPE_USERPAGE = properties.getProperty('WANPWD_TYPE_USERPAGE')
         def WANPWD_TYPE_CDKEY = properties.getProperty('WANPWD_TYPE_CDKEY')
         def WANPWD_TYPE_WEB = properties.getProperty('WANPWD_TYPE_WEB')
+        def WANPWD_TYPE_ABOUTME = properties.getProperty('WANPWD_TYPE_ABOUTME')
 
         release {
             buildConfigField "String", "APPID_BUGLY", '"' + APPID_BUGLY + '"'
@@ -33,6 +34,7 @@ android {
             buildConfigField "String", "WANPWD_TYPE_USERPAGE", '"' + WANPWD_TYPE_USERPAGE + '"'
             buildConfigField "String", "WANPWD_TYPE_CDKEY", '"' + WANPWD_TYPE_CDKEY + '"'
             buildConfigField "String", "WANPWD_TYPE_WEB", '"' + WANPWD_TYPE_WEB + '"'
+            buildConfigField "String", "WANPWD_TYPE_ABOUTME", '"' + WANPWD_TYPE_ABOUTME + '"'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     output.outputFileName = "$applicationId-v${defaultConfig.versionName}.apk"
@@ -48,6 +50,7 @@ android {
             buildConfigField "String", "WANPWD_TYPE_USERPAGE", '"' + WANPWD_TYPE_USERPAGE + '"'
             buildConfigField "String", "WANPWD_TYPE_CDKEY", '"' + WANPWD_TYPE_CDKEY + '"'
             buildConfigField "String", "WANPWD_TYPE_WEB", '"' + WANPWD_TYPE_WEB + '"'
+            buildConfigField "String", "WANPWD_TYPE_ABOUTME", '"' + WANPWD_TYPE_ABOUTME + '"'
         }
     }
     resourcePrefix ""

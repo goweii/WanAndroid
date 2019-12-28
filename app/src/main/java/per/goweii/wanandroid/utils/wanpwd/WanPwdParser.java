@@ -30,9 +30,9 @@ public class WanPwdParser {
         this.mPwd = pwd;
         switch (mPwd.type) {
             default:
-            case UNKNOW:
+            case UNKNOWN:
             case CDKEY:
-                mWanPwd = new UnknowWanPwd();
+                mWanPwd = new UnknownWanPwd();
                 break;
             case QQ:
                 mWanPwd = new QQWanPwd(mPwd.content);
@@ -45,6 +45,9 @@ public class WanPwdParser {
                 break;
             case WEB:
                 mWanPwd = new WebWanPwd(mPwd.content);
+                break;
+            case ABOUTME:
+                mWanPwd = new AboutMeWanPwd();
                 break;
         }
     }
@@ -130,12 +133,13 @@ public class WanPwdParser {
     }
 
     public enum Type {
-        UNKNOW(""),
+        UNKNOWN(""),
         QQ(BuildConfig.WANPWD_TYPE_QQ),
         FESTIVAL(BuildConfig.WANPWD_TYPE_FESTIVAL),
         USERPAGE(BuildConfig.WANPWD_TYPE_USERPAGE),
         CDKEY(BuildConfig.WANPWD_TYPE_CDKEY),
-        WEB(BuildConfig.WANPWD_TYPE_WEB);
+        WEB(BuildConfig.WANPWD_TYPE_WEB),
+        ABOUTME(BuildConfig.WANPWD_TYPE_ABOUTME);
 
         private final String type;
 
@@ -149,7 +153,7 @@ public class WanPwdParser {
                     return t;
                 }
             }
-            return UNKNOW;
+            return UNKNOWN;
         }
     }
 }

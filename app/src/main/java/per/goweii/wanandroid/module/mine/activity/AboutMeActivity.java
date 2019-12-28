@@ -25,14 +25,20 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
+import per.goweii.actionbarex.common.ActionBarCommon;
+import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.anypermission.RequestListener;
 import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.glide.GlideHelper;
 import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.CopyUtils;
+import per.goweii.basic.utils.LogUtils;
+import per.goweii.basic.utils.RandomUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.percentimageview.percentimageview.PercentImageView;
+import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
@@ -51,6 +57,8 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
 
     private static final int REQUEST_CODE_PERMISSION = 1;
 
+    @BindView(R.id.abc)
+    ActionBarCommon abc;
     @BindView(R.id.sl)
     SwipeLayout sl;
     @BindView(R.id.iv_blur)
@@ -106,6 +114,18 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
 
     @Override
     protected void initView() {
+        abc.setOnRightTextClickListener(new OnActionBarChildClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringBuilder s = new StringBuilder();
+                s.append("【玩口令】你的好友给你订了一份双人咖啡，户制泽条消息");
+                s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_ABOUTME, RandomUtils.randomLetter(10)));
+                s.append("打開最美玩安卓客户端即可领取品尝");
+                LogUtils.d("UserPageActivity", s);
+                CopyUtils.copyText(s.toString());
+                ToastMaker.showShort("口令已复制");
+            }
+        });
         changeVisible(View.INVISIBLE, civ_icon, tv_name, tv_sign);
         changeVisible(View.GONE, ll_github, ll_jianshu, ll_qq, ll_qq_group);
     }

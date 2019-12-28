@@ -63,9 +63,8 @@ public class PasswordDialog extends DialogLayer {
             @Override
             public void onClick(Layer layer, View v) {
                 CopiedTextProcessor.getInstance().processed();
-                if (mParser.getWanPwd().getRunnable() != null) {
-                    mParser.getWanPwd().getRunnable().run();
-                }
+                Runnable runnable = mParser.getWanPwd().getRunnable();
+                if (runnable != null) runnable.run();
             }
         }, R.id.dialog_password_tv_open);
     }

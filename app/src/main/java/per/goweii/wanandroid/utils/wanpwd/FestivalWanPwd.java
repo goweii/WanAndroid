@@ -109,7 +109,7 @@ public class FestivalWanPwd implements IWanPwd {
                 sbShowText.append("遥知兄弟登高处，\n");
                 sbShowText.append("遍插茱萸少一人。\n");
             } else {
-                mShowText = "你发现了一个节日口令\n但是我不知道这是什么节日！\n"
+                mShowText = "你发现了一个节日口令！\n但是我不知道这是什么节日！\n"
                         + "【农历" + m + "月" + d + "日】";
                 mBtnText = "我去查查";
                 mRunnable = new Runnable() {

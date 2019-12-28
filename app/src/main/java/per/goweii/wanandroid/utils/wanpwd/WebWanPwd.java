@@ -42,7 +42,7 @@ public class WebWanPwd implements IWanPwd {
     }
 
     private void parse() {
-        mShowText = "你发现了一个网页链接\n要不要去打开看一下？";
+        mShowText = "你发现了一个网页链接！\n要不要去打开看一下？";
         mBtnText = "打开";
         final String url = URLDecoder.decode(content);
         mRunnable = new Runnable() {

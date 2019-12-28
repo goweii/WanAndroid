@@ -54,7 +54,7 @@ public class UserPageWanPwd implements IWanPwd {
             userId = Integer.parseInt(stringBuilder.toString());
         } catch (Exception ignore) {
         }
-        mShowText = "你发现了一个神秘用户\n要不要去他主页看一下？";
+        mShowText = "你发现了一个神秘用户！\n要不要去他主页看一下？";
         mBtnText = "去主页";
         int finalUserId = userId;
         mRunnable = new Runnable() {

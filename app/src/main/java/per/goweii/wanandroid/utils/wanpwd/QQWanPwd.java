@@ -36,7 +36,7 @@ public class QQWanPwd implements IWanPwd {
 
     @Override
     public String getShowText() {
-        return "你发现了一个QQ号码：" + getQQ() + "，是否立即启动QQ加个好友？";
+        return "你发现了一个QQ号码！\n" + getQQ() + "\n是否立即启动QQ加个好友？";
     }
 
     @Override

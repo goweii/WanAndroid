@@ -8,6 +8,8 @@ import android.text.TextUtils;
 import per.goweii.basic.utils.Utils;
 import per.goweii.wanandroid.module.home.activity.UserPageActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.module.mine.activity.AboutMeActivity;
+import per.goweii.wanandroid.module.mine.activity.SettingActivity;
 
 /**
  * @author CuiZhen
@@ -20,7 +22,9 @@ public enum RouterMap {
 
     NULL(null, null),
     WEB("/main/web", WebActivity.class),
-    USER_PAGE("/main/user_page", UserPageActivity.class);
+    USER_PAGE("/main/user_page", UserPageActivity.class),
+    SETTING("/mine/setting", SettingActivity.class),
+    ABOUT_ME("/mine/about_me", AboutMeActivity.class);
 
     private final String path;
     private final Class<? extends Activity> clazz;
