@@ -24,6 +24,7 @@ import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.burred.Blurred;
 import per.goweii.rxhttp.core.RxHttp;
+import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.http.RxHttpRequestSetting;
 import per.goweii.wanandroid.http.WanCache;
 import per.goweii.wanandroid.module.main.activity.CrashActivity;
@@ -102,7 +103,7 @@ public class WanApp extends BaseApp {
                 }
             });
             strategy.setUploadProcess(isMainProcess());
-            CrashReport.initCrashReport(this, "0411151084", DebugUtils.isDebug(), strategy);
+            CrashReport.initCrashReport(this, BuildConfig.APPID_BUGLY, DebugUtils.isDebug(), strategy);
         }
     }
 
