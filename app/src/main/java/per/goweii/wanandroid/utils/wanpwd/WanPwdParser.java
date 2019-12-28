@@ -32,12 +32,14 @@ public class WanPwdParser {
         switch (mPwd.type) {
             default:
             case UNKNOW:
-            case FESTIVAL:
             case CDKEY:
                 mWanPwd = new UnknowWanPwd();
                 break;
             case QQ:
                 mWanPwd = new QQWanPwd(mPwd.content);
+                break;
+            case FESTIVAL:
+                mWanPwd = new FestivalWanPwd(mPwd.content);
                 break;
         }
     }

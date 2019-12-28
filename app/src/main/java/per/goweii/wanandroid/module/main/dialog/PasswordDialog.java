@@ -116,7 +116,6 @@ public class PasswordDialog extends DialogLayer {
             if (h <= 0) return;
             mAnim = ObjectAnimator.ofFloat(flEye, "translationY", 0, h, 0);
             mAnim.setInterpolator(new AccelerateDecelerateInterpolator());
-            mAnim.setRepeatCount(1);
             mAnim.setDuration(350);
             mAnim.addListener(new Animator.AnimatorListener() {
                 @Override
@@ -142,6 +141,7 @@ public class PasswordDialog extends DialogLayer {
                 }
             });
         }
+        mAnim.setRepeatCount((int) (Math.random() + 0.5));
         mAnim.start();
     }
 }
