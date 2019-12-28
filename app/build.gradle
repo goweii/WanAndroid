@@ -18,21 +18,21 @@ android {
         def APPID_BUGLY = properties.getProperty('APPID_BUGLY')
         def WANPWD_FORMAT = properties.getProperty('WANPWD_FORMAT')
         def WANPWD_PATTERN = properties.getProperty('WANPWD_PATTERN')
-        def WANPWD_PATTERN_PART = properties.getProperty('WANPWD_PATTERN_PART')
         def WANPWD_TYPE_QQ = properties.getProperty('WANPWD_TYPE_QQ')
         def WANPWD_TYPE_FESTIVAL = properties.getProperty('WANPWD_TYPE_FESTIVAL')
         def WANPWD_TYPE_USERPAGE = properties.getProperty('WANPWD_TYPE_USERPAGE')
         def WANPWD_TYPE_CDKEY = properties.getProperty('WANPWD_TYPE_CDKEY')
+        def WANPWD_TYPE_WEB = properties.getProperty('WANPWD_TYPE_WEB')
 
         release {
             buildConfigField "String", "APPID_BUGLY", '"' + APPID_BUGLY + '"'
             buildConfigField "String", "WANPWD_FORMAT", '"' + WANPWD_FORMAT + '"'
             buildConfigField "String", "WANPWD_PATTERN", '"' + WANPWD_PATTERN + '"'
-            buildConfigField "String", "WANPWD_PATTERN_PART", '"' + WANPWD_PATTERN_PART + '"'
             buildConfigField "String", "WANPWD_TYPE_QQ", '"' + WANPWD_TYPE_QQ + '"'
             buildConfigField "String", "WANPWD_TYPE_FESTIVAL", '"' + WANPWD_TYPE_FESTIVAL + '"'
             buildConfigField "String", "WANPWD_TYPE_USERPAGE", '"' + WANPWD_TYPE_USERPAGE + '"'
             buildConfigField "String", "WANPWD_TYPE_CDKEY", '"' + WANPWD_TYPE_CDKEY + '"'
+            buildConfigField "String", "WANPWD_TYPE_WEB", '"' + WANPWD_TYPE_WEB + '"'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     output.outputFileName = "$applicationId-v${defaultConfig.versionName}.apk"
@@ -43,11 +43,11 @@ android {
             buildConfigField "String", "APPID_BUGLY", '"' + APPID_BUGLY + '"'
             buildConfigField "String", "WANPWD_FORMAT", '"' + WANPWD_FORMAT + '"'
             buildConfigField "String", "WANPWD_PATTERN", '"' + WANPWD_PATTERN + '"'
-            buildConfigField "String", "WANPWD_PATTERN_PART", '"' + WANPWD_PATTERN_PART + '"'
             buildConfigField "String", "WANPWD_TYPE_QQ", '"' + WANPWD_TYPE_QQ + '"'
             buildConfigField "String", "WANPWD_TYPE_FESTIVAL", '"' + WANPWD_TYPE_FESTIVAL + '"'
             buildConfigField "String", "WANPWD_TYPE_USERPAGE", '"' + WANPWD_TYPE_USERPAGE + '"'
             buildConfigField "String", "WANPWD_TYPE_CDKEY", '"' + WANPWD_TYPE_CDKEY + '"'
+            buildConfigField "String", "WANPWD_TYPE_WEB", '"' + WANPWD_TYPE_WEB + '"'
         }
     }
     resourcePrefix ""

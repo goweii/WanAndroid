@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +30,11 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.ShareUtils;
 import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.listener.OnClickListener2;
+import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.QrcodeShareDialog;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
@@ -279,6 +282,18 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 @Override
                 public void onBrowser() {
                     IntentUtils.openBrowser(getContext(), mUrl);
+                }
+
+                @Override
+                public void onWanPwd() {
+                    String url = URLEncoder.encode(mWebHolder.getUrl());
+                    StringBuilder s = new StringBuilder();
+                    s.append("【玩口令】你的好友给你分享了一个链接，户制泽条消息");
+                    s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_WEB, url));
+                    s.append("打開最美玩安卓客户端即可查看该网页或者文章");
+                    LogUtils.d("UserPageActivity", s);
+                    CopyUtils.copyText(s.toString());
+                    ToastMaker.showShort("口令已复制");
                 }
             });
             mWebQuickDialog.onDismissListener(new Layer.OnDismissListener() {

@@ -22,7 +22,6 @@ import per.goweii.wanandroid.BuildConfig;
 public class WanPwdParser {
 
     private static final Pattern PATTERN_PASSWORD = Pattern.compile(BuildConfig.WANPWD_PATTERN);
-    private static final Pattern PATTERN_PASSWORD_PART = Pattern.compile(BuildConfig.WANPWD_PATTERN_PART);
 
     private final Pwd mPwd;
     private final IWanPwd mWanPwd;
@@ -43,6 +42,9 @@ public class WanPwdParser {
                 break;
             case USERPAGE:
                 mWanPwd = new UserPageWanPwd(mPwd.content);
+                break;
+            case WEB:
+                mWanPwd = new WebWanPwd(mPwd.content);
                 break;
         }
     }
@@ -83,23 +85,20 @@ public class WanPwdParser {
         return strs;
     }
 
-    private static WanPwdParser.Pwd parsePassword(String pw) {
-        if (!PATTERN_PASSWORD.matcher(pw).matches()) {
+    private static WanPwdParser.Pwd parsePassword(String pwd) {
+        if (!PATTERN_PASSWORD.matcher(pwd).matches()) {
             return new WanPwdParser.Pwd();
         }
-        Matcher m = PATTERN_PASSWORD_PART.matcher(pw);
-        List<String> strs = new ArrayList<>();
-        while (m.find()) {
-            strs.add(m.group());
-        }
+        String split = String.format(BuildConfig.WANPWD_FORMAT, "", "").substring(1, 2);
+        String[] strs = pwd.substring(1, pwd.length() - 1).split(split);
         for (String str : strs) {
             LogUtils.d("CopiedTextProcessor", "parsePassword=" + str);
         }
-        if (strs.size() != 2) {
+        if (strs.length != 2) {
             return new WanPwdParser.Pwd();
         }
-        String type = strs.get(0);
-        String content = strs.get(1);
+        String type = strs[0];
+        String content = strs[1];
         return new WanPwdParser.Pwd(type, content);
     }
 
@@ -135,7 +134,8 @@ public class WanPwdParser {
         QQ(BuildConfig.WANPWD_TYPE_QQ),
         FESTIVAL(BuildConfig.WANPWD_TYPE_FESTIVAL),
         USERPAGE(BuildConfig.WANPWD_TYPE_USERPAGE),
-        CDKEY(BuildConfig.WANPWD_TYPE_CDKEY);
+        CDKEY(BuildConfig.WANPWD_TYPE_CDKEY),
+        WEB(BuildConfig.WANPWD_TYPE_WEB);
 
         private final String type;
 
