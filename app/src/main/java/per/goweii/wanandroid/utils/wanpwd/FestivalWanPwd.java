@@ -72,11 +72,11 @@ public class FestivalWanPwd implements IWanPwd {
                 sbShowText.append("今年元夜时，月与灯依旧。\n");
                 sbShowText.append("不见去年人，泪湿春衫袖。\n");
             } else if (m == 3 && d == 3) {
-                sbShowText.append("【清明节·农历三月初三】\n\n");
-                sbShowText.append("清明时节雨纷纷，\n");
-                sbShowText.append("路上行人欲断魂。\n");
-                sbShowText.append("借问酒家何处有，\n");
-                sbShowText.append("牧童遥指杏花村。\n");
+                sbShowText.append("【上巳节·农历三月初三】\n\n");
+                sbShowText.append("巳日帝城春，倾都祓禊晨。\n");
+                sbShowText.append("停车须傍水，奏乐要惊尘。\n");
+                sbShowText.append("弱柳障行骑，浮桥拥看人。\n");
+                sbShowText.append("犹言日尚早，更向九龙津。\n");
             } else if (m == 5 && d == 5) {
                 sbShowText.append("【端午节·农历五月初五】\n\n");
                 sbShowText.append("节分端午自谁言，\n");
