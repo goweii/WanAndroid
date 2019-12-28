@@ -1,6 +1,6 @@
-package per.goweii.wanandroid.utils;
+package per.goweii.wanandroid.utils.wanpwd;
 
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -9,10 +9,7 @@ import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import per.goweii.basic.utils.AppInfoUtils;
-import per.goweii.basic.utils.AppOpenUtils;
 import per.goweii.basic.utils.LogUtils;
-import per.goweii.basic.utils.Utils;
 import per.goweii.wanandroid.BuildConfig;
 
 /**
@@ -28,64 +25,26 @@ public class WanPwdParser {
     private static final Pattern PATTERN_PASSWORD_PART = Pattern.compile(BuildConfig.WANPWD_PATTERN_PART);
 
     private final Pwd mPwd;
-
-    private String mContentText;
-    private String mBtnText;
-    private Runnable mRunnable;
+    private final IWanPwd mWanPwd;
 
     private WanPwdParser(Pwd pwd) {
         this.mPwd = pwd;
-        parse();
-    }
-
-    private void parse() {
-        mRunnable = null;
-        mContentText = "";
-        mBtnText = "";
         switch (mPwd.type) {
+            default:
             case UNKNOW:
             case FESTIVAL:
             case CDKEY:
-                mContentText = "嗯！？我怎么没见过种口令？可能是新版本加的吧，快去设置中更新版本再试试吧！";
-                mBtnText = "去更新";
+                mWanPwd = new UnknowWanPwd();
                 break;
             case QQ:
-                mContentText = "你发现了一个QQ号码：" + getQQ() + "，是否立即启动QQ？";
-                mBtnText = "启动QQ";
-                mRunnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        if (AppInfoUtils.isAppInstalled(Utils.getAppContext(), AppInfoUtils.PackageName.QQ)) {
-                            AppOpenUtils.openQQChat(Utils.getAppContext(), getQQ());
-                        }
-                    }
-                };
+                mWanPwd = new QQWanPwd(mPwd.content);
                 break;
         }
     }
 
-    public String getContentText() {
-        return mContentText;
-    }
-
-    public String getBtnText() {
-        return mBtnText;
-    }
-
-    @Nullable
-    public Runnable getRunnable() {
-        return mRunnable;
-    }
-
-    private String getQQ() {
-        StringBuilder s = new StringBuilder();
-        for (int i = 0; i < mPwd.content.length(); i++) {
-            char c = mPwd.content.charAt(i);
-            if (c >= '0' && c <= '9') {
-                s.append(c);
-            }
-        }
-        return s.toString();
+    @NonNull
+    public IWanPwd getWanPwd() {
+        return mWanPwd;
     }
 
     @Override

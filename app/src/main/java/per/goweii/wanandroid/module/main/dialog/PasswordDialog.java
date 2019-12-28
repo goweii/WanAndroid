@@ -15,7 +15,7 @@ import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.utils.WanPwdParser;
+import per.goweii.wanandroid.utils.wanpwd.WanPwdParser;
 
 /**
  * @author CuiZhen
@@ -67,8 +67,8 @@ public class PasswordDialog extends DialogLayer {
                 if (onClose != null) {
                     onClose.onResult();
                 }
-                if (mParser.getRunnable() != null) {
-                    mParser.getRunnable().run();
+                if (mParser.getWanPwd().getRunnable() != null) {
+                    mParser.getWanPwd().getRunnable().run();
                 }
             }
         }, R.id.dialog_password_tv_open);
@@ -85,8 +85,8 @@ public class PasswordDialog extends DialogLayer {
         mHandler = new Handler();
         TextView tvContent = getView(R.id.dialog_password_tv_content);
         TextView tvOpen = getView(R.id.dialog_password_tv_open);
-        tvContent.setText(mParser.getContentText());
-        tvOpen.setText(mParser.getBtnText());
+        tvContent.setText(mParser.getWanPwd().getShowText());
+        tvOpen.setText(mParser.getWanPwd().getBtnText());
     }
 
     @Override

@@ -28,7 +28,7 @@ import per.goweii.wanandroid.module.main.presenter.MainPresenter;
 import per.goweii.wanandroid.module.main.view.MainView;
 import per.goweii.wanandroid.utils.CopiedTextProcessor;
 import per.goweii.wanandroid.utils.UpdateUtils;
-import per.goweii.wanandroid.utils.WanPwdParser;
+import per.goweii.wanandroid.utils.wanpwd.WanPwdParser;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements MainView, ViewPager.OnPageChangeListener {
 
