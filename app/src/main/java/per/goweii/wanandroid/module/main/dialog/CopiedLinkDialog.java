@@ -52,6 +52,10 @@ public class CopiedLinkDialog extends PopupLayer {
         }, R.id.dialog_copied_link_rl);
     }
 
+    public String getLink() {
+        return link;
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onAttach() {

@@ -52,7 +52,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/button_height"
         android:layout_marginTop="@dimen/margin_def"
-        android:layout_marginBottom="@dimen/margin_def"
         android:gravity="center"
         android:textSize="@dimen/text_content"
         android:textColor="@color/text_main"
