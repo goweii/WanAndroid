@@ -41,6 +41,9 @@ public class WanPwdParser {
             case FESTIVAL:
                 mWanPwd = new FestivalWanPwd(mPwd.content);
                 break;
+            case USERPAGE:
+                mWanPwd = new UserPageWanPwd(mPwd.content);
+                break;
         }
     }
 
@@ -131,6 +134,7 @@ public class WanPwdParser {
         UNKNOW(""),
         QQ(BuildConfig.WANPWD_TYPE_QQ),
         FESTIVAL(BuildConfig.WANPWD_TYPE_FESTIVAL),
+        USERPAGE(BuildConfig.WANPWD_TYPE_USERPAGE),
         CDKEY(BuildConfig.WANPWD_TYPE_CDKEY);
 
         private final String type;

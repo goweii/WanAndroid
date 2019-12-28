@@ -13,8 +13,8 @@ import android.widget.TextView;
 import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
-import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.utils.CopiedTextProcessor;
 import per.goweii.wanandroid.utils.wanpwd.WanPwdParser;
 
 /**
@@ -31,7 +31,7 @@ public class PasswordDialog extends DialogLayer {
     private Handler mHandler;
     private ObjectAnimator mAnim;
 
-    public PasswordDialog(Context context, WanPwdParser parser, SimpleListener onClose) {
+    public PasswordDialog(Context context, WanPwdParser parser) {
         super(context);
         this.mParser = parser;
         contentView(R.layout.dialog_password);
@@ -56,17 +56,13 @@ public class PasswordDialog extends DialogLayer {
         onClickToDismiss(new OnClickListener() {
             @Override
             public void onClick(Layer layer, View v) {
-                if (onClose != null) {
-                    onClose.onResult();
-                }
+                CopiedTextProcessor.getInstance().processed();
             }
         }, R.id.dialog_password_iv_close);
         onClickToDismiss(new OnClickListener() {
             @Override
             public void onClick(Layer layer, View v) {
-                if (onClose != null) {
-                    onClose.onResult();
-                }
+                CopiedTextProcessor.getInstance().processed();
                 if (mParser.getWanPwd().getRunnable() != null) {
                     mParser.getWanPwd().getRunnable().run();
                 }
@@ -124,12 +120,14 @@ public class PasswordDialog extends DialogLayer {
 
                 @Override
                 public void onAnimationEnd(Animator animation) {
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            doEyeAnim();
-                        }
-                    }, (long) (Math.random() * 5000 + 5000));
+                    if (mHandler != null) {
+                        mHandler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                doEyeAnim();
+                            }
+                        }, (long) (Math.random() * 5000 + 5000));
+                    }
                 }
 
                 @Override

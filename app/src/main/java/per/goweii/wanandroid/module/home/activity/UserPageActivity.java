@@ -2,6 +2,7 @@ package per.goweii.wanandroid.module.home.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -28,13 +29,19 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import per.goweii.actionbarex.common.ActionBarCommon;
+import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.CopyUtils;
+import per.goweii.basic.utils.LogUtils;
+import per.goweii.basic.utils.RandomUtils;
 import per.goweii.basic.utils.listener.SimpleListener;
+import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
@@ -48,6 +55,7 @@ import per.goweii.wanandroid.module.main.model.UserPageBean;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -98,7 +106,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
 
     public static void start(Context context, int userId) {
         Intent intent = new Intent(context, UserPageActivity.class);
-        intent.putExtra("userId", userId);
+        intent.putExtra("id", userId);
         context.startActivity(intent);
     }
 
@@ -162,7 +170,33 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
 
     @Override
     protected void initView() {
-        mUserId = getIntent().getIntExtra("userId", mUserId);
+        mUserId = getUserIdFromIntent(getIntent());
+        abc.setOnRightTextClickListener(new OnActionBarChildClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userId = String.valueOf(mUserId);
+                String salt = RandomUtils.randomLetter(10 - userId.length());
+                StringBuilder id = new StringBuilder();
+                Random random = new Random();
+                for (int i = 0; i < userId.length(); i++) {
+                    int l = userId.length() - i;
+                    int maxi = salt.length() - l - 1;
+                    maxi = maxi < 2 ? 2 : maxi;
+                    int ii = random.nextInt(maxi);
+                    id.append(salt.substring(0, ii));
+                    id.append(userId.charAt(i));
+                    salt = salt.substring(ii);
+                }
+                id.append(salt);
+                StringBuilder s = new StringBuilder();
+                s.append("【玩口令】你的好友给你分享了一个神秘用户，户制泽条消息");
+                s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_USERPAGE, id.toString()));
+                s.append("打開最美玩安卓客户端揭开他/她的神秘面纱");
+                LogUtils.d("UserPageActivity", s);
+                CopyUtils.copyText(s.toString());
+                ToastMaker.showShort("口令已复制");
+            }
+        });
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);
         mSmartRefreshUtils.pureScrollMode();
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
@@ -294,10 +328,32 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        int newUserId = getIntent().getIntExtra("userId", mUserId);
+        int newUserId = getUserIdFromIntent(intent);
         if (mUserId != newUserId) {
             loadData();
         }
+    }
+
+    private int getUserIdFromIntent(Intent intent) {
+        int id = mUserId;
+        Uri uri = Router.uri(intent);
+        if (uri != null) {
+            String userId = uri.getQueryParameter("id");
+            if (userId != null) {
+                try {
+                    id = Integer.parseInt(userId);
+                } catch (Exception ignore) {
+                }
+            }
+        } else {
+            id = intent.getIntExtra("id", id);
+        }
+        if (id < 0) {
+            abc.getRightTextView().setVisibility(View.GONE);
+        } else {
+            abc.getRightTextView().setVisibility(View.VISIBLE);
+        }
+        return id;
     }
 
     public void getUserPage(boolean refresh) {

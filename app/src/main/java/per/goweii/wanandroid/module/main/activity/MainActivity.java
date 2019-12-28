@@ -15,7 +15,6 @@ import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.dialog.UpdateDialog;
-import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.CopiedLinkDialog;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
@@ -134,12 +133,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             }
         }
         if (mCopiedLinkDialog == null) {
-            mCopiedLinkDialog = new CopiedLinkDialog(vp, link, new SimpleListener() {
-                @Override
-                public void onResult() {
-                    CopiedTextProcessor.getInstance().processed();
-                }
-            });
+            mCopiedLinkDialog = new CopiedLinkDialog(vp, link);
             mCopiedLinkDialog.show();
         }
     }
@@ -160,12 +154,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             }
         }
         if (mPasswordDialog == null) {
-            mPasswordDialog = new PasswordDialog(getContext(), parser, new SimpleListener() {
-                @Override
-                public void onResult() {
-                    CopiedTextProcessor.getInstance().processed();
-                }
-            });
+            mPasswordDialog = new PasswordDialog(getContext(), parser);
             mPasswordDialog.show();
         }
     }

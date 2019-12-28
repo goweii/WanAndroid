@@ -8,9 +8,9 @@ import per.goweii.anylayer.Align;
 import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
 import per.goweii.anylayer.PopupLayer;
-import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
+import per.goweii.wanandroid.utils.CopiedTextProcessor;
+import per.goweii.wanandroid.utils.router.Router;
 
 /**
  * @author CuiZhen
@@ -23,7 +23,7 @@ public class CopiedLinkDialog extends PopupLayer {
 
     private final String link;
 
-    public CopiedLinkDialog(View targetView, String link, SimpleListener onClose) {
+    public CopiedLinkDialog(View targetView, String link) {
         super(targetView);
         this.link = link;
         contentView(R.layout.dialog_copied_link);
@@ -36,18 +36,14 @@ public class CopiedLinkDialog extends PopupLayer {
         onClickToDismiss(new OnClickListener() {
             @Override
             public void onClick(Layer layer, View v) {
-                if (onClose != null) {
-                    onClose.onResult();
-                }
+                CopiedTextProcessor.getInstance().processed();
             }
         }, R.id.dialog_copied_link_iv_close);
         onClickToDismiss(new OnClickListener() {
             @Override
             public void onClick(Layer layer, View v) {
-                if (onClose != null) {
-                    onClose.onResult();
-                }
-                WebActivity.start(getActivity(), link);
+                CopiedTextProcessor.getInstance().processed();
+                Router.router(link);
             }
         }, R.id.dialog_copied_link_rl);
     }

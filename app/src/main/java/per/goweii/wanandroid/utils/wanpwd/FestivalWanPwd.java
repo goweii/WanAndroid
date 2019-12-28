@@ -2,6 +2,8 @@ package per.goweii.wanandroid.utils.wanpwd;
 
 import android.support.annotation.Nullable;
 
+import per.goweii.wanandroid.utils.router.Router;
+
 /**
  * @author CuiZhen
  * @date 2019/12/28
@@ -14,6 +16,7 @@ public class FestivalWanPwd implements IWanPwd {
     private final String content;
     private String mShowText;
     private String mBtnText;
+    private Runnable mRunnable;
 
     public FestivalWanPwd(String content) {
         this.content = content;
@@ -23,7 +26,7 @@ public class FestivalWanPwd implements IWanPwd {
     @Nullable
     @Override
     public Runnable getRunnable() {
-        return null;
+        return mRunnable;
     }
 
     @Override
@@ -109,6 +112,12 @@ public class FestivalWanPwd implements IWanPwd {
                 mShowText = "你发现了一个节日口令\n但是我不知道这是什么节日！\n"
                         + "【农历" + m + "月" + d + "日】";
                 mBtnText = "我去查查";
+                mRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        Router.router("https://www.baidu.com/s?wd=" + "农历" + m + "月" + d + "日");
+                    }
+                };
             }
             if (mShowText == null && mBtnText == null) {
                 mShowText = sbShowText

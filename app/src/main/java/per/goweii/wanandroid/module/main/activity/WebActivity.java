@@ -44,6 +44,7 @@ import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.WebHolder;
+import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.widget.CollectView;
 import per.goweii.wanandroid.widget.WebContainer;
 
@@ -157,12 +158,17 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     protected void initView() {
-        mArticleId = getIntent().getIntExtra("articleId", -1);
-        mTitle = getIntent().getStringExtra("title");
+        Uri uri = Router.uri(getIntent());
+        if (uri != null) {
+            mUrl = uri.toString();
+        } else {
+            mArticleId = getIntent().getIntExtra("articleId", -1);
+            mTitle = getIntent().getStringExtra("title");
+            mAuthor = getIntent().getStringExtra("author");
+            mUrl = getIntent().getStringExtra("url");
+        }
         mTitle = mTitle == null ? "" : mTitle;
-        mAuthor = getIntent().getStringExtra("author");
         mAuthor = mAuthor == null ? "" : mAuthor;
-        mUrl = getIntent().getStringExtra("url");
         mUrl = mUrl == null ? "" : mUrl;
         boolean collected = getIntent().getBooleanExtra("collected", false);
         if (collected) {
