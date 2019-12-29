@@ -2,7 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="per.goweii.wanandroid">
-
+    <!--    广告所需3个权限-->
+    <!--    注意：SDK不强制校验上述权限（即:无上述权限sdk也可正常工作），但建议您申请上述权限。-->
+    <!--    针对单媒体的用户，允许获取权限的，投放定向广告；不允许获取权限的用户，投放通投广告。-->
+    <!--    媒体可以选择是否把上述权限提供给优量汇，并承担相应广告填充和eCPM单价下降损失的结果。-->
+    <!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+    <!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+    <!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission
         android:name="android.permission.READ_LOGS"

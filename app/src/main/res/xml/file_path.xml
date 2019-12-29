@@ -1,9 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths xmlns:android="http://schemas.android.com/apk/res/android">
+<paths>
     <root-path name="root" path="" />
     <files-path name="files" path="" />
     <cache-path name="cache" path="" />
     <external-path name="external" path="" />
     <external-files-path name="name" path="path" />
     <external-cache-path name="name" path="path" />
+    <!-- 这个下载路径也不可以修改，必须为GDTDOWNLOAD -->
+    <external-cache-path
+        name="gdt_sdk_download_path1"
+        path="com_qq_e_download" />
+    <cache-path
+        name="gdt_sdk_download_path2"
+        path="com_qq_e_download" />
 </paths>

@@ -14,8 +14,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
@@ -82,17 +80,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         if (event.getArticleId() == -1) {
             return;
         }
-        List<ArticleBean> list = mAdapter.getData();
-        for (int i = 0; i < list.size(); i++) {
-            ArticleBean item = list.get(i);
-            if (item.getId() == event.getArticleId()) {
-                if (item.isCollect() != event.isCollect()) {
-                    item.setCollect(event.isCollect());
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-                break;
-            }
-        }
+        mAdapter.notifyCollectionEvent(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -104,14 +92,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
             currPage = PAGE_START;
             getProjectArticleList(true);
         } else {
-            List<ArticleBean> list = mAdapter.getData();
-            for (int i = 0; i < list.size(); i++) {
-                ArticleBean item = list.get(i);
-                if (item.isCollect()) {
-                    item.setCollect(false);
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-            }
+            mAdapter.notifyAllUnCollect();
         }
     }
 
@@ -185,7 +166,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     WebActivity.start(getContext(), item);
                 }
@@ -194,7 +175,7 @@ public class ProjectArticleFragment extends BaseFragment<ProjectArticlePresenter
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     if (!v.isChecked()) {
                         presenter.collect(item, v);

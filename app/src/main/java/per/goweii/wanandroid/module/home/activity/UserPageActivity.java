@@ -28,7 +28,6 @@ import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
@@ -115,17 +114,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         if (event.getArticleId() == -1) {
             return;
         }
-        List<ArticleBean> list = mAdapter.getData();
-        for (int i = 0; i < list.size(); i++) {
-            ArticleBean item = list.get(i);
-            if (item.getId() == event.getArticleId()) {
-                if (item.isCollect() != event.isCollect()) {
-                    item.setCollect(event.isCollect());
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-                break;
-            }
-        }
+        mAdapter.notifyCollectionEvent(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -134,14 +123,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             currPage = PAGE_START;
             getUserPage(true);
         } else {
-            List<ArticleBean> list = mAdapter.getData();
-            for (int i = 0; i < list.size(); i++) {
-                ArticleBean item = list.get(i);
-                if (item.isCollect()) {
-                    item.setCollect(false);
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-            }
+            mAdapter.notifyAllUnCollect();
         }
     }
 
@@ -219,7 +201,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     WebActivity.start(getContext(), item);
                 }
@@ -228,7 +210,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     if (!v.isChecked()) {
                         presenter.collect(item, v);

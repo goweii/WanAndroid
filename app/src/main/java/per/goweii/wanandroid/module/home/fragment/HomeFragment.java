@@ -2,6 +2,7 @@ package per.goweii.wanandroid.module.home.fragment;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -16,6 +17,7 @@ import android.widget.ImageView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.kennyc.view.MultiStateView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
@@ -37,11 +39,13 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.glide.GlideHelper;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
+import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
@@ -105,20 +109,22 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         if (event.getArticleId() == -1) {
             return;
         }
-        List<ArticleBean> list = mAdapter.getData();
-        for (int i = 0; i < list.size(); i++) {
-            ArticleBean item = list.get(i);
-            if (item.getId() == event.getArticleId()) {
-                if (item.isCollect() != event.isCollect()) {
-                    item.setCollect(event.isCollect());
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
+        mAdapter.forEach(new ArticleAdapter.ArticleForEach() {
+            @Override
+            public boolean forEach(int dataPos, int adapterPos, ArticleBean bean) {
+                if (bean.getId() == event.getArticleId()) {
+                    if (bean.isCollect() != event.isCollect()) {
+                        bean.setCollect(event.isCollect());
+                        mAdapter.notifyItemChanged(adapterPos);
+                    }
+                    if (mWebDialog != null) {
+                        mAdapter.notifyItemChanged(adapterPos);
+                    }
+                    return true;
                 }
-                if (mWebDialog != null) {
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-                break;
+                return false;
             }
-        }
+        });
         if (mHeaderTopItemViews != null && mHeaderTopItemViews.size() > 0) {
             for (int i = 0; i < mHeaderTopItemViews.size(); i++) {
                 ArticleBean item = mHeaderTopItemBeans.get(i);
@@ -171,14 +177,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             currPage = PAGE_START;
             presenter.getArticleList(currPage, true);
         } else {
-            List<ArticleBean> list = mAdapter.getData();
-            for (int i = 0; i < list.size(); i++) {
-                ArticleBean item = list.get(i);
-                if (item.isCollect()) {
-                    item.setCollect(false);
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-            }
+            mAdapter.notifyAllUnCollect();
             if (mHeaderTopItemViews != null && mHeaderTopItemViews.size() > 0) {
                 for (int i = 0; i < mHeaderTopItemViews.size(); i++) {
                     ArticleBean item = mHeaderTopItemBeans.get(i);
@@ -255,7 +254,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     WebActivity.start(getContext(), item);
                 }
@@ -271,7 +270,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     if (!v.isChecked()) {
                         presenter.collect(item, v);
@@ -315,12 +314,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                     }
                 }
                 if (!find) {
-                    List<ArticleBean> datas = mAdapter.getData();
+                    List<MultiItemEntity> datas = mAdapter.getData();
                     for (int i = 0; i < datas.size(); i++) {
-                        ArticleBean bean = datas.get(i);
-                        if (bean.getId() == data.getId()) {
-                            currItemPos = headerCount + i;
-                            break;
+                        MultiItemEntity entity = datas.get(i);
+                        if (entity.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
+                            ArticleBean bean = (ArticleBean) entity;
+                            if (bean.getId() == data.getId()) {
+                                currItemPos = headerCount + i;
+                                break;
+                            }
                         }
                     }
                 }
@@ -344,6 +346,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             }
         });
         mWebDialog.show();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LogUtils.d("HomeFragment", "onConfigurationChanged->isDarkMode=" + WanApp.isDarkMode());
     }
 
     @Override

@@ -13,8 +13,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
@@ -80,17 +78,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         if (event.getArticleId() == -1) {
             return;
         }
-        List<ArticleBean> list = mAdapter.getData();
-        for (int i = 0; i < list.size(); i++) {
-            ArticleBean item = list.get(i);
-            if (item.getId() == event.getArticleId()) {
-                if (item.isCollect() != event.isCollect()) {
-                    item.setCollect(event.isCollect());
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-                break;
-            }
-        }
+        mAdapter.notifyCollectionEvent(event);
     }
 
     @Override
@@ -133,7 +121,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     WebActivity.start(getContext(), item);
                 }
@@ -142,7 +130,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     if (!v.isChecked()) {
                         presenter.collect(item, v);

@@ -236,7 +236,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
     public void getMineShareArticleListSuccess(int code, ArticleListBean data) {
         currPage = data.getCurPage() + PAGE_START;
         if (data.getCurPage() == 1) {
-            mAdapter.setNewData(data.getDatas());
+            mAdapter.setNewData(data.getArticles());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
                 MultiStateUtils.toEmpty(msv);
@@ -244,7 +244,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
                 MultiStateUtils.toContent(msv);
             }
         } else {
-            mAdapter.addData(data.getDatas());
+            mAdapter.addData(data.getArticles());
             mAdapter.loadMoreComplete();
         }
         if (data.isOver()) {

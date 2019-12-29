@@ -13,8 +13,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
@@ -73,21 +71,23 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             presenter.getCollectArticleList(currPage, true);
         } else {
             if (event.getArticleId() != -1 || event.getCollectId() != -1) {
-                List<ArticleBean> list = mAdapter.getData();
-                for (int i = 0; i < list.size(); i++) {
-                    ArticleBean item = list.get(i);
-                    if (event.getArticleId() != -1) {
-                        if (item.getOriginId() == event.getArticleId()) {
-                            mAdapter.remove(i);
-                            break;
+                mAdapter.forEach(new ArticleAdapter.ArticleForEach() {
+                    @Override
+                    public boolean forEach(int dataPos, int adapterPos, ArticleBean bean) {
+                        if (event.getArticleId() != -1) {
+                            if (bean.getOriginId() == event.getArticleId()) {
+                                mAdapter.remove(adapterPos);
+                                return true;
+                            }
+                        } else if (event.getCollectId() != -1) {
+                            if (bean.getId() == event.getCollectId()) {
+                                mAdapter.remove(adapterPos);
+                                return true;
+                            }
                         }
-                    } else if (event.getCollectId() != -1) {
-                        if (item.getId() == event.getCollectId()) {
-                            mAdapter.remove(i);
-                            break;
-                        }
+                        return false;
                     }
-                }
+                });
             }
         }
     }
@@ -142,7 +142,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     WebActivity.start(getContext(), item);
                 }
@@ -151,7 +151,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     presenter.uncollect(item, v);
                 }
@@ -186,7 +186,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
     @Override
     public void getCollectArticleListSuccess(int code, ArticleListBean data) {
         if (data.getDatas() != null) {
-            for (ArticleBean articleBean : data.getDatas()) {
+            for (ArticleBean articleBean : data.getArticles()) {
                 articleBean.setCollect(true);
             }
         }

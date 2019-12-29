@@ -10,6 +10,8 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,13 +51,13 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         return new WebDialog(context, urls, null, 0, true);
     }
 
-    public static WebDialog create(Context context, final List<ArticleBean> topUrls, final List<ArticleBean> urls, final int currPos) {
+    public static WebDialog create(Context context, final List<ArticleBean> topUrls, final List<MultiItemEntity> urls, final int currPos) {
         return new WebDialog(context, topUrls, urls, currPos, false);
     }
 
     private WebDialog(final Context context,
                       final List<ArticleBean> topUrls,
-                      final List<ArticleBean> urls,
+                      final List<MultiItemEntity> urls,
                       final int currPos,
                       final boolean singleTipMode) {
         super(context);
@@ -162,11 +164,13 @@ public class WebDialog extends DialogLayer implements WebDialogView {
             cv_collect.setOnClickListener(new CollectView.OnClickListener() {
                 @Override
                 public void onClick(CollectView v) {
-                    ArticleBean data = mAdapter.getBean(vp.getCurrentItem());
-                    if (!v.isChecked()) {
-                        presenter.collect(data, v);
-                    } else {
-                        presenter.uncollect(data, v);
+                    ArticleBean data = mAdapter.getArticleBean(vp.getCurrentItem());
+                    if (data != null) {
+                        if (!v.isChecked()) {
+                            presenter.collect(data, v);
+                        } else {
+                            presenter.uncollect(data, v);
+                        }
                     }
                 }
             });
@@ -179,10 +183,12 @@ public class WebDialog extends DialogLayer implements WebDialogView {
             @Override
             public void onPageSelected(int i) {
                 if (mAdapter != null) {
-                    ArticleBean data = mAdapter.getBean(i);
-                    cv_collect.setChecked(data.isCollect(), true);
-                    if (mOnPageChangedListener != null) {
-                        mOnPageChangedListener.onPageChanged(i, data);
+                    ArticleBean data = mAdapter.getArticleBean(i);
+                    if (data != null) {
+                        cv_collect.setChecked(data.isCollect(), true);
+                        if (mOnPageChangedListener != null) {
+                            mOnPageChangedListener.onPageChanged(i, data);
+                        }
                     }
                 }
             }
