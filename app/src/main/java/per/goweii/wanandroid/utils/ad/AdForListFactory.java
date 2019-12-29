@@ -24,18 +24,18 @@ import per.goweii.wanandroid.utils.SettingUtils;
  * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class AdFactory {
-    private final String TAG = AdFactory.class.getSimpleName();
+public class AdForListFactory {
+    private final String TAG = AdForListFactory.class.getSimpleName();
 
     private final ArticleAdapter mAdapter;
     private final NativeExpressAD mNativeExpressAD;
     private final Queue<NativeExpressADView> mADCacheList = new LinkedBlockingDeque<>();
 
-    public static AdFactory create(Context context, ArticleAdapter adapter) {
-        return new AdFactory(context, adapter);
+    public static AdForListFactory create(Context context, ArticleAdapter adapter) {
+        return new AdForListFactory(context, adapter);
     }
 
-    private AdFactory(Context context, ArticleAdapter adapter) {
+    private AdForListFactory(Context context, ArticleAdapter adapter) {
         this.mAdapter = adapter;
         final String posId;
         if (SettingUtils.getInstance().isDarkTheme()) {

@@ -29,7 +29,7 @@ import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.ad.AdEntity;
-import per.goweii.wanandroid.utils.ad.AdFactory;
+import per.goweii.wanandroid.utils.ad.AdForListFactory;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -174,6 +174,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
             if (fl_ad.getChildCount() > 0 && fl_ad.getChildAt(0) == adView) {
                 return;
             }
+            adView.render();
             if (scrolling) {
                 return;
             }
@@ -184,19 +185,18 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
             if (adView.getParent() != null) {
                 ((ViewGroup) adView.getParent()).removeView(adView);
             }
-            adView.render();
             fl_ad.addView(adView);
             fl_ad.setVisibility(View.VISIBLE);
         }
     }
 
     private boolean scrolling = false;
-    private AdFactory mAdFactory = null;
+    private AdForListFactory mAdForListFactory = null;
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
-        mAdFactory = AdFactory.create(recyclerView.getContext(), this);
+        mAdForListFactory = AdForListFactory.create(recyclerView.getContext(), this);
         recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -207,7 +207,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
                         LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
                         int first = manager.findFirstVisibleItemPosition();
                         int last = manager.findLastVisibleItemPosition();
-                        for (int i = first; i < last; i++) {
+                        for (int i = first; i <= last; i++) {
                             AdEntity adEntity = getAdEntity(i - getHeaderLayoutCount());
                             if (adEntity != null && adEntity.getView() != null) {
                                 boolean needNotify = true;
@@ -218,6 +218,8 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
                                         needNotify = false;
                                         return;
                                     }
+                                } else {
+                                    needNotify = false;
                                 }
                                 if (needNotify) {
                                     notifyItemChanged(i);
@@ -234,8 +236,8 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
 
     @Override
     public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        if (mAdFactory != null) {
-            mAdFactory.destroy();
+        if (mAdForListFactory != null) {
+            mAdForListFactory.destroy();
         }
         super.onDetachedFromRecyclerView(recyclerView);
     }

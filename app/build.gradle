@@ -19,6 +19,8 @@ android {
         def APPID_AD = properties.getProperty('APPID_AD')
         def AD_ID_ARTICLE_LIST_LIGHT = properties.getProperty('AD_ID_ARTICLE_LIST_LIGHT')
         def AD_ID_ARTICLE_LIST_DARK = properties.getProperty('AD_ID_ARTICLE_LIST_DARK')
+        def AD_ID_BANNER_LIGHT = properties.getProperty('AD_ID_BANNER_LIGHT')
+        def AD_ID_BANNER_DARK = properties.getProperty('AD_ID_BANNER_DARK')
         def WANPWD_FORMAT = properties.getProperty('WANPWD_FORMAT')
         def WANPWD_PATTERN = properties.getProperty('WANPWD_PATTERN')
         def WANPWD_TYPE_QQ = properties.getProperty('WANPWD_TYPE_QQ')
@@ -33,6 +35,8 @@ android {
             buildConfigField "String", "APPID_AD", '"' + APPID_AD + '"'
             buildConfigField "String", "AD_ID_ARTICLE_LIST_LIGHT", '"' + AD_ID_ARTICLE_LIST_LIGHT + '"'
             buildConfigField "String", "AD_ID_ARTICLE_LIST_DARK", '"' + AD_ID_ARTICLE_LIST_DARK + '"'
+            buildConfigField "String", "AD_ID_BANNER_LIGHT", '"' + AD_ID_BANNER_LIGHT + '"'
+            buildConfigField "String", "AD_ID_BANNER_DARK", '"' + AD_ID_BANNER_DARK + '"'
             buildConfigField "String", "WANPWD_FORMAT", '"' + WANPWD_FORMAT + '"'
             buildConfigField "String", "WANPWD_PATTERN", '"' + WANPWD_PATTERN + '"'
             buildConfigField "String", "WANPWD_TYPE_QQ", '"' + WANPWD_TYPE_QQ + '"'
@@ -52,6 +56,8 @@ android {
             buildConfigField "String", "APPID_AD", '"' + APPID_AD + '"'
             buildConfigField "String", "AD_ID_ARTICLE_LIST_LIGHT", '"' + AD_ID_ARTICLE_LIST_LIGHT + '"'
             buildConfigField "String", "AD_ID_ARTICLE_LIST_DARK", '"' + AD_ID_ARTICLE_LIST_DARK + '"'
+            buildConfigField "String", "AD_ID_BANNER_LIGHT", '"' + AD_ID_BANNER_LIGHT + '"'
+            buildConfigField "String", "AD_ID_BANNER_DARK", '"' + AD_ID_BANNER_DARK + '"'
             buildConfigField "String", "WANPWD_FORMAT", '"' + WANPWD_FORMAT + '"'
             buildConfigField "String", "WANPWD_PATTERN", '"' + WANPWD_PATTERN + '"'
             buildConfigField "String", "WANPWD_TYPE_QQ", '"' + WANPWD_TYPE_QQ + '"'
