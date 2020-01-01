@@ -14,7 +14,10 @@
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"
-        style="@style/StateView">
+        style="@style/StateView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/srl"
@@ -34,5 +37,11 @@
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     </com.kennyc.view.MultiStateView>
+
+    <per.goweii.wanandroid.utils.ad.widget.AdBanner2Container
+        android:id="@+id/adc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="#f8f8f8" />
 
 </LinearLayout>

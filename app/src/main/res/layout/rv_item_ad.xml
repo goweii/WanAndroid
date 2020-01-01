@@ -78,8 +78,8 @@
 
     </RelativeLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_ad"
+    <per.goweii.wanandroid.utils.ad.widget.AdContainer
+        android:id="@+id/adc"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_below="@+id/rl_top"
@@ -91,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_below="@+id/fl_ad"
+        android:layout_below="@+id/adc"
         android:layout_marginTop="10dp"
         android:layout_centerVertical="true">
 
@@ -110,7 +110,7 @@
         android:id="@+id/ll_chapter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/fl_ad"
+        android:layout_below="@+id/adc"
         android:layout_toRightOf="@+id/ll_top"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">

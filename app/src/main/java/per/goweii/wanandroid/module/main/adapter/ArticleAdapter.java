@@ -8,7 +8,6 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,6 +29,7 @@ import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.ad.AdEntity;
 import per.goweii.wanandroid.utils.ad.AdForListFactory;
+import per.goweii.wanandroid.utils.ad.widget.AdContainer;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -171,26 +171,26 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
     }
 
     private void convertAd(BaseViewHolder helper, AdEntity item) {
-        FrameLayout fl_ad = helper.getView(R.id.fl_ad);
+        AdContainer adc = helper.getView(R.id.adc);
         if (item.getView() != null) {
             final NativeExpressADView adView = item.getView();
             item.setPosition(helper.getAdapterPosition());
-            if (fl_ad.getChildCount() > 0 && fl_ad.getChildAt(0) == adView) {
+            if (adc.getChildCount() > 0 && adc.getChildAt(0) == adView) {
                 return;
             }
             adView.render();
             if (scrolling) {
                 return;
             }
-            fl_ad.setVisibility(View.INVISIBLE);
-            if (fl_ad.getChildCount() > 0) {
-                fl_ad.removeAllViews();
+            adc.setVisibility(View.INVISIBLE);
+            if (adc.getChildCount() > 0) {
+                adc.removeAllViews();
             }
             if (adView.getParent() != null) {
                 ((ViewGroup) adView.getParent()).removeView(adView);
             }
-            fl_ad.addView(adView);
-            fl_ad.setVisibility(View.VISIBLE);
+            adc.addView(adView);
+            adc.setVisibility(View.VISIBLE);
         }
     }
 
@@ -217,8 +217,8 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
                                 boolean needNotify = true;
                                 View view = manager.findViewByPosition(i);
                                 if (view != null) {
-                                    FrameLayout fl_ad = view.findViewById(R.id.fl_ad);
-                                    if (fl_ad != null && fl_ad.getChildCount() > 0 && fl_ad.getChildAt(0) == adEntity.getView()) {
+                                    AdContainer adc = view.findViewById(R.id.adc);
+                                    if (adc != null && adc.getChildCount() > 0 && adc.getChildAt(0) == adEntity.getView()) {
                                         needNotify = false;
                                         return;
                                     }

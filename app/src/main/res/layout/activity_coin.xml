@@ -1,42 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/foreground">
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_bg"
-        android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:background="@color/basic_ui_action_bar_bg"
-        android:scaleType="centerCrop"
-        android:tint="@color/mine_blur_overlay" />
-
-    <per.goweii.actionbarex.common.ActionBarCommon
-        android:id="@+id/abc"
-        style="@style/ActionBar.Common.Back"
-        android:background="@color/transparent"
-        app:abc_rightIconRes="@drawable/ic_rule"
-        app:abc_titleText="我的积分" />
-
-    <TextView
-        android:id="@+id/tv_coin"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/abc"
-        android:layout_alignBottom="@+id/iv_bg"
-        android:gravity="center"
-        android:lines="1"
-        android:textColor="@color/basic_ui_action_bar_text"
-        android:textSize="80sp"
-        tools:text="520" />
+        android:background="@color/foreground">
+
+        <ImageView
+            android:id="@+id/iv_bg"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            android:background="@color/basic_ui_action_bar_bg"
+            android:scaleType="centerCrop"
+            android:tint="@color/mine_blur_overlay" />
+
+        <per.goweii.actionbarex.common.ActionBarCommon
+            android:id="@+id/abc"
+            style="@style/ActionBar.Common.Back"
+            android:background="@color/transparent"
+            app:abc_rightIconRes="@drawable/ic_rule"
+            app:abc_titleText="我的积分" />
+
+        <TextView
+            android:id="@+id/tv_coin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/abc"
+            android:layout_alignBottom="@+id/iv_bg"
+            android:gravity="center"
+            android:lines="1"
+            android:textColor="@color/basic_ui_action_bar_text"
+            android:textSize="80sp"
+            tools:text="520" />
+
+    </RelativeLayout>
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"
         style="@style/StateView"
-        android:layout_below="@+id/iv_bg">
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/srl"
@@ -57,4 +66,10 @@
 
     </com.kennyc.view.MultiStateView>
 
-</RelativeLayout>
+    <per.goweii.wanandroid.utils.ad.widget.AdBanner2Container
+        android:id="@+id/adc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:background="#f8f8f8" />
+
+</LinearLayout>

@@ -24,6 +24,7 @@ import per.goweii.wanandroid.module.main.presenter.ShareArticlePresenter;
 import per.goweii.wanandroid.module.main.view.ShareArticleView;
 import per.goweii.wanandroid.utils.UserUtils;
 import per.goweii.wanandroid.utils.WebHolder;
+import per.goweii.wanandroid.utils.ad.widget.AdContainer;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**
@@ -45,6 +46,8 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
     EditText et_title;
     @BindView(R.id.et_link)
     EditText et_link;
+    @BindView(R.id.adc)
+    AdContainer adc;
 
     private WebHolder mWebHolder;
 
