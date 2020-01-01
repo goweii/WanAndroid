@@ -62,7 +62,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
 
     @Override
     public void setNewData(@Nullable List<MultiItemEntity> data) {
-        if (mPageLoadedCallback != null) {
+        if (mPageLoadedCallback != null && data != null) {
             mPageLoadedCallback.pageLoaded(0, data);
         }
         super.setNewData(data);
