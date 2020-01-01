@@ -63,7 +63,7 @@ public class CDKeyUtils {
         try {
             Class clazz = Class.forName(BuildConfig.CDKEY_CLASS);
             return (CDKey) clazz.newInstance();
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
         }
         return null;

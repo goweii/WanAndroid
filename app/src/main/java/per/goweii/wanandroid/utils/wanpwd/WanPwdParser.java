@@ -51,6 +51,9 @@ public class WanPwdParser {
             case ABOUTME:
                 mWanPwd = new AboutMeWanPwd();
                 break;
+            case CREATE_CDKEY:
+                mWanPwd = new CreateCDKeyWanPwd(mPwd.content);
+                break;
         }
     }
 
@@ -141,7 +144,8 @@ public class WanPwdParser {
         USERPAGE(BuildConfig.WANPWD_TYPE_USERPAGE),
         CDKEY(BuildConfig.WANPWD_TYPE_CDKEY),
         WEB(BuildConfig.WANPWD_TYPE_WEB),
-        ABOUTME(BuildConfig.WANPWD_TYPE_ABOUTME);
+        ABOUTME(BuildConfig.WANPWD_TYPE_ABOUTME),
+        CREATE_CDKEY(BuildConfig.WANPWD_TYPE_CREATE_CDKEY);
 
         private final String type;
 

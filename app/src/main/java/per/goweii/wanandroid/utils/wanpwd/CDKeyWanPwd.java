@@ -23,6 +23,7 @@ public class CDKeyWanPwd implements IWanPwd {
             public void run() {
                 if (!UserUtils.getInstance().isLogin()) {
                     ToastMaker.showShort("请先登录");
+                    return;
                 }
                 int id = UserUtils.getInstance().getUserId();
                 if (CDKeyUtils.isActiveCDKey(String.valueOf(id), content)) {
