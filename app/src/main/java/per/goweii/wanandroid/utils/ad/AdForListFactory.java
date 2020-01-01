@@ -16,6 +16,7 @@ import per.goweii.basic.utils.LogUtils;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
 
 /**
  * @author CuiZhen
@@ -32,6 +33,9 @@ public class AdForListFactory {
     private final Queue<NativeExpressADView> mADCacheList = new LinkedBlockingDeque<>();
 
     public static AdForListFactory create(Context context, ArticleAdapter adapter) {
+        if (CDKeyUtils.getInstance().isActivated()) {
+            return null;
+        }
         return new AdForListFactory(context, adapter);
     }
 

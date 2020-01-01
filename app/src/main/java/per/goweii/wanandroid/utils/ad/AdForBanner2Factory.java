@@ -10,6 +10,7 @@ import com.qq.e.comm.util.AdError;
 
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.utils.ad.widget.AdContainer;
+import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
 
 /**
  * @author CuiZhen
@@ -19,10 +20,15 @@ import per.goweii.wanandroid.utils.ad.widget.AdContainer;
  * GitHub: https://github.com/goweii
  */
 public class AdForBanner2Factory {
-    private final AdContainer adContainer;
-    private final UnifiedBannerView bannerView;
+    private AdContainer adContainer;
+    private UnifiedBannerView bannerView;
 
     public static AdForBanner2Factory create(Activity activity, @NonNull AdContainer adContainer) {
+        if (CDKeyUtils.getInstance().isActivated()) {
+            adContainer.setVisibility(View.GONE);
+            return null;
+        }
+        adContainer.setVisibility(View.VISIBLE);
         return new AdForBanner2Factory(activity, adContainer);
     }
 

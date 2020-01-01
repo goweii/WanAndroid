@@ -14,6 +14,7 @@ import java.util.List;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
 
 /**
  * @author CuiZhen
@@ -29,6 +30,9 @@ public class AdForBannerFactory {
     private NativeExpressADView mADView = null;
 
     public static AdForBannerFactory create(Context context, @NonNull OnADLoadedListener listener) {
+        if (CDKeyUtils.getInstance().isActivated()) {
+            return null;
+        }
         return new AdForBannerFactory(context, listener);
     }
 
