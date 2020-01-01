@@ -14,8 +14,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import butterknife.BindView;
 import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
@@ -79,28 +77,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
         if (isDestroyed()) {
             return;
         }
-        if (event.isCollect()) {
-            currPage = PAGE_START;
-            presenter.getMineShareArticleList(currPage, true);
-        } else {
-            if (event.getArticleId() != -1 || event.getCollectId() != -1) {
-                List<ArticleBean> list = mAdapter.getData();
-                for (int i = 0; i < list.size(); i++) {
-                    ArticleBean item = list.get(i);
-                    if (event.getArticleId() != -1) {
-                        if (item.getOriginId() == event.getArticleId()) {
-                            mAdapter.remove(i);
-                            break;
-                        }
-                    } else if (event.getCollectId() != -1) {
-                        if (item.getId() == event.getCollectId()) {
-                            mAdapter.remove(i);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
+        mAdapter.notifyCollectionEvent(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -122,14 +99,16 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
             currPage = PAGE_START;
             presenter.getMineShareArticleList(currPage, true);
         } else {
-            List<ArticleBean> list = mAdapter.getData();
-            for (int i = 0; i < list.size(); i++) {
-                ArticleBean item = list.get(i);
-                if (event.getArticleId() == item.getId()) {
-                    mAdapter.remove(i);
-                    break;
+            mAdapter.forEach(new ArticleAdapter.ArticleForEach() {
+                @Override
+                public boolean forEach(int dataPos, int adapterPos, ArticleBean bean) {
+                    if (event.getArticleId() == bean.getId()) {
+                        mAdapter.remove(adapterPos);
+                        return true;
+                    }
+                    return false;
                 }
-            }
+            });
         }
     }
 
@@ -201,7 +180,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 mAdapter.closeAll(null);
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item == null) {
                     return;
                 }
@@ -236,7 +215,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
     public void getMineShareArticleListSuccess(int code, ArticleListBean data) {
         currPage = data.getCurPage() + PAGE_START;
         if (data.getCurPage() == 1) {
-            mAdapter.setNewData(data.getArticles());
+            mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
                 MultiStateUtils.toEmpty(msv);

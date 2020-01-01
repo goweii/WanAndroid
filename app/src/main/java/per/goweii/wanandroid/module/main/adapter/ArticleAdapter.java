@@ -48,8 +48,12 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
 
     public ArticleAdapter() {
         super(null);
-        addItemType(ITEM_TYPE_ARTICLE, R.layout.rv_item_article);
+        addItemType(ITEM_TYPE_ARTICLE, getArticleLayoutId());
         addItemType(ITEM_TYPE_AD, R.layout.rv_item_ad);
+    }
+
+    protected int getArticleLayoutId() {
+        return R.layout.rv_item_article;
     }
 
     public void setOnItemChildViewClickListener(OnItemChildViewClickListener onItemChildViewClickListener) {
@@ -148,7 +152,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         }
     }
 
-    private void convertArticle(BaseViewHolder helper, ArticleBean item) {
+    protected void convertArticle(BaseViewHolder helper, ArticleBean item) {
         bindArticle(helper.itemView, item, new OnCollectListener() {
             @Override
             public void collect(ArticleBean item, CollectView v) {

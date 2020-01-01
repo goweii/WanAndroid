@@ -112,7 +112,7 @@ public class MineSharePresenter extends BasePresenter<MineShareView> {
     }
 
     public void uncollect(ArticleBean item, final CollectView v) {
-        addToRxLife(MainRequest.uncollect(item.getId(), item.getOriginId(), new RequestListener<BaseBean>() {
+        addToRxLife(MainRequest.uncollect(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
             }
