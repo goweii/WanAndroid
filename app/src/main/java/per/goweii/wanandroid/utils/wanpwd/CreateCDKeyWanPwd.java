@@ -36,7 +36,7 @@ public class CreateCDKeyWanPwd implements IWanPwd {
                 String cdkey = CDKeyUtils.createCDKey(content);
                 StringBuilder s = new StringBuilder();
                 s.append("【玩口令】这是一个激活码口令，仅限特定账号使用，户制泽条消息");
-                s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_CREATE_CDKEY, cdkey));
+                s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_CDKEY, cdkey));
                 s.append("打開最美玩安卓客户端激活");
                 CopyUtils.copyText(s.toString());
                 ToastMaker.showShort("口令已复制");
