@@ -50,16 +50,29 @@ public class DownloadDialog {
 
     private int retryCount = 0;
 
-    public static DownloadDialog with(Activity activity, boolean isForce, String url, String urlBackup, String versionName) {
-        return new DownloadDialog(activity, isForce, url, urlBackup, versionName);
+    private OnDismissListener mOnDismissListener;
+
+    public static DownloadDialog with(Activity activity,
+                                      boolean isForce,
+                                      String url,
+                                      String urlBackup,
+                                      String versionName,
+                                      OnDismissListener onDismissListener) {
+        return new DownloadDialog(activity, isForce, url, urlBackup, versionName, onDismissListener);
     }
 
-    private DownloadDialog(Activity activity, boolean isForce, String url, String urlBackup, String versionName) {
+    private DownloadDialog(Activity activity,
+                           boolean isForce,
+                           String url,
+                           String urlBackup,
+                           String versionName,
+                           OnDismissListener onDismissListener) {
         this.mActivity = activity;
         this.url = url;
         this.urlBackup = urlBackup;
         this.isForce = isForce;
         this.versionName = versionName;
+        this.mOnDismissListener = onDismissListener;
         showDialog();
         startDownload(this.url);
     }
@@ -178,7 +191,19 @@ public class DownloadDialog {
                             dismiss();
                         }
                     }
-                }, R.id.iv_dialog_download_close);
+                }, R.id.iv_dialog_download_close)
+                .onDismissListener(new Layer.OnDismissListener() {
+                    @Override
+                    public void onDismissing(Layer layer) {
+                    }
+
+                    @Override
+                    public void onDismissed(Layer layer) {
+                        if (mOnDismissListener != null) {
+                            mOnDismissListener.onDismiss();
+                        }
+                    }
+                });
         mAnyLayer.show();
     }
 
@@ -234,5 +259,9 @@ public class DownloadDialog {
         if (mAnyLayer != null) {
             mAnyLayer.dismiss();
         }
+    }
+
+    public interface OnDismissListener {
+        void onDismiss();
     }
 }

@@ -26,6 +26,7 @@ import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.presenter.MainPresenter;
 import per.goweii.wanandroid.module.main.view.MainView;
 import per.goweii.wanandroid.utils.CopiedTextProcessor;
+import per.goweii.wanandroid.utils.TaskQueen;
 import per.goweii.wanandroid.utils.UpdateUtils;
 import per.goweii.wanandroid.utils.wanpwd.WanPwdParser;
 
@@ -41,6 +42,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private UpdateUtils mUpdateUtils;
     private CopiedLinkDialog mCopiedLinkDialog = null;
     private PasswordDialog mPasswordDialog = null;
+
+    private TaskQueen mTaskQueen = new TaskQueen();
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -82,7 +85,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         );
         vp.setCurrentItem(1);
         onPageSelected(vp.getCurrentItem());
-        PrivacyPolicyDialog.showIfFirst(getContext());
+        mTaskQueen.append(new TaskQueen.Task() {
+            @Override
+            public void run() {
+                PrivacyPolicyDialog.showIfFirst(getContext(), new PrivacyPolicyDialog.CompleteCallback() {
+                    @Override
+                    public void onComplete() {
+                        complete();
+                    }
+                });
+            }
+        });
         CopiedTextProcessor.getInstance().setProcessCallback(new CopiedTextProcessor.ProcessCallback() {
             @Override
             public void isLink(String link) {
@@ -181,26 +194,37 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         if (!mUpdateUtils.shouldUpdate(data.getVersion_code())) {
             return;
         }
-        UpdateDialog.with(getContext())
-                .setUrl(data.getUrl())
-                .setUrlBackup(data.getUrl_backup())
-                .setVersionCode(data.getVersion_code())
-                .setVersionName(data.getVersion_name())
-                .setForce(data.isForce())
-                .setDescription(data.getDesc())
-                .setTime(data.getTime())
-                .setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
-                    @Override
-                    public void onDownload(String url, String urlBackup, boolean isForce) {
-                        download(data.getVersion_name(), url, urlBackup, isForce);
-                    }
+        mTaskQueen.append(new TaskQueen.Task() {
+            @Override
+            public void run() {
+                UpdateDialog.with(getContext())
+                        .setUrl(data.getUrl())
+                        .setUrlBackup(data.getUrl_backup())
+                        .setVersionCode(data.getVersion_code())
+                        .setVersionName(data.getVersion_name())
+                        .setForce(data.isForce())
+                        .setDescription(data.getDesc())
+                        .setTime(data.getTime())
+                        .setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
+                            @Override
+                            public void onDownload(String url, String urlBackup, boolean isForce) {
+                                download(data.getVersion_name(), url, urlBackup, isForce);
+                            }
 
-                    @Override
-                    public void onIgnore(int versionCode) {
-                        mUpdateUtils.ignore(versionCode);
-                    }
-                })
-                .show();
+                            @Override
+                            public void onIgnore(int versionCode) {
+                                mUpdateUtils.ignore(versionCode);
+                            }
+                        })
+                        .setOnDismissListener(new UpdateDialog.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                complete();
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -221,15 +245,26 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     private void download(final String versionName, final String url, final String urlBackup, final boolean isForce) {
-        mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+        mTaskQueen.append(new TaskQueen.Task() {
             @Override
-            public void onSuccess() {
-                DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName);
-            }
+            public void run() {
+                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+                    @Override
+                    public void onSuccess() {
+                        DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName, new DownloadDialog.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                complete();
+                            }
+                        });
+                    }
 
-            @Override
-            public void onFailed() {
+                    @Override
+                    public void onFailed() {
+                        complete();
+                    }
+                }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
             }
-        }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+        });
     }
 }

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
@@ -32,6 +33,7 @@ import java.util.List;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.widget.WebContainer;
@@ -117,7 +119,6 @@ public class WebHolder {
         webSetting.setSupportZoom(false);
         webSetting.setBuiltInZoomControls(false);
         webSetting.setUseWideViewPort(true);
-        webSetting.setSupportMultipleWindows(true);
         webSetting.setLoadWithOverviewMode(true);
         webSetting.setAppCacheEnabled(true);
         webSetting.setDomStorageEnabled(true);
@@ -310,6 +311,7 @@ public class WebHolder {
         }
 
         private boolean shouldOverrideUrlLoading(Uri uri) {
+            LogUtils.d("WebView", "shouldOverrideUrlLoading->" + uri.toString());
             switch (SettingUtils.getInstance().getUrlInterceptType()) {
                 default:
                 case HostInterceptUtils.TYPE_NOTHING:
@@ -336,6 +338,14 @@ public class WebHolder {
                 return new WebResourceResponse(null, null, null);
             }
             return super.shouldInterceptRequest(view, request);
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView webView, WebResourceRequest request, Bundle bundle) {
+            if (shouldInterceptRequest(request.getUrl())) {
+                return new WebResourceResponse(null, null, null);
+            }
+            return super.shouldInterceptRequest(webView, request, bundle);
         }
 
         @Override

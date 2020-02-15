@@ -393,7 +393,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         mRuntimeRequester = PermissionUtils.request(new RequestListener() {
             @Override
             public void onSuccess() {
-                DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName);
+                DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName, null);
             }
 
             @Override
