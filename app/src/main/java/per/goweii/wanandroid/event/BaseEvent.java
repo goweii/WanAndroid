@@ -15,4 +15,12 @@ public class BaseEvent {
         EventBus.getDefault().post(this);
     }
 
+    public void postSticky() {
+        EventBus.getDefault().postSticky(this);
+    }
+
+    public void removeSticky() {
+        EventBus.getDefault().removeStickyEvent(this);
+    }
+
 }

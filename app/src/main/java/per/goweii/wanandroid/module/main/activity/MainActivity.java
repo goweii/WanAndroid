@@ -17,12 +17,14 @@ import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.dialog.UpdateDialog;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.event.HomeActionBarEvent;
 import per.goweii.wanandroid.module.main.dialog.CopiedLinkDialog;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.dialog.PasswordDialog;
 import per.goweii.wanandroid.module.main.dialog.PrivacyPolicyDialog;
 import per.goweii.wanandroid.module.main.fragment.MainFragment;
 import per.goweii.wanandroid.module.main.fragment.UserArticleFragment;
+import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.presenter.MainPresenter;
 import per.goweii.wanandroid.module.main.view.MainView;
@@ -112,6 +114,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void loadData() {
+        presenter.getConfig();
         presenter.update();
     }
 
@@ -197,6 +200,47 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (mRuntimeRequester != null) {
+            mRuntimeRequester.onActivityResult(requestCode);
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (vp.getCurrentItem() == 1) {
+            super.onBackPressed();
+        } else {
+            vp.setCurrentItem(1);
+        }
+    }
+
+    private void download(final String versionName, final String url, final String urlBackup, final boolean isForce) {
+        mTaskQueen.append(new TaskQueen.Task() {
+            @Override
+            public void run() {
+                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
+                    @Override
+                    public void onSuccess() {
+                        DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName, new DownloadDialog.OnDismissListener() {
+                            @Override
+                            public void onDismiss() {
+                                complete();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailed() {
+                        complete();
+                    }
+                }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
+            }
+        });
+    }
+
+    @Override
     public void updateSuccess(int code, UpdateBean data) {
         mUpdateUtils = UpdateUtils.newInstance();
         if (!mUpdateUtils.shouldUpdate(data.getVersion_code())) {
@@ -236,43 +280,11 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (mRuntimeRequester != null) {
-            mRuntimeRequester.onActivityResult(requestCode);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (vp.getCurrentItem() == 1) {
-            super.onBackPressed();
-        } else {
-            vp.setCurrentItem(1);
-        }
-    }
-
-    private void download(final String versionName, final String url, final String urlBackup, final boolean isForce) {
-        mTaskQueen.append(new TaskQueen.Task() {
-            @Override
-            public void run() {
-                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
-                    @Override
-                    public void onSuccess() {
-                        DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName, new DownloadDialog.OnDismissListener() {
-                            @Override
-                            public void onDismiss() {
-                                complete();
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onFailed() {
-                        complete();
-                    }
-                }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
-            }
-        });
+    public void getConfigSuccess(ConfigBean configBean) {
+        new HomeActionBarEvent(
+                configBean.getHomeTitle(),
+                configBean.getActionBarBgColor(),
+                configBean.getActionBarBgImageUrl()
+        ).postSticky();
     }
 }

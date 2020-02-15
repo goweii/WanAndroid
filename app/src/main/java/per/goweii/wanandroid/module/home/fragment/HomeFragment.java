@@ -42,12 +42,14 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.glide.GlideHelper;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
+import per.goweii.wanandroid.event.HomeActionBarEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.home.activity.SearchActivity;
@@ -60,7 +62,6 @@ import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
-import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
@@ -192,6 +193,62 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 }
             }
         }
+    }
+
+    private HomeActionBarEvent mHomeActionBarEvent = null;
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void onHomeActionBarEvent(HomeActionBarEvent event) {
+        event.removeSticky();
+        LogUtils.d("HomeFragment", "onHomeActionBarEvent");
+        if (isDetached()) {
+            return;
+        }
+        if (event.getHomeTitle() != null) {
+            if (mHomeActionBarEvent == null || !TextUtils.equals(mHomeActionBarEvent.getHomeTitle(), event.getHomeTitle())) {
+                abc.getTitleTextView().setText(event.getHomeTitle());
+            }
+        } else {
+            abc.getTitleTextView().setText("首页");
+        }
+        if (TextUtils.isEmpty(event.getActionBarBgImageUrl())) {
+            if (TextUtils.isEmpty(event.getActionBarBgColor())) {
+                abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
+            } else {
+                if (mHomeActionBarEvent == null || !TextUtils.equals(mHomeActionBarEvent.getActionBarBgColor(), event.getActionBarBgColor())) {
+                    try {
+                        int color = Color.parseColor(event.getActionBarBgColor());
+                        abc.setBackgroundColor(color);
+                    } catch (IllegalArgumentException e) {
+                        abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
+                    }
+                }
+            }
+        } else {
+            if (mHomeActionBarEvent == null || !TextUtils.equals(mHomeActionBarEvent.getActionBarBgImageUrl(), event.getActionBarBgImageUrl())) {
+                if (TextUtils.isEmpty(event.getActionBarBgColor())) {
+                    abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
+                } else {
+                    if (mHomeActionBarEvent == null || !TextUtils.equals(mHomeActionBarEvent.getActionBarBgColor(), event.getActionBarBgColor())) {
+                        try {
+                            int color = Color.parseColor(event.getActionBarBgColor());
+                            abc.setBackgroundColor(color);
+                        } catch (IllegalArgumentException e) {
+                            abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
+                        }
+                    }
+                }
+                GlideHelper.with(getContext())
+                        .load(event.getActionBarBgImageUrl())
+                        .get(new SimpleCallback<Bitmap>() {
+                            @Override
+                            public void onResult(Bitmap data) {
+                                abc.setBackground(new BitmapDrawable(data));
+                            }
+                        });
+            }
+        }
+        mHomeActionBarEvent = event;
     }
 
     @Override
@@ -397,7 +454,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         }
         currPage = PAGE_START;
         presenter.getArticleList(currPage, false);
-        presenter.getConfig();
     }
 
     @Override
@@ -625,57 +681,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     public void getTopArticleListFailed(int code, String msg) {
-    }
-
-    private ConfigBean mConfigBean = null;
-
-    @Override
-    public void getConfigSuccess(ConfigBean configBean) {
-        if (configBean.getHomeTitle() != null) {
-            if (mConfigBean == null || !TextUtils.equals(mConfigBean.getHomeTitle(), configBean.getHomeTitle())) {
-                abc.getTitleTextView().setText(configBean.getHomeTitle());
-            }
-        } else {
-            abc.getTitleTextView().setText("首页");
-        }
-        if (TextUtils.isEmpty(configBean.getActionBarBgImageUrl())) {
-            if (TextUtils.isEmpty(configBean.getActionBarBgColor())) {
-                abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
-            } else {
-                if (mConfigBean == null || !TextUtils.equals(mConfigBean.getActionBarBgColor(), configBean.getActionBarBgColor())) {
-                    try {
-                        int color = Color.parseColor(configBean.getActionBarBgColor());
-                        abc.setBackgroundColor(color);
-                    } catch (IllegalArgumentException e) {
-                        abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
-                    }
-                }
-            }
-        } else {
-            if (mConfigBean == null || !TextUtils.equals(mConfigBean.getActionBarBgImageUrl(), configBean.getActionBarBgImageUrl())) {
-                if (TextUtils.isEmpty(configBean.getActionBarBgColor())) {
-                    abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
-                } else {
-                    if (mConfigBean == null || !TextUtils.equals(mConfigBean.getActionBarBgColor(), configBean.getActionBarBgColor())) {
-                        try {
-                            int color = Color.parseColor(configBean.getActionBarBgColor());
-                            abc.setBackgroundColor(color);
-                        } catch (IllegalArgumentException e) {
-                            abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
-                        }
-                    }
-                }
-                GlideHelper.with(getContext())
-                        .load(configBean.getActionBarBgImageUrl())
-                        .get(new SimpleCallback<Bitmap>() {
-                            @Override
-                            public void onResult(Bitmap data) {
-                                abc.setBackground(new BitmapDrawable(data));
-                            }
-                        });
-            }
-        }
-        mConfigBean = configBean;
     }
 
     @Override

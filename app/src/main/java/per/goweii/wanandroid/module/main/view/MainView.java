@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.module.main.view;
 
 import per.goweii.basic.core.base.BaseView;
+import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 
 /**
@@ -12,4 +13,6 @@ import per.goweii.wanandroid.module.main.model.UpdateBean;
  */
 public interface MainView extends BaseView {
     void updateSuccess(int code, UpdateBean data);
+
+    void getConfigSuccess(ConfigBean configBean);
 }
