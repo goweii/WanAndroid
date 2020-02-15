@@ -2,11 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="@color/surface"
+    android:orientation="horizontal">
 
     <TextView
         android:id="@+id/dialog_web_quick_tv_copy_link"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
@@ -16,7 +18,8 @@
 
     <TextView
         android:id="@+id/dialog_web_quick_tv_browser"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
@@ -26,7 +29,8 @@
 
     <TextView
         android:id="@+id/dialog_web_quick_tv_wanpwd"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"

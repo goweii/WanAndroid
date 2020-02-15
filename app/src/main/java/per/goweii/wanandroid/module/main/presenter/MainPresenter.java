@@ -5,7 +5,6 @@ import per.goweii.wanandroid.http.RequestCallback;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.view.MainView;
-import per.goweii.wanandroid.utils.UpdateUtils;
 
 /**
  * @author CuiZhen
@@ -17,9 +16,9 @@ import per.goweii.wanandroid.utils.UpdateUtils;
 public class MainPresenter extends BasePresenter<MainView> {
 
     public void update(){
-        if (UpdateUtils.newInstance().isTodayChecked()) {
-            return;
-        }
+//        if (UpdateUtils.newInstance().isTodayChecked()) {
+//            return;
+//        }
         MainRequest.update(getRxLife(), new RequestCallback<UpdateBean>() {
             @Override
             public void onSuccess(int code, UpdateBean data) {

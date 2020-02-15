@@ -20,15 +20,13 @@ class TaskQueen {
     }
 
     private fun next() {
-        if (tasks.isEmpty()) {
-            return
-        }
-        val task = tasks.removeAt(0)
-        run(task)
+        if (tasks.isEmpty()) return
+        run(tasks[0])
     }
 
     private fun run(task: Task) {
         task.onFinished = {
+            tasks.remove(task)
             next()
         }
         task.run()
