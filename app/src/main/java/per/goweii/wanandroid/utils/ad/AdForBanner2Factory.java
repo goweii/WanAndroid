@@ -10,7 +10,6 @@ import com.qq.e.comm.util.AdError;
 
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.utils.ad.widget.AdContainer;
-import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
 
 /**
  * @author CuiZhen
@@ -24,7 +23,7 @@ public class AdForBanner2Factory {
     private UnifiedBannerView bannerView;
 
     public static AdForBanner2Factory create(Activity activity, @NonNull AdContainer adContainer) {
-        if (CDKeyUtils.getInstance().isActivated()) {
+        if (!AdUtils.isShowAd()) {
             adContainer.setVisibility(View.GONE);
             return null;
         }
