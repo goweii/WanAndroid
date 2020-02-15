@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
 import butterknife.BindView;
+import per.goweii.anylayer.Layer;
 import per.goweii.anypermission.RequestListener;
 import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
@@ -154,22 +155,29 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     private void showPasswordDialog(WanPwdParser parser) {
         if (mPasswordDialog != null) {
             if (mPasswordDialog.isShow()) {
-                if (!parser.equals(mPasswordDialog.getPassword())) {
-                    mPasswordDialog.dismiss();
-                    mPasswordDialog = null;
-                }
-            } else {
-                if (!parser.equals(mPasswordDialog.getPassword())) {
-                    mPasswordDialog = null;
-                } else {
-                    mPasswordDialog.show();
+                if (parser.equals(mPasswordDialog.getPassword())) {
+                    return;
                 }
             }
         }
-        if (mPasswordDialog == null) {
-            mPasswordDialog = new PasswordDialog(getContext(), parser);
-            mPasswordDialog.show();
-        }
+        mTaskQueen.append(new TaskQueen.Task(-10) {
+            @Override
+            public void run() {
+                mPasswordDialog = new PasswordDialog(getContext(), parser);
+                mPasswordDialog.onDismissListener(new Layer.OnDismissListener() {
+                    @Override
+                    public void onDismissing(Layer layer) {
+                    }
+
+                    @Override
+                    public void onDismissed(Layer layer) {
+                        mPasswordDialog = null;
+                        complete();
+                    }
+                });
+                mPasswordDialog.show();
+            }
+        });
     }
 
     public void openUserArticle() {

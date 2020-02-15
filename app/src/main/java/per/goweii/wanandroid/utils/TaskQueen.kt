@@ -15,7 +15,15 @@ class TaskQueen {
             tasks.add(task)
             run(task)
         } else {
-            tasks.add(task)
+            var index = tasks.size
+            for (i in tasks.size - 1 downTo 0) {
+                val t = tasks[i]
+                if (task.level <= t.level) {
+                    break
+                }
+                index = i
+            }
+            tasks.add(index, task)
         }
     }
 
@@ -32,7 +40,9 @@ class TaskQueen {
         task.run()
     }
 
-    abstract class Task {
+    abstract class Task(
+            val level: Int = 0
+    ) {
         internal var onFinished: (() -> Unit)? = null
 
         abstract fun run()
