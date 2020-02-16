@@ -58,7 +58,7 @@
         android:textColor="@color/text_invert"
         android:layout_below="@+id/basic_ui_tv_dialog_permission_description"
         android:text="@string/basic_ui_dialog_permission_next"
-        android:background="@drawable/bg_solid_round_color_main_radius_max"/>
+        android:background="@drawable/bg_press_color_main_radius_max" />
 
     <TextView
         android:id="@+id/basic_ui_tv_dialog_permission_close"

@@ -8,15 +8,16 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.actionbarex.common.ActionBarCommon;
-import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.LogUtils;
+import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleTextWatcher;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.R;
@@ -24,7 +25,6 @@ import per.goweii.wanandroid.module.main.presenter.ShareArticlePresenter;
 import per.goweii.wanandroid.module.main.view.ShareArticleView;
 import per.goweii.wanandroid.utils.UserUtils;
 import per.goweii.wanandroid.utils.WebHolder;
-import per.goweii.wanandroid.utils.ad.widget.AdContainer;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**
@@ -46,8 +46,8 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
     EditText et_title;
     @BindView(R.id.et_link)
     EditText et_link;
-    @BindView(R.id.adc)
-    AdContainer adc;
+    @BindView(R.id.tv_share)
+    TextView tv_share;
 
     private WebHolder mWebHolder;
 
@@ -82,9 +82,9 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
 
     @Override
     protected void initView() {
-        abc.setOnRightTextClickListener(new OnActionBarChildClickListener() {
+        tv_share.setOnClickListener(new OnClickListener2() {
             @Override
-            public void onClick(View v) {
+            public void onClick2(View v) {
                 String title = et_title.getText().toString();
                 if (TextUtils.isEmpty(title)) {
                     et_title.requestFocus();
@@ -112,9 +112,7 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
     protected void loadData() {
         String title = getIntent().getStringExtra("title");
         String link = getIntent().getStringExtra("link");
-        if (!TextUtils.isEmpty(title)) {
-            et_title.setText(title);
-        }
+        resetTitle(title);
         if (!TextUtils.isEmpty(link)) {
             et_link.setText(link);
         }
@@ -147,7 +145,7 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
     private void refreshTitle(String url) {
         LogUtils.i(TAG, "refreshTitle=" + url);
         if (TextUtils.isEmpty(url)) {
-            et_title.setText("");
+            resetTitle("");
             return;
         }
         if (mWebHolder == null) {
@@ -155,8 +153,7 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
                     .setOnPageTitleCallback(new WebHolder.OnPageTitleCallback() {
                         @Override
                         public void onReceivedTitle(@NonNull String title) {
-                            et_title.setText(title);
-                            et_title.setSelection(title.length());
+                            resetTitle(title);
                         }
                     })
                     .loadUrl(url);
@@ -164,6 +161,17 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
             mWebHolder.stopLoading();
             mWebHolder.loadUrl(url);
         }
+    }
+
+    private void resetTitle(String title) {
+        if (et_title == null) {
+            return;
+        }
+        if (TextUtils.equals(et_title.getText().toString(), title)) {
+            return;
+        }
+        et_title.setText(title);
+        et_title.setSelection(title.length());
     }
 
     @OnClick({R.id.tv_open, R.id.tv_refresh})

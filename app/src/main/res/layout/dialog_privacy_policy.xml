@@ -45,17 +45,16 @@
         android:textSize="@dimen/text_content"
         android:textColor="@color/text_on_main"
         android:text="同意"
-        android:background="@drawable/bg_solid_round_color_main_radius_max" />
+        android:background="@drawable/bg_press_color_main_radius_max" />
 
     <TextView
         android:id="@+id/dialog_privacy_policy_tv_no"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/button_height"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_def"
         android:gravity="center"
         android:textSize="@dimen/text_content"
-        android:textColor="@color/text_main"
-        android:text="退出应用"
-        android:background="@drawable/bg_stroke_round_color_main_radius_max" />
+        android:textColor="@color/text_third"
+        android:text="退出应用" />
 
 </LinearLayout>
