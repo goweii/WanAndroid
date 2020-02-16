@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:background="@drawable/bg_solid_round_color_surface_radius_def"
+            android:background="@drawable/bg_solid_round_color_white_radius_def"
             android:clickable="true">
 
             <RelativeLayout
@@ -39,7 +39,7 @@
                     android:layout_height="12dp"
                     android:layout_centerVertical="true"
                     android:src="@drawable/logo"
-                    android:tint="@color/text_surface_alpha" />
+                    android:tint="#999999" />
 
                 <TextView
                     android:id="@+id/dialog_qrcode_share_tv_app"
@@ -48,7 +48,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/dialog_qrcode_share_iv_app"
                     android:text="由最美玩安卓客户端生成"
-                    android:textColor="@color/text_surface_alpha"
+                    android:textColor="#999999"
                     android:textSize="@dimen/text_time" />
 
             </RelativeLayout>
@@ -101,7 +101,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="right"
-                    android:textColor="@color/text_surface_alpha"
+                    android:textColor="#999999"
                     android:textSize="@dimen/text_time"
                     tools:text="竹里缲丝挑网车，青蝉独噪日光斜" />
 
