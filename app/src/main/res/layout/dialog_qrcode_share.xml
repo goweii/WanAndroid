@@ -5,9 +5,9 @@
     android:id="@+id/dialog_qrcode_share_rl_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/dialog_bg"
     android:clipToPadding="false"
-    android:padding="@dimen/margin_big">
+    android:padding="@dimen/margin_big"
+    tools:background="@color/dialog_bg">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -17,46 +17,39 @@
 
         <RelativeLayout
             android:id="@+id/dialog_qrcode_share_rl_card"
-            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
-            android:layout_gravity="center">
+            android:layout_gravity="center"
+            android:background="@drawable/bg_solid_round_color_surface_radius_def"
+            android:clickable="true">
 
             <RelativeLayout
-                android:id="@+id/dialog_qrcode_share_rv_shici"
+                android:id="@+id/dialog_qrcode_share_rv_app"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/main">
+                android:alpha="0.5"
+                android:paddingLeft="@dimen/margin_def"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_def"
+                android:paddingBottom="@dimen/margin_small">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="@dimen/margin_def"
-                    android:layout_marginEnd="@dimen/margin_def"
-                    android:src="@drawable/ic_wind" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_def"
-                    android:layout_marginTop="@dimen/margin_def"
-                    android:src="@drawable/ic_cloud" />
+                    android:id="@+id/dialog_qrcode_share_iv_app"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/logo"
+                    android:tint="@color/text_surface_alpha" />
 
                 <TextView
-                    android:id="@+id/dialog_qrcode_share_tv_shici"
+                    android:id="@+id/dialog_qrcode_share_tv_app"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_def"
-                    android:layout_marginTop="@dimen/margin_big"
-                    android:layout_marginEnd="@dimen/margin_def"
-                    android:layout_marginBottom="@dimen/margin_def"
-                    android:gravity="center"
-                    android:lineSpacingExtra="@dimen/text_auxiliary"
-                    android:textColor="@color/text_on_main"
-                    android:textSize="@dimen/text_headline"
-                    tools:text="竹里缲丝挑网车\n青蝉独噪日光斜" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/dialog_qrcode_share_iv_app"
+                    android:text="由最美玩安卓客户端生成"
+                    android:textColor="@color/text_surface_alpha"
+                    android:textSize="@dimen/text_time" />
 
             </RelativeLayout>
 
@@ -64,8 +57,11 @@
                 android:id="@+id/dialog_qrcode_share_ll_article"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/dialog_qrcode_share_rv_shici"
-                android:padding="@dimen/margin_def">
+                android:layout_below="@+id/dialog_qrcode_share_rv_app"
+                android:paddingLeft="@dimen/margin_def"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_def"
+                android:paddingBottom="@dimen/margin_small">
 
                 <per.goweii.percentimageview.percentimageview.PercentImageView
                     android:id="@+id/dialog_qrcode_share_piv_qrcode"
@@ -80,14 +76,36 @@
                     android:id="@+id/dialog_qrcode_share_tv_title"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:maxLines="3"
-                    android:ellipsize="end"
                     android:layout_marginStart="@dimen/margin_small"
+                    android:ellipsize="end"
+                    android:maxLines="3"
                     android:textColor="#232323"
                     android:textSize="@dimen/text_content"
                     tools:text="文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题" />
 
             </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/dialog_qrcode_share_rv_shici"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/dialog_qrcode_share_ll_article"
+                android:alpha="0.5"
+                android:paddingLeft="@dimen/margin_def"
+                android:paddingTop="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_def"
+                android:paddingBottom="@dimen/margin_small">
+
+                <TextView
+                    android:id="@+id/dialog_qrcode_share_tv_shici"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:textColor="@color/text_surface_alpha"
+                    android:textSize="@dimen/text_time"
+                    tools:text="竹里缲丝挑网车，青蝉独噪日光斜" />
+
+            </RelativeLayout>
 
         </RelativeLayout>
 

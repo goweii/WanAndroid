@@ -32,7 +32,7 @@ public class BitmapUtils {
             File gallery = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             File file = new File(gallery, picName + ".jpg");
             outStream = new FileOutputStream(file.getPath());
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
             Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             Uri uri = UriUtils.getFileUri(file);
             intent.setData(uri);

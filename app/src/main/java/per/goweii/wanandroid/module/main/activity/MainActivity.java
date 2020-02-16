@@ -9,6 +9,7 @@ import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 
 import butterknife.BindView;
+import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.Layer;
 import per.goweii.anypermission.RequestListener;
 import per.goweii.anypermission.RuntimeRequester;
@@ -78,27 +79,25 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void initView() {
+        //showSplashDialog();
         vp.addOnPageChangeListener(this);
         vp.setOffscreenPageLimit(1);
         mPagerAdapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(mPagerAdapter);
-        mPagerAdapter.setFragmentList(
-                UserArticleFragment.create(),
-                MainFragment.create()
-        );
+        mPagerAdapter.setFragmentList(UserArticleFragment.create(), MainFragment.create());
         vp.setCurrentItem(1);
         onPageSelected(vp.getCurrentItem());
-        mTaskQueen.append(new TaskQueen.Task() {
-            @Override
-            public void run() {
-                PrivacyPolicyDialog.showIfFirst(getContext(), new PrivacyPolicyDialog.CompleteCallback() {
-                    @Override
-                    public void onComplete() {
-                        complete();
-                    }
-                });
-            }
-        });
+        initCopiedTextProcessor();
+        showPrivacyPolicyDialog();
+    }
+
+    private void showSplashDialog() {
+        AnyLayer.dialog(this)
+                .contentView(R.layout.activity_splash)
+                .show(false);
+    }
+
+    private void initCopiedTextProcessor() {
         CopiedTextProcessor.getInstance().setProcessCallback(new CopiedTextProcessor.ProcessCallback() {
             @Override
             public void isLink(String link) {
@@ -108,6 +107,20 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
             @Override
             public void isPassword(WanPwdParser pwd) {
                 showPasswordDialog(pwd);
+            }
+        });
+    }
+
+    private void showPrivacyPolicyDialog() {
+        mTaskQueen.append(new TaskQueen.Task() {
+            @Override
+            public void run() {
+                PrivacyPolicyDialog.showIfFirst(getContext(), new PrivacyPolicyDialog.CompleteCallback() {
+                    @Override
+                    public void onComplete() {
+                        complete();
+                    }
+                });
             }
         });
     }
