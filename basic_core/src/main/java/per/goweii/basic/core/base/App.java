@@ -247,8 +247,9 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         final Intent intent = getApp().getPackageManager().getLaunchIntentForPackage(getApp().getPackageName());
         if (intent != null) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             getApp().startActivity(intent);
-            exitApp();
+            killProcess();
         } else {
             finishActivityWithoutCount(1);
             if (activities != null && !activities.isEmpty()) {
