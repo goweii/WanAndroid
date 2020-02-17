@@ -38,6 +38,34 @@
                     android:paddingBottom="14dp">
 
                     <TextView
+                        android:id="@+id/tv_system_theme_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:layout_centerVertical="true"
+                        android:text="跟随系统暗色模式"
+                        android:textColor="@color/text_surface"
+                        android:textSize="@dimen/text_content" />
+
+                    <android.support.v7.widget.SwitchCompat
+                        android:id="@+id/sc_system_theme"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_press_color_surface"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="14dp">
+
+                    <TextView
                         android:id="@+id/tv_dark_theme_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

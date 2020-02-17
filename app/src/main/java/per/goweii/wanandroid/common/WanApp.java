@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
@@ -30,7 +29,7 @@ import per.goweii.wanandroid.http.WanCache;
 import per.goweii.wanandroid.module.main.activity.CrashActivity;
 import per.goweii.wanandroid.module.main.activity.MainActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
-import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.NightModeUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -47,8 +46,8 @@ public class WanApp extends BaseApp {
     @Override
     public void onCreate() {
         super.onCreate();
+        initDarkMode();
         if (isMainProcess()) {
-            initDarkMode();
             RxHttp.init(this);
             RxHttp.initRequest(new RxHttpRequestSetting(getCookieJar()));
             WanCache.init();
@@ -149,17 +148,22 @@ public class WanApp extends BaseApp {
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LogUtils.d("WanApp", "onConfigurationChanged->isDarkMode=" + NightModeUtils.isNightMode(newConfig));
+    }
+
     public static boolean isDarkMode() {
-        int mode = getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        return mode == Configuration.UI_MODE_NIGHT_YES;
+        return NightModeUtils.isNightMode(getAppContext());
     }
 
     public static void initDarkMode() {
-        if (SettingUtils.getInstance().isDarkTheme()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+        NightModeUtils.initNightMode();
+        LogUtils.d("WanApp", "initDarkMode=" + isDarkMode());
+        Configuration config = getAppContext().getResources().getConfiguration();
+        config.updateFrom(config);
+        LogUtils.d("WanApp", "initDarkMode=" + isDarkMode());
     }
 
     public static PersistentCookieJar getCookieJar() {

@@ -133,7 +133,7 @@ public class WebHolder {
         IX5WebSettingsExtension ext = mWebView.getSettingsExtension();
         if (ext != null) {
             ext.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
-            if (SettingUtils.getInstance().isDarkTheme()) {
+            if (NightModeUtils.isNightMode(activity)) {
                 container.setDarkMaskEnable(false);
                 ext.setDayOrNight(false);
             } else {

@@ -21,6 +21,7 @@ public class CoinInfoBean extends BaseBean {
     private int rank;
     private int userId;
     private String username;
+    public boolean anim;
 
     public int getCoinCount() {
         return coinCount;

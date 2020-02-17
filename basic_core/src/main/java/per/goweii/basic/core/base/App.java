@@ -234,25 +234,26 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         activities.clear();
     }
 
-    /**
-     * 退出应用程序
-     */
     public static void exitApp() {
         finishAllActivity();
+        killProcess();
     }
 
-    /**
-     * 退出应用程序
-     */
     public static void killProcess() {
-        exitApp();
         Process.killProcess(Process.myPid());
     }
 
-    public static void restart() {
-        finishActivityWithoutCount(1);
-        if (activities != null && !activities.isEmpty()) {
-            activities.get(0).recreate();
+    public static void restartApp() {
+        final Intent intent = getApp().getPackageManager().getLaunchIntentForPackage(getApp().getPackageName());
+        if (intent != null) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            getApp().startActivity(intent);
+            exitApp();
+        } else {
+            finishActivityWithoutCount(1);
+            if (activities != null && !activities.isEmpty()) {
+                activities.get(0).recreate();
+            }
         }
     }
 

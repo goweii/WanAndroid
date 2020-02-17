@@ -21,6 +21,7 @@ import per.goweii.wanandroid.module.mine.model.HostEntity;
 public class SettingUtils {
 
     private static final String SP_NAME = "setting";
+    private static final String KEY_SYSTEM_THEME = "KEY_SYSTEM_THEME";
     private static final String KEY_DARK_THEME = "KEY_DARK_THEME";
     private static final String KEY_SHOW_READ_LATER = "KEY_SHOW_READ_LATER";
     private static final String KEY_SHOW_TOP = "KEY_SHOW_TOP";
@@ -37,6 +38,7 @@ public class SettingUtils {
 
     private final SPUtils mSPUtils = SPUtils.newInstance(SP_NAME);
 
+    private boolean mSystemTheme = true;
     private boolean mDarkTheme = false;
     private boolean mShowReadLater = true;
     private boolean mShowTop = true;
@@ -48,8 +50,8 @@ public class SettingUtils {
     private int mUrlInterceptType = HostInterceptUtils.TYPE_NOTHING;
     private final List<HostEntity> mHostWhite = new ArrayList<>();
     private final List<HostEntity> mHostBlack = new ArrayList<>();
-    private int mSearchHistoryMaxCount = 20;
-    private long mUpdateIgnoreDuration = 7 * 24 * 60 * 60 * 1000L;
+    private int mSearchHistoryMaxCount = 100;
+    private long mUpdateIgnoreDuration = 1 * 24 * 60 * 60 * 1000L;
 
     private static class Holder {
         private static final SettingUtils INSTANCE = new SettingUtils();
@@ -60,6 +62,7 @@ public class SettingUtils {
     }
 
     private SettingUtils() {
+        mSystemTheme = mSPUtils.get(KEY_SYSTEM_THEME, mSystemTheme);
         mDarkTheme = mSPUtils.get(KEY_DARK_THEME, mDarkTheme);
         mShowReadLater = mSPUtils.get(KEY_SHOW_READ_LATER, mShowReadLater);
         mShowTop = mSPUtils.get(KEY_SHOW_TOP, mShowTop);
@@ -94,6 +97,15 @@ public class SettingUtils {
             }
             mSPUtils.save(KEY_HOST_BLACK, gson.toJson(mHostBlack));
         }
+    }
+
+    public void setSystemTheme(boolean systemTheme) {
+        mSystemTheme = systemTheme;
+        mSPUtils.save(KEY_SYSTEM_THEME, systemTheme);
+    }
+
+    public boolean isSystemTheme() {
+        return mSystemTheme;
     }
 
     public void setDarkTheme(boolean darkTheme) {

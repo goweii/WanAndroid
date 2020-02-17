@@ -51,6 +51,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     private static final int REQ_CODE_PERMISSION = 1;
 
+    @BindView(R.id.sc_system_theme)
+    SwitchCompat sc_system_theme;
+    @BindView(R.id.tv_dark_theme_title)
+    TextView tv_dark_theme_title;
     @BindView(R.id.sc_dark_theme)
     SwitchCompat sc_dark_theme;
     @BindView(R.id.sc_show_read_later)
@@ -80,6 +84,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     private RuntimeRequester mRuntimeRequester;
     private UpdateUtils mUpdateUtils;
+    private boolean mSystemTheme;
     private boolean mDarkTheme;
     private boolean mShowTop;
     private boolean mShowBanner;
@@ -109,6 +114,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     protected void initView() {
         tv_has_update.setText("");
         tv_curr_version.setText("当前版本" + AppInfoUtils.getVersionName());
+        mSystemTheme = SettingUtils.getInstance().isSystemTheme();
+        sc_system_theme.setChecked(mSystemTheme);
+        changeEnable(!sc_system_theme.isChecked(), tv_dark_theme_title, sc_dark_theme);
         mDarkTheme = SettingUtils.getInstance().isDarkTheme();
         sc_dark_theme.setChecked(mDarkTheme);
         mShowTop = SettingUtils.getInstance().isShowTop();
@@ -126,6 +134,20 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         tv_rv_anim.setText(RvAnimUtils.getName(mRvAnim));
         mUrlIntercept = SettingUtils.getInstance().getUrlInterceptType();
         tv_intercept_host.setText(HostInterceptUtils.getName(mUrlIntercept));
+        sc_system_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+                changeEnable(!isChecked, tv_dark_theme_title, sc_dark_theme);
+                SettingUtils.getInstance().setSystemTheme(isChecked);
+                WanApp.initDarkMode();
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        WanApp.restartApp();
+                    }
+                }, 300);
+            }
+        });
         sc_dark_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
@@ -197,6 +219,18 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     protected void onDestroy() {
         super.onDestroy();
         postSettingChangedEvent();
+    }
+
+    private void changeEnable(boolean enable, View... views) {
+        for (View view : views) {
+            if (enable) {
+                view.setEnabled(true);
+                view.setAlpha(1F);
+            } else {
+                view.setEnabled(false);
+                view.setAlpha(0.5F);
+            }
+        }
     }
 
     private void postSettingChangedEvent() {
