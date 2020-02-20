@@ -33,6 +33,8 @@ android {
         def WANPWD_TYPE_CREATE_CDKEY = properties.getProperty('WANPWD_TYPE_CREATE_CDKEY')
         def CDKEY_CLASS = properties.getProperty('CDKEY_CLASS')
         def DEVELOPER_ID = properties.getProperty('DEVELOPER_ID')
+        def CHANGYAN_APP_ID = properties.getProperty('CHANGYAN_APP_ID')
+        def CHANGYAN_APP_KEY = properties.getProperty('CHANGYAN_APP_KEY')
 
         release {
             buildConfigField "String", "APPID_BUGLY", '"' + APPID_BUGLY + '"'
@@ -53,6 +55,8 @@ android {
             buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", '"' + WANPWD_TYPE_CREATE_CDKEY + '"'
             buildConfigField "String", "CDKEY_CLASS", '"' + CDKEY_CLASS + '"'
             buildConfigField "String", "DEVELOPER_ID", '"' + DEVELOPER_ID + '"'
+            buildConfigField "String", "CHANGYAN_APP_ID", '"' + CHANGYAN_APP_ID + '"'
+            buildConfigField "String", "CHANGYAN_APP_KEY", '"' + CHANGYAN_APP_KEY + '"'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     output.outputFileName = "$applicationId-v${defaultConfig.versionName}.apk"
@@ -78,6 +82,8 @@ android {
             buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", '"' + WANPWD_TYPE_CREATE_CDKEY + '"'
             buildConfigField "String", "CDKEY_CLASS", '"' + CDKEY_CLASS + '"'
             buildConfigField "String", "DEVELOPER_ID", '"' + DEVELOPER_ID + '"'
+            buildConfigField "String", "CHANGYAN_APP_ID", '"' + CHANGYAN_APP_ID + '"'
+            buildConfigField "String", "CHANGYAN_APP_KEY", '"' + CHANGYAN_APP_KEY + '"'
         }
     }
     resourcePrefix ""
@@ -102,4 +108,5 @@ dependencies {
     implementation rootProject.ext.dependencies.heartView
     implementation rootProject.ext.dependencies.zxingLibrary
     implementation rootProject.ext.dependencies.tbs
+    implementation files('libs/CySDK.jar')
 }

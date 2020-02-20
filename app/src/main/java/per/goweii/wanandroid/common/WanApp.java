@@ -3,11 +3,15 @@ package per.goweii.wanandroid.common;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
+import com.sohu.cyan.android.sdk.api.Config;
+import com.sohu.cyan.android.sdk.api.CyanSdk;
+import com.sohu.cyan.android.sdk.exception.CyanException;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.smtt.sdk.QbSdk;
 
@@ -26,6 +30,7 @@ import per.goweii.rxhttp.core.RxHttp;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.http.RxHttpRequestSetting;
 import per.goweii.wanandroid.http.WanCache;
+import per.goweii.wanandroid.module.login.activity.LoginActivity;
 import per.goweii.wanandroid.module.main.activity.CrashActivity;
 import per.goweii.wanandroid.module.main.activity.MainActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
@@ -59,10 +64,34 @@ public class WanApp extends BaseApp {
                 }
             });
             Realm.init(this);
+            //initCyan();
         }
         initX5();
         initBugly();
         initCrashActivity();
+    }
+
+    private void initCyan() {
+        com.sohu.cyan.android.sdk.api.Config config = new Config();
+        config.ui.toolbar_bg = Color.WHITE;
+        config.ui.style = "indent";
+        config.ui.depth = 1;
+        config.ui.sub_size = 20;
+        config.comment.showScore = false;
+        config.comment.uploadFiles = true;
+        config.comment.useFace = false;
+        config.login.SSO_Assets_ICon = "ico31.png";
+        config.login.SSOLogin = true;
+        config.login.loginActivityClass = LoginActivity.class;
+        try {
+            CyanSdk.register(this,
+                    BuildConfig.CHANGYAN_APP_ID,
+                    BuildConfig.CHANGYAN_APP_KEY,
+                    null,
+                    config);
+        } catch (CyanException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initX5() {
