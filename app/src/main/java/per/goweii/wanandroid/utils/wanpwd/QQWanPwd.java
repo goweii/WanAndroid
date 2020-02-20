@@ -9,8 +9,6 @@ import per.goweii.basic.utils.Utils;
 /**
  * @author CuiZhen
  * @date 2019/12/28
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class QQWanPwd implements IWanPwd {

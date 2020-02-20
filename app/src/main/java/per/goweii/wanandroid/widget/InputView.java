@@ -19,8 +19,6 @@ import per.goweii.wanandroid.R;
 /**
  * @author CuiZhen
  * @date 2019/5/15
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class InputView extends FrameLayout implements View.OnFocusChangeListener, TextWatcher, SubmitView.EditTextWrapper {

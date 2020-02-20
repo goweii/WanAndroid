@@ -12,8 +12,6 @@ import per.goweii.wanandroid.module.main.model.ConfigBean;
 /**
  * @author CuiZhen
  * @date 2019/5/18
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class ConfigUtils {

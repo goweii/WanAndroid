@@ -60,8 +60,6 @@ import per.goweii.wanandroid.widget.CollectView;
 /**
  * @author CuiZhen
  * @date 2019/5/18
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class UserPageActivity extends BaseActivity<UserPagePresenter> implements UserPageView {

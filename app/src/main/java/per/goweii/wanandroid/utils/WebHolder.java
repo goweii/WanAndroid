@@ -42,8 +42,6 @@ import per.goweii.wanandroid.widget.X5WebView;
 /**
  * @author CuiZhen
  * @date 2019/10/20
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class WebHolder {

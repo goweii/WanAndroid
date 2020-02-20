@@ -6,8 +6,6 @@ import android.support.v7.widget.RecyclerView;
 /**
  * @author CuiZhen
  * @date 2019/5/30
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class RvScrollTopUtils {

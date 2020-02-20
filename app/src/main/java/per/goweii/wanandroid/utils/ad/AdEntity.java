@@ -10,8 +10,6 @@ import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 /**
  * @author CuiZhen
  * @date 2019/12/29
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class AdEntity implements MultiItemEntity {

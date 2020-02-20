@@ -20,8 +20,6 @@ import per.goweii.wanandroid.utils.wanpwd.WanPwdParser;
 /**
  * @author CuiZhen
  * @date 2019/10/19
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class PasswordDialog extends DialogLayer {

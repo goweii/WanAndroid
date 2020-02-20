@@ -3,8 +3,6 @@ package per.goweii.wanandroid.utils
 /**
  * @author CuiZhen
  * @date 2020/2/15
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 class TaskQueen {

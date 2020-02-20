@@ -14,8 +14,6 @@ import per.goweii.wanandroid.module.mine.activity.SettingActivity;
 /**
  * @author CuiZhen
  * @date 2019/12/28
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public enum RouterMap {

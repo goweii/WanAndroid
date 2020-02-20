@@ -19,8 +19,6 @@ import per.goweii.wanandroid.module.navigation.model.NaviBean;
 /**
  * @author CuiZhen
  * @date 2019/5/12
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class NaviAdapter extends BaseQuickAdapter<NaviBean, BaseViewHolder> {

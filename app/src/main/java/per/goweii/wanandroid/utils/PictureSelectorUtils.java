@@ -16,8 +16,6 @@ import per.goweii.wanandroid.R;
 /**
  * @author CuiZhen
  * @date 2019/6/4
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class PictureSelectorUtils {

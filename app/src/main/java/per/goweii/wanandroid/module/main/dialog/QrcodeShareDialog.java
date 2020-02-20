@@ -25,8 +25,6 @@ import per.goweii.wanandroid.module.main.model.MainRequest;
 /**
  * @author CuiZhen
  * @date 2019/11/9
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class QrcodeShareDialog extends DialogLayer {

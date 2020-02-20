@@ -10,8 +10,6 @@ import per.goweii.wanandroid.R;
 /**
  * @author CuiZhen
  * @date 2019/11/9
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class WebQuickDialog extends PopupLayer {

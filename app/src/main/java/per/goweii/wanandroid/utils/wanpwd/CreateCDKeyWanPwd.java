@@ -12,8 +12,6 @@ import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
 /**
  * @author CuiZhen
  * @date 2020/1/1
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class CreateCDKeyWanPwd implements IWanPwd {
