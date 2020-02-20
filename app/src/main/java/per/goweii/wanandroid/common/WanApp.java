@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.common;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
@@ -35,6 +36,7 @@ import per.goweii.wanandroid.module.main.activity.CrashActivity;
 import per.goweii.wanandroid.module.main.activity.MainActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.utils.NightModeUtils;
+import per.goweii.wanandroid.utils.TM;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -49,8 +51,15 @@ public class WanApp extends BaseApp {
     private static PersistentCookieJar mCookieJar = null;
 
     @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        TM.APP_STARTUP.start("attachBaseContext");
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
+        TM.APP_STARTUP.record("WanApp onCreate");
         initDarkMode();
         if (isMainProcess()) {
             RxHttp.init(this);
@@ -69,6 +78,7 @@ public class WanApp extends BaseApp {
         initX5();
         initBugly();
         initCrashActivity();
+        TM.APP_STARTUP.record("WanApp onCreate third-part service init completed");
     }
 
     private void initCyan() {

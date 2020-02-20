@@ -35,6 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.anylayer.Layer;
@@ -44,6 +46,7 @@ import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
+import per.goweii.basic.utils.ext.ViewExtKt;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
@@ -67,6 +70,7 @@ import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.TM;
 import per.goweii.wanandroid.utils.ad.AdForBannerFactory;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -269,6 +273,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     protected void initView() {
+        TM.APP_STARTUP.record("HomeFragment initView");
         abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
@@ -459,6 +464,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
+        TM.APP_STARTUP.record("HomeFragment onVisible");
     }
 
     @Override
@@ -507,6 +513,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                             container.removeAllViews();
                         }
                         container.addView(imageView);
+                        ViewExtKt.onPreDraw(imageView, new Function1<View, Unit>() {
+                            @Override
+                            public Unit invoke(View view) {
+                                TM.APP_STARTUP.end("HomeFragment Banner onPreDraw");
+                                return null;
+                            }
+                        });
                         ImageLoader.banner(imageView, ((BannerBean) data).getImagePath());
                     } else if (data instanceof NativeExpressADView) {
                         NativeExpressADView adView = (NativeExpressADView) data;
