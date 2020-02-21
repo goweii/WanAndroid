@@ -65,6 +65,9 @@
             android:name=".module.main.activity.WebActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
         <activity
+            android:name=".module.main.activity.ArticleActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
             android:name=".module.main.activity.ShareArticleActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
 

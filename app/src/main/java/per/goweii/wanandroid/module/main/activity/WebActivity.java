@@ -168,6 +168,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             mAuthor = getIntent().getStringExtra("author");
             mUrl = getIntent().getStringExtra("url");
         }
+        //ArticleActivity.Companion.startSelf(this);
         mTitle = mTitle == null ? "" : mTitle;
         mAuthor = mAuthor == null ? "" : mAuthor;
         mUrl = mUrl == null ? "" : mUrl;

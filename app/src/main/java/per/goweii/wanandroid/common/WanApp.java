@@ -12,7 +12,6 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 
 import per.goweii.basic.core.base.BaseApp;
 import per.goweii.basic.utils.InitTaskRunner;
-import per.goweii.basic.utils.LogUtils;
 import per.goweii.wanandroid.module.main.activity.MainActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.utils.NightModeUtils;
@@ -30,7 +29,7 @@ public class WanApp extends BaseApp {
     @Override
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
-        TM.APP_STARTUP.start("attachBaseContext");
+        TM.APP_STARTUP.start("WanApp attachBaseContext");
     }
 
     @Override
@@ -49,7 +48,7 @@ public class WanApp extends BaseApp {
                 .add(new CrashInitTask())
 //                .add(new CyanInitTask())
                 .run();
-        TM.APP_STARTUP.record("WanApp onCreate third-part service init completed");
+        TM.APP_STARTUP.record("WanApp onCreate third-part init completed");
     }
 
     private static boolean mWebActivityStarted = false;
@@ -83,7 +82,6 @@ public class WanApp extends BaseApp {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        LogUtils.d("WanApp", "onConfigurationChanged->isDarkMode=" + NightModeUtils.isNightMode(newConfig));
     }
 
     public static boolean isDarkMode() {
@@ -92,10 +90,6 @@ public class WanApp extends BaseApp {
 
     public static void initDarkMode() {
         NightModeUtils.initNightMode();
-        LogUtils.d("WanApp", "initDarkMode=" + isDarkMode());
-        Configuration config = getAppContext().getResources().getConfiguration();
-        config.updateFrom(config);
-        LogUtils.d("WanApp", "initDarkMode=" + isDarkMode());
     }
 
     public static PersistentCookieJar getCookieJar() {
