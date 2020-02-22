@@ -97,21 +97,27 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     public static void start(Context context, int articleId, String title, String url, boolean collected) {
-        Intent intent = new Intent(context, WebActivity.class);
-        intent.putExtra("articleId", articleId);
-        intent.putExtra("title", title);
-        intent.putExtra("url", url);
-        intent.putExtra("collected", collected);
-        context.startActivity(intent);
+//        Intent intent = new Intent(context, WebActivity.class);
+//        intent.putExtra("articleId", articleId);
+//        intent.putExtra("title", title);
+//        intent.putExtra("url", url);
+//        intent.putExtra("collected", collected);
+//        context.startActivity(intent);
+        if (!TextUtils.isEmpty(url)) {
+            ArticleActivity.Companion.startSelf(context, url);
+        }
     }
 
     public static void start(Context context, String title, String author, String url, boolean collected) {
-        Intent intent = new Intent(context, WebActivity.class);
-        intent.putExtra("title", title);
-        intent.putExtra("author", author);
-        intent.putExtra("url", url);
-        intent.putExtra("collected", collected);
-        context.startActivity(intent);
+//        Intent intent = new Intent(context, WebActivity.class);
+//        intent.putExtra("title", title);
+//        intent.putExtra("author", author);
+//        intent.putExtra("url", url);
+//        intent.putExtra("collected", collected);
+//        context.startActivity(intent);
+        if (!TextUtils.isEmpty(url)) {
+            ArticleActivity.Companion.startSelf(context, url);
+        }
     }
 
     public static void start(Context context, String title, String url) {
@@ -167,9 +173,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             mTitle = getIntent().getStringExtra("title");
             mAuthor = getIntent().getStringExtra("author");
             mUrl = getIntent().getStringExtra("url");
-        }
-        if (!TextUtils.isEmpty(mUrl)) {
-            ArticleActivity.Companion.startSelf(this, mUrl);
         }
         mTitle = mTitle == null ? "" : mTitle;
         mAuthor = mAuthor == null ? "" : mAuthor;

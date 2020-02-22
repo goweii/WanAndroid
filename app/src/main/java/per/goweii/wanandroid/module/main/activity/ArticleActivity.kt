@@ -3,6 +3,12 @@ package per.goweii.wanandroid.module.main.activity
 import android.content.Context
 import android.content.Intent
 import android.view.KeyEvent
+import android.widget.TextView
+import com.scwang.smartrefresh.layout.api.RefreshFooter
+import com.scwang.smartrefresh.layout.api.RefreshHeader
+import com.scwang.smartrefresh.layout.api.RefreshLayout
+import com.scwang.smartrefresh.layout.constant.RefreshState
+import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.wanandroid.R
@@ -39,7 +45,53 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         tv_pinglun.setOnClickListener {
             dl.toggle()
         }
+        srl.setOnMultiPurposeListener(object : OnMultiPurposeListener {
+            override fun onFooterMoving(footer: RefreshFooter?, isDragging: Boolean, percent: Float, offset: Int, footerHeight: Int, maxDragHeight: Int) {
+                if (percent > 1f && dl.isClose()) {
+                    dl.open()
+                }
+            }
+
+            override fun onHeaderStartAnimator(header: RefreshHeader?, headerHeight: Int, maxDragHeight: Int) {
+            }
+
+            override fun onFooterReleased(footer: RefreshFooter?, footerHeight: Int, maxDragHeight: Int) {
+            }
+
+            override fun onStateChanged(refreshLayout: RefreshLayout, oldState: RefreshState, newState: RefreshState) {
+            }
+
+            override fun onHeaderMoving(header: RefreshHeader?, isDragging: Boolean, percent: Float, offset: Int, headerHeight: Int, maxDragHeight: Int) {
+            }
+
+            override fun onFooterFinish(footer: RefreshFooter?, success: Boolean) {
+            }
+
+            override fun onFooterStartAnimator(footer: RefreshFooter?, footerHeight: Int, maxDragHeight: Int) {
+            }
+
+            override fun onHeaderReleased(header: RefreshHeader?, headerHeight: Int, maxDragHeight: Int) {
+            }
+
+            override fun onLoadMore(refreshLayout: RefreshLayout) {
+                dl.open()
+            }
+
+            override fun onRefresh(refreshLayout: RefreshLayout) {
+            }
+
+            override fun onHeaderFinish(header: RefreshHeader?, success: Boolean) {
+            }
+
+        })
         mWebHolder = with(this, wc)
+                .setOnPageTitleCallback {
+                    ab.getView<TextView>(R.id.tv_title).text = it
+                }
+                .setOverrideUrlInterceptor {
+                    WebActivity.start(context, it)
+                    return@setOverrideUrlInterceptor true
+                }
     }
 
     override fun loadData() {

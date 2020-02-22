@@ -33,7 +33,6 @@ import java.util.List;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
-import per.goweii.basic.utils.LogUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.widget.WebContainer;
@@ -49,6 +48,8 @@ public class WebHolder {
     private OnPageLoadCallback mOnPageLoadCallback = null;
     private OnPageProgressCallback mOnPageProgressCallback = null;
     private OnHistoryUpdateCallback mOnHistoryUpdateCallback = null;
+    private OverrideUrlInterceptor mOverrideUrlInterceptor = null;
+    private InterceptUrlInterceptor mInterceptUrlInterceptor = null;
 
     private boolean isProgressShown = false;
     private WebView mWebView;
@@ -241,6 +242,16 @@ public class WebHolder {
         return this;
     }
 
+    public WebHolder setOverrideUrlInterceptor(OverrideUrlInterceptor overrideUrlInterceptor) {
+        mOverrideUrlInterceptor = overrideUrlInterceptor;
+        return this;
+    }
+
+    public WebHolder setInterceptUrlInterceptor(InterceptUrlInterceptor interceptUrlInterceptor) {
+        mInterceptUrlInterceptor = interceptUrlInterceptor;
+        return this;
+    }
+
     public class WanWebChromeClient extends WebChromeClient {
 
         @Override
@@ -305,19 +316,25 @@ public class WebHolder {
 
         private boolean shouldInterceptRequest(Uri uri) {
             syncCookiesForWanAndroid(uri.toString());
-            return false;
+            if (mInterceptUrlInterceptor == null) {
+                return false;
+            }
+            return mInterceptUrlInterceptor.onInterceptUrl(uri.toString());
         }
 
         private boolean shouldOverrideUrlLoading(Uri uri) {
-            LogUtils.d("WebView", "shouldOverrideUrlLoading->" + uri.toString());
-            switch (SettingUtils.getInstance().getUrlInterceptType()) {
-                default:
-                case HostInterceptUtils.TYPE_NOTHING:
-                    return false;
-                case HostInterceptUtils.TYPE_ONLY_WHITE:
-                    return !HostInterceptUtils.isWhiteHost(uri.getHost());
-                case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
-                    return HostInterceptUtils.isBlackHost(uri.getHost());
+            if (mOverrideUrlInterceptor == null) {
+                switch (SettingUtils.getInstance().getUrlInterceptType()) {
+                    default:
+                    case HostInterceptUtils.TYPE_NOTHING:
+                        return false;
+                    case HostInterceptUtils.TYPE_ONLY_WHITE:
+                        return !HostInterceptUtils.isWhiteHost(uri.getHost());
+                    case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
+                        return HostInterceptUtils.isBlackHost(uri.getHost());
+                }
+            } else {
+                return mOverrideUrlInterceptor.onOverrideUrl(uri.toString());
             }
         }
 
@@ -408,5 +425,13 @@ public class WebHolder {
 
     public interface OnHistoryUpdateCallback {
         void onHistoryUpdate(boolean isReload);
+    }
+
+    public interface OverrideUrlInterceptor {
+        boolean onOverrideUrl(String url);
+    }
+
+    public interface InterceptUrlInterceptor {
+        boolean onInterceptUrl(String url);
     }
 }

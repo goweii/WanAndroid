@@ -15,13 +15,14 @@
         <per.goweii.actionbarex.ActionBarEx
             android:id="@+id/ab"
             style="@style/ActionBar"
-            app:ab_titleBarLayout="@layout/action_bar_web" />
+            app:ab_titleBarLayout="@layout/action_bar_article" />
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/srl"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
             android:layout_marginBottom="@dimen/bottom_bar_height"
+            android:layout_weight="1"
             app:srlEnablePureScrollMode="true">
 
             <per.goweii.wanandroid.widget.WebContainer
@@ -37,17 +38,49 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
-        android:elevation="5dp"
         android:background="@drawable/bg_solid_round_color_surface_radius_top_def"
+        android:elevation="5dp"
         android:orientation="vertical"
         tools:alpha="0.5">
 
-        <TextView
-            android:id="@+id/tv_pinglun"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_bar_height"
-            android:gravity="center"
-            android:text="评论(999+)" />
+            android:layout_height="@dimen/bottom_bar_height">
+
+            <TextView
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/margin_def"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginEnd="@dimen/margin_def"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_toStartOf="@+id/tv_pinglun"
+                android:background="@drawable/action_search_bg"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="留一个精彩的评论吧"
+                android:lines="1"
+                android:paddingStart="@dimen/margin_def"
+                android:paddingEnd="@dimen/margin_def"
+                android:singleLine="true"
+                android:textColor="@color/text_surface"
+                android:textColorHint="@color/text_surface"
+                android:textSize="@dimen/text_content" />
+
+            <TextView
+                android:id="@+id/tv_pinglun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="@dimen/margin_def"
+                android:gravity="center"
+                android:text="查看评论(0)"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_content" />
+
+        </RelativeLayout>
 
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"

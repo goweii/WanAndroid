@@ -100,11 +100,15 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         }
         when (ev.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
+                if (ev.x < dragView.left || ev.x > dragView.right &&
+                        ev.y < dragView.top || ev.y > dragView.bottom) {
+                    return false
+                }
+                mDownX = ev.rawX
+                mDownY = ev.rawY
                 mDragHelper.abort()
                 mScroller.abortAnimation()
                 usingNested = false
-                mDownX = ev.rawX
-                mDownY = ev.rawY
             }
         }
         if (usingNested) {
