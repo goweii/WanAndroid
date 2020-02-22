@@ -1,137 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<per.goweii.wanandroid.widget.draglayout.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/foreground"
-    android:orientation="vertical"
-    tools:context=".module.main.activity.MainActivity">
+    android:background="@color/foreground">
 
-    <per.goweii.actionbarex.ActionBarEx
-        android:id="@+id/ab"
-        style="@style/ActionBar"
-        app:ab_titleBarLayout="@layout/action_bar_web" />
-
-    <per.goweii.wanandroid.widget.draglayout.DragLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        tools:layout_height="500dp">
+        android:orientation="vertical">
 
-        <ImageView
+        <per.goweii.actionbarex.ActionBarEx
+            android:id="@+id/ab"
+            style="@style/ActionBar"
+            app:ab_titleBarLayout="@layout/action_bar_web" />
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable="true"
-            android:scaleType="centerCrop"
-            android:src="@mipmap/ic_launcher"
-            android:foreground="@drawable/bg_press_color_surface"
-            android:layout_below="@+id/ab" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="@dimen/bottom_bar_height"
+            app:srlEnablePureScrollMode="true">
 
-        <LinearLayout
+            <per.goweii.wanandroid.widget.WebContainer
+                android:id="@+id/wc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:elevation="5dp"
+        android:background="@drawable/bg_solid_round_color_surface_radius_top_def"
+        android:orientation="vertical"
+        tools:alpha="0.5">
+
+        <TextView
+            android:id="@+id/tv_pinglun"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/bg_solid_round_color_white_radius_def"
-            android:orientation="vertical">
+            android:layout_height="@dimen/bottom_bar_height"
+            android:gravity="center"
+            android:text="评论(999+)" />
 
-            <TextView
+        <android.support.v4.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/button_height"
-                android:gravity="center_vertical"
-                android:text="评论区" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <android.support.v4.widget.NestedScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:gravity="center_vertical"
+                    android:text="评论1"
+                    android:textSize="30sp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="100dp"
-                        android:gravity="center_vertical"
-                        android:text="评论1"
-                        android:textSize="30sp" />
+            </LinearLayout>
 
-                </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
 
-            </android.support.v4.widget.NestedScrollView>
+    </LinearLayout>
 
-        </LinearLayout>
-
-    </per.goweii.wanandroid.widget.draglayout.DragLayout>
-
-</RelativeLayout>
+</per.goweii.wanandroid.widget.draglayout.DragLayout>
