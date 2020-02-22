@@ -2,6 +2,7 @@ package per.goweii.wanandroid.module.main.activity
 
 import android.content.Context
 import android.content.Intent
+import android.view.KeyEvent
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.wanandroid.R
@@ -47,5 +48,11 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
 
     override fun swipeBackOnlyEdge(): Boolean {
         return true
+    }
+
+    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
+        return if (dl.handleKeyEvent(keyCode, event)) {
+            true
+        } else super.onKeyDown(keyCode, event)
     }
 }
