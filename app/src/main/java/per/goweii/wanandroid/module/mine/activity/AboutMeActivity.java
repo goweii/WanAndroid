@@ -40,11 +40,11 @@ import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.percentimageview.percentimageview.PercentImageView;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
 import per.goweii.wanandroid.module.mine.presenter.AboutMePresenter;
 import per.goweii.wanandroid.module.mine.view.AboutMeView;
 import per.goweii.wanandroid.utils.ImageLoader;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 
 /**
  * @author CuiZhen
@@ -147,10 +147,16 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
             default:
                 break;
             case R.id.ll_github:
-                WebActivity.start(getContext(), tv_name.getText().toString(), tv_github.getText().toString());
+                UrlOpenUtils.Companion
+                        .with(tv_github.getText().toString())
+                        .title(tv_name.getText().toString())
+                        .open(getContext());
                 break;
             case R.id.ll_jianshu:
-                WebActivity.start(getContext(), tv_name.getText().toString(), tv_jianshu.getText().toString());
+                UrlOpenUtils.Companion
+                        .with(tv_jianshu.getText().toString())
+                        .title(tv_name.getText().toString())
+                        .open(getContext());
                 break;
             case R.id.ll_qq:
                 presenter.openQQChat();

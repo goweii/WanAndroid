@@ -269,7 +269,11 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
             mDragFraction = 1f
         }
         onDragging()
-        if (mDragFraction == 1F) onDragEnd()
+        if (opened) {
+            if (mDragFraction == 0F) onDragEnd()
+        } else {
+            if (mDragFraction == 1F) onDragEnd()
+        }
     }
 
     private fun onDragStart() {
@@ -457,7 +461,11 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
                 mDragFraction = 1F
             }
             onDragging()
-            if (mDragFraction == 1F) onDragEnd()
+            if (opened) {
+                if (mDragFraction == 0F) onDragEnd()
+            } else {
+                if (mDragFraction == 1F) onDragEnd()
+            }
         }
 
         override fun onViewReleased(releasedChild: View, xvel: Float, yvel: Float) {

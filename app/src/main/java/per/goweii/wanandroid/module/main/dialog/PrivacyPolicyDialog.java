@@ -15,8 +15,8 @@ import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.utils.GuideSPUtils;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 
 /**
  * @author CuiZhen
@@ -79,7 +79,9 @@ public class PrivacyPolicyDialog extends DialogLayer {
         spannableString.setSpan(new Clickable(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WebActivity.start(getActivity(), "file:///android_asset/privacy_policy.html");
+                UrlOpenUtils.Companion
+                        .with("file:///android_asset/privacy_policy.html")
+                        .open(getActivity());
             }
         }), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         content.setText(new SpannableStringBuilder().append(spannableString));

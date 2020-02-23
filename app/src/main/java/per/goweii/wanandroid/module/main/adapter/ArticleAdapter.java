@@ -24,9 +24,9 @@ import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.module.home.activity.UserPageActivity;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ImageLoader;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.ad.AdEntity;
 import per.goweii.wanandroid.utils.ad.AdForListFactory;
 import per.goweii.wanandroid.utils.ad.widget.AdContainer;
@@ -329,7 +329,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         view.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                WebActivity.start(v.getContext(), item);
+                UrlOpenUtils.Companion.with(item).open(v.getContext());
             }
         });
     }

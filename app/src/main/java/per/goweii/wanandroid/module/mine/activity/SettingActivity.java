@@ -29,7 +29,6 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.presenter.SettingPresenter;
@@ -38,6 +37,7 @@ import per.goweii.wanandroid.utils.HostInterceptUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UpdateUtils;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -335,7 +335,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 AboutActivity.start(getContext());
                 break;
             case R.id.ll_privacy_policy:
-                WebActivity.start(getContext(), "file:///android_asset/privacy_policy.html");
+                UrlOpenUtils.Companion
+                        .with("file:///android_asset/privacy_policy.html")
+                        .open(getContext());
                 break;
             case R.id.ll_logout:
                 TipDialog.with(getContext())

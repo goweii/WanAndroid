@@ -14,7 +14,6 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.ScrollTop;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.navigation.adapter.NaviAdapter;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
@@ -22,6 +21,7 @@ import per.goweii.wanandroid.module.navigation.presenter.NaviPresenter;
 import per.goweii.wanandroid.module.navigation.view.NaviView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 
 /**
  * @author CuiZhen
@@ -60,7 +60,7 @@ public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollT
         mAdapter.setOnItemClickListener(new NaviAdapter.OnItemClickListener() {
             @Override
             public void onClick(ArticleBean bean, int pos) {
-                WebActivity.start(getContext(), bean);
+                UrlOpenUtils.Companion.with(bean).open(getContext());
             }
         });
         rv.setAdapter(mAdapter);

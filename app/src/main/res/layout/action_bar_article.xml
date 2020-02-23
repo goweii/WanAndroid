@@ -1,22 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
     android:background="@color/basic_ui_action_bar_bg">
 
+    <per.goweii.actionbarex.common.ActionIconView
+        android:id="@+id/aiv_back"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:padding="13dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="0dp"
+        android:src="@drawable/ic_back"
+        android:tint="@color/basic_ui_action_bar_icon" />
+
     <TextView
         android:id="@+id/tv_title"
+        android:layout_toEndOf="@+id/aiv_back"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/margin_def"
-        android:layout_marginEnd="@dimen/margin_def"
-        android:gravity="center_vertical"
-        android:lines="1"
+        android:layout_toStartOf="@+id/aiv_more"
         android:ellipsize="end"
-        tools:text="这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题"
+        android:layout_centerVertical="true"
+        android:lines="1"
         android:textColor="@color/basic_ui_action_bar_text"
-        android:textSize="@dimen/text_content" />
+        android:textSize="@dimen/text_content"
+        tools:text="这是一个文章标题这是一个文章标题这是一个文章标题这是一个文章标题" />
 
-</FrameLayout>
+    <per.goweii.actionbarex.common.ActionIconView
+        android:id="@+id/aiv_more"
+        android:layout_width="0dp"
+        android:rotation="90"
+        android:layout_height="match_parent"
+        android:padding="13dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="3dp"
+        android:src="@drawable/ic_more"
+        android:tint="@color/basic_ui_action_bar_icon" />
+
+</RelativeLayout>

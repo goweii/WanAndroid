@@ -23,6 +23,7 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.presenter.ShareArticlePresenter;
 import per.goweii.wanandroid.module.main.view.ShareArticleView;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 import per.goweii.wanandroid.utils.WebHolder;
 import per.goweii.wanandroid.widget.WebContainer;
@@ -187,7 +188,10 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
                 refreshTitle(et_link.getText().toString());
                 break;
             case R.id.tv_open:
-                WebActivity.start(getContext(), et_link.getText().toString());
+                UrlOpenUtils.Companion
+                        .with(et_link.getText().toString())
+                        .title(et_title.getText().toString())
+                        .open(getContext());
                 break;
         }
     }

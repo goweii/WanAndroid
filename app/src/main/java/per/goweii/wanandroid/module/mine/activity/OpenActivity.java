@@ -20,9 +20,9 @@ import butterknife.BindView;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.model.OpenEntity;
 import per.goweii.wanandroid.utils.MultiStateUtils;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 
 /**
  * @author CuiZhen
@@ -76,7 +76,10 @@ public class OpenActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 OpenEntity item = mAdapter.getItem(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item.getProject(), item.getLink());
+                    UrlOpenUtils.Companion
+                            .with(item.getLink())
+                            .title(item.getProject())
+                            .open(getContext());
                 }
             }
         });

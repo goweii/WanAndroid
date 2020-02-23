@@ -14,6 +14,7 @@ import per.goweii.basic.core.base.BaseActivity
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
 import per.goweii.wanandroid.module.main.view.ArticleView
+import per.goweii.wanandroid.utils.UrlOpenUtils
 import per.goweii.wanandroid.utils.WebHolder
 import per.goweii.wanandroid.utils.WebHolder.with
 
@@ -24,15 +25,22 @@ import per.goweii.wanandroid.utils.WebHolder.with
 class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
 
     companion object {
-        fun startSelf(context: Context, url: String) {
+        fun start(context: Context, url: String, title: String,
+                  articleId: Int, collected: Boolean) {
             context.startActivity(Intent(context, ArticleActivity::class.java).apply {
-                putExtra("params_url", url)
+                putExtra("url", url)
+                putExtra("title", title)
+                putExtra("articleId", articleId)
+                putExtra("collected", collected)
             })
         }
     }
 
     private lateinit var mWebHolder: WebHolder
     private var url: String = ""
+    private var title: String = ""
+    private var articleId: Int = 0
+    private var collected: Boolean = false
 
     override fun getLayoutId(): Int = R.layout.activity_article
 
@@ -40,9 +48,9 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
 
     override fun initView() {
         intent?.let {
-            url = it.getStringExtra("params_url")
+            url = it.getStringExtra("url")
         }
-        tv_pinglun.setOnClickListener {
+        fl_top_bar_handle.setOnClickListener {
             dl.toggle()
         }
         srl.setOnMultiPurposeListener(object : OnMultiPurposeListener {
@@ -82,14 +90,14 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
 
             override fun onHeaderFinish(header: RefreshHeader?, success: Boolean) {
             }
-
         })
+        dl.onDragging { v_mask.alpha = 1F - it }
         mWebHolder = with(this, wc)
                 .setOnPageTitleCallback {
                     ab.getView<TextView>(R.id.tv_title).text = it
                 }
                 .setOverrideUrlInterceptor {
-                    WebActivity.start(context, it)
+                    UrlOpenUtils.with(it).open(context)
                     return@setOverrideUrlInterceptor true
                 }
     }

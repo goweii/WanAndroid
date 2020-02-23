@@ -26,13 +26,13 @@ import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.IntentUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.adapter.ReadLaterAdapter;
 import per.goweii.wanandroid.module.mine.model.ReadLaterEntity;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 
 /**
  * @author CuiZhen
@@ -120,7 +120,10 @@ public class ReadLaterActivity extends BaseActivity {
                     default:
                         break;
                     case R.id.rl_top:
-                        WebActivity.start(getContext(), item.getTitle(), item.getLink());
+                        UrlOpenUtils.Companion
+                                .with(item.getLink())
+                                .title(item.getTitle())
+                                .open(getContext());
                         break;
                     case R.id.tv_copy:
                         CopyUtils.copyText(item.getLink());

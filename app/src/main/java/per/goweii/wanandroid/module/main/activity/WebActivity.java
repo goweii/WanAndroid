@@ -40,7 +40,6 @@ import per.goweii.wanandroid.module.main.dialog.QrcodeShareDialog;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
 import per.goweii.wanandroid.module.main.dialog.WebQuickDialog;
-import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
 import per.goweii.wanandroid.utils.GuideSPUtils;
@@ -91,54 +90,12 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     private List<CollectArticleEntity> mCollectedList = new ArrayList<>(1);
     private WebQuickDialog mWebQuickDialog;
 
-    public static void start(Context context, ArticleBean article) {
-        int articleId = article.getOriginId() != 0 ? article.getOriginId() : article.getId();
-        start(context, articleId, article.getTitle(), article.getLink(), article.isCollect());
-    }
-
-    public static void start(Context context, int articleId, String title, String url, boolean collected) {
-//        Intent intent = new Intent(context, WebActivity.class);
-//        intent.putExtra("articleId", articleId);
-//        intent.putExtra("title", title);
-//        intent.putExtra("url", url);
-//        intent.putExtra("collected", collected);
-//        context.startActivity(intent);
-        if (!TextUtils.isEmpty(url)) {
-            ArticleActivity.Companion.startSelf(context, url);
-        }
-    }
-
-    public static void start(Context context, String title, String author, String url, boolean collected) {
-//        Intent intent = new Intent(context, WebActivity.class);
-//        intent.putExtra("title", title);
-//        intent.putExtra("author", author);
-//        intent.putExtra("url", url);
-//        intent.putExtra("collected", collected);
-//        context.startActivity(intent);
-        if (!TextUtils.isEmpty(url)) {
-            ArticleActivity.Companion.startSelf(context, url);
-        }
-    }
-
-    public static void start(Context context, String title, String url) {
-        start(context, title, url, false);
-    }
-
-    public static void start(Context context, String title, String url, boolean collected) {
+    public static void start(Context context, String url, String title,
+                             int articleId, boolean collected) {
         Intent intent = new Intent(context, WebActivity.class);
+        intent.putExtra("url", url);
         intent.putExtra("title", title);
-        intent.putExtra("url", url);
-        intent.putExtra("collected", collected);
-        context.startActivity(intent);
-    }
-
-    public static void start(Context context, String url) {
-        start(context, url, false);
-    }
-
-    public static void start(Context context, String url, boolean collected) {
-        Intent intent = new Intent(context, WebActivity.class);
-        intent.putExtra("url", url);
+        intent.putExtra("articleId", articleId);
         intent.putExtra("collected", collected);
         context.startActivity(intent);
     }

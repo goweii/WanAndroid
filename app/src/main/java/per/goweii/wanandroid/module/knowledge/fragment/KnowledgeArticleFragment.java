@@ -26,7 +26,6 @@ import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.knowledge.presenter.KnowledgeArticlePresenter;
 import per.goweii.wanandroid.module.knowledge.view.KnowledgeArticleView;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
@@ -35,6 +34,7 @@ import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -165,7 +165,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item);
+                    UrlOpenUtils.Companion.with(item).open(getContext());
                 }
             }
         });

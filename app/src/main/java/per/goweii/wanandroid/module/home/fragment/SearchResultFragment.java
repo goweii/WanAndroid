@@ -23,13 +23,13 @@ import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.home.presenter.SearchResultPresenter;
 import per.goweii.wanandroid.module.home.view.SearchResultView;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -121,7 +121,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
-                    WebActivity.start(getContext(), item);
+                    UrlOpenUtils.Companion.with(item).open(getContext());
                 }
             }
         });
