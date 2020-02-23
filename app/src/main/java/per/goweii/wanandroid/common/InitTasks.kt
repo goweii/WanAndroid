@@ -136,20 +136,21 @@ class CyanInitTask : AsyncInitTask() {
     override fun init(application: Application) {
         val config = Config()
         config.ui.toolbar_bg = Color.WHITE
-        config.ui.style = "indent"
         config.ui.depth = 1
-        config.ui.sub_size = 20
-        config.comment.showScore = false
-        config.comment.uploadFiles = true
-        config.comment.useFace = false
-        config.login.SSO_Assets_ICon = "ico31.png"
+        config.ui.sub_size = per.goweii.wanandroid.common.Config.CYAN_SUB_SIZE
+        config.comment.showScore = false //是否允许用户评分
+        config.comment.uploadFiles = false //是否允许上传附件
+        config.comment.useFace = true //是否使用表情功能
+        config.comment.hotssize = per.goweii.wanandroid.common.Config.CYAN_LATEST_SIZE //显示的热门评论数
+        config.comment.latestsize = per.goweii.wanandroid.common.Config.CYAN_LATEST_SIZE //显示的最新评论数
+        config.comment.pagesize = per.goweii.wanandroid.common.Config.CYAN_PAGE_SIZE //加载更多时显示的评论数
         config.login.SSOLogin = true
         config.login.loginActivityClass = LoginActivity::class.java
         try {
             CyanSdk.register(application,
                     BuildConfig.CHANGYAN_APP_ID,
                     BuildConfig.CHANGYAN_APP_KEY,
-                    null,
+                    "https://www.wanandroid.com",
                     config)
         } catch (e: CyanException) {
             e.printStackTrace()

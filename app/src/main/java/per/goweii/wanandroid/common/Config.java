@@ -14,4 +14,12 @@ public class Config {
      * 是否显示广告
      */
     public static final boolean SHOW_AD = false;
+
+    public static final int CYAN_LATEST_SIZE = 10;
+
+    public static final int CYAN_HOT_SIZE = 10;
+
+    public static final int CYAN_PAGE_SIZE = 20;
+
+    public static final int CYAN_SUB_SIZE = 5;
 }

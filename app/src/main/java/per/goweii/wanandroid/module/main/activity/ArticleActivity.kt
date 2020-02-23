@@ -37,10 +37,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
     }
 
     private lateinit var mWebHolder: WebHolder
-    private var url: String = ""
-    private var title: String = ""
-    private var articleId: Int = 0
-    private var collected: Boolean = false
 
     override fun getLayoutId(): Int = R.layout.activity_article
 
@@ -48,7 +44,10 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
 
     override fun initView() {
         intent?.let {
-            url = it.getStringExtra("url")
+            presenter.articleUrl = it.getStringExtra("url") ?: ""
+            presenter.articleTitle = it.getStringExtra("title") ?: ""
+            presenter.articleId = it.getIntExtra("articleId", 0)
+            presenter.collected = it.getBooleanExtra("collected", false)
         }
         fl_top_bar_handle.setOnClickListener {
             dl.toggle()
@@ -97,13 +96,25 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
                     ab.getView<TextView>(R.id.tv_title).text = it
                 }
                 .setOverrideUrlInterceptor {
-                    UrlOpenUtils.with(it).open(context)
-                    return@setOverrideUrlInterceptor true
+                    val currUrlLoadTime = System.currentTimeMillis()
+                    val intercept = if (currUrlLoadTime - lastUrlLoadTime > 500L) {
+                        UrlOpenUtils.with(it).open(context)
+                        true
+                    } else {
+                        false
+                    }
+                    lastUrlLoadTime = currUrlLoadTime
+                    return@setOverrideUrlInterceptor intercept
                 }
     }
 
+    private var lastUrlLoadTime = 0L
+
     override fun loadData() {
-        mWebHolder.loadUrl(url)
+        lastUrlLoadTime = System.currentTimeMillis()
+        mWebHolder.loadUrl(presenter.articleUrl)
+        presenter.getCommentCount()
+        presenter.loadTopic()
     }
 
     override fun swipeBackOnlyEdge(): Boolean {

@@ -109,4 +109,5 @@ dependencies {
     implementation rootProject.ext.dependencies.zxingLibrary
     implementation rootProject.ext.dependencies.tbs
     implementation files('libs/CySDK.jar')
+    implementation 'com.squareup.okhttp:okhttp:2.6.0'
 }
