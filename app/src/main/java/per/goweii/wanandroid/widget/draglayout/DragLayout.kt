@@ -5,6 +5,7 @@ import android.content.Context
 import android.support.v4.view.*
 import android.support.v4.widget.ViewDragHelper
 import android.util.AttributeSet
+import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
@@ -18,7 +19,7 @@ import kotlin.math.abs
 class DragLayout : FrameLayout, NestedScrollingParent2 {
 
     private val _dismissDuration = 300
-    private val _dismissVelocity = 2000F
+    private val _dismissVelocity = 1000F
     private val _dismissFraction = 0.5F
 
     private val mDragHelper: ViewDragHelper = ViewDragHelper.create(this, DragCallback())
@@ -100,8 +101,9 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         }
         when (ev.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_DOWN -> {
-                if (ev.x < dragView.left || ev.x > dragView.right &&
+                if (ev.x < dragView.left || ev.x > dragView.right ||
                         ev.y < dragView.top || ev.y > dragView.bottom) {
+                    Log.e("DragLayout", "onInterceptTouchEvent->")
                     return false
                 }
                 mDownX = ev.rawX
@@ -379,6 +381,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         mNestedHelper.onStopNestedScroll(target, type)
         if (type == ViewCompat.TYPE_TOUCH) {
             if (!target.canScrollVertically(-1)) {
+                Log.e("DragLayout", "onStopNestedScroll->velocity=$velocity")
                 nestedScrollStopped = true
                 val openOrClose = when {
                     velocity > _dismissVelocity -> true
@@ -390,7 +393,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
                     _dismissDuration
                 } else {
                     val d = (_dismissDuration / f).toInt()
-                    if (d < 100) 100 else d
+                    if (d < 200) 200 else d
                 }
                 if (openOrClose) {
                     open(duration)
