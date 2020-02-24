@@ -5,13 +5,14 @@ import android.content.Context
 import android.support.v4.view.*
 import android.support.v4.widget.ViewDragHelper
 import android.util.AttributeSet
-import android.util.Log
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewConfiguration
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Scroller
+import per.goweii.basic.utils.LogUtils
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.wanandroid.R
 import kotlin.math.abs
@@ -103,13 +104,12 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
             MotionEvent.ACTION_DOWN -> {
                 if (ev.x < dragView.left || ev.x > dragView.right ||
                         ev.y < dragView.top || ev.y > dragView.bottom) {
-                    Log.e("DragLayout", "onInterceptTouchEvent->")
                     return false
                 }
-                mDownX = ev.rawX
-                mDownY = ev.rawY
                 mDragHelper.abort()
                 mScroller.abortAnimation()
+                mDownX = ev.rawX
+                mDownY = ev.rawY
                 usingNested = false
             }
         }
@@ -127,6 +127,12 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
                     }
                 }
             }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                if (ev.rawX - mDownX < ViewConfiguration.getTouchSlop() &&
+                        ev.rawY - mDownY < ViewConfiguration.getTouchSlop()) {
+                    judgeDragEnd()
+                }
+            }
         }
         return shouldIntercept
     }
@@ -140,6 +146,14 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
             return super.onTouchEvent(ev)
         }
         mDragHelper.processTouchEvent(ev)
+        when (ev.action and MotionEvent.ACTION_MASK) {
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                if (ev.rawX - mDownX < ViewConfiguration.getTouchSlop() &&
+                        ev.rawY - mDownY < ViewConfiguration.getTouchSlop()) {
+                    judgeDragEnd()
+                }
+            }
+        }
         return mHandleTouchEvent
     }
 
@@ -261,13 +275,17 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         setDrag(-x.toFloat(), -y.toFloat())
     }
 
-    private fun onDragChanged() {
+    private fun refreshDragFraction() {
         mDragFraction = abs(getDragY()) / abs(getMaxDragY() - getMinDragY())
         if (mDragFraction < 0) {
             mDragFraction = 0f
         } else if (mDragFraction > 1) {
             mDragFraction = 1f
         }
+    }
+
+    private fun onDragChanged() {
+        refreshDragFraction()
         onDragging()
         if (opened) {
             if (mDragFraction == 0F) onDragEnd()
@@ -276,8 +294,12 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         }
     }
 
+    private var dargging = false
+
     private fun onDragStart() {
+        dargging = true
         onDragStart?.invoke()
+        LogUtils.i("DragLayout", "onDragStart")
     }
 
     private fun onDragging() {
@@ -285,7 +307,21 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
     }
 
     private fun onDragEnd() {
+        dargging = false
         onDragEnd?.invoke()
+        LogUtils.i("DragLayout", "onDragEnd")
+    }
+
+    private fun judgeDragEnd() {
+        LogUtils.i("DragLayout", "judgeDragEnd")
+        refreshDragFraction()
+        val openOrClose = mDragFraction < _dismissFraction
+        val duration: Int = _dismissDuration
+        if (openOrClose) {
+            open(duration)
+        } else {
+            close(duration)
+        }
     }
 
     override fun onStartNestedScroll(child: View, target: View, axes: Int, type: Int): Boolean {
@@ -303,6 +339,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         if (type == ViewCompat.TYPE_TOUCH) {
             mScroller.abortAnimation()
             velocity = 0F
+            refreshDragFraction()
             onDragStart()
         }
     }
@@ -385,7 +422,6 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         mNestedHelper.onStopNestedScroll(target, type)
         if (type == ViewCompat.TYPE_TOUCH) {
             if (!target.canScrollVertically(-1)) {
-                Log.e("DragLayout", "onStopNestedScroll->velocity=$velocity")
                 nestedScrollStopped = true
                 val openOrClose = when {
                     velocity > _dismissVelocity -> true
@@ -421,7 +457,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
 
         override fun onViewCaptured(capturedChild: View, activePointerId: Int) {
             super.onViewCaptured(capturedChild, activePointerId)
-            mDragFraction = 0f
+            refreshDragFraction()
             onDragStart()
         }
 
@@ -452,14 +488,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
 
         override fun onViewPositionChanged(changedView: View, left: Int, top: Int, dx: Int, dy: Int) {
             super.onViewPositionChanged(changedView, left, top, dx, dy)
-            val yoff = abs(top - mTop).toFloat()
-            val ymax = getViewVerticalDragRange(changedView).toFloat()
-            mDragFraction = yoff / ymax
-            if (mDragFraction < 0) {
-                mDragFraction = 0F
-            } else if (mDragFraction > 1) {
-                mDragFraction = 1F
-            }
+            refreshDragFraction()
             onDragging()
             if (opened) {
                 if (mDragFraction == 0F) onDragEnd()
