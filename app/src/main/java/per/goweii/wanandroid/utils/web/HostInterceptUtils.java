@@ -1,10 +1,11 @@
-package per.goweii.wanandroid.utils;
+package per.goweii.wanandroid.utils.web;
 
 import android.text.TextUtils;
 
 import java.util.List;
 
 import per.goweii.wanandroid.module.mine.model.HostEntity;
+import per.goweii.wanandroid.utils.SettingUtils;
 
 /**
  * @author CuiZhen

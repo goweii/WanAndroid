@@ -33,12 +33,12 @@ import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.presenter.SettingPresenter;
 import per.goweii.wanandroid.module.mine.view.SettingView;
-import per.goweii.wanandroid.utils.HostInterceptUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UpdateUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.UserUtils;
+import per.goweii.wanandroid.utils.web.HostInterceptUtils;
 
 /**
  * @author CuiZhen

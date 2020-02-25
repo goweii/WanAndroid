@@ -10,6 +10,7 @@ import java.util.List;
 
 import per.goweii.basic.utils.SPUtils;
 import per.goweii.wanandroid.module.mine.model.HostEntity;
+import per.goweii.wanandroid.utils.web.HostInterceptUtils;
 
 /**
  * @author CuiZhen

@@ -24,7 +24,7 @@ import per.goweii.wanandroid.module.home.presenter.WebDialogPresenter;
 import per.goweii.wanandroid.module.home.view.WebDialogView;
 import per.goweii.wanandroid.module.main.adapter.WebDialogPagerAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
-import per.goweii.wanandroid.utils.WebHolder;
+import per.goweii.wanandroid.utils.web.WebHolder;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**

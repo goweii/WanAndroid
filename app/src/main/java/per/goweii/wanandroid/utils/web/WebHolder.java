@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.utils;
+package per.goweii.wanandroid.utils.web;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -29,12 +30,17 @@ import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
 import java.util.List;
+import java.util.Map;
 
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
+import per.goweii.wanandroid.utils.NightModeUtils;
+import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.web.js.DarkmodeInject;
+import per.goweii.wanandroid.utils.web.js.VConsoleInject;
 import per.goweii.wanandroid.widget.WebContainer;
 import per.goweii.wanandroid.widget.X5WebView;
 
@@ -50,10 +56,17 @@ public class WebHolder {
     private OnHistoryUpdateCallback mOnHistoryUpdateCallback = null;
     private OverrideUrlInterceptor mOverrideUrlInterceptor = null;
     private InterceptUrlInterceptor mInterceptUrlInterceptor = null;
+    private NightModeInterceptor mNightModeInterceptor = null;
 
     private boolean isProgressShown = false;
     private WebView mWebView;
     private final MaterialProgressBar mProgressBar;
+
+    private final VConsoleInject vConsoleInject;
+    private final DarkmodeInject darkmodeInject;
+
+    private final Activity mAactivity;
+    private final WebContainer mWebContainer;
 
     public static WebHolder with(Activity activity, WebContainer container) {
         return new WebHolder(activity, container);
@@ -95,6 +108,8 @@ public class WebHolder {
 
     @SuppressLint("SetJavaScriptEnabled")
     private WebHolder(Activity activity, WebContainer container) {
+        mAactivity = activity;
+        mWebContainer = container;
         activity.getWindow().setFormat(PixelFormat.TRANSLUCENT);
         mWebView = new X5WebView(activity);
         mProgressBar = (MaterialProgressBar) LayoutInflater.from(activity).inflate(R.layout.basic_ui_progress_bar, container, false);
@@ -105,6 +120,14 @@ public class WebHolder {
                 activity.getResources().getDimensionPixelSize(R.dimen.basic_ui_action_bar_loading_bar_height)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(mWebView, true);
+        }
+        mWebView.setBackgroundColor(0);
+        if (mWebView.getBackground() != null) {
+            mWebView.getBackground().setAlpha(0);
+        }
+        mWebView.getView().setBackgroundColor(0);
+        if (mWebView.getView().getBackground() != null) {
+            mWebView.getView().getBackground().setAlpha(0);
         }
         mWebView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         mWebView.getView().setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -132,13 +155,16 @@ public class WebHolder {
         IX5WebSettingsExtension ext = mWebView.getSettingsExtension();
         if (ext != null) {
             ext.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
-            if (NightModeUtils.isNightMode(activity)) {
+            boolean isAppDarkMode = NightModeUtils.isNightMode(activity);
+            if (isAppDarkMode) {
                 container.setDarkMaskEnable(false);
                 ext.setDayOrNight(false);
             } else {
                 ext.setDayOrNight(true);
             }
         }
+        vConsoleInject = new VConsoleInject(mWebView);
+        darkmodeInject = new DarkmodeInject(mWebView);
     }
 
     public WebHolder loadUrl(String url) {
@@ -156,6 +182,12 @@ public class WebHolder {
     public String getTitle() {
         String title = mWebView.getTitle();
         return title == null ? "" : title;
+    }
+
+    @NonNull
+    public String getUserAgent() {
+        String userAgentString = mWebView.getSettings().getUserAgentString();
+        return userAgentString == null ? "" : userAgentString;
     }
 
     public boolean canGoBack() {
@@ -252,8 +284,32 @@ public class WebHolder {
         return this;
     }
 
-    public class WanWebChromeClient extends WebChromeClient {
+    public WebHolder setNightModeInterceptor(NightModeInterceptor nightModeInterceptor) {
+        mNightModeInterceptor = nightModeInterceptor;
+        IX5WebSettingsExtension ext = mWebView.getSettingsExtension();
+        if (ext != null) {
+            boolean isAppDarkMode = NightModeUtils.isNightMode(mAactivity);
+            if (isAppDarkMode) {
+                boolean shouldNightMode;
+                if (mNightModeInterceptor != null) {
+                    shouldNightMode = mNightModeInterceptor.shouldNightMode();
+                } else {
+                    shouldNightMode = true;
+                }
+                if (shouldNightMode) {
+                    mWebContainer.setDarkMaskEnable(false);
+                    ext.setDayOrNight(false);
+                } else {
+                    ext.setDayOrNight(true);
+                }
+            } else {
+                ext.setDayOrNight(true);
+            }
+        }
+        return this;
+    }
 
+    public class WanWebChromeClient extends WebChromeClient {
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
@@ -265,6 +321,8 @@ public class WebHolder {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
+            vConsoleInject.onProgressChanged(newProgress);
+            darkmodeInject.onProgressChanged(newProgress);
             if (newProgress < 95) {
                 if (!isProgressShown) {
                     isProgressShown = true;
@@ -313,13 +371,15 @@ public class WebHolder {
     }
 
     public class WanWebViewClient extends WebViewClient {
-
-        private boolean shouldInterceptRequest(Uri uri) {
-            syncCookiesForWanAndroid(uri.toString());
+        private WebResourceResponse shouldInterceptRequest(@NonNull Uri pageUri,
+                                                           @NonNull Uri reqUri,
+                                                           @Nullable Map<String, String> reqHeaders,
+                                                           @Nullable String reqMethod) {
+            syncCookiesForWanAndroid(reqUri.toString());
             if (mInterceptUrlInterceptor == null) {
-                return false;
+                return null;
             }
-            return mInterceptUrlInterceptor.onInterceptUrl(uri.toString());
+            return mInterceptUrlInterceptor.onInterceptUrl(pageUri, reqUri, reqHeaders, reqMethod);
         }
 
         private boolean shouldOverrideUrlLoading(Uri uri) {
@@ -340,27 +400,64 @@ public class WebHolder {
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-            if (shouldInterceptRequest(Uri.parse(url))) {
-                return new WebResourceResponse(null, null, null);
+            String pageUrl = view.getUrl();
+            if (TextUtils.isEmpty(pageUrl)) {
+                return super.shouldInterceptRequest(view, url);
             }
-            return super.shouldInterceptRequest(view, url);
+            Uri pageUri = Uri.parse(pageUrl);
+            if (TextUtils.isEmpty(url)) {
+                return super.shouldInterceptRequest(view, url);
+            }
+            Uri reqUri = Uri.parse(url);
+            WebResourceResponse response = shouldInterceptRequest(pageUri, reqUri, null, null);
+            if (response != null) {
+                return response;
+            } else {
+                return super.shouldInterceptRequest(view, url);
+            }
         }
 
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            if (shouldInterceptRequest(request.getUrl())) {
-                return new WebResourceResponse(null, null, null);
+            String pageUrl = view.getUrl();
+            if (TextUtils.isEmpty(pageUrl)) {
+                return super.shouldInterceptRequest(view, request);
             }
-            return super.shouldInterceptRequest(view, request);
+            Uri pageUri = Uri.parse(pageUrl);
+            Uri reqUri = request.getUrl();
+            if (reqUri == null) {
+                return super.shouldInterceptRequest(view, request);
+            }
+            Map<String, String> reqHeaders = request.getRequestHeaders();
+            String reqMethod = request.getMethod();
+            WebResourceResponse response = shouldInterceptRequest(pageUri, reqUri, reqHeaders, reqMethod);
+            if (response != null) {
+                return response;
+            } else {
+                return super.shouldInterceptRequest(view, request);
+            }
         }
 
         @Override
-        public WebResourceResponse shouldInterceptRequest(WebView webView, WebResourceRequest request, Bundle bundle) {
-            if (shouldInterceptRequest(request.getUrl())) {
-                return new WebResourceResponse(null, null, null);
+        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request, Bundle bundle) {
+            String pageUrl = view.getUrl();
+            if (TextUtils.isEmpty(pageUrl)) {
+                return super.shouldInterceptRequest(view, request, bundle);
             }
-            return super.shouldInterceptRequest(webView, request, bundle);
+            Uri pageUri = Uri.parse(pageUrl);
+            Uri reqUri = request.getUrl();
+            if (reqUri == null) {
+                return super.shouldInterceptRequest(view, request, bundle);
+            }
+            Map<String, String> reqHeaders = request.getRequestHeaders();
+            String reqMethod = request.getMethod();
+            WebResourceResponse response = shouldInterceptRequest(pageUri, reqUri, reqHeaders, reqMethod);
+            if (response != null) {
+                return response;
+            } else {
+                return super.shouldInterceptRequest(view, request, bundle);
+            }
         }
 
         @Override
@@ -376,6 +473,8 @@ public class WebHolder {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            vConsoleInject.onPageStarted();
+            darkmodeInject.onPageStarted();
             super.onPageStarted(view, url, favicon);
             if (mOnPageTitleCallback != null) {
                 mOnPageTitleCallback.onReceivedTitle(getUrl());
@@ -432,6 +531,14 @@ public class WebHolder {
     }
 
     public interface InterceptUrlInterceptor {
-        boolean onInterceptUrl(String url);
+        @Nullable
+        WebResourceResponse onInterceptUrl(@NonNull Uri pageUri,
+                                           @NonNull Uri reqUri,
+                                           @Nullable Map<String, String> reqHeaders,
+                                           @Nullable String reqMethod);
+    }
+
+    public interface NightModeInterceptor {
+        boolean shouldNightMode();
     }
 }

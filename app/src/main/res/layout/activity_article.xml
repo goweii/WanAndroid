@@ -54,22 +54,24 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_bar_height">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/civ_user_icon"
-                android:layout_width="@dimen/bottom_bar_height"
-                android:layout_height="@dimen/bottom_bar_height"
-                android:layout_marginStart="@dimen/margin_common"
-                android:padding="@dimen/margin_thin"
-                android:src="@drawable/image_holder"
-                app:civ_circle_background_color="@color/bg_color" />
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/riv_user_icon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin_def"
+                app:riv_corner_radius="@dimen/bottom_bar_height"
+                android:background="@color/surface_top"
+                app:riv_mutate_background="true" />
 
             <TextView
                 android:id="@+id/tv_user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
+                android:layout_marginStart="@dimen/margin_small"
                 android:layout_marginEnd="@dimen/margin_def"
-                android:layout_toEndOf="@+id/civ_user_icon"
+                android:layout_toEndOf="@+id/riv_user_icon"
                 android:gravity="center"
                 android:text="匿名用户"
                 android:textColor="@color/text_third"
@@ -84,10 +86,10 @@
                 <View
                     android:layout_width="24dp"
                     android:layout_height="4dp"
+                    android:layout_gravity="center"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:layout_gravity="center"
-                    android:background="@drawable/bg_solid_round_color_background_alpha_radius_max"
+                    android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
                     android:padding="15dp" />
 
             </FrameLayout>

@@ -14,7 +14,7 @@ import java.util.List;
 
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
-import per.goweii.wanandroid.utils.WebHolder;
+import per.goweii.wanandroid.utils.web.WebHolder;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**

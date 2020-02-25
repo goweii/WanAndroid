@@ -27,7 +27,7 @@ import java.util.Random;
 import per.goweii.basic.utils.ColorUtils;
 import per.goweii.heartview.HeartView;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.NightModeUtils;
 
 /**
  * @author CuiZhen
@@ -73,11 +73,12 @@ public class WebContainer extends FrameLayout {
 
     public WebContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        setBackgroundColor(0);
         mTouchSlop = ViewConfiguration.getTouchSlop();
         mTapTimeout = ViewConfiguration.getTapTimeout();
         mDoubleTapTimeout = ViewConfiguration.getDoubleTapTimeout();
 
-        mDarkMaskEnable = SettingUtils.getInstance().isDarkTheme() && !QbSdk.canLoadX5(context);
+        mDarkMaskEnable = NightModeUtils.isNightMode(context) && !QbSdk.canLoadX5(context);
         if (mDarkMaskEnable) {
             mMaskColor = ColorUtils.alphaColor(ContextCompat.getColor(getContext(), R.color.background), 0.4F);
         }

@@ -14,9 +14,9 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.activity.HostInterruptActivity;
 import per.goweii.wanandroid.module.mine.activity.SettingActivity;
-import per.goweii.wanandroid.utils.HostInterceptUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UserUtils;
+import per.goweii.wanandroid.utils.web.HostInterceptUtils;
 
 /**
  * @author CuiZhen

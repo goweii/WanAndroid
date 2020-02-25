@@ -2,6 +2,7 @@ package per.goweii.wanandroid.module.main.activity
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.view.KeyEvent
 import android.widget.TextView
 import com.scwang.smartrefresh.layout.api.RefreshFooter
@@ -15,8 +16,9 @@ import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
 import per.goweii.wanandroid.module.main.view.ArticleView
 import per.goweii.wanandroid.utils.UrlOpenUtils
-import per.goweii.wanandroid.utils.WebHolder
-import per.goweii.wanandroid.utils.WebHolder.with
+import per.goweii.wanandroid.utils.web.WebHolder
+import per.goweii.wanandroid.utils.web.WebHolder.with
+import per.goweii.wanandroid.utils.web.interceptor.WebUrlInterceptFactory
 
 /**
  * @author CuiZhen
@@ -105,6 +107,15 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
                     }
                     lastUrlLoadTime = currUrlLoadTime
                     return@setOverrideUrlInterceptor intercept
+                }
+                .setInterceptUrlInterceptor { pageUri, reqUri, reqHeaders, reqMethod ->
+                    return@setInterceptUrlInterceptor WebUrlInterceptFactory.create(pageUri)?.interceptor?.intercept(reqUri, mWebHolder.userAgent, reqHeaders, reqMethod)
+                }
+                .setNightModeInterceptor {
+                    val pageUri = Uri.parse(presenter.articleUrl)
+                    val supportNight = WebUrlInterceptFactory.create(pageUri)?.interceptor?.isSupportNightMode()
+                            ?: false
+                    return@setNightModeInterceptor !supportNight
                 }
     }
 

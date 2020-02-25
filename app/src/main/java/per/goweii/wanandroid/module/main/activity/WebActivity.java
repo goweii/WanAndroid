@@ -45,8 +45,8 @@ import per.goweii.wanandroid.module.main.presenter.WebPresenter;
 import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.SettingUtils;
-import per.goweii.wanandroid.utils.WebHolder;
 import per.goweii.wanandroid.utils.router.Router;
+import per.goweii.wanandroid.utils.web.WebHolder;
 import per.goweii.wanandroid.widget.CollectView;
 import per.goweii.wanandroid.widget.WebContainer;
 

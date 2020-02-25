@@ -25,7 +25,7 @@ import per.goweii.wanandroid.module.main.presenter.ShareArticlePresenter;
 import per.goweii.wanandroid.module.main.view.ShareArticleView;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.UserUtils;
-import per.goweii.wanandroid.utils.WebHolder;
+import per.goweii.wanandroid.utils.web.WebHolder;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**
