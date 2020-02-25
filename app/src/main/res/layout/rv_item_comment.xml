@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_comment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_press_color_surface"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <LinearLayout
+            android:id="@+id/ll_new"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:gravity="center_vertical"
+            android:layout_alignTop="@+id/tv_user_name"
+            android:layout_alignBottom="@+id/tv_user_name"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/tv_new"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:text="新"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/ll_new"
+            android:background="@drawable/bg_press_color_surface_radius_small"
+            android:textColor="@color/text_second"
+            android:textSize="@dimen/text_notes"
+            tools:text="林帅并不帅" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignTop="@+id/tv_user_name"
+            android:layout_alignBottom="@+id/tv_user_name"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="@color/text_third"
+            android:textSize="@dimen/text_notes"
+            tools:text="21小时前" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:lineSpacingExtra="0dp"
+                android:singleLine="false"
+                android:textColor="@color/text_surface"
+                android:textSize="@dimen/text_content"
+                tools:singleLine="false"
+                tools:text="公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/ll_middle"
+        android:layout_marginTop="10dp"
+        android:layout_centerVertical="true">
+
+        <TextView
+            android:id="@+id/tv_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="置顶"
+            android:textColor="@color/text_accent"
+            android:textSize="@dimen/text_notes" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_chapter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ll_middle"
+        android:layout_toRightOf="@+id/ll_top"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_chapter_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_third"
+            android:textSize="@dimen/text_notes"
+            tools:text="" />
+
+    </LinearLayout>
+
+</RelativeLayout>

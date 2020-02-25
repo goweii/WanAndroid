@@ -40,7 +40,7 @@
         android:layout_height="match_parent"
         android:background="@color/dialog_bg" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
@@ -102,7 +102,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/margin_def"
                 android:gravity="center"
-                android:text="查看评论(0)"
+                android:text=""
                 android:textColor="@color/text_third"
                 android:textSize="@dimen/text_content" />
 
@@ -114,25 +114,23 @@
             android:layout_below="@+id/rl_top_bar"
             android:background="@color/line" />
 
-        <ImageView
-            android:id="@+id/iv_empty"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_centerInParent="true"
-            android:layout_centerHorizontal="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_empty"
-            android:tint="@color/text_third" />
+        <com.kennyc.view.MultiStateView
+            android:id="@+id/msv"
+            style="@style/StateView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/tv_empty"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_empty"
-            android:layout_centerHorizontal="true"
-            android:text="暂无评论"
-            android:textColor="@color/text_third"
-            android:textSize="@dimen/text_notes" />
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="vertical"
+                tools:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/rv_item_comment" />
+
+        </com.kennyc.view.MultiStateView>
 
         <View
             android:layout_width="match_parent"
@@ -143,8 +141,7 @@
         <RelativeLayout
             android:id="@+id/rl_bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_bar_height"
-            android:layout_alignParentBottom="true">
+            android:layout_height="@dimen/bottom_bar_height">
 
             <TextView
                 android:id="@+id/et_comment"
@@ -181,6 +178,6 @@
 
         </RelativeLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </per.goweii.wanandroid.widget.draglayout.DragLayout>

@@ -23,6 +23,8 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
     var articleTitle: String = ""
     var articleId: Int = 0
     var collected: Boolean = false
+    var userName: String = ""
+    var userId: Int = 0
 
     private var topicId: Long = 0L
     private var pageNo: Int = 0
@@ -39,6 +41,9 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
         cyanSdk.getCommentCount(null, articleUrl, topicId,
                 object : CyanRequestListener<TopicCountResp> {
                     override fun onRequestSucceeded(resp: TopicCountResp) {
+                        if (isAttach) {
+                            baseView.getCommentCountSuccess(resp.count)
+                        }
                     }
 
                     override fun onRequestFailed(e: CyanException) {
@@ -57,10 +62,16 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
                 object : CyanRequestListener<TopicLoadResp> {
                     override fun onRequestSucceeded(resp: TopicLoadResp) {
                         topicId = resp.topic_id
+                        if (isAttach) {
+                            baseView.loadTopicSuccess(resp)
+                        }
                     }
 
                     override fun onRequestFailed(e: CyanException) {
                         e.printStackTrace()
+                        if (isAttach) {
+                            baseView.loadTopicFail()
+                        }
                     }
                 })
     }
@@ -74,16 +85,22 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
                 "indent", null, 1, Config.CYAN_SUB_SIZE,
                 object : CyanRequestListener<TopicCommentsResp> {
                     override fun onRequestSucceeded(resp: TopicCommentsResp) {
+                        if (isAttach) {
+                            baseView.getTopicCommentsSuccess(resp)
+                        }
                     }
 
                     override fun onRequestFailed(e: CyanException) {
                         e.printStackTrace()
+                        if (isAttach) {
+                            baseView.getTopicCommentsFail()
+                        }
                     }
                 })
     }
 
     /**
-     * 分页查询文章评论数据
+     * 发表评论接口
      */
     fun submitComment(content: String, replyId: Long) {
         if (topicId <= 0L) return

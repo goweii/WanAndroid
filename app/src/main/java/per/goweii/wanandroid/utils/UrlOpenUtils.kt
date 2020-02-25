@@ -18,6 +18,8 @@ class UrlOpenUtils(
     private var author: String = ""
     private var collected: Boolean = false
 
+    private var userId: Int = 0
+
     companion object {
         fun with(url: String?) = UrlOpenUtils(url ?: "")
 
@@ -26,6 +28,8 @@ class UrlOpenUtils(
                 articleId(if (it.originId != 0) it.originId else it.id)
                 title(it.title)
                 collected(it.isCollect)
+                author(it.author)
+                userId(it.userId)
             }
         }
     }
@@ -46,10 +50,14 @@ class UrlOpenUtils(
         this.collected = collected
     }
 
+    fun userId(userId: Int) = apply {
+        this.userId = userId
+    }
+
     fun open(context: Context?) {
         context ?: return
         if (articleId > 0) {
-            ArticleActivity.start(context, url, title, articleId, collected)
+            ArticleActivity.start(context, url, title, articleId, collected, author, userId)
         } else {
             WebActivity.start(context, url, title, 0, collected)
         }

@@ -3,6 +3,7 @@ package per.goweii.wanandroid.module.main.activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.support.v7.widget.LinearLayoutManager
 import android.view.KeyEvent
 import android.widget.TextView
 import com.scwang.smartrefresh.layout.api.RefreshFooter
@@ -10,11 +11,16 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.constant.RefreshState
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener
+import com.sohu.cyan.android.sdk.entity.Comment
+import com.sohu.cyan.android.sdk.http.response.TopicCommentsResp
+import com.sohu.cyan.android.sdk.http.response.TopicLoadResp
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.wanandroid.R
+import per.goweii.wanandroid.module.main.adapter.ArticleCommentAdapter
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
 import per.goweii.wanandroid.module.main.view.ArticleView
+import per.goweii.wanandroid.utils.MultiStateUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
 import per.goweii.wanandroid.utils.web.WebHolder
 import per.goweii.wanandroid.utils.web.WebHolder.with
@@ -28,17 +34,22 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
 
     companion object {
         fun start(context: Context, url: String, title: String,
-                  articleId: Int, collected: Boolean) {
+                  articleId: Int, collected: Boolean,
+                  userName: String, userId: Int) {
             context.startActivity(Intent(context, ArticleActivity::class.java).apply {
                 putExtra("url", url)
                 putExtra("title", title)
                 putExtra("articleId", articleId)
                 putExtra("collected", collected)
+                putExtra("user_name", userName)
+                putExtra("user_id", userId)
             })
         }
     }
 
     private lateinit var mWebHolder: WebHolder
+    private lateinit var adapter: ArticleCommentAdapter
+    private var lastUrlLoadTime = 0L
 
     override fun getLayoutId(): Int = R.layout.activity_article
 
@@ -50,6 +61,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             presenter.articleTitle = it.getStringExtra("title") ?: ""
             presenter.articleId = it.getIntExtra("articleId", 0)
             presenter.collected = it.getBooleanExtra("collected", false)
+            presenter.userName = it.getStringExtra("user_name") ?: ""
+            presenter.userId = it.getIntExtra("user_id", 0)
         }
         fl_top_bar_handle.setOnClickListener {
             dl.toggle()
@@ -117,14 +130,29 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
                             ?: false
                     return@setNightModeInterceptor !supportNight
                 }
+        rv.layoutManager = LinearLayoutManager(context)
+        adapter = ArticleCommentAdapter()
+        rv.adapter = adapter
+        adapter.setEnableLoadMore(false)
+        adapter.setOnLoadMoreListener({
+            presenter.getTopicComments(1)
+        }, rv)
+        MultiStateUtils.setEmptyAndErrorClick(msv) {
+            MultiStateUtils.toLoading(msv)
+            presenter.loadTopic()
+        }
     }
 
-    private var lastUrlLoadTime = 0L
-
     override fun loadData() {
+        tv_user_name.text = if (presenter.userName.isNotEmpty()) {
+            presenter.userName
+        } else {
+            "匿名"
+        }
         lastUrlLoadTime = System.currentTimeMillis()
         mWebHolder.loadUrl(presenter.articleUrl)
         presenter.getCommentCount()
+        MultiStateUtils.toLoading(msv)
         presenter.loadTopic()
     }
 
@@ -136,5 +164,32 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         return if (dl.handleKeyEvent(keyCode, event)) {
             true
         } else super.onKeyDown(keyCode, event)
+    }
+
+    override fun getCommentCountSuccess(count: Int) {
+        val s = if (count > 999) "999+" else "$count"
+        tv_comment.text = "评论($s)"
+    }
+
+    override fun loadTopicSuccess(resp: TopicLoadResp) {
+        if (resp.cmt_sum == 0) {
+            MultiStateUtils.toEmpty(msv)
+        } else {
+            MultiStateUtils.toContent(msv)
+            val list: ArrayList<Comment> = arrayListOf()
+            list.addAll(resp.hots)
+            list.addAll(resp.comments)
+            adapter.setNewData(list)
+        }
+    }
+
+    override fun loadTopicFail() {
+        MultiStateUtils.toError(msv)
+    }
+
+    override fun getTopicCommentsSuccess(resp: TopicCommentsResp) {
+    }
+
+    override fun getTopicCommentsFail() {
     }
 }
