@@ -1,6 +1,5 @@
 package per.goweii.wanandroid.module.home.fragment;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -59,7 +58,7 @@ import per.goweii.wanandroid.module.home.activity.SearchActivity;
 import per.goweii.wanandroid.module.home.model.BannerBean;
 import per.goweii.wanandroid.module.home.presenter.HomePresenter;
 import per.goweii.wanandroid.module.home.view.HomeView;
-import per.goweii.wanandroid.module.main.activity.MainActivity;
+import per.goweii.wanandroid.module.main.activity.ScanActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
@@ -281,11 +280,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         abc.setOnLeftIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
-                Activity activity = getActivity();
-                if (activity instanceof MainActivity) {
-                    MainActivity mainActivity = (MainActivity) activity;
-                    mainActivity.openUserArticle();
-                }
+                ScanActivity.start(v.getContext());
             }
         });
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);

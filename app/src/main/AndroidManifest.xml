@@ -9,7 +9,9 @@
     <!--    <uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
     <!--    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
     <!--    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
+
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
@@ -69,6 +71,9 @@
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
         <activity
             android:name=".module.main.activity.ShareArticleActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
+            android:name=".module.main.activity.ScanActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
 
         <!--module.home-->
