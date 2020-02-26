@@ -21,7 +21,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
 
     private val _dismissDuration = 300
     private val _dismissVelocity = 1000F
-    private val _dismissFraction = 0.5F
+    private val _dismissFraction = 0.3F
 
     private val mDragHelper: ViewDragHelper = ViewDragHelper.create(this, DragCallback())
     private val mNestedHelper: NestedScrollingParentHelper = NestedScrollingParentHelper(this)
@@ -43,10 +43,12 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
     private var onDragStart: (() -> Unit)? = null
     private var onDragging: ((f: Float) -> Unit)? = null
     private var onDragEnd: (() -> Unit)? = null
+    private var onOpened: (() -> Unit)? = null
+    private var onClosed: (() -> Unit)? = null
 
     private var isEnable: Boolean = true
 
-    private var opened = false
+    private var open = false
     private var openMargin: Int = StatusBarCompat.getHeight(context)
     private var closeMargin: Int = context.resources.getDimension(R.dimen.bottom_bar_height).toInt()
 
@@ -64,6 +66,71 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
 
     fun onDragEnd(listener: () -> Unit) {
         onDragEnd = listener
+    }
+
+    fun onOpened(listener: () -> Unit) {
+        onOpened = listener
+    }
+
+    fun onClosed(listener: () -> Unit) {
+        onClosed = listener
+    }
+
+    fun handleKeyEvent(keyCode: Int, event: KeyEvent): Boolean {
+        if (keyCode != KeyEvent.KEYCODE_BACK) {
+            return false
+        }
+        if (!isClosed()) {
+            close()
+            return true
+        }
+        return false
+    }
+
+    fun isOpen(): Boolean {
+        return open
+    }
+
+    fun isOpened(): Boolean {
+        return getDragY() == getMinDragY()
+    }
+
+    fun isClosed(): Boolean {
+        return getDragY() == getMaxDragY()
+    }
+
+    fun toggle(duration: Int = 300) {
+        if (isOpened()) {
+            close(duration)
+        } else if (isClosed()) {
+            open(duration)
+        }
+    }
+
+    fun open(duration: Int = 300) {
+        open = true
+        if (duration > 0) {
+            usingNested = true
+            mScroller.abortAnimation()
+            mScroller.startScroll(-getDragX().toInt(), -getDragY().toInt(),
+                    -getDragX().toInt(), -(getMinDragY() - getDragY()).toInt(), duration)
+            invalidate()
+        } else {
+            setDragY(getMinDragY())
+        }
+    }
+
+    fun close(duration: Int = 300) {
+        open = false
+        if (duration > 0) {
+            usingNested = true
+            mScroller.abortAnimation()
+            mScroller.startScroll(-getDragX().toInt(), -getDragY().toInt(),
+                    -getDragX().toInt(), -(getMaxDragY() - getDragY()).toInt(), duration)
+            invalidate()
+        } else {
+            setDragY(getMaxDragY())
+        }
     }
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
@@ -88,7 +155,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         mRight = dragView.right
         mTop = dragView.top
         mBottom = dragView.bottom
-        if (opened) {
+        if (open) {
             open(0)
         } else {
             close(0)
@@ -171,59 +238,6 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         }
     }
 
-    fun handleKeyEvent(keyCode: Int, event: KeyEvent): Boolean {
-        if (keyCode != KeyEvent.KEYCODE_BACK) {
-            return false
-        }
-        if (!isClose()) {
-            close()
-            return true
-        }
-        return false
-    }
-
-    fun isOpen(): Boolean {
-        return getDragY() == getMinDragY()
-    }
-
-    fun isClose(): Boolean {
-        return getDragY() == getMaxDragY()
-    }
-
-    fun toggle(duration: Int = 300) {
-        if (isOpen()) {
-            close(duration)
-        } else if (isClose()) {
-            open(duration)
-        }
-    }
-
-    fun open(duration: Int = 300) {
-        opened = true
-        if (duration > 0) {
-            usingNested = true
-            mScroller.abortAnimation()
-            mScroller.startScroll(-getDragX().toInt(), -getDragY().toInt(),
-                    -getDragX().toInt(), -(getMinDragY() - getDragY()).toInt(), duration)
-            invalidate()
-        } else {
-            setDragY(getMinDragY())
-        }
-    }
-
-    fun close(duration: Int = 300) {
-        opened = false
-        if (duration > 0) {
-            usingNested = true
-            mScroller.abortAnimation()
-            mScroller.startScroll(-getDragX().toInt(), -getDragY().toInt(),
-                    -getDragX().toInt(), -(getMaxDragY() - getDragY()).toInt(), duration)
-            invalidate()
-        } else {
-            setDragY(getMaxDragY())
-        }
-    }
-
     private fun getDragX(): Float {
         return dragView.left.toFloat() - mLeft.toFloat()
     }
@@ -287,7 +301,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
     private fun onDragChanged() {
         refreshDragFraction()
         onDragging()
-        if (opened) {
+        if (open) {
             if (mDragFraction == 0F) onDragEnd()
         } else {
             if (mDragFraction == 1F) onDragEnd()
@@ -309,13 +323,18 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
     private fun onDragEnd() {
         dargging = false
         onDragEnd?.invoke()
+        if (this.isOpened()) {
+            onOpened?.invoke()
+        } else if (isClosed()) {
+            onClosed?.invoke()
+        }
         LogUtils.i("DragLayout", "onDragEnd")
     }
 
     private fun judgeDragEnd() {
         LogUtils.i("DragLayout", "judgeDragEnd")
         refreshDragFraction()
-        val openOrClose = mDragFraction < _dismissFraction
+        val openOrClose = mDragFraction < 0.5F
         val duration: Int = _dismissDuration
         if (openOrClose) {
             open(duration)
@@ -426,7 +445,11 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
                 val openOrClose = when {
                     velocity > _dismissVelocity -> true
                     velocity < -_dismissVelocity -> false
-                    else -> mDragFraction < _dismissFraction
+                    else -> if (open) {
+                        mDragFraction < _dismissFraction
+                    } else {
+                        mDragFraction < 1F - _dismissFraction
+                    }
                 }
                 val f = abs(velocity) / _dismissVelocity
                 val duration: Int = if (f <= 1) {
@@ -490,7 +513,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
             super.onViewPositionChanged(changedView, left, top, dx, dy)
             refreshDragFraction()
             onDragging()
-            if (opened) {
+            if (open) {
                 if (mDragFraction == 0F) onDragEnd()
             } else {
                 if (mDragFraction == 1F) onDragEnd()
@@ -502,7 +525,11 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
             val openOrClose = when {
                 yvel > _dismissVelocity -> false
                 yvel < -_dismissVelocity -> true
-                else -> mDragFraction < _dismissFraction
+                else -> if (open) {
+                    mDragFraction < _dismissFraction
+                } else {
+                    mDragFraction < 1F - _dismissFraction
+                }
             }
             val l = mLeft
             val t = if (openOrClose) {
@@ -510,7 +537,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
             } else {
                 height - closeMargin
             }
-            opened = openOrClose
+            open = openOrClose
             mDragHelper.settleCapturedViewAt(l, t)
             invalidate()
         }

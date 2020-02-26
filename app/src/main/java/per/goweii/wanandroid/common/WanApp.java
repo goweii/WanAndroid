@@ -46,7 +46,6 @@ public class WanApp extends BaseApp {
                 .add(new X5InitTask())
                 .add(new BuglyInitTask())
                 .add(new CrashInitTask())
-                .add(new CyanInitTask())
                 .run();
         TM.APP_STARTUP.record("WanApp onCreate third-part init completed");
     }

@@ -12,7 +12,7 @@ import per.goweii.wanandroid.R
 class ArticleCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.rv_item_comment) {
     override fun convert(helper: BaseViewHolder, item: Comment) {
         helper.run {
-            setText(R.id.tv_user_name, item.from)
+            setText(R.id.tv_user_name, if (item.from.isNullOrEmpty()) "匿名" else item.from)
             setText(R.id.tv_time, item.create_time.toString())
             setText(R.id.tv_content, item.content)
         }

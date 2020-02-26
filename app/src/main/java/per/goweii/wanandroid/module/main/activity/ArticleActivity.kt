@@ -11,12 +11,12 @@ import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.constant.RefreshState
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener
-import com.sohu.cyan.android.sdk.entity.Comment
-import com.sohu.cyan.android.sdk.http.response.TopicCommentsResp
-import com.sohu.cyan.android.sdk.http.response.TopicLoadResp
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
+import per.goweii.basic.utils.InputMethodUtils
+import per.goweii.basic.utils.SoftInputHelper
 import per.goweii.wanandroid.R
+import per.goweii.wanandroid.module.home.activity.UserPageActivity
 import per.goweii.wanandroid.module.main.adapter.ArticleCommentAdapter
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
 import per.goweii.wanandroid.module.main.view.ArticleView
@@ -69,7 +69,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         }
         srl.setOnMultiPurposeListener(object : OnMultiPurposeListener {
             override fun onFooterMoving(footer: RefreshFooter?, isDragging: Boolean, percent: Float, offset: Int, footerHeight: Int, maxDragHeight: Int) {
-                if (percent > 1f && dl.isClose()) {
+                if (percent > 1f && dl.isClosed()) {
                     dl.open()
                 }
             }
@@ -135,11 +135,30 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         rv.adapter = adapter
         adapter.setEnableLoadMore(false)
         adapter.setOnLoadMoreListener({
-            presenter.getTopicComments(1)
         }, rv)
         MultiStateUtils.setEmptyAndErrorClick(msv) {
             MultiStateUtils.toLoading(msv)
-            presenter.loadTopic()
+        }
+        riv_user_icon.setOnClickListener {
+            UserPageActivity.start(context, presenter.userId)
+        }
+        tv_user_name.setOnClickListener {
+            UserPageActivity.start(context, presenter.userId)
+        }
+        SoftInputHelper.attach(this)
+                .moveWithTranslation()
+                .moveBy(ll_bottom_bar)
+                .moveWith(ll_bottom_bar, et_comment)
+                .listener(object : SoftInputHelper.OnSoftInputListener {
+                    override fun onOpen() {
+                        dl.open()
+                    }
+
+                    override fun onClose() {
+                    }
+                })
+        dl.onClosed {
+            InputMethodUtils.hide(et_comment)
         }
     }
 
@@ -151,9 +170,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         }
         lastUrlLoadTime = System.currentTimeMillis()
         mWebHolder.loadUrl(presenter.articleUrl)
-        presenter.getCommentCount()
-        MultiStateUtils.toLoading(msv)
-        presenter.loadTopic()
+        MultiStateUtils.toEmpty(msv)
     }
 
     override fun swipeBackOnlyEdge(): Boolean {
@@ -164,32 +181,5 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         return if (dl.handleKeyEvent(keyCode, event)) {
             true
         } else super.onKeyDown(keyCode, event)
-    }
-
-    override fun getCommentCountSuccess(count: Int) {
-        val s = if (count > 999) "999+" else "$count"
-        tv_comment.text = "评论($s)"
-    }
-
-    override fun loadTopicSuccess(resp: TopicLoadResp) {
-        if (resp.cmt_sum == 0) {
-            MultiStateUtils.toEmpty(msv)
-        } else {
-            MultiStateUtils.toContent(msv)
-            val list: ArrayList<Comment> = arrayListOf()
-            list.addAll(resp.hots)
-            list.addAll(resp.comments)
-            adapter.setNewData(list)
-        }
-    }
-
-    override fun loadTopicFail() {
-        MultiStateUtils.toError(msv)
-    }
-
-    override fun getTopicCommentsSuccess(resp: TopicCommentsResp) {
-    }
-
-    override fun getTopicCommentsFail() {
     }
 }

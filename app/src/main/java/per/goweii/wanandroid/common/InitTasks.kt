@@ -1,11 +1,7 @@
 package per.goweii.wanandroid.common
 
 import android.app.Application
-import android.graphics.Color
 import cat.ereza.customactivityoncrash.config.CaocConfig
-import com.sohu.cyan.android.sdk.api.Config
-import com.sohu.cyan.android.sdk.api.CyanSdk
-import com.sohu.cyan.android.sdk.exception.CyanException
 import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.bugly.crashreport.CrashReport.CrashHandleCallback
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy
@@ -24,7 +20,6 @@ import per.goweii.rxhttp.core.RxHttp
 import per.goweii.wanandroid.BuildConfig
 import per.goweii.wanandroid.http.RxHttpRequestSetting
 import per.goweii.wanandroid.http.WanCache
-import per.goweii.wanandroid.module.login.activity.LoginActivity
 import per.goweii.wanandroid.module.main.activity.CrashActivity
 import per.goweii.wanandroid.module.main.activity.MainActivity
 import per.goweii.wanandroid.utils.UserUtils
@@ -129,40 +124,6 @@ class CrashInitTask : SyncInitTask() {
 
     override fun level(): Int {
         return 0
-    }
-}
-
-class CyanInitTask : AsyncInitTask() {
-    override fun init(application: Application) {
-        val config = Config()
-        config.ui.toolbar_bg = Color.WHITE
-        config.ui.depth = 1
-        config.ui.sub_size = per.goweii.wanandroid.common.Config.CYAN_SUB_SIZE
-        config.comment.showScore = false //是否允许用户评分
-        config.comment.uploadFiles = false //是否允许上传附件
-        config.comment.useFace = true //是否使用表情功能
-        config.comment.hotssize = per.goweii.wanandroid.common.Config.CYAN_LATEST_SIZE //显示的热门评论数
-        config.comment.latestsize = per.goweii.wanandroid.common.Config.CYAN_LATEST_SIZE //显示的最新评论数
-        config.comment.pagesize = per.goweii.wanandroid.common.Config.CYAN_PAGE_SIZE //加载更多时显示的评论数
-        config.login.SSOLogin = true
-        config.login.loginActivityClass = LoginActivity::class.java
-        try {
-            CyanSdk.register(application,
-                    BuildConfig.CHANGYAN_APP_ID,
-                    BuildConfig.CHANGYAN_APP_KEY,
-                    "https://www.wanandroid.com",
-                    config)
-        } catch (e: CyanException) {
-            e.printStackTrace()
-        }
-    }
-
-    override fun onlyMainProcess(): Boolean {
-        return false
-    }
-
-    override fun level(): Int {
-        return 5
     }
 }
 

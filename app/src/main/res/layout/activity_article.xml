@@ -49,70 +49,76 @@
         android:orientation="vertical"
         tools:translationY="-670dp">
 
-        <RelativeLayout
-            android:id="@+id/rl_top_bar"
+        <LinearLayout
+            android:id="@+id/ll_top_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_bar_height">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/riv_user_icon"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/margin_def"
-                app:riv_corner_radius="@dimen/bottom_bar_height"
-                android:background="@color/surface_top"
-                app:riv_mutate_background="true" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottom_bar_height">
 
-            <TextView
-                android:id="@+id/tv_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_def"
-                android:layout_toEndOf="@+id/riv_user_icon"
-                android:gravity="center"
-                android:text="匿名用户"
-                android:textColor="@color/text_third"
-                android:textSize="@dimen/text_content" />
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/riv_user_icon"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_def"
+                    app:riv_corner_radius="@dimen/bottom_bar_height"
+                    android:background="@color/surface_top"
+                    app:riv_mutate_background="true" />
 
-            <FrameLayout
-                android:id="@+id/fl_top_bar_handle"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true">
+                <TextView
+                    android:id="@+id/tv_user_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_def"
+                    android:layout_toEndOf="@+id/riv_user_icon"
+                    android:gravity="center"
+                    android:text="匿名用户"
+                    android:textColor="@color/text_third"
+                    android:textSize="@dimen/text_content" />
 
-                <View
-                    android:layout_width="24dp"
-                    android:layout_height="4dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
-                    android:padding="15dp" />
+                <FrameLayout
+                    android:id="@+id/fl_top_bar_handle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true">
 
-            </FrameLayout>
+                    <View
+                        android:layout_width="24dp"
+                        android:layout_height="4dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+                        android:padding="15dp" />
 
-            <TextView
-                android:id="@+id/tv_comment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/margin_def"
-                android:gravity="center"
-                android:text=""
-                android:textColor="@color/text_third"
-                android:textSize="@dimen/text_content" />
+                </FrameLayout>
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_def"
+                    android:gravity="center"
+                    android:text=""
+                    android:textColor="@color/text_third"
+                    android:textSize="@dimen/text_content" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/line"
-            android:layout_below="@+id/rl_top_bar"
-            android:background="@color/line" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line"
+                android:background="@color/line" />
+
+        </LinearLayout>
 
         <com.kennyc.view.MultiStateView
             android:id="@+id/msv"
@@ -132,51 +138,57 @@
 
         </com.kennyc.view.MultiStateView>
 
-        <View
+        <LinearLayout
+            android:id="@+id/ll_bottom_bar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/line"
-            android:layout_above="@+id/rl_bottom_bar"
-            android:background="@color/line" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/rl_bottom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_bar_height">
-
-            <TextView
-                android:id="@+id/et_comment"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="@dimen/margin_def"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_marginEnd="@dimen/margin_def"
-                android:layout_marginBottom="@dimen/margin_small"
-                android:layout_toStartOf="@+id/tv_pinglun"
-                android:background="@drawable/action_search_bg"
-                android:ellipsize="end"
-                android:gravity="center_vertical"
-                android:hint="留一个精彩的评论吧"
-                android:lines="1"
-                android:paddingStart="@dimen/margin_def"
-                android:paddingEnd="@dimen/margin_def"
-                android:singleLine="true"
-                android:textColor="@color/text_second"
-                android:textColorHint="@color/text_third"
-                android:textSize="@dimen/text_content" />
+                android:layout_height="@dimen/line"
+                android:background="@color/line" />
 
-            <TextView
-                android:id="@+id/tv_pinglun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/margin_def"
-                android:gravity="center"
-                android:text="评论"
-                android:textColor="@color/text_main"
-                android:textSize="@dimen/text_content" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/bottom_bar_height">
 
-        </RelativeLayout>
+                <EditText
+                    android:id="@+id/et_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_marginEnd="@dimen/margin_def"
+                    android:layout_marginBottom="@dimen/margin_small"
+                    android:layout_toStartOf="@+id/tv_pinglun"
+                    android:background="@drawable/action_search_bg"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:hint="留一个精彩的评论吧"
+                    android:lines="1"
+                    android:paddingStart="@dimen/margin_def"
+                    android:paddingEnd="@dimen/margin_def"
+                    android:singleLine="true"
+                    android:textColor="@color/text_second"
+                    android:textColorHint="@color/text_third"
+                    android:textSize="@dimen/text_content" />
+
+                <TextView
+                    android:id="@+id/tv_pinglun"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="@dimen/margin_def"
+                    android:gravity="center"
+                    android:text="评论"
+                    android:textColor="@color/text_main"
+                    android:textSize="@dimen/text_content" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
