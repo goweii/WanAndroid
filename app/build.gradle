@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'realm-android'
 
 apply from: "../module.gradle"
 
@@ -105,7 +104,6 @@ dependencies {
     implementation rootProject.ext.dependencies.buglyCrashreport
     implementation rootProject.ext.dependencies.crashActivity
     implementation rootProject.ext.dependencies.heartView
-    implementation rootProject.ext.dependencies.zxingLibrary
     implementation rootProject.ext.dependencies.tbs
-    implementation 'me.devilsen:CZXing:0.9.16'
+    implementation 'com.king.zxing:zxing-lite:1.1.6'
 }

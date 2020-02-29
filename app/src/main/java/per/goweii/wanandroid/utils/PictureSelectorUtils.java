@@ -20,6 +20,17 @@ import per.goweii.wanandroid.R;
  */
 public class PictureSelectorUtils {
 
+    public static void ofImage(Activity activity, int requestCode) {
+        PictureSelector.create(activity)
+                .openGallery(PictureMimeType.ofImage())
+                .theme(R.style.PictureSelectorStyle)
+                .selectionMode(PictureConfig.SINGLE)
+                .enableCrop(false)
+                .withAspectRatio(1, 1)
+                .isCamera(false)
+                .forResult(requestCode);
+    }
+
     public static void ofImage(Fragment fragment, int requestCode) {
         PictureSelector.create(fragment)
                 .openGallery(PictureMimeType.ofImage())

@@ -6,9 +6,7 @@ android {
 
 dependencies {
     api project(":basic_ui")
-
     implementation rootProject.ext.dependencies.multidex
-
     api rootProject.ext.dependencies.butterknife
     api rootProject.ext.dependencies.eventbus
     api rootProject.ext.dependencies.gson

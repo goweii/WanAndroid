@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.utils.InputMethodUtils
 import per.goweii.basic.utils.SoftInputHelper
+import per.goweii.basic.utils.listener.SimpleListener
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.home.activity.UserPageActivity
 import per.goweii.wanandroid.module.main.adapter.ArticleCommentAdapter
@@ -136,9 +137,9 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         adapter.setEnableLoadMore(false)
         adapter.setOnLoadMoreListener({
         }, rv)
-        MultiStateUtils.setEmptyAndErrorClick(msv) {
+        MultiStateUtils.setEmptyAndErrorClick(msv, SimpleListener {
             MultiStateUtils.toLoading(msv)
-        }
+        })
         riv_user_icon.setOnClickListener {
             UserPageActivity.start(context, presenter.userId)
         }

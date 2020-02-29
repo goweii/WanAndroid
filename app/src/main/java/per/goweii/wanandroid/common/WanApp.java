@@ -41,7 +41,6 @@ public class WanApp extends BaseApp {
                 .add(new CoreInitTask())
                 .add(new RxHttpInitTask())
                 .add(new WanCacheInitTask())
-                .add(new RealmInitTask())
                 .add(new BlurredInitTask())
                 .add(new X5InitTask())
                 .add(new BuglyInitTask())

@@ -43,7 +43,6 @@ import per.goweii.wanandroid.module.main.dialog.WebQuickDialog;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
 import per.goweii.wanandroid.utils.GuideSPUtils;
-import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.utils.web.WebHolder;
@@ -83,7 +82,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     private String mAuthor = "";
     private String mUrl = "";
 
-    private RealmHelper mRealmHelper = null;
     private WebGuideDialog mWebGuideDialog = null;
     private WebHolder mWebHolder;
 
@@ -227,8 +225,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 }
             }
         });
-
-        mRealmHelper = RealmHelper.create();
     }
 
     private void showQuickDialog() {
@@ -291,10 +287,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
             @Override
             public void onReadLater() {
-                if (mRealmHelper != null) {
-                    mRealmHelper.add(mWebHolder.getTitle(), mWebHolder.getUrl());
-                    ToastMaker.showShort("已加入稍后阅读");
-                }
+                ToastMaker.showShort("该功能暂时移除");
             }
 
             @Override
@@ -461,9 +454,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     @Override
     protected void onDestroy() {
         mWebHolder.onDestroy();
-        if (mRealmHelper != null) {
-            mRealmHelper.destroy();
-        }
         super.onDestroy();
     }
 

@@ -6,12 +6,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.uuzuche.lib_zxing.activity.CodeUtils;
+import com.king.zxing.util.CodeUtils;
 
 import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.DialogLayer;
@@ -97,7 +96,8 @@ public class QrcodeShareDialog extends DialogLayer {
         mRxLife = RxLife.create();
         ImageView iv_qrcode = getView(R.id.dialog_qrcode_share_piv_qrcode);
         TextView tv_title = getView(R.id.dialog_qrcode_share_tv_title);
-        Bitmap qrcode = CodeUtils.createImage(mUrl, 300, 300, BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_icon));
+        Bitmap logo = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_icon);
+        Bitmap qrcode = CodeUtils.createQRCode(mUrl, 300, logo);
         iv_qrcode.setImageBitmap(qrcode);
         tv_title.setText(mTitle);
         refreshJinrishici();
@@ -117,7 +117,6 @@ public class QrcodeShareDialog extends DialogLayer {
             public void onSuccess(int code, JinrishiciBean data) {
                 TextView tv_shici = getView(R.id.dialog_qrcode_share_tv_shici);
                 if (tv_shici != null) {
-//                    tv_shici.setText(formatShici(data.getContent()));
                     tv_shici.setText(data.getContent());
                 }
             }
@@ -130,20 +129,6 @@ public class QrcodeShareDialog extends DialogLayer {
                 }
             }
         });
-    }
-
-    private String formatShici(String shici) {
-        String[] split = shici.split("[，。；？！]");
-        StringBuilder sb = new StringBuilder();
-        for (String s : split) {
-            if (!TextUtils.isEmpty(s)) {
-                if (sb.length() > 0) {
-                    sb.append("\n");
-                }
-                sb.append(s);
-            }
-        }
-        return sb.toString();
     }
 
     private Bitmap createCardBitmap() {

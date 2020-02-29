@@ -8,7 +8,6 @@ import com.tencent.bugly.crashreport.CrashReport.UserStrategy
 import com.tencent.smtt.sdk.QbSdk
 import com.tencent.smtt.sdk.QbSdk.PreInitCallback
 import com.tencent.smtt.sdk.WebView
-import io.realm.Realm
 import per.goweii.basic.core.CoreInit
 import per.goweii.basic.utils.AsyncInitTask
 import per.goweii.basic.utils.DebugUtils
@@ -78,20 +77,6 @@ class CoreInitTask : SyncInitTask() {
 class BlurredInitTask : AsyncInitTask() {
     override fun init(application: Application) {
         Blurred.init(application)
-    }
-
-    override fun onlyMainProcess(): Boolean {
-        return true
-    }
-
-    override fun level(): Int {
-        return 2
-    }
-}
-
-class RealmInitTask : AsyncInitTask() {
-    override fun init(application: Application) {
-        Realm.init(application)
     }
 
     override fun onlyMainProcess(): Boolean {

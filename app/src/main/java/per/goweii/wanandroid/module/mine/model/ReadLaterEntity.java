@@ -1,13 +1,13 @@
 package per.goweii.wanandroid.module.mine.model;
 
-import io.realm.RealmObject;
+import per.goweii.basic.core.base.BaseEntity;
 
 /**
  * @author CuiZhen
  * @date 2019/5/26
  * GitHub: https://github.com/goweii
  */
-public class ReadLaterEntity extends RealmObject {
+public class ReadLaterEntity extends BaseEntity {
 
     private int userId;
     private String title;

@@ -15,6 +15,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -29,7 +30,6 @@ import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.mine.adapter.ReadLaterAdapter;
 import per.goweii.wanandroid.module.mine.model.ReadLaterEntity;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -53,7 +53,6 @@ public class ReadLaterActivity extends BaseActivity {
 
     private int perPageCount = 20;
     private int currPage = 0;
-    private RealmHelper mRealmHelper;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, ReadLaterActivity.class);
@@ -139,7 +138,6 @@ public class ReadLaterActivity extends BaseActivity {
                         }
                         break;
                     case R.id.tv_delete:
-                        mRealmHelper.delete(item.getLink());
                         mAdapter.remove(position);
                         if (mAdapter.getData().isEmpty()) {
                             MultiStateUtils.toEmpty(msv);
@@ -151,8 +149,6 @@ public class ReadLaterActivity extends BaseActivity {
             }
         });
         rv.setAdapter(mAdapter);
-
-        mRealmHelper = RealmHelper.create();
     }
 
     @Override
@@ -160,18 +156,16 @@ public class ReadLaterActivity extends BaseActivity {
         MultiStateUtils.toLoading(msv);
         currPage = 0;
         getPageList();
+        MultiStateUtils.toError(msv, null, "该功能已删除~");
     }
 
     @Override
     protected void onDestroy() {
-        if (mRealmHelper != null) {
-            mRealmHelper.destroy();
-        }
         super.onDestroy();
     }
 
     public void getPageList() {
-        List<ReadLaterEntity> list = mRealmHelper.get(currPage, perPageCount);
+        List<ReadLaterEntity> list = new ArrayList<>();
         if (currPage == 0) {
             mAdapter.setNewData(list);
             if (list.isEmpty()) {
