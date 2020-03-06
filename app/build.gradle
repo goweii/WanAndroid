@@ -105,5 +105,6 @@ dependencies {
     implementation rootProject.ext.dependencies.crashActivity
     implementation rootProject.ext.dependencies.heartView
     implementation rootProject.ext.dependencies.tbs
-    implementation 'com.king.zxing:zxing-lite:1.1.6'
+    implementation 'com.github.goweii.BGAQRCode-Android:zxing:v1.3.8'
+
 }

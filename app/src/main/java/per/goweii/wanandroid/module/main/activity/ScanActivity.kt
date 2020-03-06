@@ -5,12 +5,11 @@ import android.animation.Animator
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.Intent
-import android.view.MotionEvent
+import android.os.Vibrator
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import com.google.zxing.BarcodeFormat
-import com.king.zxing.CaptureHelper
-import com.king.zxing.OnCaptureCallback
+import cn.bingoogolapple.qrcode.core.QRCodeView
+import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder
 import kotlinx.android.synthetic.main.activity_scan.*
 import per.goweii.anypermission.RequestListener
 import per.goweii.anypermission.RuntimeRequester
@@ -18,6 +17,7 @@ import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.core.permission.PermissionUtils
 import per.goweii.basic.utils.LogUtils
 import per.goweii.basic.utils.ext.gone
+import per.goweii.basic.utils.ext.invisible
 import per.goweii.basic.utils.ext.visible
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.main.presenter.ScanPresenter
@@ -25,11 +25,12 @@ import per.goweii.wanandroid.module.main.view.ScanView
 import per.goweii.wanandroid.utils.PictureSelectorUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
 
+
 /**
  * @author CuiZhen
  * @date 2020/2/26
  */
-class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, OnCaptureCallback {
+class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegate {
 
     companion object {
         private const val REQ_CODE_CAMERA = 1
@@ -42,9 +43,9 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, OnCaptureCallback 
         }
     }
 
-    private lateinit var mCaptureHelper: CaptureHelper
     private var mRuntimeRequester: RuntimeRequester? = null
     private var hasPermission = false
+    private var shouldPause = false
     private var tvTipAnim: Animator? = null
 
     override fun swipeBackOnlyEdge(): Boolean = true
@@ -60,16 +61,8 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, OnCaptureCallback 
         }
         tvTip.visibility = View.INVISIBLE
         ivTorch.visibility = View.INVISIBLE
-        mCaptureHelper = CaptureHelper(this, surfaceView, viewfinderView, ivTorch)
-                .setOnCaptureCallback(this)
-                .continuousScan(false)
-                .vibrate(true)
-                .playBeep(true)
-                .fullScreenScan(true)
-                .supportAutoZoom(false)
-                .supportZoom(true)
-                .decodeFormats(arrayListOf(BarcodeFormat.QR_CODE))
-        mCaptureHelper.onCreate()
+        qrCodeView.setDelegate(this)
+        qrCodeView.stopSpotAndHiddenRect()
     }
 
     private fun requestPermission() {
@@ -77,11 +70,15 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, OnCaptureCallback 
             override fun onSuccess() {
                 hasPermission = true
                 hideTvTip()
+                if (!shouldPause) {
+                    qrCodeView.startCamera()
+                    qrCodeView.startSpotAndShowRect()
+                }
             }
 
             override fun onFailed() {
                 hasPermission = false
-                showTvTip("为获取到相机权限\n点击重试", View.OnClickListener {
+                showTvTip("没有相机权限\n点击获取", View.OnClickListener {
                     hideTvTip()
                     requestPermission()
                 })
@@ -94,28 +91,23 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, OnCaptureCallback 
 
     override fun onResume() {
         super.onResume()
-        if (!shouldPause) {
-            mCaptureHelper.onResume()
+        if (hasPermission && !shouldPause) {
+            qrCodeView.startCamera()
+            qrCodeView.startSpotAndShowRect()
         }
     }
 
     override fun onPause() {
         super.onPause()
-        mCaptureHelper.onPause()
+        qrCodeView.stopSpotAndHiddenRect()
+        qrCodeView.stopCamera()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        mCaptureHelper.onDestroy()
+        qrCodeView.onDestroy()
         cancelTvTipAnim()
     }
-
-    override fun onTouchEvent(event: MotionEvent): Boolean {
-        mCaptureHelper.onTouchEvent(event)
-        return super.onTouchEvent(event)
-    }
-
-    private var shouldPause = false
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -124,32 +116,35 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, OnCaptureCallback 
                 mRuntimeRequester?.onActivityResult(requestCode)
             }
             REQ_CODE_SELECT_PIC -> {
+                shouldPause = true
                 PictureSelectorUtils.forResult(resultCode, data)?.let { path ->
-                    val result: String? = presenter.parseCode(path)
-                    LogUtils.d("ScanActivity", "result=$result")
-                    if (result == null) {
-                        shouldPause = true
-                        mCaptureHelper.onPause()
-                        showTvTip("未识别到二维码", View.OnClickListener {
+                    presenter.getBitmapFromPath(path)?.let { bitmap ->
+                        QRCodeDecoder.syncDecodeQRCode(bitmap)?.let { result ->
+                            onScanQRCodeSuccess(result)
+                        } ?: run {
+                            showTvTip("没有识别到二维码\n点击继续", View.OnClickListener {
+                                hideTvTip()
+                                shouldPause = false
+                                qrCodeView.startCamera()
+                                qrCodeView.startSpotAndShowRect()
+                            })
+                        }
+                    } ?: run {
+                        showTvTip("打开图片失败\n点击继续", View.OnClickListener {
                             hideTvTip()
                             shouldPause = false
-                            mCaptureHelper.onResume()
-                            mCaptureHelper.surfaceCreated(surfaceView.holder)
+                            qrCodeView.startCamera()
+                            qrCodeView.startSpotAndShowRect()
                         })
-                    } else {
-                        UrlOpenUtils.with(result).open(context)
-                        finish()
                     }
                 }
             }
         }
     }
 
-    override fun onResultCallback(result: String?): Boolean {
-        LogUtils.d("ScanActivity", "result=$result")
-        UrlOpenUtils.with(result).open(context)
-        finish()
-        return true
+    private fun vibrate() {
+        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        vibrator.vibrate(200)
     }
 
     private fun cancelTvTipAnim() {
@@ -214,5 +209,40 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, OnCaptureCallback 
             })
             start()
         }
+    }
+
+    override fun onScanQRCodeSuccess(result: String?) {
+        LogUtils.d("ScanActivity", "result=$result")
+        qrCodeView.stopSpot()
+        qrCodeView.stopCamera()
+        vibrate()
+        UrlOpenUtils.with(result).open(context)
+        finish()
+    }
+
+    override fun onCameraAmbientBrightnessChanged(isDark: Boolean) {
+        if (isDark || ivTorch.isSelected) {
+            ivTorch.visible()
+            ivTorch.setOnClickListener {
+                ivTorch.isSelected = !ivTorch.isSelected
+                if (ivTorch.isSelected) {
+                    qrCodeView.openFlashlight()
+                } else {
+                    qrCodeView.closeFlashlight()
+                }
+            }
+        } else {
+            ivTorch.invisible()
+            ivTorch.isSelected = false
+            ivTorch.setOnClickListener(null)
+            qrCodeView.closeFlashlight()
+        }
+    }
+
+    override fun onScanQRCodeOpenCameraError() {
+        showTvTip("打开相机失败\n点击重试", View.OnClickListener {
+            hideTvTip()
+            requestPermission()
+        })
     }
 }

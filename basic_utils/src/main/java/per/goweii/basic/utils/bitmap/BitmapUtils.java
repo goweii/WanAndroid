@@ -120,4 +120,13 @@ public class BitmapUtils {
         }
         return null;
     }
+
+    @Nullable
+    public static Bitmap getBitmapFromPath(Context context, String path) {
+        Uri uri = getImageContentUri(context, path);
+        if (uri == null) {
+            return null;
+        }
+        return getBitmapFromUri(context, uri);
+    }
 }

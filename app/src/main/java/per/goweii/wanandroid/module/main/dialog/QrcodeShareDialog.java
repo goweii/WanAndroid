@@ -6,12 +6,12 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.king.zxing.util.CodeUtils;
-
+import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
 import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
@@ -97,7 +97,7 @@ public class QrcodeShareDialog extends DialogLayer {
         ImageView iv_qrcode = getView(R.id.dialog_qrcode_share_piv_qrcode);
         TextView tv_title = getView(R.id.dialog_qrcode_share_tv_title);
         Bitmap logo = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_icon);
-        Bitmap qrcode = CodeUtils.createQRCode(mUrl, 300, logo);
+        Bitmap qrcode = QRCodeEncoder.syncEncodeQRCode(mUrl, 300, Color.BLACK, Color.WHITE, logo);
         iv_qrcode.setImageBitmap(qrcode);
         tv_title.setText(mTitle);
         refreshJinrishici();

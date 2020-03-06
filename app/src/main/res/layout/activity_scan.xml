@@ -8,42 +8,36 @@
     android:background="#000000"
     android:orientation="vertical">
 
-    <SurfaceView
-        android:id="@+id/surfaceView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <com.king.zxing.ViewfinderView
-        android:id="@+id/viewfinderView"
+    <per.goweii.wanandroid.widget.QRCodeView
+        android:id="@+id/qrCodeView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:cornerColor="#00000000"
-        app:cornerRectHeight="0dp"
-        app:cornerRectWidth="0dp"
-        app:frameColor="#00000000"
-        app:frameHeight="0dp"
-        app:frameLineWidth="300dp"
-        app:frameRatio="1"
-        app:frameWidth="0dp"
-        app:gridColumn="20"
-        app:gridHeight="50dp"
-        app:laserColor="@color/main"
-        app:laserStyle="none"
-        app:maskColor="#00000000"
-        app:resultPointColor="@color/assist"
-        app:scannerLineHeight="10dp"
-        app:scannerLineMoveDistance="3dp"
-        app:showResultPoint="true" />
+        app:qrcv_animTime="1000"
+        app:qrcv_borderColor="@color/transparent"
+        app:qrcv_borderSize="0dp"
+        app:qrcv_cornerColor="@color/transparent"
+        app:qrcv_cornerLength="0dp"
+        app:qrcv_cornerSize="0dp"
+        app:qrcv_isOnlyDecodeScanBoxArea="false"
+        app:qrcv_isScanLineReverse="true"
+        app:qrcv_isShowDefaultScanLineDrawable="true"
+        app:qrcv_isShowLocationPoint="true"
+        app:qrcv_maskColor="@color/transparent"
+        app:qrcv_rectWidth="360dp"
+        app:qrcv_scanLineColor="@color/main"
+        app:qrcv_scanLineMargin="@dimen/margin_def"
+        app:qrcv_scanLineSize="5dp"
+        app:qrcv_verticalBias="0.5" />
 
     <TextView
         android:id="@+id/tvTip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#88000000"
         android:gravity="center"
-        android:textSize="@dimen/text_content"
         android:textColor="@color/text_second"
-        tools:text="为获取到相机权限\n点击重试！"
-        android:background="#88000000" />
+        android:textSize="@dimen/text_content"
+        tools:text="为获取到相机权限\n点击重试！" />
 
     <ImageView
         android:id="@+id/ivTorch"
@@ -54,14 +48,14 @@
         android:layout_marginBottom="@dimen/margin_middle"
         android:background="@drawable/bg_solid_round_color_black_alpha_radius_max"
         android:scaleType="centerInside"
-        android:src="@drawable/zxl_torch_selector" />
+        android:src="@drawable/selector_flush" />
 
     <ImageView
         android:id="@+id/ivAlbum"
         android:layout_width="@dimen/button_height"
         android:layout_height="@dimen/button_height"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/margin_middle"
         android:layout_marginBottom="@dimen/margin_middle"
         android:background="@drawable/bg_solid_round_color_black_alpha_radius_max"

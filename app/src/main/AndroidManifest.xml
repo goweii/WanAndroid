@@ -16,6 +16,9 @@
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
 
+    <!--  二维码扫码震动  -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".common.WanApp"
         android:allowBackup="false"
