@@ -20,6 +20,8 @@ class UrlOpenUtils(
 
     private var userId: Int = 0
 
+    private var forceWeb: Boolean = false
+
     companion object {
         fun with(url: String?) = UrlOpenUtils(url ?: "")
 
@@ -54,9 +56,13 @@ class UrlOpenUtils(
         this.userId = userId
     }
 
+    fun forceWeb() = apply {
+        this.forceWeb = true
+    }
+
     fun open(context: Context?) {
         context ?: return
-        if (articleId > 0) {
+        if (!forceWeb && articleId > 0) {
             ArticleActivity.start(context, url, title, articleId, collected, author, userId)
         } else {
             WebActivity.start(context, url, title, 0, collected)

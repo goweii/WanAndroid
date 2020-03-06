@@ -5,12 +5,14 @@ import android.content.Intent
 import android.net.Uri
 import android.support.v7.widget.LinearLayoutManager
 import android.view.KeyEvent
+import android.view.MotionEvent
 import android.widget.TextView
 import com.scwang.smartrefresh.layout.api.RefreshFooter
 import com.scwang.smartrefresh.layout.api.RefreshHeader
 import com.scwang.smartrefresh.layout.api.RefreshLayout
 import com.scwang.smartrefresh.layout.constant.RefreshState
 import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener
+import kotlinx.android.synthetic.main.action_bar_article.*
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.utils.InputMethodUtils
@@ -51,6 +53,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
     private lateinit var mWebHolder: WebHolder
     private lateinit var adapter: ArticleCommentAdapter
     private var lastUrlLoadTime = 0L
+    private var userTouched = false
+    private var isPageLoadFinished = false
 
     override fun getLayoutId(): Int = R.layout.activity_article
 
@@ -66,6 +70,16 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             presenter.userId = it.getIntExtra("user_id", 0)
         }
         ab.getView<TextView>(R.id.tv_title).text = presenter.articleTitle
+        aiv_more.setOnClickListener {
+            UrlOpenUtils.with(presenter.articleUrl)
+                    .title(presenter.articleTitle)
+                    .articleId(presenter.articleId)
+                    .collected(presenter.collected)
+                    .author(presenter.userName)
+                    .userId(presenter.userId)
+                    .forceWeb()
+                    .open(context)
+        }
         fl_top_bar_handle.setOnClickListener {
             dl.toggle()
         }
@@ -110,8 +124,10 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         dl.onDragging { v_mask.alpha = 1F - it }
         mWebHolder = with(this, wc)
                 .setOverrideUrlInterceptor {
+                    if (!isPageLoadFinished) return@setOverrideUrlInterceptor false
+                    if (!userTouched) return@setOverrideUrlInterceptor false
                     val currUrlLoadTime = System.currentTimeMillis()
-                    val intercept = if (currUrlLoadTime - lastUrlLoadTime > 500L) {
+                    val intercept = if (currUrlLoadTime - lastUrlLoadTime > 1000L) {
                         UrlOpenUtils.with(it).open(context)
                         true
                     } else {
@@ -120,6 +136,14 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
                     lastUrlLoadTime = currUrlLoadTime
                     return@setOverrideUrlInterceptor intercept
                 }
+                .setOnPageLoadCallback(object : WebHolder.OnPageLoadCallback {
+                    override fun onPageFinished() {
+                        isPageLoadFinished = true
+                    }
+
+                    override fun onPageStarted() {
+                    }
+                })
                 .setInterceptUrlInterceptor { pageUri, reqUri, reqHeaders, reqMethod ->
                     return@setInterceptUrlInterceptor WebUrlInterceptFactory.create(pageUri)?.interceptor?.intercept(reqUri, mWebHolder.userAgent, reqHeaders, reqMethod)
                 }
@@ -154,10 +178,11 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
                     }
 
                     override fun onClose() {
+                        et_comment?.clearFocus()
                     }
                 })
         dl.onClosed {
-            InputMethodUtils.hide(et_comment)
+            et_comment?.let { InputMethodUtils.hide(it) }
         }
     }
 
@@ -180,5 +205,10 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         return if (dl.handleKeyEvent(keyCode, event)) {
             true
         } else super.onKeyDown(keyCode, event)
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
+        userTouched = true
+        return super.dispatchTouchEvent(ev)
     }
 }

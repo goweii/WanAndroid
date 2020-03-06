@@ -31,12 +31,11 @@
     <per.goweii.actionbarex.common.ActionIconView
         android:id="@+id/aiv_more"
         android:layout_width="0dp"
-        android:rotation="90"
         android:layout_height="match_parent"
         android:padding="13dp"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="3dp"
-        android:src="@drawable/ic_more"
+        android:src="@drawable/ic_browser"
         android:tint="@color/basic_ui_action_bar_icon" />
 
 </RelativeLayout>
