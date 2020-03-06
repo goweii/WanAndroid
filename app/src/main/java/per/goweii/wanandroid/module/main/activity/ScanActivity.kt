@@ -59,7 +59,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
         ivAlbum.setOnClickListener {
             PictureSelectorUtils.ofImage(this@ScanActivity, REQ_CODE_SELECT_PIC)
         }
-        tvTip.visibility = View.INVISIBLE
+        llTip.visibility = View.INVISIBLE
         ivTorch.visibility = View.INVISIBLE
         qrCodeView.setDelegate(this)
         qrCodeView.stopSpotAndHiddenRect()
@@ -69,7 +69,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
         mRuntimeRequester = PermissionUtils.request(object : RequestListener {
             override fun onSuccess() {
                 hasPermission = true
-                hideTvTip()
+                hideTip()
                 if (!shouldPause) {
                     qrCodeView.startCamera()
                     qrCodeView.startSpotAndShowRect()
@@ -78,8 +78,8 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
 
             override fun onFailed() {
                 hasPermission = false
-                showTvTip("没有相机权限\n点击获取", View.OnClickListener {
-                    hideTvTip()
+                showTip("没有相机权限", "点击获取", View.OnClickListener {
+                    hideTip()
                     requestPermission()
                 })
             }
@@ -106,7 +106,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
     override fun onDestroy() {
         super.onDestroy()
         qrCodeView.onDestroy()
-        cancelTvTipAnim()
+        cancelTipAnim()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -122,16 +122,16 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                         QRCodeDecoder.syncDecodeQRCode(bitmap)?.let { result ->
                             onScanQRCodeSuccess(result)
                         } ?: run {
-                            showTvTip("没有识别到二维码\n点击继续", View.OnClickListener {
-                                hideTvTip()
+                            showTip("没有识别到二维码/条码等", "点击继续", View.OnClickListener {
+                                hideTip()
                                 shouldPause = false
                                 qrCodeView.startCamera()
                                 qrCodeView.startSpotAndShowRect()
                             })
                         }
                     } ?: run {
-                        showTvTip("打开图片失败\n点击继续", View.OnClickListener {
-                            hideTvTip()
+                        showTip("打开图片失败", "点击继续", View.OnClickListener {
+                            hideTip()
                             shouldPause = false
                             qrCodeView.startCamera()
                             qrCodeView.startSpotAndShowRect()
@@ -147,17 +147,18 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
         vibrator.vibrate(200)
     }
 
-    private fun cancelTvTipAnim() {
+    private fun cancelTipAnim() {
         tvTipAnim?.cancel()
         tvTipAnim = null
     }
 
-    private fun showTvTip(text: String, listener: View.OnClickListener) {
-        tvTip ?: return
-        tvTip.text = text
-        tvTip.setOnClickListener(listener)
-        cancelTvTipAnim()
-        tvTipAnim = ObjectAnimator.ofFloat(tvTip, "alpha", 0F, 1F).apply {
+    private fun showTip(text: String, btn: String, listener: View.OnClickListener) {
+        llTip ?: return
+        tvTipText.text = text
+        tvTipBtn.text = btn
+        llTip.setOnClickListener(listener)
+        cancelTipAnim()
+        tvTipAnim = ObjectAnimator.ofFloat(llTip, "alpha", 0F, 1F).apply {
             duration = 300
             interpolator = DecelerateInterpolator()
             addListener(object : Animator.AnimatorListener {
@@ -171,23 +172,24 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                 }
 
                 override fun onAnimationStart(animation: Animator?) {
-                    tvTip ?: return
-                    tvTip.visible()
+                    llTip ?: return
+                    llTip.visible()
                 }
             })
             start()
         }
     }
 
-    private fun hideTvTip() {
-        tvTip ?: return
-        cancelTvTipAnim()
-        if (tvTip.visibility != View.VISIBLE) {
+    private fun hideTip() {
+        llTip ?: return
+        cancelTipAnim()
+        if (llTip.visibility != View.VISIBLE) {
             return
         }
-        tvTip.text = ""
-        tvTip.setOnClickListener(null)
-        tvTipAnim = ObjectAnimator.ofFloat(tvTip, "alpha", 1F, 0F).apply {
+        tvTipText.text = ""
+        tvTipBtn.text = ""
+        llTip.setOnClickListener(null)
+        tvTipAnim = ObjectAnimator.ofFloat(llTip, "alpha", 1F, 0F).apply {
             duration = 300
             interpolator = DecelerateInterpolator()
             addListener(object : Animator.AnimatorListener {
@@ -195,16 +197,16 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    tvTip ?: return
-                    tvTip.gone()
+                    llTip ?: return
+                    llTip.gone()
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
                 }
 
                 override fun onAnimationStart(animation: Animator?) {
-                    tvTip ?: return
-                    tvTip.visible()
+                    llTip ?: return
+                    llTip.visible()
                 }
             })
             start()
@@ -240,8 +242,8 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
     }
 
     override fun onScanQRCodeOpenCameraError() {
-        showTvTip("打开相机失败\n点击重试", View.OnClickListener {
-            hideTvTip()
+        showTip("打开相机失败", "点击重试", View.OnClickListener {
+            hideTip()
             requestPermission()
         })
     }

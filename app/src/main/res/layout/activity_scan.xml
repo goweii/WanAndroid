@@ -26,18 +26,38 @@
         app:qrcv_rectWidth="360dp"
         app:qrcv_scanLineColor="@color/main"
         app:qrcv_scanLineMargin="@dimen/margin_def"
-        app:qrcv_scanLineSize="5dp"
         app:qrcv_verticalBias="0.5" />
 
-    <TextView
-        android:id="@+id/tvTip"
+    <LinearLayout
+        android:id="@+id/llTip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#88000000"
         android:gravity="center"
-        android:textColor="@color/text_second"
-        android:textSize="@dimen/text_content"
-        tools:text="为获取到相机权限\n点击重试！" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTipText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#FFFFFFFF"
+            android:alpha="0.9"
+            android:textSize="@dimen/text_title"
+            tools:text="没有获取到相机权限" />
+
+        <TextView
+            android:id="@+id/tvTipBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#FFFFFFFF"
+            android:alpha="0.5"
+            android:layout_marginTop="@dimen/margin_common"
+            android:textSize="@dimen/text_content"
+            tools:text="点击重试" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/ivTorch"
