@@ -65,6 +65,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             presenter.userName = it.getStringExtra("user_name") ?: ""
             presenter.userId = it.getIntExtra("user_id", 0)
         }
+        ab.getView<TextView>(R.id.tv_title).text = presenter.articleTitle
         fl_top_bar_handle.setOnClickListener {
             dl.toggle()
         }
@@ -108,9 +109,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         })
         dl.onDragging { v_mask.alpha = 1F - it }
         mWebHolder = with(this, wc)
-                .setOnPageTitleCallback {
-                    ab.getView<TextView>(R.id.tv_title).text = it
-                }
                 .setOverrideUrlInterceptor {
                     val currUrlLoadTime = System.currentTimeMillis()
                     val intercept = if (currUrlLoadTime - lastUrlLoadTime > 500L) {

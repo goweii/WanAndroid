@@ -21,7 +21,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
 
     private val _dismissDuration = 300
     private val _dismissVelocity = 1000F
-    private val _dismissFraction = 0.3F
+    private val _dismissFraction = 0.1F
 
     private val mDragHelper: ViewDragHelper = ViewDragHelper.create(this, DragCallback())
     private val mNestedHelper: NestedScrollingParentHelper = NestedScrollingParentHelper(this)
@@ -195,8 +195,8 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
                 }
             }
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                if (ev.rawX - mDownX < ViewConfiguration.getTouchSlop() &&
-                        ev.rawY - mDownY < ViewConfiguration.getTouchSlop()) {
+                if (abs(ev.rawX - mDownX) < ViewConfiguration.getTouchSlop() &&
+                        abs(ev.rawY - mDownY) < ViewConfiguration.getTouchSlop()) {
                     judgeDragEnd()
                 }
             }
@@ -215,8 +215,8 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         mDragHelper.processTouchEvent(ev)
         when (ev.action and MotionEvent.ACTION_MASK) {
             MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                if (ev.rawX - mDownX < ViewConfiguration.getTouchSlop() &&
-                        ev.rawY - mDownY < ViewConfiguration.getTouchSlop()) {
+                if (abs(ev.rawX - mDownX) < ViewConfiguration.getTouchSlop() &&
+                        abs(ev.rawY - mDownY) < ViewConfiguration.getTouchSlop()) {
                     judgeDragEnd()
                 }
             }
@@ -442,13 +442,25 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         if (type == ViewCompat.TYPE_TOUCH) {
             if (!target.canScrollVertically(-1)) {
                 nestedScrollStopped = true
-                val openOrClose = when {
-                    velocity > _dismissVelocity -> true
-                    velocity < -_dismissVelocity -> false
-                    else -> if (open) {
-                        mDragFraction < _dismissFraction
-                    } else {
-                        mDragFraction < 1F - _dismissFraction
+                val openOrClose = if (open) {
+                    when {
+                        velocity > 0F -> true
+                        velocity < 0F -> false
+                        else -> if (open) {
+                            mDragFraction < _dismissFraction
+                        } else {
+                            mDragFraction < 1F - _dismissFraction
+                        }
+                    }
+                } else {
+                    when {
+                        velocity > 0F -> true
+                        velocity < 0F -> false
+                        else -> if (open) {
+                            mDragFraction < _dismissFraction
+                        } else {
+                            mDragFraction < 1F - _dismissFraction
+                        }
                     }
                 }
                 val f = abs(velocity) / _dismissVelocity
@@ -522,13 +534,25 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
 
         override fun onViewReleased(releasedChild: View, xvel: Float, yvel: Float) {
             super.onViewReleased(releasedChild, xvel, yvel)
-            val openOrClose = when {
-                yvel > _dismissVelocity -> false
-                yvel < -_dismissVelocity -> true
-                else -> if (open) {
-                    mDragFraction < _dismissFraction
-                } else {
-                    mDragFraction < 1F - _dismissFraction
+            val openOrClose = if (open) {
+                when {
+                    yvel > 0F -> false
+                    yvel < 0F -> true
+                    else -> if (open) {
+                        mDragFraction < _dismissFraction
+                    } else {
+                        mDragFraction < 1F - _dismissFraction
+                    }
+                }
+            } else {
+                when {
+                    yvel > 0F -> false
+                    yvel < 0F -> true
+                    else -> if (open) {
+                        mDragFraction < _dismissFraction
+                    } else {
+                        mDragFraction < 1F - _dismissFraction
+                    }
                 }
             }
             val l = mLeft
