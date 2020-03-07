@@ -25,6 +25,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.module.home.activity.UserPageActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
+import per.goweii.wanandroid.utils.ArticleDiffCallback;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.ad.AdEntity;
@@ -67,7 +68,12 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         if (mPageLoadedCallback != null && data != null) {
             mPageLoadedCallback.pageLoaded(0, data);
         }
-        super.setNewData(data);
+        setNewDiffData(data);
+        getRecyclerView().scrollToPosition(0);
+    }
+
+    private void setNewDiffData(@Nullable List<MultiItemEntity> data) {
+        setNewDiffData(new ArticleDiffCallback(data));
     }
 
     @Override

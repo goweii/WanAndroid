@@ -26,7 +26,7 @@ ext {
             glide                 : "4.8.0",
             glideCompiler         : "4.8.0",
             glideOkhttp3          : "4.8.0",
-            bravh                 : "2.9.46",
+            bravh                 : "2.9.50",
             smartRefreshLayout    : "1.1.0",
             smartRefreshHorizontal: "1.0.0-beta-1",
             rxHttp                : "2.2.9",
