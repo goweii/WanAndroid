@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="文章标题"
-                android:textColor="@color/text_third"
+                android:textColor="@color/text_second"
                 android:textSize="@dimen/text_notes" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_below="@+id/et_title"
                 android:layout_marginTop="16dp"
                 android:text="文章链接"
-                android:textColor="@color/text_third"
+                android:textColor="@color/text_second"
                 android:textSize="@dimen/text_notes" />
 
             <TextView
