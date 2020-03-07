@@ -13,18 +13,11 @@
         style="@style/ActionBar"
         app:ab_titleBarLayout="@layout/action_bar_web" />
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+    <per.goweii.wanandroid.widget.WebContainer
+        android:id="@+id/wc"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        app:srlEnablePureScrollMode="true">
-
-        <per.goweii.wanandroid.widget.WebContainer
-            android:id="@+id/wc"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="match_parent"

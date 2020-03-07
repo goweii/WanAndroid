@@ -206,7 +206,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
         currPage = PAGE_START;
-        presenter.getMineShareArticleList(currPage, true);
+        presenter.getMineShareArticleList(currPage, false);
     }
 
     @Override

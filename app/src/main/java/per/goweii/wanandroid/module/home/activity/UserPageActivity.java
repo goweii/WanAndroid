@@ -230,8 +230,10 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         srl.setOnMultiPurposeListener(new OnMultiPurposeListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
-                iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() + offset;
-                iv_blur.requestLayout();
+                if (iv_blur != null && rl_user_info != null) {
+                    iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() + offset;
+                    iv_blur.requestLayout();
+                }
             }
 
             @Override
@@ -248,8 +250,10 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
 
             @Override
             public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
-                iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() - offset;
-                iv_blur.requestLayout();
+                if (iv_blur != null && rl_user_info != null) {
+                    iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() - offset;
+                    iv_blur.requestLayout();
+                }
             }
 
             @Override

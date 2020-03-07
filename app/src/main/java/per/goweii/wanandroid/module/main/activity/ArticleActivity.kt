@@ -7,11 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.widget.TextView
-import com.scwang.smartrefresh.layout.api.RefreshFooter
-import com.scwang.smartrefresh.layout.api.RefreshHeader
-import com.scwang.smartrefresh.layout.api.RefreshLayout
-import com.scwang.smartrefresh.layout.constant.RefreshState
-import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener
 import kotlinx.android.synthetic.main.action_bar_article.*
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
@@ -83,44 +78,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         fl_top_bar_handle.setOnClickListener {
             dl.toggle()
         }
-        srl.setOnMultiPurposeListener(object : OnMultiPurposeListener {
-            override fun onFooterMoving(footer: RefreshFooter?, isDragging: Boolean, percent: Float, offset: Int, footerHeight: Int, maxDragHeight: Int) {
-                if (percent > 1f && dl.isClosed()) {
-                    dl.open()
-                }
-            }
-
-            override fun onHeaderStartAnimator(header: RefreshHeader?, headerHeight: Int, maxDragHeight: Int) {
-            }
-
-            override fun onFooterReleased(footer: RefreshFooter?, footerHeight: Int, maxDragHeight: Int) {
-            }
-
-            override fun onStateChanged(refreshLayout: RefreshLayout, oldState: RefreshState, newState: RefreshState) {
-            }
-
-            override fun onHeaderMoving(header: RefreshHeader?, isDragging: Boolean, percent: Float, offset: Int, headerHeight: Int, maxDragHeight: Int) {
-            }
-
-            override fun onFooterFinish(footer: RefreshFooter?, success: Boolean) {
-            }
-
-            override fun onFooterStartAnimator(footer: RefreshFooter?, footerHeight: Int, maxDragHeight: Int) {
-            }
-
-            override fun onHeaderReleased(header: RefreshHeader?, headerHeight: Int, maxDragHeight: Int) {
-            }
-
-            override fun onLoadMore(refreshLayout: RefreshLayout) {
-                dl.open()
-            }
-
-            override fun onRefresh(refreshLayout: RefreshLayout) {
-            }
-
-            override fun onHeaderFinish(header: RefreshHeader?, success: Boolean) {
-            }
-        })
         dl.onDragging { v_mask.alpha = 1F - it }
         mWebHolder = with(this, wc)
                 .setOverrideUrlInterceptor {
@@ -152,7 +109,23 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
                     val supportNight = WebUrlInterceptFactory.create(pageUri)?.interceptor?.isSupportNightMode()
                             ?: false
                     return@setNightModeInterceptor !supportNight
-                }
+                }.setOnOverScrollListener(object : WebHolder.OnOverScrollListener {
+                    override fun onHeaderMoving(percent: Float) {
+                    }
+
+                    override fun onFooterMoving(percent: Float) {
+                        if (percent > 1f && dl.isClosed()) {
+                            dl.open()
+                        }
+                    }
+
+                    override fun onHeaderConfirm() {
+                    }
+
+                    override fun onFooterConfirm() {
+                        dl.open()
+                    }
+                })
         rv.layoutManager = LinearLayoutManager(context)
         adapter = ArticleCommentAdapter()
         rv.adapter = adapter

@@ -11,19 +11,29 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshFooter;
+import com.scwang.smartrefresh.layout.api.RefreshHeader;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.constant.RefreshState;
+import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
 import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.CookieManager;
 import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
@@ -67,6 +77,8 @@ public class WebHolder {
 
     private final Activity mAactivity;
     private final WebContainer mWebContainer;
+    private final TextView mWebHostWarning;
+    private final SmartRefreshLayout mOverScrollLayout;
 
     public static WebHolder with(Activity activity, WebContainer container) {
         return new WebHolder(activity, container);
@@ -108,26 +120,33 @@ public class WebHolder {
 
     @SuppressLint("SetJavaScriptEnabled")
     private WebHolder(Activity activity, WebContainer container) {
+        activity.getWindow().setFormat(PixelFormat.TRANSLUCENT);
         mAactivity = activity;
         mWebContainer = container;
-        activity.getWindow().setFormat(PixelFormat.TRANSLUCENT);
         mWebView = new X5WebView(activity);
+        mWebView.setBackgroundResource(R.color.foreground);
+        mOverScrollLayout = new SmartRefreshLayout(activity);
+        mOverScrollLayout.setEnablePureScrollMode(true);
+        mWebHostWarning = new TextView(activity);
+        mWebHostWarning.setAlpha(0.5F);
+        mWebHostWarning.setTextColor(activity.getResources().getColor(R.color.text_third));
+        mWebHostWarning.setTextSize(TypedValue.COMPLEX_UNIT_PX, activity.getResources().getDimension(R.dimen.text_notes));
+        int ph = (int) activity.getResources().getDimension(R.dimen.margin_middle);
+        int pv = (int) activity.getResources().getDimension(R.dimen.margin_def);
+        mWebHostWarning.setPadding(ph, pv, ph, pv);
+        mWebHostWarning.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+        mOverScrollLayout.addView(mWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
         mProgressBar = (MaterialProgressBar) LayoutInflater.from(activity).inflate(R.layout.basic_ui_progress_bar, container, false);
         mProgressBar.setMax(100);
-        container.addView(mWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+        container.addView(mWebHostWarning, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT));
+        container.addView(mOverScrollLayout, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
         container.addView(mProgressBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 activity.getResources().getDimensionPixelSize(R.dimen.basic_ui_action_bar_loading_bar_height)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(mWebView, true);
-        }
-        mWebView.setBackgroundColor(0);
-        if (mWebView.getBackground() != null) {
-            mWebView.getBackground().setAlpha(0);
-        }
-        mWebView.getView().setBackgroundColor(0);
-        if (mWebView.getView().getBackground() != null) {
-            mWebView.getView().getBackground().setAlpha(0);
         }
         mWebView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
         mWebView.getView().setOverScrollMode(View.OVER_SCROLL_NEVER);
@@ -147,7 +166,7 @@ public class WebHolder {
         webSetting.setGeolocationEnabled(true);
         webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
         webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
-        webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        //webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
         webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSetting.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
@@ -306,6 +325,67 @@ public class WebHolder {
                 ext.setDayOrNight(true);
             }
         }
+        return this;
+    }
+
+    public WebHolder setOnOverScrollListener(OnOverScrollListener onOverScrollListener) {
+        mOverScrollLayout.setOnMultiPurposeListener(new OnMultiPurposeListener() {
+            @Override
+            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
+                if (onOverScrollListener != null) {
+                    onOverScrollListener.onHeaderMoving(percent);
+                }
+            }
+
+            @Override
+            public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onHeaderFinish(RefreshHeader header, boolean success) {
+            }
+
+            @Override
+            public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
+                if (onOverScrollListener != null) {
+                    onOverScrollListener.onFooterMoving(percent);
+                }
+            }
+
+            @Override
+            public void onFooterReleased(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onFooterStartAnimator(RefreshFooter footer, int footerHeight, int maxDragHeight) {
+            }
+
+            @Override
+            public void onFooterFinish(RefreshFooter footer, boolean success) {
+            }
+
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                if (onOverScrollListener != null) {
+                    onOverScrollListener.onFooterConfirm();
+                }
+            }
+
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                if (onOverScrollListener != null) {
+                    onOverScrollListener.onHeaderConfirm();
+                }
+            }
+
+            @Override
+            public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
+            }
+        });
         return this;
     }
 
@@ -498,9 +578,29 @@ public class WebHolder {
         @Override
         public void doUpdateVisitedHistory(WebView view, String url, boolean isReload) {
             super.doUpdateVisitedHistory(view, url, isReload);
+            Uri uri = Uri.parse(url);
+            if (uri != null) {
+                String host = uri.getHost();
+                if (!TextUtils.isEmpty(host)) {
+                    mWebHostWarning.setText(String.format("网页由 %s 提供\nX5内核：" + isX5Enabled(), host));
+                }
+            }
             if (mOnHistoryUpdateCallback != null) {
                 mOnHistoryUpdateCallback.onHistoryUpdate(isReload);
             }
+        }
+    }
+
+    private Boolean x5Enabled = null;
+
+    private String isX5Enabled() {
+        if (x5Enabled == null) {
+            x5Enabled = QbSdk.canLoadX5(WanApp.getAppContext());
+        }
+        if (x5Enabled) {
+            return "已启用";
+        } else {
+            return "未启用";
         }
     }
 
@@ -540,5 +640,15 @@ public class WebHolder {
 
     public interface NightModeInterceptor {
         boolean shouldNightMode();
+    }
+
+    public interface OnOverScrollListener {
+        void onHeaderMoving(float percent);
+
+        void onHeaderConfirm();
+
+        void onFooterMoving(float percent);
+
+        void onFooterConfirm();
     }
 }

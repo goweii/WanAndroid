@@ -17,20 +17,12 @@
             style="@style/ActionBar"
             app:ab_titleBarLayout="@layout/action_bar_article" />
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/srl"
+        <per.goweii.wanandroid.widget.WebContainer
+            android:id="@+id/wc"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="@dimen/bottom_bar_height"
-            android:layout_weight="1"
-            app:srlEnablePureScrollMode="true">
-
-            <per.goweii.wanandroid.widget.WebContainer
-                android:id="@+id/wc"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            android:layout_weight="1" />
 
     </LinearLayout>
 
@@ -65,8 +57,8 @@
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/margin_def"
-                    app:riv_corner_radius="@dimen/bottom_bar_height"
                     android:background="@color/surface_top"
+                    app:riv_corner_radius="@dimen/bottom_bar_height"
                     app:riv_mutate_background="true" />
 
                 <TextView
