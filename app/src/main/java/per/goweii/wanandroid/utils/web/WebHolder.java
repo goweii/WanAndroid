@@ -50,6 +50,7 @@ import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.utils.NightModeUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.web.js.DarkmodeInject;
+import per.goweii.wanandroid.utils.web.js.ImageClickInject;
 import per.goweii.wanandroid.utils.web.js.VConsoleInject;
 import per.goweii.wanandroid.widget.WebContainer;
 import per.goweii.wanandroid.widget.X5WebView;
@@ -74,6 +75,7 @@ public class WebHolder {
 
     private final VConsoleInject vConsoleInject;
     private final DarkmodeInject darkmodeInject;
+    private final ImageClickInject imageClickInject;
 
     private final Activity mAactivity;
     private final WebContainer mWebContainer;
@@ -182,8 +184,12 @@ public class WebHolder {
                 ext.setDayOrNight(true);
             }
         }
-        vConsoleInject = new VConsoleInject(mWebView);
-        darkmodeInject = new DarkmodeInject(mWebView);
+        vConsoleInject = new VConsoleInject();
+        vConsoleInject.attach(mWebView);
+        darkmodeInject = new DarkmodeInject();
+        darkmodeInject.attach(mWebView);
+        imageClickInject = new ImageClickInject();
+        imageClickInject.attach(mWebView);
     }
 
     public WebHolder loadUrl(String url) {
@@ -403,6 +409,7 @@ public class WebHolder {
             super.onProgressChanged(view, newProgress);
             vConsoleInject.onProgressChanged(newProgress);
             darkmodeInject.onProgressChanged(newProgress);
+            imageClickInject.onProgressChanged(newProgress);
             if (newProgress < 95) {
                 if (!isProgressShown) {
                     isProgressShown = true;
@@ -555,6 +562,7 @@ public class WebHolder {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             vConsoleInject.onPageStarted();
             darkmodeInject.onPageStarted();
+            imageClickInject.onPageStarted();
             super.onPageStarted(view, url, favicon);
             if (mOnPageTitleCallback != null) {
                 mOnPageTitleCallback.onReceivedTitle(getUrl());

@@ -56,6 +56,7 @@ ext {
             heartView             : "1.0.0",
             zxingLibrary          : "2.2",
             tbs                   : "43697",
+            qrcode                : "v1.3.8",
 
             arouterApi            : "1.4.1",
             arouterCompiler       : "1.2.2",
@@ -118,6 +119,7 @@ ext {
             heartView              : "com.github.goweii:HeartView:$versions.heartView",
             zxingLibrary           : "cn.yipianfengye.android:zxing-library:$versions.zxingLibrary",
             tbs                    : "com.tencent.tbs.tbssdk:sdk:$versions.tbs",
+            qrcode                 : "com.github.goweii.BGAQRCode-Android:zxing:$versions.qrcode",
 
             arouterApi             : "com.alibaba:arouter-api:$versions.arouterApi",
             arouterCompiler        : "com.alibaba:arouter-compiler:$versions.arouterCompiler",

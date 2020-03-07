@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="#000000">
+
+    <per.goweii.anylayer.DragLayout
+        android:id="@+id/dialog_image_preview_dl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <per.goweii.wanandroid.widget.ImagePreviewView
+            android:id="@+id/dialog_image_preview_pv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </per.goweii.anylayer.DragLayout>
+
+    <per.goweii.actionbarex.common.ActionBarCommon
+        android:id="@+id/dialog_image_preview_abc"
+        style="@style/ActionBar.Common"
+        app:abc_leftIconClickToFinish="false"
+        android:background="@color/transparent"
+        app:abc_leftIconRes="@drawable/ic_close" />
+
+</RelativeLayout>

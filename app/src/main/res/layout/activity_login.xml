@@ -8,7 +8,8 @@
 
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
-        style="@style/ActionBar.Common.Back"
+        style="@style/ActionBar.Common"
+        app:abc_leftIconClickToFinish="true"
         android:background="@color/transparent"
         app:abc_leftIconRes="@drawable/ic_close" />
 

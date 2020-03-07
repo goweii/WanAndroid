@@ -344,7 +344,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             @Override
             public void onFailed() {
             }
-        }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
     @Override
