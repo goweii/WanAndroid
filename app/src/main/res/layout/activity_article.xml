@@ -58,20 +58,25 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/margin_def" />
 
-                <TextView
-                    android:id="@+id/tv_user_name"
-                    android:layout_width="wrap_content"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="@dimen/margin_common"
                     android:layout_toStartOf="@+id/fl_top_bar_handle"
-                    android:layout_toEndOf="@+id/cv_collect"
-                    android:gravity="center_vertical|start"
-                    android:text="匿名用户"
-                    android:lines="1"
-                    android:ellipsize="end"
-                    android:textColor="@color/text_third"
-                    android:textSize="@dimen/text_content" />
+                    android:layout_toEndOf="@+id/cv_collect">
+
+                    <TextView
+                        android:id="@+id/tv_user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical|start"
+                        android:singleLine="true"
+                        android:textColor="@color/text_third"
+                        android:textSize="@dimen/text_content"
+                        tools:text="匿名用户匿名用户匿名用户" />
+
+                </FrameLayout>
 
                 <FrameLayout
                     android:id="@+id/fl_top_bar_handle"
@@ -98,7 +103,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="@dimen/margin_def"
                     android:gravity="center"
-                    android:text=""
+                    android:text="评论(0)"
                     android:textColor="@color/text_third"
                     android:textSize="@dimen/text_content" />
 

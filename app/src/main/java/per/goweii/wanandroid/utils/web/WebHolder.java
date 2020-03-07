@@ -128,7 +128,7 @@ public class WebHolder {
         mOverScrollLayout = new SmartRefreshLayout(activity);
         mOverScrollLayout.setEnablePureScrollMode(true);
         mWebHostWarning = new TextView(activity);
-        mWebHostWarning.setAlpha(0.5F);
+        mWebHostWarning.setAlpha(0.3F);
         mWebHostWarning.setTextColor(activity.getResources().getColor(R.color.text_third));
         mWebHostWarning.setTextSize(TypedValue.COMPLEX_UNIT_PX, activity.getResources().getDimension(R.dimen.text_notes));
         int ph = (int) activity.getResources().getDimension(R.dimen.margin_middle);

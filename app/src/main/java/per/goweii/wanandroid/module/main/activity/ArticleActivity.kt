@@ -173,11 +173,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
     }
 
     override fun loadData() {
-        tv_user_name.text = if (presenter.userName.isNotEmpty()) {
-            presenter.userName
-        } else {
-            "匿名"
-        }
+        tv_user_name.text = if (presenter.userName.isNotEmpty()) presenter.userName else "匿名"
+        setCommentCount(0)
         lastUrlLoadTime = System.currentTimeMillis()
         mWebHolder.loadUrl(presenter.articleUrl)
         MultiStateUtils.toLoading(msv)
@@ -201,6 +198,11 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
 
     private fun switchCollectView(anim: Boolean = true) {
         cv_collect.setChecked(presenter.collected, anim)
+    }
+
+    private fun setCommentCount(count: Int) {
+        val countStr = if (count < 100) "$count" else "99+"
+        tv_comment.text = "评论($countStr)"
     }
 
     override fun collectSuccess() {
