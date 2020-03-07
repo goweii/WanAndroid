@@ -21,6 +21,7 @@ import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.event.ArticleShareEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
@@ -33,6 +34,7 @@ import per.goweii.wanandroid.module.main.presenter.UserArticlePresenter;
 import per.goweii.wanandroid.module.main.view.UserArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.widget.CollectView;
@@ -59,6 +61,8 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
     private ArticleAdapter mAdapter;
 
     private int currPage = PAGE_START;
+
+    private long lastClickTime = 0L;
 
     public static UserArticleFragment create() {
         return new UserArticleFragment();
@@ -113,6 +117,16 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
 
     @Override
     protected void initView() {
+        abc.getTitleTextView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                long currClickTime = System.currentTimeMillis();
+                if (currClickTime - lastClickTime <= Config.SCROLL_TOP_DOUBLE_CLICK_DELAY) {
+                    RvScrollTopUtils.smoothScrollTop(rv);
+                }
+                lastClickTime = currClickTime;
+            }
+        });
         abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {

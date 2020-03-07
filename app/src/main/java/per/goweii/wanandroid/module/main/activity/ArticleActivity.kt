@@ -10,6 +10,7 @@ import android.widget.TextView
 import kotlinx.android.synthetic.main.action_bar_article.*
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
+import per.goweii.basic.ui.toast.ToastMaker
 import per.goweii.basic.utils.InputMethodUtils
 import per.goweii.basic.utils.SoftInputHelper
 import per.goweii.basic.utils.listener.SimpleListener
@@ -23,6 +24,7 @@ import per.goweii.wanandroid.utils.UrlOpenUtils
 import per.goweii.wanandroid.utils.web.WebHolder
 import per.goweii.wanandroid.utils.web.WebHolder.with
 import per.goweii.wanandroid.utils.web.interceptor.WebUrlInterceptFactory
+import per.goweii.wanandroid.widget.CollectView
 
 /**
  * @author CuiZhen
@@ -64,7 +66,11 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             presenter.userName = it.getStringExtra("user_name") ?: ""
             presenter.userId = it.getIntExtra("user_id", 0)
         }
+        switchCollectView(false)
         ab.getView<TextView>(R.id.tv_title).text = presenter.articleTitle
+        aiv_back.setOnClickListener {
+            finish()
+        }
         aiv_more.setOnClickListener {
             UrlOpenUtils.with(presenter.articleUrl)
                     .title(presenter.articleTitle)
@@ -133,11 +139,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         adapter.setOnLoadMoreListener({
         }, rv)
         MultiStateUtils.setEmptyAndErrorClick(msv, SimpleListener {
-            MultiStateUtils.toLoading(msv)
+            //MultiStateUtils.toLoading(msv)
         })
-        riv_user_icon.setOnClickListener {
-            UserPageActivity.start(context, presenter.userId)
-        }
         tv_user_name.setOnClickListener {
             UserPageActivity.start(context, presenter.userId)
         }
@@ -157,6 +160,16 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         dl.onClosed {
             et_comment?.let { InputMethodUtils.hide(it) }
         }
+        wc.setOnDoubleClickListener { _, _ ->
+            presenter.collect()
+        }
+        cv_collect.setOnClickListener(CollectView.OnClickListener { v ->
+            if (!v.isChecked) {
+                presenter.collect()
+            } else {
+                presenter.uncollect()
+            }
+        })
     }
 
     override fun loadData() {
@@ -167,7 +180,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         }
         lastUrlLoadTime = System.currentTimeMillis()
         mWebHolder.loadUrl(presenter.articleUrl)
-        MultiStateUtils.toEmpty(msv)
+        MultiStateUtils.toLoading(msv)
+        MultiStateUtils.toError(msv, null, "评论功能待开发")
     }
 
     override fun swipeBackOnlyEdge(): Boolean {
@@ -183,5 +197,27 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         userTouched = true
         return super.dispatchTouchEvent(ev)
+    }
+
+    private fun switchCollectView(anim: Boolean = true) {
+        cv_collect.setChecked(presenter.collected, anim)
+    }
+
+    override fun collectSuccess() {
+        switchCollectView()
+    }
+
+    override fun collectFailed(msg: String) {
+        switchCollectView()
+        ToastMaker.showShort(msg)
+    }
+
+    override fun uncollectSuccess() {
+        switchCollectView()
+    }
+
+    override fun uncollectFailed(msg: String) {
+        switchCollectView()
+        ToastMaker.showShort(msg)
     }
 }

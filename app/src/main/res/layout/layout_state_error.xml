@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_auxiliary"
+            android:gravity="center"
             android:text="怎么又出错~~"
             android:textColor="@color/text_third" />
 

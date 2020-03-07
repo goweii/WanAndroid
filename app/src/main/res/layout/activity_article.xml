@@ -51,26 +51,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/bottom_bar_height">
 
-                <com.makeramen.roundedimageview.RoundedImageView
-                    android:id="@+id/riv_user_icon"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                <per.goweii.wanandroid.widget.CollectView
+                    android:id="@+id/cv_collect"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_def"
-                    android:background="@color/surface_top"
-                    app:riv_corner_radius="@dimen/bottom_bar_height"
-                    app:riv_mutate_background="true" />
+                    android:layout_marginStart="@dimen/margin_def" />
 
                 <TextView
                     android:id="@+id/tv_user_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_def"
-                    android:layout_toEndOf="@+id/riv_user_icon"
-                    android:gravity="center"
+                    android:layout_marginStart="@dimen/margin_common"
+                    android:layout_toStartOf="@+id/fl_top_bar_handle"
+                    android:layout_toEndOf="@+id/cv_collect"
+                    android:gravity="center_vertical|start"
                     android:text="匿名用户"
+                    android:lines="1"
+                    android:ellipsize="end"
                     android:textColor="@color/text_third"
                     android:textSize="@dimen/text_content" />
 
