@@ -137,7 +137,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             if (SettingUtils.getInstance().isShowTop()) {
                 presenter.getTopArticleList(true);
             } else {
-                removeHeaderTopItems();
+                removeTopItems();
             }
         }
         if (event.isShowBannerChanged()) {
@@ -521,16 +521,17 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         });
     }
 
-    private void removeHeaderTopItems() {
+    private void removeTopItems() {
         List<MultiItemEntity> list = mAdapter.getData();
         int from = -1;
         int count = 0;
-        for (MultiItemEntity entity : list) {
+        for (int i = 0; i < list.size(); i++) {
+            MultiItemEntity entity = list.get(i);
             if (from < 0) {
                 if (entity.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
                     ArticleBean bean = (ArticleBean) entity;
                     if (bean.isTop()) {
-                        from++;
+                        from = i;
                     }
                 }
             }
@@ -544,7 +545,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 count++;
             }
         }
-        if (from > 0) {
+        if (from >= 0) {
             for (int i = 0; i < count; i++) {
                 mAdapter.remove(from);
             }
