@@ -2,6 +2,7 @@ package per.goweii.wanandroid.module.mine.adapter;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
+import android.graphics.Color;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
@@ -25,7 +26,7 @@ import per.goweii.wanandroid.module.main.model.CoinInfoBean;
  */
 public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHolder> {
 
-    private final int f = 1000;
+    private final int mScale = 1000;
     private int mMax = 0;
 
     public CoinRankAdapter() {
@@ -43,12 +44,13 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHold
     @Override
     protected void convert(BaseViewHolder helper, CoinInfoBean item) {
         ProgressBar pb = helper.getView(R.id.pb);
+        pb.setMax(mMax * mScale);
         cancelProgressAnim(pb);
         if (!item.anim) {
             item.anim = true;
             doProgressAnim(pb, item.getCoinCount());
         } else {
-            pb.setProgress(item.getCoinCount() * f);
+            pb.setProgress(item.getCoinCount() * mScale);
         }
         int index = helper.getAdapterPosition() + 1;
         helper.setText(R.id.tv_index, "" + index);
@@ -59,15 +61,15 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHold
         TextView tv_index = helper.getView(R.id.tv_index);
         if (index == 1) {
             iv_index.setImageResource(R.drawable.ic_rank_1);
-            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_surface_alpha));
+            tv_index.setTextColor(Color.parseColor("#ffca28"));
             tv_index.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv_index.getContext().getResources().getDimension(R.dimen.text_auxiliary));
         } else if (index == 2) {
             iv_index.setImageResource(R.drawable.ic_rank_2);
-            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_surface_alpha));
+            tv_index.setTextColor(Color.parseColor("#cdcdcd"));
             tv_index.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv_index.getContext().getResources().getDimension(R.dimen.text_auxiliary));
         } else if (index == 3) {
             iv_index.setImageResource(R.drawable.ic_rank_3);
-            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_surface_alpha));
+            tv_index.setTextColor(Color.parseColor("#d49682"));
             tv_index.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv_index.getContext().getResources().getDimension(R.dimen.text_auxiliary));
         } else {
             iv_index.setImageResource(R.color.transparent);
@@ -77,14 +79,13 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHold
     }
 
     private void doProgressAnim(final ProgressBar pb, int to) {
-        pb.setMax(mMax * f);
         ValueAnimator animator = ValueAnimator.ofInt(0, to);
         animator.setDuration(1000);
         animator.setInterpolator(new DecelerateInterpolator());
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
-                pb.setProgress((int) animation.getAnimatedValue() * f);
+                pb.setProgress((int) animation.getAnimatedValue() * mScale);
             }
         });
         pb.setTag(animator);
