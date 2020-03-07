@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.widget.LinearLayoutManager
+import android.text.Html
 import android.view.KeyEvent
 import android.view.MotionEvent
 import android.widget.TextView
@@ -67,7 +68,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             presenter.userId = it.getIntExtra("user_id", 0)
         }
         switchCollectView(false)
-        ab.getView<TextView>(R.id.tv_title).text = presenter.articleTitle
+        ab.getView<TextView>(R.id.tv_title).text = Html.fromHtml(presenter.articleTitle).toString()
         aiv_back.setOnClickListener {
             finish()
         }
