@@ -17,7 +17,7 @@ import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.wanandroid.R
 import kotlin.math.abs
 
-class DragLayout : FrameLayout, NestedScrollingParent2 {
+class BottomDrawerLayout : FrameLayout, NestedScrollingParent2 {
 
     private val _dismissDuration = 300
     private val _dismissVelocity = 1000F
@@ -46,15 +46,28 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
     private var onOpened: (() -> Unit)? = null
     private var onClosed: (() -> Unit)? = null
 
-    private var isEnable: Boolean = true
+    private var enable: Boolean = false
 
     private var open = false
-    private var openMargin: Int = StatusBarCompat.getHeight(context)
-    private var closeMargin: Int = context.resources.getDimension(R.dimen.bottom_bar_height).toInt()
+    private var openTopMarginStatusBarHeight = false
+    private var closeHeight: Int = 0
+    private var openTopMargin: Int = 0
 
-    constructor(context: Context) : super(context)
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+    constructor(context: Context) : this(context, null)
+    constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
+    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
+        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.BottomDrawerLayout)
+        enable = typedArray.getBoolean(R.styleable.BottomDrawerLayout_bdl_enable, enable)
+        open = typedArray.getBoolean(R.styleable.BottomDrawerLayout_bdl_open, open)
+        closeHeight = typedArray.getDimension(R.styleable.BottomDrawerLayout_bdl_closeHeight, closeHeight.toFloat()).toInt()
+        openTopMarginStatusBarHeight = typedArray.getBoolean(R.styleable.BottomDrawerLayout_bdl_openTopMarginStatusBarHeight, openTopMarginStatusBarHeight)
+        openTopMargin = if (openTopMarginStatusBarHeight) {
+            StatusBarCompat.getHeight(context)
+        } else {
+            typedArray.getDimension(R.styleable.BottomDrawerLayout_bdl_openTopMargin, openTopMargin.toFloat()).toInt()
+        }
+        typedArray.recycle()
+    }
 
     fun onDragStart(listener: () -> Unit) {
         onDragStart = listener
@@ -100,6 +113,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
     }
 
     fun toggle(duration: Int = 300) {
+        if (!enable) return
         if (isOpened()) {
             close(duration)
         } else if (isClosed()) {
@@ -108,6 +122,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
     }
 
     fun open(duration: Int = 300) {
+        if (!enable) return
         open = true
         if (duration > 0) {
             usingNested = true
@@ -116,11 +131,12 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
                     -getDragX().toInt(), -(getMinDragY() - getDragY()).toInt(), duration)
             invalidate()
         } else {
-            setDragY(getMinDragY())
+            initStateImmediately(true)
         }
     }
 
     fun close(duration: Int = 300) {
+        if (!enable) return
         open = false
         if (duration > 0) {
             usingNested = true
@@ -128,6 +144,15 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
             mScroller.startScroll(-getDragX().toInt(), -getDragY().toInt(),
                     -getDragX().toInt(), -(getMaxDragY() - getDragY()).toInt(), duration)
             invalidate()
+        } else {
+            initStateImmediately(false)
+        }
+    }
+
+    private fun initStateImmediately(openOrClose: Boolean) {
+        open = openOrClose
+        if (open) {
+            setDragY(getMinDragY())
         } else {
             setDragY(getMaxDragY())
         }
@@ -143,7 +168,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec)
         dragView.measure(
                 MeasureSpec.makeMeasureSpec(ws, MeasureSpec.EXACTLY),
-                MeasureSpec.makeMeasureSpec(hs - openMargin, MeasureSpec.EXACTLY)
+                MeasureSpec.makeMeasureSpec(hs - openTopMargin, MeasureSpec.EXACTLY)
         )
     }
 
@@ -155,15 +180,11 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         mRight = dragView.right
         mTop = dragView.top
         mBottom = dragView.bottom
-        if (open) {
-            open(0)
-        } else {
-            close(0)
-        }
+        initStateImmediately(open)
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
-        if (!isEnable) {
+        if (!enable) {
             mHandleTouchEvent = false
             return super.onInterceptTouchEvent(ev)
         }
@@ -206,7 +227,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(ev: MotionEvent): Boolean {
-        if (!isEnable) {
+        if (!enable) {
             return super.onTouchEvent(ev)
         }
         if (usingNested) {
@@ -225,7 +246,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
     }
 
     override fun computeScroll() {
-        if (!isEnable) return
+        if (!enable) return
         if (usingNested) {
             if (mScroller.computeScrollOffset()) {
                 scrollTo(mScroller.currX, mScroller.currY)
@@ -248,11 +269,11 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
 
     private fun getMinDragY() = 0F
 
-    private fun getMaxDragY() = (dragView.height - closeMargin).toFloat()
+    private fun getMaxDragY() = (dragView.height - closeHeight).toFloat()
 
     private fun getMinDragX() = 0F
 
-    private fun getMaxDragX() = (dragView.width - closeMargin).toFloat()
+    private fun getMaxDragX() = (dragView.width - closeHeight).toFloat()
 
     private fun setDragX(dragX: Float) {
         setDrag(dragX, getDragY())
@@ -485,7 +506,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
 
     private inner class DragCallback : ViewDragHelper.Callback() {
         override fun tryCaptureView(child: View, pointerId: Int): Boolean {
-            if (!isEnable) return false
+            if (!enable) return false
             if (usingNested) return false
             return child == dragView && !DragCompat.canViewScrollUp(mInnerScrollViews, mDownX, mDownY, false)
         }
@@ -501,7 +522,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         }
 
         override fun getViewVerticalDragRange(child: View): Int {
-            return height - mTop - closeMargin
+            return height - mTop - closeHeight
         }
 
         override fun clampViewPositionHorizontal(child: View, left: Int, dx: Int): Int {
@@ -509,8 +530,8 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
         }
 
         override fun clampViewPositionVertical(child: View, top: Int, dy: Int): Int {
-            val pv = if (top > height - closeMargin) {
-                height - closeMargin
+            val pv = if (top > height - closeHeight) {
+                height - closeHeight
             } else {
                 if (top < mTop) {
                     mTop
@@ -559,7 +580,7 @@ class DragLayout : FrameLayout, NestedScrollingParent2 {
             val t = if (openOrClose) {
                 mTop
             } else {
-                height - closeMargin
+                height - closeHeight
             }
             open = openOrClose
             mDragHelper.settleCapturedViewAt(l, t)

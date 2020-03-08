@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<per.goweii.wanandroid.widget.draglayout.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<per.goweii.wanandroid.widget.draglayout.BottomDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    app:bdl_open="false"
+    app:bdl_enable="false"
+    app:bdl_openTopMargin="0dp"
+    app:bdl_closeHeight="0dp"
     android:background="@color/background">
 
     <LinearLayout
@@ -21,7 +25,6 @@
             android:id="@+id/wc"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/bottom_bar_height"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -30,6 +33,7 @@
         android:id="@+id/v_mask"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        tools:alpha="0"
         android:background="@color/dialog_bg" />
 
     <LinearLayout
@@ -37,9 +41,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
         android:background="@drawable/bg_solid_round_color_surface_radius_top_def"
-        android:elevation="5dp"
-        android:orientation="vertical"
-        tools:translationY="-670dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/ll_top_bar"
@@ -188,4 +190,4 @@
 
     </LinearLayout>
 
-</per.goweii.wanandroid.widget.draglayout.DragLayout>
+</per.goweii.wanandroid.widget.draglayout.BottomDrawerLayout>
