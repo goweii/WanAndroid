@@ -260,12 +260,15 @@ public class WebHolder {
         if (parent != null) {
             ((ViewGroup) parent).removeView(mWebView);
         }
-        mWebView.removeAllViews();
-        mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
-        mWebView.stopLoading();
-        mWebView.setWebChromeClient(null);
-        mWebView.setWebViewClient(null);
-        mWebView.destroy();
+        try {
+            mWebView.removeAllViews();
+            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+            mWebView.stopLoading();
+            mWebView.setWebChromeClient(null);
+            mWebView.setWebViewClient(null);
+            mWebView.destroy();
+        } catch (Exception ignore) {
+        }
     }
 
     public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {

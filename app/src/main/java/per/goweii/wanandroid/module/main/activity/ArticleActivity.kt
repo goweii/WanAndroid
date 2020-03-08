@@ -178,6 +178,21 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         MultiStateUtils.toError(msv, null, "评论功能待开发")
     }
 
+    override fun onPause() {
+        mWebHolder.onPause()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        mWebHolder.onResume()
+        super.onResume()
+    }
+
+    override fun onDestroy() {
+        mWebHolder.onDestroy()
+        super.onDestroy()
+    }
+
     override fun swipeBackOnlyEdge(): Boolean {
         return true
     }
