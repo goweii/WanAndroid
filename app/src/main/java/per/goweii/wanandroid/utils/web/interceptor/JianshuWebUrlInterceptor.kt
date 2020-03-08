@@ -11,20 +11,17 @@ import java.util.regex.Pattern
  * @date 2020/2/25
  */
 class JianshuWebUrlInterceptor : WebUrlInterceptor {
-    override fun intercept(reqUri: Uri,
+    override fun intercept(uri: Uri,
                            userAgent: String?,
                            reqHeaders: Map<String, String>?,
                            reqMethod: String?): WebResourceResponse? {
-        val url = reqUri.toString();
+        val url = uri.toString();
         return if (url.startsWith("https://www.jianshu.com/p/")) {
-            var str = WebHttpClient.request(
-                    reqUri.toString(), userAgent, reqHeaders, reqMethod
-            )
+            val str = WebHttpClient.request(uri.toString(), userAgent, reqHeaders, reqMethod)
             val s: String = if (str.isNullOrEmpty()) {
                 ""
             } else {
                 replaceCss(str)
-//                darkBody(str)
             }
             WebResourceResponse("text/html", "utf-8", ByteArrayInputStream(s.toByteArray()))
         } else {

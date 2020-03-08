@@ -86,53 +86,49 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             dl.toggle()
         }
         dl.onDragging { v_mask.alpha = 1F - it }
-        mWebHolder = with(this, wc)
-                .setOverrideUrlInterceptor {
-                    if (!isPageLoadFinished) return@setOverrideUrlInterceptor false
-                    if (!userTouched) return@setOverrideUrlInterceptor false
-                    val currUrlLoadTime = System.currentTimeMillis()
-                    val intercept = if (currUrlLoadTime - lastUrlLoadTime > 1000L) {
-                        UrlOpenUtils.with(it).open(context)
-                        true
-                    } else {
-                        false
-                    }
-                    lastUrlLoadTime = currUrlLoadTime
-                    return@setOverrideUrlInterceptor intercept
+        mWebHolder = with(this, wc).setOverrideUrlInterceptor {
+            if (!isPageLoadFinished) return@setOverrideUrlInterceptor false
+            if (!userTouched) return@setOverrideUrlInterceptor false
+            val currUrlLoadTime = System.currentTimeMillis()
+            val intercept = if (currUrlLoadTime - lastUrlLoadTime > 1000L) {
+                UrlOpenUtils.with(it).open(context)
+                true
+            } else {
+                false
+            }
+            lastUrlLoadTime = currUrlLoadTime
+            return@setOverrideUrlInterceptor intercept
+        }.setOnPageLoadCallback(object : WebHolder.OnPageLoadCallback {
+            override fun onPageFinished() {
+                isPageLoadFinished = true
+            }
+
+            override fun onPageStarted() {
+            }
+        }).setInterceptUrlInterceptor { uri, reqHeaders, reqMethod ->
+            return@setInterceptUrlInterceptor WebUrlInterceptFactory.create(uri)?.interceptor?.intercept(uri, mWebHolder.userAgent, reqHeaders, reqMethod)
+        }.setNightModeInterceptor {
+            val pageUri = Uri.parse(presenter.articleUrl)
+            val supportNight = WebUrlInterceptFactory.create(pageUri)?.interceptor?.isSupportNightMode()
+                    ?: false
+            return@setNightModeInterceptor !supportNight
+        }.setOnOverScrollListener(object : WebHolder.OnOverScrollListener {
+            override fun onHeaderMoving(percent: Float) {
+            }
+
+            override fun onFooterMoving(percent: Float) {
+                if (percent > 1f && dl.isClosed()) {
+                    dl.open()
                 }
-                .setOnPageLoadCallback(object : WebHolder.OnPageLoadCallback {
-                    override fun onPageFinished() {
-                        isPageLoadFinished = true
-                    }
+            }
 
-                    override fun onPageStarted() {
-                    }
-                })
-                .setInterceptUrlInterceptor { pageUri, reqUri, reqHeaders, reqMethod ->
-                    return@setInterceptUrlInterceptor WebUrlInterceptFactory.create(pageUri)?.interceptor?.intercept(reqUri, mWebHolder.userAgent, reqHeaders, reqMethod)
-                }
-                .setNightModeInterceptor {
-                    val pageUri = Uri.parse(presenter.articleUrl)
-                    val supportNight = WebUrlInterceptFactory.create(pageUri)?.interceptor?.isSupportNightMode()
-                            ?: false
-                    return@setNightModeInterceptor !supportNight
-                }.setOnOverScrollListener(object : WebHolder.OnOverScrollListener {
-                    override fun onHeaderMoving(percent: Float) {
-                    }
+            override fun onHeaderConfirm() {
+            }
 
-                    override fun onFooterMoving(percent: Float) {
-                        if (percent > 1f && dl.isClosed()) {
-                            dl.open()
-                        }
-                    }
-
-                    override fun onHeaderConfirm() {
-                    }
-
-                    override fun onFooterConfirm() {
-                        dl.open()
-                    }
-                })
+            override fun onFooterConfirm() {
+                dl.open()
+            }
+        })
         rv.layoutManager = LinearLayoutManager(context)
         adapter = ArticleCommentAdapter()
         rv.adapter = adapter

@@ -8,7 +8,7 @@ import com.tencent.smtt.export.external.interfaces.WebResourceResponse
  * @date 2020/2/25
  */
 class JuejinWebUrlInterceptor : WebUrlInterceptor {
-    override fun intercept(reqUri: Uri,
+    override fun intercept(uri: Uri,
                            userAgent: String?,
                            reqHeaders: Map<String, String>?,
                            reqMethod: String?): WebResourceResponse? {

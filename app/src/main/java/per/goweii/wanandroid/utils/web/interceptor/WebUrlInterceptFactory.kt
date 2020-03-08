@@ -13,8 +13,8 @@ enum class WebUrlInterceptFactory(
     JUEJIN(JuejinWebUrlInterceptor());
 
     companion object {
-        fun create(pageUri: Uri): WebUrlInterceptFactory? {
-            return when (pageUri.host) {
+        fun create(uri: Uri): WebUrlInterceptFactory? {
+            return when (uri.host) {
                 "www.jianshu.com" -> JIANSHU
                 "juejin.im" -> JUEJIN
                 else -> null

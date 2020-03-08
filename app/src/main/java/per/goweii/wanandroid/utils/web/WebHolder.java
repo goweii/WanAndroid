@@ -33,7 +33,6 @@ import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.CookieManager;
 import com.tencent.smtt.sdk.CookieSyncManager;
-import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
@@ -77,7 +76,7 @@ public class WebHolder {
     private final DarkmodeInject darkmodeInject;
     private final ImageClickInject imageClickInject;
 
-    private final Activity mAactivity;
+    private final Activity mActivity;
     private final WebContainer mWebContainer;
     private final TextView mWebHostWarning;
     private final SmartRefreshLayout mOverScrollLayout;
@@ -123,7 +122,7 @@ public class WebHolder {
     @SuppressLint("SetJavaScriptEnabled")
     private WebHolder(Activity activity, WebContainer container) {
         activity.getWindow().setFormat(PixelFormat.TRANSLUCENT);
-        mAactivity = activity;
+        mActivity = activity;
         mWebContainer = container;
         mWebContainer.setBackgroundResource(R.color.background);
         mWebView = new X5WebView(activity);
@@ -314,7 +313,7 @@ public class WebHolder {
         mNightModeInterceptor = nightModeInterceptor;
         IX5WebSettingsExtension ext = mWebView.getSettingsExtension();
         if (ext != null) {
-            boolean isAppDarkMode = NightModeUtils.isNightMode(mAactivity);
+            boolean isAppDarkMode = NightModeUtils.isNightMode(mActivity);
             if (isAppDarkMode) {
                 boolean shouldNightMode;
                 if (mNightModeInterceptor != null) {
@@ -459,15 +458,14 @@ public class WebHolder {
     }
 
     public class WanWebViewClient extends WebViewClient {
-        private WebResourceResponse shouldInterceptRequest(@NonNull Uri pageUri,
-                                                           @NonNull Uri reqUri,
+        private WebResourceResponse shouldInterceptRequest(@NonNull Uri reqUri,
                                                            @Nullable Map<String, String> reqHeaders,
                                                            @Nullable String reqMethod) {
             syncCookiesForWanAndroid(reqUri.toString());
             if (mInterceptUrlInterceptor == null) {
                 return null;
             }
-            return mInterceptUrlInterceptor.onInterceptUrl(pageUri, reqUri, reqHeaders, reqMethod);
+            return mInterceptUrlInterceptor.onInterceptUrl(reqUri, reqHeaders, reqMethod);
         }
 
         private boolean shouldOverrideUrlLoading(Uri uri) {
@@ -488,16 +486,8 @@ public class WebHolder {
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-            String pageUrl = view.getUrl();
-            if (TextUtils.isEmpty(pageUrl)) {
-                return super.shouldInterceptRequest(view, url);
-            }
-            Uri pageUri = Uri.parse(pageUrl);
-            if (TextUtils.isEmpty(url)) {
-                return super.shouldInterceptRequest(view, url);
-            }
             Uri reqUri = Uri.parse(url);
-            WebResourceResponse response = shouldInterceptRequest(pageUri, reqUri, null, null);
+            WebResourceResponse response = shouldInterceptRequest(reqUri, null, null);
             if (response != null) {
                 return response;
             } else {
@@ -508,18 +498,13 @@ public class WebHolder {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            String pageUrl = view.getUrl();
-            if (TextUtils.isEmpty(pageUrl)) {
-                return super.shouldInterceptRequest(view, request);
-            }
-            Uri pageUri = Uri.parse(pageUrl);
             Uri reqUri = request.getUrl();
             if (reqUri == null) {
                 return super.shouldInterceptRequest(view, request);
             }
             Map<String, String> reqHeaders = request.getRequestHeaders();
             String reqMethod = request.getMethod();
-            WebResourceResponse response = shouldInterceptRequest(pageUri, reqUri, reqHeaders, reqMethod);
+            WebResourceResponse response = shouldInterceptRequest(reqUri, reqHeaders, reqMethod);
             if (response != null) {
                 return response;
             } else {
@@ -529,18 +514,13 @@ public class WebHolder {
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request, Bundle bundle) {
-            String pageUrl = view.getUrl();
-            if (TextUtils.isEmpty(pageUrl)) {
-                return super.shouldInterceptRequest(view, request, bundle);
-            }
-            Uri pageUri = Uri.parse(pageUrl);
             Uri reqUri = request.getUrl();
             if (reqUri == null) {
                 return super.shouldInterceptRequest(view, request, bundle);
             }
             Map<String, String> reqHeaders = request.getRequestHeaders();
             String reqMethod = request.getMethod();
-            WebResourceResponse response = shouldInterceptRequest(pageUri, reqUri, reqHeaders, reqMethod);
+            WebResourceResponse response = shouldInterceptRequest(reqUri, reqHeaders, reqMethod);
             if (response != null) {
                 return response;
             } else {
@@ -600,13 +580,8 @@ public class WebHolder {
         }
     }
 
-    private Boolean x5Enabled = null;
-
     private String isX5Enabled() {
-        if (x5Enabled == null) {
-            x5Enabled = QbSdk.canLoadX5(WanApp.getAppContext());
-        }
-        if (x5Enabled) {
+        if (mWebView.getX5WebViewExtension() != null) {
             return "已启用";
         } else {
             return "未启用";
@@ -641,8 +616,7 @@ public class WebHolder {
 
     public interface InterceptUrlInterceptor {
         @Nullable
-        WebResourceResponse onInterceptUrl(@NonNull Uri pageUri,
-                                           @NonNull Uri reqUri,
+        WebResourceResponse onInterceptUrl(@NonNull Uri reqUri,
                                            @Nullable Map<String, String> reqHeaders,
                                            @Nullable String reqMethod);
     }
