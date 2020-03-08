@@ -125,12 +125,13 @@ public class WebHolder {
         activity.getWindow().setFormat(PixelFormat.TRANSLUCENT);
         mAactivity = activity;
         mWebContainer = container;
+        mWebContainer.setBackgroundResource(R.color.background);
         mWebView = new X5WebView(activity);
-        mWebView.setBackgroundResource(R.color.foreground);
+        mWebView.setBackgroundResource(R.color.surface);
         mOverScrollLayout = new SmartRefreshLayout(activity);
         mOverScrollLayout.setEnablePureScrollMode(true);
         mWebHostWarning = new TextView(activity);
-        mWebHostWarning.setAlpha(0.3F);
+        mWebHostWarning.setAlpha(0.4F);
         mWebHostWarning.setTextColor(activity.getResources().getColor(R.color.text_third));
         mWebHostWarning.setTextSize(TypedValue.COMPLEX_UNIT_PX, activity.getResources().getDimension(R.dimen.text_notes));
         int ph = (int) activity.getResources().getDimension(R.dimen.margin_middle);

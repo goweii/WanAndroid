@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/foreground"
+    android:background="@color/background"
     android:orientation="vertical"
     tools:context=".module.main.activity.MainActivity">
 
@@ -19,10 +19,15 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line"
+        android:background="@color/line" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
-        android:background="@color/bottom_bar_overlay"
+        android:background="@color/surface"
         android:orientation="horizontal">
 
         <ImageView
