@@ -16,10 +16,9 @@ class ImagePreviewView : PhotoView, ScrollingView {
     constructor(context: Context?, attr: AttributeSet?, defStyle: Int) : super(context, attr, defStyle)
 
     init {
-        setOnPhotoTapListener { view, x, y ->
+        setOnViewTapListener { view, x, y ->
             onImagePreviewListener?.onTap()
         }
-
         setOnLongClickListener {
             onImagePreviewListener?.onLongClick()
             return@setOnLongClickListener true
