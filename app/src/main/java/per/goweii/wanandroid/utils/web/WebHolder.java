@@ -137,6 +137,7 @@ public class WebHolder {
         int pv = (int) activity.getResources().getDimension(R.dimen.margin_def);
         mWebHostWarning.setPadding(ph, pv, ph, pv);
         mWebHostWarning.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+        mWebHostWarning.setText("X5内核：" + isX5Enabled());
         mOverScrollLayout.addView(mWebView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
         mProgressBar = (MaterialProgressBar) LayoutInflater.from(activity).inflate(R.layout.basic_ui_progress_bar, container, false);
