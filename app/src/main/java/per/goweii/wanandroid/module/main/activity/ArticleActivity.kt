@@ -4,23 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Html
 import android.view.KeyEvent
 import android.view.MotionEvent
-import android.widget.TextView
-import kotlinx.android.synthetic.main.action_bar_article.*
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.ui.toast.ToastMaker
 import per.goweii.basic.utils.InputMethodUtils
 import per.goweii.basic.utils.SoftInputHelper
 import per.goweii.basic.utils.listener.SimpleListener
+import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.home.activity.UserPageActivity
 import per.goweii.wanandroid.module.main.adapter.ArticleCommentAdapter
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
 import per.goweii.wanandroid.module.main.view.ArticleView
 import per.goweii.wanandroid.utils.MultiStateUtils
+import per.goweii.wanandroid.utils.NightModeUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
 import per.goweii.wanandroid.utils.web.WebHolder
 import per.goweii.wanandroid.utils.web.WebHolder.with
@@ -59,6 +58,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
     override fun initPresenter(): ArticlePresenter = ArticlePresenter()
 
     override fun initView() {
+        StatusBarCompat.setIconMode(this, !NightModeUtils.isNightMode(this))
         intent?.let {
             presenter.articleUrl = it.getStringExtra("url") ?: ""
             presenter.articleTitle = it.getStringExtra("title") ?: ""
@@ -68,19 +68,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             presenter.userId = it.getIntExtra("user_id", 0)
         }
         switchCollectView(false)
-        ab.getView<TextView>(R.id.tv_title).text = Html.fromHtml(presenter.articleTitle).toString()
-        aiv_back.setOnClickListener {
+        fl_back.setOnClickListener {
             finish()
-        }
-        aiv_more.setOnClickListener {
-            UrlOpenUtils.with(presenter.articleUrl)
-                    .title(presenter.articleTitle)
-                    .articleId(presenter.articleId)
-                    .collected(presenter.collected)
-                    .author(presenter.userName)
-                    .userId(presenter.userId)
-                    .forceWeb()
-                    .open(context)
         }
         fl_top_bar_handle.setOnClickListener {
             dl.toggle()
