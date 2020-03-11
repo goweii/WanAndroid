@@ -1,7 +1,8 @@
 package per.goweii.wanandroid.utils.wanpwd;
 
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
+
+import androidx.annotation.Nullable;
 
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.CopyUtils;

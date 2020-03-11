@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.utils.ad;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.qq.e.ads.nativ.NativeExpressADView;

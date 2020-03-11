@@ -1,14 +1,13 @@
 package per.goweii.wanandroid.widget.draglayout
 
 import android.graphics.Rect
-import android.support.v4.view.ScrollingView
-import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.widget.AbsListView
 import android.widget.HorizontalScrollView
 import android.widget.ScrollView
+import androidx.core.view.ScrollingView
 import java.util.*
 
 object DragCompat {
@@ -170,7 +169,7 @@ object DragCompat {
         return (view is ScrollView
                 || view is HorizontalScrollView
                 || view is AbsListView
-                || view is ViewPager
+                || view is androidx.viewpager.widget.ViewPager
                 || view is WebView
                 || view is ScrollingView)
     }

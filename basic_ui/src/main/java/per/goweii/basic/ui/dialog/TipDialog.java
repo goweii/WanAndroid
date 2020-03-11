@@ -1,10 +1,11 @@
 package per.goweii.basic.ui.dialog;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.StringRes;
 
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DialogLayer;

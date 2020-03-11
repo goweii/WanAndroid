@@ -1,8 +1,9 @@
 package per.goweii.wanandroid.widget;
 
 import android.content.Context;
-import android.support.v4.view.ScrollingView;
 import android.util.AttributeSet;
+
+import androidx.core.view.ScrollingView;
 
 import com.daimajia.swipe.SwipeLayout;
 

@@ -11,7 +11,7 @@
         style="@style/ActionBar"
         app:ab_titleBarLayout="@layout/action_bar_multi_magic_indicator" />
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

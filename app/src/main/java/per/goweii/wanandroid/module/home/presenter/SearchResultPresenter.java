@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.module.home.presenter;
 
-import android.support.annotation.IntRange;
+import androidx.annotation.IntRange;
 
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.base.BaseBean;

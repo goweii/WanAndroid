@@ -4,10 +4,9 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v4.view.PagerAdapter
-import android.support.v4.view.ViewPager
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager.widget.ViewPager
 import per.goweii.actionbarex.common.ActionBarCommon
 import per.goweii.anylayer.AnimatorHelper
 import per.goweii.anylayer.DialogLayer
@@ -34,7 +33,7 @@ class ImageListPreviewDialog(
         contentAnimator(object : AnimatorCreator {
             override fun createInAnimator(target: View): Animator {
                 val abc = getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)
-                val vp = getView<ViewPager>(R.id.dialog_image_list_preview_vp)
+                val vp = getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)
                 return AnimatorSet().apply {
                     playTogether(
                             AnimatorHelper.createTopInAnim(abc),
@@ -45,7 +44,7 @@ class ImageListPreviewDialog(
 
             override fun createOutAnimator(target: View): Animator {
                 val abc = getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)
-                val vp = getView<ViewPager>(R.id.dialog_image_list_preview_vp)
+                val vp = getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)
                 return AnimatorSet().apply {
                     playTogether(
                             AnimatorHelper.createTopOutAnim(abc),
@@ -57,7 +56,7 @@ class ImageListPreviewDialog(
     }
 
     private val abc by lazy { getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc) }
-    private val vp by lazy { getView<ViewPager>(R.id.dialog_image_list_preview_vp) }
+    private val vp by lazy { getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp) }
     private val dl by lazy { getView<DragLayout>(R.id.dialog_image_list_preview_dl) }
 
     @SuppressLint("ClickableViewAccessibility")
@@ -66,10 +65,10 @@ class ImageListPreviewDialog(
         abc.setOnLeftIconClickListener {
             dismiss()
         }
-        vp.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+        vp.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(p0: Int) {
                 when (p0) {
-                    ViewPager.SCROLL_STATE_DRAGGING -> {
+                    androidx.viewpager.widget.ViewPager.SCROLL_STATE_DRAGGING -> {
                     }
                     else -> {
                     }
@@ -85,7 +84,7 @@ class ImageListPreviewDialog(
                 abc.rightTextView.text = "${p0 + 1}/${imgs.size}"
             }
         })
-        vp.adapter = object : PagerAdapter() {
+        vp.adapter = object : androidx.viewpager.widget.PagerAdapter() {
             override fun isViewFromObject(v: View, o: Any): Boolean {
                 return v === o
             }

@@ -1,13 +1,14 @@
 package per.goweii.basic.ui.widget;
 
 import android.content.Context;
-import android.support.annotation.IntRange;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+
+import androidx.annotation.IntRange;
+import androidx.appcompat.widget.AppCompatEditText;
 
 /**
  * 自定义EditText

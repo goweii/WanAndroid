@@ -1,8 +1,9 @@
 package per.goweii.basic.utils;
 
-import android.support.annotation.Nullable;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+
+import androidx.annotation.Nullable;
 
 /**
  * 描述：

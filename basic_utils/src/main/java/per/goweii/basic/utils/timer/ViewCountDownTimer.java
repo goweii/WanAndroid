@@ -1,7 +1,8 @@
 package per.goweii.basic.utils.timer;
 
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 /**
  * 描述：对一个View进行倒计时

@@ -3,8 +3,9 @@ package per.goweii.basic.core.mvp;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
+
+import androidx.annotation.Nullable;
 
 import per.goweii.basic.utils.ClickHelper;
 

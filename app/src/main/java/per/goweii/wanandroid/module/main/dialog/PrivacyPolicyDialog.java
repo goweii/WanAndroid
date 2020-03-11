@@ -1,7 +1,6 @@
 package per.goweii.wanandroid.module.main.dialog;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -10,6 +9,8 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;

@@ -9,15 +9,4 @@ import per.goweii.anylayer.DialogLayer
  * GitHub: https://github.com/goweii
  */
 class DailyDialog(context: Context) : DialogLayer(context) {
-
-    companion object {
-        fun show(context: Context) {
-
-        }
-    }
-
-    init {
-
-    }
-
 }

@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.utils.wanpwd;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import per.goweii.wanandroid.utils.router.Param;
 import per.goweii.wanandroid.utils.router.Router;

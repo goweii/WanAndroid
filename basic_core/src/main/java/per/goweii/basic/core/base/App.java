@@ -8,10 +8,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Process;
-import android.support.annotation.IntDef;
-import android.support.annotation.Nullable;
-import android.support.multidex.MultiDex;
 import android.text.TextUtils;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.Nullable;
+import androidx.multidex.MultiDex;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

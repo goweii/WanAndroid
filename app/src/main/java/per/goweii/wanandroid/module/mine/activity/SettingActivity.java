@@ -3,12 +3,13 @@ package per.goweii.wanandroid.module.mine.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 
 import butterknife.BindView;
 import butterknife.OnClick;

@@ -4,7 +4,8 @@ import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.support.annotation.IntRange;
+
+import androidx.annotation.IntRange;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;

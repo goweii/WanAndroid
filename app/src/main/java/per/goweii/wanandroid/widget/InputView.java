@@ -2,7 +2,6 @@ package per.goweii.wanandroid.widget;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
@@ -13,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
+import androidx.core.content.ContextCompat;
 
 import per.goweii.wanandroid.R;
 

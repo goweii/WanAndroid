@@ -4,11 +4,12 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+
+import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 

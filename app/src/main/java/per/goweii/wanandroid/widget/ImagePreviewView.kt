@@ -1,9 +1,9 @@
 package per.goweii.wanandroid.widget
 
 import android.content.Context
-import android.support.v4.view.ScrollingView
 import android.util.AttributeSet
 import android.view.MotionEvent
+import androidx.core.view.ScrollingView
 import com.github.chrisbanes.photoview.PhotoView
 
 /**

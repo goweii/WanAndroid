@@ -3,8 +3,6 @@ package per.goweii.basic.utils;
 import android.annotation.SuppressLint;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Selection;
@@ -14,6 +12,9 @@ import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 
 import java.lang.reflect.Field;
 

@@ -1,8 +1,9 @@
 package per.goweii.basic.ui.actionbar;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+
+import androidx.annotation.Nullable;
 
 import per.goweii.actionbarex.ActionBarEx;
 

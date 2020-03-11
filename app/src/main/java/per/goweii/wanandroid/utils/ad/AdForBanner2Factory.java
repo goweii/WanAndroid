@@ -1,8 +1,9 @@
 package per.goweii.wanandroid.utils.ad;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import com.qq.e.ads.banner2.UnifiedBannerADListener;
 import com.qq.e.ads.banner2.UnifiedBannerView;

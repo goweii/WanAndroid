@@ -7,7 +7,7 @@
     android:paddingLeft="16dp"
     android:paddingRight="16dp">
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sc_enable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

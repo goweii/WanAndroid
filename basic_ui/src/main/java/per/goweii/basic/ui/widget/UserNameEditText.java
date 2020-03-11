@@ -1,14 +1,15 @@
 package per.goweii.basic.ui.widget;
 
 import android.content.Context;
-import android.support.annotation.IntRange;
-import android.support.v7.widget.AppCompatEditText;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+
+import androidx.annotation.IntRange;
+import androidx.appcompat.widget.AppCompatEditText;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

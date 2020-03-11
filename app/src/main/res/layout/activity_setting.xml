@@ -47,7 +47,7 @@
                         android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_system_theme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                         android:textColor="@color/text_surface"
                         android:textSize="@dimen/text_content" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_dark_theme"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -115,7 +115,7 @@
                         android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_show_read_later"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -155,7 +155,7 @@
                         android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_show_top"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
                         android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_show_banner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -235,7 +235,7 @@
                         android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_hide_about_me"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -275,7 +275,7 @@
                         android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_hide_open"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -315,7 +315,7 @@
                         android:textColor="@color/text_third"
                         android:textSize="@dimen/text_notes" />
 
-                    <android.support.v7.widget.SwitchCompat
+                    <androidx.appcompat.widget.SwitchCompat
                         android:id="@+id/sc_web_swipeback_edge"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

@@ -1,8 +1,9 @@
 package per.goweii.wanandroid.module.main.model;
 
-import android.support.annotation.IntRange;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.IntRange;
+import androidx.annotation.NonNull;
 
 import io.reactivex.disposables.Disposable;
 import per.goweii.rxhttp.core.RxLife;

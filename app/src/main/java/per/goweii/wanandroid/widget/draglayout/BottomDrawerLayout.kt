@@ -2,8 +2,6 @@ package per.goweii.wanandroid.widget.draglayout
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v4.view.*
-import android.support.v4.widget.ViewDragHelper
 import android.util.AttributeSet
 import android.view.KeyEvent
 import android.view.MotionEvent
@@ -12,6 +10,7 @@ import android.view.ViewConfiguration
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.Scroller
+import androidx.core.view.*
 import per.goweii.basic.utils.LogUtils
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.wanandroid.R
@@ -23,7 +22,7 @@ class BottomDrawerLayout : FrameLayout, NestedScrollingParent2 {
     private val _dismissVelocity = 1000F
     private val _dismissFraction = 0.1F
 
-    private val mDragHelper: ViewDragHelper = ViewDragHelper.create(this, DragCallback())
+    private val mDragHelper: androidx.customview.widget.ViewDragHelper = androidx.customview.widget.ViewDragHelper.create(this, DragCallback())
     private val mNestedHelper: NestedScrollingParentHelper = NestedScrollingParentHelper(this)
     private val mScroller: Scroller = Scroller(context, DecelerateInterpolator())
 
@@ -504,7 +503,7 @@ class BottomDrawerLayout : FrameLayout, NestedScrollingParent2 {
         return mNestedHelper.nestedScrollAxes
     }
 
-    private inner class DragCallback : ViewDragHelper.Callback() {
+    private inner class DragCallback : androidx.customview.widget.ViewDragHelper.Callback() {
         override fun tryCaptureView(child: View, pointerId: Int): Boolean {
             if (!enable) return false
             if (usingNested) return false

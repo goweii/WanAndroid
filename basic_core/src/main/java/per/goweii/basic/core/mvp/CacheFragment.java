@@ -1,9 +1,10 @@
 package per.goweii.basic.core.mvp;
 
-import android.support.annotation.IdRes;
-import android.support.v4.app.Fragment;
 import android.util.SparseArray;
 import android.view.View;
+
+import androidx.annotation.IdRes;
+import androidx.fragment.app.Fragment;
 
 /**
  * 描述：

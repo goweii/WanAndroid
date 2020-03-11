@@ -1,7 +1,7 @@
 package per.goweii.wanandroid.widget.draglayout
 
-import android.support.v4.view.ScrollingView
 import android.view.View
+import androidx.core.view.ScrollingView
 
 object ScrollCompat {
 

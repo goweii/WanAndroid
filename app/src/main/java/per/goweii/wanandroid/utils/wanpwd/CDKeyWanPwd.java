@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.utils.wanpwd;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.wanandroid.utils.UserUtils;

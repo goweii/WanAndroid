@@ -1,9 +1,10 @@
 package per.goweii.wanandroid.module.main.dialog;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.View;
+
+import androidx.annotation.NonNull;
 
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.DragLayout;

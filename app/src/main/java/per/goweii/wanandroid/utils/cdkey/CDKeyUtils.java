@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.utils.cdkey;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import per.goweii.basic.utils.SPUtils;
 import per.goweii.wanandroid.BuildConfig;

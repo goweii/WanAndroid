@@ -1,6 +1,6 @@
 package per.goweii.basic.core.glide.progress;
 
-import android.support.annotation.WorkerThread;
+import androidx.annotation.WorkerThread;
 
 /**
  * 描述：

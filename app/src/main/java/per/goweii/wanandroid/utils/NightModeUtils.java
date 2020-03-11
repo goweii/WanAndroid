@@ -2,7 +2,8 @@ package per.goweii.wanandroid.utils;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.v7.app.AppCompatDelegate;
+
+import androidx.appcompat.app.AppCompatDelegate;
 
 /**
  * @author CuiZhen

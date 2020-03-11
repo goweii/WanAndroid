@@ -1,7 +1,8 @@
 package per.goweii.wanandroid.module.mine.adapter;
 
-import android.support.v7.widget.SwitchCompat;
 import android.widget.CompoundButton;
+
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.module.main.activity;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;

@@ -1,7 +1,8 @@
 package per.goweii.wanandroid.utils.wanpwd;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import java.util.ArrayList;
 import java.util.List;

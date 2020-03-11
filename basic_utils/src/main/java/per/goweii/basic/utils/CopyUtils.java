@@ -2,8 +2,9 @@ package per.goweii.basic.utils;
 
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 /**
  * 复制到剪贴板

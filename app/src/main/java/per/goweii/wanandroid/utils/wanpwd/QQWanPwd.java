@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.utils.wanpwd;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import per.goweii.basic.utils.AppInfoUtils;
 import per.goweii.basic.utils.AppOpenUtils;

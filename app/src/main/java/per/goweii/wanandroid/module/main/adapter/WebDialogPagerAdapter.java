@@ -1,12 +1,13 @@
 package per.goweii.wanandroid.module.main.adapter;
 
 import android.app.Activity;
-import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.chad.library.adapter.base.entity.MultiItemEntity;
 

@@ -3,9 +3,9 @@ package per.goweii.wanandroid.module.main.activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.widget.LinearLayoutManager
 import android.view.KeyEvent
 import android.view.MotionEvent
+import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.ui.toast.ToastMaker
@@ -101,23 +101,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             val supportNight = WebUrlInterceptFactory.create(pageUri)?.interceptor?.isSupportNightMode()
                     ?: false
             return@setNightModeInterceptor !supportNight
-        }.setOnOverScrollListener(object : WebHolder.OnOverScrollListener {
-            override fun onHeaderMoving(percent: Float) {
-            }
-
-            override fun onFooterMoving(percent: Float) {
-                if (percent > 1f && dl.isClosed()) {
-                    dl.open()
-                }
-            }
-
-            override fun onHeaderConfirm() {
-            }
-
-            override fun onFooterConfirm() {
-                dl.open()
-            }
-        })
+        }
         rv.layoutManager = LinearLayoutManager(context)
         adapter = ArticleCommentAdapter()
         rv.adapter = adapter

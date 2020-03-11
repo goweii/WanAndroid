@@ -3,13 +3,14 @@ package per.goweii.wanandroid.module.mine.adapter;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;

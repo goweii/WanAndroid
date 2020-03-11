@@ -4,8 +4,9 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.net.Uri;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.Utils;

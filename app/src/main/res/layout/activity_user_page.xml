@@ -29,20 +29,20 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <android.support.design.widget.CoordinatorLayout
+                <androidx.coordinatorlayout.widget.CoordinatorLayout
                     android:id="@+id/cl"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/transparent">
 
-                    <android.support.design.widget.AppBarLayout
+                    <com.google.android.material.appbar.AppBarLayout
                         android:id="@+id/abl"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/transparent"
                         app:elevation="0dp">
 
-                        <android.support.design.widget.CollapsingToolbarLayout
+                        <com.google.android.material.appbar.CollapsingToolbarLayout
                             android:id="@+id/ctbl"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -166,9 +166,9 @@
 
                             </RelativeLayout>
 
-                        </android.support.design.widget.CollapsingToolbarLayout>
+                        </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-                    </android.support.design.widget.AppBarLayout>
+                    </com.google.android.material.appbar.AppBarLayout>
 
                     <com.kennyc.view.MultiStateView
                         android:id="@+id/msv_list"
@@ -179,7 +179,7 @@
                         app:layout_behavior="@string/appbar_scrolling_view_behavior"
                         app:msv_viewState="empty">
 
-                        <android.support.v7.widget.RecyclerView
+                        <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/rv"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -191,7 +191,7 @@
 
                     </com.kennyc.view.MultiStateView>
 
-                </android.support.design.widget.CoordinatorLayout>
+                </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
             </LinearLayout>
 

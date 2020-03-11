@@ -2,7 +2,8 @@ package per.goweii.basic.core.base;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;

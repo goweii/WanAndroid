@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.module.home.presenter;
 
-import android.support.annotation.IntRange;
+import androidx.annotation.IntRange;
 
 import java.util.List;
 

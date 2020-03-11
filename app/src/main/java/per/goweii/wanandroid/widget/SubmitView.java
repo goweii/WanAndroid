@@ -2,13 +2,14 @@ package per.goweii.wanandroid.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.support.v7.widget.AppCompatTextView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.EditText;
+
+import androidx.appcompat.widget.AppCompatTextView;
 
 import per.goweii.basic.utils.EditTextUtils;
 import per.goweii.wanandroid.R;

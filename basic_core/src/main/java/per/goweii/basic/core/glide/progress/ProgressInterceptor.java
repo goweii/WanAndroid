@@ -1,7 +1,8 @@
 package per.goweii.basic.core.glide.progress;
 
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
+
+import androidx.annotation.NonNull;
 
 import java.io.IOException;
 import java.lang.ref.WeakReference;

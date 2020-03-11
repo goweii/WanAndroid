@@ -2,9 +2,10 @@ package per.goweii.wanandroid.module.login.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.annotation.Nullable;
 
 import butterknife.BindView;
 import butterknife.OnClick;

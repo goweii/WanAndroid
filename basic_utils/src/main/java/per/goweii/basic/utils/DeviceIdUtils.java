@@ -3,12 +3,10 @@ package per.goweii.basic.utils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
+import androidx.annotation.NonNull;
+
 import java.util.UUID;
 
 import per.goweii.basic.utils.coder.MD5Coder;

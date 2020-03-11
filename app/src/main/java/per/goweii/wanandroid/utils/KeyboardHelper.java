@@ -2,13 +2,14 @@ package per.goweii.wanandroid.utils;
 
 import android.animation.ObjectAnimator;
 import android.app.Activity;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
+
+import androidx.annotation.NonNull;
 
 import per.goweii.keyboardcompat.KeyboardCompat;
 

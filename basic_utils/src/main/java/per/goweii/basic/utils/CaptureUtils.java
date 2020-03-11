@@ -4,8 +4,9 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Picture;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.webkit.WebView;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * @author CuiZhen
