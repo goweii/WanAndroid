@@ -1,6 +1,5 @@
 package per.goweii.wanandroid.module.main.dialog;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
@@ -8,8 +7,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
@@ -22,8 +21,6 @@ import per.goweii.wanandroid.utils.UserUtils;
 /**
  * @author CuiZhen
  * @date 2019/5/20
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class WebMenuDialog {
@@ -33,19 +30,9 @@ public class WebMenuDialog {
                             @NonNull OnMenuClickListener listener) {
         AnyLayer.dialog(context)
                 .contentView(R.layout.dialog_web_menu)
+                .backgroundDimDefault()
+                .dragDismiss(DragLayout.DragStyle.Bottom)
                 .gravity(Gravity.BOTTOM)
-                .backgroundColorRes(R.color.dialog_bg)
-                .contentAnimator(new Layer.AnimatorCreator() {
-                    @Override
-                    public Animator createInAnimator(View target) {
-                        return AnimatorHelper.createBottomInAnim(target);
-                    }
-
-                    @Override
-                    public Animator createOutAnimator(View target) {
-                        return AnimatorHelper.createBottomOutAnim(target);
-                    }
-                })
                 .onClickToDismiss(new Layer.OnClickListener() {
                                       @Override
                                       public void onClick(Layer layer, View v) {
@@ -189,7 +176,7 @@ public class WebMenuDialog {
         if (checked) {
             iv.setBackgroundResource(R.drawable.bg_press_color_main_radius_max);
         } else {
-            iv.setBackgroundResource(R.drawable.bg_press_color_background_radius_max);
+            iv.setBackgroundResource(R.drawable.bg_press_color_surface_top_radius_max);
         }
     }
 

@@ -107,16 +107,11 @@
 
         <TextView
             android:id="@+id/tv_restart"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height"
+            style="@style/ButtonMain"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/margin_def"
             android:layout_marginRight="@dimen/margin_def"
-            android:background="@drawable/bg_press_color_main_radius_max"
-            android:gravity="center"
-            android:text="重新启动"
-            android:textColor="@color/text_invert"
-            android:textSize="@dimen/text_content" />
+            android:text="重新启动" />
 
     </RelativeLayout>
 

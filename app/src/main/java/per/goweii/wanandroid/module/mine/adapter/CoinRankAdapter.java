@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.mine.adapter;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
@@ -20,12 +21,11 @@ import per.goweii.wanandroid.module.main.model.CoinInfoBean;
 /**
  * @author CuiZhen
  * @date 2019/5/15
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHolder> {
 
+    private final int f = 1000;
     private int mMax = 0;
 
     public CoinRankAdapter() {
@@ -43,7 +43,13 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHold
     @Override
     protected void convert(BaseViewHolder helper, CoinInfoBean item) {
         ProgressBar pb = helper.getView(R.id.pb);
-        doProgressAnim(pb, item.getCoinCount());
+        cancelProgressAnim(pb);
+        if (!item.anim) {
+            item.anim = true;
+            doProgressAnim(pb, item.getCoinCount());
+        } else {
+            pb.setProgress(item.getCoinCount() * f);
+        }
         int index = helper.getAdapterPosition() + 1;
         helper.setText(R.id.tv_index, "" + index);
         helper.setText(R.id.tv_index, "" + index);
@@ -71,7 +77,6 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHold
     }
 
     private void doProgressAnim(final ProgressBar pb, int to) {
-        final int f = 1000;
         pb.setMax(mMax * f);
         ValueAnimator animator = ValueAnimator.ofInt(0, to);
         animator.setDuration(1000);
@@ -82,6 +87,16 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHold
                 pb.setProgress((int) animation.getAnimatedValue() * f);
             }
         });
+        pb.setTag(animator);
         animator.start();
+    }
+
+    private void cancelProgressAnim(final ProgressBar pb) {
+        Object obj = pb.getTag();
+        if (obj instanceof Animator) {
+            Animator animator = (Animator) obj;
+            animator.cancel();
+        }
+        pb.setTag(null);
     }
 }

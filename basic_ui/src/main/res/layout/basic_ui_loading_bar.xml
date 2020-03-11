@@ -10,11 +10,12 @@
     <me.zhanghai.android.materialprogressbar.MaterialProgressBar
         style="@style/basic_ui_LoadingBarH"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/basic_ui_action_bar_loading_bar_height"
         android:layout_gravity="bottom"
         android:indeterminate="true"
         android:background="@color/transparent"
         app:mpb_showProgressBackground="false"
+        app:mpb_progressTint="@color/assist"
         app:mpb_indeterminateTint="@color/assist"
         app:mpb_progressStyle="horizontal"
         app:mpb_useIntrinsicPadding="false" />

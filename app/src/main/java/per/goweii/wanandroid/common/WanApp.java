@@ -1,92 +1,57 @@
 package per.goweii.wanandroid.common;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import com.franmontiel.persistentcookiejar.cache.SetCookieCache;
 import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersistor;
-import com.tencent.bugly.crashreport.CrashReport;
 
-import cat.ereza.customactivityoncrash.config.CaocConfig;
-import io.realm.Realm;
-import per.goweii.basic.core.CoreInit;
 import per.goweii.basic.core.base.BaseApp;
-import per.goweii.basic.utils.DebugUtils;
-import per.goweii.basic.utils.listener.SimpleCallback;
-import per.goweii.burred.Blurred;
-import per.goweii.rxhttp.core.RxHttp;
-import per.goweii.wanandroid.http.RxHttpRequestSetting;
-import per.goweii.wanandroid.http.WanCache;
-import per.goweii.wanandroid.module.main.activity.CrashActivity;
+import per.goweii.basic.utils.InitTaskRunner;
 import per.goweii.wanandroid.module.main.activity.MainActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
-import per.goweii.wanandroid.utils.SettingUtils;
-import per.goweii.wanandroid.utils.UserUtils;
+import per.goweii.wanandroid.utils.NightModeUtils;
+import per.goweii.wanandroid.utils.TM;
 
 /**
  * @author CuiZhen
  * @date 2019/5/12
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class WanApp extends BaseApp {
 
     private static PersistentCookieJar mCookieJar = null;
 
-    private static boolean mWebActivityStarted = false;
-
-    public static boolean isWebActivityStarted() {
-        return mWebActivityStarted;
+    @Override
+    protected void attachBaseContext(Context context) {
+        super.attachBaseContext(context);
+        TM.APP_STARTUP.start("WanApp attachBaseContext");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        if (isMainProcess()) {
-            setDarkModeStatus();
-            RxHttp.init(this);
-            RxHttp.initRequest(new RxHttpRequestSetting(getCookieJar()));
-            WanCache.init();
-            Blurred.init(getAppContext());
-            CoreInit.getInstance().setOnGoLoginCallback(new SimpleCallback<Activity>() {
-                @Override
-                public void onResult(Activity data) {
-                    UserUtils.getInstance().doIfLogin(data);
-                }
-            });
-            Realm.init(this);
-        }
-        initBugly();
-        initCrashActivity();
+        TM.APP_STARTUP.record("WanApp onCreate");
+        initDarkMode();
+        new InitTaskRunner(this)
+                .add(new CoreInitTask())
+                .add(new RxHttpInitTask())
+                .add(new WanCacheInitTask())
+                .add(new RealmInitTask())
+                .add(new BlurredInitTask())
+                .add(new X5InitTask())
+                .add(new BuglyInitTask())
+                .add(new CrashInitTask())
+//                .add(new CyanInitTask())
+                .run();
+        TM.APP_STARTUP.record("WanApp onCreate third-part init completed");
     }
 
-    private void initBugly() {
-        if (!DebugUtils.isDebug()) {
-            CrashReport.setIsDevelopmentDevice(this, DebugUtils.isDebug());
-            CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(this);
-            strategy.setUploadProcess(isMainProcess());
-            CrashReport.initCrashReport(this, "0411151084", DebugUtils.isDebug(), strategy);
-        }
-    }
-
-    private void initCrashActivity() {
-        CaocConfig.Builder.create()
-                .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
-                .enabled(true)
-                .showErrorDetails(true)
-                .showRestartButton(true)
-                .logErrorOnRestart(false)
-                .trackActivities(false)
-                .minTimeBetweenCrashesMs(2000)
-                .restartActivity(MainActivity.class)
-                .errorActivity(CrashActivity.class)
-                .apply();
-    }
+    private static boolean mWebActivityStarted = false;
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
@@ -96,6 +61,7 @@ public class WanApp extends BaseApp {
                 Intent intent = new Intent(activity, WebActivity.class);
                 intent.putExtra("destroyOnCreated", true);
                 activity.startActivity(intent);
+                activity.overridePendingTransition(0, 0);
             }
         }
     }
@@ -107,27 +73,23 @@ public class WanApp extends BaseApp {
             boolean destroyOnCreated = activity.getIntent().getBooleanExtra("destroyOnCreated", false);
             if (destroyOnCreated) {
                 activity.finish();
+                activity.overridePendingTransition(0, 0);
             }
             mWebActivityStarted = true;
         }
     }
 
     @Override
-    public void onActivityStopped(Activity activity) {
-        super.onActivityStopped(activity);
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
-    public static boolean getDarkModeStatus() {
-        int mode = getAppContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-        return mode == Configuration.UI_MODE_NIGHT_YES;
+    public static boolean isDarkMode() {
+        return NightModeUtils.isNightMode(getAppContext());
     }
 
-    public static void setDarkModeStatus() {
-        if (SettingUtils.getInstance().isDarkTheme()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
+    public static void initDarkMode() {
+        NightModeUtils.initNightMode();
     }
 
     public static PersistentCookieJar getCookieJar() {

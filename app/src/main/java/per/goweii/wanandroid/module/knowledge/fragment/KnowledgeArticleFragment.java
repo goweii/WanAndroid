@@ -14,8 +14,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import butterknife.BindView;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
@@ -42,8 +40,6 @@ import per.goweii.wanandroid.widget.CollectView;
 /**
  * @author CuiZhen
  * @date 2019/5/12
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePresenter> implements KnowledgeArticleView {
@@ -82,17 +78,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         if (event.getArticleId() == -1) {
             return;
         }
-        List<ArticleBean> list = mAdapter.getData();
-        for (int i = 0; i < list.size(); i++) {
-            ArticleBean item = list.get(i);
-            if (item.getId() == event.getArticleId()) {
-                if (item.isCollect() != event.isCollect()) {
-                    item.setCollect(event.isCollect());
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-                break;
-            }
-        }
+        mAdapter.notifyCollectionEvent(event);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -104,14 +90,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             currPage = PAGE_START;
             getKnowledgeArticleList(true);
         } else {
-            List<ArticleBean> list = mAdapter.getData();
-            for (int i = 0; i < list.size(); i++) {
-                ArticleBean item = list.get(i);
-                if (item.isCollect()) {
-                    item.setCollect(false);
-                    mAdapter.notifyItemChanged(i + mAdapter.getHeaderLayoutCount());
-                }
-            }
+            mAdapter.notifyAllUnCollect();
         }
     }
 
@@ -184,7 +163,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     WebActivity.start(getContext(), item);
                 }
@@ -193,7 +172,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
                     if (!v.isChecked()) {
                         presenter.collect(item, v);

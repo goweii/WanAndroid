@@ -9,8 +9,6 @@ import per.goweii.wanandroid.R;
 /**
  * @author CuiZhen
  * @date 2019/5/7
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class SplashActivity extends BaseActivity {
@@ -22,6 +20,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
+        // return R.layout.activity_splash;
         return 0;
     }
 

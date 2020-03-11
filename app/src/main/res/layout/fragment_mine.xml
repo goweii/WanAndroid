@@ -384,6 +384,15 @@
                             android:textColor="@color/text_surface"
                             android:textSize="@dimen/text_content" />
 
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dp"
+                            android:singleLine="true"
+                            android:textColor="@color/text_accent"
+                            android:textSize="@dimen/text_notes"
+                            android:text="请他喝杯咖啡~" />
+
                         <ImageView
                             android:layout_width="13dp"
                             android:layout_height="13dp"

@@ -1,94 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/foreground"
     android:orientation="vertical">
 
-    <per.goweii.actionbarex.common.ActionBarCommon
-        android:id="@+id/abc"
-        style="@style/ActionBar.Common.Back"
-        app:abc_rightText="分享"
-        app:abc_titleText="分享文章" />
-
-    <RelativeLayout
-        android:id="@+id/ll_content"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/abc"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="文章标题"
-            android:textColor="@color/text_third"
-            android:textSize="@dimen/text_notes" />
+        <per.goweii.actionbarex.common.ActionBarCommon
+            android:id="@+id/abc"
+            style="@style/ActionBar.Common.Back"
+            app:abc_titleText="分享文章" />
 
-        <TextView
-            android:id="@+id/tv_refresh"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tv_title"
-            android:layout_alignParentRight="true"
-            android:text="刷新标题"
-            android:textColor="@color/text_main"
-            android:textSize="@dimen/text_notes" />
-
-        <EditText
-            android:id="@+id/et_title"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_title"
-            android:layout_marginTop="10dp"
-            android:background="@color/transparent"
-            android:gravity="top"
-            android:hint="100字以内"
-            android:maxLines="5"
-            android:minLines="2"
-            android:textColor="@color/text_surface"
-            android:textColorHint="@color/text_third"
-            android:textSize="@dimen/text_content" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <TextView
-            android:id="@+id/tv_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/et_title"
-            android:layout_marginTop="16dp"
-            android:text="文章链接"
-            android:textColor="@color/text_third"
-            android:textSize="@dimen/text_notes" />
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="文章标题"
+                android:textColor="@color/text_third"
+                android:textSize="@dimen/text_notes" />
 
-        <TextView
-            android:id="@+id/tv_open"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tv_link"
-            android:layout_alignParentRight="true"
-            android:text="打开链接"
-            android:textColor="@color/text_main"
-            android:textSize="@dimen/text_notes" />
+            <TextView
+                android:id="@+id/tv_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_title"
+                android:layout_alignParentRight="true"
+                android:text="刷新标题"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_notes" />
 
-        <EditText
-            android:id="@+id/et_link"
+            <EditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_title"
+                android:layout_marginTop="10dp"
+                android:background="@color/transparent"
+                android:gravity="top"
+                android:hint="100字以内"
+                android:maxLines="5"
+                android:minLines="2"
+                android:textColor="@color/text_surface"
+                android:textColorHint="@color/text_third"
+                android:textSize="@dimen/text_content" />
+
+            <TextView
+                android:id="@+id/tv_link"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_title"
+                android:layout_marginTop="16dp"
+                android:text="文章链接"
+                android:textColor="@color/text_third"
+                android:textSize="@dimen/text_notes" />
+
+            <TextView
+                android:id="@+id/tv_open"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/tv_link"
+                android:layout_alignParentRight="true"
+                android:text="打开链接"
+                android:textColor="@color/text_main"
+                android:textSize="@dimen/text_notes" />
+
+            <EditText
+                android:id="@+id/et_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tv_link"
+                android:layout_marginTop="10dp"
+                android:background="@color/transparent"
+                android:gravity="top"
+                android:hint="如：https://www.wanandroid.com/blog/show/2577"
+                android:maxLines="5"
+                android:minLines="2"
+                android:textColor="@color/text_surface"
+                android:textColorHint="@color/text_third"
+                android:textSize="@dimen/text_content" />
+
+        </RelativeLayout>
+
+        <per.goweii.wanandroid.utils.ad.widget.AdBanner2Container
+            android:id="@+id/adc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_link"
-            android:layout_marginTop="10dp"
-            android:background="@color/transparent"
-            android:gravity="top"
-            android:hint="如：https://www.wanandroid.com/blog/show/2577"
-            android:maxLines="5"
-            android:minLines="2"
-            android:textColor="@color/text_surface"
-            android:textColorHint="@color/text_third"
-            android:textSize="@dimen/text_content" />
+            tools:background="#f8f8f8" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_share"
+            style="@style/ButtonMain"
+            android:layout_marginTop="@dimen/margin_def"
+            android:layout_marginLeft="@dimen/margin_big"
+            android:layout_marginRight="@dimen/margin_big"
+            android:text="分享" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/tv_tip"

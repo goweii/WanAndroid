@@ -1,3 +1,5 @@
 <resources>
     <string name="label">玩安卓</string>
+    <string name="privacy_policy_content_link">《隐私政策》</string>
+    <string name="privacy_policy_content">感谢您使用玩安卓！\n我们依据最新的监管要求更新了《隐私政策》特向您说明如下：\n1. 为向您提供交易相关基本功能，我们会收集、使用必要的信息；\n2. 基于您的明示授权我们会获取存储权限，用于保存文章分享图，您有权拒绝或取消授权；\n3. 我们会采取安全措施保护您的信息安全；\n4. 未经您同意，我们不会从第三方处获取、共享或向其提供您的信息。</string>
 </resources>

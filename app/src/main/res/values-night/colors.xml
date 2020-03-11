@@ -7,8 +7,10 @@
     <color name="ic_launcher_background_start">@color/main</color>
     <color name="ic_launcher_background_end">@color/main</color>
 
-    <color name="bottom_bar_overlay">@color/background_alpha</color>
-    <color name="mine_blur_overlay">@color/background_alpha</color>
-    <color name="about_me_blur_overlay">@color/background_alpha</color>
-    <color name="scrollbar">#33000000</color>
+    <color name="login_bg">@color/background</color>
+    <color name="bottom_bar_overlay">@color/surface_alpha</color>
+    <color name="mine_blur_overlay">@color/surface_alpha</color>
+    <color name="about_me_blur_overlay">@color/surface_alpha</color>
+    <color name="scrollbar">#11ffffff</color>
+    <color name="heart_center">#FFA07C</color>
 </resources>

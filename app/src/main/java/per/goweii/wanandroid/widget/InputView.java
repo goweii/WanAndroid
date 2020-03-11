@@ -19,8 +19,6 @@ import per.goweii.wanandroid.R;
 /**
  * @author CuiZhen
  * @date 2019/5/15
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class InputView extends FrameLayout implements View.OnFocusChangeListener, TextWatcher, SubmitView.EditTextWrapper {
@@ -64,7 +62,7 @@ public class InputView extends FrameLayout implements View.OnFocusChangeListener
     }
 
     protected void initViews(AttributeSet attrs) {
-        int icIconSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 22, getContext().getResources().getDisplayMetrics());
+        int icIconSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getContext().getResources().getDisplayMetrics());
         int icIconMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getContext().getResources().getDisplayMetrics());
         ImageView[] ivIconLefts = getLeftIcons();
         int ivIconLeftCount = ivIconLefts != null ? ivIconLefts.length : 0;

@@ -21,6 +21,7 @@ import per.goweii.wanandroid.module.home.fragment.HomeFragment;
 import per.goweii.wanandroid.module.mine.fragment.MineFragment;
 import per.goweii.wanandroid.module.project.fragment.ProjectFragment;
 import per.goweii.wanandroid.module.wxarticle.fragment.WxFragment;
+import per.goweii.wanandroid.utils.TM;
 
 public class MainFragment extends BaseFragment implements ViewPager.OnPageChangeListener {
 
@@ -70,6 +71,7 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     protected void initView() {
+        TM.APP_STARTUP.record("MainFragment initView");
         vp_tab.addOnPageChangeListener(this);
         vp_tab.setOffscreenPageLimit(4);
         mPagerAdapter = new FixedFragmentPagerAdapter(getChildFragmentManager());
@@ -87,6 +89,12 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     protected void loadData() {
+    }
+
+    @Override
+    protected void onVisible(boolean isFirstVisible) {
+        super.onVisible(isFirstVisible);
+        TM.APP_STARTUP.record("MainFragment onVisible");
     }
 
     @OnClick({

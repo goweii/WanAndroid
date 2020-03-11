@@ -106,8 +106,6 @@ public class KeyboardHelper implements ViewTreeObserver.OnGlobalFocusChangeListe
 
     /**
      * 设置moveView移动以ScrollY属性滚动内容
-     *
-     * @return SoftInputHelper
      */
     public KeyboardHelper moveWithScroll() {
         this.moveWithScroll = true;
@@ -116,8 +114,6 @@ public class KeyboardHelper implements ViewTreeObserver.OnGlobalFocusChangeListe
 
     /**
      * 设置moveView移动以TranslationY属性移动位置
-     *
-     * @return SoftInputHelper
      */
     public KeyboardHelper moveWithTranslation() {
         this.moveWithScroll = false;

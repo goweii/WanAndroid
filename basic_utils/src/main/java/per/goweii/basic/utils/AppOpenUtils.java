@@ -8,8 +8,6 @@ import android.net.Uri;
 /**
  * @author CuiZhen
  * @date 2019/11/3
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class AppOpenUtils {
@@ -22,6 +20,7 @@ public class AppOpenUtils {
     public static boolean openQQChat(Context context, String qq) {
         String url = "mqqwpa://im/chat?chat_type=wpa&uin=" + qq;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         try {
             context.startActivity(intent);
             return true;

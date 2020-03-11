@@ -3,31 +3,27 @@ package per.goweii.basic.utils;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.graphics.Rect;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.EditText;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 监听软键盘的打开和隐藏
  * 打开时滚动布局，可设置仅在某几个EditText获取焦点时开启
- *
- * @author Cuizhen
- * @version v1.0.0
- * @date 2018/3/30-上午9:06
  */
-public class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnGlobalFocusChangeListener {
+public final class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutListener, ViewTreeObserver.OnGlobalFocusChangeListener {
 
     private final Window window;
     private final View rootView;
 
-    private long duration = 200;
+    private long duration = 300;
     private View moveView = null;
-    private View bottomView = null;
-    private EditText[] focusViews = null;
+    private Map<View, View> focusBottomMap = new HashMap<>(1);
     private OnSoftInputListener onSoftInputListener = null;
 
     private boolean moveWithScroll = false;
@@ -39,38 +35,39 @@ public class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutListener,
     private Runnable moveRunnable = new Runnable() {
         @Override
         public void run() {
-            if (isViewFocus()) {
-                Rect rect = getRootViewRect();
-                int bottomViewY = getBottomViewY();
-                if (bottomViewY > rect.bottom) {
-                    int offHeight = bottomViewY - rect.bottom;
-                    moveHeight += offHeight;
-                    move();
-                }
-            } else {
-                moveHeight = 0;
-                move();
-            }
+            calcToMove();
         }
     };
 
-    private SoftInputHelper(@NonNull Activity activity) {
+    public static SoftInputHelper attach(Activity activity) {
+        return new SoftInputHelper(activity);
+    }
+
+    private SoftInputHelper(Activity activity) {
         this.window = activity.getWindow();
         this.rootView = window.getDecorView().getRootView();
         ViewTreeObserver observer = rootView.getViewTreeObserver();
         observer.addOnGlobalLayoutListener(this);
         observer.addOnGlobalFocusChangeListener(this);
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
-    public static SoftInputHelper with(@NonNull Activity activity) {
-        return new SoftInputHelper(activity);
+    public void detach() {
+        if (rootView.getViewTreeObserver().isAlive()) {
+            rootView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            rootView.getViewTreeObserver().removeOnGlobalFocusChangeListener(this);
+        }
     }
 
-    public SoftInputHelper init(@NonNull View moveView, @NonNull View bottomView, @NonNull EditText... focusViews) {
+    public SoftInputHelper moveBy(View moveView) {
         this.moveView = moveView;
-        this.bottomView = bottomView;
-        this.focusViews = focusViews;
-        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING);
+        return this;
+    }
+
+    public SoftInputHelper moveWith(View bottomView, View... focusViews) {
+        for (View focusView : focusViews) {
+            focusBottomMap.put(focusView, bottomView);
+        }
         return this;
     }
 
@@ -106,8 +103,7 @@ public class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutListener,
 
     @Override
     public void onGlobalLayout() {
-        Rect rect = getRootViewRect();
-        boolean isOpen = isSoftOpen(rect.bottom - rect.top, rootView.getHeight());
+        boolean isOpen = isSoftOpen();
         if (isOpen) {
             if (!isOpened) {
                 isOpened = true;
@@ -115,32 +111,12 @@ public class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutListener,
                     onSoftInputListener.onOpen();
                 }
             }
-            if (moveView != null && bottomView != null && focusViews != null) {
+            if (moveView != null) {
                 if (isFocusChange) {
                     isFocusChange = false;
                     rootView.removeCallbacks(moveRunnable);
                 }
-                if (isViewFocus()) {
-                    int bottomViewY = getBottomViewY();
-                    if (bottomViewY > rect.bottom) {
-                        int offHeight = bottomViewY - rect.bottom;
-                        moveHeight += offHeight;
-                        move();
-                    } else if (bottomViewY < rect.bottom) {
-                        int offHeight = -(bottomViewY - rect.bottom);
-                        if (moveHeight > 0) {
-                            if (moveHeight >= offHeight) {
-                                moveHeight -= offHeight;
-                            } else {
-                                moveHeight = 0;
-                            }
-                            move();
-                        }
-                    }
-                } else {
-                    moveHeight = 0;
-                    move();
-                }
+                calcToMove();
             }
         } else {
             if (isOpened) {
@@ -149,24 +125,53 @@ public class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutListener,
                     onSoftInputListener.onClose();
                 }
             }
-            if (moveView != null && bottomView != null && focusViews != null) {
+            if (moveView != null) {
                 moveHeight = 0;
                 move();
             }
         }
     }
 
+    private void calcToMove() {
+        View focusView = isViewFocus();
+        if (focusView != null) {
+            View bottomView = focusBottomMap.get(focusView);
+            if (bottomView != null) {
+                Rect rect = getRootViewRect();
+                int bottomViewY = getBottomViewY(bottomView);
+                if (bottomViewY > rect.bottom) {
+                    int offHeight = bottomViewY - rect.bottom;
+                    moveHeight += offHeight;
+                    move();
+                } else if (bottomViewY < rect.bottom) {
+                    int offHeight = -(bottomViewY - rect.bottom);
+                    if (moveHeight > 0) {
+                        if (moveHeight >= offHeight) {
+                            moveHeight -= offHeight;
+                        } else {
+                            moveHeight = 0;
+                        }
+                        move();
+                    }
+                }
+            }
+        } else {
+            moveHeight = 0;
+            move();
+        }
+    }
+
     @Override
     public void onGlobalFocusChanged(View oldFocus, View newFocus) {
         if (isOpened) {
-            if (moveView != null && bottomView != null && focusViews != null) {
+            if (moveView != null) {
                 isFocusChange = true;
                 rootView.postDelayed(moveRunnable, 100);
             }
         }
     }
 
-    private int getBottomViewY() {
+    private int getBottomViewY(View bottomView) {
         int[] bottomLocation = new int[2];
         bottomView.getLocationOnScreen(bottomLocation);
         return bottomLocation[1] + bottomView.getHeight();
@@ -212,11 +217,12 @@ public class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutListener,
      * 判断软键盘打开状态的阈值
      * 此处以用户可用高度变化值大于1/4总高度时作为判断依据。
      *
-     * @param usableHeightNow          当前可被用户使用的高度
-     * @param usableHeightSansKeyboard 总高度，及包含软键盘占位的高度
      * @return boolean
      */
-    private boolean isSoftOpen(int usableHeightNow, int usableHeightSansKeyboard) {
+    private boolean isSoftOpen() {
+        Rect rect = getRootViewRect();
+        int usableHeightNow = rect.bottom - rect.top;
+        int usableHeightSansKeyboard = rootView.getHeight();
         int heightDifference = usableHeightSansKeyboard - usableHeightNow;
         if (heightDifference > (usableHeightSansKeyboard / 4)) {
             return true;
@@ -225,20 +231,14 @@ public class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutListener,
         }
     }
 
-    private boolean isViewFocus() {
-        boolean focus = false;
-        if (focusViews == null || focusViews.length == 0) {
-            focus = true;
-        } else {
-            View focusView = window.getCurrentFocus();
-            for (EditText editText : focusViews) {
-                if (focusView == editText) {
-                    focus = true;
-                    break;
-                }
+    private View isViewFocus() {
+        View focusView = window.getCurrentFocus();
+        for (View view : focusBottomMap.keySet()) {
+            if (focusView == view) {
+                return view;
             }
         }
-        return focus;
+        return null;
     }
 
     public interface OnSoftInputListener {

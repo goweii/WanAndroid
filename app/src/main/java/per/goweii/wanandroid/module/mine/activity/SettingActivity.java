@@ -29,6 +29,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
+import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.presenter.SettingPresenter;
@@ -42,14 +43,16 @@ import per.goweii.wanandroid.utils.UserUtils;
 /**
  * @author CuiZhen
  * @date 2019/5/17
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingView {
 
     private static final int REQ_CODE_PERMISSION = 1;
 
+    @BindView(R.id.sc_system_theme)
+    SwitchCompat sc_system_theme;
+    @BindView(R.id.tv_dark_theme_title)
+    TextView tv_dark_theme_title;
     @BindView(R.id.sc_dark_theme)
     SwitchCompat sc_dark_theme;
     @BindView(R.id.sc_show_read_later)
@@ -79,6 +82,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     private RuntimeRequester mRuntimeRequester;
     private UpdateUtils mUpdateUtils;
+    private boolean mSystemTheme;
     private boolean mDarkTheme;
     private boolean mShowTop;
     private boolean mShowBanner;
@@ -108,6 +112,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     protected void initView() {
         tv_has_update.setText("");
         tv_curr_version.setText("当前版本" + AppInfoUtils.getVersionName());
+        mSystemTheme = SettingUtils.getInstance().isSystemTheme();
+        sc_system_theme.setChecked(mSystemTheme);
+        changeEnable(!sc_system_theme.isChecked(), tv_dark_theme_title, sc_dark_theme);
         mDarkTheme = SettingUtils.getInstance().isDarkTheme();
         sc_dark_theme.setChecked(mDarkTheme);
         mShowTop = SettingUtils.getInstance().isShowTop();
@@ -125,11 +132,25 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         tv_rv_anim.setText(RvAnimUtils.getName(mRvAnim));
         mUrlIntercept = SettingUtils.getInstance().getUrlInterceptType();
         tv_intercept_host.setText(HostInterceptUtils.getName(mUrlIntercept));
+        sc_system_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+                changeEnable(!isChecked, tv_dark_theme_title, sc_dark_theme);
+                SettingUtils.getInstance().setSystemTheme(isChecked);
+                WanApp.initDarkMode();
+                v.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        WanApp.restartApp();
+                    }
+                }, 300);
+            }
+        });
         sc_dark_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
                 SettingUtils.getInstance().setDarkTheme(isChecked);
-                WanApp.setDarkModeStatus();
+                WanApp.initDarkMode();
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -198,6 +219,18 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         postSettingChangedEvent();
     }
 
+    private void changeEnable(boolean enable, View... views) {
+        for (View view : views) {
+            if (enable) {
+                view.setEnabled(true);
+                view.setAlpha(1F);
+            } else {
+                view.setEnabled(false);
+                view.setAlpha(0.5F);
+            }
+        }
+    }
+
     private void postSettingChangedEvent() {
         boolean showTopChanged = mShowTop != SettingUtils.getInstance().isShowTop();
         boolean showBannerChanged = mShowBanner != SettingUtils.getInstance().isShowBanner();
@@ -235,7 +268,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @OnClick({
             R.id.rl_intercept_host, R.id.ll_rv_anim, R.id.ll_update,
-            R.id.ll_cache, R.id.ll_about, R.id.ll_logout
+            R.id.ll_cache, R.id.ll_about, R.id.ll_privacy_policy, R.id.ll_logout
     })
     @Override
     public void onClick(View v) {
@@ -300,6 +333,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 break;
             case R.id.ll_about:
                 AboutActivity.start(getContext());
+                break;
+            case R.id.ll_privacy_policy:
+                WebActivity.start(getContext(), "file:///android_asset/privacy_policy.html");
                 break;
             case R.id.ll_logout:
                 TipDialog.with(getContext())
@@ -389,7 +425,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         mRuntimeRequester = PermissionUtils.request(new RequestListener() {
             @Override
             public void onSuccess() {
-                DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName);
+                DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName, null);
             }
 
             @Override

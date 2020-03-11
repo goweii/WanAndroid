@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.module.login.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,15 +16,13 @@ import per.goweii.wanandroid.module.login.activity.LoginActivity;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.login.presenter.LoginPresenter;
 import per.goweii.wanandroid.module.login.view.LoginView;
-import per.goweii.wanandroid.utils.KeyboardHelper;
 import per.goweii.wanandroid.widget.InputView;
+import per.goweii.wanandroid.widget.PasswordInputView;
 import per.goweii.wanandroid.widget.SubmitView;
 
 /**
  * @author CuiZhen
  * @date 2019/5/16
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class LoginFragment extends BaseFragment<LoginPresenter> implements LoginView {
@@ -33,14 +32,13 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @BindView(R.id.piv_login_account)
     InputView piv_account;
     @BindView(R.id.piv_login_password)
-    InputView piv_password;
+    PasswordInputView piv_password;
     @BindView(R.id.sv_login)
     SubmitView sv_login;
 
-    private KeyboardHelper mKeyboardHelper;
     private LoginActivity mActivity;
 
-    public static LoginFragment create(){
+    public static LoginFragment create() {
         return new LoginFragment();
     }
 
@@ -63,36 +61,37 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
 
     @Override
     protected void initView() {
+        piv_password.setOnPwdFocusChangedListener(new PasswordInputView.OnPwdFocusChangedListener() {
+            @Override
+            public void onFocusChanged(boolean focus) {
+                mActivity.doEyeAnim(focus);
+            }
+        });
     }
 
     @Override
     protected void loadData() {
+    }
 
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mActivity.getSoftInputHelper().moveWith(sv_login,
+                piv_account.getEditText(), piv_password.getEditText());
     }
 
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
-        mKeyboardHelper = KeyboardHelper.attach(mActivity)
-                .init(mActivity.getRl_input(), sv_login, piv_account.getEditText(), piv_password.getEditText())
-                .moveWithTranslation();
     }
 
     @Override
     public void onInvisible() {
         super.onInvisible();
-        if (mKeyboardHelper != null) {
-            mKeyboardHelper.detach();
-            mKeyboardHelper = null;
-        }
     }
 
     @Override
     public void onDestroyView() {
-        if (mKeyboardHelper != null) {
-            mKeyboardHelper.detach();
-            mKeyboardHelper = null;
-        }
         super.onDestroyView();
     }
 
@@ -123,6 +122,23 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     public void loginSuccess(int code, LoginBean data) {
         new LoginEvent(true).post();
         finish();
+//        AccountInfo accountInfo = new AccountInfo();
+//        accountInfo.isv_refer_id = data.getId() + "";
+//        accountInfo.nickname = data.getUsername();
+//        CyanSdk.getInstance(getContext())
+//                .setAccountInfo(accountInfo, new CallBack() {
+//                    @Override
+//                    public void success() {
+//                        new LoginEvent(true).post();
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void error(CyanException e) {
+//                        e.printStackTrace();
+//                        ToastMaker.showShort(e.error_msg);
+//                    }
+//                });
     }
 
     @Override

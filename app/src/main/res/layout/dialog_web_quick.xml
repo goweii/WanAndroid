@@ -2,28 +2,40 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/surface"
     android:orientation="horizontal">
 
     <TextView
         android:id="@+id/dialog_web_quick_tv_copy_link"
         android:layout_width="0dp"
-        android:layout_height="@dimen/button_height"
         android:layout_weight="1"
+        android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
-        android:textColor="@color/text_third"
         android:gravity="center"
         android:text="复制链接"
-        android:textSize="@dimen/text_notes" />
+        android:textColor="@color/text_third"
+        android:textSize="@dimen/text_auxiliary" />
 
     <TextView
         android:id="@+id/dialog_web_quick_tv_browser"
         android:layout_width="0dp"
-        android:layout_height="@dimen/button_height"
         android:layout_weight="1"
+        android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
-        android:textColor="@color/text_third"
         android:gravity="center"
         android:text="浏览器打开"
-        android:textSize="@dimen/text_notes" />
+        android:textColor="@color/text_third"
+        android:textSize="@dimen/text_auxiliary" />
+
+    <TextView
+        android:id="@+id/dialog_web_quick_tv_wanpwd"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="@dimen/button_height"
+        android:background="@drawable/bg_press_color_surface"
+        android:gravity="center"
+        android:text="网页玩口令"
+        android:textColor="@color/text_third"
+        android:textSize="@dimen/text_auxiliary" />
 
 </LinearLayout>

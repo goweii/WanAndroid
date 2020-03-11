@@ -11,8 +11,6 @@ import per.goweii.wanandroid.module.main.view.ShareArticleView;
 /**
  * @author CuiZhen
  * @date 2019/10/12
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class ShareArticlePresenter extends BasePresenter<ShareArticleView> {

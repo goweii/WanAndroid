@@ -5,8 +5,6 @@ import per.goweii.rxhttp.request.base.BaseBean;
 /**
  * @author CuiZhen
  * @date 2019/10/3
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class CoinInfoBean extends BaseBean {
@@ -21,6 +19,7 @@ public class CoinInfoBean extends BaseBean {
     private int rank;
     private int userId;
     private String username;
+    public boolean anim;
 
     public int getCoinCount() {
         return coinCount;

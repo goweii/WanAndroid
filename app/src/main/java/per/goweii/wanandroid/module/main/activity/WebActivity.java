@@ -5,41 +5,41 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import per.goweii.actionbarex.ActionBarEx;
+import per.goweii.anylayer.Layer;
 import per.goweii.anypermission.RequestListener;
 import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
-import per.goweii.basic.utils.CaptureUtils;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.ShareUtils;
 import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.listener.OnClickListener2;
+import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.QrcodeShareDialog;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
 import per.goweii.wanandroid.module.main.dialog.WebQuickDialog;
-import per.goweii.wanandroid.module.main.dialog.WebShareDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
@@ -47,14 +47,13 @@ import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.RealmHelper;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.WebHolder;
+import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.widget.CollectView;
 import per.goweii.wanandroid.widget.WebContainer;
 
 /**
  * @author CuiZhen
  * @date 2019/5/15
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView {
@@ -160,12 +159,18 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     protected void initView() {
-        mArticleId = getIntent().getIntExtra("articleId", -1);
-        mTitle = getIntent().getStringExtra("title");
+        Uri uri = Router.uri(getIntent());
+        if (uri != null) {
+            mUrl = uri.toString();
+        } else {
+            mArticleId = getIntent().getIntExtra("articleId", -1);
+            mTitle = getIntent().getStringExtra("title");
+            mAuthor = getIntent().getStringExtra("author");
+            mUrl = getIntent().getStringExtra("url");
+        }
+        //ArticleActivity.Companion.startSelf(this);
         mTitle = mTitle == null ? "" : mTitle;
-        mAuthor = getIntent().getStringExtra("author");
         mAuthor = mAuthor == null ? "" : mAuthor;
-        mUrl = getIntent().getStringExtra("url");
         mUrl = mUrl == null ? "" : mUrl;
         boolean collected = getIntent().getBooleanExtra("collected", false);
         if (collected) {
@@ -277,6 +282,28 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 public void onBrowser() {
                     IntentUtils.openBrowser(getContext(), mUrl);
                 }
+
+                @Override
+                public void onWanPwd() {
+                    String url = URLEncoder.encode(mWebHolder.getUrl());
+                    StringBuilder s = new StringBuilder();
+                    s.append("【玩口令】你的好友给你分享了一个链接，户制泽条消息");
+                    s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_WEB, url));
+                    s.append("打開最美玩安卓客户端即可查看该网页或者文章");
+                    LogUtils.d("UserPageActivity", s);
+                    CopyUtils.copyText(s.toString());
+                    ToastMaker.showShort("口令已复制");
+                }
+            });
+            mWebQuickDialog.onDismissListener(new Layer.OnDismissListener() {
+                @Override
+                public void onDismissing(Layer layer) {
+                }
+
+                @Override
+                public void onDismissed(Layer layer) {
+                    et_title.clearFocus();
+                }
             });
         }
         mWebQuickDialog.show();
@@ -333,30 +360,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
             @Override
             public void onShare() {
-                showShareDialog();
-            }
-        });
-    }
-
-    private void showShareDialog() {
-        WebShareDialog.show(getContext(), new WebShareDialog.OnShareClickListener() {
-            @Override
-            public void onCapture() {
-                mRuntimeRequester = PermissionUtils.request(new RequestListener() {
-                    @Override
-                    public void onSuccess() {
-                        Bitmap bitmap = CaptureUtils.captureWebView(mWebHolder.getWebView());
-                        presenter.saveGallery(bitmap, "wanandroid_article_capture_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
-                    }
-
-                    @Override
-                    public void onFailed() {
-                    }
-                }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            }
-
-            @Override
-            public void onQrcode() {
                 new QrcodeShareDialog(getContext(), mWebHolder.getUrl(), mWebHolder.getTitle(), new QrcodeShareDialog.OnShareClickListener() {
                     @Override
                     public void onSave(Bitmap bitmap) {
@@ -420,9 +423,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     protected void loadData() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            WebView.enableSlowWholeDocumentDraw();
-        }
         mWebHolder = WebHolder.with(this, wc)
                 .setOnPageTitleCallback(new WebHolder.OnPageTitleCallback() {
                     @Override

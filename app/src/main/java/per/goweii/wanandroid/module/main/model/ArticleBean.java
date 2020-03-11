@@ -2,18 +2,24 @@ package per.goweii.wanandroid.module.main.model;
 
 import android.text.TextUtils;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
 import per.goweii.rxhttp.request.base.BaseBean;
+import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 
 /**
  * @author CuiZhen
  * @date 2019/5/15
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class ArticleBean extends BaseBean {
+public class ArticleBean extends BaseBean implements MultiItemEntity {
+    @Override
+    public int getItemType() {
+        return ArticleAdapter.ITEM_TYPE_ARTICLE;
+    }
+
     /**
      * apkLink :
      * author : 玉刚说

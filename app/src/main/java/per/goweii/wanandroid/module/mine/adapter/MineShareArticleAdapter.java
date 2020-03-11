@@ -3,7 +3,6 @@ package per.goweii.wanandroid.module.mine.adapter;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.daimajia.swipe.SwipeLayout;
 
@@ -17,18 +16,21 @@ import per.goweii.wanandroid.module.main.model.ArticleBean;
 /**
  * @author CuiZhen
  * @date 2019/5/15
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
-public class MineShareArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder> {
+public class MineShareArticleAdapter extends ArticleAdapter {
 
     private final List<SwipeLayout> mUnCloseList = new ArrayList<>();
 
     private ArticleAdapter.OnCollectListener mOnCollectListener = null;
 
     public MineShareArticleAdapter() {
-        super(R.layout.rv_item_mine_share_article);
+        super();
+    }
+
+    @Override
+    protected int getArticleLayoutId() {
+        return R.layout.rv_item_mine_share_article;
     }
 
     public void setOnCollectListener(ArticleAdapter.OnCollectListener onCollectListener) {
@@ -67,7 +69,7 @@ public class MineShareArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseV
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ArticleBean item) {
+    protected void convertArticle(BaseViewHolder helper, ArticleBean item) {
         SwipeLayout sl = helper.getView(R.id.sl);
         sl.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
@@ -97,7 +99,7 @@ public class MineShareArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseV
             public void onHandRelease(SwipeLayout layout, float xvel, float yvel) {
             }
         });
-        ArticleAdapter.bindArticle(helper.getView(R.id.rl_article), item, mOnCollectListener);
+        bindArticle(helper.getView(R.id.rl_article), item, mOnCollectListener);
         helper.addOnClickListener(R.id.tv_delete);
     }
 }

@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.module.login.fragment;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -15,15 +16,13 @@ import per.goweii.wanandroid.module.login.activity.LoginActivity;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.login.presenter.RegisterPresenter;
 import per.goweii.wanandroid.module.login.view.RegisterView;
-import per.goweii.wanandroid.utils.KeyboardHelper;
 import per.goweii.wanandroid.widget.InputView;
+import per.goweii.wanandroid.widget.PasswordInputView;
 import per.goweii.wanandroid.widget.SubmitView;
 
 /**
  * @author CuiZhen
  * @date 2019/5/16
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class RegisterFragment extends BaseFragment<RegisterPresenter> implements RegisterView {
@@ -33,16 +32,15 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     @BindView(R.id.piv_register_account)
     InputView piv_account;
     @BindView(R.id.piv_register_password)
-    InputView piv_password;
+    PasswordInputView piv_password;
     @BindView(R.id.piv_register_password_again)
-    InputView piv_password_again;
+    PasswordInputView piv_password_again;
     @BindView(R.id.sv_register)
     SubmitView sv_register;
 
-    private KeyboardHelper mKeyboardHelper;
     private LoginActivity mActivity;
 
-    public static RegisterFragment create(){
+    public static RegisterFragment create() {
         return new RegisterFragment();
     }
 
@@ -65,6 +63,18 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
 
     @Override
     protected void initView() {
+        piv_password.setOnPwdFocusChangedListener(new PasswordInputView.OnPwdFocusChangedListener() {
+            @Override
+            public void onFocusChanged(boolean focus) {
+                mActivity.doEyeAnim(focus);
+            }
+        });
+        piv_password_again.setOnPwdFocusChangedListener(new PasswordInputView.OnPwdFocusChangedListener() {
+            @Override
+            public void onFocusChanged(boolean focus) {
+                mActivity.doEyeAnim(focus);
+            }
+        });
     }
 
     @Override
@@ -72,28 +82,24 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     }
 
     @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mActivity.getSoftInputHelper().moveWith(sv_register,
+                piv_account.getEditText(), piv_password.getEditText(), piv_password_again.getEditText());
+    }
+
+    @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
-        mKeyboardHelper = KeyboardHelper.attach(mActivity)
-                .init(mActivity.getRl_input(), sv_register, piv_account.getEditText(), piv_password.getEditText(), piv_password_again.getEditText())
-                .moveWithTranslation();
     }
 
     @Override
     public void onInvisible() {
         super.onInvisible();
-        if (mKeyboardHelper != null) {
-            mKeyboardHelper.detach();
-            mKeyboardHelper = null;
-        }
     }
 
     @Override
     public void onDestroyView() {
-        if (mKeyboardHelper != null) {
-            mKeyboardHelper.detach();
-            mKeyboardHelper = null;
-        }
         super.onDestroyView();
     }
 

@@ -5,8 +5,8 @@ ext {
             minSdkVersion    : 19,
             targetSdkVersion : 28,
             buildToolsVersion: "28.0.3",
-            versionCode      : 30,
-            versionName      : "1.2.7",
+            versionCode      : 37,
+            versionName      : "1.4.2",
     ]
 
     compileOptions = [
@@ -32,8 +32,9 @@ ext {
             rxHttp                : "2.2.9",
             anyPermission         : "1.1.2",
             anyDialog             : "3.0.3",
-            anyLayer              : "3.2.5",
+            anyLayer              : "3.4.1-support",
             actionBarEx           : "3.2.4",
+            statusBarCompat       : "1.2.1",
             percentImageView      : "1.0.2",
             roundedimageview      : "2.3.0",
             circleimageview       : "2.2.0",
@@ -55,6 +56,7 @@ ext {
             lazyfragment          : "1.1.2",
             heartView             : "1.0.0",
             zxingLibrary          : "2.2",
+            tbs                   : "43697",
 
             arouterApi            : "1.4.1",
             arouterCompiler       : "1.2.2",
@@ -66,6 +68,8 @@ ext {
             buglyCrashreport      : "3.1.0",
             crashActivity         : "2.2.0",
             jinrishici            : "1.2",
+
+            okhttp                : "3.14.6",
     ]
 
     dependencies = [
@@ -93,6 +97,7 @@ ext {
             anyDialog              : "com.github.goweii:AnyDialog:$versions.anyDialog",
             anyLayer               : "com.github.goweii:AnyLayer:$versions.anyLayer",
             actionBarEx            : "com.github.goweii:ActionBarEx:$versions.actionBarEx",
+            statusBarCompat        : "com.github.goweii:StatusBarCompat:$versions.statusBarCompat",
             percentImageView       : "com.github.goweii:PercentImageView:$versions.percentImageView",
             roundedimageview       : "com.makeramen:roundedimageview:$versions.roundedimageview",
             circleimageview        : "de.hdodenhof:circleimageview:$versions.circleimageview",
@@ -114,6 +119,7 @@ ext {
             lazyfragment           : "com.github.goweii.LazyFragment:lazyfragment:$versions.lazyfragment",
             heartView              : "com.github.goweii:HeartView:$versions.heartView",
             zxingLibrary           : "cn.yipianfengye.android:zxing-library:$versions.zxingLibrary",
+            tbs                    : "com.tencent.tbs.tbssdk:sdk:$versions.tbs",
 
             arouterApi             : "com.alibaba:arouter-api:$versions.arouterApi",
             arouterCompiler        : "com.alibaba:arouter-compiler:$versions.arouterCompiler",
@@ -125,5 +131,7 @@ ext {
             buglyCrashreport       : "com.tencent.bugly:crashreport:$versions.buglyCrashreport",
             crashActivity          : "cat.ereza:customactivityoncrash:$versions.crashActivity",
             jinrishici             : "com.jinrishici:android-sdk:$versions.jinrishici",
+
+            okhttp                 : "com.squareup.okhttp3:okhttp:$versions.okhttp",
     ]
 }

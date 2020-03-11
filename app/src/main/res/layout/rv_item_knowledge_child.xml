@@ -10,6 +10,6 @@
     android:paddingTop="5dp"
     android:paddingRight="15dp"
     android:paddingBottom="5dp"
-    android:textColor="@color/text_third"
+    android:textColor="@color/text_second"
     android:textSize="@dimen/text_auxiliary"
     tools:text="公众号文章" />

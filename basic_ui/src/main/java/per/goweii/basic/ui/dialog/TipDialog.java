@@ -39,7 +39,7 @@ public class TipDialog {
         mDialogLayer = AnyLayer.dialog(context);
         mDialogLayer.contentView(R.layout.basic_ui_dialog_tip)
                 .gravity(Gravity.CENTER)
-                .backgroundColorRes(R.color.dialog_bg)
+                .backgroundDimDefault()
                 .cancelableOnTouchOutside(cancelable)
                 .cancelableOnClickKeyBack(cancelable)
                 .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {

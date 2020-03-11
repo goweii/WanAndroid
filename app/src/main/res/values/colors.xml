@@ -7,10 +7,10 @@
     <color name="ic_launcher_background_start">@color/main</color>
     <color name="ic_launcher_background_end">@color/main</color>
 
+    <color name="login_bg">@color/basic_ui_action_bar_bg</color>
     <color name="bottom_bar_overlay">@color/background_alpha</color>
     <color name="mine_blur_overlay">@color/background_mask</color>
     <color name="about_me_blur_overlay">@color/background_mask</color>
     <color name="scrollbar">#22000000</color>
     <color name="heart_center">#FFA07C</color>
-    <color name="heart_edge">@color/accent</color>
 </resources>

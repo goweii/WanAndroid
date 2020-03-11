@@ -16,8 +16,6 @@ import per.goweii.basic.utils.file.CacheUtils;
 /**
  * @author CuiZhen
  * @date 2019/11/3
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class BitmapUtils {
@@ -32,7 +30,7 @@ public class BitmapUtils {
             File gallery = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             File file = new File(gallery, picName + ".jpg");
             outStream = new FileOutputStream(file.getPath());
-            bmp.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+            bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
             Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
             Uri uri = UriUtils.getFileUri(file);
             intent.setData(uri);

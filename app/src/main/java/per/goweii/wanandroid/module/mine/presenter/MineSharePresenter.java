@@ -17,8 +17,6 @@ import per.goweii.wanandroid.widget.CollectView;
 /**
  * @author CuiZhen
  * @date 2019/5/17
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class MineSharePresenter extends BasePresenter<MineShareView> {
@@ -112,7 +110,7 @@ public class MineSharePresenter extends BasePresenter<MineShareView> {
     }
 
     public void uncollect(ArticleBean item, final CollectView v) {
-        addToRxLife(MainRequest.uncollect(item.getId(), item.getOriginId(), new RequestListener<BaseBean>() {
+        addToRxLife(MainRequest.uncollect(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
             }

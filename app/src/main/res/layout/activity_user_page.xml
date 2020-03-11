@@ -202,6 +202,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        android:background="@color/transparent" />
+        android:background="@color/transparent"
+        app:abc_rightText="玩口令" />
 
 </FrameLayout>

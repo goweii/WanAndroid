@@ -1,60 +1,61 @@
 package per.goweii.wanandroid.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
-import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
-import android.webkit.WebResourceResponse;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.widget.FrameLayout;
 
-import com.just.agentweb.AgentWeb;
-import com.just.agentweb.DefaultWebClient;
+import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
+import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
+import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
+import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
+import com.tencent.smtt.sdk.CookieManager;
+import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 
 import java.util.List;
 
+import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
-import per.goweii.basic.utils.ResUtils;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.widget.WebContainer;
+import per.goweii.wanandroid.widget.X5WebView;
 
 /**
  * @author CuiZhen
  * @date 2019/10/20
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class WebHolder {
-    private final AgentWeb agentWeb;
-
     private OnPageTitleCallback mOnPageTitleCallback = null;
     private OnPageLoadCallback mOnPageLoadCallback = null;
     private OnPageProgressCallback mOnPageProgressCallback = null;
     private OnHistoryUpdateCallback mOnHistoryUpdateCallback = null;
 
     private boolean isProgressShown = false;
+    private WebView mWebView;
+    private final MaterialProgressBar mProgressBar;
 
     public static WebHolder with(Activity activity, WebContainer container) {
         return new WebHolder(activity, container);
-    }
-
-    private static WebView inflateWebView(Context context) {
-        return (WebView) LayoutInflater.from(context).inflate(R.layout.layout_web_view, null);
     }
 
     private static void syncCookiesForWanAndroid(String url) {
@@ -91,98 +92,133 @@ public class WebHolder {
         }
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     private WebHolder(Activity activity, WebContainer container) {
-        agentWeb = AgentWeb.with(activity)
-                .setAgentWebParent(container, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.MATCH_PARENT))
-                .useDefaultIndicator(ResUtils.getColor(activity, R.color.assist), 1)
-                .interceptUnkownUrl()
-                .setSecurityType(AgentWeb.SecurityType.STRICT_CHECK)
-                .setMainFrameErrorView(R.layout.layout_agent_web_error, R.id.iv_404)
-                .setOpenOtherPageWays(DefaultWebClient.OpenOtherPageWays.DISALLOW)
-                .setWebChromeClient(new AgentWebChromeClient())
-                .setWebViewClient(new AgentWebViewClient())
-                .setWebView(inflateWebView(activity))
-                .createAgentWeb()
-                .ready()
-                .go(null);
-        getWebView().setOverScrollMode(WebView.OVER_SCROLL_NEVER);
-        getWebView().getSettings().setJavaScriptEnabled(false);
-        getWebView().getSettings().setLoadsImagesAutomatically(true);
-        getWebView().getSettings().setUseWideViewPort(true);
-        getWebView().getSettings().setLoadWithOverviewMode(true);
-        getWebView().getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN);
+        activity.getWindow().setFormat(PixelFormat.TRANSLUCENT);
+        mWebView = new X5WebView(activity);
+        mProgressBar = (MaterialProgressBar) LayoutInflater.from(activity).inflate(R.layout.basic_ui_progress_bar, container, false);
+        mProgressBar.setMax(100);
+        container.addView(mWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                FrameLayout.LayoutParams.MATCH_PARENT));
+        container.addView(mProgressBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                activity.getResources().getDimensionPixelSize(R.dimen.basic_ui_action_bar_loading_bar_height)));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            CookieManager.getInstance().setAcceptThirdPartyCookies(getWebView(), true);
+            CookieManager.getInstance().setAcceptThirdPartyCookies(mWebView, true);
+        }
+        mWebView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+        mWebView.getView().setOverScrollMode(View.OVER_SCROLL_NEVER);
+        mWebView.setWebChromeClient(new WanWebChromeClient());
+        mWebView.setWebViewClient(new WanWebViewClient());
+        WebSettings webSetting = mWebView.getSettings();
+        webSetting.setJavaScriptEnabled(true);
+        webSetting.setJavaScriptCanOpenWindowsAutomatically(false);
+        webSetting.setAllowFileAccess(true);
+        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+        webSetting.setSupportZoom(false);
+        webSetting.setBuiltInZoomControls(false);
+        webSetting.setUseWideViewPort(true);
+        webSetting.setLoadWithOverviewMode(true);
+        webSetting.setAppCacheEnabled(true);
+        webSetting.setDomStorageEnabled(true);
+        webSetting.setGeolocationEnabled(true);
+        webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
+        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
+        webSetting.setRenderPriority(WebSettings.RenderPriority.HIGH);
+        webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            webSetting.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+        }
+        IX5WebSettingsExtension ext = mWebView.getSettingsExtension();
+        if (ext != null) {
+            ext.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
+            if (NightModeUtils.isNightMode(activity)) {
+                container.setDarkMaskEnable(false);
+                ext.setDayOrNight(false);
+            } else {
+                ext.setDayOrNight(true);
+            }
         }
     }
 
-    public WebView getWebView() {
-        return agentWeb.getWebCreator().getWebView();
-    }
-
     public WebHolder loadUrl(String url) {
-        getWebView().loadUrl(url);
+        mWebView.loadUrl(url);
         return this;
     }
 
     @NonNull
     public String getUrl() {
-        String url = getWebView().getUrl();
+        String url = mWebView.getUrl();
         return url == null ? "" : url;
     }
 
     @NonNull
     public String getTitle() {
-        String title = getWebView().getTitle();
+        String title = mWebView.getTitle();
         return title == null ? "" : title;
     }
 
     public boolean canGoBack() {
-        return getWebView().canGoBack();
+        return mWebView.canGoBack();
     }
 
     public boolean canGoForward() {
-        return getWebView().canGoForward();
+        return mWebView.canGoForward();
     }
 
     public boolean canGoBackOrForward(int steps) {
-        return getWebView().canGoBackOrForward(steps);
+        return mWebView.canGoBackOrForward(steps);
     }
 
     public void goBack() {
-        getWebView().goBack();
+        mWebView.goBack();
     }
 
     public void goForward() {
-        getWebView().goForward();
+        mWebView.goForward();
     }
 
     public void goBackOrForward(int steps) {
-        getWebView().goBackOrForward(steps);
+        mWebView.goBackOrForward(steps);
     }
 
     public void reload() {
-        getWebView().reload();
+        mWebView.reload();
     }
 
     public void stopLoading() {
-        getWebView().stopLoading();
+        mWebView.stopLoading();
     }
 
     public void onPause() {
-        agentWeb.getWebLifeCycle().onPause();
+        mWebView.onPause();
     }
 
     public void onResume() {
-        agentWeb.getWebLifeCycle().onResume();
+        mWebView.onResume();
     }
 
     public void onDestroy() {
-        agentWeb.getWebLifeCycle().onDestroy();
+        ViewParent parent = mWebView.getParent();
+        if (parent != null) {
+            ((ViewGroup) parent).removeView(mWebView);
+        }
+        mWebView.removeAllViews();
+        mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
+        mWebView.stopLoading();
+        mWebView.setWebChromeClient(null);
+        mWebView.setWebViewClient(null);
+        mWebView.destroy();
     }
 
     public boolean handleKeyEvent(int keyCode, KeyEvent keyEvent) {
-        return agentWeb.handleKeyEvent(keyCode, keyEvent);
+        if (keyCode != KeyEvent.KEYCODE_BACK) {
+            return false;
+        }
+        if (mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+        return false;
     }
 
     public WebHolder setOnPageTitleCallback(OnPageTitleCallback onPageTitleCallback) {
@@ -205,7 +241,7 @@ public class WebHolder {
         return this;
     }
 
-    public class AgentWebChromeClient extends WebChromeClient {
+    public class WanWebChromeClient extends WebChromeClient {
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
@@ -221,28 +257,51 @@ public class WebHolder {
             if (newProgress < 95) {
                 if (!isProgressShown) {
                     isProgressShown = true;
-                    if (mOnPageProgressCallback != null) {
-                        mOnPageProgressCallback.onShowProgress();
-                    }
+                    onShowProgress();
                 }
-                if (mOnPageProgressCallback != null) {
-                    mOnPageProgressCallback.onProgressChanged(newProgress);
-                }
+                onProgressChanged(newProgress);
             } else {
-                if (mOnPageProgressCallback != null) {
-                    mOnPageProgressCallback.onProgressChanged(newProgress);
-                }
+                onProgressChanged(newProgress);
                 if (isProgressShown) {
                     isProgressShown = false;
-                    if (mOnPageProgressCallback != null) {
-                        mOnPageProgressCallback.onHideProgress();
-                    }
+                    onHideProgress();
                 }
+            }
+        }
+
+        private void onShowProgress() {
+            mProgressBar.setVisibility(View.VISIBLE);
+            setProgress(0);
+            if (mOnPageProgressCallback != null) {
+                mOnPageProgressCallback.onShowProgress();
+            }
+        }
+
+        private void onProgressChanged(int progress) {
+            setProgress(progress);
+            if (mOnPageProgressCallback != null) {
+                mOnPageProgressCallback.onProgressChanged(progress);
+            }
+        }
+
+        private void onHideProgress() {
+            mProgressBar.setVisibility(View.GONE);
+            setProgress(100);
+            if (mOnPageProgressCallback != null) {
+                mOnPageProgressCallback.onHideProgress();
+            }
+        }
+
+        private void setProgress(int progress) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                mProgressBar.setProgress(progress, true);
+            } else {
+                mProgressBar.setProgress(progress);
             }
         }
     }
 
-    public class AgentWebViewClient extends WebViewClient {
+    public class WanWebViewClient extends WebViewClient {
 
         private boolean shouldInterceptRequest(Uri uri) {
             syncCookiesForWanAndroid(uri.toString());
@@ -250,6 +309,7 @@ public class WebHolder {
         }
 
         private boolean shouldOverrideUrlLoading(Uri uri) {
+            LogUtils.d("WebView", "shouldOverrideUrlLoading->" + uri.toString());
             switch (SettingUtils.getInstance().getUrlInterceptType()) {
                 default:
                 case HostInterceptUtils.TYPE_NOTHING:
@@ -276,6 +336,14 @@ public class WebHolder {
                 return new WebResourceResponse(null, null, null);
             }
             return super.shouldInterceptRequest(view, request);
+        }
+
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView webView, WebResourceRequest request, Bundle bundle) {
+            if (shouldInterceptRequest(request.getUrl())) {
+                return new WebResourceResponse(null, null, null);
+            }
+            return super.shouldInterceptRequest(webView, request, bundle);
         }
 
         @Override

@@ -18,6 +18,8 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 
+import com.tencent.smtt.sdk.QbSdk;
+
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -30,8 +32,6 @@ import per.goweii.wanandroid.utils.SettingUtils;
 /**
  * @author CuiZhen
  * @date 2019/8/31
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class WebContainer extends FrameLayout {
@@ -39,7 +39,7 @@ public class WebContainer extends FrameLayout {
     private final float mTouchSlop;
     private final long mTapTimeout;
     private final long mDoubleTapTimeout;
-    private final boolean mDarkTheme;
+    private boolean mDarkMaskEnable;
 
     private int mMaskColor = Color.TRANSPARENT;
 
@@ -77,10 +77,14 @@ public class WebContainer extends FrameLayout {
         mTapTimeout = ViewConfiguration.getTapTimeout();
         mDoubleTapTimeout = ViewConfiguration.getDoubleTapTimeout();
 
-        mDarkTheme = SettingUtils.getInstance().isDarkTheme();
-        if (mDarkTheme) {
-            mMaskColor = ColorUtils.alphaColor(ContextCompat.getColor(getContext(), R.color.background), 0.6F);
+        mDarkMaskEnable = SettingUtils.getInstance().isDarkTheme() && !QbSdk.canLoadX5(context);
+        if (mDarkMaskEnable) {
+            mMaskColor = ColorUtils.alphaColor(ContextCompat.getColor(getContext(), R.color.background), 0.4F);
         }
+    }
+
+    public void setDarkMaskEnable(boolean enable) {
+        mDarkMaskEnable = enable;
     }
 
     public void setOnDoubleClickListener(OnDoubleClickListener onDoubleClickListener) {
@@ -142,7 +146,7 @@ public class WebContainer extends FrameLayout {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (mDarkTheme) {
+        if (mDarkMaskEnable) {
             canvas.drawColor(mMaskColor);
         }
     }

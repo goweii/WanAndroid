@@ -24,11 +24,16 @@ android {
         sourceCompatibility rootProject.ext.compileOptions.sourceCompatibility
         targetCompatibility rootProject.ext.compileOptions.targetCompatibility
     }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     resourcePrefix project.name + "_"
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar', '*.aar'], dir: 'libs')
     implementation rootProject.ext.dependencies.appcompatV7
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }

@@ -8,16 +8,82 @@ android {
         applicationId rootProject.ext.android.applicationId
         renderscriptSupportModeEnabled true
         ndk {
-            abiFilters /*'armeabi' ,*/'armeabi-v7a'/*, 'arm64-v8a'*/
+            abiFilters /*'armeabi' ,*/ 'armeabi-v7a'/*, 'arm64-v8a'*/
         }
     }
     buildTypes {
+        Properties properties = new Properties()
+        InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+        properties.load(inputStream)
+        def APPID_BUGLY = properties.getProperty('APPID_BUGLY')
+        def APPID_AD = properties.getProperty('APPID_AD')
+        def AD_ID_ARTICLE_LIST_LIGHT = properties.getProperty('AD_ID_ARTICLE_LIST_LIGHT')
+        def AD_ID_ARTICLE_LIST_DARK = properties.getProperty('AD_ID_ARTICLE_LIST_DARK')
+        def AD_ID_BANNER_LIGHT = properties.getProperty('AD_ID_BANNER_LIGHT')
+        def AD_ID_BANNER_DARK = properties.getProperty('AD_ID_BANNER_DARK')
+        def AD_ID_BANNER = properties.getProperty('AD_ID_BANNER')
+        def WANPWD_FORMAT = properties.getProperty('WANPWD_FORMAT')
+        def WANPWD_PATTERN = properties.getProperty('WANPWD_PATTERN')
+        def WANPWD_TYPE_QQ = properties.getProperty('WANPWD_TYPE_QQ')
+        def WANPWD_TYPE_FESTIVAL = properties.getProperty('WANPWD_TYPE_FESTIVAL')
+        def WANPWD_TYPE_USERPAGE = properties.getProperty('WANPWD_TYPE_USERPAGE')
+        def WANPWD_TYPE_CDKEY = properties.getProperty('WANPWD_TYPE_CDKEY')
+        def WANPWD_TYPE_WEB = properties.getProperty('WANPWD_TYPE_WEB')
+        def WANPWD_TYPE_ABOUTME = properties.getProperty('WANPWD_TYPE_ABOUTME')
+        def WANPWD_TYPE_CREATE_CDKEY = properties.getProperty('WANPWD_TYPE_CREATE_CDKEY')
+        def CDKEY_CLASS = properties.getProperty('CDKEY_CLASS')
+        def DEVELOPER_ID = properties.getProperty('DEVELOPER_ID')
+        def CHANGYAN_APP_ID = properties.getProperty('CHANGYAN_APP_ID')
+        def CHANGYAN_APP_KEY = properties.getProperty('CHANGYAN_APP_KEY')
+
         release {
+            buildConfigField "String", "APPID_BUGLY", '"' + APPID_BUGLY + '"'
+            buildConfigField "String", "APPID_AD", '"' + APPID_AD + '"'
+            buildConfigField "String", "AD_ID_ARTICLE_LIST_LIGHT", '"' + AD_ID_ARTICLE_LIST_LIGHT + '"'
+            buildConfigField "String", "AD_ID_ARTICLE_LIST_DARK", '"' + AD_ID_ARTICLE_LIST_DARK + '"'
+            buildConfigField "String", "AD_ID_BANNER_LIGHT", '"' + AD_ID_BANNER_LIGHT + '"'
+            buildConfigField "String", "AD_ID_BANNER_DARK", '"' + AD_ID_BANNER_DARK + '"'
+            buildConfigField "String", "AD_ID_BANNER", '"' + AD_ID_BANNER + '"'
+            buildConfigField "String", "WANPWD_FORMAT", '"' + WANPWD_FORMAT + '"'
+            buildConfigField "String", "WANPWD_PATTERN", '"' + WANPWD_PATTERN + '"'
+            buildConfigField "String", "WANPWD_TYPE_QQ", '"' + WANPWD_TYPE_QQ + '"'
+            buildConfigField "String", "WANPWD_TYPE_FESTIVAL", '"' + WANPWD_TYPE_FESTIVAL + '"'
+            buildConfigField "String", "WANPWD_TYPE_USERPAGE", '"' + WANPWD_TYPE_USERPAGE + '"'
+            buildConfigField "String", "WANPWD_TYPE_CDKEY", '"' + WANPWD_TYPE_CDKEY + '"'
+            buildConfigField "String", "WANPWD_TYPE_WEB", '"' + WANPWD_TYPE_WEB + '"'
+            buildConfigField "String", "WANPWD_TYPE_ABOUTME", '"' + WANPWD_TYPE_ABOUTME + '"'
+            buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", '"' + WANPWD_TYPE_CREATE_CDKEY + '"'
+            buildConfigField "String", "CDKEY_CLASS", '"' + CDKEY_CLASS + '"'
+            buildConfigField "String", "DEVELOPER_ID", '"' + DEVELOPER_ID + '"'
+            buildConfigField "String", "CHANGYAN_APP_ID", '"' + CHANGYAN_APP_ID + '"'
+            buildConfigField "String", "CHANGYAN_APP_KEY", '"' + CHANGYAN_APP_KEY + '"'
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     output.outputFileName = "$applicationId-v${defaultConfig.versionName}.apk"
                 }
             }
+        }
+        debug {
+            buildConfigField "String", "APPID_BUGLY", '"' + APPID_BUGLY + '"'
+            buildConfigField "String", "APPID_AD", '"' + APPID_AD + '"'
+            buildConfigField "String", "AD_ID_ARTICLE_LIST_LIGHT", '"' + AD_ID_ARTICLE_LIST_LIGHT + '"'
+            buildConfigField "String", "AD_ID_ARTICLE_LIST_DARK", '"' + AD_ID_ARTICLE_LIST_DARK + '"'
+            buildConfigField "String", "AD_ID_BANNER_LIGHT", '"' + AD_ID_BANNER_LIGHT + '"'
+            buildConfigField "String", "AD_ID_BANNER_DARK", '"' + AD_ID_BANNER_DARK + '"'
+            buildConfigField "String", "AD_ID_BANNER", '"' + AD_ID_BANNER + '"'
+            buildConfigField "String", "WANPWD_FORMAT", '"' + WANPWD_FORMAT + '"'
+            buildConfigField "String", "WANPWD_PATTERN", '"' + WANPWD_PATTERN + '"'
+            buildConfigField "String", "WANPWD_TYPE_QQ", '"' + WANPWD_TYPE_QQ + '"'
+            buildConfigField "String", "WANPWD_TYPE_FESTIVAL", '"' + WANPWD_TYPE_FESTIVAL + '"'
+            buildConfigField "String", "WANPWD_TYPE_USERPAGE", '"' + WANPWD_TYPE_USERPAGE + '"'
+            buildConfigField "String", "WANPWD_TYPE_CDKEY", '"' + WANPWD_TYPE_CDKEY + '"'
+            buildConfigField "String", "WANPWD_TYPE_WEB", '"' + WANPWD_TYPE_WEB + '"'
+            buildConfigField "String", "WANPWD_TYPE_ABOUTME", '"' + WANPWD_TYPE_ABOUTME + '"'
+            buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", '"' + WANPWD_TYPE_CREATE_CDKEY + '"'
+            buildConfigField "String", "CDKEY_CLASS", '"' + CDKEY_CLASS + '"'
+            buildConfigField "String", "DEVELOPER_ID", '"' + DEVELOPER_ID + '"'
+            buildConfigField "String", "CHANGYAN_APP_ID", '"' + CHANGYAN_APP_ID + '"'
+            buildConfigField "String", "CHANGYAN_APP_KEY", '"' + CHANGYAN_APP_KEY + '"'
         }
     }
     resourcePrefix ""
@@ -41,5 +107,6 @@ dependencies {
     implementation rootProject.ext.dependencies.crashActivity
     implementation rootProject.ext.dependencies.heartView
     implementation rootProject.ext.dependencies.zxingLibrary
-//    implementation rootProject.ext.dependencies.jinrishici
+    implementation rootProject.ext.dependencies.tbs
+    implementation files('libs/CySDK.jar')
 }

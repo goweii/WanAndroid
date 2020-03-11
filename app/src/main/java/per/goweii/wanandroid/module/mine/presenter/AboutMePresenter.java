@@ -19,8 +19,6 @@ import per.goweii.wanandroid.module.mine.view.AboutMeView;
 /**
  * @author CuiZhen
  * @date 2019/5/23
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class AboutMePresenter extends BasePresenter<AboutMeView> {

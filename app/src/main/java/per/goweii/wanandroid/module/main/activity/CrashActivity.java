@@ -20,8 +20,6 @@ import per.goweii.wanandroid.common.WanApp;
 /**
  * @author CuiZhen
  * @date 2019/10/20
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class CrashActivity extends AppCompatActivity {
@@ -46,8 +44,8 @@ public class CrashActivity extends AppCompatActivity {
             finish();
             return;
         }
-        WanApp.setDarkModeStatus();
-        StatusBarCompat.setIconMode(this, !WanApp.getDarkModeStatus());
+        WanApp.initDarkMode();
+        StatusBarCompat.setIconMode(this, !WanApp.isDarkMode());
         setContentView(R.layout.activity_crash);
         mUnbinder = ButterKnife.bind(this);
     }

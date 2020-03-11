@@ -19,8 +19,6 @@ import java.io.Writer;
 /**
  * @author Cuizhen
  * @date 2018/2/10
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public final class IOUtils {

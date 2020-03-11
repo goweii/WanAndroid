@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
 
 import per.goweii.wanandroid.R;
@@ -18,20 +20,18 @@ import per.goweii.wanandroid.widget.WebContainer;
 /**
  * @author CuiZhen
  * @date 2019/8/31
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class WebDialogPagerAdapter extends PagerAdapter {
 
     private final Activity mActivity;
     private final List<ArticleBean> mTopUrls;
-    private final List<ArticleBean> mUrls;
+    private final List<MultiItemEntity> mUrls;
     private final SparseArray<WebHolder> mWebs = new SparseArray<>();
 
     private OnDoubleClickListener mOnDoubleClickListener = null;
 
-    public WebDialogPagerAdapter(Activity activity, List<ArticleBean> topUrls, List<ArticleBean> urls) {
+    public WebDialogPagerAdapter(Activity activity, List<ArticleBean> topUrls, List<MultiItemEntity> urls) {
         mTopUrls = topUrls;
         mUrls = urls;
         mActivity = activity;
@@ -79,7 +79,15 @@ public class WebDialogPagerAdapter extends PagerAdapter {
         }
     }
 
-    public ArticleBean getBean(int pos) {
+    public ArticleBean getArticleBean(int position) {
+        MultiItemEntity entity = getBean(position);
+        if (entity != null && entity.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
+            return (ArticleBean) entity;
+        }
+        return null;
+    }
+
+    public MultiItemEntity getBean(int pos) {
         int topUrlCount = mTopUrls == null ? 0 : mTopUrls.size();
         if (pos < topUrlCount) {
             return mTopUrls.get(pos);
@@ -102,18 +110,24 @@ public class WebDialogPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        final ArticleBean data = getBean(position);
+        final MultiItemEntity data = getBean(position);
+        final ArticleBean bean;
+        if (data.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
+            bean = (ArticleBean) data;
+        } else {
+            bean = null;
+        }
         View rootView = LayoutInflater.from(container.getContext()).inflate(R.layout.dialog_web_vp_item, container, false);
         WebContainer wc = rootView.findViewById(R.id.dialog_web_wc);
         wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
             @Override
             public void onDoubleClick(float x, float y) {
-                if (mOnDoubleClickListener != null) {
-                    mOnDoubleClickListener.onDoubleClick(data);
+                if (bean != null && mOnDoubleClickListener != null) {
+                    mOnDoubleClickListener.onDoubleClick(bean);
                 }
             }
         });
-        WebHolder web = WebHolder.with(mActivity, wc).loadUrl(data.getLink());
+        WebHolder web = WebHolder.with(mActivity, wc).loadUrl(bean != null ? bean.getLink() : "");
         mWebs.put(position, web);
         container.addView(rootView);
         return rootView;

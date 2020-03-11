@@ -10,8 +10,6 @@ import android.webkit.WebView;
 /**
  * @author CuiZhen
  * @date 2019/11/3
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class CaptureUtils {

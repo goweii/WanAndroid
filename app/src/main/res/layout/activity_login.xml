@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/basic_ui_action_bar_bg"
+    android:background="@color/login_bg"
     android:clipChildren="false">
 
     <per.goweii.actionbarex.common.ActionBarCommon
@@ -21,11 +21,39 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <ImageView
+        <FrameLayout
             android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/logo" />
+            android:layout_height="100dp">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/logo" />
+
+            <FrameLayout
+                android:id="@+id/fl_eye"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp">
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="left"
+                    android:layout_marginLeft="23dp"
+                    android:background="@drawable/bg_white_circle" />
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="23dp"
+                    android:background="@drawable/bg_white_circle" />
+
+            </FrameLayout>
+
+        </FrameLayout>
 
         <TextView
             android:layout_width="wrap_content"

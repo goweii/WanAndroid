@@ -12,8 +12,6 @@ import per.goweii.wanandroid.R;
 /**
  * @author CuiZhen
  * @date 2019/5/15
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class AccountInputView extends InputView {
@@ -37,6 +35,7 @@ public class AccountInputView extends InputView {
     protected void initViews(AttributeSet attrs) {
         super.initViews(attrs);
         getEditText().setHint("请输入用户名");
+        changeFocusMode(false);
     }
 
     @Override
@@ -67,7 +66,11 @@ public class AccountInputView extends InputView {
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
         super.onFocusChange(v, hasFocus);
-        if (hasFocus) {
+        changeFocusMode(hasFocus);
+    }
+
+    private void changeFocusMode(boolean focus) {
+        if (focus) {
             if (isEmpty()) {
                 mIvDeleteIcon.setVisibility(INVISIBLE);
             } else {

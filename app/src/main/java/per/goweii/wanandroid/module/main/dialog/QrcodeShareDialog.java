@@ -25,8 +25,6 @@ import per.goweii.wanandroid.module.main.model.MainRequest;
 /**
  * @author CuiZhen
  * @date 2019/11/9
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class QrcodeShareDialog extends DialogLayer {
@@ -42,7 +40,7 @@ public class QrcodeShareDialog extends DialogLayer {
         mTitle = title;
         mOnShareClickListener = listener;
         contentView(R.layout.dialog_qrcode_share);
-        backgroundColorRes(R.color.dialog_bg);
+        backgroundDimDefault();
         contentAnimator(new AnimatorCreator() {
             @Override
             public Animator createInAnimator(View target) {
@@ -119,7 +117,8 @@ public class QrcodeShareDialog extends DialogLayer {
             public void onSuccess(int code, JinrishiciBean data) {
                 TextView tv_shici = getView(R.id.dialog_qrcode_share_tv_shici);
                 if (tv_shici != null) {
-                    tv_shici.setText(formatShici(data.getContent()));
+//                    tv_shici.setText(formatShici(data.getContent()));
+                    tv_shici.setText(data.getContent());
                 }
             }
 
@@ -149,7 +148,7 @@ public class QrcodeShareDialog extends DialogLayer {
 
     private Bitmap createCardBitmap() {
         View rl_card = getView(R.id.dialog_qrcode_share_rl_card);
-        Bitmap bitmap = Bitmap.createBitmap(rl_card.getWidth(), rl_card.getHeight(), Bitmap.Config.RGB_565);
+        Bitmap bitmap = Bitmap.createBitmap(rl_card.getWidth(), rl_card.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         rl_card.draw(canvas);
         return bitmap;

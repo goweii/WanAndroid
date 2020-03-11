@@ -16,8 +16,6 @@ import per.goweii.wanandroid.common.WanApp;
 /**
  * @author CuiZhen
  * @date 2019/5/7
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class RouterActivity extends BaseActivity implements Runnable {

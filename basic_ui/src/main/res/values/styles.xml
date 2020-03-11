@@ -3,6 +3,11 @@
     <style name="basic_ui_LoadingBarH" parent="Widget.MaterialProgressBar.ProgressBar.Horizontal.NoPadding">
         <item name="android:minHeight">1dp</item>
         <item name="android:maxHeight">5dp</item>
+        <item name="mpb_showProgressBackground">false</item>
+        <item name="mpb_progressTint">@color/assist</item>
+        <item name="mpb_indeterminateTint">@color/assist</item>
+        <item name="mpb_progressStyle">horizontal</item>
+        <item name="mpb_useIntrinsicPadding">false</item>
     </style>
     <style name="basic_ui_LoadingBarC" parent="Widget.MaterialProgressBar.ProgressBar.NoPadding">
     </style>

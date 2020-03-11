@@ -1,6 +1,5 @@
 package per.goweii.basic.ui.dialog;
 
-import android.animation.Animator;
 import android.content.Context;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,8 +16,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.AnyLayer;
+import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
 import per.goweii.basic.ui.R;
 import per.goweii.basic.utils.ResUtils;
@@ -26,8 +25,6 @@ import per.goweii.basic.utils.ResUtils;
 /**
  * @author CuiZhen
  * @date 2019/5/20
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class ListDialog {
@@ -119,19 +116,9 @@ public class ListDialog {
     public void show() {
         AnyLayer.dialog(context)
                 .contentView(R.layout.basic_ui_dialog_list)
-                .backgroundColorRes(R.color.dialog_bg)
                 .gravity(Gravity.BOTTOM)
-                .contentAnimator(new Layer.AnimatorCreator() {
-                    @Override
-                    public Animator createInAnimator(View target) {
-                        return AnimatorHelper.createBottomInAnim(target);
-                    }
-
-                    @Override
-                    public Animator createOutAnimator(View target) {
-                        return AnimatorHelper.createBottomOutAnim(target);
-                    }
-                })
+                .backgroundDimDefault()
+                .dragDismiss(DragLayout.DragStyle.Bottom)
                 .cancelableOnTouchOutside(cancelable)
                 .cancelableOnClickKeyBack(cancelable)
                 .bindData(new Layer.DataBinder() {

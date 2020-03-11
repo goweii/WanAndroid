@@ -19,8 +19,6 @@ import per.goweii.wanandroid.module.main.model.UserPageBean;
 /**
  * @author CuiZhen
  * @date 2019/5/16
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class MineRequest extends BaseRequest {
@@ -47,7 +45,7 @@ public class MineRequest extends BaseRequest {
     }
 
     public static void getCollectLinkListCache(@NonNull RequestListener<List<CollectionLinkBean>> listener) {
-        cacheList(WanCache.CacheKey.COLLECT_LINK_LIST, CollectionLinkBean.class, listener);
+        cacheList(WanCache.CacheKey.COLLECT_LINK_LIST(), CollectionLinkBean.class, listener);
     }
 
     public static void getCollectLinkListNet(RxLife rxLife, @NonNull RequestListener<List<CollectionLinkBean>> listener) {
@@ -58,7 +56,7 @@ public class MineRequest extends BaseRequest {
         cacheAndNetList(rxLife,
                 WanApi.api().getCollectLinkList(),
                 removeAndRefresh,
-                WanCache.CacheKey.COLLECT_LINK_LIST,
+                WanCache.CacheKey.COLLECT_LINK_LIST(),
                 CollectionLinkBean.class,
                 listener);
     }

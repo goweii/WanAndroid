@@ -44,17 +44,29 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:layout_marginTop="@dimen/margin_def"
+                    android:layout_marginBottom="@dimen/margin_def"
                     android:scaleType="fitCenter"
+                    tools:src="#f5f5f5"
                     app:piv_basics="height"
                     app:piv_percent="0.85" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_notes"
+                    android:text="长按保存相册"
+                    android:textColor="@color/basic_ui_action_bar_text_alpha" />
 
                 <per.goweii.percentimageview.percentimageview.PercentImageView
                     android:id="@+id/piv_wx_qrcode"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginTop="60dp"
+                    android:layout_marginTop="@dimen/margin_def"
+                    android:layout_marginBottom="@dimen/margin_def"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
+                    tools:src="#f5f5f5"
                     app:piv_basics="height"
                     app:piv_percent="0.85" />
 
@@ -313,6 +325,7 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         android:background="@color/transparent"
+        app:abc_rightText="玩口令"
         app:abc_titleText="关于作者" />
 
 </RelativeLayout>

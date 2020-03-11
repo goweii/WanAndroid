@@ -58,17 +58,12 @@
 
     <per.goweii.wanandroid.widget.SubmitView
         android:id="@+id/sv_login"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
+        style="@style/ButtonMain"
         android:layout_below="@+id/piv_login_password"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="60dp"
-        android:background="@drawable/bg_solid_round_color_main_radius_max"
-        android:gravity="center"
         android:text="登录"
-        android:textColor="@color/text_invert"
-        android:textSize="@dimen/text_content"
         app:sv_bindEditText1="@+id/piv_login_account"
         app:sv_bindEditText2="@+id/piv_login_password" />
 

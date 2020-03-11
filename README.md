@@ -58,14 +58,12 @@
 - [goweii/AnyLayer](https://github.com/goweii/AnyLayer)
 - [goweii/AnyDialog](https://github.com/goweii/AnyDialog)
 - [goweii/RevealLayout](https://github.com/goweii/RevealLayout)
-- [goweii/AnyView](https://github.com/goweii/AnyView)
 - [goweii/PercentImageView](https://github.com/goweii/PercentImageView)
 - [goweii/Blurred](https://github.com/goweii/Blurred)
 - [goweii/AnyPermission](https://github.com/goweii/AnyPermission)
 - [goweii/KeyboardCompat](https://github.com/goweii/KeyboardCompat)
 - [JakeWharton/butterknife](https://github.com/JakeWharton/butterknife)
 - [greenrobot/EventBus](https://github.com/greenrobot/EventBus)
-- [Justson/AgentWeb](https://github.com/Justson/AgentWeb)
 - [google/gson](https://github.com/google/gson)
 - [franmontiel/PersistentCookieJar](https://github.com/franmontiel/PersistentCookieJar)
 - [bumptech/glide](https://github.com/bumptech/glide)
@@ -74,7 +72,6 @@
 - [vinc3m1/RoundedImageView](https://github.com/vinc3m1/RoundedImageView)
 - [hdodenhof/CircleImageView](https://github.com/hdodenhof/CircleImageView)
 - [hackware1993/MagicIndicator](https://github.com/hackware1993/MagicIndicator)
-- [chrisbanes/PhotoView](https://github.com/chrisbanes/PhotoView)
 - [zhanghai/MaterialProgressBar](https://github.com/zhanghai/MaterialProgressBar)
 - [google/flexbox-layout](https://github.com/google/flexbox-layout)
 - [youth5201314/banner](https://github.com/youth5201314/banner)
@@ -86,6 +83,52 @@
 
 
 # 更新日志
+
+## 1.4.2(37)
+
+- 【新增】暗色模式跟随系统
+- 【修复】部分网页内链接点击无效问题
+- 【优化】移除内嵌广告
+- 【优化】文章分享界面发布按钮位置
+- 【优化】文章二维码分享卡片样式
+- 【优化】首页弹窗重叠问题
+
+## 1.4.1(36)
+
+- 【新增】更多玩口令
+- 【修复】搜索闪退
+- 【修复】我的分享页无法取消收藏
+- 【修复】其他已知BUG
+
+## 1.4.0(35)
+
+- 【新增】网页支持暗色模式
+- 【新增】有趣的玩口令等你发现
+- 【新增】加入了一些广告，实属迫于无奈
+- 【修复】个人收藏缓存冲突问题
+- 【修复】其他已知BUG
+
+## 1.3.3(34)
+
+- 【修复】登录页软键盘遮挡
+- 【修复】首次启动闪屏
+- 【修复】已知BUG
+- 【优化】体系页面文字颜色
+
+## 1.3.2(33)
+
+- 【新增】依据最新的监管要求更新了《隐私政策》
+- 【优化】弹窗动效
+- 【优化】优化体验
+
+## 1.3.1(32)
+
+- 【修复】修复部分机型1.3.0版本启动崩溃
+
+## 1.3.0(31)
+
+- 【优化】暗黑模式配色
+- 【优化】更换腾讯X5内核
 
 ## 1.2.7(30)
 

@@ -9,8 +9,6 @@ import com.daimajia.swipe.SwipeLayout;
 /**
  * @author CuiZhen
  * @date 2019/9/7
- * QQ: 302833254
- * E-mail: goweii@163.com
  * GitHub: https://github.com/goweii
  */
 public class NestedSwipeLayout extends SwipeLayout implements ScrollingView {
