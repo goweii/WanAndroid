@@ -8,6 +8,18 @@
     android:orientation="vertical"
     android:paddingTop="@dimen/round_radius">
 
+    <TextView
+        android:id="@+id/dialog_web_menu_tv_host"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/margin_common"
+        android:alpha="0.3"
+        android:gravity="center"
+        android:textColor="@color/text_second"
+        android:textSize="@dimen/text_notes"
+        tools:text="网页由wanandroid.com提供" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -303,8 +315,8 @@
 
             <FrameLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/dialog_web_menu_iv_share"
@@ -324,8 +336,8 @@
 
             <FrameLayout
                 android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:layout_weight="1">
 
                 <ImageView
                     android:id="@+id/dialog_web_menu_iv_setting"

@@ -15,8 +15,10 @@ import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.home.activity.UserPageActivity
 import per.goweii.wanandroid.module.main.adapter.ArticleCommentAdapter
+import per.goweii.wanandroid.module.main.dialog.WebGuideDialog
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
 import per.goweii.wanandroid.module.main.view.ArticleView
+import per.goweii.wanandroid.utils.GuideSPUtils
 import per.goweii.wanandroid.utils.MultiStateUtils
 import per.goweii.wanandroid.utils.NightModeUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
@@ -51,6 +53,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
     private var lastUrlLoadTime = 0L
     private var userTouched = false
     private var isPageLoadFinished = false
+    private var mWebGuideDialog: WebGuideDialog? = null
 
     override fun getLayoutId(): Int = R.layout.activity_article
 
@@ -89,6 +92,12 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         }.setOnPageLoadCallback(object : WebHolder.OnPageLoadCallback {
             override fun onPageFinished() {
                 isPageLoadFinished = true
+                if (!GuideSPUtils.getInstance().isWebGuideShown) {
+                    if (mWebGuideDialog == null) {
+                        mWebGuideDialog = WebGuideDialog(context)
+                        mWebGuideDialog?.show()
+                    }
+                }
             }
 
             override fun onPageStarted() {

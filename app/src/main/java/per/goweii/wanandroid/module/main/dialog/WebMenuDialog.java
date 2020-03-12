@@ -1,6 +1,8 @@
 package per.goweii.wanandroid.module.main.dialog;
 
 import android.content.Context;
+import android.net.Uri;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -27,6 +29,7 @@ import per.goweii.wanandroid.utils.web.HostInterceptUtils;
 public class WebMenuDialog {
 
     public static void show(@NonNull Context context,
+                            final String url,
                             final boolean collected,
                             @NonNull OnMenuClickListener listener) {
         AnyLayer.dialog(context)
@@ -34,43 +37,44 @@ public class WebMenuDialog {
                 .backgroundDimDefault()
                 .dragDismiss(DragLayout.DragStyle.Bottom)
                 .gravity(Gravity.BOTTOM)
-                .onClickToDismiss(new Layer.OnClickListener() {
-                                      @Override
-                                      public void onClick(Layer layer, View v) {
-                                          switch (v.getId()) {
-                                              default:
-                                                  break;
-                                              case R.id.dialog_web_menu_iv_share_article:
-                                                  if (UserUtils.getInstance().doIfLogin(v.getContext())) {
-                                                      listener.onShareArticle();
-                                                  }
-                                                  break;
-                                              case R.id.dialog_web_menu_iv_collect:
-                                                  if (UserUtils.getInstance().doIfLogin(v.getContext())) {
-                                                      listener.onCollect();
-                                                  }
-                                                  break;
-                                              case R.id.dialog_web_menu_iv_read_later:
-                                                  listener.onReadLater();
-                                                  break;
-                                              case R.id.dialog_web_menu_iv_home:
-                                                  listener.onHome();
-                                                  break;
-                                              case R.id.dialog_web_menu_iv_refresh:
-                                                  listener.onRefresh();
-                                                  break;
-                                              case R.id.dialog_web_menu_iv_close_activity:
-                                                  listener.onCloseActivity();
-                                                  break;
-                                              case R.id.dialog_web_menu_iv_setting:
-                                                  SettingActivity.start(context);
-                                                  break;
-                                              case R.id.dialog_web_menu_iv_share:
-                                                  listener.onShare();
-                                                  break;
-                                          }
-                                      }
-                                  },
+                .onClickToDismiss(
+                        new Layer.OnClickListener() {
+                            @Override
+                            public void onClick(Layer layer, View v) {
+                                switch (v.getId()) {
+                                    default:
+                                        break;
+                                    case R.id.dialog_web_menu_iv_share_article:
+                                        if (UserUtils.getInstance().doIfLogin(v.getContext())) {
+                                            listener.onShareArticle();
+                                        }
+                                        break;
+                                    case R.id.dialog_web_menu_iv_collect:
+                                        if (UserUtils.getInstance().doIfLogin(v.getContext())) {
+                                            listener.onCollect();
+                                        }
+                                        break;
+                                    case R.id.dialog_web_menu_iv_read_later:
+                                        listener.onReadLater();
+                                        break;
+                                    case R.id.dialog_web_menu_iv_home:
+                                        listener.onHome();
+                                        break;
+                                    case R.id.dialog_web_menu_iv_refresh:
+                                        listener.onRefresh();
+                                        break;
+                                    case R.id.dialog_web_menu_iv_close_activity:
+                                        listener.onCloseActivity();
+                                        break;
+                                    case R.id.dialog_web_menu_iv_setting:
+                                        SettingActivity.start(context);
+                                        break;
+                                    case R.id.dialog_web_menu_iv_share:
+                                        listener.onShare();
+                                        break;
+                                }
+                            }
+                        },
                         R.id.dialog_web_menu_iv_share_article,
                         R.id.dialog_web_menu_iv_read_later,
                         R.id.dialog_web_menu_iv_home,
@@ -121,6 +125,18 @@ public class WebMenuDialog {
                 .bindData(new Layer.DataBinder() {
                     @Override
                     public void bindData(Layer layer) {
+                        TextView tv_host = layer.getView(R.id.dialog_web_menu_tv_host);
+                        String host = null;
+                        if (!TextUtils.isEmpty(url)) {
+                            Uri uri = Uri.parse(url);
+                            host = uri.getHost();
+                        }
+                        if (TextUtils.isEmpty(host)) {
+                            tv_host.setVisibility(View.GONE);
+                        } else {
+                            tv_host.setVisibility(View.VISIBLE);
+                            tv_host.setText("网页由 " + host + " 提供");
+                        }
                         ImageView iv_collect = layer.getView(R.id.dialog_web_menu_iv_collect);
                         TextView tv_collect = layer.getView(R.id.dialog_web_menu_tv_collect);
                         switchCollectState(iv_collect, tv_collect, collected);

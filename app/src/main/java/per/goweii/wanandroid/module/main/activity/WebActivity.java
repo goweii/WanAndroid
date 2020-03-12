@@ -275,7 +275,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     private void showMenuDialog() {
-        WebMenuDialog.show(getContext(), isCollect(), new WebMenuDialog.OnMenuClickListener() {
+        WebMenuDialog.show(getContext(), mWebHolder.getUrl(), isCollect(), new WebMenuDialog.OnMenuClickListener() {
             @Override
             public void onShareArticle() {
                 ShareArticleActivity.start(getContext(), mWebHolder.getTitle(), mWebHolder.getUrl());
