@@ -32,7 +32,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="发生了可怕的事情~"
+                android:text="APP开小差了~"
                 android:textColor="@color/text_surface"
                 android:textSize="@dimen/text_headline"
                 android:textStyle="bold" />
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_def"
                 android:lineSpacingExtra="8dp"
-                android:text="什么鬼？应用崩了？淡定淡定！\n我觉得吧，不是你手机有问题就是Android系统有问题，怎么可能是我的代码有BUG。\n现在你有下面2个解决方法：\n1.点下面的重启看下是否可以复现\n2.点下面的查看日志截图去Github提BUG（不过我还是觉得我的代码没问题，哼~）"
+                android:text="现在你有2个解决方法：\n1.点下面的重启看下是否可以复现\n2.点下面的查看日志复制去Github或QQ群反馈"
                 android:textColor="@color/text_second"
                 android:textSize="@dimen/text_content" />
 

@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.module.main.activity;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -14,6 +15,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import cat.ereza.customactivityoncrash.CustomActivityOnCrash;
 import cat.ereza.customactivityoncrash.config.CaocConfig;
+import per.goweii.basic.utils.CopyUtils;
 import per.goweii.statusbarcompat.StatusBarCompat;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
@@ -36,6 +38,8 @@ public class CrashActivity extends AppCompatActivity {
 
     private Unbinder mUnbinder = null;
     private CaocConfig mCaocConfig;
+
+    private boolean isLogShown = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,10 +69,20 @@ public class CrashActivity extends AppCompatActivity {
             default:
                 break;
             case R.id.tv_show_log:
-                tv_show_log.setVisibility(View.GONE);
-                iv_bug.setVisibility(View.GONE);
-                sv.setVisibility(View.VISIBLE);
-                tv_log.setText(CustomActivityOnCrash.getAllErrorDetailsFromIntent(this, getIntent()));
+                String log = tv_log.getText().toString();
+                if (TextUtils.isEmpty(log)) {
+                    isLogShown = true;
+                    tv_show_log.setText("复制日志");
+                    tv_show_log.setTextColor(getResources().getColor(R.color.text_main));
+                    iv_bug.setVisibility(View.GONE);
+                    sv.setVisibility(View.VISIBLE);
+                    tv_log.setText(CustomActivityOnCrash.getAllErrorDetailsFromIntent(this, getIntent()));
+                } else {
+                    CopyUtils.copyText(log);
+                    tv_show_log.setText("日志已复制");
+                    tv_show_log.setTextColor(getResources().getColor(R.color.text_third));
+                    tv_show_log.setEnabled(false);
+                }
                 break;
             case R.id.tv_exit:
                 CustomActivityOnCrash.closeApplication(this, mCaocConfig);
