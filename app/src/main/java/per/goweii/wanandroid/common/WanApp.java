@@ -2,7 +2,6 @@ package per.goweii.wanandroid.common;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 
@@ -12,8 +11,6 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 
 import per.goweii.basic.core.base.BaseApp;
 import per.goweii.basic.utils.InitTaskRunner;
-import per.goweii.wanandroid.module.main.activity.MainActivity;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.utils.NightModeUtils;
 import per.goweii.wanandroid.utils.TM;
 
@@ -54,27 +51,27 @@ public class WanApp extends BaseApp {
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
-        if (activity instanceof MainActivity) {
-            if (!mWebActivityStarted) {
-                Intent intent = new Intent(activity, WebActivity.class);
-                intent.putExtra("destroyOnCreated", true);
-                activity.startActivity(intent);
-                activity.overridePendingTransition(0, 0);
-            }
-        }
+//        if (activity instanceof MainActivity) {
+//            if (!mWebActivityStarted) {
+//                Intent intent = new Intent(activity, WebActivity.class);
+//                intent.putExtra("destroyOnCreated", true);
+//                activity.startActivity(intent);
+//                activity.overridePendingTransition(0, 0);
+//            }
+//        }
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
         super.onActivityStarted(activity);
-        if (activity instanceof WebActivity) {
-            boolean destroyOnCreated = activity.getIntent().getBooleanExtra("destroyOnCreated", false);
-            if (destroyOnCreated) {
-                activity.finish();
-                activity.overridePendingTransition(0, 0);
-            }
-            mWebActivityStarted = true;
-        }
+//        if (activity instanceof WebActivity) {
+//            boolean destroyOnCreated = activity.getIntent().getBooleanExtra("destroyOnCreated", false);
+//            if (destroyOnCreated) {
+//                activity.finish();
+//                activity.overridePendingTransition(0, 0);
+//            }
+//            mWebActivityStarted = true;
+//        }
     }
 
     @Override

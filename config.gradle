@@ -76,6 +76,7 @@ ext {
             androidx               : "androidx.core:core:$versions.androidx",
             androidxKtx            : "androidx.core:core-ktx:$versions.androidx",
             annotation             : "androidx.annotation:$versions.androidx",
+            webkit                 : "androidx.webkit:webkit:$versions.androidx",
             design                 : 'com.google.android.material:material:1.0.0',
             multidex               : 'androidx.multidex:multidex:2.0.0',
             constraintLayout       : "com.android.support.constraint:constraint-layout:$versions.constraintLayout",

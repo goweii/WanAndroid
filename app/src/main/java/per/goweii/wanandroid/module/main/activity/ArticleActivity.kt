@@ -2,7 +2,6 @@ package per.goweii.wanandroid.module.main.activity
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.view.KeyEvent
 import android.view.MotionEvent
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -96,11 +95,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             }
         }).setInterceptUrlInterceptor { uri, reqHeaders, reqMethod ->
             return@setInterceptUrlInterceptor WebUrlInterceptFactory.create(uri)?.interceptor?.intercept(uri, mWebHolder.userAgent, reqHeaders, reqMethod)
-        }.setNightModeInterceptor {
-            val pageUri = Uri.parse(presenter.articleUrl)
-            val supportNight = WebUrlInterceptFactory.create(pageUri)?.interceptor?.isSupportNightMode()
-                    ?: false
-            return@setNightModeInterceptor !supportNight
         }
         rv.layoutManager = LinearLayoutManager(context)
         adapter = ArticleCommentAdapter()

@@ -5,7 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,16 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.tencent.smtt.sdk.QbSdk;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
-import per.goweii.basic.utils.ColorUtils;
 import per.goweii.heartview.HeartView;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.utils.NightModeUtils;
 
 /**
  * @author CuiZhen
@@ -40,9 +35,6 @@ public class WebContainer extends FrameLayout {
     private final float mTouchSlop;
     private final long mTapTimeout;
     private final long mDoubleTapTimeout;
-    private boolean mDarkMaskEnable;
-
-    private int mMaskColor = Color.TRANSPARENT;
 
     private long mDownTime = 0L;
     private float mDownX = 0;
@@ -75,18 +67,10 @@ public class WebContainer extends FrameLayout {
     public WebContainer(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setBackgroundColor(0);
-        mTouchSlop = ViewConfiguration.getTouchSlop();
+        ViewConfiguration viewConfiguration = ViewConfiguration.get(context);
+        mTouchSlop = viewConfiguration.getScaledTouchSlop();
         mTapTimeout = ViewConfiguration.getTapTimeout();
         mDoubleTapTimeout = ViewConfiguration.getDoubleTapTimeout();
-
-        mDarkMaskEnable = NightModeUtils.isNightMode(context) && !QbSdk.canLoadX5(context);
-        if (mDarkMaskEnable) {
-            mMaskColor = ColorUtils.alphaColor(ContextCompat.getColor(getContext(), R.color.background), 0.4F);
-        }
-    }
-
-    public void setDarkMaskEnable(boolean enable) {
-        mDarkMaskEnable = enable;
     }
 
     public void setOnDoubleClickListener(OnDoubleClickListener onDoubleClickListener) {
@@ -100,8 +84,8 @@ public class WebContainer extends FrameLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        mDownX = getWidth() / 2;
-        mDownY = getHeight() / 2;
+        mDownX = getWidth() / 2F;
+        mDownY = getHeight() / 2F;
     }
 
     @Override
@@ -148,9 +132,6 @@ public class WebContainer extends FrameLayout {
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (mDarkMaskEnable) {
-            canvas.drawColor(mMaskColor);
-        }
     }
 
     @Override

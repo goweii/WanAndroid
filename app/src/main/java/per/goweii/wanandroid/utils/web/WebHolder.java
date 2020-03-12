@@ -18,6 +18,8 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.webkit.WebSettingsCompat;
+import androidx.webkit.WebViewFeature;
 
 import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
 import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
@@ -25,6 +27,7 @@ import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.CookieManager;
 import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
@@ -58,18 +61,18 @@ public class WebHolder {
     private OnHistoryUpdateCallback mOnHistoryUpdateCallback = null;
     private OverrideUrlInterceptor mOverrideUrlInterceptor = null;
     private InterceptUrlInterceptor mInterceptUrlInterceptor = null;
-    private NightModeInterceptor mNightModeInterceptor = null;
 
-    private boolean isProgressShown = false;
-    private WebView mWebView;
+    private final Activity mActivity;
+    private final WebContainer mWebContainer;
+    private final WebView mWebView;
     private final MaterialProgressBar mProgressBar;
+    private final String mUserAgentString;
 
     private final VConsoleInject vConsoleInject;
     private final DarkmodeInject darkmodeInject;
     private final ImageClickInject imageClickInject;
 
-    private final Activity mActivity;
-    private final WebContainer mWebContainer;
+    private boolean isProgressShown = false;
 
     public static WebHolder with(Activity activity, WebContainer container) {
         return new WebHolder(activity, container);
@@ -114,9 +117,16 @@ public class WebHolder {
         activity.getWindow().setFormat(PixelFormat.TRANSLUCENT);
         mActivity = activity;
         mWebContainer = container;
-        mWebContainer.setBackgroundResource(R.color.background);
+        mWebContainer.setBackgroundResource(R.color.surface);
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            QbSdk.forceSysWebView();
+        } else {
+            QbSdk.unForceSysWebView();
+        }
         mWebView = new X5WebView(activity);
-        mWebView.setBackgroundResource(R.color.surface);
+        mWebView.setBackgroundResource(R.color.transparent);
+        mWebView.setBackgroundColor(0);
+        mWebView.getBackground().setAlpha(0);
         mProgressBar = (MaterialProgressBar) LayoutInflater.from(activity).inflate(R.layout.basic_ui_progress_bar, container, false);
         mProgressBar.setMax(100);
         container.addView(mWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
@@ -131,6 +141,7 @@ public class WebHolder {
         mWebView.setWebChromeClient(new WanWebChromeClient());
         mWebView.setWebViewClient(new WanWebViewClient());
         WebSettings webSetting = mWebView.getSettings();
+        mUserAgentString = webSetting.getUserAgentString();
         webSetting.setJavaScriptEnabled(true);
         webSetting.setJavaScriptCanOpenWindowsAutomatically(false);
         webSetting.setAllowFileAccess(true);
@@ -151,12 +162,23 @@ public class WebHolder {
         IX5WebSettingsExtension ext = mWebView.getSettingsExtension();
         if (ext != null) {
             ext.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
-            boolean isAppDarkMode = NightModeUtils.isNightMode(activity);
+        }
+        boolean isAppDarkMode = NightModeUtils.isNightMode(activity);
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+            View v = mWebView.getView();
+            if (v instanceof android.webkit.WebView) {
+                android.webkit.WebView wv = (android.webkit.WebView) v;
+                if (isAppDarkMode) {
+                    WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                } else {
+                    WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
+                }
+            }
+        } else {
             if (isAppDarkMode) {
-                container.setDarkMaskEnable(false);
-                ext.setDayOrNight(false);
+                mWebView.setDayOrNight(false);
             } else {
-                ext.setDayOrNight(true);
+                mWebView.setDayOrNight(true);
             }
         }
         vConsoleInject = new VConsoleInject();
@@ -186,8 +208,7 @@ public class WebHolder {
 
     @NonNull
     public String getUserAgent() {
-        String userAgentString = mWebView.getSettings().getUserAgentString();
-        return userAgentString == null ? "" : userAgentString;
+        return mUserAgentString;
     }
 
     public boolean canGoBack() {
@@ -284,31 +305,6 @@ public class WebHolder {
 
     public WebHolder setInterceptUrlInterceptor(InterceptUrlInterceptor interceptUrlInterceptor) {
         mInterceptUrlInterceptor = interceptUrlInterceptor;
-        return this;
-    }
-
-    public WebHolder setNightModeInterceptor(NightModeInterceptor nightModeInterceptor) {
-        mNightModeInterceptor = nightModeInterceptor;
-        IX5WebSettingsExtension ext = mWebView.getSettingsExtension();
-        if (ext != null) {
-            boolean isAppDarkMode = NightModeUtils.isNightMode(mActivity);
-            if (isAppDarkMode) {
-                boolean shouldNightMode;
-                if (mNightModeInterceptor != null) {
-                    shouldNightMode = mNightModeInterceptor.shouldNightMode();
-                } else {
-                    shouldNightMode = true;
-                }
-                if (shouldNightMode) {
-                    mWebContainer.setDarkMaskEnable(false);
-                    ext.setDayOrNight(false);
-                } else {
-                    ext.setDayOrNight(true);
-                }
-            } else {
-                ext.setDayOrNight(true);
-            }
-        }
         return this;
     }
 
@@ -490,10 +486,6 @@ public class WebHolder {
         }
     }
 
-    public boolean isX5Enabled() {
-        return mWebView.getX5WebViewExtension() != null;
-    }
-
     public interface OnPageTitleCallback {
         void onReceivedTitle(@NonNull String title);
     }
@@ -525,9 +517,5 @@ public class WebHolder {
         WebResourceResponse onInterceptUrl(@NonNull Uri reqUri,
                                            @Nullable Map<String, String> reqHeaders,
                                            @Nullable String reqMethod);
-    }
-
-    public interface NightModeInterceptor {
-        boolean shouldNightMode();
     }
 }
