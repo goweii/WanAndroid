@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.utils.web;
 
+import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -65,7 +67,7 @@ public class WebHolder {
     private final Activity mActivity;
     private final WebContainer mWebContainer;
     private final WebView mWebView;
-    private final MaterialProgressBar mProgressBar;
+    private final ProgressBar mProgressBar;
     private final String mUserAgentString;
 
     private final VConsoleInject vConsoleInject;
@@ -74,8 +76,12 @@ public class WebHolder {
 
     private boolean isProgressShown = false;
 
+    public static WebHolder with(Activity activity, WebContainer container, ProgressBar progressBar) {
+        return new WebHolder(activity, container, progressBar);
+    }
+
     public static WebHolder with(Activity activity, WebContainer container) {
-        return new WebHolder(activity, container);
+        return new WebHolder(activity, container, null);
     }
 
     private static void syncCookiesForWanAndroid(String url) {
@@ -113,7 +119,7 @@ public class WebHolder {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    private WebHolder(Activity activity, WebContainer container) {
+    private WebHolder(Activity activity, WebContainer container, ProgressBar progressBar) {
         activity.getWindow().setFormat(PixelFormat.TRANSLUCENT);
         mActivity = activity;
         mWebContainer = container;
@@ -127,12 +133,17 @@ public class WebHolder {
         mWebView.setBackgroundResource(R.color.transparent);
         mWebView.setBackgroundColor(0);
         mWebView.getBackground().setAlpha(0);
-        mProgressBar = (MaterialProgressBar) LayoutInflater.from(activity).inflate(R.layout.basic_ui_progress_bar, container, false);
-        mProgressBar.setMax(100);
         container.addView(mWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
-        container.addView(mProgressBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
-                activity.getResources().getDimensionPixelSize(R.dimen.basic_ui_action_bar_loading_bar_height)));
+        if (progressBar == null) {
+            mProgressBar = (MaterialProgressBar) LayoutInflater.from(activity)
+                    .inflate(R.layout.basic_ui_progress_bar, container, false);
+            container.addView(mProgressBar, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+                    activity.getResources().getDimensionPixelSize(R.dimen.basic_ui_action_bar_loading_bar_height)));
+        } else {
+            mProgressBar = progressBar;
+        }
+        mProgressBar.setMax(100);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(mWebView, true);
         }
@@ -252,6 +263,7 @@ public class WebHolder {
     }
 
     public void onDestroy() {
+        mProgressBar.clearAnimation();
         ViewParent parent = mWebView.getParent();
         if (parent != null) {
             ((ViewGroup) parent).removeView(mWebView);
@@ -339,8 +351,7 @@ public class WebHolder {
         }
 
         private void onShowProgress() {
-            mProgressBar.setVisibility(View.VISIBLE);
-            setProgress(0);
+            showProgress();
             if (mOnPageProgressCallback != null) {
                 mOnPageProgressCallback.onShowProgress();
             }
@@ -354,8 +365,7 @@ public class WebHolder {
         }
 
         private void onHideProgress() {
-            mProgressBar.setVisibility(View.GONE);
-            setProgress(100);
+            hideProgress();
             if (mOnPageProgressCallback != null) {
                 mOnPageProgressCallback.onHideProgress();
             }
@@ -367,6 +377,59 @@ public class WebHolder {
             } else {
                 mProgressBar.setProgress(progress);
             }
+        }
+
+        private void showProgress() {
+            mProgressBar.animate()
+                    .alpha(1F)
+                    .setDuration(200)
+                    .setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            mProgressBar.setVisibility(View.VISIBLE);
+                            setProgress(0);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    }).start();
+        }
+
+        private void hideProgress() {
+            mProgressBar.animate()
+                    .alpha(0F)
+                    .setDuration(200)
+                    .setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            setProgress(100);
+                            mProgressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                        }
+                    }).start();
         }
     }
 

@@ -77,7 +77,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             dl.toggle()
         }
         dl.onDragging { v_mask.alpha = 1F - it }
-        mWebHolder = with(this, wc).setOverrideUrlInterceptor {
+        mWebHolder = with(this, wc, pb).setOverrideUrlInterceptor {
             if (!isPageLoadFinished) return@setOverrideUrlInterceptor false
             if (!userTouched) return@setOverrideUrlInterceptor false
             val currUrlLoadTime = System.currentTimeMillis()
