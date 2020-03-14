@@ -11,24 +11,35 @@
         style="@style/ActionBar.Common.Back"
         app:abc_titleText="关于我们" />
 
-    <com.makeramen.roundedimageview.RoundedImageView
-        android:id="@+id/riv_logo"
-        android:layout_width="68dp"
-        android:layout_height="68dp"
+    <FrameLayout
+        android:id="@+id/fl_logo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_below="@+id/abc"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:background="@color/main"
-        android:padding="10dp"
-        android:src="@drawable/logo"
-        app:riv_corner_radius="16dp"
-        app:riv_mutate_background="true" />
+        android:layout_marginTop="50dp">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/main"
+            android:padding="10dp"
+            app:riv_corner_radius="16dp"
+            app:riv_mutate_background="true" />
+
+        <per.goweii.wanandroid.widget.LogoAnimView
+            android:id="@+id/lav"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="6dp" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/tv_version_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/riv_logo"
+        android:layout_below="@+id/fl_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:textColor="@color/text_third"

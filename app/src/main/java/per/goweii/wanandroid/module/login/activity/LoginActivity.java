@@ -7,8 +7,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -18,6 +16,8 @@ import androidx.viewpager.widget.ViewPager;
 import java.util.Random;
 
 import butterknife.BindView;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.utils.LogUtils;
@@ -27,6 +27,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.login.fragment.LoginFragment;
 import per.goweii.wanandroid.module.login.fragment.RegisterFragment;
 import per.goweii.wanandroid.module.login.presenter.LoginPresenter;
+import per.goweii.wanandroid.widget.LogoAnimView;
 
 /**
  * @author CuiZhen
@@ -43,8 +44,8 @@ public class LoginActivity extends BaseActivity {
     ImageView iv_circle_2;
     @BindView(R.id.vp)
     ViewPager vp;
-    @BindView(R.id.fl_eye)
-    FrameLayout fl_eye;
+    @BindView(R.id.lav)
+    LogoAnimView lav;
 
     private boolean isRunning = false;
     private AnimatorSet mSet1;
@@ -144,15 +145,24 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        lav.randomBlink();
+    }
+
     public void doEyeAnim(boolean close) {
-        int h = fl_eye.getHeight();
-        if (h <= 0) {
-            return;
+        if (close) {
+            lav.close(null);
+        } else {
+            lav.open(new Function0<Unit>() {
+                @Override
+                public Unit invoke() {
+                    lav.randomBlink();
+                    return null;
+                }
+            });
         }
-        float endY = close ? h : 0;
-        ObjectAnimator anim = ObjectAnimator.ofFloat(fl_eye, "translationY", fl_eye.getTranslationY(), endY);
-        anim.setInterpolator(new AccelerateDecelerateInterpolator());
-        anim.start();
     }
 
     private AnimatorSet startCircleAnim(View target) {
@@ -185,7 +195,7 @@ public class LoginActivity extends BaseActivity {
         return set;
     }
 
-    private final long mMaxMoveDuration = 20000L;
+    private final long mMaxMoveDuration = 10000L;
     private final int mMaxMoveDistanceX = 200;
     private final int mMaxMoveDistanceY = 20;
 

@@ -14,6 +14,7 @@ import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.utils.AppInfoUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
+import per.goweii.wanandroid.widget.LogoAnimView;
 
 /**
  * @author CuiZhen
@@ -30,6 +31,8 @@ public class AboutActivity extends BaseActivity {
     TextView tv_about;
     @BindView(R.id.tv_github)
     TextView tv_github;
+    @BindView(R.id.lav)
+    LogoAnimView lav;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, AboutActivity.class);
@@ -55,6 +58,12 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void loadData() {
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        lav.randomBlink();
     }
 
     @OnClick({
