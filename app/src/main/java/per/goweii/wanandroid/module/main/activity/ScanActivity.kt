@@ -16,13 +16,14 @@ import per.goweii.anypermission.RequestListener
 import per.goweii.anypermission.RuntimeRequester
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.utils.LogUtils
+import per.goweii.basic.utils.bitmap.BitmapUtils
 import per.goweii.basic.utils.ext.gone
 import per.goweii.basic.utils.ext.invisible
 import per.goweii.basic.utils.ext.visible
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.main.presenter.ScanPresenter
 import per.goweii.wanandroid.module.main.view.ScanView
-import per.goweii.wanandroid.utils.PictureSelectorUtils
+import per.goweii.wanandroid.utils.PictureSelector
 import per.goweii.wanandroid.utils.UrlOpenUtils
 
 
@@ -33,8 +34,9 @@ import per.goweii.wanandroid.utils.UrlOpenUtils
 class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegate {
 
     companion object {
-        private const val REQ_CODE_CAMERA = 1
-        private const val REQ_CODE_SELECT_PIC = 2
+        private const val REQ_CODE_PERMISSION_CAMERA = 1
+        private const val REQ_CODE_PERMISSION_ALBUM = 2
+        private const val REQ_CODE_SELECT_PIC = 3
 
         @JvmStatic
         fun start(context: Context) {
@@ -56,20 +58,54 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
 
     override fun initView() {
         ivAlbum.setOnClickListener {
-            PictureSelectorUtils.ofImage(this@ScanActivity, REQ_CODE_SELECT_PIC)
+            requestAlbumPermission()
         }
         llTip.visibility = View.INVISIBLE
         ivTorch.visibility = View.INVISIBLE
         qrCodeView.setDelegate(this)
         qrCodeView.stopSpotAndHiddenRect()
         llTip.post {
-            requestPermission()
+            requestCameraPermission()
         }
     }
 
-    private fun requestPermission() {
+    private fun requestAlbumPermission() {
         mRuntimeRequester = AnyPermission.with(context)
-                .runtime(REQ_CODE_CAMERA)
+                .runtime(REQ_CODE_PERMISSION_ALBUM)
+                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .onBeforeRequest { _, executor ->
+                    showTip("选择图片需要存储权限", "点击申请", View.OnClickListener {
+                        hideTip()
+                        executor.execute()
+                    })
+                }
+                .onBeenDenied { _, executor ->
+                    showTip("拒绝存储权限将无法选择图片", "重新申请", View.OnClickListener {
+                        hideTip()
+                        executor.execute()
+                    })
+                }
+                .onGoSetting { _, executor ->
+                    showTip("存储权限已被拒绝", "去设置", View.OnClickListener {
+                        hideTip()
+                        executor.execute()
+                    })
+                }
+                .request(object : RequestListener {
+                    override fun onSuccess() {
+                        PictureSelector.select(this@ScanActivity, REQ_CODE_SELECT_PIC)
+                        requestCameraPermission()
+                    }
+
+                    override fun onFailed() {
+                        requestCameraPermission()
+                    }
+                })
+    }
+
+    private fun requestCameraPermission() {
+        mRuntimeRequester = AnyPermission.with(context)
+                .runtime(REQ_CODE_PERMISSION_CAMERA)
                 .permissions(Manifest.permission.CAMERA)
                 .onBeforeRequest { _, executor ->
                     showTip("扫码二维码/条码需要相机权限", "点击申请", View.OnClickListener {
@@ -103,7 +139,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                         hasPermission = false
                         showTip("无法获取相机权限", "点击获取", View.OnClickListener {
                             hideTip()
-                            requestPermission()
+                            requestCameraPermission()
                         })
                     }
                 })
@@ -135,13 +171,13 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
-            REQ_CODE_CAMERA -> {
+            REQ_CODE_PERMISSION_CAMERA -> {
                 mRuntimeRequester?.onActivityResult(requestCode)
             }
             REQ_CODE_SELECT_PIC -> {
                 shouldPause = true
-                PictureSelectorUtils.forResult(resultCode, data)?.let { path ->
-                    presenter.getBitmapFromPath(path)?.let { bitmap ->
+                PictureSelector.result(resultCode, data)?.let {
+                    BitmapUtils.getBitmapFromUri(context, it)?.let { bitmap ->
                         QRCodeDecoder.syncDecodeQRCode(bitmap)?.let { result ->
                             onScanQRCodeSuccess(result)
                         } ?: run {
@@ -267,7 +303,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
     override fun onScanQRCodeOpenCameraError() {
         showTip("打开相机失败", "点击重试", View.OnClickListener {
             hideTip()
-            requestPermission()
+            requestCameraPermission()
         })
     }
 }

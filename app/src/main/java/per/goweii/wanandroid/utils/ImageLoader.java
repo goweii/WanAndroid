@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.utils;
 
+import android.net.Uri;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -44,10 +45,15 @@ public class ImageLoader {
 
     public static void userIcon(ImageView imageView, String url){
         GlideHelper.with(imageView.getContext())
-//                .errorHolder(R.drawable.image_holder)
-//                .placeHolder(R.drawable.image_holder)
                 .cache(true)
                 .load(url)
+                .into(imageView);
+    }
+
+    public static void userIcon(ImageView imageView, Uri uri) {
+        GlideHelper.with(imageView.getContext())
+                .cache(true)
+                .load(uri)
                 .into(imageView);
     }
 
@@ -57,10 +63,20 @@ public class ImageLoader {
             return;
         }
         GlideHelper.with(imageView.getContext())
-//                .errorHolder(R.drawable.image_holder)
-//                .placeHolder(R.drawable.image_holder)
                 .cache(true)
                 .load(url)
+                .transformation(new BlurTransformation(0.2F))
+                .into(imageView);
+    }
+
+    public static void userBlur(ImageView imageView, Uri uri) {
+        if (uri == null) {
+            imageView.setImageResource(R.color.transparent);
+            return;
+        }
+        GlideHelper.with(imageView.getContext())
+                .cache(true)
+                .load(uri)
                 .transformation(new BlurTransformation(0.2F))
                 .into(imageView);
     }

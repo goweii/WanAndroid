@@ -1,7 +1,9 @@
 package per.goweii.wanandroid.module.mine.fragment;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
-import android.text.TextUtils;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,12 +24,20 @@ import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
+import per.goweii.anypermission.RequestListener;
 import per.goweii.basic.core.base.BaseFragment;
+import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
+import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.file.CacheUtils;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
@@ -44,7 +54,7 @@ import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 import per.goweii.wanandroid.module.mine.presenter.MinePresenter;
 import per.goweii.wanandroid.module.mine.view.MineView;
 import per.goweii.wanandroid.utils.ImageLoader;
-import per.goweii.wanandroid.utils.PictureSelectorUtils;
+import per.goweii.wanandroid.utils.PictureSelector;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UserInfoUtils;
 import per.goweii.wanandroid.utils.UserUtils;
@@ -56,8 +66,11 @@ import per.goweii.wanandroid.utils.UserUtils;
  */
 public class MineFragment extends BaseFragment<MinePresenter> implements MineView {
 
-    private static final int REQUEST_CODE_SELECT_USER_ICON = 1;
-    private static final int REQUEST_CODE_SELECT_BG = 2;
+    private static final int REQUEST_CODE_PERMISSION_ALBUM = 1;
+    private static final int REQUEST_CODE_SELECT_USER_ICON = 2;
+    private static final int REQUEST_CODE_CROP_USER_ICON = 3;
+    private static final int REQUEST_CODE_SELECT_BG = 4;
+    private static final int REQUEST_CODE_CROP_BG = 5;
 
     @BindView(R.id.abc)
     ActionBarCommon abc;
@@ -197,7 +210,12 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             @Override
             public boolean onLongClick(View v) {
                 if (UserUtils.getInstance().doIfLogin(getContext())) {
-                    PictureSelectorUtils.ofImage(MineFragment.this, REQUEST_CODE_SELECT_BG);
+                    requestAlbumPermission(new SimpleListener() {
+                        @Override
+                        public void onResult() {
+                            PictureSelector.select(MineFragment.this, REQUEST_CODE_SELECT_BG);
+                        }
+                    });
                 }
                 return true;
             }
@@ -206,6 +224,20 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         mSmartRefreshUtils.pureScrollMode();
         setRefresh();
         changeMenuVisible();
+    }
+
+    private void requestAlbumPermission(@NonNull SimpleListener listener) {
+        PermissionUtils.request(new RequestListener() {
+            @Override
+            public void onSuccess() {
+                listener.onResult();
+            }
+
+            @Override
+            public void onFailed() {
+                ToastMaker.showShort("获取存储设备读取权限失败");
+            }
+        }, getContext(), REQUEST_CODE_PERMISSION_ALBUM, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
     private void setIvBlurHeight(int h) {
@@ -312,11 +344,17 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 break;
             case R.id.civ_user_icon:
                 if (UserUtils.getInstance().doIfLogin(getContext())) {
-                    PictureSelectorUtils.ofImage(this, REQUEST_CODE_SELECT_USER_ICON);
+                    requestAlbumPermission(new SimpleListener() {
+                        @Override
+                        public void onResult() {
+                            PictureSelector.select(MineFragment.this, REQUEST_CODE_SELECT_USER_ICON);
+                        }
+                    });
                 }
                 break;
             case R.id.tv_user_name:
                 if (UserUtils.getInstance().doIfLogin(getContext())) {
+                    // Ignore
                 }
                 break;
             case R.id.ll_user_id:
@@ -354,19 +392,71 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             default:
                 break;
             case REQUEST_CODE_SELECT_USER_ICON:
-                String userIconPath = PictureSelectorUtils.forResult(resultCode, data);
-                if (!TextUtils.isEmpty(userIconPath)) {
-                    UserInfoUtils.getInstance().setIcon(userIconPath);
-                    UserInfoUtils.getInstance().setBg(userIconPath);
-                    ImageLoader.userIcon(civ_user_icon, userIconPath);
-                    ImageLoader.userBlur(iv_blur, userIconPath);
+                Uri userIconUri = PictureSelector.result(resultCode, data);
+                if (userIconUri != null) {
+                    File sourceFile = PictureSelector.getFileFormUri(getContext(), userIconUri);
+                    if (sourceFile != null) {
+                        File file = new File(CacheUtils.getCacheDir(), "user_info");
+                        if (!file.exists()) {
+                            file.mkdirs();
+                        }
+                        File clipFile = new File(file, "user_icon.jpeg");
+                        try {
+                            clipFile.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        PictureSelector.crop(MineFragment.this, sourceFile, clipFile, REQUEST_CODE_CROP_USER_ICON);
+                    }
                 }
                 break;
             case REQUEST_CODE_SELECT_BG:
-                String bgPath = PictureSelectorUtils.forResult(resultCode, data);
-                if (!TextUtils.isEmpty(bgPath)) {
-                    UserInfoUtils.getInstance().setBg(bgPath);
-                    ImageLoader.userBlur(iv_blur, bgPath);
+                Uri bgUri = PictureSelector.result(resultCode, data);
+                if (bgUri != null) {
+                    File sourceFile = PictureSelector.getFileFormUri(getContext(), bgUri);
+                    if (sourceFile != null) {
+                        File file = new File(CacheUtils.getCacheDir(), "user_info");
+                        if (!file.exists()) {
+                            file.mkdirs();
+                        }
+                        File clipFile = new File(file, "user_bg.jpeg");
+                        try {
+                            clipFile.createNewFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        PictureSelector.crop(MineFragment.this, sourceFile, clipFile, REQUEST_CODE_CROP_BG);
+                    }
+                }
+                break;
+            case REQUEST_CODE_CROP_USER_ICON:
+                if (resultCode == Activity.RESULT_OK) {
+                    File file = new File(CacheUtils.getCacheDir(), "user_info");
+                    if (!file.exists()) {
+                        file.mkdirs();
+                    }
+                    File clipFile = new File(file, "user_icon.jpeg");
+                    if (clipFile.exists()) {
+                        String path = clipFile.getAbsolutePath();
+                        UserInfoUtils.getInstance().setIcon(path);
+                        UserInfoUtils.getInstance().setBg(path);
+                        ImageLoader.userIcon(civ_user_icon, path);
+                        ImageLoader.userBlur(iv_blur, path);
+                    }
+                }
+                break;
+            case REQUEST_CODE_CROP_BG:
+                if (resultCode == Activity.RESULT_OK) {
+                    File file = new File(CacheUtils.getCacheDir(), "user_info");
+                    if (!file.exists()) {
+                        file.mkdirs();
+                    }
+                    File clipFile = new File(file, "user_bg.jpeg");
+                    if (clipFile.exists()) {
+                        String path = clipFile.getAbsolutePath();
+                        UserInfoUtils.getInstance().setBg(path);
+                        ImageLoader.userBlur(iv_blur, path);
+                    }
                 }
                 break;
         }
