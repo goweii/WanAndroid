@@ -19,8 +19,10 @@ import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.target.ImageViewTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 
@@ -39,7 +41,9 @@ import per.goweii.basic.utils.listener.SimpleListener;
 public class GlideHelper {
 
     private final RequestManager mManager;
-    private RequestBuilder<Bitmap> mBuilder;
+    private RequestBuilder<Drawable> mBuilder;
+    private RequestBuilder<Bitmap> mBuilderBmp;
+    private RequestBuilder<GifDrawable> mBuilderGif;
     private boolean mCache = true;
     private int mPlaceHolder = 0;
     private int mErrorHolder = 0;
@@ -105,24 +109,85 @@ public class GlideHelper {
         return this;
     }
 
+    public enum As {
+        DRAWABLE, GIF, BITMAP
+    }
+
+    private As as = As.DRAWABLE;
+
+    public GlideHelper asDrawable() {
+        as = As.DRAWABLE;
+        return this;
+    }
+
+    public GlideHelper asGif() {
+        as = As.GIF;
+        return this;
+    }
+
+    public GlideHelper asBitmap() {
+        as = As.BITMAP;
+        return this;
+    }
+
     public GlideHelper load(String url) {
         this.mImageUrl = url;
-        mBuilder = getBuilder().load(url);
+        switch (as) {
+            case DRAWABLE:
+                mBuilder = getBuilder().load(url);
+                break;
+            case GIF:
+                mBuilderGif = getGifBuilder().load(url);
+                break;
+            case BITMAP:
+                mBuilderBmp = getBmpBuilder().load(url);
+                break;
+        }
         return this;
     }
 
     public GlideHelper load(Uri uri) {
-        mBuilder = getBuilder().load(uri);
+        switch (as) {
+            case DRAWABLE:
+                mBuilder = getBuilder().load(uri);
+                break;
+            case GIF:
+                mBuilderGif = getGifBuilder().load(uri);
+                break;
+            case BITMAP:
+                mBuilderBmp = getBmpBuilder().load(uri);
+                break;
+        }
         return this;
     }
 
     public GlideHelper load(int resId) {
-        mBuilder = getBuilder().load(resId);
+        switch (as) {
+            case DRAWABLE:
+                mBuilder = getBuilder().load(resId);
+                break;
+            case GIF:
+                mBuilderGif = getGifBuilder().load(resId);
+                break;
+            case BITMAP:
+                mBuilderBmp = getBmpBuilder().load(resId);
+                break;
+        }
         return this;
     }
 
     public GlideHelper load(Bitmap bitmap) {
-        mBuilder = getBuilder().load(bitmap);
+        switch (as) {
+            case DRAWABLE:
+                mBuilder = getBuilder().load(bitmap);
+                break;
+            case GIF:
+                mBuilderGif = getGifBuilder().load(bitmap);
+                break;
+            case BITMAP:
+                mBuilderBmp = getBmpBuilder().load(bitmap);
+                break;
+        }
         return this;
     }
 
@@ -139,59 +204,176 @@ public class GlideHelper {
                 }
             };
         }
-        getBuilder().apply(getOptions()).into(new BitmapImageViewTarget(imageView) {
-            @Override
-            public void onLoadStarted(@Nullable Drawable placeholder) {
-                super.onLoadStarted(placeholder);
-                if (mOnGlideProgressListener != null) {
-                    mOnGlideProgressListener.onProgress(0);
-                }
-                if (mProgressListener != null) {
-                    ProgressInterceptor.addProgressListener(mImageUrl, mProgressListener);
-                }
-            }
+        switch (as) {
+            case DRAWABLE:
+                getBuilder().apply(getOptions()).into(new ImageViewTarget<Drawable>(imageView) {
+                    @Override
+                    protected void setResource(@Nullable Drawable resource) {
+                        imageView.setImageDrawable(resource);
+                    }
 
+                    @Override
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        notifyLoadStarted();
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                        super.onResourceReady(resource, transition);
+                        notifyResourceReady();
+                    }
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        notifyLoadFailed();
+                    }
+                });
+                break;
+            case GIF:
+                getGifBuilder().apply(getOptions()).into(new ImageViewTarget<GifDrawable>(imageView) {
+                    @Override
+                    protected void setResource(@Nullable GifDrawable resource) {
+                        imageView.setImageDrawable(resource);
+                    }
+
+                    @Override
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        notifyLoadStarted();
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull GifDrawable resource, @Nullable Transition<? super GifDrawable> transition) {
+                        super.onResourceReady(resource, transition);
+                        notifyResourceReady();
+                    }
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        notifyLoadFailed();
+                    }
+                });
+                break;
+            case BITMAP:
+                getBmpBuilder().apply(getOptions()).into(new BitmapImageViewTarget(imageView) {
+                    @Override
+                    public void onLoadStarted(@Nullable Drawable placeholder) {
+                        super.onLoadStarted(placeholder);
+                        notifyLoadStarted();
+                    }
+
+                    @Override
+                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                        super.onResourceReady(resource, transition);
+                        notifyResourceReady();
+                    }
+
+                    @Override
+                    public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                        super.onLoadFailed(errorDrawable);
+                        notifyLoadFailed();
+                    }
+                });
+                break;
+        }
+    }
+
+    private void notifyLoadStarted() {
+        if (mOnGlideProgressListener != null) {
+            mOnGlideProgressListener.onProgress(0);
+        }
+        if (mProgressListener != null) {
+            ProgressInterceptor.addProgressListener(mImageUrl, mProgressListener);
+        }
+    }
+
+    private void notifyResourceReady() {
+        if (mOnGlideProgressListener != null) {
+            mOnGlideProgressListener.onProgress(1);
+        }
+        if (mProgressListener != null) {
+            ProgressInterceptor.removeProgressListener(mProgressListener);
+        }
+    }
+
+    private void notifyLoadFailed() {
+        if (mOnGlideProgressListener != null) {
+            mOnGlideProgressListener.onProgress(-1);
+        }
+        if (mProgressListener != null) {
+            ProgressInterceptor.removeProgressListener(mProgressListener);
+        }
+    }
+
+    public void preload() {
+        switch (as) {
+            case DRAWABLE:
+                getBuilder().apply(getOptions()).preload();
+                break;
+            case GIF:
+                getGifBuilder().apply(getOptions()).preload();
+                break;
+            case BITMAP:
+                getBmpBuilder().apply(getOptions()).preload();
+                break;
+        }
+    }
+
+    public void getGif(final SimpleCallback<GifDrawable> callback) {
+        getGif(callback, null);
+    }
+
+    public void getGif(final SimpleCallback<GifDrawable> callback, final SimpleListener onFail) {
+        getGifBuilder().apply(getOptions()).into(new SimpleTarget<GifDrawable>() {
             @Override
-            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                super.onResourceReady(resource, transition);
-                if (mOnGlideProgressListener != null) {
-                    mOnGlideProgressListener.onProgress(1);
-                }
-                if (mProgressListener != null) {
-                    ProgressInterceptor.removeProgressListener(mProgressListener);
+            public void onResourceReady(@NonNull GifDrawable resource, @Nullable Transition<? super GifDrawable> transition) {
+                if (callback != null) {
+                    callback.onResult(resource);
                 }
             }
 
             @Override
             public void onLoadFailed(@Nullable Drawable errorDrawable) {
                 super.onLoadFailed(errorDrawable);
-                if (mOnGlideProgressListener != null) {
-                    mOnGlideProgressListener.onProgress(-1);
-                }
-                if (mProgressListener != null) {
-                    ProgressInterceptor.removeProgressListener(mProgressListener);
+                if (onFail != null) {
+                    onFail.onResult();
                 }
             }
         });
     }
 
-    public void preload() {
-        getBuilder().apply(getOptions()).preload();
+    public void getDrawable(final SimpleCallback<Drawable> callback) {
+        getDrawable(callback, null);
     }
 
-    public void get(final SimpleCallback<Bitmap> callback) {
-        getBuilder().apply(getOptions()).into(new SimpleTarget<Bitmap>() {
+    public void getDrawable(final SimpleCallback<Drawable> callback, final SimpleListener onFail) {
+        getBuilder().apply(getOptions()).into(new SimpleTarget<Drawable>() {
             @Override
-            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+            public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                 if (callback != null) {
                     callback.onResult(resource);
                 }
             }
+
+            @Override
+            public void onLoadFailed(@Nullable Drawable errorDrawable) {
+                super.onLoadFailed(errorDrawable);
+                if (onFail != null) {
+                    onFail.onResult();
+                }
+            }
         });
     }
 
-    public void get(final SimpleCallback<Bitmap> onSuccess, final SimpleListener onFail) {
-        getBuilder().apply(getOptions()).into(new SimpleTarget<Bitmap>() {
+    public void getBitmap(final SimpleCallback<Bitmap> callback) {
+        getBitmap(callback, null);
+    }
+
+    public void getBitmap(final SimpleCallback<Bitmap> onSuccess, final SimpleListener onFail) {
+        getBmpBuilder().apply(getOptions()).into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                 if (onSuccess != null) {
@@ -237,9 +419,23 @@ public class GlideHelper {
         return Utils.getAppContext();
     }
 
-    private RequestBuilder<Bitmap> getBuilder() {
+    private RequestBuilder<Bitmap> getBmpBuilder() {
+        if (mBuilderBmp == null) {
+            mBuilderBmp = mManager.asBitmap();
+        }
+        return mBuilderBmp;
+    }
+
+    private RequestBuilder<GifDrawable> getGifBuilder() {
+        if (mBuilderGif == null) {
+            mBuilderGif = mManager.asGif();
+        }
+        return mBuilderGif;
+    }
+
+    private RequestBuilder<Drawable> getBuilder() {
         if (mBuilder == null) {
-            mBuilder = mManager.asBitmap();
+            mBuilder = mManager.asDrawable();
         }
         return mBuilder;
     }

@@ -281,7 +281,7 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
         ImageLoader.image(piv_wx_qrcode, data.getWx_qrcode());
         GlideHelper.with(getContext())
                 .load(data.getIcon())
-                .get(new SimpleCallback<Bitmap>() {
+                .getBitmap(new SimpleCallback<Bitmap>() {
                     @Override
                     public void onResult(Bitmap bitmap) {
                         ImageLoader.userIcon(civ_icon, data.getIcon());

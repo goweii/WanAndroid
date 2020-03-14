@@ -23,6 +23,16 @@ public class ImageLoader {
                 .into(imageView);
     }
 
+    public static void gif(ImageView imageView, String url) {
+        GlideHelper.with(imageView.getContext())
+                .asGif()
+                .errorHolder(R.drawable.image_holder)
+                .placeHolder(R.drawable.image_holder)
+                .cache(true)
+                .load(url)
+                .into(imageView);
+    }
+
     public static void banner(ImageView imageView, String url){
         GlideHelper.with(imageView.getContext())
                 .errorHolder(R.drawable.image_holder)

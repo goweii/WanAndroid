@@ -19,7 +19,7 @@ class ImageClickInject : BaseInject("IMAGE_CLICK_INJECT") {
         }
     }
 
-    override fun injectOnProgress(): IntArray = intArrayOf(90)
+    override fun injectOnProgress(): IntArray = intArrayOf()
     override fun loadJsFromAssets(): String? = null
     override fun loadJsFromString(): String? = """
         (function(){

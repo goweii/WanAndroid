@@ -43,6 +43,7 @@ import okhttp3.Cookie;
 import okhttp3.HttpUrl;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
+import per.goweii.wanandroid.module.main.dialog.ImagePreviewDialog;
 import per.goweii.wanandroid.utils.NightModeUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.web.js.DarkmodeInject;
@@ -198,6 +199,20 @@ public class WebHolder {
         darkmodeInject.attach(mWebView);
         imageClickInject = new ImageClickInject();
         imageClickInject.attach(mWebView);
+        setOnLongClickHitTestResult(new OnLongClickHitTestResult() {
+            @Override
+            public boolean onHitTestResult(@NonNull HitResult result) {
+                switch (result.getType()) {
+                    case IMAGE_TYPE:
+                    case IMAGE_ANCHOR_TYPE:
+                    case SRC_IMAGE_ANCHOR_TYPE:
+                        new ImagePreviewDialog(mActivity, result.getResult()).show();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 
     public WebHolder loadUrl(String url) {
@@ -288,6 +303,21 @@ public class WebHolder {
             return true;
         }
         return false;
+    }
+
+    public WebHolder setOnLongClickHitTestResult(OnLongClickHitTestResult onLongClickHitTestResult) {
+        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                WebView.HitTestResult hitTestResult = mWebView.getHitTestResult();
+                HitResult result = new HitResult(hitTestResult);
+                if (onLongClickHitTestResult != null) {
+                    return onLongClickHitTestResult.onHitTestResult(result);
+                }
+                return false;
+            }
+        });
+        return this;
     }
 
     public WebHolder setOnPageTitleCallback(OnPageTitleCallback onPageTitleCallback) {
@@ -547,6 +577,10 @@ public class WebHolder {
                 mOnHistoryUpdateCallback.onHistoryUpdate(isReload);
             }
         }
+    }
+
+    public interface OnLongClickHitTestResult {
+        boolean onHitTestResult(@NonNull HitResult result);
     }
 
     public interface OnPageTitleCallback {
