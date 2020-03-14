@@ -158,7 +158,9 @@ public class LoginActivity extends BaseActivity {
             lav.open(new Function0<Unit>() {
                 @Override
                 public Unit invoke() {
-                    lav.randomBlink();
+                    if (lav != null) {
+                        lav.randomBlink();
+                    }
                     return null;
                 }
             });

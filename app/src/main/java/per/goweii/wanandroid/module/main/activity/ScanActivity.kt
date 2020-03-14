@@ -157,6 +157,15 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
     override fun loadData() {
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        if (hasFocus) {
+            resume()
+        } else {
+            pause()
+        }
+    }
+
     override fun onResume() {
         super.onResume()
         resume()
@@ -171,8 +180,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
 
     override fun onPause() {
         super.onPause()
-        qrCodeView.stopSpotAndHiddenRect()
-        qrCodeView.stopCamera()
+        pause()
     }
 
     private fun pause() {

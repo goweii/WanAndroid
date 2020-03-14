@@ -114,7 +114,7 @@
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
         <activity
             android:name=".module.mine.activity.SettingActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode" />
         <activity
             android:name=".module.mine.activity.AboutActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
