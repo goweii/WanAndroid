@@ -11,10 +11,10 @@ import android.view.animation.DecelerateInterpolator
 import cn.bingoogolapple.qrcode.core.QRCodeView
 import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder
 import kotlinx.android.synthetic.main.activity_scan.*
+import per.goweii.anypermission.AnyPermission
 import per.goweii.anypermission.RequestListener
 import per.goweii.anypermission.RuntimeRequester
 import per.goweii.basic.core.base.BaseActivity
-import per.goweii.basic.core.permission.PermissionUtils
 import per.goweii.basic.utils.LogUtils
 import per.goweii.basic.utils.ext.gone
 import per.goweii.basic.utils.ext.invisible
@@ -55,7 +55,6 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
     override fun initPresenter(): ScanPresenter? = ScanPresenter()
 
     override fun initView() {
-        requestPermission()
         ivAlbum.setOnClickListener {
             PictureSelectorUtils.ofImage(this@ScanActivity, REQ_CODE_SELECT_PIC)
         }
@@ -63,27 +62,51 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
         ivTorch.visibility = View.INVISIBLE
         qrCodeView.setDelegate(this)
         qrCodeView.stopSpotAndHiddenRect()
+        llTip.post {
+            requestPermission()
+        }
     }
 
     private fun requestPermission() {
-        mRuntimeRequester = PermissionUtils.request(object : RequestListener {
-            override fun onSuccess() {
-                hasPermission = true
-                hideTip()
-                if (!shouldPause) {
-                    qrCodeView.startCamera()
-                    qrCodeView.startSpotAndShowRect()
+        mRuntimeRequester = AnyPermission.with(context)
+                .runtime(REQ_CODE_CAMERA)
+                .permissions(Manifest.permission.CAMERA)
+                .onBeforeRequest { _, executor ->
+                    showTip("扫码二维码/条码需要相机权限", "点击申请", View.OnClickListener {
+                        hideTip()
+                        executor.execute()
+                    })
                 }
-            }
+                .onBeenDenied { _, executor ->
+                    showTip("拒绝相机权限将无法扫码", "重新申请", View.OnClickListener {
+                        hideTip()
+                        executor.execute()
+                    })
+                }
+                .onGoSetting { _, executor ->
+                    showTip("相机权限已被拒绝", "去设置", View.OnClickListener {
+                        hideTip()
+                        executor.execute()
+                    })
+                }
+                .request(object : RequestListener {
+                    override fun onSuccess() {
+                        hasPermission = true
+                        hideTip()
+                        if (!shouldPause) {
+                            qrCodeView.startCamera()
+                            qrCodeView.startSpotAndShowRect()
+                        }
+                    }
 
-            override fun onFailed() {
-                hasPermission = false
-                showTip("没有相机权限", "点击获取", View.OnClickListener {
-                    hideTip()
-                    requestPermission()
+                    override fun onFailed() {
+                        hasPermission = false
+                        showTip("无法获取相机权限", "点击获取", View.OnClickListener {
+                            hideTip()
+                            requestPermission()
+                        })
+                    }
                 })
-            }
-        }, this, REQ_CODE_CAMERA, Manifest.permission.CAMERA)
     }
 
     override fun loadData() {
