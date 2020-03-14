@@ -40,22 +40,39 @@
             android:id="@+id/tvTipText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:alpha="0.9"
             android:gravity="center"
             android:textColor="#FFFFFFFF"
-            android:alpha="0.9"
             android:textSize="@dimen/text_title"
             tools:text="没有获取到相机权限" />
 
         <TextView
-            android:id="@+id/tvTipBtn"
+            android:id="@+id/tvTipBtnSure"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_common"
+            android:alpha="0.5"
             android:gravity="center"
             android:textColor="#FFFFFFFF"
-            android:alpha="0.5"
-            android:layout_marginTop="@dimen/margin_common"
             android:textSize="@dimen/text_content"
             tools:text="点击重试" />
+
+        <TextView
+            android:id="@+id/tvTipBtnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginTop="@dimen/margin_common"
+            android:alpha="0.5"
+            android:background="@drawable/bg_stroke_round_color_white_radius_max"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin_common"
+            android:paddingEnd="@dimen/margin_common"
+            tools:text="返回扫码"
+            android:scaleType="fitCenter"
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/text_auxiliary" />
 
     </LinearLayout>
 

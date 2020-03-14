@@ -70,25 +70,36 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
     }
 
     private fun requestAlbumPermission() {
+        shouldPause = true
+        pause()
         mRuntimeRequester = AnyPermission.with(context)
                 .runtime(REQ_CODE_PERMISSION_ALBUM)
                 .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .onBeforeRequest { _, executor ->
                     showTip("选择图片需要存储权限", "点击申请", View.OnClickListener {
-                        hideTip()
                         executor.execute()
+                        hideTip()
+                    }, "返回扫码", View.OnClickListener {
+                        executor.cancel()
+                        requestCameraPermission()
                     })
                 }
                 .onBeenDenied { _, executor ->
                     showTip("拒绝存储权限将无法选择图片", "重新申请", View.OnClickListener {
-                        hideTip()
                         executor.execute()
+                        hideTip()
+                    }, "返回扫码", View.OnClickListener {
+                        executor.cancel()
+                        requestCameraPermission()
                     })
                 }
                 .onGoSetting { _, executor ->
                     showTip("存储权限已被拒绝", "去设置", View.OnClickListener {
-                        hideTip()
                         executor.execute()
+                        hideTip()
+                    }, "返回扫码", View.OnClickListener {
+                        executor.cancel()
+                        requestCameraPermission()
                     })
                 }
                 .request(object : RequestListener {
@@ -104,6 +115,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
     }
 
     private fun requestCameraPermission() {
+        shouldPause = false
         mRuntimeRequester = AnyPermission.with(context)
                 .runtime(REQ_CODE_PERMISSION_CAMERA)
                 .permissions(Manifest.permission.CAMERA)
@@ -129,10 +141,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                     override fun onSuccess() {
                         hasPermission = true
                         hideTip()
-                        if (!shouldPause) {
-                            qrCodeView.startCamera()
-                            qrCodeView.startSpotAndShowRect()
-                        }
+                        resume()
                     }
 
                     override fun onFailed() {
@@ -150,6 +159,10 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
 
     override fun onResume() {
         super.onResume()
+        resume()
+    }
+
+    private fun resume() {
         if (hasPermission && !shouldPause) {
             qrCodeView.startCamera()
             qrCodeView.startSpotAndShowRect()
@@ -158,6 +171,11 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
 
     override fun onPause() {
         super.onPause()
+        qrCodeView.stopSpotAndHiddenRect()
+        qrCodeView.stopCamera()
+    }
+
+    private fun pause() {
         qrCodeView.stopSpotAndHiddenRect()
         qrCodeView.stopCamera()
     }
@@ -174,6 +192,9 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
             REQ_CODE_PERMISSION_CAMERA -> {
                 mRuntimeRequester?.onActivityResult(requestCode)
             }
+            REQ_CODE_PERMISSION_ALBUM -> {
+                mRuntimeRequester?.onActivityResult(requestCode)
+            }
             REQ_CODE_SELECT_PIC -> {
                 shouldPause = true
                 PictureSelector.result(resultCode, data)?.let {
@@ -184,18 +205,18 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                             showTip("没有识别到二维码/条码等", "点击继续", View.OnClickListener {
                                 hideTip()
                                 shouldPause = false
-                                qrCodeView.startCamera()
-                                qrCodeView.startSpotAndShowRect()
+                                resume()
                             })
                         }
                     } ?: run {
                         showTip("打开图片失败", "点击继续", View.OnClickListener {
                             hideTip()
                             shouldPause = false
-                            qrCodeView.startCamera()
-                            qrCodeView.startSpotAndShowRect()
+                            resume()
                         })
                     }
+                } ?: run {
+                    shouldPause = false
                 }
             }
         }
@@ -211,11 +232,18 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
         tvTipAnim = null
     }
 
-    private fun showTip(text: String, btn: String, listener: View.OnClickListener) {
+    private fun showTip(text: String, btnSure: String, onSure: View.OnClickListener, btnCancel: String? = null, onCancel: View.OnClickListener? = null) {
         llTip ?: return
         tvTipText.text = text
-        tvTipBtn.text = btn
-        llTip.setOnClickListener(listener)
+        tvTipBtnSure.text = btnSure
+        if (btnCancel.isNullOrEmpty()) {
+            tvTipBtnCancel.gone()
+        } else {
+            tvTipBtnCancel.visible()
+            tvTipBtnCancel.text = btnCancel
+            tvTipBtnCancel.setOnClickListener(onCancel)
+        }
+        llTip.setOnClickListener(onSure)
         cancelTipAnim()
         tvTipAnim = ObjectAnimator.ofFloat(llTip, "alpha", 0F, 1F).apply {
             duration = 300
@@ -246,7 +274,10 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
             return
         }
         tvTipText.text = ""
-        tvTipBtn.text = ""
+        tvTipBtnSure.text = ""
+        tvTipBtnCancel.text = ""
+        tvTipBtnCancel.gone()
+        tvTipBtnCancel.setOnClickListener(null)
         llTip.setOnClickListener(null)
         tvTipAnim = ObjectAnimator.ofFloat(llTip, "alpha", 1F, 0F).apply {
             duration = 300
