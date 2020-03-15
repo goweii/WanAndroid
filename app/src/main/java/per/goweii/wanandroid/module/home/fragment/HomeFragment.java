@@ -212,6 +212,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                     }
                 }
                 GlideHelper.with(getContext())
+                        .asBitmap()
                         .load(event.getActionBarBgImageUrl())
                         .getBitmap(new SimpleCallback<Bitmap>() {
                             @Override

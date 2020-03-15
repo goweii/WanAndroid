@@ -280,6 +280,7 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
         ImageLoader.image(piv_qq_qrcode, data.getQq_qrcode());
         ImageLoader.image(piv_wx_qrcode, data.getWx_qrcode());
         GlideHelper.with(getContext())
+                .asBitmap()
                 .load(data.getIcon())
                 .getBitmap(new SimpleCallback<Bitmap>() {
                     @Override

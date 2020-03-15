@@ -271,6 +271,7 @@ public class WebPresenter extends BasePresenter<WebView> {
             tv_user_name.setText(UserUtils.getInstance().getLoginBean().getUsername() +
                     "(" + UserUtils.getInstance().getLoginBean().getId() + ")");
             GlideHelper.with(getContext())
+                    .asBitmap()
                     .load(UserUtils.getInstance().getLoginBean().getIcon())
                     .getBitmap(new SimpleCallback<Bitmap>() {
                         @Override

@@ -77,6 +77,7 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
             return;
         }
         GlideHelper.with(getContext())
+                .asBitmap()
                 .load(mAboutMeBean.getQq_qrcode())
                 .getBitmap(new SimpleCallback<Bitmap>() {
                     @Override
@@ -95,6 +96,7 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
             return;
         }
         GlideHelper.with(getContext())
+                .asBitmap()
                 .load(mAboutMeBean.getWx_qrcode())
                 .getBitmap(new SimpleCallback<Bitmap>() {
                     @Override
