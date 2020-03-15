@@ -35,6 +35,7 @@ import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.ShareUtils;
 import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.listener.OnClickListener2;
+import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.QrcodeShareDialog;
@@ -396,8 +397,13 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     public void onPageFinished() {
                         if (!GuideSPUtils.getInstance().isWebGuideShown()) {
                             if (mWebGuideDialog == null) {
-                                mWebGuideDialog = new WebGuideDialog(getContext());
-                                mWebGuideDialog.show();
+                                mWebGuideDialog = WebGuideDialog.show(getContext(), false, new SimpleListener() {
+                                    @Override
+                                    public void onResult() {
+                                        GuideSPUtils.getInstance().setWebGuideShown();
+                                        mWebGuideDialog = null;
+                                    }
+                                });
                             }
                         }
                     }

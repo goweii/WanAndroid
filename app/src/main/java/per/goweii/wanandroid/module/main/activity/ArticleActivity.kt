@@ -69,6 +69,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             }
 
             override fun onLongPress(e: MotionEvent) {
+                changeRevealLayoutCenterXY(e.x, e.y)
                 if (!rl.isChecked) {
                     presenter.collect()
                 } else {
@@ -95,10 +96,12 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         }.setOnPageLoadCallback(object : WebHolder.OnPageLoadCallback {
             override fun onPageFinished() {
                 isPageLoadFinished = true
-                if (!GuideSPUtils.getInstance().isWebGuideShown) {
+                if (!GuideSPUtils.getInstance().isArticleGuideShown) {
                     if (mWebGuideDialog == null) {
-                        mWebGuideDialog = WebGuideDialog(context)
-                        mWebGuideDialog?.show()
+                        mWebGuideDialog = WebGuideDialog.show(context, true) {
+                            GuideSPUtils.getInstance().setArticleGuideShown()
+                            mWebGuideDialog = null
+                        }
                     }
                 }
             }
@@ -109,7 +112,23 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             return@setInterceptUrlInterceptor WebUrlInterceptFactory.create(uri)?.interceptor?.intercept(uri, mWebHolder.userAgent, reqHeaders, reqMethod)
         }
         wc.setOnDoubleClickListener { _, _ ->
+            if (rl != null) {
+                changeRevealLayoutCenterXY(rl.width * 0.5F, rl.height * 0.5F)
+            }
             presenter.collect()
+        }
+    }
+
+    private fun changeRevealLayoutCenterXY(x: Float, y: Float) {
+        try {
+            val cls = rl.javaClass
+            val mCenterX = cls.getDeclaredField("mCenterX")
+            val mCenterY = cls.getDeclaredField("mCenterY")
+            mCenterX.isAccessible = true
+            mCenterY.isAccessible = true
+            mCenterX.setFloat(rl, x)
+            mCenterY.setFloat(rl, y)
+        } catch (e: Exception) {
         }
     }
 

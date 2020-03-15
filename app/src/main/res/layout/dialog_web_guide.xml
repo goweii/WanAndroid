@@ -4,37 +4,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:paddingBottom="@dimen/bottom_bar_height"
     tools:background="@color/dialog_bg">
 
-    <ImageView
-        android:id="@+id/dialog_web_guide_iv_1"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:alpha="0.5"
-        android:src="@drawable/bg_solid_round_color_main_radius_max" />
-
-    <ImageView
-        android:id="@+id/dialog_web_guide_iv_2"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignLeft="@+id/dialog_web_guide_iv_1"
-        android:layout_alignTop="@+id/dialog_web_guide_iv_1"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="5dp"
-        android:alpha="0.7"
-        android:src="@drawable/bg_solid_round_color_main_radius_max" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_web_guide_iv_2"
+        android:layout_height="0dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="双击网页任意位置收藏文章"
-        android:textColor="@color/basic_ui_action_bar_text"
-        android:textSize="@dimen/text_title" />
+        android:layout_above="@id/dialog_web_guide_tv_know"
+        android:layout_alignParentTop="true"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp">
+
+            <ImageView
+                android:id="@+id/dialog_web_guide_iv_1"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:alpha="0.5"
+                android:src="@drawable/bg_solid_round_color_main_radius_max" />
+
+            <ImageView
+                android:id="@+id/dialog_web_guide_iv_2"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignLeft="@+id/dialog_web_guide_iv_1"
+                android:layout_alignTop="@+id/dialog_web_guide_iv_1"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:alpha="0.7"
+                android:src="@drawable/bg_solid_round_color_main_radius_max" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/dialog_web_guide_tv_double_click"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_below="@+id/dialog_web_guide_iv_2"
+            android:layout_centerHorizontal="true"
+            android:text="双击任意位置收藏文章"
+            android:textColor="@color/basic_ui_action_bar_text"
+            android:textSize="@dimen/text_title" />
+
+        <TextView
+            android:id="@+id/dialog_web_guide_tv_long_click_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_below="@+id/dialog_web_guide_tv_double_click"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_common"
+            android:text="长按网页图片查看大图"
+            android:textColor="@color/basic_ui_action_bar_text"
+            android:textSize="@dimen/text_title" />
+
+        <TextView
+            android:id="@+id/dialog_web_guide_tv_long_click_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_below="@+id/dialog_web_guide_tv_double_click"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_common"
+            android:text="长按返回按钮收藏文章"
+            android:textColor="@color/basic_ui_action_bar_text"
+            android:textSize="@dimen/text_title" />
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/dialog_web_guide_tv_know"
@@ -42,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/margin_big"
+        android:layout_marginBottom="@dimen/margin_def"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:text="知道了" />
