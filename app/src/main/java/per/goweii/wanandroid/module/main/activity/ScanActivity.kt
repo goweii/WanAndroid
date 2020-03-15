@@ -45,10 +45,13 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
         }
     }
 
+    enum class Mode {
+        SCAN, ALBUM
+    }
+
     private var mRuntimeRequester: RuntimeRequester? = null
-    private var hasPermission = false
-    private var shouldPause = false
     private var tvTipAnim: Animator? = null
+    private var mode = Mode.SCAN
 
     override fun swipeBackOnlyEdge(): Boolean = true
 
@@ -57,65 +60,42 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
     override fun initPresenter(): ScanPresenter? = ScanPresenter()
 
     override fun initView() {
-        ivAlbum.setOnClickListener {
-            requestAlbumPermission()
-        }
         llTip.visibility = View.INVISIBLE
         ivTorch.visibility = View.INVISIBLE
         qrCodeView.setDelegate(this)
         qrCodeView.stopSpotAndHiddenRect()
-        llTip.post {
-            requestCameraPermission()
+        ivAlbum.setOnClickListener {
+            startModeAlbum()
         }
     }
 
-    private fun requestAlbumPermission() {
-        shouldPause = true
-        pause()
-        mRuntimeRequester = AnyPermission.with(context)
-                .runtime(REQ_CODE_PERMISSION_ALBUM)
-                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .onBeforeRequest { _, executor ->
-                    showTip("选择图片需要存储权限", "点击申请", View.OnClickListener {
-                        executor.execute()
-                        hideTip()
-                    }, "返回扫码", View.OnClickListener {
-                        executor.cancel()
-                        requestCameraPermission()
-                    })
-                }
-                .onBeenDenied { _, executor ->
-                    showTip("拒绝存储权限将无法选择图片", "重新申请", View.OnClickListener {
-                        executor.execute()
-                        hideTip()
-                    }, "返回扫码", View.OnClickListener {
-                        executor.cancel()
-                        requestCameraPermission()
-                    })
-                }
-                .onGoSetting { _, executor ->
-                    showTip("存储权限已被拒绝", "去设置", View.OnClickListener {
-                        executor.execute()
-                        hideTip()
-                    }, "返回扫码", View.OnClickListener {
-                        executor.cancel()
-                        requestCameraPermission()
-                    })
-                }
-                .request(object : RequestListener {
-                    override fun onSuccess() {
-                        PictureSelector.select(this@ScanActivity, REQ_CODE_SELECT_PIC)
-                        requestCameraPermission()
-                    }
-
-                    override fun onFailed() {
-                        requestCameraPermission()
-                    }
-                })
+    override fun loadData() {
     }
 
-    private fun requestCameraPermission() {
-        shouldPause = false
+    override fun onResume() {
+        super.onResume()
+        if (mode == Mode.SCAN) {
+            startScan()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        stopScan()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cancelTipAnim()
+        qrCodeView.onDestroy()
+    }
+
+    private fun startModeScan() {
+        mode = Mode.SCAN
+        startScan()
+    }
+
+    private fun startScan() {
         mRuntimeRequester = AnyPermission.with(context)
                 .runtime(REQ_CODE_PERMISSION_CAMERA)
                 .permissions(Manifest.permission.CAMERA)
@@ -139,59 +119,70 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                 }
                 .request(object : RequestListener {
                     override fun onSuccess() {
-                        hasPermission = true
-                        hideTip()
-                        resume()
+                        qrCodeView.startCamera()
+                        qrCodeView.startSpotAndShowRect()
                     }
 
                     override fun onFailed() {
-                        hasPermission = false
                         showTip("无法获取相机权限", "点击获取", View.OnClickListener {
                             hideTip()
-                            requestCameraPermission()
+                            startModeScan()
                         })
                     }
                 })
     }
 
-    override fun loadData() {
-    }
-
-    override fun onWindowFocusChanged(hasFocus: Boolean) {
-        super.onWindowFocusChanged(hasFocus)
-        if (hasFocus) {
-            resume()
-        } else {
-            pause()
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        resume()
-    }
-
-    private fun resume() {
-        if (hasPermission && !shouldPause) {
-            qrCodeView.startCamera()
-            qrCodeView.startSpotAndShowRect()
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        pause()
-    }
-
-    private fun pause() {
+    private fun stopScan() {
         qrCodeView.stopSpotAndHiddenRect()
         qrCodeView.stopCamera()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        qrCodeView.onDestroy()
-        cancelTipAnim()
+    private fun startModeAlbum() {
+        mode = Mode.ALBUM
+        stopScan()
+        startAlbum()
+    }
+
+    private fun startAlbum() {
+        mRuntimeRequester = AnyPermission.with(context)
+                .runtime(REQ_CODE_PERMISSION_ALBUM)
+                .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .onBeforeRequest { _, executor ->
+                    showTip("选择图片需要存储权限", "点击申请", View.OnClickListener {
+                        hideTip()
+                        executor.execute()
+                    }, "返回扫码", View.OnClickListener {
+                        hideTip()
+                        executor.cancel()
+                    })
+                }
+                .onBeenDenied { _, executor ->
+                    showTip("拒绝存储权限将无法选择图片", "重新申请", View.OnClickListener {
+                        hideTip()
+                        executor.execute()
+                    }, "返回扫码", View.OnClickListener {
+                        hideTip()
+                        executor.cancel()
+                    })
+                }
+                .onGoSetting { _, executor ->
+                    showTip("存储权限已被拒绝", "去设置", View.OnClickListener {
+                        hideTip()
+                        executor.execute()
+                    }, "返回扫码", View.OnClickListener {
+                        hideTip()
+                        executor.cancel()
+                    })
+                }
+                .request(object : RequestListener {
+                    override fun onSuccess() {
+                        PictureSelector.select(this@ScanActivity, REQ_CODE_SELECT_PIC)
+                    }
+
+                    override fun onFailed() {
+                        startModeScan()
+                    }
+                })
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -204,30 +195,68 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                 mRuntimeRequester?.onActivityResult(requestCode)
             }
             REQ_CODE_SELECT_PIC -> {
-                shouldPause = true
                 PictureSelector.result(resultCode, data)?.let {
                     BitmapUtils.getBitmapFromUri(context, it)?.let { bitmap ->
                         QRCodeDecoder.syncDecodeQRCode(bitmap)?.let { result ->
-                            onScanQRCodeSuccess(result)
+                            onAlbumQRCodeSuccess(result)
                         } ?: run {
-                            showTip("没有识别到二维码/条码等", "点击继续", View.OnClickListener {
+                            showTip("没有识别到二维码/条码等", "返回扫码", View.OnClickListener {
                                 hideTip()
-                                shouldPause = false
-                                resume()
+                                startModeScan()
                             })
                         }
                     } ?: run {
-                        showTip("打开图片失败", "点击继续", View.OnClickListener {
+                        showTip("打开图片失败", "返回扫码", View.OnClickListener {
                             hideTip()
-                            shouldPause = false
-                            resume()
+                            startModeScan()
                         })
                     }
                 } ?: run {
-                    shouldPause = false
+                    startModeScan()
                 }
             }
         }
+    }
+
+    override fun onScanQRCodeSuccess(result: String?) {
+        LogUtils.d("ScanActivity", "result=$result")
+        stopScan()
+        vibrate()
+        UrlOpenUtils.with(result).open(context)
+        finish()
+    }
+
+    private fun onAlbumQRCodeSuccess(result: String?) {
+        LogUtils.d("ScanActivity", "result=$result")
+        vibrate()
+        UrlOpenUtils.with(result).open(context)
+        finish()
+    }
+
+    override fun onCameraAmbientBrightnessChanged(isDark: Boolean) {
+        if (isDark || ivTorch.isSelected) {
+            ivTorch.visible()
+            ivTorch.setOnClickListener {
+                ivTorch.isSelected = !ivTorch.isSelected
+                if (ivTorch.isSelected) {
+                    qrCodeView.openFlashlight()
+                } else {
+                    qrCodeView.closeFlashlight()
+                }
+            }
+        } else {
+            ivTorch.invisible()
+            ivTorch.isSelected = false
+            ivTorch.setOnClickListener(null)
+            qrCodeView.closeFlashlight()
+        }
+    }
+
+    override fun onScanQRCodeOpenCameraError() {
+        showTip("打开相机失败", "点击重试", View.OnClickListener {
+            hideTip()
+            startModeScan()
+        })
     }
 
     private fun vibrate() {
@@ -309,40 +338,5 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
             })
             start()
         }
-    }
-
-    override fun onScanQRCodeSuccess(result: String?) {
-        LogUtils.d("ScanActivity", "result=$result")
-        qrCodeView.stopSpot()
-        qrCodeView.stopCamera()
-        vibrate()
-        UrlOpenUtils.with(result).open(context)
-        finish()
-    }
-
-    override fun onCameraAmbientBrightnessChanged(isDark: Boolean) {
-        if (isDark || ivTorch.isSelected) {
-            ivTorch.visible()
-            ivTorch.setOnClickListener {
-                ivTorch.isSelected = !ivTorch.isSelected
-                if (ivTorch.isSelected) {
-                    qrCodeView.openFlashlight()
-                } else {
-                    qrCodeView.closeFlashlight()
-                }
-            }
-        } else {
-            ivTorch.invisible()
-            ivTorch.isSelected = false
-            ivTorch.setOnClickListener(null)
-            qrCodeView.closeFlashlight()
-        }
-    }
-
-    override fun onScanQRCodeOpenCameraError() {
-        showTip("打开相机失败", "点击重试", View.OnClickListener {
-            hideTip()
-            requestCameraPermission()
-        })
     }
 }
