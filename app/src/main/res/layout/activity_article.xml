@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<per.goweii.wanandroid.widget.draglayout.BottomDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dl"
@@ -240,4 +240,4 @@
 
     </LinearLayout>
 
-</per.goweii.wanandroid.widget.draglayout.BottomDrawerLayout>
+</per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout>

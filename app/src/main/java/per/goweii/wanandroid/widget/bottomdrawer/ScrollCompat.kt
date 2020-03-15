@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.widget.draglayout
+package per.goweii.wanandroid.widget.bottomdrawer
 
 import android.view.View
 import androidx.core.view.ScrollingView

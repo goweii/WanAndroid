@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.widget.draglayout
+package per.goweii.wanandroid.widget.bottomdrawer
 
 import android.graphics.Rect
 import android.view.View
