@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/ll_new"
-            android:textColor="@color/text_second"
+            android:textColor="@color/selector_text_color_article_author"
             android:textSize="@dimen/text_notes"
             tools:text="林帅并不帅" />
 

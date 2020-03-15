@@ -5,6 +5,7 @@
     <dimen name="action_bar_bottom_line_height">0dp</dimen>
     <dimen name="bottom_bar_height">49dp</dimen>
     <dimen name="button_height">44dp</dimen>
+    <dimen name="action_bar_bottom_tab_height">36dp</dimen>
 
     <dimen name="line">1dp</dimen>
 
