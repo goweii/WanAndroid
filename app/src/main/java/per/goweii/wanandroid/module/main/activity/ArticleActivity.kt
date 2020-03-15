@@ -2,30 +2,22 @@ package per.goweii.wanandroid.module.main.activity
 
 import android.content.Context
 import android.content.Intent
-import android.view.KeyEvent
+import android.view.GestureDetector
 import android.view.MotionEvent
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_article.*
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.ui.toast.ToastMaker
-import per.goweii.basic.utils.InputMethodUtils
-import per.goweii.basic.utils.SoftInputHelper
-import per.goweii.basic.utils.listener.SimpleListener
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.wanandroid.R
-import per.goweii.wanandroid.module.home.activity.UserPageActivity
-import per.goweii.wanandroid.module.main.adapter.ArticleCommentAdapter
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
 import per.goweii.wanandroid.module.main.view.ArticleView
 import per.goweii.wanandroid.utils.GuideSPUtils
-import per.goweii.wanandroid.utils.MultiStateUtils
 import per.goweii.wanandroid.utils.NightModeUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
 import per.goweii.wanandroid.utils.web.WebHolder
 import per.goweii.wanandroid.utils.web.WebHolder.with
 import per.goweii.wanandroid.utils.web.interceptor.WebUrlInterceptFactory
-import per.goweii.wanandroid.widget.CollectView
 
 /**
  * @author CuiZhen
@@ -49,11 +41,11 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
     }
 
     private lateinit var mWebHolder: WebHolder
-    private lateinit var adapter: ArticleCommentAdapter
     private var lastUrlLoadTime = 0L
     private var userTouched = false
     private var isPageLoadFinished = false
     private var mWebGuideDialog: WebGuideDialog? = null
+    private var mGestureDetector: GestureDetector? = null
 
     override fun getLayoutId(): Int = R.layout.activity_article
 
@@ -70,13 +62,24 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             presenter.userId = it.getIntExtra("user_id", 0)
         }
         switchCollectView(false)
-        fl_back.setOnClickListener {
-            finish()
+        mGestureDetector = GestureDetector(this, object : GestureDetector.SimpleOnGestureListener() {
+            override fun onSingleTapUp(e: MotionEvent): Boolean {
+                finish()
+                return true
+            }
+
+            override fun onLongPress(e: MotionEvent) {
+                if (!rl.isChecked) {
+                    presenter.collect()
+                } else {
+                    presenter.uncollect()
+                }
+            }
+        })
+        v_back.setOnTouchListener { _, event ->
+            mGestureDetector?.onTouchEvent(event)
+            return@setOnTouchListener true
         }
-        fl_top_bar_handle.setOnClickListener {
-            dl.toggle()
-        }
-        dl.onDragging { v_mask.alpha = 1F - it }
         mWebHolder = with(this, wc, pb).setOverrideUrlInterceptor {
             if (!isPageLoadFinished) return@setOverrideUrlInterceptor false
             if (!userTouched) return@setOverrideUrlInterceptor false
@@ -105,53 +108,14 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         }).setInterceptUrlInterceptor { uri, reqHeaders, reqMethod ->
             return@setInterceptUrlInterceptor WebUrlInterceptFactory.create(uri)?.interceptor?.intercept(uri, mWebHolder.userAgent, reqHeaders, reqMethod)
         }
-        rv.layoutManager = LinearLayoutManager(context)
-        adapter = ArticleCommentAdapter()
-        rv.adapter = adapter
-        adapter.setEnableLoadMore(false)
-        adapter.setOnLoadMoreListener({
-        }, rv)
-        MultiStateUtils.setEmptyAndErrorClick(msv, SimpleListener {
-            //MultiStateUtils.toLoading(msv)
-        })
-        tv_user_name.setOnClickListener {
-            UserPageActivity.start(context, presenter.userId)
-        }
-        SoftInputHelper.attach(this)
-                .moveWithTranslation()
-                .moveBy(ll_bottom_bar)
-                .moveWith(ll_bottom_bar, et_comment)
-                .listener(object : SoftInputHelper.OnSoftInputListener {
-                    override fun onOpen() {
-                        dl.open()
-                    }
-
-                    override fun onClose() {
-                        et_comment?.clearFocus()
-                    }
-                })
-        dl.onClosed {
-            et_comment?.let { InputMethodUtils.hide(it) }
-        }
         wc.setOnDoubleClickListener { _, _ ->
             presenter.collect()
         }
-        cv_collect.setOnClickListener(CollectView.OnClickListener { v ->
-            if (!v.isChecked) {
-                presenter.collect()
-            } else {
-                presenter.uncollect()
-            }
-        })
     }
 
     override fun loadData() {
-        tv_user_name.text = if (presenter.userName.isNotEmpty()) presenter.userName else "匿名"
-        setCommentCount(0)
         lastUrlLoadTime = System.currentTimeMillis()
         mWebHolder.loadUrl(presenter.articleUrl)
-        MultiStateUtils.toLoading(msv)
-        MultiStateUtils.toError(msv, null, "评论功能待开发")
     }
 
     override fun onPause() {
@@ -173,24 +137,13 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
         return true
     }
 
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return if (dl.handleKeyEvent(keyCode, event)) {
-            true
-        } else super.onKeyDown(keyCode, event)
-    }
-
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
         userTouched = true
         return super.dispatchTouchEvent(ev)
     }
 
     private fun switchCollectView(anim: Boolean = true) {
-        cv_collect.setChecked(presenter.collected, anim)
-    }
-
-    private fun setCommentCount(count: Int) {
-        val countStr = if (count < 100) "$count" else "99+"
-        tv_comment.text = "评论($countStr)"
+        rl.setChecked(presenter.collected, anim)
     }
 
     override fun collectSuccess() {

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:scaleType="centerInside"
+    tools:layout_height="@dimen/button_height"
+    tools:layout_width="@dimen/button_height">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="0dp"
+        android:background="@drawable/bg_solid_round_color_white_radius_max" />
+
+    <per.goweii.actionbarex.common.ActionIconView
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="6dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginEnd="7dp"
+        android:layout_marginBottom="6dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_back"
+        android:tint="@color/text_surface" />
+
+</FrameLayout>

@@ -1,243 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
-<per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    app:bdl_closeHeight="0dp"
-    app:bdl_enable="false"
-    app:bdl_open="false"
-    app:bdl_openTopMargin="0dp">
+    android:background="@color/surface"
+    android:orientation="vertical">
 
-    <RelativeLayout
+    <per.goweii.actionbarex.ActionBarEx
+        android:id="@+id/ab"
+        style="@style/ActionBar"
+        app:ab_statusBarColor="@color/surface"
+        app:ab_titleBarHeight="0dp" />
+
+    <per.goweii.wanandroid.widget.WebContainer
+        android:id="@+id/wc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:background="@color/surface">
+        android:layout_below="@+id/ab" />
 
-        <per.goweii.actionbarex.ActionBarEx
-            android:id="@+id/ab"
-            style="@style/ActionBar"
-            app:ab_statusBarColor="@color/surface"
-            app:ab_titleBarHeight="0dp" />
+    <View
+        android:id="@+id/v_bottom_bar_stub"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/bottom_bar_height"
+        android:layout_alignParentBottom="true" />
 
-        <per.goweii.wanandroid.widget.WebContainer
-            android:id="@+id/wc"
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignStart="@+id/rl_back"
+        android:layout_alignTop="@+id/rl_back"
+        android:layout_alignEnd="@+id/rl_back"
+        android:layout_alignBottom="@+id/rl_back"
+        android:layout_margin="-10dp"
+        android:layout_marginStart="-5dp"
+        android:layout_marginTop="-3dp"
+        android:layout_marginEnd="-5dp"
+        android:layout_marginBottom="-8dp"
+        android:alpha="0.1"
+        android:background="@drawable/shadow_circle" />
+
+    <RelativeLayout
+        android:id="@+id/rl_back"
+        android:layout_width="@dimen/button_height"
+        android:layout_height="@dimen/button_height"
+        android:layout_above="@+id/v_bottom_bar_stub"
+        android:layout_alignParentStart="true"
+        android:layout_margin="@dimen/margin_def"
+        android:alpha="0.9"
+        android:clipChildren="false">
+
+        <per.goweii.reveallayout.RevealLayout
+            android:id="@+id/rl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/ab" />
+            app:rl_allowRevert="true"
+            app:rl_checkedLayout="@layout/layout_article_collect_view_checked"
+            app:rl_uncheckedLayout="@layout/layout_article_collect_view_unchecked"
+            tools:rl_checked="false" />
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/pb"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:max="100"
+            android:maxWidth="1dp"
+            android:maxHeight="1dp"
+            android:minWidth="1dp"
+            android:minHeight="1dp"
+            app:mpb_determinateCircularProgressStyle="normal"
+            app:mpb_progressStyle="circular"
+            app:mpb_progressTint="@color/main"
+            app:mpb_showProgressBackground="false"
+            app:mpb_useIntrinsicPadding="false"
+            tools:progress="30" />
 
         <View
-            android:id="@+id/v_bottom_bar_stub"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/bottom_bar_height"
-            android:layout_alignParentBottom="true" />
-
-        <FrameLayout
-            android:id="@+id/fl_back"
-            android:layout_width="@dimen/button_height"
-            android:layout_height="@dimen/button_height"
-            android:layout_above="@+id/v_bottom_bar_stub"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="@dimen/margin_def"
-            android:layout_marginBottom="@dimen/margin_def"
-            android:alpha="0.9"
-            android:background="@drawable/bg_solid_round_color_surface_top_radius_max">
-
-            <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-                android:id="@+id/pb"
-                style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:max="100"
-                app:mpb_progressStyle="circular"
-                app:mpb_progressTint="@color/main"
-                app:mpb_determinateCircularProgressStyle="normal"
-                android:maxHeight="1dp"
-                android:minHeight="1dp"
-                android:maxWidth="1dp"
-                android:minWidth="1dp"
-                app:mpb_showProgressBackground="false"
-                app:mpb_useIntrinsicPadding="false"
-                tools:progress="30" />
-
-            <per.goweii.actionbarex.common.ActionIconView
-                android:layout_width="18dp"
-                android:layout_height="18dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="6dp"
-                android:layout_marginTop="6dp"
-                android:layout_marginEnd="7dp"
-                android:scaleType="fitCenter"
-                android:layout_marginBottom="6dp"
-                android:src="@drawable/ic_back"
-                android:tint="@color/text_surface" />
-
-        </FrameLayout>
+            android:id="@+id/v_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </RelativeLayout>
 
-    <View
-        android:id="@+id/v_mask"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/dialog_bg"
-        tools:alpha="0" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:background="@drawable/bg_solid_round_color_surface_radius_top_def"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:id="@+id/ll_top_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/bottom_bar_height">
-
-                <per.goweii.wanandroid.widget.CollectView
-                    android:id="@+id/cv_collect"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_def" />
-
-                <FrameLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="@dimen/margin_common"
-                    android:layout_toStartOf="@+id/fl_top_bar_handle"
-                    android:layout_toEndOf="@+id/cv_collect">
-
-                    <TextView
-                        android:id="@+id/tv_user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical|start"
-                        android:singleLine="true"
-                        android:textColor="@color/text_third"
-                        android:textSize="@dimen/text_content"
-                        tools:text="匿名用户匿名用户匿名用户" />
-
-                </FrameLayout>
-
-                <FrameLayout
-                    android:id="@+id/fl_top_bar_handle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_centerInParent="true">
-
-                    <View
-                        android:layout_width="24dp"
-                        android:layout_height="4dp"
-                        android:layout_gravity="center"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
-                        android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
-                        android:padding="15dp" />
-
-                </FrameLayout>
-
-                <TextView
-                    android:id="@+id/tv_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_def"
-                    android:gravity="center"
-                    android:text="评论(0)"
-                    android:textColor="@color/text_third"
-                    android:textSize="@dimen/text_content" />
-
-            </RelativeLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line"
-                android:background="@color/line" />
-
-        </LinearLayout>
-
-        <com.kennyc.view.MultiStateView
-            android:id="@+id/msv"
-            style="@style/StateView"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:overScrollMode="never"
-                android:scrollbars="vertical"
-                tools:layoutManager="LinearLayoutManager"
-                tools:listitem="@layout/rv_item_comment" />
-
-        </com.kennyc.view.MultiStateView>
-
-        <LinearLayout
-            android:id="@+id/ll_bottom_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/line"
-                android:background="@color/line" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/bottom_bar_height">
-
-                <EditText
-                    android:id="@+id/et_comment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="@dimen/margin_def"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:layout_marginEnd="@dimen/margin_def"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:layout_toStartOf="@+id/tv_pinglun"
-                    android:background="@drawable/action_search_bg"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:hint="留一个精彩的评论吧"
-                    android:lines="1"
-                    android:paddingStart="@dimen/margin_def"
-                    android:paddingEnd="@dimen/margin_def"
-                    android:singleLine="true"
-                    android:textColor="@color/text_second"
-                    android:textColorHint="@color/text_third"
-                    android:textSize="@dimen/text_content" />
-
-                <TextView
-                    android:id="@+id/tv_pinglun"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="@dimen/margin_def"
-                    android:gravity="center"
-                    android:text="评论"
-                    android:textColor="@color/text_main"
-                    android:textSize="@dimen/text_content" />
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-    </LinearLayout>
-
-</per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout>
+</RelativeLayout>

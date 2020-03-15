@@ -8,11 +8,4 @@
     <declare-styleable name="CollectView">
         <attr name="cv_uncheckedColor" format="color|reference" />
     </declare-styleable>
-    <declare-styleable name="BottomDrawerLayout">
-        <attr name="bdl_enable" format="boolean|reference" />
-        <attr name="bdl_open" format="boolean|reference" />
-        <attr name="bdl_closeHeight" format="dimension|reference" />
-        <attr name="bdl_openTopMargin" format="dimension|reference" />
-        <attr name="bdl_openTopMarginStatusBarHeight" format="boolean|reference" />
-    </declare-styleable>
 </resources>
