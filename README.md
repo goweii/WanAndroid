@@ -1,6 +1,6 @@
 # WanAndroid
 
-[WanAndroid](https://www.wanandroid.com/)官方内链APP，最美玩安卓客户端
+[WanAndroid](https://www.wanandroid.com/)|最美玩安卓客户端
 
 - [Wanandroid主页](https://www.wanandroid.com/blog/show/2577)
 - [GitHub主页](https://github.com/goweii/WanAndroid)
