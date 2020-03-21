@@ -3,7 +3,6 @@ package per.goweii.wanandroid.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.view.View;
 
 import per.goweii.heartview.HeartView;
@@ -16,7 +15,7 @@ import per.goweii.wanandroid.utils.UserUtils;
  * @date 2019/5/15
  * GitHub: https://github.com/goweii
  */
-public class CollectView extends RevealLayout implements View.OnTouchListener {
+public class CollectView extends RevealLayout {
 
     private OnClickListener mOnClickListener = null;
     private int mUncheckedColor;
@@ -41,11 +40,18 @@ public class CollectView extends RevealLayout implements View.OnTouchListener {
         typedArray.recycle();
         setCheckWithExpand(true);
         setUncheckWithExpand(false);
-        setCheckedLayoutId(R.layout.layout_collect_view_checked);
-        setUncheckedLayoutId(R.layout.layout_collect_view_unchecked);
         setAnimDuration(500);
         setAllowRevert(true);
-        setOnTouchListener(this);
+    }
+
+    @Override
+    protected int getCheckedLayoutId() {
+        return R.layout.layout_collect_view_checked;
+    }
+
+    @Override
+    protected int getUncheckedLayoutId() {
+        return R.layout.layout_collect_view_unchecked;
     }
 
     @Override
@@ -61,24 +67,18 @@ public class CollectView extends RevealLayout implements View.OnTouchListener {
         return view;
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            default:
-                break;
-            case MotionEvent.ACTION_UP:
-                if (UserUtils.getInstance().doIfLogin(v.getContext())) {
-                    if (mOnClickListener != null) {
-                        mOnClickListener.onClick(this);
-                    }
-                }
-                break;
-        }
-        return !UserUtils.getInstance().isLogin();
-    }
-
     public void setOnClickListener(OnClickListener onClickListener) {
         mOnClickListener = onClickListener;
+        setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UserUtils.getInstance().doIfLogin(v.getContext())) {
+                    if (mOnClickListener != null) {
+                        mOnClickListener.onClick(CollectView.this);
+                    }
+                }
+            }
+        });
     }
 
     public interface OnClickListener {

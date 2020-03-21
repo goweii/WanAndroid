@@ -26,61 +26,58 @@
         android:layout_alignParentBottom="true" />
 
     <View
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignStart="@+id/rl_back"
-        android:layout_alignTop="@+id/rl_back"
-        android:layout_alignEnd="@+id/rl_back"
-        android:layout_alignBottom="@+id/rl_back"
-        android:layout_margin="-10dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignStart="@+id/rl"
+        android:layout_alignTop="@+id/rl"
+        android:layout_alignEnd="@+id/rl"
+        android:layout_alignBottom="@+id/rl"
         android:layout_marginStart="-5dp"
         android:layout_marginTop="-3dp"
         android:layout_marginEnd="-5dp"
         android:layout_marginBottom="-8dp"
-        android:alpha="0.1"
         android:background="@drawable/shadow_circle" />
 
-    <RelativeLayout
-        android:id="@+id/rl_back"
+    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+        android:id="@+id/pb"
+        style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignStart="@+id/rl"
+        android:layout_alignTop="@+id/rl"
+        android:layout_alignEnd="@+id/rl"
+        android:layout_alignBottom="@+id/rl"
+        android:layout_marginStart="-3dp"
+        android:layout_marginTop="-3dp"
+        android:layout_marginEnd="-3dp"
+        android:layout_marginBottom="-3dp"
+        android:max="100"
+        app:mpb_determinateCircularProgressStyle="normal"
+        app:mpb_progressStyle="circular"
+        app:mpb_progressTint="@color/main"
+        app:mpb_showProgressBackground="false"
+        app:mpb_useIntrinsicPadding="false"
+        tools:progress="30" />
+
+    <per.goweii.reveallayout.RevealLayout
+        android:id="@+id/rl"
         android:layout_width="@dimen/button_height"
         android:layout_height="@dimen/button_height"
         android:layout_above="@+id/v_bottom_bar_stub"
         android:layout_alignParentStart="true"
         android:layout_margin="@dimen/margin_def"
-        android:alpha="0.9"
-        android:clipChildren="false">
+        app:rl_allowRevert="true"
+        app:rl_checkedLayout="@layout/layout_article_collect_view_checked"
+        app:rl_uncheckedLayout="@layout/layout_article_collect_view_unchecked"
+        tools:rl_checked="false" />
 
-        <per.goweii.reveallayout.RevealLayout
-            android:id="@+id/rl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:rl_allowRevert="true"
-            app:rl_checkedLayout="@layout/layout_article_collect_view_checked"
-            app:rl_uncheckedLayout="@layout/layout_article_collect_view_unchecked"
-            tools:rl_checked="false" />
-
-        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-            android:id="@+id/pb"
-            style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:max="100"
-            android:maxWidth="1dp"
-            android:maxHeight="1dp"
-            android:minWidth="1dp"
-            android:minHeight="1dp"
-            app:mpb_determinateCircularProgressStyle="normal"
-            app:mpb_progressStyle="circular"
-            app:mpb_progressTint="@color/main"
-            app:mpb_showProgressBackground="false"
-            app:mpb_useIntrinsicPadding="false"
-            tools:progress="30" />
-
-        <View
-            android:id="@+id/v_back"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-    </RelativeLayout>
+    <View
+        android:id="@+id/v_back"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignStart="@+id/rl"
+        android:layout_alignTop="@+id/rl"
+        android:layout_alignEnd="@+id/rl"
+        android:layout_alignBottom="@+id/rl" />
 
 </RelativeLayout>

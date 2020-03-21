@@ -5,8 +5,8 @@ ext {
             minSdkVersion    : 19,
             targetSdkVersion : 28,
             buildToolsVersion: "28.0.3",
-            versionCode      : 40,
-            versionName      : "1.4.5",
+            versionCode      : 41,
+            versionName      : "1.4.6",
     ]
 
     compileOptions = [
@@ -44,7 +44,7 @@ ext {
             realtimeBlurView      : "1.1.2",
             banner                : "1.4.10",
             persistentCookieJar   : "v1.0.1",
-            revealLayout          : "1.2.1",
+            revealLayout          : "1.3.3",
             anyView               : "1.0.2",
             keyboardCompat        : "1.0.0",
             swipelayout           : "1.2.0@aar",

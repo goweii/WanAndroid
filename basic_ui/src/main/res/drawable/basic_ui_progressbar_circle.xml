@@ -2,22 +2,28 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- 背景 -->
     <item android:id="@android:id/background">
-        <shape>
-            <corners android:radius="9999dp" />
-            <gradient
-                android:angle="0"
-                android:centerY="0.5"
-                android:endColor="@color/transparent"
-                android:startColor="@color/transparent" />
+        <shape android:shape="oval">
+            <stroke
+                android:width="5dp"
+                android:color="@color/transparent" />
         </shape>
     </item>
     <!-- 第二进度条样式，用不怎么到直接设置成了和背景色一样的颜色，隐藏起来 -->
-    <item android:id="@android:id/secondaryProgress"></item>
+    <item android:id="@android:id/secondaryProgress">
+        <shape android:shape="oval">
+            <stroke
+                android:width="5dp"
+                android:color="@color/transparent" />
+        </shape>
+    </item>
     <!-- 第一进度条样式，我想修改的，修改成简单的灰色 -->
     <item android:id="@android:id/progress">
-        <scale
-            android:drawable="@drawable/bg_solid_round_color_main_radius_max"
-            android:useIntrinsicSizeAsMinimum="false"
-            android:scaleWidth="100%"></scale>
+        <clip android:gravity="center">
+            <shape android:shape="oval">
+                <stroke
+                    android:width="5dp"
+                    android:color="@color/main" />
+            </shape>
+        </clip>
     </item>
 </layer-list>

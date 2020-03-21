@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="0dp"
-        android:background="@drawable/bg_solid_round_color_white_radius_max" />
+        android:background="@drawable/bg_solid_round_color_surface_radius_max" />
 
     <per.goweii.actionbarex.common.ActionIconView
         android:layout_width="18dp"
