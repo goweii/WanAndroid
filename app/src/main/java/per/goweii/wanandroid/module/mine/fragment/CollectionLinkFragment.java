@@ -72,6 +72,7 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
         if (event.isCollect()) {
             presenter.getCollectLinkList(true);
         } else {
+            presenter.updateCollectLinkList();
             if (event.getCollectId() != -1) {
                 List<CollectionLinkBean> list = mAdapter.getData();
                 for (int i = 0; i < list.size(); i++) {
@@ -138,6 +139,7 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
                     case R.id.rl_top:
                         UrlOpenUtils.Companion
                                 .with(item.getLink())
+                                .collectId(item.getId())
                                 .title(item.getName())
                                 .collected(true)
                                 .open(getContext());

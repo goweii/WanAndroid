@@ -69,6 +69,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             currPage = PAGE_START;
             presenter.getCollectArticleList(currPage, true);
         } else {
+            presenter.updateCollectArticleList(PAGE_START);
             if (event.getArticleId() != -1 || event.getCollectId() != -1) {
                 mAdapter.forEach(new ArticleAdapter.ArticleForEach() {
                     @Override
@@ -152,7 +153,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
                 ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
-                    presenter.uncollect(item, v);
+                    presenter.uncollectArticle(item, v);
                 }
             }
         });

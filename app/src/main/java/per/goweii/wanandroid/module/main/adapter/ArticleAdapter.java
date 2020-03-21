@@ -322,7 +322,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         cv_collect.setOnClickListener(new CollectView.OnClickListener() {
             @Override
             public void onClick(CollectView v) {
-                if (!v.isChecked()) {
+                if (v.isChecked()) {
                     if (onCollectListener != null) {
                         onCollectListener.collect(item, v);
                     }

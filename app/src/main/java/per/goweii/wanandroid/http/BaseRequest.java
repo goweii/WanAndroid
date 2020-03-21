@@ -178,6 +178,19 @@ public class BaseRequest {
         }));
     }
 
+    protected static <T> void netList(RxLife rxLife,
+                                      Observable<WanResponse<List<T>>> observable,
+                                      String key,
+                                      RequestListener<List<T>> listener) {
+        rxLife.add(request(observable, listener, new ResponseToCache<List<T>>() {
+            @Override
+            public boolean onResponse(List<T> resp) {
+                WanCache.getInstance().save(key, resp);
+                return true;
+            }
+        }));
+    }
+
     protected static <T> void cacheAndNetBean(RxLife rxLife,
                                               Observable<WanResponse<T>> observable,
                                               String key,
@@ -227,6 +240,19 @@ public class BaseRequest {
                         return true;
                     }
                 }));
+            }
+        }));
+    }
+
+    protected static <T> void netBean(RxLife rxLife,
+                                      Observable<WanResponse<T>> observable,
+                                      String key,
+                                      RequestListener<T> listener) {
+        rxLife.add(request(observable, listener, new ResponseToCache<T>() {
+            @Override
+            public boolean onResponse(T resp) {
+                WanCache.getInstance().save(key, resp);
+                return true;
             }
         }));
     }

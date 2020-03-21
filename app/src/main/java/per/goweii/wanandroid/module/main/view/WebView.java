@@ -11,8 +11,6 @@ import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 public interface WebView extends BaseView {
     void collectSuccess(CollectArticleEntity entity);
     void collectFailed(String msg);
-
     void uncollectSuccess(CollectArticleEntity entity);
-
     void uncollectFailed(String msg);
 }

@@ -79,7 +79,7 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
     }
 
     public void collect(ArticleBean item, final CollectView v){
-        addToRxLife(MainRequest.collect(item.getId(), new RequestListener<BaseBean>() {
+        addToRxLife(MainRequest.collectArticle(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
             }
@@ -111,7 +111,7 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
     }
 
     public void uncollect(ArticleBean item, final CollectView v){
-        addToRxLife(MainRequest.uncollect(item.getId(), new RequestListener<BaseBean>() {
+        addToRxLife(MainRequest.uncollectArticle(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
             }

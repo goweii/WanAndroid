@@ -44,12 +44,12 @@ public class WebPresenter extends BasePresenter<WebView> {
             return;
         }
         if (entity.getArticleId() > 0) {
-            collect(entity.getArticleId(), entity);
+            collectArticle(entity.getArticleId(), entity);
         } else {
             if (TextUtils.isEmpty(entity.getAuthor())) {
-                collect(entity.getTitle(), entity.getUrl(), entity);
+                collectLink(entity.getTitle(), entity.getUrl(), entity);
             } else {
-                collect(entity.getTitle(), entity.getAuthor(), entity.getUrl(), entity);
+                collectArticle(entity.getTitle(), entity.getAuthor(), entity.getUrl(), entity);
             }
         }
     }
@@ -62,14 +62,14 @@ public class WebPresenter extends BasePresenter<WebView> {
             return;
         }
         if (entity.getArticleId() > 0) {
-            uncollect(entity.getArticleId(), entity);
+            uncollectArticle(entity.getArticleId(), entity);
         } else {
             uncollectLink(entity.getCollectId(), entity);
         }
     }
 
-    private void collect(int id, final CollectArticleEntity entity) {
-        addToRxLife(MainRequest.collect(id, new RequestListener<BaseBean>() {
+    private void collectArticle(int id, final CollectArticleEntity entity) {
+        addToRxLife(MainRequest.collectArticle(id, new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
                 showLoadingBar();
@@ -102,8 +102,8 @@ public class WebPresenter extends BasePresenter<WebView> {
         }));
     }
 
-    private void uncollect(final int id, final CollectArticleEntity entity) {
-        addToRxLife(MainRequest.uncollect(id, new RequestListener<BaseBean>() {
+    private void uncollectArticle(final int id, final CollectArticleEntity entity) {
+        addToRxLife(MainRequest.uncollectArticle(id, new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
             }
@@ -134,8 +134,8 @@ public class WebPresenter extends BasePresenter<WebView> {
         }));
     }
 
-    private void collect(String title, String author, String link, CollectArticleEntity entity) {
-        addToRxLife(MainRequest.collect(title, author, link, new RequestListener<ArticleBean>() {
+    private void collectArticle(String title, String author, String link, CollectArticleEntity entity) {
+        addToRxLife(MainRequest.collectArticle(title, author, link, new RequestListener<ArticleBean>() {
             @Override
             public void onStart() {
                 showLoadingBar();
@@ -144,6 +144,7 @@ public class WebPresenter extends BasePresenter<WebView> {
             @Override
             public void onSuccess(int code, ArticleBean data) {
                 CollectionEvent.postCollectWithCollectId(data.getId());
+                entity.setArticleId(data.getId());
                 entity.setCollect(true);
                 if (isAttach()) {
                     getBaseView().collectSuccess(entity);
@@ -168,8 +169,8 @@ public class WebPresenter extends BasePresenter<WebView> {
         }));
     }
 
-    private void collect(String title, String link, CollectArticleEntity entity) {
-        addToRxLife(MainRequest.collect(title, link, new RequestListener<CollectionLinkBean>() {
+    private void collectLink(String title, String link, CollectArticleEntity entity) {
+        addToRxLife(MainRequest.collectLink(title, link, new RequestListener<CollectionLinkBean>() {
             @Override
             public void onStart() {
                 showLoadingBar();
@@ -178,6 +179,7 @@ public class WebPresenter extends BasePresenter<WebView> {
             @Override
             public void onSuccess(int code, CollectionLinkBean data) {
                 CollectionEvent.postCollectWithCollectId(data.getId());
+                entity.setCollectId(data.getId());
                 entity.setCollect(true);
                 if (isAttach()) {
                     getBaseView().collectSuccess(entity);

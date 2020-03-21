@@ -107,7 +107,7 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
     }
 
     public void collect(ArticleBean item, final CollectView v) {
-        addToRxLife(MainRequest.collect(item.getId(), new RequestListener<BaseBean>() {
+        addToRxLife(MainRequest.collectArticle(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
             }
@@ -139,7 +139,7 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
     }
 
     public void uncollect(ArticleBean item, final CollectView v) {
-        addToRxLife(MainRequest.uncollect(item.getId(), new RequestListener<BaseBean>() {
+        addToRxLife(MainRequest.uncollectArticle(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
             }

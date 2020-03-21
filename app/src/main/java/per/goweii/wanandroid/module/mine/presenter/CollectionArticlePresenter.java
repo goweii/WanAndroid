@@ -76,8 +76,12 @@ public class CollectionArticlePresenter extends BasePresenter<CollectionArticleV
         });
     }
 
-    public void uncollect(ArticleBean item, final CollectView v) {
-        addToRxLife(MainRequest.uncollect(item.getId(), item.getOriginId(), new RequestListener<BaseBean>() {
+    public void updateCollectArticleList(int page) {
+        MineRequest.updateCollectArticleList(getRxLife(), page);
+    }
+
+    public void uncollectArticle(ArticleBean item, final CollectView v) {
+        addToRxLife(MainRequest.uncollectArticle(item.getId(), item.getOriginId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
             }

@@ -239,7 +239,7 @@ public class WanApi extends Api {
          * 参数： 文章id，拼接在链接中。
          */
         @POST("lg/collect/{id}/json")
-        Observable<WanResponse<BaseBean>> collect(@Path("id") int id);
+        Observable<WanResponse<BaseBean>> collectArticle(@Path("id") int id);
 
         /**
          * 收藏站外文章
@@ -249,9 +249,9 @@ public class WanApi extends Api {
          */
         @FormUrlEncoded
         @POST("lg/collect/add/json")
-        Observable<WanResponse<ArticleBean>> collect(@Field("title") String title,
-                                                     @Field("author") String author,
-                                                     @Field("link") String link);
+        Observable<WanResponse<ArticleBean>> collectArticle(@Field("title") String title,
+                                                            @Field("author") String author,
+                                                            @Field("link") String link);
 
         /**
          * 收藏网址
@@ -261,8 +261,8 @@ public class WanApi extends Api {
          */
         @FormUrlEncoded
         @POST("lg/collect/addtool/json")
-        Observable<WanResponse<CollectionLinkBean>> collect(@Field("name") String name,
-                                                            @Field("link") String link);
+        Observable<WanResponse<CollectionLinkBean>> collectLink(@Field("name") String name,
+                                                                @Field("link") String link);
 
         /**
          * 取消收藏 文章列表
@@ -271,7 +271,7 @@ public class WanApi extends Api {
          * id:拼接在链接上 id传入的是列表中文章的id。
          */
         @POST("lg/uncollect_originId/{id}/json")
-        Observable<WanResponse<BaseBean>> uncollect(@Path("id") int id);
+        Observable<WanResponse<BaseBean>> uncollectArticle(@Path("id") int id);
 
         /**
          * 删除收藏网站
@@ -284,6 +284,19 @@ public class WanApi extends Api {
         Observable<WanResponse<BaseBean>> uncollectLink(@Field("id") int id);
 
         /**
+         * 取消收藏 我的收藏页面（该页面包含自己录入的内容）
+         * 方法：POST
+         * 参数：
+         * id:拼接在链接上
+         * originId:列表页下发，无则为-1
+         * originId 代表的是你收藏之前的那篇文章本身的id； 但是收藏支持主动添加，这种情况下，没有originId则为-1
+         */
+        @FormUrlEncoded
+        @POST("lg/uncollect/{id}/json")
+        Observable<WanResponse<BaseBean>> uncollectArticle(@Path("id") int id,
+                                                           @Field("originId") int originId);
+
+        /**
          * 编辑收藏网站
          * 方法：POST
          * 参数：
@@ -294,19 +307,6 @@ public class WanApi extends Api {
         Observable<WanResponse<CollectionLinkBean>> updateCollectLink(@Field("id") int id,
                                                                       @Field("name") String name,
                                                                       @Field("link") String link);
-
-        /**
-         * 取消收藏 我的收藏页面（该页面包含自己录入的内容）
-         * 方法：POST
-         * 参数：
-         * id:拼接在链接上
-         * originId:列表页下发，无则为-1
-         * originId 代表的是你收藏之前的那篇文章本身的id； 但是收藏支持主动添加，这种情况下，没有originId则为-1
-         */
-        @FormUrlEncoded
-        @POST("lg/uncollect/{id}/json")
-        Observable<WanResponse<BaseBean>> uncollect(@Path("id") int id,
-                                                    @Field("originId") int originId);
 
         /**
          * 获取个人积分

@@ -77,6 +77,10 @@ public class CollectionLinkPresenter extends BasePresenter<CollectionLinkView> {
         });
     }
 
+    public void updateCollectLinkList() {
+        MineRequest.updateCollectLinkList(getRxLife());
+    }
+
     public void uncollectLink(CollectionLinkBean item) {
         addToRxLife(MainRequest.uncollectLink(item.getId(), new RequestListener<BaseBean>() {
             @Override

@@ -21,7 +21,7 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
     var userId: Int = 0
 
     fun collect() {
-        addToRxLife(MainRequest.collect(articleId, object : RequestListener<BaseBean?> {
+        addToRxLife(MainRequest.collectArticle(articleId, object : RequestListener<BaseBean?> {
             override fun onStart() {}
 
             override fun onSuccess(code: Int, data: BaseBean?) {
@@ -44,7 +44,7 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
     }
 
     fun uncollect() {
-        addToRxLife(MainRequest.uncollect(articleId, object : RequestListener<BaseBean?> {
+        addToRxLife(MainRequest.uncollectArticle(articleId, object : RequestListener<BaseBean?> {
             override fun onStart() {}
 
             override fun onSuccess(code: Int, data: BaseBean?) {

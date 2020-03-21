@@ -8,6 +8,7 @@ import java.util.List;
 import io.reactivex.disposables.Disposable;
 import per.goweii.rxhttp.core.RxLife;
 import per.goweii.rxhttp.request.base.BaseBean;
+import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
@@ -44,6 +45,33 @@ public class MineRequest extends BaseRequest {
         }
     }
 
+    public static void updateCollectArticleList(RxLife rxLife, @IntRange(from = 0) int page) {
+        netBean(rxLife,
+                WanApi.api().getCollectArticleList(page),
+                WanCache.CacheKey.COLLECT_ARTICLE_LIST(page),
+                new RequestListener<ArticleListBean>() {
+                    @Override
+                    public void onStart() {
+                    }
+
+                    @Override
+                    public void onSuccess(int code, ArticleListBean data) {
+                    }
+
+                    @Override
+                    public void onFailed(int code, String msg) {
+                    }
+
+                    @Override
+                    public void onError(ExceptionHandle handle) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                    }
+                });
+    }
+
     public static void getCollectLinkListCache(@NonNull RequestListener<List<CollectionLinkBean>> listener) {
         cacheList(WanCache.CacheKey.COLLECT_LINK_LIST(), CollectionLinkBean.class, listener);
     }
@@ -59,6 +87,33 @@ public class MineRequest extends BaseRequest {
                 WanCache.CacheKey.COLLECT_LINK_LIST(),
                 CollectionLinkBean.class,
                 listener);
+    }
+
+    public static void updateCollectLinkList(RxLife rxLife) {
+        netList(rxLife,
+                WanApi.api().getCollectLinkList(),
+                WanCache.CacheKey.COLLECT_LINK_LIST(),
+                new RequestListener<List<CollectionLinkBean>>() {
+                    @Override
+                    public void onStart() {
+                    }
+
+                    @Override
+                    public void onSuccess(int code, List<CollectionLinkBean> data) {
+                    }
+
+                    @Override
+                    public void onFailed(int code, String msg) {
+                    }
+
+                    @Override
+                    public void onError(ExceptionHandle handle) {
+                    }
+
+                    @Override
+                    public void onFinish() {
+                    }
+                });
     }
 
     public static Disposable updateCollectLink(int id, String name, String link, @NonNull RequestListener<CollectionLinkBean> listener) {

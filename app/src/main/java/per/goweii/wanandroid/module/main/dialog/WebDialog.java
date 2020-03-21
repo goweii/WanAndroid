@@ -165,7 +165,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
                 public void onClick(CollectView v) {
                     ArticleBean data = mAdapter.getArticleBean(vp.getCurrentItem());
                     if (data != null) {
-                        if (!v.isChecked()) {
+                        if (v.isChecked()) {
                             presenter.collect(data, v);
                         } else {
                             presenter.uncollect(data, v);

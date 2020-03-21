@@ -15,6 +15,7 @@ class UrlOpenUtils(
     private var title: String = ""
 
     private var articleId: Int = 0
+    private var collectId: Int = 0
     private var author: String = ""
     private var collected: Boolean = false
 
@@ -44,6 +45,10 @@ class UrlOpenUtils(
         this.articleId = articleId
     }
 
+    fun collectId(collectId: Int) = apply {
+        this.collectId = collectId
+    }
+
     fun author(author: String) = apply {
         this.author = author
     }
@@ -65,7 +70,7 @@ class UrlOpenUtils(
         if (!forceWeb && articleId > 0) {
             ArticleActivity.start(context, url, title, articleId, collected, author, userId)
         } else {
-            WebActivity.start(context, url, title, 0, collected)
+            WebActivity.start(context, url, title, articleId, collectId, collected)
         }
     }
 }

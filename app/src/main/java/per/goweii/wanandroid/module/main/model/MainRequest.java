@@ -21,28 +21,28 @@ import per.goweii.wanandroid.http.WanCache;
  */
 public class MainRequest extends BaseRequest {
 
-    public static Disposable collect(int id, @NonNull RequestListener<BaseBean> listener) {
-        return request(WanApi.api().collect(id), listener);
+    public static Disposable collectArticle(int id, @NonNull RequestListener<BaseBean> listener) {
+        return request(WanApi.api().collectArticle(id), listener);
     }
 
-    public static Disposable collect(String title, String author, String link, @NonNull RequestListener<ArticleBean> listener) {
-        return request(WanApi.api().collect(title, author, link), listener);
+    public static Disposable collectArticle(String title, String author, String link, @NonNull RequestListener<ArticleBean> listener) {
+        return request(WanApi.api().collectArticle(title, author, link), listener);
     }
 
-    public static Disposable collect(String title, String link, @NonNull RequestListener<CollectionLinkBean> listener) {
-        return request(WanApi.api().collect(title, link), listener);
+    public static Disposable collectLink(String title, String link, @NonNull RequestListener<CollectionLinkBean> listener) {
+        return request(WanApi.api().collectLink(title, link), listener);
     }
 
-    public static Disposable uncollect(int id, @NonNull RequestListener<BaseBean> listener) {
-        return request(WanApi.api().uncollect(id), listener);
+    public static Disposable uncollectArticle(int id, @NonNull RequestListener<BaseBean> listener) {
+        return request(WanApi.api().uncollectArticle(id), listener);
     }
 
     public static Disposable uncollectLink(int id, @NonNull RequestListener<BaseBean> listener) {
         return request(WanApi.api().uncollectLink(id), listener);
     }
 
-    public static Disposable uncollect(int id, int originId, @NonNull RequestListener<BaseBean> listener) {
-        return request(WanApi.api().uncollect(id, originId), listener);
+    public static Disposable uncollectArticle(int id, int originId, @NonNull RequestListener<BaseBean> listener) {
+        return request(WanApi.api().uncollectArticle(id, originId), listener);
     }
 
     public static void update(RxLife rxLife, @NonNull RequestListener<UpdateBean> listener) {
