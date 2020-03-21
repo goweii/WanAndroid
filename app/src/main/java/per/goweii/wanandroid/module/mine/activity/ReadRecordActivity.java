@@ -60,7 +60,10 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
     private SmartRefreshUtils mSmartRefreshUtils;
     private ReadRecordAdapter mAdapter;
 
+    private int offset = 0;
     private int perPageCount = 20;
+
+    private boolean loading = false;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, ReadRecordActivity.class);
@@ -82,8 +85,11 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
         if (isDestroyed()) {
             return;
         }
-        mAdapter.setNewData(null);
-        presenter.getList(0, perPageCount);
+        if (offset == 0 && loading) {
+            return;
+        }
+        offset = 0;
+        presenter.getList(offset, perPageCount);
     }
 
     @Override
@@ -123,7 +129,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
             @Override
             public void onRefresh() {
-                mAdapter.setNewData(null);
+                offset = 0;
                 getPageList();
             }
         });
@@ -181,7 +187,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
             @Override
             public void onResult() {
                 MultiStateUtils.toLoading(msv);
-                mAdapter.setNewData(null);
+                offset = 0;
                 getPageList();
             }
         });
@@ -190,6 +196,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
     @Override
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
+        offset = 0;
         getPageList();
     }
 
@@ -199,17 +206,14 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
     }
 
     public void getPageList() {
-        presenter.getList(currSize(), perPageCount);
-    }
-
-    public int currSize() {
-        return mAdapter.getData().size();
+        loading = true;
+        presenter.getList(offset, perPageCount);
     }
 
     @Override
     public void getReadRecordListSuccess(List<ReadRecordModel> list) {
         mSmartRefreshUtils.success();
-        if (currSize() == 0) {
+        if (offset == 0) {
             mAdapter.setNewData(list);
             if (list.isEmpty()) {
                 MultiStateUtils.toEmpty(msv, true);
@@ -220,19 +224,22 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
             mAdapter.addData(list);
             mAdapter.loadMoreComplete();
         }
+        offset = mAdapter.getData().size();
         if (list.size() < perPageCount) {
             mAdapter.loadMoreEnd();
         }
+        loading = false;
     }
 
     @Override
     public void getReadRecordListFailed() {
         mSmartRefreshUtils.fail();
-        if (currSize() == 0) {
+        if (offset == 0) {
             MultiStateUtils.toError(msv);
         } else {
             mAdapter.loadMoreFail();
         }
+        loading = false;
     }
 
     @Override
@@ -245,6 +252,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
                 break;
             }
         }
+        offset = mAdapter.getData().size();
         if (mAdapter.getData().isEmpty()) {
             MultiStateUtils.toEmpty(msv, true);
         }
@@ -258,6 +266,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
     @Override
     public void removeAllReadRecordSuccess() {
         mAdapter.setNewData(null);
+        offset = mAdapter.getData().size();
         MultiStateUtils.toEmpty(msv, true);
     }
 

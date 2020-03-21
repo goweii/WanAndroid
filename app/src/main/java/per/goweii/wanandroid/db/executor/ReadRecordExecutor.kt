@@ -18,7 +18,7 @@ class ReadRecordExecutor : DbExecutor() {
             db().readRecordDao().insert(model)
         }, {
             success.onResult()
-            removeIfMaxCount()
+            removeIfMaxCount {}
         }, {
             error.onResult()
         })
@@ -54,7 +54,11 @@ class ReadRecordExecutor : DbExecutor() {
         })
     }
 
-    private fun removeIfMaxCount() {
-        execute({ db().readRecordDao().deleteIfMaxCount(Config.READ_RECORD_MAX_COUNT) })
+    private fun removeIfMaxCount(finish: () -> Unit) {
+        execute({ db().readRecordDao().deleteIfMaxCount(Config.READ_RECORD_MAX_COUNT) }, {
+            finish.invoke()
+        }, {
+            finish.invoke()
+        })
     }
 }

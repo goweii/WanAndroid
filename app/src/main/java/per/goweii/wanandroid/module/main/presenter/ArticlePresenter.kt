@@ -92,6 +92,12 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
         if (TextUtils.isEmpty(link)) {
             return
         }
+        if (TextUtils.isEmpty(title)) {
+            return
+        }
+        if (TextUtils.equals(link, title)) {
+            return
+        }
         mReadRecordExecutor?.add(link, title, SimpleListener {
             ReadRecordEvent().post()
         }, SimpleListener { })

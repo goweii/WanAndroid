@@ -60,6 +60,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     private SmartRefreshUtils mSmartRefreshUtils;
     private ReadLaterAdapter mAdapter;
 
+    private int offset = 0;
     private int perPageCount = 20;
 
     public static void start(Context context) {
@@ -78,11 +79,11 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onReadRecordEvent(ReadLaterEvent event) {
+    public void onReadLaterEvent(ReadLaterEvent event) {
         if (isDestroyed()) {
             return;
         }
-        mAdapter.setNewData(null);
+        offset = 0;
         presenter.getList(0, perPageCount);
     }
 
@@ -123,7 +124,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
             @Override
             public void onRefresh() {
-                mAdapter.setNewData(null);
+                offset = 0;
                 getPageList();
             }
         });
@@ -181,7 +182,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
             @Override
             public void onResult() {
                 MultiStateUtils.toLoading(msv);
-                mAdapter.setNewData(null);
+                offset = 0;
                 getPageList();
             }
         });
@@ -190,6 +191,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     @Override
     protected void loadData() {
         MultiStateUtils.toLoading(msv);
+        offset = 0;
         getPageList();
     }
 
@@ -199,17 +201,13 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     }
 
     public void getPageList() {
-        presenter.getList(currSize(), perPageCount);
-    }
-
-    public int currSize() {
-        return mAdapter.getData().size();
+        presenter.getList(offset, perPageCount);
     }
 
     @Override
     public void getReadLaterListSuccess(List<ReadLaterModel> list) {
         mSmartRefreshUtils.success();
-        if (currSize() == 0) {
+        if (offset == 0) {
             mAdapter.setNewData(list);
             if (list.isEmpty()) {
                 MultiStateUtils.toEmpty(msv, true);
@@ -220,6 +218,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
             mAdapter.addData(list);
             mAdapter.loadMoreComplete();
         }
+        offset = mAdapter.getData().size();
         if (list.size() < perPageCount) {
             mAdapter.loadMoreEnd();
         }
@@ -228,7 +227,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     @Override
     public void getReadLaterListFailed() {
         mSmartRefreshUtils.fail();
-        if (currSize() == 0) {
+        if (offset == 0) {
             MultiStateUtils.toError(msv);
         } else {
             mAdapter.loadMoreFail();
@@ -245,6 +244,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
                 break;
             }
         }
+        offset = mAdapter.getData().size();
         if (mAdapter.getData().isEmpty()) {
             MultiStateUtils.toEmpty(msv, true);
         }
@@ -258,6 +258,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     @Override
     public void removeAllReadLaterSuccess() {
         mAdapter.setNewData(null);
+        offset = mAdapter.getData().size();
         MultiStateUtils.toEmpty(msv, true);
     }
 
