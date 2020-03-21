@@ -134,6 +134,46 @@
                     android:paddingBottom="14dp">
 
                     <TextView
+                        android:id="@+id/tv_show_read_record_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="阅读历史"
+                        android:textColor="@color/text_surface"
+                        android:textSize="@dimen/text_content" />
+
+                    <TextView
+                        android:id="@+id/tv_show_read_record_desc"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_show_read_record_title"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginRight="80dp"
+                        android:layout_toLeftOf="@+id/sc_show_read_record"
+                        android:text="便于查找阅读过的文章，为本地操作，更换手机或重置APP后已添加的数据将丢失"
+                        android:textColor="@color/text_third"
+                        android:textSize="@dimen/text_notes" />
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/sc_show_read_record"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_press_color_surface"
+                    android:paddingLeft="16dp"
+                    android:paddingTop="14dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="14dp">
+
+                    <TextView
                         android:id="@+id/tv_show_top_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

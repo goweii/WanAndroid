@@ -107,6 +107,9 @@
             android:name=".module.mine.activity.ReadLaterActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
         <activity
+            android:name=".module.mine.activity.ReadRecordActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
             android:name=".module.mine.activity.OpenActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
         <activity

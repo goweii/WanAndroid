@@ -58,6 +58,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     SwitchCompat sc_dark_theme;
     @BindView(R.id.sc_show_read_later)
     SwitchCompat sc_show_read_later;
+    @BindView(R.id.sc_show_read_record)
+    SwitchCompat sc_show_read_record;
     @BindView(R.id.sc_show_top)
     SwitchCompat sc_show_top;
     @BindView(R.id.sc_show_banner)
@@ -88,6 +90,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     private boolean mShowTop;
     private boolean mShowBanner;
     private boolean mShowReadLater;
+    private boolean mShowReadRecord;
     private boolean mHideAboutMe;
     private boolean mHideOpen;
     private int mRvAnim;
@@ -124,6 +127,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         sc_show_banner.setChecked(mShowBanner);
         mShowReadLater = SettingUtils.getInstance().isShowReadLater();
         sc_show_read_later.setChecked(mShowReadLater);
+        mShowReadRecord = SettingUtils.getInstance().isShowReadRecord();
+        sc_show_read_record.setChecked(mShowReadRecord);
         mHideAboutMe = SettingUtils.getInstance().isHideAboutMe();
         sc_hide_about_me.setChecked(mHideAboutMe);
         mHideOpen = SettingUtils.getInstance().isHideOpen();
@@ -176,6 +181,12 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
                 SettingUtils.getInstance().setShowReadLater(isChecked);
+            }
+        });
+        sc_show_read_record.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+                SettingUtils.getInstance().setShowReadRecord(isChecked);
             }
         });
         sc_hide_about_me.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -236,17 +247,19 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         boolean showTopChanged = mShowTop != SettingUtils.getInstance().isShowTop();
         boolean showBannerChanged = mShowBanner != SettingUtils.getInstance().isShowBanner();
         boolean showReadLaterChanged = mShowReadLater != SettingUtils.getInstance().isShowReadLater();
+        boolean showReadRecordChanged = mShowReadRecord != SettingUtils.getInstance().isShowReadRecord();
         boolean hideAboutMeChanged = mHideAboutMe != SettingUtils.getInstance().isHideAboutMe();
         boolean hideOpenChanged = mHideOpen != SettingUtils.getInstance().isHideOpen();
         boolean rvAnimChanged = mRvAnim != SettingUtils.getInstance().getRvAnim();
         boolean urlInterceptChanged = mUrlIntercept != SettingUtils.getInstance().getUrlInterceptType();
-        if (showReadLaterChanged || showTopChanged || showBannerChanged ||
+        if (showReadLaterChanged || showReadRecordChanged || showTopChanged || showBannerChanged ||
                 hideAboutMeChanged || hideOpenChanged || rvAnimChanged ||
                 urlInterceptChanged) {
             SettingChangeEvent event = new SettingChangeEvent();
             event.setShowTopChanged(showTopChanged);
             event.setShowBannerChanged(showBannerChanged);
             event.setShowReadLaterChanged(showReadLaterChanged);
+            event.setShowReadRecordChanged(showReadRecordChanged);
             event.setHideAboutMeChanged(hideAboutMeChanged);
             event.setHideOpenChanged(hideOpenChanged);
             event.setRvAnimChanged(rvAnimChanged);

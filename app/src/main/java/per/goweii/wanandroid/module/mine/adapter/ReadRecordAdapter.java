@@ -17,22 +17,22 @@ import java.util.Date;
 import java.util.List;
 
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.db.model.ReadLaterModel;
+import per.goweii.wanandroid.db.model.ReadRecordModel;
 
 /**
  * @author CuiZhen
  * @date 2019/5/15
  * GitHub: https://github.com/goweii
  */
-public class ReadLaterAdapter extends BaseQuickAdapter<ReadLaterModel, BaseViewHolder> {
+public class ReadRecordAdapter extends BaseQuickAdapter<ReadRecordModel, BaseViewHolder> {
 
     private final SimpleDateFormat mSimpleDateFormat;
 
     private final List<SwipeLayout> mUnCloseList = new ArrayList<>();
 
     @SuppressLint("SimpleDateFormat")
-    public ReadLaterAdapter() {
-        super(R.layout.rv_item_read_later);
+    public ReadRecordAdapter() {
+        super(R.layout.rv_item_read_record);
         mSimpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
     }
 
@@ -68,7 +68,7 @@ public class ReadLaterAdapter extends BaseQuickAdapter<ReadLaterModel, BaseViewH
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, ReadLaterModel item) {
+    protected void convert(BaseViewHolder helper, ReadRecordModel item) {
         SwipeLayout sl = helper.getView(R.id.sl);
         sl.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
@@ -103,7 +103,6 @@ public class ReadLaterAdapter extends BaseQuickAdapter<ReadLaterModel, BaseViewH
         } else {
             helper.setText(R.id.tv_title, Html.fromHtml(item.getTitle()));
         }
-        helper.setText(R.id.tv_title, Html.fromHtml(item.getTitle()));
         String time = mSimpleDateFormat.format(new Date(item.getTime()));
         helper.setText(R.id.tv_time, time);
         helper.addOnClickListener(R.id.rl_top, R.id.tv_delete, R.id.tv_open, R.id.tv_copy);

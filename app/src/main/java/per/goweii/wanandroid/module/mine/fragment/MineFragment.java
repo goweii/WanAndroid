@@ -49,6 +49,7 @@ import per.goweii.wanandroid.module.mine.activity.CollectionActivity;
 import per.goweii.wanandroid.module.mine.activity.MineShareActivity;
 import per.goweii.wanandroid.module.mine.activity.OpenActivity;
 import per.goweii.wanandroid.module.mine.activity.ReadLaterActivity;
+import per.goweii.wanandroid.module.mine.activity.ReadRecordActivity;
 import per.goweii.wanandroid.module.mine.activity.SettingActivity;
 import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 import per.goweii.wanandroid.module.mine.presenter.MinePresenter;
@@ -90,6 +91,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     TextView tv_user_id;
     @BindView(R.id.ll_read_later)
     LinearLayout ll_read_later;
+    @BindView(R.id.ll_read_record)
+    LinearLayout ll_read_record;
     @BindView(R.id.ll_open)
     LinearLayout ll_open;
     @BindView(R.id.ll_about_me)
@@ -122,7 +125,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         if (isDetached()) {
             return;
         }
-        if (event.isShowReadLaterChanged() || event.isHideAboutMeChanged() || event.isHideOpenChanged()) {
+        if (event.isShowReadLaterChanged() || event.isShowReadRecordChanged() || event.isHideAboutMeChanged() || event.isHideOpenChanged()) {
             changeMenuVisible();
         }
     }
@@ -289,6 +292,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         } else {
             ll_read_later.setVisibility(View.GONE);
         }
+        if (settingUtils.isShowReadRecord()) {
+            ll_read_record.setVisibility(View.VISIBLE);
+        } else {
+            ll_read_record.setVisibility(View.GONE);
+        }
         if (!settingUtils.isHideAboutMe()) {
             ll_about_me.setVisibility(View.VISIBLE);
         } else {
@@ -324,7 +332,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
 
     @OnClick({
             R.id.civ_user_icon, R.id.tv_user_name, R.id.ll_user_id,
-            R.id.ll_collect, R.id.ll_read_later, R.id.ll_about_me,
+            R.id.ll_collect, R.id.ll_read_later, R.id.ll_read_record, R.id.ll_about_me,
             R.id.ll_open, R.id.ll_setting, R.id.ll_coin, R.id.ll_share
     })
     @Override
@@ -372,6 +380,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 break;
             case R.id.ll_read_later:
                 ReadLaterActivity.start(getContext());
+                break;
+            case R.id.ll_read_record:
+                ReadRecordActivity.start(getContext());
                 break;
             case R.id.ll_about_me:
                 AboutMeActivity.start(getContext());

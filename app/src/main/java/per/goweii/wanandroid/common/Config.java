@@ -14,4 +14,8 @@ public class Config {
      * 是否显示广告
      */
     public static final boolean SHOW_AD = false;
+    /**
+     * 阅读历史最大保存个数
+     */
+    public static final int READ_RECORD_MAX_COUNT = 1000;
 }

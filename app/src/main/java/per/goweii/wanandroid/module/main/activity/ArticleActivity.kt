@@ -110,6 +110,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView {
             }
         }).setInterceptUrlInterceptor { uri, reqHeaders, reqMethod ->
             return@setInterceptUrlInterceptor WebUrlInterceptFactory.create(uri)?.interceptor?.intercept(uri, mWebHolder.userAgent, reqHeaders, reqMethod)
+        }.setOnPageTitleCallback {
+            presenter.readRecord(mWebHolder.url, mWebHolder.title)
         }
         wc.setOnDoubleClickListener { _, _ ->
             if (rl != null) {

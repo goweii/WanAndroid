@@ -9,6 +9,11 @@ android {
         ndk {
             abiFilters /*'armeabi' ,*/ 'armeabi-v7a'/*, 'arm64-v8a'*/
         }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = ["room.incremental":"true"]
+            }
+        }
     }
     buildTypes {
         Properties properties = new Properties()
@@ -88,8 +93,12 @@ android {
     resourcePrefix ""
 }
 
+kapt {
+    generateStubs = true
+}
+
 dependencies {
-    annotationProcessor rootProject.ext.dependencies.butterknifeCompiler
+    kapt rootProject.ext.dependencies.butterknifeCompiler
     implementation rootProject.ext.dependencies.cardview
     implementation rootProject.ext.dependencies.flexbox
     implementation rootProject.ext.dependencies.realtimeBlurView
@@ -107,5 +116,7 @@ dependencies {
     implementation rootProject.ext.dependencies.webkit
     implementation rootProject.ext.dependencies.qrcode
     implementation rootProject.ext.dependencies.photoView
-
+    implementation rootProject.ext.dependencies.roomRuntime
+    kapt rootProject.ext.dependencies.roomCompiler
+    implementation rootProject.ext.dependencies.roomKtx
 }

@@ -23,6 +23,7 @@ public class SettingUtils {
     private static final String KEY_SYSTEM_THEME = "KEY_SYSTEM_THEME";
     private static final String KEY_DARK_THEME = "KEY_DARK_THEME";
     private static final String KEY_SHOW_READ_LATER = "KEY_SHOW_READ_LATER";
+    private static final String KEY_SHOW_READ_RECORD = "KEY_SHOW_READ_RECORD";
     private static final String KEY_SHOW_TOP = "KEY_SHOW_TOP";
     private static final String KEY_SHOW_BANNER = "KEY_SHOW_BANNER";
     private static final String KEY_HIDE_ABOUT_ME = "KEY_HIDE_ABOUT_ME";
@@ -40,6 +41,7 @@ public class SettingUtils {
     private boolean mSystemTheme = true;
     private boolean mDarkTheme = false;
     private boolean mShowReadLater = true;
+    private boolean mShowReadRecord = true;
     private boolean mShowTop = true;
     private boolean mShowBanner = true;
     private boolean mHideAboutMe = false;
@@ -64,6 +66,7 @@ public class SettingUtils {
         mSystemTheme = mSPUtils.get(KEY_SYSTEM_THEME, mSystemTheme);
         mDarkTheme = mSPUtils.get(KEY_DARK_THEME, mDarkTheme);
         mShowReadLater = mSPUtils.get(KEY_SHOW_READ_LATER, mShowReadLater);
+        mShowReadRecord = mSPUtils.get(KEY_SHOW_READ_RECORD, mShowReadRecord);
         mShowTop = mSPUtils.get(KEY_SHOW_TOP, mShowTop);
         mShowBanner = mSPUtils.get(KEY_SHOW_BANNER, mShowBanner);
         mHideAboutMe = mSPUtils.get(KEY_HIDE_ABOUT_ME, mHideAboutMe);
@@ -119,6 +122,15 @@ public class SettingUtils {
     public void setShowReadLater(boolean showReadLater) {
         mShowReadLater = showReadLater;
         mSPUtils.save(KEY_SHOW_READ_LATER, showReadLater);
+    }
+
+    public boolean isShowReadRecord() {
+        return mShowReadRecord;
+    }
+
+    public void setShowReadRecord(boolean showReadRecord) {
+        mShowReadRecord = showReadRecord;
+        mSPUtils.save(KEY_SHOW_READ_RECORD, showReadRecord);
     }
 
     public boolean isShowReadLater() {

@@ -11,7 +11,7 @@ dependencies {
     api rootProject.ext.dependencies.eventbus
     api rootProject.ext.dependencies.gson
     api rootProject.ext.dependencies.glide
-    annotationProcessor rootProject.ext.dependencies.glideCompiler
+    kapt rootProject.ext.dependencies.glideCompiler
     implementation rootProject.ext.dependencies.glideOkhttp3
     api rootProject.ext.dependencies.rxHttp
     api rootProject.ext.dependencies.anyPermission

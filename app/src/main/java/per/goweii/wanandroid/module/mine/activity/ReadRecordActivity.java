@@ -30,12 +30,12 @@ import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.db.model.ReadLaterModel;
-import per.goweii.wanandroid.event.ReadLaterEvent;
+import per.goweii.wanandroid.db.model.ReadRecordModel;
+import per.goweii.wanandroid.event.ReadRecordEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.mine.adapter.ReadLaterAdapter;
-import per.goweii.wanandroid.module.mine.presenter.ReadLaterPresenter;
-import per.goweii.wanandroid.module.mine.view.ReadLaterView;
+import per.goweii.wanandroid.module.mine.adapter.ReadRecordAdapter;
+import per.goweii.wanandroid.module.mine.presenter.ReadRecordPresenter;
+import per.goweii.wanandroid.module.mine.view.ReadRecordView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
@@ -46,7 +46,7 @@ import per.goweii.wanandroid.utils.UrlOpenUtils;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implements ReadLaterView {
+public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implements ReadRecordView {
 
     @BindView(R.id.abc)
     ActionBarCommon abc;
@@ -58,12 +58,12 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     RecyclerView rv;
 
     private SmartRefreshUtils mSmartRefreshUtils;
-    private ReadLaterAdapter mAdapter;
+    private ReadRecordAdapter mAdapter;
 
     private int perPageCount = 20;
 
     public static void start(Context context) {
-        Intent intent = new Intent(context, ReadLaterActivity.class);
+        Intent intent = new Intent(context, ReadRecordActivity.class);
         context.startActivity(intent);
     }
 
@@ -78,7 +78,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onReadRecordEvent(ReadLaterEvent event) {
+    public void onReadRecordEvent(ReadRecordEvent event) {
         if (isDestroyed()) {
             return;
         }
@@ -93,13 +93,13 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_read_later;
+        return R.layout.activity_read_record;
     }
 
     @Nullable
     @Override
-    protected ReadLaterPresenter initPresenter() {
-        return new ReadLaterPresenter();
+    protected ReadRecordPresenter initPresenter() {
+        return new ReadRecordPresenter();
     }
 
     @Override
@@ -128,7 +128,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
-        mAdapter = new ReadLaterAdapter();
+        mAdapter = new ReadRecordAdapter();
         RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -141,7 +141,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 mAdapter.closeAll(null);
-                ReadLaterModel item = mAdapter.getItem(position);
+                ReadRecordModel item = mAdapter.getItem(position);
                 if (item == null) {
                     return;
                 }
@@ -168,7 +168,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
                         }
                         break;
                     case R.id.tv_delete:
-                        ReadLaterModel model = mAdapter.getItem(position);
+                        ReadRecordModel model = mAdapter.getItem(position);
                         if (model != null) {
                             presenter.remove(model.getLink());
                         }
@@ -207,7 +207,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     }
 
     @Override
-    public void getReadLaterListSuccess(List<ReadLaterModel> list) {
+    public void getReadRecordListSuccess(List<ReadRecordModel> list) {
         mSmartRefreshUtils.success();
         if (currSize() == 0) {
             mAdapter.setNewData(list);
@@ -226,7 +226,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     }
 
     @Override
-    public void getReadLaterListFailed() {
+    public void getReadRecordListFailed() {
         mSmartRefreshUtils.fail();
         if (currSize() == 0) {
             MultiStateUtils.toError(msv);
@@ -236,10 +236,10 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     }
 
     @Override
-    public void removeReadLaterSuccess(String link) {
-        List<ReadLaterModel> list = mAdapter.getData();
+    public void removeReadRecordSuccess(String link) {
+        List<ReadRecordModel> list = mAdapter.getData();
         for (int i = 0; i < list.size(); i++) {
-            ReadLaterModel model = list.get(i);
+            ReadRecordModel model = list.get(i);
             if (TextUtils.equals(model.getLink(), link)) {
                 mAdapter.remove(i);
                 break;
@@ -251,18 +251,18 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     }
 
     @Override
-    public void removeReadLaterFailed() {
+    public void removeReadRecordFailed() {
         ToastMaker.showShort("删除失败");
     }
 
     @Override
-    public void removeAllReadLaterSuccess() {
+    public void removeAllReadRecordSuccess() {
         mAdapter.setNewData(null);
         MultiStateUtils.toEmpty(msv, true);
     }
 
     @Override
-    public void removeAllReadLaterFailed() {
+    public void removeAllReadRecordFailed() {
         ToastMaker.showShort("删除失败");
     }
 }

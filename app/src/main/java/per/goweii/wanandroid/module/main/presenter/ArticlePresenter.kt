@@ -1,12 +1,17 @@
 package per.goweii.wanandroid.module.main.presenter
 
+import android.text.TextUtils
 import per.goweii.basic.core.base.BasePresenter
+import per.goweii.basic.utils.listener.SimpleListener
 import per.goweii.rxhttp.request.base.BaseBean
 import per.goweii.rxhttp.request.exception.ExceptionHandle
+import per.goweii.wanandroid.db.executor.ReadRecordExecutor
 import per.goweii.wanandroid.event.CollectionEvent
+import per.goweii.wanandroid.event.ReadRecordEvent
 import per.goweii.wanandroid.http.RequestListener
 import per.goweii.wanandroid.module.main.model.MainRequest
 import per.goweii.wanandroid.module.main.view.ArticleView
+import per.goweii.wanandroid.utils.SettingUtils
 
 /**
  * @author CuiZhen
@@ -19,6 +24,19 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
     var collected: Boolean = false
     var userName: String = ""
     var userId: Int = 0
+
+    private var mReadRecordExecutor: ReadRecordExecutor? = null
+
+    override fun attach(baseView: ArticleView) {
+        super.attach(baseView)
+        mReadRecordExecutor = ReadRecordExecutor()
+    }
+
+    override fun detach() {
+        mReadRecordExecutor?.destroy()
+        super.detach()
+    }
+
 
     fun collect() {
         addToRxLife(MainRequest.collectArticle(articleId, object : RequestListener<BaseBean?> {
@@ -64,5 +82,18 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
             override fun onError(handle: ExceptionHandle) {}
             override fun onFinish() {}
         }))
+    }
+
+    fun readRecord(link: String, title: String) {
+        mReadRecordExecutor ?: return
+        if (!SettingUtils.getInstance().isShowReadRecord) {
+            return
+        }
+        if (TextUtils.isEmpty(link)) {
+            return
+        }
+        mReadRecordExecutor?.add(link, title, SimpleListener {
+            ReadRecordEvent().post()
+        }, SimpleListener { })
     }
 }

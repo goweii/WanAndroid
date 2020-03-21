@@ -293,7 +293,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
             @Override
             public void onReadLater() {
-                ToastMaker.showShort("该功能暂时移除");
+                presenter.readLater(mWebHolder.getUrl(), mWebHolder.getTitle());
             }
 
             @Override
@@ -381,6 +381,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     @Override
                     public void onReceivedTitle(@NonNull String title) {
                         setTitle();
+                        presenter.readRecord(mWebHolder.getUrl(), mWebHolder.getTitle());
                     }
                 })
                 .setOnPageLoadCallback(new WebHolder.OnPageLoadCallback() {

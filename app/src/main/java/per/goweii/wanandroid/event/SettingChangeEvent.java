@@ -8,6 +8,7 @@ package per.goweii.wanandroid.event;
 public class SettingChangeEvent extends BaseEvent {
 
     private boolean showReadLaterChanged;
+    private boolean showReadRecordChanged;
     private boolean showTopChanged;
     private boolean showBannerChanged;
     private boolean hideAboutMeChanged;
@@ -19,7 +20,8 @@ public class SettingChangeEvent extends BaseEvent {
 
     @Override
     public void post() {
-        if (showReadLaterChanged || showTopChanged || showBannerChanged ||
+        if (showReadLaterChanged || showReadRecordChanged ||
+                showTopChanged || showBannerChanged ||
                 hideAboutMeChanged || hideOpenChanged || rvAnimChanged) {
             super.post();
         }
@@ -31,6 +33,14 @@ public class SettingChangeEvent extends BaseEvent {
 
     public void setShowReadLaterChanged(boolean readLaterChanged) {
         this.showReadLaterChanged = readLaterChanged;
+    }
+
+    public boolean isShowReadRecordChanged() {
+        return showReadRecordChanged;
+    }
+
+    public void setShowReadRecordChanged(boolean readRecordChanged) {
+        this.showReadRecordChanged = readRecordChanged;
     }
 
     public boolean isShowTopChanged() {

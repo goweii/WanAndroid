@@ -10,7 +10,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="稍后阅读"
+        app:abc_titleText="阅读历史"
         app:abc_rightText="清空" />
 
     <com.kennyc.view.MultiStateView
@@ -29,7 +29,7 @@
                 android:overScrollMode="never"
                 android:scrollbars="vertical"
                 tools:layoutmanager="LinearLayoutManager"
-                tools:listitem="@layout/rv_item_read_later" />
+                tools:listitem="@layout/rv_item_read_record" />
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

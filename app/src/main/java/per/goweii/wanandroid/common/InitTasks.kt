@@ -17,6 +17,7 @@ import per.goweii.basic.utils.listener.SimpleCallback
 import per.goweii.burred.Blurred
 import per.goweii.rxhttp.core.RxHttp
 import per.goweii.wanandroid.BuildConfig
+import per.goweii.wanandroid.db.WanDb
 import per.goweii.wanandroid.http.RxHttpRequestSetting
 import per.goweii.wanandroid.http.WanCache
 import per.goweii.wanandroid.module.main.activity.CrashActivity
@@ -33,6 +34,20 @@ class RxHttpInitTask : SyncInitTask() {
     override fun init(application: Application) {
         RxHttp.init(application)
         RxHttp.initRequest(RxHttpRequestSetting(WanApp.getCookieJar()))
+    }
+
+    override fun onlyMainProcess(): Boolean {
+        return true
+    }
+
+    override fun level(): Int {
+        return 0
+    }
+}
+
+class WanDbInitTask : SyncInitTask() {
+    override fun init(application: Application) {
+        WanDb.init(application)
     }
 
     override fun onlyMainProcess(): Boolean {
