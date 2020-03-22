@@ -80,10 +80,11 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
         mPagerAdapter.setFragmentList(
                 HomeFragment.create(),
                 KnowledgeNavigationFragment.create(),
-                WxFragment.create(),
-                ProjectFragment.create(),
+                // WxFragment.create(),
+                // ProjectFragment.create(),
                 MineFragment.create()
         );
+        vp_tab.setOffscreenPageLimit(mPagerAdapter.getCount());
         vp_tab.setCurrentItem(0);
         onPageSelected(vp_tab.getCurrentItem());
     }
@@ -112,23 +113,35 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
             default:
                 return false;
             case R.id.ll_bb_home:
-                vp_tab.setCurrentItem(0);
+                switchCurrentItem(HomeFragment.class);
                 break;
             case R.id.ll_bb_knowledge:
-                vp_tab.setCurrentItem(1);
+                switchCurrentItem(KnowledgeNavigationFragment.class);
                 break;
             case R.id.ll_bb_wechat:
-                vp_tab.setCurrentItem(2);
+                switchCurrentItem(WxFragment.class);
                 break;
             case R.id.ll_bb_project:
-                vp_tab.setCurrentItem(3);
+                switchCurrentItem(ProjectFragment.class);
                 break;
             case R.id.ll_bb_mine:
-                vp_tab.setCurrentItem(4);
+                switchCurrentItem(MineFragment.class);
                 break;
         }
         notifyScrollTop(vp_tab.getCurrentItem());
         return true;
+    }
+
+    private void switchCurrentItem(Class<? extends Fragment> cls) {
+        if (cls == null) return;
+        if (mPagerAdapter == null) return;
+        for (int i = 0; i < mPagerAdapter.getCount(); i++) {
+            Fragment fragment = mPagerAdapter.getItem(i);
+            if (cls == fragment.getClass()) {
+                vp_tab.setCurrentItem(i);
+                break;
+            }
+        }
     }
 
     private void notifyScrollTop(int pos) {
@@ -150,29 +163,23 @@ public class MainFragment extends BaseFragment implements ViewPager.OnPageChange
 
     @Override
     public void onPageSelected(int i) {
+        if (getContext() == null) return;
         iv_bb_home.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
         iv_bb_knowledge.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
         iv_bb_wechat.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
         iv_bb_project.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
         iv_bb_mine.setColorFilter(ContextCompat.getColor(getContext(), R.color.third));
-        switch (i) {
-            default:
-                break;
-            case 0:
-                iv_bb_home.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
-            case 1:
-                iv_bb_knowledge.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
-            case 2:
-                iv_bb_wechat.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
-            case 3:
-                iv_bb_project.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
-            case 4:
-                iv_bb_mine.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
-                break;
+        Fragment currFragment = mPagerAdapter.getItem(i);
+        if (currFragment.getClass() == HomeFragment.class) {
+            iv_bb_home.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
+        } else if (currFragment.getClass() == KnowledgeNavigationFragment.class) {
+            iv_bb_knowledge.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
+        } else if (currFragment.getClass() == WxFragment.class) {
+            iv_bb_wechat.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
+        } else if (currFragment.getClass() == ProjectFragment.class) {
+            iv_bb_project.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
+        } else if (currFragment.getClass() == MineFragment.class) {
+            iv_bb_mine.setColorFilter(ContextCompat.getColor(getContext(), R.color.main));
         }
     }
 

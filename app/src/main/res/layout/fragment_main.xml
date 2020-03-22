@@ -105,7 +105,8 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingTop="3dp"
-            android:paddingBottom="3dp">
+            android:paddingBottom="3dp"
+            android:visibility="gone">
 
             <per.goweii.percentimageview.percentimageview.PercentImageView
                 android:id="@+id/iv_bb_wechat"
@@ -138,7 +139,8 @@
             android:gravity="center"
             android:orientation="vertical"
             android:paddingTop="3dp"
-            android:paddingBottom="3dp">
+            android:paddingBottom="3dp"
+            android:visibility="gone">
 
             <per.goweii.percentimageview.percentimageview.PercentImageView
                 android:id="@+id/iv_bb_project"
