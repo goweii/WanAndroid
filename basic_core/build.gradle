@@ -12,7 +12,9 @@ dependencies {
     api rootProject.ext.dependencies.gson
     api rootProject.ext.dependencies.glide
     kapt rootProject.ext.dependencies.glideCompiler
-    implementation rootProject.ext.dependencies.glideOkhttp3
+    api (rootProject.ext.dependencies.glideOkhttp3) {
+        transitive = false
+    }
     api rootProject.ext.dependencies.rxHttp
     api rootProject.ext.dependencies.anyPermission
     api rootProject.ext.dependencies.swipeBack

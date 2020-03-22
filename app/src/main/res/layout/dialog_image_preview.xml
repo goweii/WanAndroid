@@ -11,18 +11,38 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <per.goweii.wanandroid.widget.ImagePreviewView
-            android:id="@+id/dialog_image_preview_pv"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
+
+            <per.goweii.wanandroid.widget.ImagePreviewView
+                android:id="@+id/dialog_image_preview_pv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/dialog_image_preview_tv_tip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="加载中"
+                android:textColor="#66ffffff"
+                android:textSize="@dimen/text_content"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+        </FrameLayout>
 
     </per.goweii.anylayer.DragLayout>
 
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/dialog_image_preview_abc"
         style="@style/ActionBar.Common"
-        app:abc_leftIconClickToFinish="false"
         android:background="@color/transparent"
+        app:abc_leftIconClickToFinish="false"
         app:abc_leftIconRes="@drawable/ic_close" />
 
 </RelativeLayout>

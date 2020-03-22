@@ -14,6 +14,7 @@ import com.bumptech.glide.module.AppGlideModule;
 import java.io.InputStream;
 
 import okhttp3.OkHttpClient;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.rxhttp.request.utils.HttpsCompat;
 
 /**
@@ -28,6 +29,7 @@ public class ProgressAppGlideModule extends AppGlideModule {
     @Override
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(getOkHttpClient()));
+        LogUtils.d("ProgressAppGlideModule", "registerComponents down");
     }
 
     @Override
@@ -36,9 +38,12 @@ public class ProgressAppGlideModule extends AppGlideModule {
     }
 
     private static OkHttpClient getOkHttpClient() {
+        LogUtils.d("ProgressAppGlideModule", "getOkHttpClient");
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
+        HttpsCompat.ignoreSSLForOkHttp(builder);
         HttpsCompat.enableTls12ForOkHttp(builder);
         builder.addInterceptor(new ProgressInterceptor());
+        LogUtils.d("ProgressAppGlideModule", "getOkHttpClient down");
         return builder.build();
     }
 }

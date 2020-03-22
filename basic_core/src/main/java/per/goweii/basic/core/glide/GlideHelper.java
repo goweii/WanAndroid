@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.widget.ImageView;
 
@@ -28,6 +29,7 @@ import com.bumptech.glide.request.transition.Transition;
 
 import per.goweii.basic.core.glide.progress.OnProgressListener;
 import per.goweii.basic.core.glide.progress.ProgressInterceptor;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.Utils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
@@ -97,7 +99,7 @@ public class GlideHelper {
     @SuppressLint("HandlerLeak")
     public GlideHelper onProgressListener(OnGlideProgressListener listener) {
         mOnGlideProgressListener = listener;
-        mProgressHandler = new Handler() {
+        mProgressHandler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
                 if (mOnGlideProgressListener != null) {
@@ -192,17 +194,14 @@ public class GlideHelper {
     }
 
     public void into(ImageView imageView) {
-        if (mOnGlideProgressListener != null && mImageUrl != null) {
+        if (mOnGlideProgressListener != null && mProgressHandler != null && mImageUrl != null) {
             mProgressListener = new OnProgressListener() {
                 @Override
                 public void onProgress(float progress) {
-                    if (mProgressHandler != null) {
-                        Message msg = mProgressHandler.obtainMessage();
-                        msg.obj = progress;
-                        mProgressHandler.sendMessage(msg);
-                    }
+                    notifyProgressChanged(progress);
                 }
             };
+            ProgressInterceptor.addProgressListener(mImageUrl, mProgressListener);
         }
         switch (as) {
             case DRAWABLE:
@@ -281,28 +280,32 @@ public class GlideHelper {
         }
     }
 
-    private void notifyLoadStarted() {
-        if (mOnGlideProgressListener != null) {
-            mOnGlideProgressListener.onProgress(0);
-        }
-        if (mProgressListener != null) {
-            ProgressInterceptor.addProgressListener(mImageUrl, mProgressListener);
+    private void notifyProgressChanged(float progress) {
+        LogUtils.d("GlideHelper", "notifyProgressChanged progress=" + progress);
+        LogUtils.d("GlideHelper", "notifyProgressChanged on thread:" + Thread.currentThread().getName());
+        if (mProgressHandler != null) {
+            Message msg = mProgressHandler.obtainMessage();
+            msg.obj = progress;
+            mProgressHandler.sendMessage(msg);
         }
     }
 
+    private void notifyLoadStarted() {
+        LogUtils.d("GlideHelper", "notifyLoadStarted");
+        notifyProgressChanged(0F);
+    }
+
     private void notifyResourceReady() {
-        if (mOnGlideProgressListener != null) {
-            mOnGlideProgressListener.onProgress(1);
-        }
+        LogUtils.d("GlideHelper", "notifyResourceReady");
+        notifyProgressChanged(1F);
         if (mProgressListener != null) {
             ProgressInterceptor.removeProgressListener(mProgressListener);
         }
     }
 
     private void notifyLoadFailed() {
-        if (mOnGlideProgressListener != null) {
-            mOnGlideProgressListener.onProgress(-1);
-        }
+        LogUtils.d("GlideHelper", "notifyLoadFailed");
+        notifyProgressChanged(-1F);
         if (mProgressListener != null) {
             ProgressInterceptor.removeProgressListener(mProgressListener);
         }

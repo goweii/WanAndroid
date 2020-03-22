@@ -5,12 +5,15 @@ import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
+import android.widget.TextView
 import per.goweii.actionbarex.common.ActionBarCommon
 import per.goweii.anylayer.AnimatorHelper
 import per.goweii.anylayer.DialogLayer
 import per.goweii.anylayer.DragLayout
+import per.goweii.basic.core.glide.GlideHelper
+import per.goweii.basic.utils.ext.gone
+import per.goweii.basic.utils.ext.visible
 import per.goweii.wanandroid.R
-import per.goweii.wanandroid.utils.ImageLoader
 import per.goweii.wanandroid.widget.ImagePreviewView
 
 /**
@@ -55,6 +58,7 @@ class ImagePreviewDialog(
     private val abc by lazy { getView<ActionBarCommon>(R.id.dialog_image_preview_abc) }
     private val ipv by lazy { getView<ImagePreviewView>(R.id.dialog_image_preview_pv) }
     private val dl by lazy { getView<DragLayout>(R.id.dialog_image_preview_dl) }
+    private val tv_tip by lazy { getView<TextView>(R.id.dialog_image_preview_tv_tip) }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onAttach() {
@@ -82,7 +86,36 @@ class ImagePreviewDialog(
                 imageMenuDialog = ImageMenuDialog.show(activity, ipv)
             }
         }
-        ImageLoader.image(ipv, imageUrl)
+        ipv.visible()
+        tv_tip.gone()
+        GlideHelper.with(ipv.context)
+                .cache(true)
+                .load(imageUrl)
+                .onProgressListener { progress ->
+                    when {
+                        progress >= 1F -> {
+                            ipv.visible()
+                            tv_tip.gone()
+                            tv_tip.text = "加载成功"
+                        }
+                        progress < 0F -> {
+                            ipv.gone()
+                            tv_tip.visible()
+                            tv_tip.text = "加载失败"
+                        }
+                        progress == 0F -> {
+                            ipv.gone()
+                            tv_tip.visible()
+                            tv_tip.text = "加载中"
+                        }
+                        else -> {
+                            ipv.gone()
+                            tv_tip.visible()
+                            tv_tip.text = "加载中(${(progress * 100).toInt()}%)"
+                        }
+                    }
+                }
+                .into(ipv)
         dl.setDragStyle(DragLayout.DragStyle.Bottom)
         dl.setOnDragListener(object : DragLayout.OnDragListener {
             override fun onDragStart() {

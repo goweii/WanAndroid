@@ -23,12 +23,13 @@ import per.goweii.basic.utils.LogUtils;
  * @date 2018/9/17
  */
 public class ProgressInterceptor implements Interceptor {
-    public static final String TAG = ProgressInterceptor.class.getSimpleName();
+    private static final String TAG = ProgressInterceptor.class.getSimpleName();
 
     private static final Map<String, WeakReference<OnProgressListener>> LISTENER_MAP = Collections.synchronizedMap(new HashMap<>());
 
     @Override
     public Response intercept(Chain chain) throws IOException {
+        LogUtils.d(TAG, "intercept chain");
         Request request = chain.request();
         Response response = chain.proceed(request);
         String url = request.url().toString();
@@ -42,7 +43,7 @@ public class ProgressInterceptor implements Interceptor {
                 .build();
     }
 
-    private final class OnProgressResponseListener implements ProgressResponseBody.OnResponseListener {
+    private static final class OnProgressResponseListener implements ProgressResponseBody.OnResponseListener {
 
         private final OnProgressListener mListener;
 
