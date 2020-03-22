@@ -89,6 +89,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     TextView tv_user_name;
     @BindView(R.id.tv_user_id)
     TextView tv_user_id;
+    @BindView(R.id.ll_user_id)
+    LinearLayout ll_user_id;
+    @BindView(R.id.ll_user_level_ranking)
+    LinearLayout ll_user_level_ranking;
     @BindView(R.id.ll_read_later)
     LinearLayout ll_read_later;
     @BindView(R.id.ll_read_record)
@@ -315,7 +319,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             ImageLoader.userIcon(civ_user_icon, UserInfoUtils.getInstance().getIcon());
             ImageLoader.userBlur(iv_blur, UserInfoUtils.getInstance().getBg());
             tv_user_name.setText(bean.getUsername());
+            ll_user_id.setVisibility(View.VISIBLE);
             tv_user_id.setText(bean.getId() + "");
+            ll_user_level_ranking.setVisibility(View.VISIBLE);
             tv_user_level.setText("--");
             tv_user_ranking.setText("--");
             tv_coin.setText("");
@@ -323,7 +329,9 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             civ_user_icon.setImageResource(R.color.transparent);
             iv_blur.setImageResource(R.color.transparent);
             tv_user_name.setText("去登陆");
+            ll_user_id.setVisibility(View.INVISIBLE);
             tv_user_id.setText("-----");
+            ll_user_level_ranking.setVisibility(View.INVISIBLE);
             tv_user_level.setText("--");
             tv_user_ranking.setText("--");
             tv_coin.setText("");
@@ -477,6 +485,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     public void getUserInfoSuccess(int code, UserInfoBean data) {
         mSmartRefreshUtils.success();
         tv_coin.setText(data.getCoinCount() + "");
+        ll_user_level_ranking.setVisibility(View.VISIBLE);
         tv_user_level.setText(data.getLevel() + "");
         tv_user_ranking.setText(data.getRank() + "");
     }
