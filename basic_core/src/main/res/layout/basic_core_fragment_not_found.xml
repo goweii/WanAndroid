@@ -4,8 +4,9 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:gravity="center"
     android:padding="15dp"
-    android:background="@color/invert">
+    android:background="@color/background">
 
     <TextView
         android:layout_width="wrap_content"
@@ -21,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:textSize="@dimen/text_content"
-        android:textColor="@color/text_surface"
+        android:textColor="@color/text_second"
         tools:text="/home/home"/>
 
 </LinearLayout>
