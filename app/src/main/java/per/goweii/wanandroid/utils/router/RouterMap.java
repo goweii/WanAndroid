@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 
 import per.goweii.basic.utils.Utils;
 import per.goweii.wanandroid.module.home.activity.UserPageActivity;
+import per.goweii.wanandroid.module.main.activity.ArticleListActivity;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.activity.AboutMeActivity;
 import per.goweii.wanandroid.module.mine.activity.SettingActivity;
@@ -18,12 +19,12 @@ import per.goweii.wanandroid.module.mine.activity.SettingActivity;
  * GitHub: https://github.com/goweii
  */
 public enum RouterMap {
-
     NULL(null, null),
     WEB("/main/web", WebActivity.class),
     USER_PAGE("/main/user_page", UserPageActivity.class),
     SETTING("/mine/setting", SettingActivity.class),
-    ABOUT_ME("/mine/about_me", AboutMeActivity.class);
+    ABOUT_ME("/mine/about_me", AboutMeActivity.class),
+    ARTICLE_LIST("/main/article_list", ArticleListActivity.class);
 
     private final String path;
     private final Class<? extends Activity> clazz;
@@ -35,9 +36,11 @@ public enum RouterMap {
 
     @NonNull
     public static RouterMap from(String path) {
-        for (RouterMap routerMap : RouterMap.values()) {
-            if (TextUtils.equals(routerMap.path, path)) {
-                return routerMap;
+        if (!TextUtils.isEmpty(path)) {
+            for (RouterMap routerMap : RouterMap.values()) {
+                if (TextUtils.equals(routerMap.path, path)) {
+                    return routerMap;
+                }
             }
         }
         return NULL;

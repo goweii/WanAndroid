@@ -11,19 +11,32 @@
         style="@style/ActionBar.Common.Back"
         app:abc_titleText="知识体系" />
 
-    <net.lucode.hackware.magicindicator.MagicIndicator
-        android:id="@+id/mi"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_bottom_tab_height"
-        android:background="@color/basic_ui_action_bar_bg"
-        android:overScrollMode="never"
-        android:scrollbars="none" />
+    <com.kennyc.view.MultiStateView
+        android:id="@+id/msv"
+        style="@style/StateView">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/vp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:overScrollMode="never"
-        android:scrollbars="none" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <net.lucode.hackware.magicindicator.MagicIndicator
+                android:id="@+id/mi"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/action_bar_bottom_tab_height"
+                android:background="@color/basic_ui_action_bar_bg"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/vp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+        </LinearLayout>
+
+    </com.kennyc.view.MultiStateView>
 
 </LinearLayout>

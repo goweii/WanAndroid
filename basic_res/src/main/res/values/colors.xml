@@ -7,6 +7,7 @@
 
     <!--通用颜色-->
     <color name="main">#4282f4</color>
+    <color name="main_alpha">#994282f4</color>
     <color name="assist">#3cdc86</color>
     <color name="accent">#f86734</color>
     <color name="transparent">#00000000</color>
@@ -31,11 +32,13 @@
     <color name="fourth">#cccccc</color>
     <!--文字颜色-->
     <color name="text_main">@color/main</color>
+    <color name="text_main_alpha">@color/main_alpha</color>
     <color name="text_accent">@color/accent</color>
     <color name="text_surface">#333333</color>
     <color name="text_surface_alpha">#88333333</color>
     <color name="text_second">#666666</color>
     <color name="text_third">#999999</color>
+    <color name="text_fourth">#cccccc</color>
     <color name="text_invert">#ffffff</color>
     <color name="text_invert_alpha">#88ffffff</color>
     <color name="text_on_main">#ffffff</color>

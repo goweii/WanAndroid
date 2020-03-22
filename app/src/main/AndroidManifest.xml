@@ -78,6 +78,9 @@
         <activity
             android:name=".module.main.activity.ScanActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
+            android:name=".module.main.activity.ArticleListActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
 
         <!--module.home-->
         <activity
@@ -91,7 +94,8 @@
         <!--module.knowledge-->
         <activity
             android:name=".module.knowledge.activity.KnowledgeArticleActivity"
-            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
+            android:launchMode="singleTask" />
 
         <!--module.login-->
         <activity

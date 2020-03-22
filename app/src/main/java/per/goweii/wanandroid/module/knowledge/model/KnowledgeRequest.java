@@ -35,6 +35,15 @@ public class KnowledgeRequest extends BaseRequest {
                 listener);
     }
 
+    public static void getKnowledgeListCacheAndNet(RxLife rxLife, @NonNull RequestListener<List<ChapterBean>> listener) {
+        cacheAndNetList(rxLife,
+                WanApi.api().getKnowledgeList(),
+                false,
+                WanCache.CacheKey.KNOWLEDGE_LIST,
+                ChapterBean.class,
+                listener);
+    }
+
     public static void getKnowledgeArticleListCache(int id, @IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
         cacheBean(WanCache.CacheKey.KNOWLEDGE_ARTICLE_LIST(id, page),
                 ArticleListBean.class,

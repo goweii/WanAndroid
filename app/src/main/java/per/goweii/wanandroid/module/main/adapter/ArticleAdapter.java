@@ -25,6 +25,7 @@ import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.module.home.activity.UserPageActivity;
+import per.goweii.wanandroid.module.knowledge.activity.KnowledgeArticleActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ArticleDiffCallback;
 import per.goweii.wanandroid.utils.ImageLoader;
@@ -286,6 +287,12 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         if (item.getTags() != null && item.getTags().size() > 0) {
             tv_tag.setText(item.getTags().get(0).getName());
             tv_tag.setVisibility(View.VISIBLE);
+            tv_tag.setOnClickListener(new OnClickListener2() {
+                @Override
+                public void onClick2(View v) {
+                    KnowledgeArticleActivity.start(v.getContext(), item.getTags().get(0));
+                }
+            });
         } else {
             tv_tag.setVisibility(View.GONE);
         }
@@ -313,6 +320,14 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         } else {
             cv_collect.setChecked(false);
         }
+        tv_chapter_name.setOnClickListener(new OnClickListener2() {
+            @Override
+            public void onClick2(View v) {
+                KnowledgeArticleActivity.start(v.getContext(),
+                        item.getSuperChapterId(), item.getSuperChapterName(),
+                        item.getChapterId());
+            }
+        });
         tv_author.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {

@@ -14,8 +14,8 @@ import per.goweii.basic.utils.LogUtils;
  * GitHub: https://github.com/goweii
  */
 public class Router {
-    static final String SCHEME = "wana";
-    static final String HOST = "www.wanandroid.com";
+    public static final String SCHEME = "wana";
+    public static final String HOST = "www.wanandroid.com";
 
     static final String PARAM_URL = "ROUTER_URL";
 
@@ -34,10 +34,7 @@ public class Router {
         if (host == null) return;
         if (!TextUtils.equals(HOST, host)) return;
         final String path = uri.getPath();
-        if (path == null) return;
-        final RouterMap routerMap = RouterMap.from(path);
-        if (routerMap == RouterMap.NULL) return;
-        routerMap.navigation(url);
+        RouterMap.from(path).navigation(url);
     }
 
     @Nullable

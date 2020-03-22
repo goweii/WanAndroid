@@ -54,11 +54,11 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/tv_author"
-            android:background="@drawable/article_tag_bg"
+            android:background="@drawable/selector_article_tag_bg"
             android:gravity="center"
             android:paddingLeft="3dp"
             android:paddingRight="3dp"
-            android:textColor="@color/text_main"
+            android:textColor="@color/selector_text_color_article_tag"
             android:textSize="@dimen/text_time"
             tools:text="项目" />
 
@@ -169,7 +169,7 @@
             android:id="@+id/tv_chapter_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_third"
+            android:textColor="@color/selector_text_color_article_chapter"
             android:textSize="@dimen/text_notes"
             tools:text="动画效果·Lottie" />
 

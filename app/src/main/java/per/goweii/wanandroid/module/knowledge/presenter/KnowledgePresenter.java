@@ -72,4 +72,34 @@ public class KnowledgePresenter extends BasePresenter<KnowledgeView> {
             }
         });
     }
+
+    public void getKnowledgeListCacheAndNet() {
+        KnowledgeRequest.getKnowledgeListCacheAndNet(getRxLife(), new RequestListener<List<ChapterBean>>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, List<ChapterBean> data) {
+                if (isAttach()) {
+                    getBaseView().getKnowledgeListSuccess(code, data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if (isAttach()) {
+                    getBaseView().getKnowledgeListFail(code, msg);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        });
+    }
 }
