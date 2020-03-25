@@ -72,13 +72,24 @@ class ImagePreviewDialog(
             }
 
             override fun onTouching1() {
-                val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
-                dl.setDragStyle(DragLayout.DragStyle.Bottom)
+                if (ipv.isShown) {
+                    val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
+                    dl.setDragStyle(DragLayout.DragStyle.Bottom)
+                }
             }
 
             override fun onTouching2() {
-                val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
-                dl.setDragStyle(DragLayout.DragStyle.None)
+                if (ipv.isShown) {
+                    val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
+                    dl.setDragStyle(DragLayout.DragStyle.None)
+                }
+            }
+
+            override fun onTouchingUp() {
+                if (ipv.isShown) {
+                    val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
+                    dl.setDragStyle(DragLayout.DragStyle.Bottom)
+                }
             }
 
             override fun onLongClick() {
@@ -86,30 +97,26 @@ class ImagePreviewDialog(
                 imageMenuDialog = ImageMenuDialog.show(activity, ipv)
             }
         }
-        ipv.visible()
-        tv_tip.gone()
         GlideHelper.with(ipv.context)
                 .cache(true)
+                .placeHolder(R.drawable.shape_image_perview_place_holder)
+                .errorHolder(R.drawable.shape_image_perview_place_holder)
                 .load(imageUrl)
                 .onProgressListener { progress ->
                     when {
                         progress >= 1F -> {
-                            ipv.visible()
                             tv_tip.gone()
                             tv_tip.text = "加载成功"
                         }
                         progress < 0F -> {
-                            ipv.gone()
                             tv_tip.visible()
                             tv_tip.text = "加载失败"
                         }
                         progress == 0F -> {
-                            ipv.gone()
                             tv_tip.visible()
                             tv_tip.text = "加载中"
                         }
                         else -> {
-                            ipv.gone()
                             tv_tip.visible()
                             tv_tip.text = "加载中(${(progress * 100).toInt()}%)"
                         }

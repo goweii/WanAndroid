@@ -110,6 +110,10 @@ class ImageListPreviewDialog(
                         dl.setDragStyle(DragLayout.DragStyle.None)
                     }
 
+                    override fun onTouchingUp() {
+                        dl.setDragStyle(DragLayout.DragStyle.Bottom)
+                    }
+
                     override fun onLongClick() {
                         imageMenuDialog?.dismiss()
                         imageMenuDialog = ImageMenuDialog.show(activity, ipv)

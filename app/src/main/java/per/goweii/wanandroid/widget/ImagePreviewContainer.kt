@@ -2,48 +2,33 @@ package per.goweii.wanandroid.widget
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.MotionEvent
+import android.widget.FrameLayout
 import androidx.core.view.ScrollingView
-import com.github.chrisbanes.photoview.PhotoView
 
 /**
  * @author CuiZhen
  * @date 2020/3/7
  */
-class ImagePreviewView : PhotoView, ScrollingView {
+class ImagePreviewContainer : FrameLayout, ScrollingView {
+
+    private var imagePreviewView: ImagePreviewView? = null
+
     constructor(context: Context) : super(context)
     constructor(context: Context, attr: AttributeSet?) : super(context, attr)
     constructor(context: Context, attr: AttributeSet?, defStyle: Int) : super(context, attr, defStyle)
 
-    init {
-        setOnViewTapListener { view, x, y ->
-            onImagePreviewListener?.onTap()
-        }
-        setOnLongClickListener {
-            onImagePreviewListener?.onLongClick()
-            return@setOnLongClickListener true
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        for (i in 0 until childCount) {
+            val v = getChildAt(i)
+            if (v is ImagePreviewView) {
+                imagePreviewView = v
+                break
+            }
         }
     }
 
-    var onImagePreviewListener: OnImagePreviewListener? = null
-
-    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
-        when (event.action) {
-            MotionEvent.ACTION_DOWN -> {
-                if (event.pointerCount > 1) {
-                    onImagePreviewListener?.onTouching2()
-                } else {
-                    onImagePreviewListener?.onTouching1()
-                }
-            }
-            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
-                onImagePreviewListener?.onTouchingUp()
-            }
-        }
-        return super.dispatchTouchEvent(event)
-    }
-
-    fun isScaled() = scale > 1F
+    private fun isScaled() = imagePreviewView?.isScaled() ?: false
 
     override fun computeHorizontalScrollRange(): Int = if (isScaled()) width * 3 else 0
 

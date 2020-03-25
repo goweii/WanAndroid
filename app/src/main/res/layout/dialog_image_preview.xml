@@ -11,16 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <FrameLayout
+        <per.goweii.wanandroid.widget.ImagePreviewContainer
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-            <per.goweii.wanandroid.widget.ImagePreviewView
-                android:id="@+id/dialog_image_preview_pv"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="gone"
-                tools:visibility="visible" />
 
             <TextView
                 android:id="@+id/dialog_image_preview_tv_tip"
@@ -34,7 +27,13 @@
                 android:visibility="gone"
                 tools:visibility="visible" />
 
-        </FrameLayout>
+            <per.goweii.wanandroid.widget.ImagePreviewView
+                android:id="@+id/dialog_image_preview_pv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@color/transparent" />
+
+        </per.goweii.wanandroid.widget.ImagePreviewContainer>
 
     </per.goweii.anylayer.DragLayout>
 
