@@ -18,12 +18,12 @@
     <color name="foreground">#111111</color>
     <color name="foreground_alpha">#dd111111</color>
     <color name="foreground_mask">#11ffffff</color>
-    <color name="foreground_top">#141516</color>
-    <color name="surface">#141516</color>
-    <color name="surface_alpha">#cc141516</color>
+    <color name="foreground_top">#181818</color>
+    <color name="surface">#181818</color>
+    <color name="surface_alpha">#cc181818</color>
     <color name="surface_mask">#11ffffff</color>
     <color name="surface_top">#222425</color>
-    <color name="surface_top_alpha">#cc222425</color>
+    <color name="surface_top_alpha">#EE222425</color>
     <color name="surface_top_mask">#11ffffff</color>
     <color name="invert">#bbbbbb</color>
     <color name="invert_alpha">#11bbbbbb</color>
