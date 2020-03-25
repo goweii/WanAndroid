@@ -374,6 +374,13 @@ public class WanApi extends Api {
         @POST("lg/user_article/add/json")
         Observable<WanResponse<BaseBean>> shareArticle(@Field("title") String title,
                                                        @Field("link") String link);
+
+        /**
+         * 问答
+         * pageId,拼接在链接上，例如上面的1
+         */
+        @GET("wenda/list/{page}/json")
+        Observable<WanResponse<ArticleListBean>> getQuestionList(@Path("page") int page);
     }
 
 }

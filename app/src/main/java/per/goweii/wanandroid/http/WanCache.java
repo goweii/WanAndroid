@@ -218,6 +218,7 @@ public class WanCache {
         private static final String PROJECT_ARTICLE_LIST = "project/list/%d/json?cid=%d";//page+id
         public static final String TOP_ARTICLE_LIST = "article/top/json";
         private static final String ARTICLE_LIST = "article/list/%d/json";//page
+        private static final String QUESTION_LIST = "wenda/list/%d/json";//page
         public static final String BANNER = "banner/json";
         public static final String USEFUL_WEB_LIST = "friend/json";
         public static final String HOT_KEY_LIST = "hotkey/json";
@@ -270,6 +271,10 @@ public class WanCache {
 
         public static String USER_ARTICLE_LIST(int page) {
             return String.format(USER_ARTICLE_LIST, page);
+        }
+
+        public static String QUESTION_LIST(int page) {
+            return String.format(QUESTION_LIST, page);
         }
 
         public static String USER_PAGE(int userId, int page) {

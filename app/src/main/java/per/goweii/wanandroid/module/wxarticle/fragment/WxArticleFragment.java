@@ -1,7 +1,6 @@
 package per.goweii.wanandroid.module.wxarticle.fragment;
 
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -35,7 +34,6 @@ import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
-import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -161,21 +159,12 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
                 getWxArticleList(false);
             }
         }, rv);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
-                if (item != null) {
-                    UrlOpenUtils.Companion.with(item).open(getContext());
-                }
-            }
-        });
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
                 ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
-                    if (!v.isChecked()) {
+                    if (v.isChecked()) {
                         presenter.collect(item, v);
                     } else {
                         presenter.uncollect(item, v);

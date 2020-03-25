@@ -167,7 +167,7 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
                 ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
-                    if (!v.isChecked()) {
+                    if (v.isChecked()) {
                         presenter.collect(item, v);
                     } else {
                         presenter.uncollect(item, v);

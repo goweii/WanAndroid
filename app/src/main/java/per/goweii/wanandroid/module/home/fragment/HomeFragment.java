@@ -281,15 +281,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 presenter.getArticleList(currPage, false);
             }
         }, rv);
-        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
-                if (item != null) {
-                    UrlOpenUtils.Companion.with(item).open(getContext());
-                }
-            }
-        });
         mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
@@ -302,7 +293,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
                 ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
-                    if (!v.isChecked()) {
+                    if (v.isChecked()) {
                         presenter.collect(item, v);
                     } else {
                         presenter.uncollect(item, v);
@@ -507,20 +498,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         } else {
             mBanner.setVisibility(View.GONE);
         }
-    }
-
-    private void bindHeaderTopItem(View view, ArticleBean item) {
-        ArticleAdapter.bindArticle(view, item, new ArticleAdapter.OnCollectListener() {
-            @Override
-            public void collect(ArticleBean item, CollectView v) {
-                presenter.collect(item, v);
-            }
-
-            @Override
-            public void uncollect(ArticleBean item, CollectView v) {
-                presenter.uncollect(item, v);
-            }
-        });
     }
 
     private void removeTopItems() {

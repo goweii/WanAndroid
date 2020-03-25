@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <per.goweii.actionbarex.common.ActionBarCommon
+        android:id="@+id/abc"
+        style="@style/ActionBar.Common"
+        app:abc_titleText="问答" />
+
+    <com.kennyc.view.MultiStateView
+        android:id="@+id/msv"
+        style="@style/StateView">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/srl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingBottom="@dimen/bottom_bar_height"
+                android:scrollbars="vertical"
+                tools:layoutmanager="LinearLayoutManager"
+                tools:listitem="@layout/rv_item_article" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.kennyc.view.MultiStateView>
+
+</LinearLayout>

@@ -9,12 +9,12 @@ import butterknife.BindView;
 import per.goweii.basic.core.adapter.TabFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.base.BasePresenter;
-import per.goweii.basic.core.surface.fragment.NotFoundFragment;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.home.fragment.HomeFragment;
 import per.goweii.wanandroid.module.main.adapter.MainTabAdapter;
 import per.goweii.wanandroid.module.main.model.TabEntity;
 import per.goweii.wanandroid.module.mine.fragment.MineFragment;
+import per.goweii.wanandroid.module.question.fragment.QuestionFragment;
 import per.goweii.wanandroid.utils.TM;
 
 public class MainFragment extends BaseFragment {
@@ -48,7 +48,7 @@ public class MainFragment extends BaseFragment {
         mMinePage = new TabFragmentPagerAdapter.Page<>(MineFragment.create(), new TabEntity("我的", R.drawable.ic_bottom_bar_mine, -1), new MainTabAdapter());
         mTabFragmentPagerAdapter.setPages(
                 new TabFragmentPagerAdapter.Page<>(HomeFragment.create(), new TabEntity("首页", R.drawable.ic_bottom_bar_home, -1), new MainTabAdapter()),
-                new TabFragmentPagerAdapter.Page<>(NotFoundFragment.create("问答页面占位"), new TabEntity("问答", R.drawable.ic_bottom_bar_wechat, -1), new MainTabAdapter()),
+                new TabFragmentPagerAdapter.Page<>(QuestionFragment.create(), new TabEntity("问答", R.drawable.ic_bottom_bar_wechat, -1), new MainTabAdapter()),
                 new TabFragmentPagerAdapter.Page<>(KnowledgeNavigationFragment.create(), new TabEntity("体系", R.drawable.ic_bottom_bar_navi, -1), new MainTabAdapter()),
                 mMinePage
         );
@@ -56,7 +56,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        mMinePage.getData().setMsgCount(99);
+        mMinePage.getData().setMsgCount(3);
         mTabFragmentPagerAdapter.notifyPageDataChanged();
     }
 

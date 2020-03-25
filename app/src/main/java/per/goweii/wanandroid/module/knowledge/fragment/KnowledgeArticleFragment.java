@@ -175,7 +175,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
                 ArticleBean item = mAdapter.getArticleBean(position);
                 if (item != null) {
-                    if (!v.isChecked()) {
+                    if (v.isChecked()) {
                         presenter.collect(item, v);
                     } else {
                         presenter.uncollect(item, v);
