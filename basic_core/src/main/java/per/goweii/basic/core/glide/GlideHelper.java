@@ -29,7 +29,6 @@ import com.bumptech.glide.request.transition.Transition;
 
 import per.goweii.basic.core.glide.progress.OnProgressListener;
 import per.goweii.basic.core.glide.progress.ProgressInterceptor;
-import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.Utils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
@@ -281,8 +280,6 @@ public class GlideHelper {
     }
 
     private void notifyProgressChanged(float progress) {
-        LogUtils.d("GlideHelper", "notifyProgressChanged progress=" + progress);
-        LogUtils.d("GlideHelper", "notifyProgressChanged on thread:" + Thread.currentThread().getName());
         if (mProgressHandler != null) {
             Message msg = mProgressHandler.obtainMessage();
             msg.obj = progress;
@@ -291,12 +288,10 @@ public class GlideHelper {
     }
 
     private void notifyLoadStarted() {
-        LogUtils.d("GlideHelper", "notifyLoadStarted");
         notifyProgressChanged(0F);
     }
 
     private void notifyResourceReady() {
-        LogUtils.d("GlideHelper", "notifyResourceReady");
         notifyProgressChanged(1F);
         if (mProgressListener != null) {
             ProgressInterceptor.removeProgressListener(mProgressListener);
@@ -304,7 +299,6 @@ public class GlideHelper {
     }
 
     private void notifyLoadFailed() {
-        LogUtils.d("GlideHelper", "notifyLoadFailed");
         notifyProgressChanged(-1F);
         if (mProgressListener != null) {
             ProgressInterceptor.removeProgressListener(mProgressListener);

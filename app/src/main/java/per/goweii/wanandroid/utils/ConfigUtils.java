@@ -17,7 +17,6 @@ import per.goweii.wanandroid.module.main.model.ConfigBean;
 public class ConfigUtils {
 
     private static final String SP_NAME = "config";
-    private static final String KEY_LAST_UPDATE = "KEY_LAST_UPDATE";
     private static final String KEY_CONFIG = "KEY_CONFIG";
 
     private final SPUtils mSPUtils = SPUtils.newInstance(SP_NAME);
@@ -34,17 +33,6 @@ public class ConfigUtils {
     }
 
     private ConfigUtils() {
-    }
-
-    public boolean isTodayUpdate() {
-        return false;
-//        long last = getLastUpdate();
-//        long curr = System.currentTimeMillis();
-//        Date lastDate = new Date(last);
-//        Date currDate = new Date(curr);
-//        return lastDate.getYear() == currDate.getYear() &&
-//                lastDate.getMonth() == currDate.getMonth() &&
-//                lastDate.getDay() == currDate.getDay();
     }
 
     @NonNull
@@ -69,17 +57,9 @@ public class ConfigUtils {
             mConfigBean = new ConfigBean();
         } else {
             mConfigBean = configBean;
-            setLastUpdate();
         }
         mSPUtils.save(KEY_CONFIG, mGson.toJson(mConfigBean));
-    }
-
-    private long getLastUpdate() {
-        return mSPUtils.get(KEY_LAST_UPDATE, 0L);
-    }
-
-    private void setLastUpdate() {
-        mSPUtils.save(KEY_LAST_UPDATE, System.currentTimeMillis());
+        GrayFilterHelper.INSTANCE.refresh();
     }
 
 }

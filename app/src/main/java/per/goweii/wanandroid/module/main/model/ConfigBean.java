@@ -8,16 +8,20 @@ import per.goweii.rxhttp.request.base.BaseBean;
  * GitHub: https://github.com/goweii
  */
 public class ConfigBean extends BaseBean {
-    /**
-     * dailyMsg :
-     * actionBarBgColor :
-     * actionBarBgImageUrl :
-     */
 
+    private boolean grayFilter;
     private String dailyMsg;
     private String homeTitle;
     private String actionBarBgColor;
     private String actionBarBgImageUrl;
+
+    public boolean isGrayFilter() {
+        return grayFilter;
+    }
+
+    public void setGrayFilter(boolean grayFilter) {
+        this.grayFilter = grayFilter;
+    }
 
     public String getDailyMsg() {
         return dailyMsg;

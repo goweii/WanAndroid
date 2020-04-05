@@ -2,13 +2,14 @@ package per.goweii.basic.utils;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
-import android.util.Log;
 
 import androidx.annotation.IntDef;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
+
+import per.goweii.ponyo.log.Ponlog;
 
 /**
  * Log输出工具类
@@ -131,21 +132,27 @@ public final class LogUtils {
         if (!DEBUGGABLE) {
             return;
         }
+        Ponlog.INSTANCE.setInvokeClass(LogUtils.class);
         switch (FILTER & filter) {
             case VERBOSE:
-                Log.v(tag, msg);
+                Ponlog.INSTANCE.log(Ponlog.Level.VERBOSE, tag, msg);
+                //Log.v(tag, msg);
                 break;
             case DEBUG:
-                Log.d(tag, msg);
+                Ponlog.INSTANCE.log(Ponlog.Level.DEBUG, tag, msg);
+                //Log.d(tag, msg);
                 break;
             case INFO:
-                Log.i(tag, msg);
+                Ponlog.INSTANCE.log(Ponlog.Level.INFO, tag, msg);
+                //Log.i(tag, msg);
                 break;
             case WARN:
-                Log.w(tag, msg);
+                Ponlog.INSTANCE.log(Ponlog.Level.WARN, tag, msg);
+                //Log.w(tag, msg);
                 break;
             case ERROR:
-                Log.e(tag, msg);
+                Ponlog.INSTANCE.log(Ponlog.Level.ERROR, tag, msg);
+                //Log.e(tag, msg);
                 break;
             default:
                 break;

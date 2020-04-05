@@ -15,7 +15,6 @@ import per.goweii.wanandroid.module.main.adapter.MainTabAdapter;
 import per.goweii.wanandroid.module.main.model.TabEntity;
 import per.goweii.wanandroid.module.mine.fragment.MineFragment;
 import per.goweii.wanandroid.module.question.fragment.QuestionFragment;
-import per.goweii.wanandroid.utils.TM;
 
 public class MainFragment extends BaseFragment {
 
@@ -43,7 +42,6 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        TM.APP_STARTUP.record("MainFragment initView");
         mTabFragmentPagerAdapter = new TabFragmentPagerAdapter<>(getChildFragmentManager(), vp_tab, ll_bb, R.layout.tab_item_main);
         mMinePage = new TabFragmentPagerAdapter.Page<>(MineFragment.create(), new TabEntity("我的", R.drawable.ic_bottom_bar_mine, -1), new MainTabAdapter());
         mTabFragmentPagerAdapter.setPages(
@@ -63,6 +61,5 @@ public class MainFragment extends BaseFragment {
     @Override
     protected void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
-        TM.APP_STARTUP.record("MainFragment onVisible");
     }
 }

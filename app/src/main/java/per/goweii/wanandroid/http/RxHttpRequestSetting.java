@@ -1,9 +1,11 @@
 package per.goweii.wanandroid.http;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import per.goweii.basic.core.common.Config;
 import per.goweii.rxhttp.request.setting.DefaultRequestSetting;
@@ -42,6 +44,16 @@ public class RxHttpRequestSetting extends DefaultRequestSetting {
     @Override
     public int getSuccessCode() {
         return 0;
+    }
+
+    @Nullable
+    @Override
+    public Interceptor[] getNetworkInterceptors() {
+        HttpLogInterceptor httpLogInterceptor = new HttpLogInterceptor();
+        httpLogInterceptor.setLevel(HttpLogInterceptor.Level.BODY);
+        return new Interceptor[]{
+                httpLogInterceptor
+        };
     }
 
     @Override

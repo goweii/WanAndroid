@@ -31,7 +31,6 @@ import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.presenter.MainPresenter;
 import per.goweii.wanandroid.module.main.view.MainView;
 import per.goweii.wanandroid.utils.CopiedTextProcessor;
-import per.goweii.wanandroid.utils.TM;
 import per.goweii.wanandroid.utils.TaskQueen;
 import per.goweii.wanandroid.utils.UpdateUtils;
 import per.goweii.wanandroid.utils.wanpwd.WanPwdParser;
@@ -64,7 +63,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     @Override
     protected void initWindow() {
         super.initWindow();
-        TM.APP_STARTUP.record("MainActivity initWindow");
         setTheme(R.style.AppTheme);
         getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.background)));
     }
@@ -82,7 +80,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void initView() {
-        TM.APP_STARTUP.record("MainActivity initView");
         //showSplashDialog();
         vp.addOnPageChangeListener(this);
         vp.setOffscreenPageLimit(1);

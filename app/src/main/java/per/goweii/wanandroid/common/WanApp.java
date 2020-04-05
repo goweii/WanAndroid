@@ -11,8 +11,8 @@ import com.franmontiel.persistentcookiejar.persistence.SharedPrefsCookiePersisto
 
 import per.goweii.basic.core.base.BaseApp;
 import per.goweii.basic.utils.InitTaskRunner;
+import per.goweii.wanandroid.utils.GrayFilterHelper;
 import per.goweii.wanandroid.utils.NightModeUtils;
-import per.goweii.wanandroid.utils.TM;
 
 /**
  * @author CuiZhen
@@ -26,13 +26,12 @@ public class WanApp extends BaseApp {
     @Override
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
-        TM.APP_STARTUP.start("WanApp attachBaseContext");
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        TM.APP_STARTUP.record("WanApp onCreate");
+        GrayFilterHelper.INSTANCE.attach(this);
         initDarkMode();
         new InitTaskRunner(this)
                 .add(new CoreInitTask())
@@ -44,35 +43,16 @@ public class WanApp extends BaseApp {
                 .add(new BuglyInitTask())
                 .add(new CrashInitTask())
                 .run();
-        TM.APP_STARTUP.record("WanApp onCreate third-part init completed");
     }
-
-    private static boolean mWebActivityStarted = false;
 
     @Override
     public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
         super.onActivityCreated(activity, savedInstanceState);
-//        if (activity instanceof MainActivity) {
-//            if (!mWebActivityStarted) {
-//                Intent intent = new Intent(activity, WebActivity.class);
-//                intent.putExtra("destroyOnCreated", true);
-//                activity.startActivity(intent);
-//                activity.overridePendingTransition(0, 0);
-//            }
-//        }
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
         super.onActivityStarted(activity);
-//        if (activity instanceof WebActivity) {
-//            boolean destroyOnCreated = activity.getIntent().getBooleanExtra("destroyOnCreated", false);
-//            if (destroyOnCreated) {
-//                activity.finish();
-//                activity.overridePendingTransition(0, 0);
-//            }
-//            mWebActivityStarted = true;
-//        }
     }
 
     @Override

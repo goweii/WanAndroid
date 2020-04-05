@@ -38,10 +38,6 @@ public class MainPresenter extends BasePresenter<MainView> {
         ConfigBean configBean = ConfigUtils.getInstance().getConfig();
         LogUtils.i("ConfigBean", "getConfig" + configBean.toFormatJson());
         getBaseView().getConfigSuccess(configBean);
-        LogUtils.i("ConfigBean", ConfigUtils.getInstance().isTodayUpdate());
-        if (ConfigUtils.getInstance().isTodayUpdate()) {
-            return;
-        }
         MainRequest.getConfig(getRxLife(), new RequestListener<ConfigBean>() {
             @Override
             public void onStart() {

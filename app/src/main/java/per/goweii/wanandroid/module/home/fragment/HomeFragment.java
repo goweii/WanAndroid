@@ -68,7 +68,6 @@ import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvAnimUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
-import per.goweii.wanandroid.utils.TM;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.ad.AdForBannerFactory;
 import per.goweii.wanandroid.widget.CollectView;
@@ -243,7 +242,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     protected void initView() {
-        TM.APP_STARTUP.record("HomeFragment initView");
         abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
@@ -403,7 +401,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
-        TM.APP_STARTUP.record("HomeFragment onVisible");
     }
 
     @Override
@@ -455,7 +452,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                         ViewExtKt.onPreDraw(imageView, new Function1<View, Unit>() {
                             @Override
                             public Unit invoke(View view) {
-                                TM.APP_STARTUP.end("HomeFragment Banner onPreDraw");
                                 return null;
                             }
                         });
