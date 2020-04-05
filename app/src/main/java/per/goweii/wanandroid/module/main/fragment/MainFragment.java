@@ -54,7 +54,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void loadData() {
-        mMinePage.getData().setMsgCount(3);
+        mMinePage.getData().setMsgCount(0);
         mTabFragmentPagerAdapter.notifyPageDataChanged();
     }
 
