@@ -59,7 +59,13 @@ public class RxHttpRequestSetting extends DefaultRequestSetting {
         HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
             @Override
             public void log(String message) {
-                LogUtils.i("HttpLoggingInterceptor", mGson.toJson(JsonParser.parseString(message)));
+                String msg;
+                try {
+                    msg = mGson.toJson(JsonParser.parseString(message));
+                } catch (Exception e) {
+                    msg = message;
+                }
+                LogUtils.i("HttpLoggingInterceptor", msg);
             }
         });
         httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);

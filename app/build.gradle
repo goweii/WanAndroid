@@ -91,6 +91,14 @@ android {
         }
     }
     resourcePrefix ""
+    applicationVariants.all { variant ->
+        variant.outputs.each {
+            def versionName = variant.versionName
+            def versionCode = variant.versionCode
+            def buildType = variant.buildType.name
+            it.outputFileName = "wanandroid-${versionName}-${versionCode}-${buildType}.apk"
+        }
+    }
 }
 
 kapt {
