@@ -9,8 +9,6 @@ import per.goweii.basic.core.BuildConfig;
  */
 public final class Config {
 
-    public static final boolean DEBUG = BuildConfig.DEBUG;
-
     public static final long HTTP_TIMEOUT = 5000;
 
     public static final String BASE_URL = "https://www.wanandroid.com/";

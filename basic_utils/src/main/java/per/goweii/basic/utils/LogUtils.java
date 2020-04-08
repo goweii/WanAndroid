@@ -1,13 +1,6 @@
 package per.goweii.basic.utils;
 
-import android.content.Context;
-import android.content.pm.ApplicationInfo;
-
-import androidx.annotation.IntDef;
-
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.Arrays;
+import android.util.Log;
 
 import per.goweii.ponyo.log.Ponlog;
 
@@ -19,148 +12,62 @@ import per.goweii.ponyo.log.Ponlog;
  * @date 2018/3/18-上午10:21
  */
 public final class LogUtils {
-    public static final int VERBOSE = 1;
-    public static final int DEBUG = 1 << 1;
-    public static final int INFO = 1 << 2;
-    public static final int WARN = 1 << 3;
-    public static final int ERROR = 1 << 4;
-    public static final int NONE = 0;
-    public static final int ALL = VERBOSE | DEBUG | INFO | WARN | ERROR;
-    public static final int DEBUG_ABOVE = DEBUG | INFO | WARN | ERROR;
-    public static final int INFO_ABOVE = INFO | WARN | ERROR;
-    public static final int WARN_ABOVE = WARN | ERROR;
+    private static boolean DEBUGGABLE = BuildConfig.DEBUG;
 
-    @Level
-    private static int FILTER = ALL;
-    private static boolean DEBUGGABLE = false;
+    private static Ponlog.Logger sLogger;
 
-    public static void setFilter(@Level int filter) {
-        LogUtils.FILTER = filter;
-    }
-
-    public static void init(Context context) {
-        try {
-            ApplicationInfo info = context.getApplicationInfo();
-            DEBUGGABLE = (info.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
-        } catch (Exception ignore) {
-        }
-    }
-
-    public static void v(String tag, String msg) {
-        log(tag, msg, VERBOSE);
+    static {
+        sLogger = Ponlog.INSTANCE.create();
+        sLogger.setInvokeClass(LogUtils.class);
     }
 
     public static void v(String tag, Object msg) {
-        log(tag, msg, VERBOSE);
-    }
-
-    public static void v(String tag, Object[] msg) {
-        v(tag, Arrays.toString(msg));
-    }
-
-    public static void d(String tag, String msg) {
-        log(tag, msg, DEBUG);
+        log(Log.VERBOSE, tag, msg);
     }
 
     public static void d(String tag, Object msg) {
-        log(tag, msg, DEBUG);
-    }
-
-    public static void d(String tag, Object[] msg) {
-        d(tag, Arrays.toString(msg));
-    }
-
-    public static void i(String tag, String msg) {
-        log(tag, msg, INFO);
+        log(Log.DEBUG, tag, msg);
     }
 
     public static void i(String tag, Object msg) {
-        log(tag, msg, INFO);
-    }
-
-    public static void i(String tag, Object[] msg) {
-        i(tag, Arrays.toString(msg));
-    }
-
-    public static void w(String tag, String msg) {
-        log(tag, msg, WARN);
+        log(Log.INFO, tag, msg);
     }
 
     public static void w(String tag, Object msg) {
-        log(tag, msg, WARN);
-    }
-
-    public static void w(String tag, Object[] msg) {
-        w(tag, Arrays.toString(msg));
-    }
-
-    public static void e(String tag, String msg) {
-        log(tag, msg, ERROR);
+        log(Log.WARN, tag, msg);
     }
 
     public static void e(String tag, Object msg) {
-        log(tag, msg, ERROR);
+        log(Log.ERROR, tag, msg);
     }
 
-    public static void e(String tag, Object[] msg) {
-        e(tag, Arrays.toString(msg));
+    public static void a(String tag, Object msg) {
+        log(Log.ASSERT, tag, msg);
     }
 
-    public static void log(String tag, Object msg, int filter) {
-        if (msg instanceof char[]) {
-            log(tag, Arrays.toString((char[]) msg), filter);
-        } else if (msg instanceof byte[]) {
-            log(tag, Arrays.toString((byte[]) msg), filter);
-        } else if (msg instanceof short[]) {
-            log(tag, Arrays.toString((short[]) msg), filter);
-        } else if (msg instanceof int[]) {
-            log(tag, Arrays.toString((int[]) msg), filter);
-        } else if (msg instanceof long[]) {
-            log(tag, Arrays.toString((long[]) msg), filter);
-        } else if (msg instanceof float[]) {
-            log(tag, Arrays.toString((float[]) msg), filter);
-        } else if (msg instanceof double[]) {
-            log(tag, Arrays.toString((double[]) msg), filter);
-        } else if (msg instanceof boolean[]) {
-            log(tag, Arrays.toString((boolean[]) msg), filter);
-        } else {
-            log(tag, String.valueOf(msg), filter);
-        }
-    }
-
-    private static void log(String tag, String msg, int filter) {
-        if (!DEBUGGABLE) {
-            return;
-        }
-        Ponlog.INSTANCE.setInvokeClass(LogUtils.class);
-        switch (FILTER & filter) {
-            case VERBOSE:
-                Ponlog.INSTANCE.log(Ponlog.Level.VERBOSE, tag, msg);
-                //Log.v(tag, msg);
+    private static void log(int level, String tag, Object msg) {
+        if (!DEBUGGABLE) return;
+        switch (level) {
+            case Log.VERBOSE:
+                sLogger.log(Ponlog.Level.VERBOSE, tag, msg);
                 break;
-            case DEBUG:
-                Ponlog.INSTANCE.log(Ponlog.Level.DEBUG, tag, msg);
-                //Log.d(tag, msg);
+            case Log.DEBUG:
+                sLogger.log(Ponlog.Level.DEBUG, tag, msg);
                 break;
-            case INFO:
-                Ponlog.INSTANCE.log(Ponlog.Level.INFO, tag, msg);
-                //Log.i(tag, msg);
+            case Log.INFO:
+                sLogger.log(Ponlog.Level.INFO, tag, msg);
                 break;
-            case WARN:
-                Ponlog.INSTANCE.log(Ponlog.Level.WARN, tag, msg);
-                //Log.w(tag, msg);
+            case Log.WARN:
+                sLogger.log(Ponlog.Level.WARN, tag, msg);
                 break;
-            case ERROR:
-                Ponlog.INSTANCE.log(Ponlog.Level.ERROR, tag, msg);
-                //Log.e(tag, msg);
+            case Log.ERROR:
+                sLogger.log(Ponlog.Level.ERROR, tag, msg);
+                break;
+            case Log.ASSERT:
+                sLogger.log(Ponlog.Level.ASSERT, tag, msg);
                 break;
             default:
                 break;
         }
-    }
-
-    @IntDef({VERBOSE, DEBUG, INFO, WARN, ERROR, NONE, ALL, DEBUG_ABOVE, INFO_ABOVE, WARN_ABOVE})
-    @Retention(RetentionPolicy.SOURCE)
-    @interface Level {
     }
 }

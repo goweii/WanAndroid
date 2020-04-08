@@ -19,7 +19,6 @@ public class Utils {
 
     public static void init(Context context) {
         Utils.context = context;
-        LogUtils.init(context);
         Blurred.init(context);
         if (sOnInits != null) {
             for (OnInit onInit : sOnInits) {
