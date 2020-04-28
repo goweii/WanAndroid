@@ -12,7 +12,7 @@ APP功能已基本完善且趋于稳定，无重大BUG和需求将持续暂停�
 
 # WanAndroid
 
-[WanAndroid](https://www.wanandroid.com/)|最美玩安卓客户端
+最美[WanAndroid](https://www.wanandroid.com/)客户端
 
 - [Wanandroid主页](https://www.wanandroid.com/blog/show/2577)
 - [GitHub主页](https://github.com/goweii/WanAndroid)
