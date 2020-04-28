@@ -20,14 +20,6 @@ allprojects {
         maven { url "https://maven.aliyun.com/repository/jcenter" }
         maven { url "https://maven.aliyun.com/repository/google" }
         maven { url "https://jitpack.io" }
-        maven {
-            url "https://jitpack.io"
-            Properties properties = new Properties()
-            InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
-            properties.load(inputStream)
-            def AUTH_TOKEN = properties.getProperty('AUTH_TOKEN')
-            credentials { username AUTH_TOKEN }
-        }
         google()
         jcenter()
     }
