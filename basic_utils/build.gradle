@@ -6,6 +6,4 @@ android {
 
 dependencies {
     api rootProject.ext.dependencies.blurred
-    debugImplementation 'com.github.goweii.Ponyo:ponyo:1.0.6'
-    api 'com.github.goweii.Ponyo:ponyo-log:1.0.6'
 }

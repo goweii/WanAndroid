@@ -68,8 +68,6 @@ ext {
             buglyCrashreport      : "3.1.0",
             crashActivity         : "2.2.0",
             jinrishici            : "1.2",
-
-            okhttp                : "3.14.6",
     ]
 
     dependencies = [
