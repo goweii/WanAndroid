@@ -377,3 +377,8 @@ APP功能已基本完善且趋于稳定，无重大BUG和需求将持续暂停�
 
 - 第一版试水
 
+
+# 如果你觉得App还不错，就请我喝杯咖啡吧~
+|![wx_qrcode](https://gitee.com/goweii/WanAndroidServer/raw/master/about/wx_qrcode.png)|
+|---|
+
