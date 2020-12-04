@@ -1,3 +1,5 @@
+**统一说明下，之前被人改成马甲包上架到小米应用商店，现在已经下架但是处于无法申诉状态。所以从下面三个渠道下载安装时还是会提示高危应用，这个属于之前被下架的后遗症，可放心安装。**
+
 ------
 
 **【停更及内测说明】**
@@ -18,7 +20,7 @@ APP功能已基本完善且趋于稳定，无重大BUG和需求将持续暂停�
 - [GitHub主页](https://github.com/goweii/WanAndroid)
 - [酷安主页](https://www.coolapk.com/apk/231591) 
 
-![install](https://img.shields.io/badge/Install-2617-green)
+![install](https://img.shields.io/badge/Install-3955-green)
 
 
 
