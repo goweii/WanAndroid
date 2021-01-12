@@ -1,6 +1,7 @@
-# 求职
+# [求职](https://github.com/goweii/job-wanted)
 
-3年Android开发经验，**非计算机相关专业**，坐标西安，本人QQ302833254，欢迎联系。
+
+
 
 
 
