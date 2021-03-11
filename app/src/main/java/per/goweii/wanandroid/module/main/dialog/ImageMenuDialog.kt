@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.view.Gravity
 import android.widget.TextView
-import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder
 import com.github.chrisbanes.photoview.PhotoView
 import per.goweii.anylayer.DialogLayer
 import per.goweii.anylayer.DragLayout
@@ -17,6 +16,8 @@ import per.goweii.basic.ui.toast.ToastMaker
 import per.goweii.basic.utils.bitmap.BitmapUtils
 import per.goweii.basic.utils.ext.gone
 import per.goweii.basic.utils.ext.visible
+import per.goweii.codex.decoder.CodeDecoder
+import per.goweii.codex.processor.zxing.ZXingMultiDecodeQRCodeProcessor
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.utils.UrlOpenUtils
 import kotlin.math.max
@@ -32,30 +33,33 @@ class ImageMenuDialog(
 ) : DialogLayer(context) {
 
     companion object {
-        fun show(context: Context, iv: PhotoView): ImageMenuDialog? {
+        fun create(context: Context, iv: PhotoView, onCreate: (ImageMenuDialog) -> Unit) {
             try {
-                val drawable = iv.drawable ?: return null
+                val drawable = iv.drawable ?: return
                 val bd = drawable as BitmapDrawable
-                val bitmap = bd.bitmap ?: return null
+                val bitmap = bd.bitmap ?: return
                 val scale: Float = max(720F / bitmap.width.toFloat(), 720F / bitmap.height.toFloat())
-                return if (scale < 1F) {
+                val newBitmap = if (scale < 1F) {
                     val w = (bitmap.width * scale).toInt()
                     val h = (bitmap.height * scale).toInt()
                     val bitmapScaled = Bitmap.createScaledBitmap(bitmap, w, h, false)
-                    val qrcode = QRCodeDecoder.syncDecodeQRCode(bitmapScaled)
-                    bitmapScaled.recycle()
-                    ImageMenuDialog(context, bitmap, qrcode).apply {
-                        show()
-                    }
+                    bitmapScaled
                 } else {
-                    val qrcode = QRCodeDecoder.syncDecodeQRCode(bitmap)
-                    ImageMenuDialog(context, bitmap, qrcode).apply {
+                    bitmap
+                }
+                CodeDecoder(ZXingMultiDecodeQRCodeProcessor()).decode(newBitmap, onSuccess = {
+                    val dialog = ImageMenuDialog(context, bitmap, it.first().text).apply {
                         show()
                     }
-                }
+                    onCreate.invoke(dialog)
+                }, onFailure = {
+                    val dialog = ImageMenuDialog(context, bitmap, null).apply {
+                        show()
+                    }
+                    onCreate.invoke(dialog)
+                })
             } catch (e: Exception) {
             }
-            return null
         }
     }
 

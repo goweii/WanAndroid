@@ -3,13 +3,12 @@ package per.goweii.wanandroid.module.main.activity
 import android.Manifest
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.content.Context
+import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Intent
-import android.os.Vibrator
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import cn.bingoogolapple.qrcode.core.QRCodeView
-import cn.bingoogolapple.qrcode.zxing.QRCodeDecoder
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_scan.*
 import per.goweii.anypermission.AnyPermission
 import per.goweii.anypermission.RequestListener
@@ -20,18 +19,26 @@ import per.goweii.basic.utils.bitmap.BitmapUtils
 import per.goweii.basic.utils.ext.gone
 import per.goweii.basic.utils.ext.invisible
 import per.goweii.basic.utils.ext.visible
+import per.goweii.codex.decoder.CodeDecoder
+import per.goweii.codex.decorator.beep.BeepDecorator
+import per.goweii.codex.decorator.gesture.GestureDecorator
+import per.goweii.codex.decorator.vibrate.VibrateDecorator
+import per.goweii.codex.processor.zxing.ZXingMultiDecodeQRCodeProcessor
+import per.goweii.codex.processor.zxing.ZXingMultiScanQRCodeProcessor
+import per.goweii.codex.scanner.CameraProxy
+import per.goweii.codex.scanner.CodeScanner
+import per.goweii.swipeback.SwipeBackDirection
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.main.presenter.ScanPresenter
 import per.goweii.wanandroid.module.main.view.ScanView
 import per.goweii.wanandroid.utils.PictureSelector
 import per.goweii.wanandroid.utils.UrlOpenUtils
 
-
 /**
  * @author CuiZhen
  * @date 2020/2/26
  */
-class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegate {
+class ScanActivity : BaseActivity<ScanPresenter>(), ScanView {
 
     companion object {
         private const val REQ_CODE_PERMISSION_CAMERA = 1
@@ -39,60 +46,85 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
         private const val REQ_CODE_SELECT_PIC = 3
 
         @JvmStatic
-        fun start(context: Context) {
-            val intent = Intent(context, ScanActivity::class.java)
-            context.startActivity(intent)
+        fun start(activity: Activity) {
+            val intent = Intent(activity, ScanActivity::class.java)
+            activity.startActivity(intent)
+            activity.overridePendingTransition(
+                    R.anim.swipeback_activity_open_bottom_in,
+                    R.anim.activity_no_anim
+            )
         }
-    }
 
-    enum class Mode {
-        SCAN, ALBUM
+        @JvmStatic
+        fun startForResult(activity: Activity, requestCode: Int) {
+            val intent = Intent(activity, ScanActivity::class.java)
+            activity.startActivityForResult(intent, requestCode)
+            activity.overridePendingTransition(
+                    R.anim.swipeback_activity_open_bottom_in,
+                    R.anim.activity_no_anim
+            )
+        }
     }
 
     private var mRuntimeRequester: RuntimeRequester? = null
     private var tvTipAnim: Animator? = null
-    private var mode = Mode.SCAN
 
-    override fun swipeBackOnlyEdge(): Boolean = true
+    private var codeScanner: CodeScanner? = null
+
+    override fun swipeBackDirection() = SwipeBackDirection.FROM_TOP
 
     override fun getLayoutId(): Int = R.layout.activity_scan
 
-    override fun initPresenter(): ScanPresenter? = ScanPresenter()
+    override fun initPresenter(): ScanPresenter = ScanPresenter()
 
     override fun initView() {
-        llTip.visibility = View.INVISIBLE
-        ivTorch.visibility = View.INVISIBLE
-        qrCodeView.setDelegate(this)
-        qrCodeView.stopSpotAndHiddenRect()
+        mSwipeBackHelper.swipeBackLayout.setSwipeBackTransformer { _, _, _, _ -> }
+        ivTorch.invisible()
         ivAlbum.setOnClickListener {
-            startModeAlbum()
+            startAlbum()
         }
+        ivTorch.setOnClickListener {
+            codeScanner?.enableTorch(!ivTorch.isSelected)
+        }
+        codeScanner = code_scanner.apply {
+            cameraProxyLiveData.observe(this@ScanActivity, Observer {
+                cameraProxy?.torchState?.observe(this@ScanActivity, Observer { torchState ->
+                    when (torchState) {
+                        CameraProxy.TORCH_ON -> ivTorch.isSelected = true
+                        CameraProxy.TORCH_OFF -> ivTorch.isSelected = false
+                    }
+                })
+            })
+            addProcessor(ZXingMultiScanQRCodeProcessor())
+            addDecorator(
+                    frozen_view,
+                    finder_view,
+                    BeepDecorator(),
+                    VibrateDecorator(),
+                    GestureDecorator()
+            )
+            onFound {
+                onScanQRCodeSuccess(it.first().text)
+            }
+            bindToLifecycle(this@ScanActivity)
+        }
+        startScan()
     }
 
     override fun loadData() {
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (mode == Mode.SCAN) {
-            startScan()
-        }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        stopScan()
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         cancelTipAnim()
-        qrCodeView.onDestroy()
     }
 
-    private fun startModeScan() {
-        mode = Mode.SCAN
-        startScan()
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(
+                R.anim.activity_no_anim,
+                R.anim.swipeback_activity_close_bottom_out
+        )
     }
 
     private fun startScan() {
@@ -100,7 +132,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                 .runtime(REQ_CODE_PERMISSION_CAMERA)
                 .permissions(Manifest.permission.CAMERA)
                 .onBeforeRequest { _, executor ->
-                    showTip("扫码二维码/条码需要相机权限", "点击申请", View.OnClickListener {
+                    showTip("扫二维码需要相机权限", "点击申请", View.OnClickListener {
                         hideTip()
                         executor.execute()
                     })
@@ -118,32 +150,30 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                     })
                 }
                 .request(object : RequestListener {
+                    @SuppressLint("MissingPermission")
                     override fun onSuccess() {
-                        qrCodeView.startCamera()
-                        qrCodeView.startSpotAndShowRect()
+                        ivTorch.visible()
+                        finder_view.visible()
+                        codeScanner?.startScan()
                     }
 
                     override fun onFailed() {
                         showTip("无法获取相机权限", "点击获取", View.OnClickListener {
                             hideTip()
-                            startModeScan()
+                            startScan()
                         })
                     }
                 })
     }
 
     private fun stopScan() {
-        qrCodeView.stopSpotAndHiddenRect()
-        qrCodeView.stopCamera()
-    }
-
-    private fun startModeAlbum() {
-        mode = Mode.ALBUM
-        stopScan()
-        startAlbum()
+        ivTorch.invisible()
+        finder_view.invisible()
+        codeScanner?.stopScan()
     }
 
     private fun startAlbum() {
+        stopScan()
         mRuntimeRequester = AnyPermission.with(context)
                 .runtime(REQ_CODE_PERMISSION_ALBUM)
                 .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -180,7 +210,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
                     }
 
                     override fun onFailed() {
-                        startModeScan()
+                        startScan()
                     }
                 })
     }
@@ -197,71 +227,38 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, QRCodeView.Delegat
             REQ_CODE_SELECT_PIC -> {
                 PictureSelector.result(resultCode, data)?.let {
                     BitmapUtils.getBitmapFromUri(context, it)?.let { bitmap ->
-                        QRCodeDecoder.syncDecodeQRCode(bitmap)?.let { result ->
-                            onAlbumQRCodeSuccess(result)
-                        } ?: run {
-                            showTip("没有识别到二维码/条码等", "返回扫码", View.OnClickListener {
+                        val decoder = CodeDecoder(ZXingMultiDecodeQRCodeProcessor())
+                        decoder.decode(bitmap, onSuccess = { results ->
+                            onAlbumQRCodeSuccess(results.first().text)
+                        }, onFailure = {
+                            showTip("没有识别到二维码", "返回扫码", View.OnClickListener {
                                 hideTip()
-                                startModeScan()
+                                startScan()
                             })
-                        }
-                    } ?: run {
-                        showTip("打开图片失败", "返回扫码", View.OnClickListener {
-                            hideTip()
-                            startModeScan()
                         })
-                    }
-                } ?: run {
-                    startModeScan()
-                }
+                    } ?: showTip("打开图片失败", "返回扫码", View.OnClickListener {
+                        hideTip()
+                        startScan()
+                    })
+                } ?: startScan()
             }
         }
     }
 
-    override fun onScanQRCodeSuccess(result: String?) {
+    private fun onScanQRCodeSuccess(result: String) {
         LogUtils.d("ScanActivity", "result=$result")
-        stopScan()
-        vibrate()
-        UrlOpenUtils.with(result).open(context)
-        finish()
+        window.decorView.postDelayed({
+            UrlOpenUtils.with(result).open(context)
+            finish()
+        }, 300L)
     }
 
-    private fun onAlbumQRCodeSuccess(result: String?) {
+    private fun onAlbumQRCodeSuccess(result: String) {
         LogUtils.d("ScanActivity", "result=$result")
-        vibrate()
-        UrlOpenUtils.with(result).open(context)
-        finish()
-    }
-
-    override fun onCameraAmbientBrightnessChanged(isDark: Boolean) {
-        if (isDark || ivTorch.isSelected) {
-            ivTorch.visible()
-            ivTorch.setOnClickListener {
-                ivTorch.isSelected = !ivTorch.isSelected
-                if (ivTorch.isSelected) {
-                    qrCodeView.openFlashlight()
-                } else {
-                    qrCodeView.closeFlashlight()
-                }
-            }
-        } else {
-            ivTorch.invisible()
-            ivTorch.isSelected = false
-            ivTorch.setOnClickListener(null)
-            qrCodeView.closeFlashlight()
-        }
-    }
-
-    override fun onScanQRCodeOpenCameraError() {
-        showTip("打开相机失败", "点击重试", View.OnClickListener {
-            hideTip()
-            startModeScan()
-        })
-    }
-
-    private fun vibrate() {
-        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        vibrator.vibrate(200)
+        window.decorView.postDelayed({
+            UrlOpenUtils.with(result).open(context)
+            finish()
+        }, 300L)
     }
 
     private fun cancelTipAnim() {

@@ -8,25 +8,23 @@
     android:background="#000000"
     android:orientation="vertical">
 
-    <per.goweii.wanandroid.widget.QRCodeView
-        android:id="@+id/qrCodeView"
+    <per.goweii.codex.scanner.CodeScanner
+        android:id="@+id/code_scanner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <per.goweii.codex.decorator.frozen.FrozenView
+        android:id="@+id/frozen_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <per.goweii.codex.decorator.finder.wechat.WeChatFinderView
+        android:id="@+id/finder_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:qrcv_animTime="1000"
-        app:qrcv_borderColor="@color/transparent"
-        app:qrcv_borderSize="0dp"
-        app:qrcv_cornerColor="@color/transparent"
-        app:qrcv_cornerLength="0dp"
-        app:qrcv_cornerSize="0dp"
-        app:qrcv_isOnlyDecodeScanBoxArea="false"
-        app:qrcv_isScanLineReverse="true"
-        app:qrcv_isShowDefaultScanLineDrawable="true"
-        app:qrcv_isShowLocationPoint="true"
-        app:qrcv_maskColor="@color/transparent"
-        app:qrcv_rectWidth="360dp"
-        app:qrcv_scanLineColor="@color/main"
-        app:qrcv_scanLineMargin="@dimen/margin_def"
-        app:qrcv_verticalBias="0.5" />
+        android:visibility="invisible"
+        app:finderResultPointInnerColor="@color/main"
+        app:finderScanLineColor="@color/main" />
 
     <LinearLayout
         android:id="@+id/llTip"
@@ -34,7 +32,8 @@
         android:layout_height="match_parent"
         android:background="#88000000"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:visibility="invisible">
 
         <TextView
             android:id="@+id/tvTipText"
@@ -61,18 +60,18 @@
             android:id="@+id/tvTipBtnCancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="2dp"
-            android:paddingBottom="2dp"
-            android:layout_marginTop="@dimen/margin_common"
+            android:layout_marginTop="@dimen/margin_def"
             android:alpha="0.5"
             android:background="@drawable/bg_stroke_round_color_white_radius_max"
             android:gravity="center"
-            android:paddingStart="@dimen/margin_common"
-            android:paddingEnd="@dimen/margin_common"
-            tools:text="返回扫码"
+            android:paddingStart="@dimen/margin_def"
+            android:paddingTop="@dimen/margin_thin"
+            android:paddingEnd="@dimen/margin_def"
+            android:paddingBottom="@dimen/margin_thin"
             android:scaleType="fitCenter"
             android:textColor="#FFFFFFFF"
-            android:textSize="@dimen/text_auxiliary" />
+            android:textSize="@dimen/text_auxiliary"
+            tools:text="返回扫码" />
 
     </LinearLayout>
 
@@ -80,12 +79,15 @@
         android:id="@+id/ivTorch"
         android:layout_width="@dimen/button_height"
         android:layout_height="@dimen/button_height"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
+        android:layout_marginStart="@dimen/margin_middle"
         android:layout_marginBottom="@dimen/margin_middle"
-        android:background="@drawable/bg_solid_round_color_black_alpha_radius_max"
+        android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
         android:scaleType="centerInside"
-        android:src="@drawable/selector_flush" />
+        android:src="@drawable/selector_flush"
+        android:tint="@color/invert"
+        tools:ignore="UseAppTint" />
 
     <ImageView
         android:id="@+id/ivAlbum"
@@ -95,9 +97,11 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/margin_middle"
         android:layout_marginBottom="@dimen/margin_middle"
-        android:background="@drawable/bg_solid_round_color_black_alpha_radius_max"
+        android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_album" />
+        android:src="@drawable/ic_album"
+        android:tint="@color/invert"
+        tools:ignore="UseAppTint" />
 
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"

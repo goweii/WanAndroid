@@ -94,7 +94,9 @@ class ImagePreviewDialog(
 
             override fun onLongClick() {
                 imageMenuDialog?.dismiss()
-                imageMenuDialog = ImageMenuDialog.show(activity, ipv)
+                ImageMenuDialog.create(activity, ipv) {
+                    imageMenuDialog = it
+                }
             }
         }
         GlideHelper.with(ipv.context)

@@ -20,6 +20,8 @@ allprojects {
         maven { url "https://maven.aliyun.com/repository/jcenter" }
         maven { url "https://maven.aliyun.com/repository/google" }
         maven { url "https://jitpack.io" }
+        //maven { url "https://raw.githubusercontent.com/goweii/maven-repository/master/releases/" }
+        maven { url "https://gitee.com/goweii/maven-repository/raw/master/releases/" }
         google()
         jcenter()
     }

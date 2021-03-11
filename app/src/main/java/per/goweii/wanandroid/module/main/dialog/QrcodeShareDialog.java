@@ -11,10 +11,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import cn.bingoogolapple.qrcode.zxing.QRCodeEncoder;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 import per.goweii.anylayer.AnimatorHelper;
 import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
+import per.goweii.codex.encoder.CodeEncoder;
+import per.goweii.codex.processor.zxing.ZXingEncodeQRCodeProcessor;
 import per.goweii.rxhttp.core.RxLife;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.http.RequestCallback;
@@ -96,11 +99,20 @@ public class QrcodeShareDialog extends DialogLayer {
         mRxLife = RxLife.create();
         ImageView iv_qrcode = getView(R.id.dialog_qrcode_share_piv_qrcode);
         TextView tv_title = getView(R.id.dialog_qrcode_share_tv_title);
-        Bitmap logo = BitmapFactory.decodeResource(getActivity().getResources(), R.drawable.ic_icon);
-        Bitmap qrcode = QRCodeEncoder.syncEncodeQRCode(mUrl, 300, Color.BLACK, Color.WHITE, logo);
-        iv_qrcode.setImageBitmap(qrcode);
         tv_title.setText(mTitle);
         refreshJinrishici();
+        new CodeEncoder(new ZXingEncodeQRCodeProcessor()).encode(mUrl, new Function1<Bitmap, Unit>() {
+            @Override
+            public Unit invoke(Bitmap bitmap) {
+                iv_qrcode.setImageBitmap(bitmap);
+                return null;
+            }
+        }, new Function1<Exception, Unit>() {
+            @Override
+            public Unit invoke(Exception e) {
+                return null;
+            }
+        });
     }
 
     @Override

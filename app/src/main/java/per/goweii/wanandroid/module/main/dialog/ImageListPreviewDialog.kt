@@ -116,7 +116,9 @@ class ImageListPreviewDialog(
 
                     override fun onLongClick() {
                         imageMenuDialog?.dismiss()
-                        imageMenuDialog = ImageMenuDialog.show(activity, ipv)
+                        ImageMenuDialog.create(activity, ipv) {
+                            imageMenuDialog = it
+                        }
                     }
                 }
                 return ipv

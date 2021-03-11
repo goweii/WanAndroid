@@ -251,7 +251,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         abc.setOnLeftIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
-                ScanActivity.start(v.getContext());
+                if (getActivity() != null) {
+                    ScanActivity.start(getActivity());
+                }
             }
         });
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);

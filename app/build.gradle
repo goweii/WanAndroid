@@ -122,9 +122,15 @@ dependencies {
     implementation rootProject.ext.dependencies.heartView
     implementation rootProject.ext.dependencies.tbs
     implementation rootProject.ext.dependencies.webkit
-    implementation rootProject.ext.dependencies.qrcode
     implementation rootProject.ext.dependencies.photoView
     implementation rootProject.ext.dependencies.roomRuntime
     kapt rootProject.ext.dependencies.roomCompiler
     implementation rootProject.ext.dependencies.roomKtx
+    implementation rootProject.ext.dependencies.codex_core
+    implementation rootProject.ext.dependencies.codex_decorator_gesture
+    implementation rootProject.ext.dependencies.codex_decorator_beep
+    implementation rootProject.ext.dependencies.codex_decorator_finder_wechat
+    implementation rootProject.ext.dependencies.codex_decorator_frozen
+    implementation rootProject.ext.dependencies.codex_decorator_vibrate
+    implementation rootProject.ext.dependencies.codex_processor_zxing
 }
