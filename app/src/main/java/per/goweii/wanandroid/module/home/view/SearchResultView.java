@@ -10,5 +10,6 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
  */
 public interface SearchResultView extends BaseView {
     void searchSuccess(int code, ArticleListBean data);
+
     void searchFailed(int code, String msg);
 }

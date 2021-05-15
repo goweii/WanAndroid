@@ -25,23 +25,19 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import per.goweii.basic.utils.LogUtils;
-
 /**
  * @author Cuizhen
  * @date 2018/6/25-上午10:39
  */
 class App extends Application implements Application.ActivityLifecycleCallbacks {
 
-    private static final String TAG = App.class.getSimpleName();
-
     protected static final int FLAG_CLEAR_TOP = 0;
     protected static final int FLAG_CLEAR_OLD = 1;
 
     @SuppressLint("StaticFieldLeak")
     private static Application application = null;
-    private static List<Activity> activities = Collections.synchronizedList(new LinkedList<Activity>());
-    private static Map<Class<? extends Activity>, Integer> singleInstanceActivities = Collections.synchronizedMap(new HashMap<Class<? extends Activity>, Integer>());
+    private static final List<Activity> activities = Collections.synchronizedList(new LinkedList<Activity>());
+    private static final Map<Class<? extends Activity>, Integer> singleInstanceActivities = Collections.synchronizedMap(new HashMap<Class<? extends Activity>, Integer>());
 
     public static Application getApp() {
         if (application == null) {
@@ -67,10 +63,7 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         if (application == null) {
             return false;
         }
-        if (activities == null || activities.size() == 0) {
-            return false;
-        }
-        return true;
+        return activities != null && activities.size() != 0;
     }
 
     /**
@@ -357,7 +350,6 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
                 break;
         }
         activities.add(activity);
-        LogUtils.i(TAG, activities);
     }
 
     @Override
@@ -393,10 +385,7 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         if (activities == null || activities.isEmpty()) {
             return;
         }
-        if (activities.contains(activity)) {
-            activities.remove(activity);
-        }
-        LogUtils.i(TAG, activities);
+        activities.remove(activity);
     }
 
     private void registerActivityListener() {

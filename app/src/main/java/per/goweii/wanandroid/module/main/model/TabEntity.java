@@ -5,8 +5,8 @@ package per.goweii.wanandroid.module.main.model;
  * @date 2020/3/22
  */
 public class TabEntity {
-    private String tabName;
-    private int tabIcon;
+    private final String tabName;
+    private final int tabIcon;
     private int msgCount;
 
     public TabEntity(String tabName, int tabIcon, int msgCount) {

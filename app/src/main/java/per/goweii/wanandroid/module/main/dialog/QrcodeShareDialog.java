@@ -4,25 +4,24 @@ import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
-import per.goweii.anylayer.AnimatorHelper;
-import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
+import per.goweii.anylayer.dialog.DialogLayer;
+import per.goweii.anylayer.utils.AnimatorHelper;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.codex.encoder.CodeEncoder;
 import per.goweii.codex.processor.zxing.ZXingEncodeQRCodeProcessor;
 import per.goweii.rxhttp.core.RxLife;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.http.RequestCallback;
-import per.goweii.wanandroid.module.main.model.JinrishiciBean;
-import per.goweii.wanandroid.module.main.model.MainRequest;
 
 /**
  * @author CuiZhen
@@ -34,18 +33,18 @@ public class QrcodeShareDialog extends DialogLayer {
     private RxLife mRxLife = null;
     private final String mUrl;
     private final String mTitle;
-    private final OnShareClickListener mOnShareClickListener;
+    private SimpleCallback<Bitmap> mOnAlbumClickListener = null;
+    private SimpleCallback<Bitmap> mOnShareClickListener = null;
 
-    public QrcodeShareDialog(Context context, String url, String title, OnShareClickListener listener) {
+    public QrcodeShareDialog(Context context, String url, String title) {
         super(context);
         mUrl = url;
         mTitle = title;
-        mOnShareClickListener = listener;
         contentView(R.layout.dialog_qrcode_share);
         backgroundDimDefault();
         contentAnimator(new AnimatorCreator() {
             @Override
-            public Animator createInAnimator(View target) {
+            public Animator createInAnimator(@NonNull View target) {
                 View rl_card = getView(R.id.dialog_qrcode_share_rl_card);
                 View rl_btn = getView(R.id.dialog_qrcode_share_ll_btn);
                 AnimatorSet animator = new AnimatorSet();
@@ -57,7 +56,7 @@ public class QrcodeShareDialog extends DialogLayer {
             }
 
             @Override
-            public Animator createOutAnimator(View target) {
+            public Animator createOutAnimator(@NonNull View target) {
                 View rl_card = getView(R.id.dialog_qrcode_share_rl_card);
                 View rl_btn = getView(R.id.dialog_qrcode_share_ll_btn);
                 AnimatorSet animator = new AnimatorSet();
@@ -71,36 +70,51 @@ public class QrcodeShareDialog extends DialogLayer {
         onClickToDismiss(R.id.dialog_qrcode_share_rl_content);
         onClickToDismiss(new OnClickListener() {
             @Override
-            public void onClick(Layer layer, View v) {
-                if (mOnShareClickListener != null) {
-                    mOnShareClickListener.onSave(createCardBitmap());
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
+                if (mOnAlbumClickListener != null) {
+                    mOnAlbumClickListener.onResult(createCardBitmap());
                 }
             }
         }, R.id.dialog_qrcode_share_iv_album);
         onClickToDismiss(new OnClickListener() {
             @Override
-            public void onClick(Layer layer, View v) {
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
                 if (mOnShareClickListener != null) {
-                    mOnShareClickListener.onShare(createCardBitmap());
+                    mOnShareClickListener.onResult(createCardBitmap());
                 }
             }
         }, R.id.dialog_qrcode_share_iv_share);
-        onClick(new OnClickListener() {
-            @Override
-            public void onClick(Layer layer, View v) {
-                refreshJinrishici();
-            }
-        }, R.id.dialog_qrcode_share_rv_shici);
+    }
+
+    public QrcodeShareDialog setOnAlbumClickListener(SimpleCallback<Bitmap> mOnAlbumClickListener) {
+        this.mOnAlbumClickListener = mOnAlbumClickListener;
+        return this;
+    }
+
+    public QrcodeShareDialog setOnShareClickListener(SimpleCallback<Bitmap> mOnShareClickListener) {
+        this.mOnShareClickListener = mOnShareClickListener;
+        return this;
     }
 
     @Override
     public void onAttach() {
         super.onAttach();
         mRxLife = RxLife.create();
+        LinearLayout ll_album = getView(R.id.dialog_qrcode_share_ll_album);
+        LinearLayout ll_share = getView(R.id.dialog_qrcode_share_ll_share);
+        if (mOnAlbumClickListener == null) {
+            ll_album.setVisibility(View.GONE);
+        } else {
+            ll_album.setVisibility(View.VISIBLE);
+        }
+        if (mOnShareClickListener == null) {
+            ll_share.setVisibility(View.GONE);
+        } else {
+            ll_share.setVisibility(View.VISIBLE);
+        }
         ImageView iv_qrcode = getView(R.id.dialog_qrcode_share_piv_qrcode);
         TextView tv_title = getView(R.id.dialog_qrcode_share_tv_title);
         tv_title.setText(mTitle);
-        refreshJinrishici();
         new CodeEncoder(new ZXingEncodeQRCodeProcessor()).encode(mUrl, new Function1<Bitmap, Unit>() {
             @Override
             public Unit invoke(Bitmap bitmap) {
@@ -123,37 +137,11 @@ public class QrcodeShareDialog extends DialogLayer {
         }
     }
 
-    private void refreshJinrishici() {
-        MainRequest.getJinrishici(mRxLife, new RequestCallback<JinrishiciBean>() {
-            @Override
-            public void onSuccess(int code, JinrishiciBean data) {
-                TextView tv_shici = getView(R.id.dialog_qrcode_share_tv_shici);
-                if (tv_shici != null) {
-                    tv_shici.setText(data.getContent());
-                }
-            }
-
-            @Override
-            public void onFailed(int code, String msg) {
-                TextView tv_shici = getView(R.id.dialog_qrcode_share_tv_shici);
-                if (tv_shici != null) {
-                    tv_shici.setText("获取失败，点击刷新");
-                }
-            }
-        });
-    }
-
     private Bitmap createCardBitmap() {
         View rl_card = getView(R.id.dialog_qrcode_share_rl_card);
         Bitmap bitmap = Bitmap.createBitmap(rl_card.getWidth(), rl_card.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         rl_card.draw(canvas);
         return bitmap;
-    }
-
-    public interface OnShareClickListener {
-        void onSave(Bitmap bitmap);
-
-        void onShare(Bitmap bitmap);
     }
 }

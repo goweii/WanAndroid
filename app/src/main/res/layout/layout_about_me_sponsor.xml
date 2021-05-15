@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_reward"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="?colorMain">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="60dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="60dp"
+        android:layout_marginBottom="60dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <per.goweii.percentimageview.percentimageview.PercentImageView
+            android:id="@+id/piv_zfb_qrcode"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_def"
+            android:layout_marginBottom="@dimen/margin_def"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            app:piv_basics="height"
+            app:piv_percent="0.85"
+            tools:src="#f5f5f5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="点击保存相册"
+            android:textColor="?colorOnMainOrSurfaceAlpha"
+            android:textSize="@dimen/text_notes" />
+
+        <per.goweii.percentimageview.percentimageview.PercentImageView
+            android:id="@+id/piv_wx_qrcode"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_def"
+            android:layout_marginBottom="@dimen/margin_def"
+            android:layout_weight="1"
+            android:scaleType="fitCenter"
+            app:piv_basics="height"
+            app:piv_percent="0.85"
+            tools:src="#f5f5f5" />
+
+    </LinearLayout>
+
+</RelativeLayout>

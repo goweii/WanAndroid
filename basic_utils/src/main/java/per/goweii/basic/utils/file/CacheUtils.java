@@ -6,6 +6,7 @@ import per.goweii.basic.utils.Utils;
 
 /**
  * 缓存辅助类
+ *
  * @author Cuizhen
  * @date 18/4/23
  */
@@ -23,6 +24,11 @@ public class CacheUtils {
         if (cacheFile == null) {
             cacheFile = Utils.getAppContext().getCacheDir();
         }
+        return cacheFile.getAbsolutePath();
+    }
+
+    public static String getFilesDir() {
+        File cacheFile = Utils.getAppContext().getFilesDir();
         return cacheFile.getAbsolutePath();
     }
 

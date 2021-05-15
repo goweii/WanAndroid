@@ -25,7 +25,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.anypermission.RequestListener;
@@ -88,8 +87,8 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
     RelativeLayout rl_info;
     @BindView(R.id.rl_reward)
     RelativeLayout rl_reward;
-    @BindView(R.id.piv_qq_qrcode)
-    PercentImageView piv_qq_qrcode;
+    @BindView(R.id.piv_zfb_qrcode)
+    PercentImageView piv_zfb_qrcode;
     @BindView(R.id.piv_wx_qrcode)
     PercentImageView piv_wx_qrcode;
 
@@ -135,7 +134,8 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
     }
 
     @OnClick({
-            R.id.ll_github, R.id.ll_jianshu, R.id.ll_qq, R.id.ll_qq_group
+            R.id.ll_github, R.id.ll_jianshu, R.id.ll_qq, R.id.ll_qq_group,
+            R.id.piv_zfb_qrcode, R.id.piv_wx_qrcode
     })
     @Override
     public void onClick(View v) {
@@ -165,19 +165,11 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
             case R.id.ll_qq_group:
                 presenter.openQQGroup();
                 break;
-        }
-    }
-
-    @OnLongClick({R.id.piv_qq_qrcode, R.id.piv_wx_qrcode})
-    public boolean onLongClick(View v) {
-        switch (v.getId()) {
-            default:
-                break;
-            case R.id.piv_qq_qrcode:
+            case R.id.piv_zfb_qrcode:
                 mRuntimeRequester = PermissionUtils.request(new RequestListener() {
                     @Override
                     public void onSuccess() {
-                        presenter.saveQQQrcode();
+                        presenter.savZFBQrcode();
                     }
 
                     @Override
@@ -198,7 +190,6 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
                 }, getContext(), REQUEST_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
                 break;
         }
-        return true;
     }
 
     @Override
@@ -277,7 +268,7 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
 
     @Override
     public void getAboutMeSuccess(int code, AboutMeBean data) {
-        ImageLoader.image(piv_qq_qrcode, data.getQq_qrcode());
+        ImageLoader.image(piv_zfb_qrcode, data.getZfb_qrcode());
         ImageLoader.image(piv_wx_qrcode, data.getWx_qrcode());
         GlideHelper.with(getContext())
                 .asBitmap()

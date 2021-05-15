@@ -8,4 +8,18 @@
     <declare-styleable name="CollectView">
         <attr name="cv_uncheckedColor" format="color|reference" />
     </declare-styleable>
+    <declare-styleable name="BottomDrawerLayout">
+        <attr name="bdl_enable" format="boolean|reference" />
+        <attr name="bdl_open" format="boolean|reference" />
+        <attr name="bdl_closeHeight" format="dimension|reference" />
+        <attr name="bdl_openTopMargin" format="dimension|reference" />
+        <attr name="bdl_openTopMarginStatusBarHeight" format="boolean|reference" />
+    </declare-styleable>
+    <declare-styleable name="ColorCircleBackgroundView">
+        <attr name="ccbv_color1" format="color" />
+        <attr name="ccbv_color2" format="color" />
+        <attr name="ccbv_color3" format="color" />
+        <attr name="ccbv_color4" format="color" />
+        <attr name="ccbv_color5" format="color" />
+    </declare-styleable>
 </resources>

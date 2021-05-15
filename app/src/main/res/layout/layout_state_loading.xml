@@ -8,7 +8,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_gravity="center"
-        android:indeterminateTint="@color/main"
+        android:indeterminateTint="?colorMain"
         android:indeterminateTintMode="src_atop" />
 
 </FrameLayout>

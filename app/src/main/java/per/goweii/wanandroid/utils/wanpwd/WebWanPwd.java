@@ -46,7 +46,7 @@ public class WebWanPwd implements IWanPwd {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                Router.router(url);
+                Router.routeTo(url);
             }
         };
     }

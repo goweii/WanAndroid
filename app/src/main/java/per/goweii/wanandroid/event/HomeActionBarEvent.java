@@ -9,11 +9,18 @@ public class HomeActionBarEvent extends BaseEvent {
     private String text;
     private String color;
     private String image;
+    private String secondFloorBg;
+    private float secondFloorBgBlurPercent;
 
-    public HomeActionBarEvent(String text, String color, String image) {
+    public HomeActionBarEvent(String text, String color, String image, String secondFloorBg, float secondFloorBgBlurPercent) {
         this.text = text;
         this.color = color;
         this.image = image;
+        this.secondFloorBg = secondFloorBg;
+        this.secondFloorBgBlurPercent = secondFloorBgBlurPercent;
+    }
+
+    public HomeActionBarEvent() {
     }
 
     public String getHomeTitle() {
@@ -26,5 +33,13 @@ public class HomeActionBarEvent extends BaseEvent {
 
     public String getActionBarBgImageUrl() {
         return image;
+    }
+
+    public String getSecondFloorBgImageUrl() {
+        return secondFloorBg;
+    }
+
+    public float getSecondFloorBgImageBlurPercent() {
+        return secondFloorBgBlurPercent;
     }
 }

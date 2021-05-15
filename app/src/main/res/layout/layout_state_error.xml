@@ -16,7 +16,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:scaleType="fitCenter"
-            android:tint="@color/text_third"
+            android:tint="?colorIconThird"
             android:src="@drawable/ic_error"/>
 
         <TextView
@@ -26,7 +26,7 @@
             android:textSize="@dimen/text_auxiliary"
             android:gravity="center"
             android:text="怎么又出错~~"
-            android:textColor="@color/text_third" />
+            android:textColor="?colorTextThird" />
 
     </LinearLayout>
 

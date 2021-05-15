@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import per.goweii.basic.utils.EditTextUtils;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 
 /**
@@ -60,11 +61,12 @@ public class PasswordInputView extends InputView {
 
     @Override
     protected ImageView[] getRightIcons() {
-        int paddingDelete = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getContext().getResources().getDisplayMetrics());
+        int paddingDelete = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getContext().getResources().getDisplayMetrics());
         mIvDeleteIcon = new ImageView(getContext());
         mIvDeleteIcon.setVisibility(INVISIBLE);
         mIvDeleteIcon.setPadding(paddingDelete, paddingDelete, paddingDelete, paddingDelete);
         mIvDeleteIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        mIvDeleteIcon.setColorFilter(ResUtils.getThemeColor(getContext(), R.attr.colorIconThird));
         mIvDeleteIcon.setImageResource(R.drawable.ic_delete);
         mIvDeleteIcon.setOnClickListener(new OnClickListener() {
             @Override
@@ -72,11 +74,12 @@ public class PasswordInputView extends InputView {
                 getEditText().setText("");
             }
         });
-        int paddingEye = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getContext().getResources().getDisplayMetrics());
+        int paddingEye = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 0, getContext().getResources().getDisplayMetrics());
         mIcEyeIcon = new ImageView(getContext());
         mIcEyeIcon.setVisibility(INVISIBLE);
         mIcEyeIcon.setPadding(paddingEye, paddingEye, paddingEye, paddingEye);
         mIcEyeIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        mIcEyeIcon.setColorFilter(ResUtils.getThemeColor(getContext(), R.attr.colorIconThird));
         mIcEyeIcon.setImageResource(R.drawable.ic_eye_normal);
         mIcEyeIcon.setOnClickListener(new OnClickListener() {
             @Override

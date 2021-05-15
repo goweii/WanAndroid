@@ -9,20 +9,19 @@ import per.goweii.basic.core.utils.SmartRefreshUtils
 import per.goweii.basic.ui.toast.ToastMaker
 import per.goweii.basic.utils.listener.SimpleListener
 import per.goweii.wanandroid.R
-import per.goweii.wanandroid.common.ScrollTop
 import per.goweii.wanandroid.event.CollectionEvent
 import per.goweii.wanandroid.event.LoginEvent
 import per.goweii.wanandroid.event.ScrollTopEvent
 import per.goweii.wanandroid.event.SettingChangeEvent
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter
-import per.goweii.wanandroid.module.main.model.ArticleBean
 import per.goweii.wanandroid.module.main.model.ArticleListBean
 import per.goweii.wanandroid.module.question.presenter.QuestionPresenter
 import per.goweii.wanandroid.module.question.view.QuestionView
 import per.goweii.wanandroid.utils.MultiStateUtils
 import per.goweii.wanandroid.utils.MultiStateUtils.Companion.setEmptyAndErrorClick
-import per.goweii.wanandroid.utils.RvAnimUtils
+import per.goweii.wanandroid.utils.RvConfigUtils
 import per.goweii.wanandroid.utils.RvScrollTopUtils
+import per.goweii.wanandroid.utils.RvScrollTopUtils.ScrollTop
 import per.goweii.wanandroid.utils.SettingUtils
 
 /**
@@ -75,7 +74,7 @@ class QuestionFragment : BaseFragment<QuestionPresenter>(), QuestionView, Scroll
             return
         }
         if (event.isRvAnimChanged) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().rvAnim)
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().rvAnim)
         }
     }
 
@@ -101,17 +100,18 @@ class QuestionFragment : BaseFragment<QuestionPresenter>(), QuestionView, Scroll
         }
         rv.layoutManager = LinearLayoutManager(context)
         mAdapter = ArticleAdapter()
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().rvAnim)
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().rvAnim)
         mAdapter.setEnableLoadMore(false)
         mAdapter.setOnLoadMoreListener({
             presenter.getQuestionList(currPage)
         }, rv)
         mAdapter.setOnItemChildViewClickListener { _, v, position ->
-            val item: ArticleBean = mAdapter.getArticleBean(position)
-            if (v.isChecked) {
-                presenter.collect(item, v)
-            } else {
-                presenter.uncollect(item, v)
+            mAdapter.getItem(position)?.let { item ->
+                if (v.isChecked) {
+                    presenter.collect(item, v)
+                } else {
+                    presenter.uncollect(item, v)
+                }
             }
         }
         rv.adapter = mAdapter

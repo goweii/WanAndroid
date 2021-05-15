@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialog_qrcode_share_rl_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clipToPadding="false"
     android:padding="@dimen/margin_big"
-    tools:background="@color/dialog_bg">
+    tools:background="?colorDialogBg">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -15,99 +14,7 @@
         android:layout_above="@+id/dialog_qrcode_share_ll_btn"
         android:layout_alignParentTop="true">
 
-        <RelativeLayout
-            android:id="@+id/dialog_qrcode_share_rl_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:background="@drawable/bg_solid_round_color_white_radius_def"
-            android:clickable="true">
-
-            <RelativeLayout
-                android:id="@+id/dialog_qrcode_share_rv_app"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:alpha="0.5"
-                android:paddingLeft="@dimen/margin_def"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingRight="@dimen/margin_def"
-                android:paddingBottom="@dimen/margin_small">
-
-                <ImageView
-                    android:id="@+id/dialog_qrcode_share_iv_app"
-                    android:layout_width="12dp"
-                    android:layout_height="12dp"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/logo"
-                    android:tint="#999999" />
-
-                <TextView
-                    android:id="@+id/dialog_qrcode_share_tv_app"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:layout_toRightOf="@+id/dialog_qrcode_share_iv_app"
-                    android:text="由最美玩安卓客户端生成"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/text_time" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:id="@+id/dialog_qrcode_share_ll_article"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dialog_qrcode_share_rv_app"
-                android:paddingLeft="@dimen/margin_def"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingRight="@dimen/margin_def"
-                android:paddingBottom="@dimen/margin_small">
-
-                <per.goweii.percentimageview.percentimageview.PercentImageView
-                    android:id="@+id/dialog_qrcode_share_piv_qrcode"
-                    android:layout_width="70dp"
-                    android:layout_height="0dp"
-                    android:scaleType="fitCenter"
-                    app:piv_basics="width"
-                    app:piv_percent="1"
-                    tools:background="@color/black" />
-
-                <TextView
-                    android:id="@+id/dialog_qrcode_share_tv_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_small"
-                    android:ellipsize="end"
-                    android:maxLines="3"
-                    android:textColor="#232323"
-                    android:textSize="@dimen/text_content"
-                    tools:text="文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题" />
-
-            </LinearLayout>
-
-            <RelativeLayout
-                android:id="@+id/dialog_qrcode_share_rv_shici"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/dialog_qrcode_share_ll_article"
-                android:alpha="0.5"
-                android:paddingLeft="@dimen/margin_def"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingRight="@dimen/margin_def"
-                android:paddingBottom="@dimen/margin_small">
-
-                <TextView
-                    android:id="@+id/dialog_qrcode_share_tv_shici"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:textColor="#999999"
-                    android:textSize="@dimen/text_time"
-                    tools:text="竹里缲丝挑网车，青蝉独噪日光斜" />
-
-            </RelativeLayout>
-
-        </RelativeLayout>
+        <include layout="@layout/layout_article_qrcode_share" />
 
     </FrameLayout>
 
@@ -118,6 +25,7 @@
         android:layout_alignParentBottom="true">
 
         <LinearLayout
+            android:id="@+id/dialog_qrcode_share_ll_album"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -134,7 +42,7 @@
                 android:gravity="center"
                 android:padding="13dp"
                 android:src="@drawable/ic_album"
-                android:tint="@color/text_surface" />
+                android:tint="?colorIconSurface" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -143,12 +51,13 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="保存相册"
-                android:textColor="@color/text_on_main"
+                android:textColor="?colorTextOnMain"
                 android:textSize="@dimen/text_notes" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/dialog_qrcode_share_ll_share"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -165,7 +74,7 @@
                 android:gravity="center"
                 android:padding="13dp"
                 android:src="@drawable/ic_share"
-                android:tint="@color/text_surface" />
+                android:tint="?colorIconSurface" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -174,7 +83,7 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="立即分享"
-                android:textColor="@color/text_on_main"
+                android:textColor="?colorTextOnMain"
                 android:textSize="@dimen/text_notes" />
 
         </LinearLayout>

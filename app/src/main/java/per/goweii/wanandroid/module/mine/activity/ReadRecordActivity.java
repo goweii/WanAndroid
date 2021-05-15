@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -37,7 +37,7 @@ import per.goweii.wanandroid.module.mine.adapter.ReadRecordAdapter;
 import per.goweii.wanandroid.module.mine.presenter.ReadRecordPresenter;
 import per.goweii.wanandroid.module.mine.view.ReadRecordView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 
@@ -61,7 +61,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
     private ReadRecordAdapter mAdapter;
 
     private int offset = 0;
-    private int perPageCount = 20;
+    private final int perPageCount = 20;
 
     private boolean loading = false;
 
@@ -76,7 +76,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
             return;
         }
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -135,7 +135,8 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ReadRecordAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

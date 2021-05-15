@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorIcLauncherBackgroundStart" format="reference" />
+    <attr name="colorIcLauncherBackgroundEnd" format="reference" />
+    <attr name="colorLoginBg" format="reference" />
+    <attr name="colorBottomBarOverlay" format="reference" />
+    <attr name="colorMineBlurOverlay" format="reference" />
+    <attr name="colorAboutMeBlurOverlay" format="reference" />
+    <attr name="colorScrollbar" format="reference" />
+    <attr name="colorHeartUncheckedOnMain" format="reference" />
+    <attr name="colorHeartOuter" format="reference" />
+    <attr name="colorHeartCenter" format="reference" />
+</resources>

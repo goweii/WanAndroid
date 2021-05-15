@@ -1,18 +1,20 @@
 package per.goweii.wanandroid.module.main.model;
 
-import android.text.TextUtils;
-
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
+
+import java.util.List;
 
 import io.reactivex.disposables.Disposable;
 import per.goweii.rxhttp.core.RxLife;
 import per.goweii.rxhttp.request.base.BaseBean;
+import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestCallback;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanApi;
 import per.goweii.wanandroid.http.WanCache;
+import per.goweii.wanandroid.utils.UserUtils;
 
 /**
  * @author CuiZhen
@@ -49,8 +51,67 @@ public class MainRequest extends BaseRequest {
         rxLife.add(request(WanApi.api().update(), listener));
     }
 
+    public static void betaUpdate(RxLife rxLife, @NonNull RequestListener<UpdateBean> listener) {
+        rxLife.add(request(WanApi.api().betaUsers(), new RequestListener<List<BetaUserBean>>() {
+            @Override
+            public void onStart() {
+                listener.onStart();
+            }
+
+            @Override
+            public void onSuccess(int code, List<BetaUserBean> data) {
+                boolean isBetaUser = false;
+                if (UserUtils.getInstance().isLogin()) {
+                    for (BetaUserBean betaUserBean : data) {
+                        if (betaUserBean.getUserId() == UserUtils.getInstance().getWanId()) {
+                            isBetaUser = true;
+                            break;
+                        }
+                    }
+                }
+                if (isBetaUser) {
+                    rxLife.add(request(WanApi.api().betaUpdate(), new RequestCallback<UpdateBean>() {
+                        @Override
+                        public void onSuccess(int code, UpdateBean data) {
+                            listener.onSuccess(code, data);
+                            listener.onFinish();
+                        }
+
+                        @Override
+                        public void onFailed(int code, String msg) {
+                            listener.onFailed(code, msg);
+                            listener.onFinish();
+                        }
+                    }));
+                } else {
+                    listener.onFailed(WanApi.ApiCode.ERROR, "非内测用户");
+                    listener.onFinish();
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                listener.onFailed(code, msg);
+                listener.onFinish();
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+                listener.onError(handle);
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        }));
+    }
+
     public static void getConfig(RxLife rxLife, @NonNull RequestListener<ConfigBean> listener) {
         rxLife.add(request(WanApi.api().getConfig(), listener));
+    }
+
+    public static void getAdvert(RxLife rxLife, @NonNull RequestListener<AdvertBean> listener) {
+        rxLife.add(request(WanApi.api().getAdvert(), listener));
     }
 
     public static void getUserArticleListCache(@IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
@@ -90,35 +151,21 @@ public class MainRequest extends BaseRequest {
     }
 
     public static void getJinrishici(RxLife rxLife, @NonNull RequestListener<JinrishiciBean> listener) {
-        getJinrishiciToken(rxLife, new RequestCallback<String>() {
-            @Override
-            public void onSuccess(int code, String data) {
-                request(WanApi.api().getJinrishici(data), listener);
-            }
+        cacheOrNetBean(rxLife,
+                WanApi.api().getJinrishiciToken(),
+                WanCache.CacheKey.JINRISHICI_TOKEN,
+                String.class,
+                new RequestCallback<String>() {
+                    @Override
+                    public void onSuccess(int code, String data) {
+                        rxLife.add(request(WanApi.api().getJinrishici(data), listener));
+                    }
 
-            @Override
-            public void onFailed(int code, String msg) {
-                listener.onFailed(code, msg);
-            }
-        });
-    }
-
-    private static void getJinrishiciToken(RxLife rxLife, @NonNull RequestListener<String> listener) {
-        cacheBean(WanCache.CacheKey.JINRISHICI_TOKEN, String.class, new RequestCallback<String>() {
-            @Override
-            public void onSuccess(int code, String data) {
-                if (TextUtils.isEmpty(data)) {
-                    rxLife.add(request(WanApi.api().getJinrishiciToken(), listener));
-                } else {
-                    listener.onSuccess(code, data);
-                }
-            }
-
-            @Override
-            public void onFailed(int code, String msg) {
-                rxLife.add(request(WanApi.api().getJinrishiciToken(), listener));
-            }
-        });
+                    @Override
+                    public void onFailed(int code, String msg) {
+                        listener.onFailed(code, msg);
+                    }
+                });
     }
 
 }

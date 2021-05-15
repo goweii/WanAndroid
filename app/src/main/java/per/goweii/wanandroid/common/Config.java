@@ -11,11 +11,11 @@ public class Config {
      */
     public static final long SCROLL_TOP_DOUBLE_CLICK_DELAY = 500L;
     /**
-     * 是否显示广告
-     */
-    public static final boolean SHOW_AD = false;
-    /**
      * 阅读历史最大保存个数
      */
     public static final int READ_RECORD_MAX_COUNT = 1000;
+    /**
+     * 消息通知最大显示个数，超过显示99+
+     */
+    public static final int NOTIFICATION_MAX_SHOW_COUNT = 99;
 }

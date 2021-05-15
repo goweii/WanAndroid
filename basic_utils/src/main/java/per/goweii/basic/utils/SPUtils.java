@@ -13,7 +13,7 @@ public class SPUtils {
 
     private final SharedPreferences sp;
 
-    private static class SPHolder{
+    private static class SPHolder {
         private static final SharedPreferences INSTANCE = PreferenceManager.getDefaultSharedPreferences(Utils.getAppContext());
     }
 
@@ -50,7 +50,7 @@ public class SPUtils {
         return this;
     }
 
-    public SPUtils remove(String keyword){
+    public SPUtils remove(String keyword) {
         getEditor().remove(keyword).apply();
         return this;
     }

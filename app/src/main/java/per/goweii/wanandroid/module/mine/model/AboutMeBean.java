@@ -30,6 +30,7 @@ public class AboutMeBean extends BaseBean {
     private String qq_group_key;
     private String qq_qrcode;
     private String wx_qrcode;
+    private String zfb_qrcode;
 
     public String getIcon() {
         return icon;
@@ -109,5 +110,13 @@ public class AboutMeBean extends BaseBean {
 
     public void setWx_qrcode(String wx_qrcode) {
         this.wx_qrcode = wx_qrcode;
+    }
+
+    public String getZfb_qrcode() {
+        return zfb_qrcode;
+    }
+
+    public void setZfb_qrcode(String zfb_qrcode) {
+        this.zfb_qrcode = zfb_qrcode;
     }
 }

@@ -10,7 +10,7 @@
         android:id="@+id/msv"
         style="@style/StateView">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:srlEnablePureScrollMode="true">
@@ -26,7 +26,7 @@
                 tools:layoutmanager="LinearLayoutManager"
                 tools:listitem="@layout/rv_item_knowledge" />
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     </com.kennyc.view.MultiStateView>
 

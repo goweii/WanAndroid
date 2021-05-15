@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="BaseAppTheme">
+        <item name="colorIcLauncherBackgroundStart">@color/color_blue_light</item>
+        <item name="colorIcLauncherBackgroundEnd">@color/color_blue_light</item>
+        <item name="colorLoginBg">@color/color_black_dark1</item>
+        <item name="colorBottomBarOverlay">@color/color_black_dark3_a80</item>
+        <item name="colorMineBlurOverlay">@color/color_black_dark3_a80</item>
+        <item name="colorAboutMeBlurOverlay">@color/color_black_dark3_a80</item>
+        <item name="colorScrollbar">@color/color_white_a05</item>
+        <item name="colorHeartUncheckedOnMain">@color/color_black_dark3</item>
+        <item name="colorHeartOuter">@color/color_orange_light</item>
+        <item name="colorHeartCenter">@color/color_orange_light</item>
+    </style>
+
+</resources>

@@ -8,8 +8,10 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.module.home.model.BannerBean;
 import per.goweii.wanandroid.module.home.model.HotKeyBean;
 import per.goweii.wanandroid.module.login.model.LoginBean;
+import per.goweii.wanandroid.module.main.model.AdvertBean;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.main.model.BetaUserBean;
 import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
@@ -17,6 +19,7 @@ import per.goweii.wanandroid.module.main.model.JinrishiciBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
 import per.goweii.wanandroid.module.main.model.UserPageBean;
+import per.goweii.wanandroid.module.main.model.WebArticleUrlRegexBean;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
 import per.goweii.wanandroid.module.mine.model.CoinRankBean;
 import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
@@ -40,6 +43,10 @@ public class WanApi extends Api {
         return api(ApiService.class);
     }
 
+    public static class ApiConfig {
+        public static final String BASE_URL = "https://www.wanandroid.com/";
+    }
+
     public static class ApiCode {
         public static final int ERROR = 1000;
 
@@ -56,7 +63,10 @@ public class WanApi extends Api {
         Observable<WanResponse<String>> getJinrishiciToken();
 
         @GET("https://v2.jinrishici.com/sentence")
-        Observable<WanResponse<JinrishiciBean>> getJinrishici(@retrofit2.http.Header("Token") String token);
+        Observable<WanResponse<JinrishiciBean>> getJinrishici(@retrofit2.http.Header("X-User-Token") String token);
+
+        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/web/article.json")
+        Observable<WanResponse<List<WebArticleUrlRegexBean>>> getWebArticleUrlRegex();
 
         @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/update/update.json")
         Observable<WanResponse<UpdateBean>> update();
@@ -66,6 +76,15 @@ public class WanApi extends Api {
 
         @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/config/config.json")
         Observable<WanResponse<ConfigBean>> getConfig();
+
+        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/advert/advert.json")
+        Observable<WanResponse<AdvertBean>> getAdvert();
+
+        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/update/beta/update.json")
+        Observable<WanResponse<UpdateBean>> betaUpdate();
+
+        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/update/beta/users.json")
+        Observable<WanResponse<List<BetaUserBean>>> betaUsers();
 
         /**
          * 登录

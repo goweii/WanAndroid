@@ -14,7 +14,7 @@
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:text="保存"
-        android:textColor="@color/text_surface"
+        android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content" />
 
     <TextView
@@ -24,13 +24,13 @@
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
         android:text="识别图中二维码"
-        android:textColor="@color/text_surface"
+        android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/line" />
+        android:background="?colorLine" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -43,7 +43,7 @@
             android:background="@drawable/bg_press_color_surface"
             android:padding="16dp"
             android:src="@drawable/ic_close"
-            android:tint="@color/text_third" />
+            android:tint="?colorIconThird" />
 
     </FrameLayout>
 

@@ -13,8 +13,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import androidx.core.content.ContextCompat;
-
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 
 /**
@@ -64,7 +63,7 @@ public class InputView extends FrameLayout implements View.OnFocusChangeListener
 
     protected void initViews(AttributeSet attrs) {
         int icIconSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 18, getContext().getResources().getDisplayMetrics());
-        int icIconMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, getContext().getResources().getDisplayMetrics());
+        int icIconMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, getContext().getResources().getDisplayMetrics());
         ImageView[] ivIconLefts = getLeftIcons();
         int ivIconLeftCount = ivIconLefts != null ? ivIconLefts.length : 0;
         for (int i = 0; i < ivIconLeftCount; i++) {
@@ -91,8 +90,8 @@ public class InputView extends FrameLayout implements View.OnFocusChangeListener
         etParams.rightMargin = icIconSize * ivIconRightCount + icIconMargin * (ivIconRightCount - 1) + etMargin;
         mEditText.setLayoutParams(etParams);
         mEditText.setBackgroundColor(Color.TRANSPARENT);
-        mEditText.setTextColor(ContextCompat.getColor(getContext(), R.color.text_surface));
-        mEditText.setHintTextColor(ContextCompat.getColor(getContext(), R.color.text_third));
+        mEditText.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextSurface));
+        mEditText.setHintTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
         mEditText.setTextSize(TypedValue.COMPLEX_UNIT_PX, getContext().getResources().getDimension(R.dimen.text_content));
         mEditText.setSingleLine();
         mEditText.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -100,9 +99,9 @@ public class InputView extends FrameLayout implements View.OnFocusChangeListener
         mEditText.addTextChangedListener(this);
         addView(mEditText);
 
-        mViewColorNormal = ContextCompat.getColor(getContext(), R.color.third);
+        mViewColorNormal = ResUtils.getThemeColor(getContext(), R.attr.colorIconThird);
         mViewHeightNormal = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getContext().getResources().getDisplayMetrics());
-        mViewColorFocus = ContextCompat.getColor(getContext(), R.color.main);
+        mViewColorFocus = ResUtils.getThemeColor(getContext(), R.attr.colorIconMain);
         mViewHeightFocus = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getContext().getResources().getDisplayMetrics());
 
         mBottomLine = new View(getContext());

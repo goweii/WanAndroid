@@ -11,21 +11,20 @@ import android.widget.ImageView;
 
 import androidx.viewpager.widget.ViewPager;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import per.goweii.anylayer.AnimatorHelper;
-import per.goweii.anylayer.DialogLayer;
+import per.goweii.anylayer.dialog.DialogLayer;
+import per.goweii.anylayer.utils.AnimatorHelper;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.home.presenter.WebDialogPresenter;
 import per.goweii.wanandroid.module.home.view.WebDialogView;
 import per.goweii.wanandroid.module.main.adapter.WebDialogPagerAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
-import per.goweii.wanandroid.utils.web.WebHolder;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -40,7 +39,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
 
     private WebDialogPresenter presenter = null;
     private OnPageChangedListener mOnPageChangedListener = null;
-    private WebDialogPagerAdapter mAdapter;
+    private final WebDialogPagerAdapter mAdapter;
 
     public static WebDialog create(Context context, String url) {
         List<ArticleBean> urls = new ArrayList<>(1);
@@ -50,13 +49,13 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         return new WebDialog(context, urls, null, 0, true);
     }
 
-    public static WebDialog create(Context context, final List<ArticleBean> topUrls, final List<MultiItemEntity> urls, final int currPos) {
+    public static WebDialog create(Context context, final List<ArticleBean> topUrls, final List<ArticleBean> urls, final int currPos) {
         return new WebDialog(context, topUrls, urls, currPos, false);
     }
 
     private WebDialog(final Context context,
                       final List<ArticleBean> topUrls,
-                      final List<MultiItemEntity> urls,
+                      final List<ArticleBean> urls,
                       final int currPos,
                       final boolean singleTipMode) {
         super(context);
@@ -140,22 +139,41 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         super.onAttach();
         presenter = new WebDialogPresenter();
         presenter.attach(this);
-        final ViewPager vp = getView(R.id.dialog_web_vp);
-        final ImageView iv_back = getView(R.id.dialog_web_iv_back);
-        final CollectView cv_collect = getView(R.id.dialog_web_cv_collect);
+        final ViewPager vp = requireView(R.id.dialog_web_vp);
+        final ImageView iv_read_later = requireView(R.id.dialog_web_iv_read_later);
+        final CollectView cv_collect = requireView(R.id.dialog_web_cv_collect);
         if (singleTipMode) {
-            iv_back.setVisibility(View.GONE);
+            iv_read_later.setVisibility(View.GONE);
             cv_collect.setVisibility(View.GONE);
         } else {
-            iv_back.setVisibility(View.VISIBLE);
+            iv_read_later.setVisibility(View.VISIBLE);
             cv_collect.setVisibility(View.VISIBLE);
-            iv_back.setOnClickListener(new OnClickListener2() {
+            iv_read_later.setOnClickListener(new OnClickListener2() {
                 @Override
                 public void onClick2(View v) {
                     if (mAdapter != null) {
-                        WebHolder web = mAdapter.getWeb(vp.getCurrentItem());
-                        if (web != null) {
-                            web.goBack();
+                        ArticleBean data = mAdapter.getArticleBean(vp.getCurrentItem());
+                        if (data != null) {
+                            presenter.isReadLater(data.getLink(), new SimpleCallback<Boolean>() {
+                                @Override
+                                public void onResult(Boolean isReadLater) {
+                                    if (isReadLater) {
+                                        presenter.removeReadLater(data.getLink(), new SimpleCallback<Boolean>() {
+                                            @Override
+                                            public void onResult(Boolean data) {
+                                                switchIvReadLaterState(false);
+                                            }
+                                        });
+                                    } else {
+                                        presenter.addReadLater(data.getLink(), data.getTitle(), new SimpleCallback<Boolean>() {
+                                            @Override
+                                            public void onResult(Boolean data) {
+                                                switchIvReadLaterState(true);
+                                            }
+                                        });
+                                    }
+                                }
+                            });
                         }
                     }
                 }
@@ -185,6 +203,12 @@ public class WebDialog extends DialogLayer implements WebDialogView {
                     ArticleBean data = mAdapter.getArticleBean(i);
                     if (data != null) {
                         cv_collect.setChecked(data.isCollect(), true);
+                        presenter.isReadLater(data.getLink(), new SimpleCallback<Boolean>() {
+                            @Override
+                            public void onResult(Boolean isReadLater) {
+                                switchIvReadLaterState(isReadLater);
+                            }
+                        });
                         if (mOnPageChangedListener != null) {
                             mOnPageChangedListener.onPageChanged(i, data);
                         }
@@ -206,6 +230,13 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         });
         vp.setAdapter(mAdapter);
         vp.setCurrentItem(currPos);
+        ArticleBean data = mAdapter.getArticleBean(currPos);
+        presenter.isReadLater(data.getLink(), new SimpleCallback<Boolean>() {
+            @Override
+            public void onResult(Boolean isReadLater) {
+                switchIvReadLaterState(isReadLater);
+            }
+        });
     }
 
     @Override
@@ -214,22 +245,31 @@ public class WebDialog extends DialogLayer implements WebDialogView {
     }
 
     @Override
-    public void onPreRemove() {
+    protected void onDisappear() {
+        super.onDisappear();
         if (mAdapter != null) {
-            mAdapter.pauseAllAgentWeb();
+            mAdapter.pauseAllWeb();
         }
-        super.onPreRemove();
     }
 
     @Override
     public void onDetach() {
         if (mAdapter != null) {
-            mAdapter.destroyAllAgentWeb();
+            mAdapter.destroyAllWeb();
         }
         if (presenter != null) {
             presenter.detach();
         }
         super.onDetach();
+    }
+
+    private void switchIvReadLaterState(boolean checked) {
+        final ImageView iv_read_later = requireView(R.id.dialog_web_iv_read_later);
+        if (checked) {
+            iv_read_later.setColorFilter(ResUtils.getThemeColor(iv_read_later, R.attr.colorIconMain));
+        } else {
+            iv_read_later.setColorFilter(ResUtils.getThemeColor(iv_read_later, R.attr.colorOnMainOrSurface));
+        }
     }
 
     @Override

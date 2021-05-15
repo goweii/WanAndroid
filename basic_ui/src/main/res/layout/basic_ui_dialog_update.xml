@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="320dp"
     android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:layout_margin="@dimen/margin_big">
+    android:layout_gravity="center">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="55dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/bg_solid_round_color_surface_radius_def"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="80dp">
 
         <TextView
+            android:id="@+id/basic_ui_tv_dialog_update_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="80dp"
             android:gravity="center"
             android:text="@string/basic_ui_dialog_update_title"
-            android:textColor="@color/text_surface"
+            android:textColor="?attr/colorTextSurface"
             android:textSize="@dimen/text_headline" />
 
         <TextView
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textColor="@color/text_second"
+            android:textColor="?attr/colorTextSecond"
             android:textSize="@dimen/text_title"
             tools:text="2.1.1" />
 
@@ -38,37 +38,64 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_def"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_thin"
             android:gravity="center"
-            android:textColor="@color/text_second"
+            android:textColor="?colorTextSecond"
             android:textSize="@dimen/text_auxiliary"
             tools:text="2019-03-15" />
 
-        <TextView
-            android:id="@+id/basic_ui_tv_dialog_update_description"
+        <per.goweii.anylayer.notification.MaxSizeFrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_def"
-            android:layout_marginTop="@dimen/margin_def"
             android:layout_marginRight="@dimen/margin_def"
-            android:gravity="start"
-            android:lineSpacingExtra="8dp"
-            android:maxHeight="150dp"
-            android:overScrollMode="never"
-            android:scrollbars="none"
-            android:textColor="@color/text_second"
-            android:textSize="@dimen/text_auxiliary"
-            tools:text="1.修复了一个重大BUG\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰" />
+            android:maxHeight="145dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_def">
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:paddingTop="@dimen/margin_def"
+                android:paddingBottom="@dimen/margin_def"
+                android:scrollbars="none">
+
+                <TextView
+                    android:id="@+id/basic_ui_tv_dialog_update_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:lineSpacingExtra="4dp"
+                    android:includeFontPadding="false"
+                    android:textColor="?attr/colorTextSecond"
+                    android:textSize="@dimen/text_auxiliary"
+                    tools:text="1.修复了一个重大BUG\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰" />
+
+            </ScrollView>
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/line" />
+                android:layout_height="@dimen/margin_def"
+                android:layout_gravity="top"
+                android:background="@drawable/bg_gradient_color_surface_to_transparent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/margin_def"
+                android:layout_gravity="bottom"
+                android:background="@drawable/bg_gradient_color_surface_to_transparent"
+                android:rotation="180" />
+
+        </per.goweii.anylayer.notification.MaxSizeFrameLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/line_thin"
+                android:background="?attr/colorLine" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -82,14 +109,14 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/basic_ui_dialog_update_no"
-                    android:textColor="@color/text_third"
+                    android:textColor="?attr/colorTextThird"
                     android:textSize="@dimen/text_content" />
 
                 <View
                     android:id="@+id/basic_ui_v_dialog_update_line"
-                    android:layout_width="1dp"
+                    android:layout_width="@dimen/line_thin"
                     android:layout_height="match_parent"
-                    android:background="@color/line" />
+                    android:background="?attr/colorLine" />
 
                 <TextView
                     android:id="@+id/basic_ui_tv_dialog_update_yes"
@@ -98,7 +125,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="@string/basic_ui_dialog_update_yes"
-                    android:textColor="@color/text_main"
+                    android:textColor="?attr/colorTextMain"
                     android:textSize="@dimen/text_content" />
 
             </LinearLayout>

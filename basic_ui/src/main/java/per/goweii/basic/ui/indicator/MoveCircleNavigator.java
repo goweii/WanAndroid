@@ -35,8 +35,8 @@ public class MoveCircleNavigator extends View implements IPagerNavigator {
     private int mTotalCount;
     private Interpolator mStartInterpolator = new LinearInterpolator();
 
-    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private List<PointF> mCirclePoints = new ArrayList<>();
+    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final List<PointF> mCirclePoints = new ArrayList<>();
     private float mIndicatorX;
 
     private boolean mTouchable;
@@ -57,8 +57,8 @@ public class MoveCircleNavigator extends View implements IPagerNavigator {
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
         mRadius = UIUtil.dip2px(context, 3);
         mCircleSpacing = UIUtil.dip2px(context, 12);
-        mColorNormal = ResUtils.getColor(context, R.color.invert);
-        mColorSelected = ResUtils.getColor(context, R.color.main);
+        mColorNormal = ResUtils.getThemeColor(context, R.attr.colorInvert);
+        mColorSelected = ResUtils.getThemeColor(context, R.attr.colorMain);
     }
 
     @Override

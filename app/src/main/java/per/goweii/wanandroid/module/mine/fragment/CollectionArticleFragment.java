@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.kennyc.view.MultiStateView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -20,7 +20,6 @@ import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
@@ -29,7 +28,7 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.mine.presenter.CollectionArticlePresenter;
 import per.goweii.wanandroid.module.mine.view.CollectionArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -40,7 +39,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class CollectionArticleFragment extends BaseFragment<CollectionArticlePresenter> implements ScrollTop, CollectionArticleView {
+public class CollectionArticleFragment extends BaseFragment<CollectionArticlePresenter> implements RvScrollTopUtils.ScrollTop, CollectionArticleView {
 
     public static final int PAGE_START = 0;
 
@@ -98,7 +97,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
             return;
         }
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -131,7 +130,8 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -142,7 +142,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     UrlOpenUtils.Companion.with(item).open(getContext());
                 }
@@ -151,7 +151,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     presenter.uncollectArticle(item, v);
                 }
@@ -186,7 +186,7 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
     @Override
     public void getCollectArticleListSuccess(int code, ArticleListBean data) {
         if (data.getDatas() != null) {
-            for (ArticleBean articleBean : data.getArticles()) {
+            for (ArticleBean articleBean : data.getDatas()) {
                 articleBean.setCollect(true);
             }
         }

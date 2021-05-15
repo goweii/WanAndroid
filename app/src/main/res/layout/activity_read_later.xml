@@ -4,20 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="?colorBackground"
     android:orientation="vertical">
 
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="稍后阅读"
+        app:abc_titleText="我的书签"
         app:abc_rightText="清空" />
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"
         style="@style/StateView">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/srl"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
@@ -31,7 +31,7 @@
                 tools:layoutmanager="LinearLayoutManager"
                 tools:listitem="@layout/rv_item_read_later" />
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     </com.kennyc.view.MultiStateView>
 

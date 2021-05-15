@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_comment"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_press_color_surface_radius_small"
+    android:orientation="vertical"
+    android:layout_marginStart="43dp"
+    android:paddingStart="@dimen/margin_small"
+    android:paddingEnd="@dimen/margin_small"
+    android:paddingTop="@dimen/margin_thin"
+    android:paddingBottom="@dimen/margin_thin">
+
+    <View
+        android:id="@+id/v_user_icon_holder2"
+        android:layout_centerVertical="true"
+        android:layout_width="20dp"
+        android:layout_height="1dp"
+        android:background="?colorTextFourth"
+        android:layout_marginEnd="@dimen/margin_small" />
+
+    <TextView
+        android:id="@+id/tv_load"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/v_user_icon_holder2"
+        android:layout_centerVertical="true"
+        android:textColor="?colorTextFourth"
+        android:textSize="@dimen/text_notes"
+        android:text="查看更多评论" />
+
+</RelativeLayout>

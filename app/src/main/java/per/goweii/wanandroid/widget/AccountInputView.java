@@ -7,6 +7,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 
 /**
@@ -48,11 +49,12 @@ public class AccountInputView extends InputView {
 
     @Override
     protected ImageView[] getRightIcons() {
-        int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getContext().getResources().getDisplayMetrics());
+        int padding = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getContext().getResources().getDisplayMetrics());
         mIvDeleteIcon = new ImageView(getContext());
         mIvDeleteIcon.setVisibility(INVISIBLE);
         mIvDeleteIcon.setPadding(padding, padding, padding, padding);
         mIvDeleteIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        mIvDeleteIcon.setColorFilter(ResUtils.getThemeColor(getContext(), R.attr.colorIconThird));
         mIvDeleteIcon.setImageResource(R.drawable.ic_delete);
         mIvDeleteIcon.setOnClickListener(new OnClickListener() {
             @Override

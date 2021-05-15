@@ -18,48 +18,48 @@
             android:id="@+id/tv_copy"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/third"
+            android:background="?colorThird"
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="复制链接"
-            android:textColor="@color/text_invert"
+            android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 
         <TextView
             android:id="@+id/tv_open"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/assist"
+            android:background="?colorAssist"
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="浏览器打开"
-            android:textColor="@color/text_invert"
+            android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 
         <TextView
             android:id="@+id/tv_edit"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/main"
+            android:background="?colorMain"
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="编辑"
-            android:textColor="@color/text_invert"
+            android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 
         <TextView
             android:id="@+id/tv_delete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/accent"
+            android:background="?colorStriking"
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="删除"
-            android:textColor="@color/text_invert"
+            android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 
     </LinearLayout>
@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:textColor="@color/text_surface"
+            android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content"
             tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
 
@@ -93,7 +93,7 @@
             android:layout_marginRight="16dp"
             android:ellipsize="end"
             android:singleLine="true"
-            android:textColor="@color/text_second"
+            android:textColor="?colorTextSecond"
             android:textSize="@dimen/text_notes"
             tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
 

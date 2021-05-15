@@ -12,8 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
+import per.goweii.anylayer.dialog.DialogLayer;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.utils.GuideSPUtils;
@@ -103,7 +104,7 @@ public class PrivacyPolicyDialog extends DialogLayer {
 
         @Override
         public void updateDrawState(TextPaint ds) {
-            ds.setColor(getActivity().getResources().getColor(R.color.main));
+            ds.setColor(ResUtils.getThemeColor(getActivity(), R.attr.colorMain));
             ds.setUnderlineText(false);
         }
     }

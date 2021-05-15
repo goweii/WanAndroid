@@ -1,108 +1,65 @@
 apply plugin: 'com.android.application'
+apply plugin: 'bugly'
 
 apply from: "../module.gradle"
+apply from: "../flavor.gradle"
+
+Properties properties = new Properties()
+InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+properties.load(inputStream)
 
 android {
     defaultConfig {
-        applicationId rootProject.ext.android.applicationId
+        renderscriptTargetApi rootProject.ext.android.minSdkVersion
         renderscriptSupportModeEnabled true
         ndk {
-            abiFilters /*'armeabi' ,*/ 'armeabi-v7a'/*, 'arm64-v8a'*/
+            abiFilters /*'armeabi',*/'armeabi-v7a','arm64-v8a'
         }
         javaCompileOptions {
             annotationProcessorOptions {
-                arguments = ["room.incremental":"true"]
+                arguments = ["room.incremental": "true"]
             }
         }
     }
     buildTypes {
-        Properties properties = new Properties()
-        InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
-        properties.load(inputStream)
-        def APPID_BUGLY = properties.getProperty('APPID_BUGLY')
-        def APPID_AD = properties.getProperty('APPID_AD')
-        def AD_ID_ARTICLE_LIST_LIGHT = properties.getProperty('AD_ID_ARTICLE_LIST_LIGHT')
-        def AD_ID_ARTICLE_LIST_DARK = properties.getProperty('AD_ID_ARTICLE_LIST_DARK')
-        def AD_ID_BANNER_LIGHT = properties.getProperty('AD_ID_BANNER_LIGHT')
-        def AD_ID_BANNER_DARK = properties.getProperty('AD_ID_BANNER_DARK')
-        def AD_ID_BANNER = properties.getProperty('AD_ID_BANNER')
-        def WANPWD_FORMAT = properties.getProperty('WANPWD_FORMAT')
-        def WANPWD_PATTERN = properties.getProperty('WANPWD_PATTERN')
-        def WANPWD_TYPE_QQ = properties.getProperty('WANPWD_TYPE_QQ')
-        def WANPWD_TYPE_FESTIVAL = properties.getProperty('WANPWD_TYPE_FESTIVAL')
-        def WANPWD_TYPE_USERPAGE = properties.getProperty('WANPWD_TYPE_USERPAGE')
-        def WANPWD_TYPE_CDKEY = properties.getProperty('WANPWD_TYPE_CDKEY')
-        def WANPWD_TYPE_WEB = properties.getProperty('WANPWD_TYPE_WEB')
-        def WANPWD_TYPE_ABOUTME = properties.getProperty('WANPWD_TYPE_ABOUTME')
-        def WANPWD_TYPE_CREATE_CDKEY = properties.getProperty('WANPWD_TYPE_CREATE_CDKEY')
-        def CDKEY_CLASS = properties.getProperty('CDKEY_CLASS')
-        def DEVELOPER_ID = properties.getProperty('DEVELOPER_ID')
-        def CHANGYAN_APP_ID = properties.getProperty('CHANGYAN_APP_ID')
-        def CHANGYAN_APP_KEY = properties.getProperty('CHANGYAN_APP_KEY')
-
         release {
-            buildConfigField "String", "APPID_BUGLY", '"' + APPID_BUGLY + '"'
-            buildConfigField "String", "APPID_AD", '"' + APPID_AD + '"'
-            buildConfigField "String", "AD_ID_ARTICLE_LIST_LIGHT", '"' + AD_ID_ARTICLE_LIST_LIGHT + '"'
-            buildConfigField "String", "AD_ID_ARTICLE_LIST_DARK", '"' + AD_ID_ARTICLE_LIST_DARK + '"'
-            buildConfigField "String", "AD_ID_BANNER_LIGHT", '"' + AD_ID_BANNER_LIGHT + '"'
-            buildConfigField "String", "AD_ID_BANNER_DARK", '"' + AD_ID_BANNER_DARK + '"'
-            buildConfigField "String", "AD_ID_BANNER", '"' + AD_ID_BANNER + '"'
-            buildConfigField "String", "WANPWD_FORMAT", '"' + WANPWD_FORMAT + '"'
-            buildConfigField "String", "WANPWD_PATTERN", '"' + WANPWD_PATTERN + '"'
-            buildConfigField "String", "WANPWD_TYPE_QQ", '"' + WANPWD_TYPE_QQ + '"'
-            buildConfigField "String", "WANPWD_TYPE_FESTIVAL", '"' + WANPWD_TYPE_FESTIVAL + '"'
-            buildConfigField "String", "WANPWD_TYPE_USERPAGE", '"' + WANPWD_TYPE_USERPAGE + '"'
-            buildConfigField "String", "WANPWD_TYPE_CDKEY", '"' + WANPWD_TYPE_CDKEY + '"'
-            buildConfigField "String", "WANPWD_TYPE_WEB", '"' + WANPWD_TYPE_WEB + '"'
-            buildConfigField "String", "WANPWD_TYPE_ABOUTME", '"' + WANPWD_TYPE_ABOUTME + '"'
-            buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", '"' + WANPWD_TYPE_CREATE_CDKEY + '"'
-            buildConfigField "String", "CDKEY_CLASS", '"' + CDKEY_CLASS + '"'
-            buildConfigField "String", "DEVELOPER_ID", '"' + DEVELOPER_ID + '"'
-            buildConfigField "String", "CHANGYAN_APP_ID", '"' + CHANGYAN_APP_ID + '"'
-            buildConfigField "String", "CHANGYAN_APP_KEY", '"' + CHANGYAN_APP_KEY + '"'
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    output.outputFileName = "$applicationId-v${defaultConfig.versionName}.apk"
-                }
-            }
+            shrinkResources false
         }
         debug {
-            buildConfigField "String", "APPID_BUGLY", '"' + APPID_BUGLY + '"'
-            buildConfigField "String", "APPID_AD", '"' + APPID_AD + '"'
-            buildConfigField "String", "AD_ID_ARTICLE_LIST_LIGHT", '"' + AD_ID_ARTICLE_LIST_LIGHT + '"'
-            buildConfigField "String", "AD_ID_ARTICLE_LIST_DARK", '"' + AD_ID_ARTICLE_LIST_DARK + '"'
-            buildConfigField "String", "AD_ID_BANNER_LIGHT", '"' + AD_ID_BANNER_LIGHT + '"'
-            buildConfigField "String", "AD_ID_BANNER_DARK", '"' + AD_ID_BANNER_DARK + '"'
-            buildConfigField "String", "AD_ID_BANNER", '"' + AD_ID_BANNER + '"'
-            buildConfigField "String", "WANPWD_FORMAT", '"' + WANPWD_FORMAT + '"'
-            buildConfigField "String", "WANPWD_PATTERN", '"' + WANPWD_PATTERN + '"'
-            buildConfigField "String", "WANPWD_TYPE_QQ", '"' + WANPWD_TYPE_QQ + '"'
-            buildConfigField "String", "WANPWD_TYPE_FESTIVAL", '"' + WANPWD_TYPE_FESTIVAL + '"'
-            buildConfigField "String", "WANPWD_TYPE_USERPAGE", '"' + WANPWD_TYPE_USERPAGE + '"'
-            buildConfigField "String", "WANPWD_TYPE_CDKEY", '"' + WANPWD_TYPE_CDKEY + '"'
-            buildConfigField "String", "WANPWD_TYPE_WEB", '"' + WANPWD_TYPE_WEB + '"'
-            buildConfigField "String", "WANPWD_TYPE_ABOUTME", '"' + WANPWD_TYPE_ABOUTME + '"'
-            buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", '"' + WANPWD_TYPE_CREATE_CDKEY + '"'
-            buildConfigField "String", "CDKEY_CLASS", '"' + CDKEY_CLASS + '"'
-            buildConfigField "String", "DEVELOPER_ID", '"' + DEVELOPER_ID + '"'
-            buildConfigField "String", "CHANGYAN_APP_ID", '"' + CHANGYAN_APP_ID + '"'
-            buildConfigField "String", "CHANGYAN_APP_KEY", '"' + CHANGYAN_APP_KEY + '"'
+            shrinkResources false
+        }
+    }
+    signingConfigs {
+        release {
+            storeFile file(properties.getProperty('KEYSTORE_FILE'))
+            storePassword properties.getProperty('KEYSTORE_PASSWORD')
+            keyAlias properties.getProperty('KEYSTORE_ALIAS')
+            keyPassword properties.getProperty('KEYSTORE_ALIAS_PASSWORD')
+        }
+        debug {
+            storeFile file(properties.getProperty('KEYSTORE_FILE'))
+            storePassword properties.getProperty('KEYSTORE_PASSWORD')
+            keyAlias properties.getProperty('KEYSTORE_ALIAS')
+            keyPassword properties.getProperty('KEYSTORE_ALIAS_PASSWORD')
         }
     }
     resourcePrefix ""
     applicationVariants.all { variant ->
-        variant.outputs.each {
+        variant.outputs.each { output ->
             def versionName = variant.versionName
             def versionCode = variant.versionCode
             def buildType = variant.buildType.name
-            it.outputFileName = "wanandroid-${versionName}-${versionCode}-${buildType}.apk"
+            output.outputFileName = "${applicationId}-${versionName}-${versionCode}-${buildType}.apk"
         }
     }
 }
 
 kapt {
     generateStubs = true
+}
+
+bugly {
+    debug = true
 }
 
 dependencies {
@@ -118,7 +75,7 @@ dependencies {
     implementation rootProject.ext.dependencies.disklrucache
     implementation rootProject.ext.dependencies.multiStateView
     implementation rootProject.ext.dependencies.buglyCrashreport
-    implementation rootProject.ext.dependencies.crashActivity
+    implementation rootProject.ext.dependencies.buglyNativeCrashreport
     implementation rootProject.ext.dependencies.heartView
     implementation rootProject.ext.dependencies.tbs
     implementation rootProject.ext.dependencies.webkit
@@ -126,6 +83,7 @@ dependencies {
     implementation rootProject.ext.dependencies.roomRuntime
     kapt rootProject.ext.dependencies.roomCompiler
     implementation rootProject.ext.dependencies.roomKtx
+    implementation rootProject.ext.dependencies.jsoup
     implementation rootProject.ext.dependencies.codex_core
     implementation rootProject.ext.dependencies.codex_decorator_gesture
     implementation rootProject.ext.dependencies.codex_decorator_beep
@@ -133,4 +91,9 @@ dependencies {
     implementation rootProject.ext.dependencies.codex_decorator_frozen
     implementation rootProject.ext.dependencies.codex_decorator_vibrate
     implementation rootProject.ext.dependencies.codex_processor_zxing
+    implementation rootProject.ext.dependencies.lifecycle
+    kapt rootProject.ext.dependencies.lifecycle_compiler
+    implementation rootProject.ext.dependencies.palette
+    implementation rootProject.ext.dependencies.cropImageView
+    implementation rootProject.ext.dependencies.biometric
 }

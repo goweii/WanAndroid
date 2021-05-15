@@ -6,8 +6,10 @@ import android.text.TextUtils;
 import com.google.gson.Gson;
 
 import per.goweii.basic.utils.SPUtils;
-import per.goweii.wanandroid.module.login.activity.LoginActivity;
-import per.goweii.wanandroid.module.login.model.LoginBean;
+import per.goweii.wanandroid.module.login.activity.AuthActivity;
+import per.goweii.wanandroid.module.login.model.CmsLoginResp;
+import per.goweii.wanandroid.module.login.model.UserEntity;
+import per.goweii.wanandroid.module.mine.model.CmsUserResp;
 
 /**
  * @author CuiZhen
@@ -16,9 +18,9 @@ import per.goweii.wanandroid.module.login.model.LoginBean;
  */
 public class UserUtils {
 
-    private static final String KEY_LOGIN_BEAN = "KEY_LOGIN_BEAN";
+    private static final String KEY_LOGIN_USER_ENTITY = "KEY_LOGIN_USER_ENTITY";
 
-    private LoginBean mLoginBean = null;
+    private UserEntity mUserEntity = null;
 
     private static class Holder {
         private static final UserUtils INSTANCE = new UserUtils();
@@ -29,62 +31,108 @@ public class UserUtils {
     }
 
     private UserUtils() {
-        getLoginBean();
+        getLoginUser();
     }
 
-    public LoginBean getLoginBean() {
-        if (mLoginBean == null) {
-            String json = SPUtils.getInstance().get(KEY_LOGIN_BEAN, "");
+    public UserEntity getLoginUser() {
+        if (mUserEntity == null) {
+            String json = SPUtils.getInstance().get(KEY_LOGIN_USER_ENTITY, "");
             if (!TextUtils.isEmpty(json)) {
                 try {
-                    mLoginBean = new Gson().fromJson(json, LoginBean.class);
+                    mUserEntity = new Gson().fromJson(json, UserEntity.class);
                 } catch (Exception ignore) {
                 }
             }
         }
-        return mLoginBean;
+        return mUserEntity;
     }
 
-    public void login(LoginBean loginBean) {
-        mLoginBean = loginBean;
-        String json = new Gson().toJson(loginBean);
-        SPUtils.getInstance().save(KEY_LOGIN_BEAN, json);
+    public void login(UserEntity userEntity) {
+        mUserEntity = userEntity;
+        SPUtils.getInstance().save(KEY_LOGIN_USER_ENTITY, new Gson().toJson(userEntity));
+    }
+
+    public void login(CmsLoginResp loginResp) {
+        CmsUserResp userResp = loginResp.getUser();
+        UserEntity userEntity = new UserEntity(
+                userResp.getEmail(),
+                userResp.getUsername(),
+                userResp.getWanid(),
+                userResp.getId(),
+                loginResp.getJwt(),
+                userResp.getSex(),
+                userResp.getSignature(),
+                userResp.getAvatar(),
+                userResp.getCover()
+        );
+        login(userEntity);
     }
 
     public void logout() {
-        mLoginBean = null;
+        mUserEntity = null;
         SPUtils.getInstance().clear();
     }
 
-    public void update(LoginBean loginBean) {
-        mLoginBean = loginBean;
-        SPUtils.getInstance().save(KEY_LOGIN_BEAN, mLoginBean);
+    public void update(CmsUserResp userResp) {
+        UserEntity userEntity = new UserEntity(
+                userResp.getEmail(),
+                userResp.getUsername(),
+                userResp.getWanid(),
+                userResp.getId(),
+                getCmsJwt(),
+                userResp.getSex(),
+                userResp.getSignature(),
+                userResp.getAvatar(),
+                userResp.getCover()
+        );
+        update(userEntity);
+    }
+
+    public void update(UserEntity userEntity) {
+        mUserEntity = userEntity;
+        SPUtils.getInstance().save(KEY_LOGIN_USER_ENTITY, new Gson().toJson(userEntity));
     }
 
     public boolean isLogin() {
-        LoginBean loginBean = getLoginBean();
+        UserEntity loginBean = getLoginUser();
         if (loginBean == null) {
             return false;
         }
-        if (loginBean.getId() > 0) {
-            return true;
+        if (loginBean.getWanid() <= 0) {
+            return false;
         }
-        return false;
+        return !loginBean.getCmsid().isEmpty();
     }
 
-    public int getUserId() {
-        LoginBean loginBean = getLoginBean();
+    public int getWanId() {
+        UserEntity loginBean = getLoginUser();
         if (loginBean == null) {
             return 0;
         }
-        return loginBean.getId();
+        return loginBean.getWanid();
+    }
+
+    public String getCmsId() {
+        UserEntity loginBean = getLoginUser();
+        if (loginBean == null) {
+            return "";
+        }
+        return loginBean.getCmsid();
+    }
+
+    public String getCmsJwt() {
+        UserEntity loginBean = getLoginUser();
+        if (loginBean == null) {
+            return "";
+        }
+        return loginBean.getJwt();
     }
 
     public boolean doIfLogin(Context context) {
         if (isLogin()) {
             return true;
         } else {
-            LoginActivity.start(context);
+            AuthActivity.startQuickLogin(context);
             return false;
         }
     }

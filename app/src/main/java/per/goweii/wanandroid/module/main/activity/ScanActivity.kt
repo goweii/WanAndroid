@@ -8,7 +8,6 @@ import android.app.Activity
 import android.content.Intent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_scan.*
 import per.goweii.anypermission.AnyPermission
 import per.goweii.anypermission.RequestListener
@@ -27,7 +26,9 @@ import per.goweii.codex.processor.zxing.ZXingMultiDecodeQRCodeProcessor
 import per.goweii.codex.processor.zxing.ZXingMultiScanQRCodeProcessor
 import per.goweii.codex.scanner.CameraProxy
 import per.goweii.codex.scanner.CodeScanner
+import per.goweii.swipeback.SwipeBackAbility
 import per.goweii.swipeback.SwipeBackDirection
+import per.goweii.swipeback.SwipeBackTransformer
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.main.presenter.ScanPresenter
 import per.goweii.wanandroid.module.main.view.ScanView
@@ -38,7 +39,7 @@ import per.goweii.wanandroid.utils.UrlOpenUtils
  * @author CuiZhen
  * @date 2020/2/26
  */
-class ScanActivity : BaseActivity<ScanPresenter>(), ScanView {
+class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.Direction, SwipeBackAbility.Transformer {
 
     companion object {
         private const val REQ_CODE_PERMISSION_CAMERA = 1
@@ -71,14 +72,18 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView {
 
     private var codeScanner: CodeScanner? = null
 
-    override fun swipeBackDirection() = SwipeBackDirection.FROM_TOP
+    override fun swipeBackDirection(): SwipeBackDirection = SwipeBackDirection.BOTTOM
+
+    override fun swipeBackTransformer(): SwipeBackTransformer? = null
 
     override fun getLayoutId(): Int = R.layout.activity_scan
 
     override fun initPresenter(): ScanPresenter = ScanPresenter()
 
     override fun initView() {
-        mSwipeBackHelper.swipeBackLayout.setSwipeBackTransformer { _, _, _, _ -> }
+        ivClose.setOnClickListener {
+            finish()
+        }
         ivTorch.invisible()
         ivAlbum.setOnClickListener {
             startAlbum()
@@ -87,14 +92,14 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView {
             codeScanner?.enableTorch(!ivTorch.isSelected)
         }
         codeScanner = code_scanner.apply {
-            cameraProxyLiveData.observe(this@ScanActivity, Observer {
-                cameraProxy?.torchState?.observe(this@ScanActivity, Observer { torchState ->
+            cameraProxyLiveData.observe(this@ScanActivity) { cameraProxy ->
+                cameraProxy?.torchState?.observe(this@ScanActivity) { torchState ->
                     when (torchState) {
                         CameraProxy.TORCH_ON -> ivTorch.isSelected = true
                         CameraProxy.TORCH_OFF -> ivTorch.isSelected = false
                     }
-                })
-            })
+                }
+            }
             addProcessor(ZXingMultiScanQRCodeProcessor())
             addDecorator(
                     frozen_view,
@@ -132,19 +137,19 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView {
                 .runtime(REQ_CODE_PERMISSION_CAMERA)
                 .permissions(Manifest.permission.CAMERA)
                 .onBeforeRequest { _, executor ->
-                    showTip("扫二维码需要相机权限", "点击申请", View.OnClickListener {
+                    showTip("扫二维码需要相机权限", "点击申请", {
                         hideTip()
                         executor.execute()
                     })
                 }
                 .onBeenDenied { _, executor ->
-                    showTip("拒绝相机权限将无法扫码", "重新申请", View.OnClickListener {
+                    showTip("拒绝相机权限将无法扫码", "重新申请", {
                         hideTip()
                         executor.execute()
                     })
                 }
                 .onGoSetting { _, executor ->
-                    showTip("相机权限已被拒绝", "去设置", View.OnClickListener {
+                    showTip("相机权限已被拒绝", "去设置", {
                         hideTip()
                         executor.execute()
                     })
@@ -158,7 +163,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView {
                     }
 
                     override fun onFailed() {
-                        showTip("无法获取相机权限", "点击获取", View.OnClickListener {
+                        showTip("无法获取相机权限", "点击获取", {
                             hideTip()
                             startScan()
                         })
@@ -178,28 +183,28 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView {
                 .runtime(REQ_CODE_PERMISSION_ALBUM)
                 .permissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .onBeforeRequest { _, executor ->
-                    showTip("选择图片需要存储权限", "点击申请", View.OnClickListener {
+                    showTip("选择图片需要存储权限", "点击申请", {
                         hideTip()
                         executor.execute()
-                    }, "返回扫码", View.OnClickListener {
+                    }, "返回扫码", {
                         hideTip()
                         executor.cancel()
                     })
                 }
                 .onBeenDenied { _, executor ->
-                    showTip("拒绝存储权限将无法选择图片", "重新申请", View.OnClickListener {
+                    showTip("拒绝存储权限将无法选择图片", "重新申请", {
                         hideTip()
                         executor.execute()
-                    }, "返回扫码", View.OnClickListener {
+                    }, "返回扫码", {
                         hideTip()
                         executor.cancel()
                     })
                 }
                 .onGoSetting { _, executor ->
-                    showTip("存储权限已被拒绝", "去设置", View.OnClickListener {
+                    showTip("存储权限已被拒绝", "去设置", {
                         hideTip()
                         executor.execute()
-                    }, "返回扫码", View.OnClickListener {
+                    }, "返回扫码", {
                         hideTip()
                         executor.cancel()
                     })
@@ -231,12 +236,12 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView {
                         decoder.decode(bitmap, onSuccess = { results ->
                             onAlbumQRCodeSuccess(results.first().text)
                         }, onFailure = {
-                            showTip("没有识别到二维码", "返回扫码", View.OnClickListener {
+                            showTip("没有识别到二维码", "返回扫码", {
                                 hideTip()
                                 startScan()
                             })
                         })
-                    } ?: showTip("打开图片失败", "返回扫码", View.OnClickListener {
+                    } ?: showTip("打开图片失败", "返回扫码", {
                         hideTip()
                         startScan()
                     })

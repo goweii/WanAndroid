@@ -12,5 +12,6 @@ import per.goweii.wanandroid.module.main.model.ChapterBean;
  */
 public interface WxView extends BaseView {
     void getWxArticleChaptersSuccess(int code, List<ChapterBean> data);
+
     void getWxArticleChaptersFailed(int code, String msg);
 }

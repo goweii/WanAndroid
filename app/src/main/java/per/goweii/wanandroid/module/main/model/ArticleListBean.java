@@ -1,8 +1,5 @@
 package per.goweii.wanandroid.module.main.model;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import per.goweii.rxhttp.request.base.BaseBean;
@@ -79,14 +76,8 @@ public class ArticleListBean extends BaseBean {
         this.total = total;
     }
 
-    public List<ArticleBean> getArticles() {
+    public List<ArticleBean> getDatas() {
         return datas;
-    }
-
-    public List<MultiItemEntity> getDatas() {
-        List<MultiItemEntity> list = new ArrayList<>(datas.size());
-        list.addAll(datas);
-        return list;
     }
 
     public void setDatas(List<ArticleBean> datas) {

@@ -9,8 +9,6 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-
 import java.util.List;
 
 import per.goweii.wanandroid.R;
@@ -27,12 +25,12 @@ public class WebDialogPagerAdapter extends PagerAdapter {
 
     private final Activity mActivity;
     private final List<ArticleBean> mTopUrls;
-    private final List<MultiItemEntity> mUrls;
+    private final List<ArticleBean> mUrls;
     private final SparseArray<WebHolder> mWebs = new SparseArray<>();
 
     private OnDoubleClickListener mOnDoubleClickListener = null;
 
-    public WebDialogPagerAdapter(Activity activity, List<ArticleBean> topUrls, List<MultiItemEntity> urls) {
+    public WebDialogPagerAdapter(Activity activity, List<ArticleBean> topUrls, List<ArticleBean> urls) {
         mTopUrls = topUrls;
         mUrls = urls;
         mActivity = activity;
@@ -61,7 +59,7 @@ public class WebDialogPagerAdapter extends PagerAdapter {
         }
     }
 
-    public void pauseAllAgentWeb() {
+    public void pauseAllWeb() {
         for (int i = 0; i < mWebs.size(); i++) {
             WebHolder web = mWebs.valueAt(i);
             if (web == null) {
@@ -71,24 +69,16 @@ public class WebDialogPagerAdapter extends PagerAdapter {
         }
     }
 
-    public void destroyAllAgentWeb() {
+    public void destroyAllWeb() {
         for (int i = 0; i < mWebs.size(); i++) {
             WebHolder web = mWebs.valueAt(i);
             if (web != null) {
-                web.onDestroy();
+                web.onDestroy(true);
             }
         }
     }
 
-    public ArticleBean getArticleBean(int position) {
-        MultiItemEntity entity = getBean(position);
-        if (entity != null && entity.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
-            return (ArticleBean) entity;
-        }
-        return null;
-    }
-
-    public MultiItemEntity getBean(int pos) {
+    public ArticleBean getArticleBean(int pos) {
         int topUrlCount = mTopUrls == null ? 0 : mTopUrls.size();
         if (pos < topUrlCount) {
             return mTopUrls.get(pos);
@@ -111,13 +101,7 @@ public class WebDialogPagerAdapter extends PagerAdapter {
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
-        final MultiItemEntity data = getBean(position);
-        final ArticleBean bean;
-        if (data.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
-            bean = (ArticleBean) data;
-        } else {
-            bean = null;
-        }
+        final ArticleBean bean = getArticleBean(position);
         View rootView = LayoutInflater.from(container.getContext()).inflate(R.layout.dialog_web_vp_item, container, false);
         WebContainer wc = rootView.findViewById(R.id.dialog_web_wc);
         wc.setOnDoubleClickListener(new WebContainer.OnDoubleClickListener() {
@@ -128,7 +112,17 @@ public class WebDialogPagerAdapter extends PagerAdapter {
                 }
             }
         });
-        WebHolder web = WebHolder.with(mActivity, wc).loadUrl(bean != null ? bean.getLink() : "");
+        WebHolder web = WebHolder.with(mActivity, wc)
+                .setAllowOpenOtherApp(false)
+                .setAllowOpenDownload(false)
+                .setAllowRedirect(false)
+                .setOverrideUrlInterceptor(new WebHolder.OverrideUrlInterceptor() {
+                    @Override
+                    public boolean onOverrideUrl(String url) {
+                        return true;
+                    }
+                })
+                .loadUrl(bean != null ? bean.getLink() : "");
         mWebs.put(position, web);
         container.addView(rootView);
         return rootView;
@@ -137,7 +131,7 @@ public class WebDialogPagerAdapter extends PagerAdapter {
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         WebHolder web = mWebs.get(position);
-        web.onDestroy();
+        web.onDestroy(false);
         mWebs.remove(position);
     }
 

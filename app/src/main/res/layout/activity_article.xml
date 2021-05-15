@@ -1,83 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/surface"
-    android:orientation="vertical">
+    android:background="?colorSurface"
+    app:bdl_closeHeight="@dimen/bottom_bar_height"
+    app:bdl_enable="true"
+    tools:bdl_open="true"
+    app:bdl_open="false"
+    app:bdl_openTopMargin="200dp">
 
-    <per.goweii.actionbarex.ActionBarEx
-        android:id="@+id/ab"
-        style="@style/ActionBar"
-        app:ab_statusBarColor="@color/surface"
-        app:ab_titleBarHeight="0dp" />
+    <include layout="@layout/activity_article_content" />
 
-    <per.goweii.wanandroid.widget.WebContainer
-        android:id="@+id/wc"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/ab" />
+    <include layout="@layout/activity_article_comment" />
 
-    <View
-        android:id="@+id/v_bottom_bar_stub"
-        android:layout_width="0dp"
-        android:layout_height="@dimen/bottom_bar_height"
-        android:layout_alignParentBottom="true" />
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignStart="@+id/rl"
-        android:layout_alignTop="@+id/rl"
-        android:layout_alignEnd="@+id/rl"
-        android:layout_alignBottom="@+id/rl"
-        android:layout_marginStart="-6dp"
-        android:layout_marginTop="-4dp"
-        android:layout_marginEnd="-6dp"
-        android:layout_marginBottom="-8dp"
-        android:background="@drawable/shadow_circle" />
-
-    <me.zhanghai.android.materialprogressbar.MaterialProgressBar
-        android:id="@+id/pb"
-        style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignStart="@+id/rl"
-        android:layout_alignTop="@+id/rl"
-        android:layout_alignEnd="@+id/rl"
-        android:layout_alignBottom="@+id/rl"
-        android:layout_marginStart="-3dp"
-        android:layout_marginTop="-3dp"
-        android:layout_marginEnd="-3dp"
-        android:layout_marginBottom="-3dp"
-        android:max="100"
-        app:mpb_determinateCircularProgressStyle="normal"
-        app:mpb_progressStyle="circular"
-        app:mpb_progressTint="@color/main"
-        app:mpb_showProgressBackground="false"
-        app:mpb_useIntrinsicPadding="false"
-        tools:progress="30" />
-
-    <per.goweii.reveallayout.RevealLayout
-        android:id="@+id/rl"
-        android:layout_width="@dimen/button_height"
-        android:layout_height="@dimen/button_height"
-        android:layout_above="@+id/v_bottom_bar_stub"
-        android:layout_alignParentStart="true"
-        android:layout_margin="@dimen/margin_def"
-        app:rl_allowRevert="true"
-        app:rl_checkedLayout="@layout/layout_article_collect_view_checked"
-        app:rl_uncheckedLayout="@layout/layout_article_collect_view_unchecked"
-        tools:rl_checked="false" />
-
-    <View
-        android:id="@+id/v_back"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_alignStart="@+id/rl"
-        android:layout_alignTop="@+id/rl"
-        android:layout_alignEnd="@+id/rl"
-        android:layout_alignBottom="@+id/rl" />
-
-</RelativeLayout>
+</per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout>

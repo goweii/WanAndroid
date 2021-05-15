@@ -1,15 +1,22 @@
 package per.goweii.wanandroid.http;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.franmontiel.persistentcookiejar.PersistentCookieJar;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.OkHttpClient;
 import per.goweii.basic.core.common.Config;
+import per.goweii.basic.utils.DebugUtils;
 import per.goweii.rxhttp.request.setting.DefaultRequestSetting;
+import per.goweii.rxhttp.request.setting.ParameterGetter;
 import per.goweii.rxhttp.request.utils.HttpsCompat;
+import per.goweii.wanandroid.utils.UserUtils;
 
 /**
  * 描述：
@@ -20,16 +27,14 @@ import per.goweii.rxhttp.request.utils.HttpsCompat;
 public class RxHttpRequestSetting extends DefaultRequestSetting {
 
     private final PersistentCookieJar mCookieJar;
-    private final Gson mGson;
 
     public RxHttpRequestSetting(PersistentCookieJar cookieJar) {
         mCookieJar = cookieJar;
-        mGson = new GsonBuilder().setPrettyPrinting().create();
     }
 
     @Override
     public boolean isDebug() {
-        return false;
+        return DebugUtils.isDebug();
     }
 
     @Override
@@ -40,7 +45,38 @@ public class RxHttpRequestSetting extends DefaultRequestSetting {
     @NonNull
     @Override
     public String getBaseUrl() {
-        return Config.BASE_URL;
+        return WanApi.ApiConfig.BASE_URL;
+    }
+
+    @Nullable
+    @Override
+    public Map<Class<?>, String> getServiceBaseUrl() {
+        Map<Class<?>, String> map = new HashMap<>(1);
+        map.put(CmsApi.ApiService.class, CmsApi.ApiConfig.BASE_URL);
+        return map;
+    }
+
+    @Nullable
+    @Override
+    public Map<String, String> getStaticHeaderParameter() {
+        Map<String, String> map = new HashMap<>(1);
+        map.put("HeaderParameterHolder", "Nothing");
+        return map;
+    }
+
+    @Nullable
+    @Override
+    public Map<String, ParameterGetter> getDynamicHeaderParameter() {
+        Map<String, ParameterGetter> map = new HashMap<>(2);
+        if (!TextUtils.isEmpty(UserUtils.getInstance().getCmsJwt())) {
+            map.put("Authorization", new ParameterGetter() {
+                @Override
+                public String get() {
+                    return "Bearer " + UserUtils.getInstance().getCmsJwt();
+                }
+            });
+        }
+        return map;
     }
 
     @Override

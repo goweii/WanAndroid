@@ -3,6 +3,9 @@ package per.goweii.wanandroid.utils.web;
 import android.animation.Animator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.net.Uri;
@@ -13,7 +16,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -23,12 +26,12 @@ import androidx.annotation.RequiresApi;
 import androidx.webkit.WebSettingsCompat;
 import androidx.webkit.WebViewFeature;
 
-import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
-import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
+import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
 import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
 import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
 import com.tencent.smtt.sdk.CookieManager;
 import com.tencent.smtt.sdk.CookieSyncManager;
+import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
@@ -41,16 +44,17 @@ import java.util.Map;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
+import per.goweii.anylayer.DecorLayer;
+import per.goweii.anylayer.Layer;
+import per.goweii.basic.utils.LogUtils;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.module.main.dialog.ImagePreviewDialog;
 import per.goweii.wanandroid.utils.NightModeUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
-import per.goweii.wanandroid.utils.web.js.DarkmodeInject;
-import per.goweii.wanandroid.utils.web.js.ImageClickInject;
-import per.goweii.wanandroid.utils.web.js.VConsoleInject;
+import per.goweii.wanandroid.utils.web.js.JsInjector;
 import per.goweii.wanandroid.widget.WebContainer;
-import per.goweii.wanandroid.widget.X5WebView;
 
 /**
  * @author CuiZhen
@@ -58,6 +62,9 @@ import per.goweii.wanandroid.widget.X5WebView;
  * GitHub: https://github.com/goweii
  */
 public class WebHolder {
+    private static final String TAG = WebHolder.class.getSimpleName();
+
+    private OnPageScrollEndListener mOnPageScrollEndListener = null;
     private OnPageTitleCallback mOnPageTitleCallback = null;
     private OnPageLoadCallback mOnPageLoadCallback = null;
     private OnPageProgressCallback mOnPageProgressCallback = null;
@@ -71,11 +78,15 @@ public class WebHolder {
     private final ProgressBar mProgressBar;
     private final String mUserAgentString;
 
-    private final VConsoleInject vConsoleInject;
-    private final DarkmodeInject darkmodeInject;
-    private final ImageClickInject imageClickInject;
+    private boolean allowOpenOtherApp = true;
+    private boolean allowOpenDownload = true;
+    private boolean allowRedirect = true;
 
+    private final JsInjector jsInjector;
+
+    private boolean useInstanceCache = false;
     private boolean isProgressShown = false;
+    private boolean isPageScrollEnd = false;
 
     public static WebHolder with(Activity activity, WebContainer container, ProgressBar progressBar) {
         return new WebHolder(activity, container, progressBar);
@@ -124,16 +135,18 @@ public class WebHolder {
         activity.getWindow().setFormat(PixelFormat.TRANSLUCENT);
         mActivity = activity;
         mWebContainer = container;
-        mWebContainer.setBackgroundResource(R.color.surface);
+        int color = ResUtils.getThemeColor(mWebContainer, R.attr.colorSurface);
+        mWebContainer.setBackgroundColor(color);
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
             QbSdk.forceSysWebView();
         } else {
             QbSdk.unForceSysWebView();
         }
-        mWebView = new X5WebView(activity);
-        mWebView.setBackgroundResource(R.color.transparent);
-        mWebView.setBackgroundColor(0);
-        mWebView.getBackground().setAlpha(0);
+        if (useInstanceCache) {
+            mWebView = WebInstance.getInstance(mActivity).obtain();
+        } else {
+            mWebView = WebInstance.getInstance(mActivity).create();
+        }
         container.addView(mWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
         if (progressBar == null) {
@@ -145,36 +158,60 @@ public class WebHolder {
             mProgressBar = progressBar;
         }
         mProgressBar.setMax(100);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            CookieManager.getInstance().setAcceptThirdPartyCookies(mWebView, true);
-        }
-        mWebView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
-        mWebView.getView().setOverScrollMode(View.OVER_SCROLL_NEVER);
         mWebView.setWebChromeClient(new WanWebChromeClient());
         mWebView.setWebViewClient(new WanWebViewClient());
+        mWebView.setDownloadListener(new DownloadListener() {
+            @Override
+            public void onDownloadStart(String url, String userAgent, String contentDisposition, String mimeType, long contentLength) {
+                LogUtils.i(TAG, "onDownloadStart:url=" + url);
+                LogUtils.i(TAG, "onDownloadStart:userAgent=" + userAgent);
+                LogUtils.i(TAG, "onDownloadStart:contentDisposition=" + contentDisposition);
+                LogUtils.i(TAG, "onDownloadStart:mimeType=" + mimeType);
+                LogUtils.i(TAG, "onDownloadStart:contentLength=" + contentLength);
+                if (!allowOpenDownload) return;
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.addCategory(Intent.CATEGORY_BROWSABLE);
+                    intent.setData(Uri.parse(url));
+                    mWebView.getContext().startActivity(intent);
+                } catch (Exception ignore) {
+                }
+            }
+        });
+        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                WebView.HitTestResult hitTestResult = mWebView.getHitTestResult();
+                HitResult result = new HitResult(hitTestResult);
+                switch (result.getType()) {
+                    case IMAGE_TYPE:
+                    case IMAGE_ANCHOR_TYPE:
+                    case SRC_IMAGE_ANCHOR_TYPE:
+                        new ImagePreviewDialog(mActivity, result.getResult()).show();
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            mWebView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
+                @Override
+                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                    if (mOnPageScrollEndListener == null) return;
+                    if (isProgressShown) return;
+                    if (isPageScrollEnd) return;
+                    float contentHeight = mWebView.getContentHeight() * mWebView.getScale();
+                    float webViewHeight = mWebView.getHeight();
+                    if (scrollY + webViewHeight >= (contentHeight - 120)) {
+                        isPageScrollEnd = true;
+                        mOnPageScrollEndListener.onPageScrollEnd();
+                    }
+                }
+            });
+        }
         WebSettings webSetting = mWebView.getSettings();
         mUserAgentString = webSetting.getUserAgentString();
-        webSetting.setJavaScriptEnabled(true);
-        webSetting.setJavaScriptCanOpenWindowsAutomatically(false);
-        webSetting.setAllowFileAccess(true);
-        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        webSetting.setSupportZoom(false);
-        webSetting.setBuiltInZoomControls(false);
-        webSetting.setUseWideViewPort(true);
-        webSetting.setLoadWithOverviewMode(true);
-        webSetting.setAppCacheEnabled(true);
-        webSetting.setDomStorageEnabled(true);
-        webSetting.setGeolocationEnabled(true);
-        webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
-        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
-        webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            webSetting.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        IX5WebSettingsExtension ext = mWebView.getSettingsExtension();
-        if (ext != null) {
-            ext.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
-        }
         boolean isAppDarkMode = NightModeUtils.isNightMode(activity);
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
             View v = mWebView.getView();
@@ -187,32 +224,10 @@ public class WebHolder {
                 }
             }
         } else {
-            if (isAppDarkMode) {
-                mWebView.setDayOrNight(false);
-            } else {
-                mWebView.setDayOrNight(true);
-            }
+            mWebView.setDayOrNight(!isAppDarkMode);
         }
-        vConsoleInject = new VConsoleInject();
-        vConsoleInject.attach(mWebView);
-        darkmodeInject = new DarkmodeInject();
-        darkmodeInject.attach(mWebView);
-        imageClickInject = new ImageClickInject();
-        imageClickInject.attach(mWebView);
-        setOnLongClickHitTestResult(new OnLongClickHitTestResult() {
-            @Override
-            public boolean onHitTestResult(@NonNull HitResult result) {
-                switch (result.getType()) {
-                    case IMAGE_TYPE:
-                    case IMAGE_ANCHOR_TYPE:
-                    case SRC_IMAGE_ANCHOR_TYPE:
-                        new ImagePreviewDialog(mActivity, result.getResult()).show();
-                        return true;
-                    default:
-                        return false;
-                }
-            }
-        });
+        jsInjector = new JsInjector(mWebView);
+        jsInjector.attach();
     }
 
     public WebHolder loadUrl(String url) {
@@ -269,28 +284,27 @@ public class WebHolder {
         mWebView.stopLoading();
     }
 
-    public void onPause() {
-        mWebView.onPause();
-    }
-
     public void onResume() {
+        mWebView.resumeTimers();
         mWebView.onResume();
     }
 
-    public void onDestroy() {
+    public void onPause() {
+        mWebView.pauseTimers();
+        mWebView.onPause();
+    }
+
+    public void onDestroy(boolean destroyOrRecycle) {
+        jsInjector.detach();
         mProgressBar.clearAnimation();
-        ViewParent parent = mWebView.getParent();
-        if (parent != null) {
-            ((ViewGroup) parent).removeView(mWebView);
-        }
-        try {
-            mWebView.removeAllViews();
-            mWebView.loadDataWithBaseURL(null, "", "text/html", "utf-8", null);
-            mWebView.stopLoading();
-            mWebView.setWebChromeClient(null);
-            mWebView.setWebViewClient(null);
-            mWebView.destroy();
-        } catch (Exception ignore) {
+        if (useInstanceCache) {
+            if (destroyOrRecycle) {
+                WebInstance.getInstance(mActivity).destroy(mWebView);
+            } else {
+                WebInstance.getInstance(mActivity).recycle(mWebView);
+            }
+        } else {
+            WebInstance.getInstance(mActivity).destroy(mWebView);
         }
     }
 
@@ -305,23 +319,43 @@ public class WebHolder {
         return false;
     }
 
-    public WebHolder setOnLongClickHitTestResult(OnLongClickHitTestResult onLongClickHitTestResult) {
-        mWebView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                WebView.HitTestResult hitTestResult = mWebView.getHitTestResult();
-                HitResult result = new HitResult(hitTestResult);
-                if (onLongClickHitTestResult != null) {
-                    return onLongClickHitTestResult.onHitTestResult(result);
-                }
-                return false;
-            }
-        });
+    public WebHolder setLoadCacheElseNetwork(boolean loadCacheElseNetwork) {
+        WebSettings webSetting = mWebView.getSettings();
+        if (loadCacheElseNetwork) {
+            webSetting.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
+        } else {
+            webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
+        }
+        return this;
+    }
+
+    public WebHolder setUseInstanceCache(boolean useInstanceCache) {
+        this.useInstanceCache = useInstanceCache;
+        return this;
+    }
+
+    public WebHolder setAllowOpenOtherApp(boolean allowOpenOtherApp) {
+        this.allowOpenOtherApp = allowOpenOtherApp;
+        return this;
+    }
+
+    public WebHolder setAllowOpenDownload(boolean allowOpenDownload) {
+        this.allowOpenDownload = allowOpenDownload;
+        return this;
+    }
+
+    public WebHolder setAllowRedirect(boolean allowRedirect) {
+        this.allowRedirect = allowRedirect;
         return this;
     }
 
     public WebHolder setOnPageTitleCallback(OnPageTitleCallback onPageTitleCallback) {
         mOnPageTitleCallback = onPageTitleCallback;
+        return this;
+    }
+
+    public WebHolder setOnPageScrollEndListener(OnPageScrollEndListener onPageScrollEndListener) {
+        mOnPageScrollEndListener = onPageScrollEndListener;
         return this;
     }
 
@@ -362,21 +396,22 @@ public class WebHolder {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             super.onProgressChanged(view, newProgress);
-            vConsoleInject.onProgressChanged(newProgress);
-            darkmodeInject.onProgressChanged(newProgress);
-            imageClickInject.onProgressChanged(newProgress);
-            if (newProgress < 95) {
+            isPageScrollEnd = false;
+            jsInjector.onProgressChanged(newProgress);
+            if (newProgress < 30) {
                 if (!isProgressShown) {
                     isProgressShown = true;
                     onShowProgress();
                 }
                 onProgressChanged(newProgress);
-            } else {
+            } else if (newProgress > 80) {
                 onProgressChanged(newProgress);
                 if (isProgressShown) {
                     isProgressShown = false;
                     onHideProgress();
                 }
+            } else {
+                onProgressChanged(newProgress);
             }
         }
 
@@ -461,33 +496,122 @@ public class WebHolder {
                         }
                     }).start();
         }
+
+        private DecorLayer mCustomViewLayer = null;
+        private IX5WebChromeClient.CustomViewCallback mCustomViewCallback = null;
+        private int mOldActivityOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
+
+        @Override
+        public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback customViewCallback) {
+            if (mCustomViewLayer != null) {
+                mCustomViewLayer.dismiss();
+                mCustomViewLayer = null;
+            }
+            if (mCustomViewCallback != null) {
+                mCustomViewCallback.onCustomViewHidden();
+                mCustomViewCallback = null;
+            }
+            mCustomViewCallback = customViewCallback;
+            mCustomViewLayer = new DecorLayer(mActivity);
+            mCustomViewLayer.level(Integer.MAX_VALUE);
+            mCustomViewLayer.animator(new Layer.AnimatorCreator() {
+                @Override
+                public Animator createInAnimator(@NonNull View target) {
+                    return null;
+                }
+
+                @Override
+                public Animator createOutAnimator(@NonNull View target) {
+                    return null;
+                }
+            });
+            view.setLayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+            ));
+            mCustomViewLayer.child(view);
+            mCustomViewLayer.show();
+            mOldActivityOrientation = mActivity.getRequestedOrientation();
+            mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            mActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
+
+        @Override
+        public void onHideCustomView() {
+            if (mCustomViewLayer != null) {
+                mCustomViewLayer.dismiss();
+                mCustomViewLayer = null;
+            }
+            if (mCustomViewCallback != null) {
+                mCustomViewCallback.onCustomViewHidden();
+                mCustomViewCallback = null;
+            }
+            mActivity.setRequestedOrientation(mOldActivityOrientation);
+            mActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
     }
 
     public class WanWebViewClient extends WebViewClient {
         private WebResourceResponse shouldInterceptRequest(@NonNull Uri reqUri,
                                                            @Nullable Map<String, String> reqHeaders,
                                                            @Nullable String reqMethod) {
-            syncCookiesForWanAndroid(reqUri.toString());
-            if (mInterceptUrlInterceptor == null) {
-                return null;
-            }
+            String url = reqUri.toString();
+            LogUtils.d(TAG, "shouldInterceptRequest:url=" + url);
+            LogUtils.d(TAG, "shouldInterceptRequest:headers=" + reqHeaders);
+            LogUtils.d(TAG, "shouldInterceptRequest:method=" + reqMethod);
+            syncCookiesForWanAndroid(url);
+            if (mInterceptUrlInterceptor == null) return null;
             return mInterceptUrlInterceptor.onInterceptUrl(reqUri, reqHeaders, reqMethod);
         }
 
-        private boolean shouldOverrideUrlLoading(Uri uri) {
-            if (mOverrideUrlInterceptor == null) {
-                switch (SettingUtils.getInstance().getUrlInterceptType()) {
-                    default:
-                    case HostInterceptUtils.TYPE_NOTHING:
-                        return false;
-                    case HostInterceptUtils.TYPE_ONLY_WHITE:
-                        return !HostInterceptUtils.isWhiteHost(uri.getHost());
-                    case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
-                        return HostInterceptUtils.isBlackHost(uri.getHost());
+        private boolean shouldOverrideUrlLoading(WebView view, Uri uri) {
+            LogUtils.i(TAG, "shouldOverrideUrlLoading=" + uri.toString());
+            String url = view.getUrl();
+            String originalUrl = view.getOriginalUrl();
+            WebView.HitTestResult hit = view.getHitTestResult();
+            if (hit.getType() == WebView.HitTestResult.UNKNOWN_TYPE || TextUtils.isEmpty(hit.getExtra())) {
+                LogUtils.i(TAG, "重定向:url=" + url);
+                LogUtils.i(TAG, "重定向:originalUrl=" + originalUrl);
+                if (!allowRedirect) {
+                    if (!TextUtils.isEmpty(originalUrl) && (originalUrl.startsWith("http://") || originalUrl.startsWith("https://"))) {
+                        return true;
+                    }
                 }
-            } else {
-                return mOverrideUrlInterceptor.onOverrideUrl(uri.toString());
             }
+            String scheme = uri.getScheme();
+            if (!(TextUtils.equals(scheme, "http") || TextUtils.equals(scheme, "https"))) {
+                if (allowOpenOtherApp) {
+                    try {
+                        Context context = view.getContext();
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        context.startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                return true;
+            }
+            if (mOverrideUrlInterceptor != null) {
+                if (mOverrideUrlInterceptor.onOverrideUrl(uri.toString())) {
+                    return true;
+                }
+            }
+            switch (SettingUtils.getInstance().getUrlInterceptType()) {
+                case HostInterceptUtils.TYPE_ONLY_WHITE:
+                    if (!HostInterceptUtils.isWhiteHost(uri.getHost())) {
+                        return true;
+                    }
+                    break;
+                case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
+                    if (HostInterceptUtils.isBlackHost(uri.getHost())) {
+                        return true;
+                    }
+                    break;
+                case HostInterceptUtils.TYPE_NOTHING:
+                default:
+                    break;
+            }
+            return false;
         }
 
         @Override
@@ -536,20 +660,18 @@ public class WebHolder {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            return shouldOverrideUrlLoading(Uri.parse(url));
+            return shouldOverrideUrlLoading(view, Uri.parse(url));
         }
 
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
-            return shouldOverrideUrlLoading(request.getUrl());
+            return shouldOverrideUrlLoading(view, request.getUrl());
         }
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            vConsoleInject.onPageStarted();
-            darkmodeInject.onPageStarted();
-            imageClickInject.onPageStarted();
+            jsInjector.onPageStarted();
             super.onPageStarted(view, url, favicon);
             if (mOnPageTitleCallback != null) {
                 mOnPageTitleCallback.onReceivedTitle(getUrl());
@@ -577,6 +699,10 @@ public class WebHolder {
                 mOnHistoryUpdateCallback.onHistoryUpdate(isReload);
             }
         }
+    }
+
+    public interface OnPageScrollEndListener {
+        void onPageScrollEnd();
     }
 
     public interface OnLongClickHitTestResult {

@@ -12,4 +12,6 @@ public interface MineView extends BaseView {
     void getUserInfoSuccess(int code, UserInfoBean coin);
 
     void getUserInfoFail(int code, String msg);
+
+    void getNotificationCountSuccess(int count);
 }

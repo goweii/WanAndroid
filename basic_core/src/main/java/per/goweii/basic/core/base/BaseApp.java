@@ -3,17 +3,6 @@ package per.goweii.basic.core.base;
 import android.content.Context;
 import android.content.res.Configuration;
 
-import androidx.annotation.NonNull;
-
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshFooterCreator;
-import com.scwang.smartrefresh.layout.api.DefaultRefreshHeaderCreator;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
-import com.scwang.smartrefresh.layout.header.ClassicsHeader;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,38 +22,6 @@ public abstract class BaseApp extends App {
     private static final List<String> APP_LIKE_LIST = new ArrayList<>();
 
     private final List<AppLike> mAppLikeList = new ArrayList<>(APP_LIKE_LIST.size());
-
-    static {
-//        ClassicsHeader.REFRESH_HEADER_PULLING = "下拉可以刷新";
-//        ClassicsHeader.REFRESH_HEADER_REFRESHING = "正在刷新...";
-//        ClassicsHeader.REFRESH_HEADER_LOADING = "正在加载...";
-//        ClassicsHeader.REFRESH_HEADER_RELEASE = "释放立即刷新";
-//        ClassicsHeader.REFRESH_HEADER_FINISH = "刷新完成";
-//        ClassicsHeader.REFRESH_HEADER_FAILED = "刷新失败";
-//        ClassicsHeader.REFRESH_HEADER_SECONDARY = "释放进入二楼";
-//        ClassicsHeader.REFRESH_HEADER_UPDATE = "上次更新 M-d HH:mm";
-        SmartRefreshLayout.setDefaultRefreshHeaderCreator(new DefaultRefreshHeaderCreator() {
-            @NonNull
-            @Override
-            public RefreshHeader createRefreshHeader(@NonNull Context context, @NonNull RefreshLayout layout) {
-                return new ClassicsHeader(context);
-            }
-        });
-//        ClassicsFooter.REFRESH_FOOTER_PULLING = "上拉加载更多";
-//        ClassicsFooter.REFRESH_FOOTER_RELEASE = "释放立即加载";
-//        ClassicsFooter.REFRESH_FOOTER_REFRESHING = "正在刷新...";
-//        ClassicsFooter.REFRESH_FOOTER_LOADING = "正在加载...";
-//        ClassicsFooter.REFRESH_FOOTER_FINISH = "加载完成";
-//        ClassicsFooter.REFRESH_FOOTER_FAILED = "加载失败";
-//        ClassicsFooter.REFRESH_FOOTER_NOTHING = "没有更多数据了";
-        SmartRefreshLayout.setDefaultRefreshFooterCreator(new DefaultRefreshFooterCreator() {
-            @NonNull
-            @Override
-            public RefreshFooter createRefreshFooter(@NonNull Context context, @NonNull RefreshLayout layout) {
-                return new ClassicsFooter(context);
-            }
-        });
-    }
 
     @Override
     protected void attachBaseContext(Context context) {

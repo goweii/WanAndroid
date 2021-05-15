@@ -13,7 +13,6 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.navigation.adapter.NaviAdapter;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
@@ -28,7 +27,7 @@ import per.goweii.wanandroid.utils.UrlOpenUtils;
  * @date 2019/5/12
  * GitHub: https://github.com/goweii
  */
-public class NaviFragment extends BaseFragment<NaviPresenter> implements ScrollTop, NaviView {
+public class NaviFragment extends BaseFragment<NaviPresenter> implements RvScrollTopUtils.ScrollTop, NaviView {
 
     @BindView(R.id.msv)
     MultiStateView msv;

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorDialogBg" format="reference" />
+    <attr name="colorToastBg" format="reference" />
+    <attr name="colorRippleDark" format="reference" />
+    <attr name="colorRippleLight" format="reference" />
+    <!--通用颜色-->
+    <attr name="colorLauncherBackground" format="reference" />
+    <attr name="colorMain" format="reference" />
+    <attr name="colorMainAlpha" format="reference" />
+    <attr name="colorStriking" format="reference" />
+    <attr name="colorAssist" format="reference" />
+    <attr name="colorTransparent" format="reference" />
+    <attr name="colorLine" format="reference" />
+    <attr name="colorBackground" format="reference" />
+    <attr name="colorBackgroundAlpha" format="reference" />
+    <attr name="colorBackgroundMask" format="reference" />
+    <attr name="colorForeground" format="reference" />
+    <attr name="colorForegroundAlpha" format="reference" />
+    <attr name="colorForegroundMask" format="reference" />
+    <attr name="colorForegroundTop" format="reference" />
+    <attr name="colorSurface" format="reference" />
+    <attr name="colorSurfaceAlpha" format="reference" />
+    <attr name="colorSurfaceMask" format="reference" />
+    <attr name="colorSurfaceTop" format="reference" />
+    <attr name="colorSurfaceTopAlpha" format="reference" />
+    <attr name="colorSurfaceTopMask" format="reference" />
+    <attr name="colorInvert" format="reference" />
+    <attr name="colorInvertAlpha" format="reference" />
+    <attr name="colorSecond" format="reference" />
+    <attr name="colorThird" format="reference" />
+    <attr name="colorFourth" format="reference" />
+    <attr name="colorShadow" format="reference" />
+    <attr name="colorShadowMain" format="reference" />
+    <attr name="colorMainOrSurface" format="reference" />
+    <attr name="colorOnMainOrSurface" format="reference" />
+    <attr name="colorOnMainOrSurfaceAlpha" format="reference" />
+    <!--文字颜色-->
+    <attr name="colorTextMain" format="reference" />
+    <attr name="colorTextMainAlpha" format="reference" />
+    <attr name="colorTextAccent" format="reference" />
+    <attr name="colorTextSurface" format="reference" />
+    <attr name="colorTextSurfaceAlpha" format="reference" />
+    <attr name="colorTextSecond" format="reference" />
+    <attr name="colorTextThird" format="reference" />
+    <attr name="colorTextFourth" format="reference" />
+    <attr name="colorTextInvert" format="reference" />
+    <attr name="colorTextInvertAlpha" format="reference" />
+    <attr name="colorTextOnMain" format="reference" />
+    <!--图标颜色-->
+    <attr name="colorIconMain" format="reference" />
+    <attr name="colorIconAccent" format="reference" />
+    <attr name="colorIconSurface" format="reference" />
+    <attr name="colorIconSecond" format="reference" />
+    <attr name="colorIconThird" format="reference" />
+    <attr name="colorIconFourth" format="reference" />
+    <attr name="colorIconInvert" format="reference" />
+    <attr name="colorIconOnMain" format="reference" />
+    <attr name="colorIconLight" format="reference" />
+    <attr name="colorIconDark" format="reference" />
+</resources>

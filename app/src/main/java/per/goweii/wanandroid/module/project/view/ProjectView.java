@@ -12,5 +12,6 @@ import per.goweii.wanandroid.module.main.model.ChapterBean;
  */
 public interface ProjectView extends BaseView {
     void getProjectChaptersSuccess(int code, List<ChapterBean> data);
+
     void getProjectChaptersFailed(int code, String msg);
 }

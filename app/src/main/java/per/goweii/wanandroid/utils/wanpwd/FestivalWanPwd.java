@@ -113,7 +113,7 @@ public class FestivalWanPwd implements IWanPwd {
                 mRunnable = new Runnable() {
                     @Override
                     public void run() {
-                        Router.router("https://www.baidu.com/s?wd=" + "农历" + m + "月" + d + "日");
+                        Router.routeTo("https://www.baidu.com/s?wd=" + "农历" + m + "月" + d + "日");
                     }
                 };
             }

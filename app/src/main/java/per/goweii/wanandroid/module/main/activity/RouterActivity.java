@@ -7,11 +7,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.utils.LogUtils;
+import per.goweii.swipeback.SwipeBackAbility;
+import per.goweii.swipeback.SwipeBackDirection;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 
@@ -20,13 +23,14 @@ import per.goweii.wanandroid.utils.UrlOpenUtils;
  * @date 2019/5/7
  * GitHub: https://github.com/goweii
  */
-public class RouterActivity extends BaseActivity implements Runnable {
+public class RouterActivity extends BaseActivity implements SwipeBackAbility.Direction, Runnable {
 
     private static final String TAG = RouterActivity.class.getSimpleName();
 
+    @NonNull
     @Override
-    public boolean swipeBackEnable() {
-        return false;
+    public SwipeBackDirection swipeBackDirection() {
+        return SwipeBackDirection.NONE;
     }
 
     @Override

@@ -43,14 +43,14 @@ public abstract class MvpActivity<P extends MvpPresenter> extends CacheActivity 
     /**
      * 点击事件，可连续点击
      */
-    protected boolean onClick1(final View v){
+    protected boolean onClick1(final View v) {
         return false;
     }
 
     /**
      * 点击事件，500毫秒第一次
      */
-    protected void onClick2(final View v){
+    protected void onClick2(final View v) {
     }
 
     protected void initWindow() {

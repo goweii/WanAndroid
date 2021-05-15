@@ -5,7 +5,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/button_height</item>
         <item name="android:textSize">@dimen/text_content</item>
-        <item name="android:textColor">@color/text_invert</item>
+        <item name="android:textColor">?colorTextOnMain</item>
         <item name="android:gravity">center</item>
         <item name="android:background">@drawable/bg_press_color_main_radius_max</item>
     </style>

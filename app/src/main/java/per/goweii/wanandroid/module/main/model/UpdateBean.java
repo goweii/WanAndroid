@@ -8,20 +8,13 @@ import per.goweii.rxhttp.request.base.BaseBean;
  * GitHub: https://github.com/goweii
  */
 public class UpdateBean extends BaseBean {
-    /**
-     * url :
-     * url_backup :
-     * version_name : 1.0.0
-     * version_code : 0
-     * force : true
-     * desc :
-     * time : 2019-05-19
-     */
 
     private String url;
     private String url_backup;
     private String version_name;
     private int version_code;
+    private String last_force_version_name;
+    private int last_force_version_code;
     private boolean force;
     private String desc;
     private String time;
@@ -56,6 +49,22 @@ public class UpdateBean extends BaseBean {
 
     public void setVersion_code(int version_code) {
         this.version_code = version_code;
+    }
+
+    public String getLast_force_version_name() {
+        return last_force_version_name;
+    }
+
+    public void setLast_force_version_name(String last_force_version_name) {
+        this.last_force_version_name = last_force_version_name;
+    }
+
+    public int getLast_force_version_code() {
+        return last_force_version_code;
+    }
+
+    public void setLast_force_version_code(int last_force_version_code) {
+        this.last_force_version_code = last_force_version_code;
     }
 
     public boolean isForce() {

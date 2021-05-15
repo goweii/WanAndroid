@@ -79,7 +79,7 @@ public class KnowledgeArticleActivity extends BaseActivity<KnowledgePresenter> i
         // /article/list/0?cid=440
         // /project/list/1?cid=367
         // wana://www.wanandroid.com/wxarticle/list/410/1?cid=440
-        Uri uri = Uri.parse(Router.SCHEME + "://" + Router.HOST + url);
+        Uri uri = Uri.parse(Router.createUrlByPath(url));
         try {
             String cid = uri.getQueryParameter("cid");
             if (TextUtils.isEmpty(cid)) {
@@ -88,7 +88,10 @@ public class KnowledgeArticleActivity extends BaseActivity<KnowledgePresenter> i
                     cid = paths.get(2);
                 }
             }
-            int chapterId = Integer.parseInt(cid);
+            int chapterId = 0;
+            if (cid != null) {
+                chapterId = Integer.parseInt(cid);
+            }
             if (chapterId > 0) {
                 start(context, 0, "", chapterId);
             }

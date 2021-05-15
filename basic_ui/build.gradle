@@ -9,7 +9,10 @@ dependencies {
     api project(":basic_res")
 
     api rootProject.ext.dependencies.design
-    api rootProject.ext.dependencies.smartRefreshLayout
+    api rootProject.ext.dependencies.smartRefreshLayoutKernel
+    api rootProject.ext.dependencies.smartRefreshHeaderClassics
+    api rootProject.ext.dependencies.smartRefreshHeaderTwoLevel
+    api rootProject.ext.dependencies.smartRefreshFooterClassics
     api rootProject.ext.dependencies.bravh
     api rootProject.ext.dependencies.recyclerview
     api rootProject.ext.dependencies.anyDialog
@@ -20,7 +23,7 @@ dependencies {
     api rootProject.ext.dependencies.circleimageview
     api rootProject.ext.dependencies.magicIndicator
     api rootProject.ext.dependencies.materialProgressBar
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api rootProject.ext.dependencies.shadowLayout
 }
 repositories {
     mavenCentral()

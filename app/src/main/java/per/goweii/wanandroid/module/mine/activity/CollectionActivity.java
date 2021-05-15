@@ -17,10 +17,10 @@ import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
-import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.mine.fragment.CollectionArticleFragment;
 import per.goweii.wanandroid.module.mine.fragment.CollectionLinkFragment;
 import per.goweii.wanandroid.utils.MagicIndicatorUtils;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 
 /**
  * @author CuiZhen
@@ -87,8 +87,8 @@ public class CollectionActivity extends BaseActivity {
         long currClickTime = System.currentTimeMillis();
         if (lastClickPos == pos && currClickTime - lastClickTime <= Config.SCROLL_TOP_DOUBLE_CLICK_DELAY) {
             Fragment fragment = mAdapter.getItem(pos);
-            if (fragment instanceof ScrollTop) {
-                ScrollTop scrollTop = (ScrollTop) fragment;
+            if (fragment instanceof RvScrollTopUtils.ScrollTop) {
+                RvScrollTopUtils.ScrollTop scrollTop = (RvScrollTopUtils.ScrollTop) fragment;
                 scrollTop.scrollTop();
             }
         }

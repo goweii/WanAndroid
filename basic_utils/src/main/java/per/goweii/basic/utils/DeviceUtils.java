@@ -16,7 +16,7 @@ public class DeviceUtils {
         return Settings.Secure.getString(Utils.getAppContext().getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
-    public static String getSerial(){
+    public static String getSerial() {
         return android.os.Build.SERIAL;
     }
 

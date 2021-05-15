@@ -17,22 +17,23 @@ import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
  */
 public class CreateCDKeyWanPwd implements IWanPwd {
 
-    private Runnable mRunnable;
+    private final Runnable mRunnable;
 
     public CreateCDKeyWanPwd(String content) {
         mRunnable = new Runnable() {
+            @SuppressWarnings("StringBufferReplaceableByString")
             @Override
             public void run() {
                 if (!UserUtils.getInstance().isLogin()) {
                     ToastMaker.showShort("请登录后使用该功能");
                     return;
                 }
-                int id = UserUtils.getInstance().getUserId();
+                int id = UserUtils.getInstance().getWanId();
                 if (!TextUtils.equals(String.valueOf(id), BuildConfig.DEVELOPER_ID)) {
                     ToastMaker.showShort("该功能仅限开发者账号使用");
                     return;
                 }
-                String cdkey = CDKeyUtils.createCDKey(content);
+                String cdkey = CDKeyUtils.getInstance().create(content);
                 StringBuilder s = new StringBuilder();
                 s.append("【玩口令】这是一个激活码口令，仅限特定账号使用，户制泽条消息");
                 s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_CDKEY, cdkey));

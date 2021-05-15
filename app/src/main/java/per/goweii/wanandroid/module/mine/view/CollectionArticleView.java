@@ -10,5 +10,6 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
  */
 public interface CollectionArticleView extends BaseView {
     void getCollectArticleListSuccess(int code, ArticleListBean data);
+
     void getCollectArticleListFailed(int code, String msg);
 }

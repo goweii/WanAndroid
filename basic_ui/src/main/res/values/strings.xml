@@ -7,6 +7,7 @@
 
     <!--==========================版本更新============================-->
     <string name="basic_ui_dialog_update_title">发现新版本</string>
+    <string name="basic_ui_dialog_update_test_title">发现内测版本</string>
     <string name="basic_ui_dialog_update_yes">立即更新</string>
     <string name="basic_ui_dialog_update_no">暂不更新</string>
 

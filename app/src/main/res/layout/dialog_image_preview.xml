@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:background="#000000">
 
-    <per.goweii.anylayer.DragLayout
+    <per.goweii.anylayer.widget.SwipeLayout
         android:id="@+id/dialog_image_preview_dl"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -31,17 +30,41 @@
                 android:id="@+id/dialog_image_preview_pv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@color/transparent" />
+                android:src="?colorTransparent" />
 
         </per.goweii.wanandroid.widget.ImagePreviewContainer>
 
-    </per.goweii.anylayer.DragLayout>
+    </per.goweii.anylayer.widget.SwipeLayout>
 
-    <per.goweii.actionbarex.common.ActionBarCommon
-        android:id="@+id/dialog_image_preview_abc"
-        style="@style/ActionBar.Common"
-        android:background="@color/transparent"
-        app:abc_leftIconClickToFinish="false"
-        app:abc_leftIconRes="@drawable/ic_close" />
+    <LinearLayout
+        android:id="@+id/dialog_image_preview_ll_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <per.goweii.basic.ui.widget.StatusBarView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar_height">
+
+            <ImageView
+                android:id="@+id/dialog_image_preview_iv_close"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:padding="@dimen/margin_very_thin"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/margin_def"
+                android:background="@drawable/bg_solid_round_color_surface_top_alpha_radius_max"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_close"
+                android:tint="?attr/colorIconSurface"
+                tools:ignore="ContentDescription,UseAppTint" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

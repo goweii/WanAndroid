@@ -16,7 +16,7 @@ import per.goweii.wanandroid.module.project.view.ProjectView;
  */
 public class ProjectPresenter extends BasePresenter<ProjectView> {
 
-    public void getProjectChapters(){
+    public void getProjectChapters() {
         ProjectRequest.getProjectChapters(getRxLife(), new RequestListener<List<ChapterBean>>() {
             @Override
             public void onStart() {

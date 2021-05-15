@@ -18,8 +18,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
+import per.goweii.anylayer.widget.SwipeLayout;
 import per.goweii.basic.ui.R;
 import per.goweii.basic.utils.ResUtils;
 
@@ -39,7 +39,7 @@ public class ListDialog {
     private boolean cancelable = true;
     private OnItemSelectedListener listener = null;
     private BaseQuickAdapter<String, BaseViewHolder> mAdapter = null;
-    private List<String> datas = new ArrayList<>();
+    private final List<String> datas = new ArrayList<>();
     private int currSelectPos = -1;
 
     public static ListDialog with(Context context) {
@@ -119,7 +119,7 @@ public class ListDialog {
                 .contentView(R.layout.basic_ui_dialog_list)
                 .gravity(Gravity.BOTTOM)
                 .backgroundDimDefault()
-                .dragDismiss(DragLayout.DragStyle.Bottom)
+                .swipeDismiss(SwipeLayout.Direction.BOTTOM)
                 .cancelableOnTouchOutside(cancelable)
                 .cancelableOnClickKeyBack(cancelable)
                 .bindData(new Layer.DataBinder() {
@@ -170,9 +170,9 @@ public class ListDialog {
                             protected void convert(BaseViewHolder helper, String item) {
                                 TextView tvName = helper.getView(R.id.basic_ui_tv_dialog_list_name);
                                 if (helper.getAdapterPosition() == currSelectPos) {
-                                    tvName.setTextColor(ResUtils.getColor(tvName.getContext(), R.color.text_main));
+                                    tvName.setTextColor(ResUtils.getThemeColor(tvName.getContext(), R.attr.colorTextMain));
                                 } else {
-                                    tvName.setTextColor(ResUtils.getColor(tvName.getContext(), R.color.text_surface));
+                                    tvName.setTextColor(ResUtils.getThemeColor(tvName.getContext(), R.attr.colorTextSurface));
                                 }
                                 tvName.setText(item);
                             }

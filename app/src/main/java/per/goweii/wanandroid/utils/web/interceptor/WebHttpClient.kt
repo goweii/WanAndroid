@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.utils.web.interceptor
 
+import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
 
@@ -15,7 +16,7 @@ object WebHttpClient {
                 userAgent: String? = null,
                 headers: Map<String, String>? = null,
                 method: String? = null
-    ): String? {
+    ): Call {
         val requestBuilder = Request.Builder().url(url)
         headers?.forEach {
             requestBuilder.addHeader(it.key, it.value)
@@ -27,8 +28,20 @@ object WebHttpClient {
             requestBuilder.method(method, null)
         }
         val request = requestBuilder.build()
-        val response = okHttpClient.newCall(request).execute()
-        return response.body()?.string()
+        return okHttpClient.newCall(request)
+    }
+
+    fun Call.stringRespBody(): String? {
+        return try {
+            val response = execute()
+            if (response.isSuccessful) {
+                response.body()?.string()
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
     }
 
 }

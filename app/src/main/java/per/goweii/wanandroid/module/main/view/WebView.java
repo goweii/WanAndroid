@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.module.main.view;
 
 import per.goweii.basic.core.base.BaseView;
+import per.goweii.wanandroid.db.model.ReadLaterModel;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 
 /**
@@ -10,7 +11,12 @@ import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
  */
 public interface WebView extends BaseView {
     void collectSuccess(CollectArticleEntity entity);
+
     void collectFailed(String msg);
+
     void uncollectSuccess(CollectArticleEntity entity);
+
     void uncollectFailed(String msg);
+
+    void isAddedReadLaterSuccess(ReadLaterModel data);
 }

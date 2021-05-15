@@ -1,3 +1,1 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="per.goweii.basic.utils" >
-</manifest>
+<manifest package="per.goweii.basic.utils"></manifest>

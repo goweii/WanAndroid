@@ -13,6 +13,6 @@
         android:layout_centerInParent="true"
         android:padding="13dp"
         android:src="@drawable/ic_add"
-        android:tint="@color/text_surface" />
+        android:tint="?colorIconSurface" />
 
 </RelativeLayout>

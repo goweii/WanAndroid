@@ -11,10 +11,13 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.InputMethodUtils;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.LoginEvent;
-import per.goweii.wanandroid.module.login.activity.LoginActivity;
-import per.goweii.wanandroid.module.login.model.LoginBean;
+import per.goweii.wanandroid.module.login.activity.AuthActivity;
+import per.goweii.wanandroid.module.login.dialog.EmailInputDialog;
+import per.goweii.wanandroid.module.login.model.UserEntity;
 import per.goweii.wanandroid.module.login.presenter.LoginPresenter;
 import per.goweii.wanandroid.module.login.view.LoginView;
 import per.goweii.wanandroid.widget.InputView;
@@ -37,7 +40,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @BindView(R.id.sv_login)
     SubmitView sv_login;
 
-    private LoginActivity mActivity;
+    private AuthActivity mActivity;
 
     public static LoginFragment create() {
         return new LoginFragment();
@@ -57,7 +60,7 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (LoginActivity) context;
+        mActivity = (AuthActivity) context;
     }
 
     @Override
@@ -111,22 +114,42 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
                 mActivity.changeToRegister();
                 break;
             case R.id.sv_login:
+                InputMethodUtils.hide(sv_login);
                 String userName = piv_account.getText();
                 String password = piv_password.getText();
-                presenter.login(userName, password);
+                presenter.login(userName, password, false);
                 break;
         }
         return true;
     }
 
+    public void loginByBiometric(String username, String password) {
+        presenter.login(username, password, true);
+    }
+
     @Override
-    public void loginSuccess(int code, LoginBean data) {
+    public void loginSuccess(int code, UserEntity data, String username, String password, boolean isBiometric) {
         new LoginEvent(true).post();
-        finish();
+        if (isBiometric) {
+            finish();
+        } else {
+            mActivity.tryOpenLoginByBiometric(username, password);
+        }
     }
 
     @Override
     public void loginFailed(int code, String msg) {
         ToastMaker.showShort(msg);
+    }
+
+    @Override
+    public void getEmailAndThenRegisterCms(int wanid, String username, String password, boolean isBiometric) {
+        new EmailInputDialog(getContext(), new SimpleCallback<String>() {
+            @Override
+            public void onResult(String data) {
+                InputMethodUtils.hide(sv_login);
+                presenter.cmsRegister(wanid, data, username, password, isBiometric);
+            }
+        }).show();
     }
 }

@@ -4,14 +4,18 @@
 
     <item>
         <shape>
-            <size tools:width="360dp"
-                tools:height="360dp"/>
-            <solid android:color="@color/ic_launcher_background" />
+            <size
+                tools:height="360dp"
+                tools:width="360dp" />
+            <solid android:color="?colorMain" />
         </shape>
     </item>
 
     <item>
-        <bitmap android:src="@drawable/logo" android:gravity="center"/>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/logo"
+            android:tint="#FFFFFF" />
     </item>
 
 </layer-list>

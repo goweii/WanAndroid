@@ -2,14 +2,15 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
-    android:background="@color/basic_ui_action_bar_bg">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?colorMainOrSurface">
 
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/mi"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:background="@color/transparent"
+        android:background="?colorTransparent"
         android:overScrollMode="never"
         android:scrollbars="none" />
 
@@ -17,8 +18,9 @@
         android:id="@+id/action_bar_fixed_magic_indicator_iv_back"
         style="@style/actionbarex_common_action_bar_icon"
         android:visibility="gone"
+        tools:visibility="visible"
         android:src="@drawable/ic_back"
-        android:tint="@color/basic_ui_action_bar_icon"
+        android:tint="?colorOnMainOrSurface"
         android:padding="13dp"/>
 
 </FrameLayout>

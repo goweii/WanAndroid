@@ -25,20 +25,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="域名"
-                android:textColor="@color/text_second"
-                android:textSize="@dimen/text_auxiliary" />
+                android:textColor="?colorTextSecond"
+                android:textSize="@dimen/text_title" />
 
             <EditText
                 android:id="@+id/dialog_add_host_et_host"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
-                android:gravity="top"
-                android:maxLines="1"
-                android:minLines="1"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:textColor="@color/text_surface"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="?colorTransparent"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/margin_common"
+                android:paddingBottom="@dimen/margin_common"
+                android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_content"
                 android:hint="如：www.wanandroid.com" />
 
@@ -46,12 +45,12 @@
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/line" />
+            android:layout_height="@dimen/line"
+            android:background="?colorLine" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/button_height"
             android:orientation="horizontal">
 
             <TextView
@@ -61,13 +60,13 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="取消"
-                android:textColor="@color/text_second"
+                android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_content" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/background" />
+                android:background="?colorBackground" />
 
             <TextView
                 android:id="@+id/dialog_add_host_tv_yes"
@@ -76,7 +75,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="确定"
-                android:textColor="@color/text_main"
+                android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_content" />
 
         </LinearLayout>

@@ -11,7 +11,7 @@
         android:layout_width="@dimen/button_height"
         android:layout_height="@dimen/button_height"
         android:layout_gravity="center"
-        android:indeterminateTint="@color/basic_ui_dialog_loading_circle"
+        android:indeterminateTint="?colorMain"
         android:indeterminateTintMode="src_atop" />
 
 </FrameLayout>

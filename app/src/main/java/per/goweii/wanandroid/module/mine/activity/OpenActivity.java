@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.kennyc.view.MultiStateView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;

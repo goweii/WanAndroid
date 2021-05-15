@@ -3,14 +3,14 @@ package per.goweii.basic.core.mvp;
 import android.util.SparseArray;
 import android.view.View;
 
-import per.goweii.swipeback.SwipeBackActivity;
+import androidx.appcompat.app.AppCompatActivity;
 
 /**
  * @author Cuizhen
  * @version v1.0.0
  * @date 2018/4/4-下午1:23
  */
-public abstract class CacheActivity extends SwipeBackActivity {
+public abstract class CacheActivity extends AppCompatActivity {
 
     private SparseArray<View> mViewCaches = null;
 

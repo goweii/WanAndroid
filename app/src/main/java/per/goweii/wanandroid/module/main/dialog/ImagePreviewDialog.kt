@@ -5,12 +5,15 @@ import android.animation.AnimatorSet
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
-import per.goweii.actionbarex.common.ActionBarCommon
-import per.goweii.anylayer.AnimatorHelper
-import per.goweii.anylayer.DialogLayer
-import per.goweii.anylayer.DragLayout
+import androidx.core.content.ContextCompat
+import per.goweii.anylayer.dialog.DialogLayer
+import per.goweii.anylayer.utils.AnimatorHelper
+import per.goweii.anylayer.widget.SwipeLayout
 import per.goweii.basic.core.glide.GlideHelper
+import per.goweii.basic.core.glide.transformation.ScaleDownTransformation
 import per.goweii.basic.utils.ext.gone
 import per.goweii.basic.utils.ext.visible
 import per.goweii.wanandroid.R
@@ -32,22 +35,22 @@ class ImagePreviewDialog(
         contentView(R.layout.dialog_image_preview)
         contentAnimator(object : AnimatorCreator {
             override fun createInAnimator(target: View): Animator {
-                val abc = getView<ActionBarCommon>(R.id.dialog_image_preview_abc)
-                val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
+                val ll_bar = getView<LinearLayout>(R.id.dialog_image_preview_ll_bar)!!
+                val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
                 return AnimatorSet().apply {
                     playTogether(
-                            AnimatorHelper.createTopInAnim(abc),
+                            AnimatorHelper.createTopInAnim(ll_bar),
                             AnimatorHelper.createZoomAlphaInAnim(dl)
                     )
                 }
             }
 
             override fun createOutAnimator(target: View): Animator {
-                val abc = getView<ActionBarCommon>(R.id.dialog_image_preview_abc)
-                val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
+                val ll_bar = getView<LinearLayout>(R.id.dialog_image_preview_ll_bar)!!
+                val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
                 return AnimatorSet().apply {
                     playTogether(
-                            AnimatorHelper.createTopOutAnim(abc),
+                            AnimatorHelper.createTopOutAnim(ll_bar),
                             AnimatorHelper.createZoomAlphaOutAnim(dl)
                     )
                 }
@@ -55,15 +58,16 @@ class ImagePreviewDialog(
         })
     }
 
-    private val abc by lazy { getView<ActionBarCommon>(R.id.dialog_image_preview_abc) }
-    private val ipv by lazy { getView<ImagePreviewView>(R.id.dialog_image_preview_pv) }
-    private val dl by lazy { getView<DragLayout>(R.id.dialog_image_preview_dl) }
-    private val tv_tip by lazy { getView<TextView>(R.id.dialog_image_preview_tv_tip) }
+    private val ll_bar by lazy { getView<LinearLayout>(R.id.dialog_image_preview_ll_bar)!! }
+    private val iv_close by lazy { getView<ImageView>(R.id.dialog_image_preview_iv_close)!! }
+    private val ipv by lazy { getView<ImagePreviewView>(R.id.dialog_image_preview_pv)!! }
+    private val dl by lazy { getView<SwipeLayout>(R.id.dialog_image_preview_dl)!! }
+    private val tv_tip by lazy { getView<TextView>(R.id.dialog_image_preview_tv_tip)!! }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onAttach() {
         super.onAttach()
-        abc.setOnLeftIconClickListener {
+        iv_close.setOnClickListener {
             dismiss()
         }
         ipv.onImagePreviewListener = object : ImagePreviewView.OnImagePreviewListener {
@@ -73,22 +77,22 @@ class ImagePreviewDialog(
 
             override fun onTouching1() {
                 if (ipv.isShown) {
-                    val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
-                    dl.setDragStyle(DragLayout.DragStyle.Bottom)
+                    val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
+                    dl.setSwipeDirection(SwipeLayout.Direction.BOTTOM)
                 }
             }
 
             override fun onTouching2() {
                 if (ipv.isShown) {
-                    val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
-                    dl.setDragStyle(DragLayout.DragStyle.None)
+                    val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
+                    dl.setSwipeDirection(0)
                 }
             }
 
             override fun onTouchingUp() {
                 if (ipv.isShown) {
-                    val dl = getView<DragLayout>(R.id.dialog_image_preview_dl)
-                    dl.setDragStyle(DragLayout.DragStyle.Bottom)
+                    val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
+                    dl.setSwipeDirection(SwipeLayout.Direction.BOTTOM)
                 }
             }
 
@@ -100,9 +104,9 @@ class ImagePreviewDialog(
             }
         }
         GlideHelper.with(ipv.context)
-                .cache(true)
-                .placeHolder(R.drawable.shape_image_perview_place_holder)
-                .errorHolder(R.drawable.shape_image_perview_place_holder)
+                .cache(false)
+                .placeHolder(ContextCompat.getDrawable(ipv.context, R.drawable.shape_image_perview_place_holder))
+                .errorHolder(ContextCompat.getDrawable(ipv.context, R.drawable.shape_image_perview_place_holder))
                 .load(imageUrl)
                 .onProgressListener { progress ->
                     when {
@@ -124,20 +128,23 @@ class ImagePreviewDialog(
                         }
                     }
                 }
+                .transformation(ScaleDownTransformation())
                 .into(ipv)
-        dl.setDragStyle(DragLayout.DragStyle.Bottom)
-        dl.setOnDragListener(object : DragLayout.OnDragListener {
-            override fun onDragStart() {
+        dl.setSwipeDirection(SwipeLayout.Direction.BOTTOM)
+        dl.setOnSwipeListener(object : SwipeLayout.OnSwipeListener {
+            override fun onStart(direction: Int, fraction: Float) {
                 imageMenuDialog?.dismiss()
             }
 
-            override fun onDragging(f: Float) {
-                background.alpha = 1F - f
-                abc.translationY = -abc.bottom * f
+            override fun onSwiping(direction: Int, fraction: Float) {
+                background.alpha = 1F - fraction
+                ll_bar.translationY = -ll_bar.bottom * fraction
             }
 
-            override fun onDragEnd() {
-                dismiss(false)
+            override fun onEnd(direction: Int, fraction: Float) {
+                if (fraction == 1F) {
+                    dl.post { dismiss(false) }
+                }
             }
         })
     }

@@ -26,20 +26,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="网站标题"
-                android:textColor="@color/text_second"
+                android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_auxiliary" />
 
             <EditText
                 android:id="@+id/dialog_edit_collect_link_et_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
+                android:background="?colorTransparent"
                 android:gravity="top"
                 android:maxLines="5"
                 android:minLines="1"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:textColor="@color/text_surface"
+                android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_content"
                 tools:text="wanandroid" />
 
@@ -48,20 +48,20 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="网站链接"
-                android:textColor="@color/text_second"
+                android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_auxiliary" />
 
             <EditText
                 android:id="@+id/dialog_edit_collect_link_et_link"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/transparent"
+                android:background="?colorTransparent"
                 android:gravity="top"
                 android:maxLines="5"
                 android:minLines="1"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:textColor="@color/text_surface"
+                android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_content"
                 tools:text="https://www.wanandroid.com" />
 
@@ -70,7 +70,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="@color/line" />
+            android:background="?colorLine" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -84,13 +84,13 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="取消"
-                android:textColor="@color/text_second"
+                android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_content" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/background" />
+                android:background="?colorBackground" />
 
             <TextView
                 android:id="@+id/dialog_edit_collect_link_tv_yes"
@@ -99,7 +99,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="确定"
-                android:textColor="@color/text_main"
+                android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_content" />
 
         </LinearLayout>

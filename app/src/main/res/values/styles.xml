@@ -1,41 +1,5 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@color/background</item>
-    </style>
-
-    <style name="AppTheme.Splash">
-        <item name="android:windowBackground">@drawable/splash_bg</item>
-    </style>
-
-    <style name="AppTheme.Router">
-        <item name="android:windowActionBar">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowDisablePreview">true</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:backgroundDimEnabled">false</item>
-        <item name="android:windowAnimationStyle">@null</item>
-    </style>
-
-    <style name="AppTheme.Main">
-        <item name="android:windowBackground">@drawable/splash_bg</item>
-    </style>
-
-    <style name="AppTheme.Normal">
-        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimRightInParallaxOut
-        </item>
-    </style>
-
-    <style name="AppTheme.Login">
-        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimBottomInParallaxOut
-        </item>
-    </style>
-
     <style name="StateView">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
@@ -49,30 +13,45 @@
     <style name="ActionBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/basic_ui_action_bar_bg</item>
-        <item name="ab_autoImmersion">true</item>
+        <item name="android:background">?colorMainOrSurface</item>
+        <item name="ab_immersion">immersed</item>
+        <item name="ab_statusBarMode">auto</item>
         <item name="ab_bottomLineHeight">@dimen/action_bar_bottom_line_height</item>
         <item name="ab_foregroundLayerLayout">@layout/basic_ui_loading_bar</item>
-        <item name="ab_statusBarColor">@color/transparent</item>
+        <item name="ab_statusBarColor">?colorTransparent</item>
         <item name="ab_titleBarHeight">@dimen/action_bar_height</item>
     </style>
 
     <style name="ActionBar.Common">
-        <item name="abc_titleTextColor">@color/basic_ui_action_bar_text</item>
-        <item name="abc_leftIconColor">@color/basic_ui_action_bar_icon</item>
-        <item name="abc_leftIconPadding">13dp</item>
-        <item name="abc_leftIconMarginLeft">3dp</item>
-        <item name="abc_leftTextColor">@color/basic_ui_action_bar_text</item>
-        <item name="abc_rightIconColor">@color/basic_ui_action_bar_icon</item>
-        <item name="abc_rightIconPadding">13dp</item>
-        <item name="abc_rightIconMarginRight">3dp</item>
-        <item name="abc_rightTextColor">@color/basic_ui_action_bar_text</item>
+        <item name="abc_titleTextColor">?colorOnMainOrSurface</item>
+        <item name="abc_leftIconColor">?colorOnMainOrSurface</item>
+        <item name="abc_leftIconPadding">@dimen/basic_ui_action_bar_icon_padding</item>
+        <item name="abc_leftIconMarginLeft">@dimen/basic_ui_action_bar_icon_margin</item>
+        <item name="abc_leftTextColor">?colorOnMainOrSurface</item>
+        <item name="abc_rightIconColor">?colorOnMainOrSurface</item>
+        <item name="abc_rightIconPadding">@dimen/basic_ui_action_bar_icon_padding</item>
+        <item name="abc_rightIconMarginRight">@dimen/basic_ui_action_bar_icon_margin</item>
+        <item name="abc_rightTextColor">?colorOnMainOrSurface</item>
     </style>
 
     <style name="ActionBar.Common.Back">
         <item name="abc_leftIconRes">@drawable/ic_back</item>
         <item name="abc_leftIconMarginLeft">0dp</item>
         <item name="abc_leftIconClickToFinish">true</item>
+    </style>
+
+    <style name="ActionBar.Super">
+        <item name="absuper_titleTextColor">?colorOnMainOrSurface</item>
+        <item name="absuper_iconColor">?colorOnMainOrSurface</item>
+        <item name="absuper_iconPadding">@dimen/basic_ui_action_bar_icon_padding</item>
+        <item name="android:paddingLeft">@dimen/basic_ui_action_bar_icon_margin</item>
+        <item name="android:paddingRight">@dimen/basic_ui_action_bar_icon_margin</item>
+    </style>
+
+    <style name="ActionBar.Super.Back">
+        <item name="absuper_left1Icon">@drawable/ic_back</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="absuper_left1IconClickToFinish">true</item>
     </style>
 
 </resources>

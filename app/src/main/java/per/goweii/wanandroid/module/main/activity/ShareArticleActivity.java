@@ -142,7 +142,7 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
     protected void onDestroy() {
         super.onDestroy();
         if (mWebHolder != null) {
-            mWebHolder.onDestroy();
+            mWebHolder.onDestroy(true);
         }
     }
 

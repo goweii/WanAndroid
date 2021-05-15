@@ -2,7 +2,6 @@ package per.goweii.wanandroid.utils.wanpwd;
 
 import androidx.annotation.Nullable;
 
-import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.utils.router.RouterMap;
 
 /**
@@ -17,7 +16,7 @@ public class AboutMeWanPwd implements IWanPwd {
         return new Runnable() {
             @Override
             public void run() {
-                Router.router(RouterMap.ABOUT_ME.url());
+                RouterMap.ABOUT_ME.navigation();
             }
         };
     }

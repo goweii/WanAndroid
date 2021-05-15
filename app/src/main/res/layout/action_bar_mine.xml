@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/action_bar_height"
+    android:orientation="horizontal"
+    tools:background="?colorMainOrSurface">
+
+    <per.goweii.actionbarex.common.ActionIconView
+        android:id="@+id/aiv_notification"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/basic_ui_action_bar_icon_margin"
+        android:padding="12dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_notification"
+        android:tint="?colorOnMainOrSurface" />
+
+    <FrameLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/aiv_notification"
+        android:layout_alignTop="@+id/aiv_notification"
+        android:layout_alignEnd="@+id/aiv_notification"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="8dp">
+
+        <TextView
+            android:id="@+id/tv_notification"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:layout_gravity="center"
+            android:background="@drawable/bg_solid_round_color_accent_radius_max"
+            android:gravity="center"
+            android:minWidth="15dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
+            android:textColor="?colorTextOnMain"
+            android:textSize="10dp"
+            android:visibility="gone"
+            tools:text="1"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+
+</RelativeLayout>

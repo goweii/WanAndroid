@@ -12,5 +12,6 @@ import per.goweii.wanandroid.module.home.model.HotKeyBean;
  */
 public interface SearchHistoryView extends BaseView {
     void getHotKeyListSuccess(int code, List<HotKeyBean> data);
+
     void getHotKeyListFail(int code, String msg);
 }

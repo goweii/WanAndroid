@@ -24,6 +24,6 @@
         android:layout_marginBottom="6dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_back"
-        android:tint="@color/text_surface" />
+        android:tint="?colorIconSurface" />
 
 </FrameLayout>

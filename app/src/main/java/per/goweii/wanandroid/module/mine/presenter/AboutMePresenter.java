@@ -25,7 +25,7 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
 
     private AboutMeBean mAboutMeBean = null;
 
-    public void getAboutMe(){
+    public void getAboutMe() {
         MineRequest.getAboutMe(getRxLife(), new RequestCallback<AboutMeBean>() {
             @Override
             public void onSuccess(int code, AboutMeBean data) {
@@ -82,8 +82,29 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
                 .getBitmap(new SimpleCallback<Bitmap>() {
                     @Override
                     public void onResult(Bitmap data) {
-                        if (null != BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_qq_qrcode_" + System.currentTimeMillis())) {
+                        if (BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_qq_qrcode_" + System.currentTimeMillis())) {
                             ToastMaker.showShort("保存成功");
+                            AppOpenUtils.openQQ(getContext());
+                        } else {
+                            ToastMaker.showShort("保存失败");
+                        }
+                    }
+                });
+    }
+
+    public void savZFBQrcode() {
+        if (mAboutMeBean == null) {
+            return;
+        }
+        GlideHelper.with(getContext())
+                .asBitmap()
+                .load(mAboutMeBean.getQq_qrcode())
+                .getBitmap(new SimpleCallback<Bitmap>() {
+                    @Override
+                    public void onResult(Bitmap data) {
+                        if (BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_qq_qrcode_" + System.currentTimeMillis())) {
+                            ToastMaker.showShort("保存成功");
+                            AppOpenUtils.openZFBScan(getContext());
                         } else {
                             ToastMaker.showShort("保存失败");
                         }
@@ -101,8 +122,9 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
                 .getBitmap(new SimpleCallback<Bitmap>() {
                     @Override
                     public void onResult(Bitmap data) {
-                        if (null != BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_wx_qrcode_" + System.currentTimeMillis())) {
+                        if (BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_wx_qrcode_" + System.currentTimeMillis())) {
                             ToastMaker.showShort("保存成功");
+                            AppOpenUtils.openWechatQRCode(getContext());
                         } else {
                             ToastMaker.showShort("保存失败");
                         }

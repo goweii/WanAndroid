@@ -29,7 +29,7 @@ public abstract class BaseCountDownTimer extends CountDownTimer {
         return mStart;
     }
 
-    public void finish(){
+    public void finish() {
         onFinish();
         cancel();
     }

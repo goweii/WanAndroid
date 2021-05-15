@@ -76,6 +76,8 @@ public class CollectView extends RevealLayout {
                     if (mOnClickListener != null) {
                         mOnClickListener.onClick(CollectView.this);
                     }
+                } else {
+                    setChecked(false);
                 }
             }
         });

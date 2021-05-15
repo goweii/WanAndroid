@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<per.goweii.anylayer.notification.MaxSizeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:maxWidth="320dp">
+
+    <RelativeLayout
+        android:id="@+id/dialog_qrcode_share_rl_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?colorSurface"
+        android:clickable="true"
+        android:focusable="true">
+
+        <LinearLayout
+            android:id="@+id/dialog_qrcode_share_ll_article"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/margin_def"
+            android:paddingTop="@dimen/margin_def"
+            android:paddingRight="@dimen/margin_def"
+            android:paddingBottom="@dimen/margin_common">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_qrcode_share_piv_qrcode"
+                android:layout_width="60dp"
+                android:layout_height="0dp"
+                android:padding="@dimen/margin_very_thin"
+                android:scaleType="fitCenter"
+                app:piv_basics="width"
+                app:piv_percent="1"
+                android:background="@android:color/white"
+                tools:src="?colorIconSurface" />
+
+            <TextView
+                android:id="@+id/dialog_qrcode_share_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textColor="?colorTextSurface"
+                android:textSize="@dimen/text_content"
+                tools:text="文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题文章标题" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_thin"
+            android:layout_below="@+id/dialog_qrcode_share_ll_article"
+            android:layout_marginStart="@dimen/margin_def"
+            android:layout_marginEnd="@dimen/margin_def"
+            android:background="?colorLine" />
+
+        <RelativeLayout
+            android:id="@+id/dialog_qrcode_share_rv_app"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_qrcode_share_ll_article"
+            android:alpha="0.5"
+            android:paddingLeft="@dimen/margin_def"
+            android:paddingTop="@dimen/margin_thin"
+            android:paddingRight="@dimen/margin_def"
+            android:paddingBottom="@dimen/margin_thin">
+
+            <ImageView
+                android:id="@+id/dialog_qrcode_share_iv_app"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/logo"
+                android:tint="?colorIconMain" />
+
+            <TextView
+                android:id="@+id/dialog_qrcode_share_tv_app"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/dialog_qrcode_share_iv_app"
+                android:text="由最美玩安卓客户端生成"
+                android:textColor="?colorTextSecond"
+                android:textSize="@dimen/text_time" />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</per.goweii.anylayer.notification.MaxSizeFrameLayout>

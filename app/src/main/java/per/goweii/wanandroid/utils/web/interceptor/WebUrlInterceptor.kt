@@ -13,5 +13,5 @@ interface WebUrlInterceptor {
                   reqHeaders: Map<String, String>?,
                   reqMethod: String?): WebResourceResponse?
 
-    fun isSupportNightMode() = false
+    fun cancel()
 }

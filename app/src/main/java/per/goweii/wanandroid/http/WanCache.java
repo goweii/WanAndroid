@@ -39,7 +39,7 @@ public class WanCache {
     private static WanCache INSTANCE;
 
     private DiskLruCache mDiskLruCache = null;
-    private Gson mGson = new Gson();
+    private final Gson mGson = new Gson();
 
     public static void init() {
         if (INSTANCE == null) {
@@ -233,7 +233,7 @@ public class WanCache {
         private static final String MINE_SHARE_ARTICLE_LIST = "user/lg/private_articles/%d/json";//page
 
         private static String addUserId(String key) {
-            int userId = UserUtils.getInstance().getUserId();
+            int userId = UserUtils.getInstance().getWanId();
             return userId + "@" + key;
         }
 

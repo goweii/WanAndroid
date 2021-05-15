@@ -19,30 +19,61 @@ public class Router {
 
     static final String PARAM_URL = "ROUTER_URL";
 
-    public static void router(String url) {
+    public static String createUrlByPath(String path) {
+        StringBuilder urlBuilder = new StringBuilder();
+        urlBuilder.append(Router.SCHEME);
+        urlBuilder.append("://");
+        urlBuilder.append(Router.HOST);
+        if (!TextUtils.isEmpty(path)) {
+            if (!path.startsWith("/")) {
+                urlBuilder.append("/");
+            }
+            urlBuilder.append(path);
+        }
+        return urlBuilder.toString();
+    }
+
+    public static void routeTo(String url) {
         LogUtils.d("Router", "url=" + url);
         if (url == null) return;
         final Uri uri = Uri.parse(url);
-        final String scheme = uri.getScheme();
-        if (scheme == null) return;
-        if (TextUtils.equals("http", scheme) || TextUtils.equals("https", scheme)) {
-            RouterMap.WEB.navigation(url);
-            return;
+        if (checkHost(uri)) {
+            RouterMap routerMap = RouterMap.from(uri);
+            if (routerMap.isExist()) {
+                routerMap.navigation(url);
+            } else {
+                if (isHttpOrHttps(uri)) {
+                    RouterMap.WEB.navigation(url);
+                }
+            }
+        } else {
+            if (isHttpOrHttps(uri)) {
+                RouterMap.WEB.navigation(url);
+            }
         }
-        if (!TextUtils.equals(SCHEME, scheme)) return;
-        final String host = uri.getHost();
-        if (host == null) return;
-        if (!TextUtils.equals(HOST, host)) return;
-        final String path = uri.getPath();
-        RouterMap.from(path).navigation(url);
     }
 
     @Nullable
-    public static Uri uri(Intent intent) {
+    public static Uri getUriFrom(Intent intent) {
         String url = intent.getStringExtra(PARAM_URL);
         if (TextUtils.isEmpty(url)) {
             return null;
         }
         return Uri.parse(url);
+    }
+
+    private static boolean checkHost(Uri uri) {
+        final String host = uri.getHost();
+        return TextUtils.equals(HOST, host);
+    }
+
+    private static boolean checkScheme(Uri uri) {
+        final String scheme = uri.getScheme();
+        return TextUtils.equals(SCHEME, scheme);
+    }
+
+    private static boolean isHttpOrHttps(Uri uri) {
+        final String scheme = uri.getScheme();
+        return TextUtils.equals("http", scheme) || TextUtils.equals("https", scheme);
     }
 }

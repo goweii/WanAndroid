@@ -11,6 +11,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
+import per.goweii.basic.ui.dialog.TipDialog;
 import per.goweii.basic.utils.AppInfoUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -52,7 +53,7 @@ public class AboutActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        tv_version_name.setText(String.format("V%s(%d)",
+        tv_version_name.setText(String.format("%s(%d)",
                 AppInfoUtils.getVersionName(), AppInfoUtils.getVersionCode()));
     }
 
@@ -67,7 +68,7 @@ public class AboutActivity extends BaseActivity {
     }
 
     @OnClick({
-            R.id.ll_web, R.id.ll_about, R.id.ll_github
+            R.id.ll_web, R.id.ll_about, R.id.ll_github, R.id.ll_beta
     })
     @Override
     public void onClick(View v) {
@@ -96,6 +97,22 @@ public class AboutActivity extends BaseActivity {
                         .with("https://github.com/goweii/WanAndroid")
                         .title(tv_github.getText().toString())
                         .open(getContext());
+                break;
+            case R.id.ll_beta:
+                String msg = new StringBuilder()
+                        .append("需要申请开通内测更新的小伙伴，")
+                        .append("请加群（见关于作者）说明内测更新并注明玩友号（见个人资料）。")
+                        .append("\n")
+                        .append("\n")
+                        .append("注：内测更新须提前登录并更新到最新正式版")
+                        .toString();
+                TipDialog.with(this)
+                        .title("申请内测")
+                        .message(msg)
+                        .msgCenter(false)
+                        .yesText("知道了")
+                        .singleYesBtn()
+                        .show();
                 break;
         }
     }

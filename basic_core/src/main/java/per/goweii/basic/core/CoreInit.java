@@ -14,18 +14,18 @@ public class CoreInit {
 
     private SimpleCallback<Activity> mOnGoLoginCallback = null;
 
-    private static class Holder{
+    private static class Holder {
         private static final CoreInit INSTANCE = new CoreInit();
     }
 
-    private CoreInit(){
+    private CoreInit() {
     }
 
-    public static CoreInit getInstance(){
+    public static CoreInit getInstance() {
         return Holder.INSTANCE;
     }
 
-    public void setOnGoLoginCallback(SimpleCallback<Activity> callback){
+    public void setOnGoLoginCallback(SimpleCallback<Activity> callback) {
         mOnGoLoginCallback = callback;
     }
 

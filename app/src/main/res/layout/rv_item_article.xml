@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
                 android:text="新"
-                android:textColor="@color/text_main"
+                android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_notes" />
 
         </LinearLayout>
@@ -70,7 +70,7 @@
             android:layout_alignBottom="@+id/tv_author"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:textColor="@color/text_third"
+            android:textColor="?colorTextThird"
             android:textSize="@dimen/text_notes"
             tools:text="21小时前" />
 
@@ -89,7 +89,7 @@
             android:layout_width="120dp"
             android:layout_height="80dp"
             android:layout_marginRight="10dp"
-            android:background="@color/background"
+            android:background="?colorBackground"
             android:scaleType="centerCrop"
             android:visibility="gone"
             app:riv_corner_radius="@dimen/round_radius_small"
@@ -111,7 +111,7 @@
                 android:lineSpacingExtra="0dp"
                 android:maxLines="3"
                 android:singleLine="false"
-                android:textColor="@color/text_surface"
+                android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_content"
                 tools:singleLine="true"
                 tools:text="公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势" />
@@ -126,7 +126,7 @@
                 android:includeFontPadding="true"
                 android:lineSpacingExtra="0dp"
                 android:maxLines="3"
-                android:textColor="@color/text_second"
+                android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_auxiliary"
                 android:visibility="gone"
                 tools:text="公众号文章列表强势上线"
@@ -151,7 +151,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
             android:text="置顶"
-            android:textColor="@color/text_accent"
+            android:textColor="?colorTextAccent"
             android:textSize="@dimen/text_notes" />
 
     </LinearLayout>

@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.kennyc.view.MultiStateView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -28,7 +28,7 @@ import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.widget.CollectView;
@@ -65,7 +65,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             return;
         }
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -104,23 +104,24 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             @Override
             public void onRefresh() {
                 currPage = PAGE_START;
-                presenter.search(currPage, mKey, true);
+                presenter.search(currPage, mKey);
             }
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
             public void onLoadMoreRequested() {
-                presenter.search(currPage, mKey, false);
+                presenter.search(currPage, mKey);
             }
         }, rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     UrlOpenUtils.Companion.with(item).open(getContext());
                 }
@@ -129,7 +130,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     if (v.isChecked()) {
                         presenter.collect(item, v);
@@ -152,15 +153,11 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
     protected void loadData() {
     }
 
-    public void search(String key){
-        if (!isAdded()) {
-            return;
-        }
-        MultiStateUtils.toLoading(msv);
-        mAdapter.setNewData(null);
+    public void search(String key) {
+        if (!isAdded()) return;
         mKey = key;
         currPage = PAGE_START;
-        presenter.search(currPage, key, false);
+        presenter.search(currPage, key);
     }
 
     @Override

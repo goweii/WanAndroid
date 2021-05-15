@@ -16,12 +16,12 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.heartview.HeartView;
 import per.goweii.wanandroid.R;
 
@@ -46,10 +46,10 @@ public class WebContainer extends FrameLayout {
     private OnDoubleClickListener mOnDoubleClickListener = null;
     private OnTouchDownListener mOnTouchDownListener = null;
 
-    private List<Animator> mHeartAnimators = new LinkedList<>();
+    private final List<Animator> mHeartAnimators = new LinkedList<>();
 
     private boolean doubleClicked = false;
-    private Runnable doubleClickTimeoutRunnable = new Runnable() {
+    private final Runnable doubleClickTimeoutRunnable = new Runnable() {
         @Override
         public void run() {
             doubleClicked = false;
@@ -244,8 +244,8 @@ public class WebContainer extends FrameLayout {
         HeartView heartView = new HeartView(getContext());
         heartView.setCenter(-0.5f, -0.5f);
         heartView.setRadiusPercent(0.6F);
-        heartView.setColor(ContextCompat.getColor(getContext(), R.color.heart_center));
-        heartView.setEdgeColor(ContextCompat.getColor(getContext(), R.color.accent));
+        heartView.setColor(ResUtils.getThemeColor(getContext(), R.attr.colorHeartCenter));
+        heartView.setEdgeColor(ResUtils.getThemeColor(getContext(), R.attr.colorHeartOuter));
         heartView.setStrokeWidthDp(0);
         int size = (int) (getWidth() * 0.27F);
         heartView.setLayoutParams(new LayoutParams(size, size));

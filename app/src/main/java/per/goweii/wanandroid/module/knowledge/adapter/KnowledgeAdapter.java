@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.knowledge.adapter;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -24,7 +25,7 @@ import per.goweii.wanandroid.module.main.model.ChapterBean;
 public class KnowledgeAdapter extends BaseQuickAdapter<ChapterBean, BaseViewHolder> {
 
     private LayoutInflater mInflater = null;
-    private Queue<TextView> mFlexItemTextViewCaches = new LinkedList<>();
+    private final Queue<TextView> mFlexItemTextViewCaches = new LinkedList<>();
     private OnItemClickListener mOnItemClickListener = null;
 
     public KnowledgeAdapter() {
@@ -42,7 +43,7 @@ public class KnowledgeAdapter extends BaseQuickAdapter<ChapterBean, BaseViewHold
         for (int i = 0; i < item.getChildren().size(); i++) {
             ChapterBean childItem = item.getChildren().get(i);
             TextView child = createOrGetCacheFlexItemTextView(fbl);
-            child.setText(childItem.getName());
+            child.setText(Html.fromHtml(childItem.getName()));
             int finalI = i;
             child.setOnClickListener(new View.OnClickListener() {
                 @Override

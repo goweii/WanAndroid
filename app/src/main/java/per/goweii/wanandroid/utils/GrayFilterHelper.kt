@@ -25,7 +25,8 @@ object GrayFilterHelper : Application.ActivityLifecycleCallbacks {
     }
 
     private fun refresh(activity: Activity) {
-        if (ConfigUtils.getInstance().config.isGrayFilter) {
+        val config = ConfigUtils.getInstance().config
+        if (config.isEnableAtNow && config.isGrayFilter) {
             enable(activity)
         } else {
             disable(activity)
@@ -62,10 +63,10 @@ object GrayFilterHelper : Application.ActivityLifecycleCallbacks {
     override fun onActivityStarted(activity: Activity) {
     }
 
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle?) {
+    override fun onActivityStopped(activity: Activity) {
     }
 
-    override fun onActivityStopped(activity: Activity) {
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
     }
 
 }

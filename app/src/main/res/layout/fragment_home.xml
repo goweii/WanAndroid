@@ -1,41 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="?colorBackground"
     android:orientation="vertical">
 
-    <per.goweii.actionbarex.common.ActionBarCommon
-        android:id="@+id/abc"
-        style="@style/ActionBar.Common"
-        app:abc_leftIconRes="@drawable/ic_scan"
-        app:abc_rightIconRes="@drawable/ic_search"
-        app:abc_titleText="首页" />
+    <per.goweii.cropimageview.CropImageView
+        android:id="@+id/iv_second_floor_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="?colorMainOrSurface"
+        tools:ignore="ContentDescription" />
 
-    <com.kennyc.view.MultiStateView
-        android:id="@+id/msv"
-        style="@style/StateView">
+    <FrameLayout
+        android:id="@+id/fl_dl_second_floor"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/srl"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <per.goweii.actionbarex.common.ActionBarCommon
+            android:id="@+id/abc"
+            style="@style/ActionBar.Common"
+            app:abc_leftIconRes="@drawable/ic_scan"
+            app:abc_rightIconRes="@drawable/ic_search"
+            app:abc_titleText="首页" />
+
+        <per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout
+            android:id="@+id/dl"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            app:bdl_closeHeight="@dimen/bottom_bar_height"
+            app:bdl_enable="true"
+            app:bdl_open="true"
+            app:bdl_openTopMargin="0dp"
+            tools:bdl_open="true">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv"
+            <View
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:overScrollMode="never"
-                android:paddingBottom="@dimen/bottom_bar_height"
-                android:scrollbars="vertical"
-                tools:layoutmanager="LinearLayoutManager"
-                tools:listitem="@layout/rv_item_article" />
+                android:layout_height="match_parent" />
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            <FrameLayout
+                android:id="@+id/fl_dl_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    </com.kennyc.view.MultiStateView>
+                <com.scwang.smart.refresh.layout.SmartRefreshLayout
+                    android:id="@+id/srl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-</LinearLayout>
+                    <com.kennyc.view.MultiStateView
+                        android:id="@+id/msv"
+                        style="@style/StateView"
+                        android:background="?colorBackground">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/rv"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:clipToPadding="false"
+                            android:overScrollMode="never"
+                            android:paddingBottom="@dimen/bottom_bar_height"
+                            android:scrollbars="vertical"
+                            tools:layoutmanager="LinearLayoutManager"
+                            tools:listitem="@layout/rv_item_article" />
+
+                    </com.kennyc.view.MultiStateView>
+
+                </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <View
+                        android:id="@+id/v_dl_content_mask"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:alpha="0"
+                        android:background="?attr/colorBottomBarOverlay" />
+
+                    <FrameLayout
+                        android:id="@+id/v_dl_content_handle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/bottom_bar_height"
+                        android:layout_gravity="center_horizontal"
+                        android:alpha="0">
+
+                        <View
+                            android:layout_width="24dp"
+                            android:layout_height="4dp"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/bg_solid_round_color_foreground_top_radius_max"
+                            android:backgroundTint="?colorIconThird"
+                            android:padding="15dp" />
+
+                    </FrameLayout>
+
+                </FrameLayout>
+
+            </FrameLayout>
+
+        </per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

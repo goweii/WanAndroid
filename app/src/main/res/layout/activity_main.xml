@@ -4,6 +4,7 @@
     android:id="@+id/vp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorBackground"
     android:overScrollMode="never"
     android:scrollbars="none"
     tools:context=".module.main.activity.MainActivity" />

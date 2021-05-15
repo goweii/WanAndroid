@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="?colorBackground"
     android:orientation="vertical">
 
     <per.goweii.actionbarex.common.ActionBarCommon
@@ -19,7 +19,7 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/srl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,14 +34,8 @@
                 tools:layoutmanager="LinearLayoutManager"
                 tools:listitem="@layout/rv_item_coin_rank" />
 
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
     </com.kennyc.view.MultiStateView>
-
-    <per.goweii.wanandroid.utils.ad.widget.AdBanner2Container
-        android:id="@+id/adc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:background="#f8f8f8" />
 
 </LinearLayout>

@@ -48,6 +48,13 @@ public class UserPagePresenter extends BasePresenter<UserPageView> {
         });
     }
 
+    public void getUserInfo(int userId) {
+        getCmsUserFormWanId(userId);
+    }
+
+    public void getCmsUserFormWanId(int userId) {
+    }
+
     public void collect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.collectArticle(item.getId(), new RequestListener<BaseBean>() {
             @Override

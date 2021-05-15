@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="@color/dialog_bg">
+    tools:background="?colorDialogBg">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -13,7 +13,7 @@
         android:layout_marginBottom="76dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        app:cardBackgroundColor="@color/surface"
+        app:cardBackgroundColor="?colorSurface"
         app:cardCornerRadius="@dimen/round_radius"
         app:cardElevation="0dp"
         tools:context=".module.main.activity.MainActivity">

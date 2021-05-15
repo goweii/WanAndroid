@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.navigation.adapter;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -25,7 +26,7 @@ import per.goweii.wanandroid.module.navigation.model.NaviBean;
 public class NaviAdapter extends BaseQuickAdapter<NaviBean, BaseViewHolder> {
 
     private LayoutInflater mInflater = null;
-    private Queue<TextView> mFlexItemTextViewCaches = new LinkedList<>();
+    private final Queue<TextView> mFlexItemTextViewCaches = new LinkedList<>();
     private OnItemClickListener mOnItemClickListener = null;
 
     public NaviAdapter() {
@@ -43,7 +44,7 @@ public class NaviAdapter extends BaseQuickAdapter<NaviBean, BaseViewHolder> {
         for (int i = 0; i < item.getArticles().size(); i++) {
             final ArticleBean childItem = item.getArticles().get(i);
             TextView child = createOrGetCacheFlexItemTextView(fbl);
-            child.setText(childItem.getTitle());
+            child.setText(Html.fromHtml(childItem.getTitle()));
             int finalI = i;
             child.setOnClickListener(new View.OnClickListener() {
                 @Override

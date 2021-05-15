@@ -58,23 +58,8 @@ public class HomeRequest extends BaseRequest {
                 listener);
     }
 
-    public static void searchCache(@IntRange(from = 0) int page, String key, @NonNull RequestListener<ArticleListBean> listener) {
-        cacheBean(WanCache.CacheKey.SEARCH(key, page),
-                ArticleListBean.class,
-                listener);
-    }
-
-    public static void search(RxLife rxLife, boolean refresh, @IntRange(from = 0) int page, String key, @NonNull RequestListener<ArticleListBean> listener) {
-        if (page == 0) {
-            cacheAndNetBean(rxLife,
-                    WanApi.api().search(page, key),
-                    refresh,
-                    WanCache.CacheKey.SEARCH(key, page),
-                    ArticleListBean.class,
-                    listener);
-        } else {
-            rxLife.add(request(WanApi.api().search(page, key), listener));
-        }
+    public static void search(RxLife rxLife, @IntRange(from = 0) int page, String key, @NonNull RequestListener<ArticleListBean> listener) {
+        rxLife.add(request(WanApi.api().search(page, key), listener));
     }
 
 }

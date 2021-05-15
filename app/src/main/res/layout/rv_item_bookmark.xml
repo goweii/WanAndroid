@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="@dimen/margin_def"
+    android:layout_marginTop="@dimen/margin_small"
+    android:layout_marginEnd="@dimen/margin_def"
+    android:layout_marginBottom="@dimen/margin_small"
+    android:elevation="0dp"
+    app:cardBackgroundColor="?colorTransparent"
+    app:cardCornerRadius="@dimen/round_radius_small"
+    app:cardElevation="0dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_press_color_surface"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:textColor="?colorTextSurface"
+            android:textSize="@dimen/text_content"
+            tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_title"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="16dp"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="?colorTextSecond"
+            android:textSize="@dimen/text_notes"
+            tools:text="2019-01-19" />
+
+    </RelativeLayout>
+
+
+</androidx.cardview.widget.CardView>

@@ -29,13 +29,13 @@ public class ViewCountDownTimer<V extends View> implements SecondCountDownTimer.
         return this;
     }
 
-    public void start(){
+    public void start() {
         if (!mSecondTimer.isStart()) {
             mSecondTimer.start();
         }
     }
 
-    public void cancel(){
+    public void cancel() {
         mSecondTimer.cancel();
     }
 
@@ -62,7 +62,9 @@ public class ViewCountDownTimer<V extends View> implements SecondCountDownTimer.
 
     public interface OnTimerListener<V> {
         void onStart(V timerView, long secondUntilFinished);
+
         void onTick(V timerView, long secondUntilFinished);
+
         void onFinish(V timerView);
     }
 }

@@ -12,5 +12,6 @@ import per.goweii.wanandroid.module.main.model.ChapterBean;
  */
 public interface KnowledgeView extends BaseView {
     void getKnowledgeListSuccess(int code, List<ChapterBean> data);
+
     void getKnowledgeListFail(int code, String msg);
 }

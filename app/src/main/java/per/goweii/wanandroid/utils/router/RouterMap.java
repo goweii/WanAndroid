@@ -2,6 +2,7 @@ package per.goweii.wanandroid.utils.router;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
@@ -46,23 +47,42 @@ public enum RouterMap {
         return NULL;
     }
 
+    @NonNull
+    public static RouterMap from(Uri uri) {
+        return from(uri.getPath());
+    }
+
+    public boolean isExist() {
+        return this != NULL;
+    }
+
+    public boolean isNull() {
+        return this == NULL;
+    }
+
+    public boolean isWeb() {
+        return this == WEB;
+    }
+
     public String url() {
-        // wana://www.wanandroid.com/user_page?id=1
-        return Router.SCHEME + "://" + Router.HOST + path;
+        return Router.createUrlByPath(path);
     }
 
     public String url(Param... param) {
         StringBuilder s = new StringBuilder(url());
-        for (int i = 0; i < param.length; i++) {
-            Param p = param[i];
-            if (i == 0) s.append("?");
+        for (Param p : param) {
+            if (s.indexOf("?") != -1) s.append("?");
             else s.append("&");
             s.append(p.key).append("=").append(p.value);
         }
         return s.toString();
     }
 
-    public void navigation(String url) {
+    public void navigation(Param... param) {
+        navigation(url(param));
+    }
+
+    void navigation(String url) {
         if (clazz == null) return;
         try {
             Intent intent = new Intent(Utils.getAppContext(), clazz);

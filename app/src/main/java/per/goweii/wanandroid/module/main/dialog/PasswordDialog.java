@@ -10,9 +10,9 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
-import per.goweii.anylayer.AnimatorHelper;
-import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
+import per.goweii.anylayer.dialog.DialogLayer;
+import per.goweii.anylayer.utils.AnimatorHelper;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.CopiedTextProcessor;
 import per.goweii.wanandroid.utils.wanpwd.WanPwdParser;
@@ -89,8 +89,8 @@ public class PasswordDialog extends DialogLayer {
     }
 
     @Override
-    public void onPreRemove() {
-        super.onPreRemove();
+    protected void onDisappear() {
+        super.onDisappear();
         mHandler.removeCallbacksAndMessages(null);
         mHandler = null;
         if (mAnim != null) {

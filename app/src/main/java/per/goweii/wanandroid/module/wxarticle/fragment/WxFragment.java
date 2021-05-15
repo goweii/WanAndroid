@@ -3,7 +3,6 @@ package per.goweii.wanandroid.module.wxarticle.fragment;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
-import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
 
 import java.util.List;
@@ -16,19 +15,19 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
-import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.wxarticle.presenter.WxPresenter;
 import per.goweii.wanandroid.module.wxarticle.view.WxView;
 import per.goweii.wanandroid.utils.MagicIndicatorUtils;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 
 /**
  * @author CuiZhen
  * @date 2019/5/12
  * GitHub: https://github.com/goweii
  */
-public class WxFragment extends BaseFragment<WxPresenter> implements ScrollTop, WxView {
+public class WxFragment extends BaseFragment<WxPresenter> implements RvScrollTopUtils.ScrollTop, WxView {
 
     @BindView(R.id.ab)
     ActionBarEx ab;
@@ -71,7 +70,7 @@ public class WxFragment extends BaseFragment<WxPresenter> implements ScrollTop, 
                     }
                 });
         vp.setAdapter(mAdapter);
-        mCommonNavigator = MagicIndicatorUtils.commonNavigator((MagicIndicator) ab.getTitleBarChild(), vp, mAdapter, new SimpleCallback<Integer>() {
+        mCommonNavigator = MagicIndicatorUtils.commonNavigator(ab.getView(R.id.mi), vp, mAdapter, new SimpleCallback<Integer>() {
             @Override
             public void onResult(Integer data) {
                 notifyScrollTop(data);

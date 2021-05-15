@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/basic_ui_dialog_download_state_downloading"
-        android:textColor="@color/text_surface"
+        android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content" />
 
     <ProgressBar
@@ -46,7 +46,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 tools:text="已完成"
-                android:textColor="@color/text_third"
+                android:textColor="?colorTextThird"
                 android:textSize="@dimen/text_notes" />
 
             <TextView
@@ -55,7 +55,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="0"
-                android:textColor="@color/text_third"
+                android:textColor="?colorTextThird"
                 android:textSize="@dimen/text_notes" />
 
             <TextView
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="%"
-                android:textColor="@color/text_third"
+                android:textColor="?colorTextThird"
                 android:textSize="@dimen/text_notes" />
 
         </LinearLayout>
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 tools:text="共"
-                android:textColor="@color/text_third"
+                android:textColor="?colorTextThird"
                 android:textSize="@dimen/text_notes" />
 
             <TextView
@@ -88,7 +88,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 tools:text="40M"
-                android:textColor="@color/text_third"
+                android:textColor="?colorTextThird"
                 android:textSize="@dimen/text_notes" />
 
         </LinearLayout>

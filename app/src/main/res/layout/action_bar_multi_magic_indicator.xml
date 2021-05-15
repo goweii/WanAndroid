@@ -3,6 +3,6 @@
     android:id="@+id/mi"
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
-    android:background="@color/basic_ui_action_bar_bg"
+    android:background="?colorMainOrSurface"
     android:overScrollMode="never"
     android:scrollbars="none" />

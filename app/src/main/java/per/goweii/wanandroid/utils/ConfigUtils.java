@@ -1,5 +1,7 @@
 package per.goweii.wanandroid.utils;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -7,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import per.goweii.basic.utils.SPUtils;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 
 /**
@@ -60,6 +63,23 @@ public class ConfigUtils {
         }
         mSPUtils.save(KEY_CONFIG, mGson.toJson(mConfigBean));
         GrayFilterHelper.INSTANCE.refresh();
+    }
+
+    public int getTheme() {
+        ConfigBean configBean = getConfig();
+        if (configBean.isEnableAtNow() && !TextUtils.isEmpty(configBean.getTheme())) {
+            switch (configBean.getTheme().toLowerCase()) {
+                case "red":
+                    return R.style.ThemeRed;
+                case "green":
+                    return R.style.ThemeGreen;
+                case "pink":
+                    return R.style.ThemePink;
+                case "gold":
+                    return R.style.ThemeGold;
+            }
+        }
+        return 0;
     }
 
 }

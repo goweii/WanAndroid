@@ -5,7 +5,7 @@
         <shape android:shape="oval">
             <stroke
                 android:width="5dp"
-                android:color="@color/transparent" />
+                android:color="@android:color/transparent" />
         </shape>
     </item>
     <!-- 第二进度条样式，用不怎么到直接设置成了和背景色一样的颜色，隐藏起来 -->
@@ -13,7 +13,7 @@
         <shape android:shape="oval">
             <stroke
                 android:width="5dp"
-                android:color="@color/transparent" />
+                android:color="@android:color/transparent" />
         </shape>
     </item>
     <!-- 第一进度条样式，我想修改的，修改成简单的灰色 -->
@@ -22,7 +22,7 @@
             <shape android:shape="oval">
                 <stroke
                     android:width="5dp"
-                    android:color="@color/main" />
+                    android:color="?colorMain" />
             </shape>
         </clip>
     </item>

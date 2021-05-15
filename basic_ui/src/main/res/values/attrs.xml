@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-
+    <declare-styleable name="StatusBarView" tools:ignore="ResourceName">
+        <attr name="sbv_transparent">
+            <enum name="unchanged" value="0" />
+            <enum name="transparent" value="1" />
+            <enum name="unTransparent" value="2" />
+        </attr>
+        <attr name="sbv_iconMode">
+            <enum name="unchanged" value="0" />
+            <enum name="darkIcon" value="1" />
+            <enum name="lightIcon" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>

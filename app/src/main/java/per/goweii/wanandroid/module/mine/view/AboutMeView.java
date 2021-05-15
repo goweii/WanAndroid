@@ -10,5 +10,6 @@ import per.goweii.wanandroid.module.mine.model.AboutMeBean;
  */
 public interface AboutMeView extends BaseView {
     void getAboutMeSuccess(int code, AboutMeBean data);
+
     void getAboutMeFailed(int code, String msg);
 }

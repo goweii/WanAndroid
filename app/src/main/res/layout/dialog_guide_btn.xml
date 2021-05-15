@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lihang.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:hl_cornerRadius="@dimen/button_height_half"
+    app:hl_layoutBackground="?colorTransparent"
+    app:hl_shadowColor="?colorShadowMain"
+    app:hl_shadowLimit="@dimen/margin_small"
+    app:hl_shadowOffsetY="@dimen/margin_very_thin"
+    app:hl_shadowSymmetry="true">
+
+    <TextView
+        android:id="@+id/dialog_guide_tv_btn"
+        style="@style/ButtonMain"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="50dp"
+        android:paddingRight="50dp"
+        android:text="知道了" />
+
+</com.lihang.ShadowLayout>

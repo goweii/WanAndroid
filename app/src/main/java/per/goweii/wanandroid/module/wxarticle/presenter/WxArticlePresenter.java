@@ -76,7 +76,7 @@ public class WxArticlePresenter extends BasePresenter<WxArticleView> {
         });
     }
 
-    public void getWxArticleListSearch(int id, int page, String key, boolean refresh){
+    public void getWxArticleListSearch(int id, int page, String key, boolean refresh) {
         WxRequest.getWxArticleList(getRxLife(), refresh, id, page, key, new RequestListener<ArticleListBean>() {
             @Override
             public void onStart() {

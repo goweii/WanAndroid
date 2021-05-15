@@ -19,12 +19,12 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.kennyc.view.MultiStateView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
-import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshFooter;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
+import com.scwang.smart.refresh.layout.listener.OnMultiListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -40,6 +40,7 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.RandomUtils;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
@@ -52,7 +53,7 @@ import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.UserPageBean;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.router.Router;
@@ -89,6 +90,8 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
     RecyclerView rv;
     @BindView(R.id.tv_user_name)
     TextView tv_user_name;
+    @BindView(R.id.tv_user_signature)
+    TextView tv_user_signature;
     @BindView(R.id.tv_user_id)
     TextView tv_user_id;
     @BindView(R.id.tv_user_coin)
@@ -129,7 +132,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSettingChangeEvent(SettingChangeEvent event) {
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -189,7 +192,8 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -200,7 +204,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     UrlOpenUtils.Companion.with(item).open(getContext());
                 }
@@ -209,7 +213,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     if (v.isChecked()) {
                         presenter.collect(item, v);
@@ -228,7 +232,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
                 getUserPage(true);
             }
         });
-        srl.setOnMultiPurposeListener(new OnMultiPurposeListener() {
+        srl.setOnMultiListener(new OnMultiListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
                 if (iv_blur != null && rl_user_info != null) {
@@ -286,18 +290,20 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             public void onOffsetChanged(AppBarLayout abl, int offset) {
                 if (Math.abs(offset) == abl.getTotalScrollRange()) {
                     abc.getTitleTextView().setAlpha(1F);
-                    abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
+                    int color = ResUtils.getThemeColor(abc, R.attr.colorMainOrSurface);
+                    abc.setBackgroundColor(color);
                 } else {
                     abc.getTitleTextView().setAlpha(0F);
-                    abc.setBackgroundResource(R.color.transparent);
+                    int color = ResUtils.getThemeColor(abc, R.attr.colorTransparent);
+                    abc.setBackgroundColor(color);
                 }
             }
         });
         ctbl.post(new Runnable() {
             @Override
             public void run() {
-                ctbl.setMinimumHeight(abc.getActionBarHeight());
-                ctbl.setScrimVisibleHeightTrigger(abc.getActionBarHeight());
+                ctbl.setMinimumHeight(abc.getActionBar().getHeight());
+                ctbl.setScrimVisibleHeightTrigger(abc.getActionBar().getHeight());
             }
         });
     }
@@ -321,7 +327,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
 
     private int getUserIdFromIntent(Intent intent) {
         int id = mUserId;
-        Uri uri = Router.uri(intent);
+        Uri uri = Router.getUriFrom(intent);
         if (uri != null) {
             String userId = uri.getQueryParameter("id");
             if (userId != null) {

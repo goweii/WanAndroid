@@ -3,14 +3,20 @@ package per.goweii.wanandroid.module.main.presenter;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.bitmap.BitmapUtils;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.db.executor.ReadLaterExecutor;
 import per.goweii.wanandroid.db.executor.ReadRecordExecutor;
+import per.goweii.wanandroid.db.model.ReadLaterModel;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.ReadRecordEvent;
 import per.goweii.wanandroid.http.RequestListener;
@@ -27,6 +33,8 @@ import per.goweii.wanandroid.utils.SettingUtils;
  * GitHub: https://github.com/goweii
  */
 public class WebPresenter extends BasePresenter<WebView> {
+    private final List<CollectArticleEntity> mCollectedList = new ArrayList<>(1);
+    private final List<ReadLaterModel> mReadLaterList = new ArrayList<>(1);
 
     private ReadLaterExecutor mReadLaterExecutor = null;
     private ReadRecordExecutor mReadRecordExecutor = null;
@@ -45,8 +53,50 @@ public class WebPresenter extends BasePresenter<WebView> {
         super.detach();
     }
 
+    public void addReadLater(ReadLaterModel model) {
+        if (findReadLater(model.getLink()) != null) return;
+        mReadLaterList.add(model);
+    }
+
+    public void removeReadLater(String url) {
+        Iterator<ReadLaterModel> iterator = mReadLaterList.iterator();
+        while (iterator.hasNext()) {
+            if (TextUtils.equals(iterator.next().getLink(), url)) {
+                iterator.remove();
+            }
+        }
+    }
+
+    public void addCollected(CollectArticleEntity entity) {
+        if (findCollected(entity.getUrl()) != null) return;
+        mCollectedList.add(entity);
+    }
+
+    public ReadLaterModel findReadLater(String url) {
+        ReadLaterModel readLaterModel = null;
+        for (ReadLaterModel model : mReadLaterList) {
+            if (TextUtils.equals(model.getLink(), url)) {
+                readLaterModel = model;
+                break;
+            }
+        }
+        return readLaterModel;
+    }
+
+    public CollectArticleEntity findCollected(String url) {
+        CollectArticleEntity collectArticleEntity = null;
+        for (CollectArticleEntity entity : mCollectedList) {
+            if (TextUtils.equals(entity.getUrl(), url)) {
+                collectArticleEntity = entity;
+                break;
+            }
+        }
+        return collectArticleEntity;
+    }
+
     public void collect(CollectArticleEntity entity) {
         if (entity.isCollect()) {
+            addCollected(entity);
             if (isAttach()) {
                 getBaseView().collectSuccess(entity);
             }
@@ -88,6 +138,7 @@ public class WebPresenter extends BasePresenter<WebView> {
             public void onSuccess(int code, BaseBean data) {
                 CollectionEvent.postCollectWithArticleId(id);
                 entity.setCollect(true);
+                addCollected(entity);
                 if (isAttach()) {
                     getBaseView().collectSuccess(entity);
                 }
@@ -155,6 +206,7 @@ public class WebPresenter extends BasePresenter<WebView> {
                 CollectionEvent.postCollectWithCollectId(data.getId());
                 entity.setArticleId(data.getId());
                 entity.setCollect(true);
+                addCollected(entity);
                 if (isAttach()) {
                     getBaseView().collectSuccess(entity);
                 }
@@ -190,6 +242,7 @@ public class WebPresenter extends BasePresenter<WebView> {
                 CollectionEvent.postCollectWithCollectId(data.getId());
                 entity.setCollectId(data.getId());
                 entity.setCollect(true);
+                addCollected(entity);
                 if (isAttach()) {
                     getBaseView().collectSuccess(entity);
                 }
@@ -246,8 +299,8 @@ public class WebPresenter extends BasePresenter<WebView> {
     }
 
     public void saveGallery(Bitmap bitmap, String name) {
-        if (null != BitmapUtils.saveGallery(bitmap, name)) {
-            ToastMaker.showShort("以保存到相册");
+        if (BitmapUtils.saveGallery(bitmap, name)) {
+            ToastMaker.showShort("保存成功");
         } else {
             ToastMaker.showShort("保存失败");
         }
@@ -256,15 +309,52 @@ public class WebPresenter extends BasePresenter<WebView> {
 
     public void readLater(String link, String title) {
         if (mReadLaterExecutor == null) return;
-        mReadLaterExecutor.add(link, title, new SimpleListener() {
+        mReadLaterExecutor.add(link, title, new SimpleCallback<ReadLaterModel>() {
             @Override
-            public void onResult() {
-                ToastMaker.showShort("已加入稍后阅读");
+            public void onResult(ReadLaterModel data) {
+                addReadLater(data);
+                ToastMaker.showShort("已加入我的书签");
             }
         }, new SimpleListener() {
             @Override
             public void onResult() {
-                ToastMaker.showShort("加入稍后阅读失败");
+                ToastMaker.showShort("加入我的书签失败");
+            }
+        });
+    }
+
+    public void deleteReadLater(String link) {
+        if (mReadLaterExecutor == null) return;
+        mReadLaterExecutor.remove(link, new SimpleListener() {
+            @Override
+            public void onResult() {
+                removeReadLater(link);
+                ToastMaker.showShort("已移除我的书签");
+            }
+        }, new SimpleListener() {
+            @Override
+            public void onResult() {
+                ToastMaker.showShort("移出我的书签失败");
+            }
+        });
+    }
+
+    public void isAddedReadLater(String link) {
+        if (mReadLaterExecutor == null) return;
+        mReadLaterExecutor.findByLink(link, new SimpleCallback<List<ReadLaterModel>>() {
+            @Override
+            public void onResult(List<ReadLaterModel> data) {
+                if (!data.isEmpty()) {
+                    ReadLaterModel readLaterModel = data.get(0);
+                    addReadLater(readLaterModel);
+                    if (isAttach()) {
+                        getBaseView().isAddedReadLaterSuccess(readLaterModel);
+                    }
+                }
+            }
+        }, new SimpleListener() {
+            @Override
+            public void onResult() {
             }
         });
     }

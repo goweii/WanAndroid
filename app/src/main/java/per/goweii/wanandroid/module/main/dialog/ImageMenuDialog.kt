@@ -8,8 +8,8 @@ import android.graphics.drawable.BitmapDrawable
 import android.view.Gravity
 import android.widget.TextView
 import com.github.chrisbanes.photoview.PhotoView
-import per.goweii.anylayer.DialogLayer
-import per.goweii.anylayer.DragLayout
+import per.goweii.anylayer.dialog.DialogLayer
+import per.goweii.anylayer.widget.SwipeLayout
 import per.goweii.anypermission.RequestListener
 import per.goweii.basic.core.permission.PermissionUtils
 import per.goweii.basic.ui.toast.ToastMaker
@@ -66,13 +66,13 @@ class ImageMenuDialog(
     init {
         backgroundDimAmount(0.3F)
         contentView(R.layout.dialog_image_menu)
-        dragDismiss(DragLayout.DragStyle.Bottom)
+        swipeDismiss(SwipeLayout.Direction.BOTTOM)
         gravity(Gravity.BOTTOM)
         onClickToDismiss(R.id.dialog_image_menu_iv_dismiss)
     }
 
-    private val tv_save by lazy { getView<TextView>(R.id.dialog_image_menu_tv_save) }
-    private val tv_qrcode by lazy { getView<TextView>(R.id.dialog_image_menu_tv_qrcode) }
+    private val tv_save by lazy { getView<TextView>(R.id.dialog_image_menu_tv_save)!! }
+    private val tv_qrcode by lazy { getView<TextView>(R.id.dialog_image_menu_tv_qrcode)!! }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onAttach() {
@@ -95,7 +95,7 @@ class ImageMenuDialog(
     private fun saveBitmap(bitmap: Bitmap) {
         PermissionUtils.request(object : RequestListener {
             override fun onSuccess() {
-                if (null != BitmapUtils.saveGallery(bitmap, "wanandroid_article_image_${System.currentTimeMillis()}")) {
+                if (BitmapUtils.saveGallery(bitmap, "wanandroid_article_image_${System.currentTimeMillis()}")) {
                     ToastMaker.showShort("以保存到相册")
                 } else {
                     ToastMaker.showShort("保存失败")

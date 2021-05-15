@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.lihang.ShadowLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    app:hl_cornerRadius="@dimen/round_radius"
+    app:hl_layoutBackground="?colorSurface"
+    app:hl_shadowColor="?colorShadow"
+    app:hl_shadowLimit="@dimen/margin_small"
+    app:hl_shadowOffsetY="@dimen/margin_very_thin"
+    app:hl_shadowSymmetry="true">
+
+    <TextView
+        android:id="@+id/basic_ui_toast_msg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="@dimen/margin_def"
+        android:paddingTop="@dimen/margin_common"
+        android:paddingRight="@dimen/margin_def"
+        android:paddingBottom="@dimen/margin_common"
+        android:textColor="?colorTextSurface"
+        android:textSize="@dimen/text_content"
+        tools:text="知道了" />
+
+</com.lihang.ShadowLayout>

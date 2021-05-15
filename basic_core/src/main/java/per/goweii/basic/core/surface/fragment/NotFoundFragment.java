@@ -16,7 +16,7 @@ import per.goweii.basic.core.mvp.MvpPresenter;
  */
 public class NotFoundFragment extends BaseFragment {
 
-    public static NotFoundFragment create(String msg){
+    public static NotFoundFragment create(String msg) {
         NotFoundFragment fragment = new NotFoundFragment();
         Bundle args = new Bundle(1);
         args.putString("msg", msg);

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingBottom="@dimen/bottom_bar_height"
-    tools:background="@color/dialog_bg">
+    tools:background="?colorDialogBg">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_below="@+id/dialog_web_guide_iv_2"
             android:layout_centerHorizontal="true"
             android:text="双击任意位置收藏文章"
-            android:textColor="@color/basic_ui_action_bar_text"
+            android:textColor="?colorOnMainOrSurface"
             android:textSize="@dimen/text_title" />
 
         <TextView
@@ -62,19 +62,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_common"
             android:text="长按网页图片查看大图"
-            android:textColor="@color/basic_ui_action_bar_text"
-            android:textSize="@dimen/text_title" />
-
-        <TextView
-            android:id="@+id/dialog_web_guide_tv_long_click_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_below="@+id/dialog_web_guide_tv_double_click"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="@dimen/margin_common"
-            android:text="长按返回按钮收藏文章"
-            android:textColor="@color/basic_ui_action_bar_text"
+            android:textColor="?colorOnMainOrSurface"
             android:textSize="@dimen/text_title" />
 
     </LinearLayout>

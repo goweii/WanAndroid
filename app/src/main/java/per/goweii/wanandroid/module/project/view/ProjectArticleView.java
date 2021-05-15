@@ -10,5 +10,6 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
  */
 public interface ProjectArticleView extends BaseView {
     void getProjectArticleListSuccess(int code, ArticleListBean data);
+
     void getProjectArticleListFailed(int code, String msg);
 }

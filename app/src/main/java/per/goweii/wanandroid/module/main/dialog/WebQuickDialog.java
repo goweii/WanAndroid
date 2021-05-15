@@ -2,9 +2,9 @@ package per.goweii.wanandroid.module.main.dialog;
 
 import android.view.View;
 
-import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
-import per.goweii.anylayer.PopupLayer;
+import per.goweii.anylayer.popup.PopupLayer;
+import per.goweii.anylayer.widget.SwipeLayout;
 import per.goweii.wanandroid.R;
 
 /**
@@ -20,7 +20,7 @@ public class WebQuickDialog extends PopupLayer {
         outsideInterceptTouchEvent(false);
         interceptKeyEvent(false);
         backgroundDimDefault();
-        dragDismiss(DragLayout.DragStyle.Top);
+        swipeDismiss(SwipeLayout.Direction.TOP);
         onClickToDismiss(new OnClickListener() {
             @Override
             public void onClick(Layer layer, View v) {
@@ -49,6 +49,7 @@ public class WebQuickDialog extends PopupLayer {
 
     public interface OnQuickClickListener {
         void onCopyLink();
+
         void onBrowser();
 
         void onWanPwd();

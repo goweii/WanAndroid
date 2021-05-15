@@ -7,10 +7,6 @@ import per.goweii.basic.core.base.BaseView
  * @author CuiZhen
  * @date 2020/3/22
  */
-interface ArticleListView : BaseView {
+interface ArticleListView : BaseView
 
-}
-
-class ArticleListPresenter : BasePresenter<ArticleListView>() {
-
-}
+class ArticleListPresenter : BasePresenter<ArticleListView>()

@@ -12,7 +12,7 @@
         android:layout_marginTop="@dimen/round_radius"
         android:layout_height="@dimen/button_height"
         android:gravity="center"
-        android:textColor="@color/text_surface"
+        android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_title"
         tools:text="提示" />
 
@@ -32,8 +32,8 @@
     <View
         android:id="@+id/basic_ui_v_dialog_list_line_h"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/line"/>
+        android:layout_height="@dimen/line_thin"
+        android:background="?colorLine" />
 
     <LinearLayout
         android:id="@+id/basic_ui_ll_dialog_list_yes_no"
@@ -48,14 +48,14 @@
             android:layout_weight="1"
             android:gravity="center"
             tools:text="@string/basic_ui_dialog_btn_no"
-            android:textColor="@color/text_third"
+            android:textColor="?colorTextThird"
             android:textSize="@dimen/text_content" />
 
         <View
             android:id="@+id/basic_ui_v_dialog_list_line"
-            android:layout_width="1dp"
+            android:layout_width="@dimen/line_thin"
             android:layout_height="match_parent"
-            android:background="@color/line" />
+            android:background="?colorLine" />
 
         <TextView
             android:id="@+id/basic_ui_tv_dialog_list_yes"
@@ -64,7 +64,7 @@
             android:layout_weight="1"
             android:gravity="center"
             tools:text="@string/basic_ui_dialog_btn_yes"
-            android:textColor="@color/text_main"
+            android:textColor="?colorTextMain"
             android:textSize="@dimen/text_content" />
 
     </LinearLayout>

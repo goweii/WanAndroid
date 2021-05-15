@@ -57,6 +57,39 @@ public class SettingPresenter extends BasePresenter<SettingView> {
         });
     }
 
+    public void betaUpdate(boolean click) {
+        MainRequest.betaUpdate(getRxLife(), new RequestListener<UpdateBean>() {
+            @Override
+            public void onStart() {
+                showLoadingBar();
+            }
+
+            @Override
+            public void onSuccess(int code, UpdateBean data) {
+                if (isAttach()) {
+                    getBaseView().betaUpdateSuccess(code, data, click);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if (isAttach()) {
+                    getBaseView().betaUpdateFailed(code, msg, click);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+                dismissLoadingBar();
+            }
+        });
+    }
+
+
     public void logout() {
         addToRxLife(MineRequest.logout(new RequestListener<BaseBean>() {
             @Override

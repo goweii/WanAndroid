@@ -11,7 +11,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -29,7 +29,6 @@ import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
@@ -38,7 +37,7 @@ import per.goweii.wanandroid.module.mine.dialog.EditCollectLinkDialog;
 import per.goweii.wanandroid.module.mine.presenter.CollectionLinkPresenter;
 import per.goweii.wanandroid.module.mine.view.CollectionLinkView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -48,7 +47,7 @@ import per.goweii.wanandroid.utils.UrlOpenUtils;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter> implements ScrollTop, CollectionLinkView {
+public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter> implements RvScrollTopUtils.ScrollTop, CollectionLinkView {
 
     @BindView(R.id.msv)
     MultiStateView msv;
@@ -92,7 +91,7 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
             return;
         }
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -124,7 +123,8 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new CollectionLinkAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

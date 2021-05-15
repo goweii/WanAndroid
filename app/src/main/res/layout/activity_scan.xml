@@ -23,8 +23,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
-        app:finderResultPointInnerColor="@color/main"
-        app:finderScanLineColor="@color/main" />
+        app:finderResultPointInnerColor="?colorMain"
+        app:finderScanLineColor="?colorMain" />
 
     <LinearLayout
         android:id="@+id/llTip"
@@ -83,10 +83,10 @@
         android:layout_alignParentBottom="true"
         android:layout_marginStart="@dimen/margin_middle"
         android:layout_marginBottom="@dimen/margin_middle"
-        android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+        android:background="@drawable/bg_solid_round_color_surface_top_alpha_radius_max"
         android:scaleType="centerInside"
         android:src="@drawable/selector_flush"
-        android:tint="@color/invert"
+        android:tint="?colorIconSurface"
         tools:ignore="UseAppTint" />
 
     <ImageView
@@ -97,15 +97,43 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="@dimen/margin_middle"
         android:layout_marginBottom="@dimen/margin_middle"
-        android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+        android:background="@drawable/bg_solid_round_color_surface_top_alpha_radius_max"
         android:scaleType="centerInside"
         android:src="@drawable/ic_album"
-        android:tint="@color/invert"
+        android:tint="?colorIconSurface"
         tools:ignore="UseAppTint" />
 
-    <per.goweii.actionbarex.common.ActionBarCommon
-        android:id="@+id/abc"
-        style="@style/ActionBar.Common.Back"
-        android:background="@color/transparent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <per.goweii.basic.ui.widget.StatusBarView
+            android:id="@+id/statusBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:sbv_iconMode="lightIcon"
+            app:sbv_transparent="transparent" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_bar_height">
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="@dimen/icon_size"
+                android:layout_height="@dimen/icon_size"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="@dimen/margin_def"
+                android:background="@drawable/bg_solid_round_color_surface_top_alpha_radius_max"
+                android:padding="@dimen/margin_very_thin"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_close"
+                android:tint="?attr/colorIconSurface"
+                tools:ignore="ContentDescription,UseAppTint" />
+
+        </FrameLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

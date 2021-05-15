@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <per.goweii.heartview.HeartView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:heart_centerX="-0.5"
     app:heart_centerY="-0.5"
-    app:heart_color="@color/surface"
-    app:heart_edgeColor="@color/surface"
-    app:heart_strokeColor="@color/accent"
-    app:heart_strokeWidth="1dp"
-    tools:layout_height="150dp"
-    tools:layout_width="150dp" />
+    app:heart_color="?colorSurface"
+    app:heart_edgeColor="?colorSurface"
+    app:heart_strokeColor="?colorHeartOuter"
+    app:heart_strokeWidth="1dp" />

@@ -12,6 +12,7 @@ import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
  */
 public interface CollectionLinkView extends BaseView {
     void getCollectLinkListSuccess(int code, List<CollectionLinkBean> data);
+
     void getCollectLinkListFailed(int code, String msg);
 
     void updateCollectLinkSuccess(int code, CollectionLinkBean data);

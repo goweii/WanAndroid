@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class RvScrollTopUtils {
 
-    public static void smoothScrollTop(RecyclerView rv){
+    public static void smoothScrollTop(RecyclerView rv) {
         if (rv != null) {
             RecyclerView.LayoutManager layoutManager = rv.getLayoutManager();
             if (layoutManager instanceof LinearLayoutManager) {
@@ -27,4 +27,7 @@ public class RvScrollTopUtils {
         }
     }
 
+    public interface ScrollTop {
+        void scrollTop();
+    }
 }

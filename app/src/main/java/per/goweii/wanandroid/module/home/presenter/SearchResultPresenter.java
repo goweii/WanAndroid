@@ -21,35 +21,8 @@ import per.goweii.wanandroid.widget.CollectView;
  */
 public class SearchResultPresenter extends BasePresenter<SearchResultView> {
 
-    public void searchCache(@IntRange(from = 0) int page, String key) {
-        HomeRequest.searchCache(page, key, new RequestListener<ArticleListBean>() {
-            @Override
-            public void onStart() {
-            }
-
-            @Override
-            public void onSuccess(int code, ArticleListBean data) {
-                if (isAttach()) {
-                    getBaseView().searchSuccess(code, data);
-                }
-            }
-
-            @Override
-            public void onFailed(int code, String msg) {
-            }
-
-            @Override
-            public void onError(ExceptionHandle handle) {
-            }
-
-            @Override
-            public void onFinish() {
-            }
-        });
-    }
-
-    public void search(@IntRange(from = 0) int page, String key, boolean refresh){
-        HomeRequest.search(getRxLife(), refresh, page, key, new RequestListener<ArticleListBean>() {
+    public void search(@IntRange(from = 0) int page, String key) {
+        HomeRequest.search(getRxLife(), page, key, new RequestListener<ArticleListBean>() {
             @Override
             public void onStart() {
             }
@@ -78,7 +51,7 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
         });
     }
 
-    public void collect(ArticleBean item, final CollectView v){
+    public void collect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.collectArticle(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {
@@ -110,7 +83,7 @@ public class SearchResultPresenter extends BasePresenter<SearchResultView> {
         }));
     }
 
-    public void uncollect(ArticleBean item, final CollectView v){
+    public void uncollect(ArticleBean item, final CollectView v) {
         addToRxLife(MainRequest.uncollectArticle(item.getId(), new RequestListener<BaseBean>() {
             @Override
             public void onStart() {

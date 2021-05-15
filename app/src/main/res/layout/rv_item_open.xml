@@ -10,7 +10,7 @@
         android:id="@+id/tv_project"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/text_surface"
+        android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content"
         tools:text="goweii/AnyLayer" />
 
@@ -22,7 +22,7 @@
         android:lineSpacingExtra="0dp"
         android:layout_marginTop="5dp"
         android:layout_below="@+id/tv_project"
-        android:textColor="@color/text_second"
+        android:textColor="?colorTextSecond"
         android:textSize="@dimen/text_auxiliary"
         tools:text="高拓展高自定义性ActionBar，完美替代Android系统默认，完美替代Android系统默认，完美替代Android系统默认" />
 

@@ -13,7 +13,7 @@ import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
  */
 public class CDKeyWanPwd implements IWanPwd {
 
-    private Runnable mRunnable;
+    private final Runnable mRunnable;
 
     public CDKeyWanPwd(String content) {
         mRunnable = new Runnable() {
@@ -23,9 +23,9 @@ public class CDKeyWanPwd implements IWanPwd {
                     ToastMaker.showShort("请先登录");
                     return;
                 }
-                int id = UserUtils.getInstance().getUserId();
-                if (CDKeyUtils.isActiveCDKey(String.valueOf(id), content)) {
-                    CDKeyUtils.getInstance().setActivatedCDKey(content);
+                int id = UserUtils.getInstance().getWanId();
+                if (CDKeyUtils.getInstance().check(String.valueOf(id), content)) {
+                    CDKeyUtils.getInstance().set(content);
                     ToastMaker.showShort("激活成功，重启APP后生效");
                 } else {
                     ToastMaker.showShort("激活码无效");

@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.animation.AccelerateInterpolator
@@ -25,6 +26,7 @@ class LogoAnimView : FrameLayout, Runnable {
 
     private val logo: ImageView = ImageView(context).apply {
         setImageResource(R.drawable.logo)
+        setColorFilter(Color.WHITE)
         scaleType = ImageView.ScaleType.FIT_CENTER
     }
     private val eyeLeft: ImageView = ImageView(context).apply {

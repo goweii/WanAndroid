@@ -21,12 +21,11 @@ import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.mine.adapter.HostInterruptAdapter;
 import per.goweii.wanandroid.module.mine.dialog.AddHostDialog;
 import per.goweii.wanandroid.module.mine.model.HostEntity;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 
@@ -35,7 +34,7 @@ import per.goweii.wanandroid.utils.SettingUtils;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class HostBlackFragment extends BaseFragment implements ScrollTop {
+public class HostBlackFragment extends BaseFragment implements RvScrollTopUtils.ScrollTop {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -52,7 +51,7 @@ public class HostBlackFragment extends BaseFragment implements ScrollTop {
             return;
         }
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -76,7 +75,8 @@ public class HostBlackFragment extends BaseFragment implements ScrollTop {
     protected void initView() {
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new HostInterruptAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

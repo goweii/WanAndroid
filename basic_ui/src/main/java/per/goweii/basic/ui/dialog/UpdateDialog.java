@@ -2,7 +2,6 @@ package per.goweii.basic.ui.dialog;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
@@ -10,6 +9,7 @@ import android.widget.TextView;
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.Layer;
 import per.goweii.basic.ui.R;
+import per.goweii.basic.utils.ResUtils;
 
 /**
  * 版本更新弹窗
@@ -21,6 +21,7 @@ public class UpdateDialog {
 
     private final Context mContext;
 
+    private boolean mTest = false;
     private String mUrl = null;
     private String mUrlBackup = null;
     private int mVersionCode = 0;
@@ -38,6 +39,11 @@ public class UpdateDialog {
 
     private UpdateDialog(Context context) {
         this.mContext = context;
+    }
+
+    public UpdateDialog setTest(boolean test) {
+        mTest = test;
+        return this;
     }
 
     public UpdateDialog setUrl(String url) {
@@ -95,12 +101,19 @@ public class UpdateDialog {
                 .bindData(new Layer.DataBinder() {
                     @Override
                     public void bindData(Layer layer) {
+                        final TextView tvTitle = layer.getView(R.id.basic_ui_tv_dialog_update_title);
                         final View vLine = layer.getView(R.id.basic_ui_v_dialog_update_line);
                         final TextView tvNo = layer.getView(R.id.basic_ui_tv_dialog_update_no);
                         final TextView tvVersionName = layer.getView(R.id.basic_ui_tv_dialog_update_version_name);
                         final TextView tvTime = layer.getView(R.id.basic_ui_tv_dialog_update_time);
                         final TextView tvDescription = layer.getView(R.id.basic_ui_tv_dialog_update_description);
-
+                        if (mTest) {
+                            tvTitle.setTextColor(ResUtils.getThemeColor(tvTitle.getContext(), R.attr.colorTextAccent));
+                            tvTitle.setText(R.string.basic_ui_dialog_update_test_title);
+                        } else {
+                            tvTitle.setTextColor(ResUtils.getThemeColor(tvTitle.getContext(), R.attr.colorTextMain));
+                            tvTitle.setText(R.string.basic_ui_dialog_update_title);
+                        }
                         if (TextUtils.isEmpty(mVersionName)) {
                             tvVersionName.setVisibility(View.GONE);
                         } else {
@@ -114,8 +127,7 @@ public class UpdateDialog {
                             tvTime.setText(mTime);
                         }
                         tvDescription.setText(mDescription);
-                        tvDescription.setMovementMethod(ScrollingMovementMethod.getInstance());
-
+                        //tvDescription.setMovementMethod(ScrollingMovementMethod.getInstance());
                         if (mForce) {
                             tvNo.setVisibility(View.GONE);
                             vLine.setVisibility(View.GONE);
@@ -137,7 +149,7 @@ public class UpdateDialog {
                     @Override
                     public void onClick(Layer layer, View v) {
                         if (mOnUpdateListener != null) {
-                            mOnUpdateListener.onIgnore(mVersionCode);
+                            mOnUpdateListener.onIgnore(mVersionName, mVersionCode);
                         }
                     }
                 }, R.id.basic_ui_tv_dialog_update_no)
@@ -159,7 +171,8 @@ public class UpdateDialog {
 
     public interface OnUpdateListener {
         void onDownload(String url, String urlBackup, boolean isForce);
-        void onIgnore(int versionCode);
+
+        void onIgnore(String versionName, int versionCode);
     }
 
     public interface OnDismissListener {

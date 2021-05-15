@@ -15,7 +15,9 @@ dependencies {
     api (rootProject.ext.dependencies.glideOkhttp3) {
         transitive = false
     }
-    api rootProject.ext.dependencies.rxHttp
+    api (rootProject.ext.dependencies.rxHttp) {
+        exclude group: 'com.google.code.gson'
+    }
     api rootProject.ext.dependencies.anyPermission
     api rootProject.ext.dependencies.swipeBack
     api rootProject.ext.dependencies.lazyfragment

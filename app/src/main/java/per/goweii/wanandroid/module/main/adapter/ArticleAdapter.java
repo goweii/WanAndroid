@@ -3,19 +3,14 @@ package per.goweii.wanandroid.module.main.adapter;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
-import com.qq.e.ads.nativ.NativeExpressADView;
 
 import java.util.Collection;
 import java.util.List;
@@ -30,9 +25,7 @@ import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.utils.ArticleDiffCallback;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
-import per.goweii.wanandroid.utils.ad.AdEntity;
-import per.goweii.wanandroid.utils.ad.AdForListFactory;
-import per.goweii.wanandroid.utils.ad.widget.AdContainer;
+import per.goweii.wanandroid.utils.web.cache.HtmlCacheManager;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -40,17 +33,13 @@ import per.goweii.wanandroid.widget.CollectView;
  * @date 2019/5/12
  * GitHub: https://github.com/goweii
  */
-public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
-    public static final int ITEM_TYPE_ARTICLE = 0;
-    public static final int ITEM_TYPE_AD = 1;
+public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder> {
 
     private OnItemChildViewClickListener mOnItemChildViewClickListener = null;
-    private PageLoadedCallback mPageLoadedCallback = null;
 
     public ArticleAdapter() {
-        super(null);
-        addItemType(ITEM_TYPE_ARTICLE, getArticleLayoutId());
-        addItemType(ITEM_TYPE_AD, R.layout.rv_item_ad);
+        super(0);
+        mLayoutResId = getArticleLayoutId();
     }
 
     protected int getArticleLayoutId() {
@@ -61,47 +50,28 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         mOnItemChildViewClickListener = onItemChildViewClickListener;
     }
 
-    public void setPageLoadedCallback(PageLoadedCallback pageLoadedCallback) {
-        mPageLoadedCallback = pageLoadedCallback;
-    }
-
     @Override
-    public void setNewData(@Nullable List<MultiItemEntity> data) {
-        if (mPageLoadedCallback != null && data != null) {
-            mPageLoadedCallback.pageLoaded(0, data);
-        }
-        setNewDiffData(data);
-        getRecyclerView().scrollToPosition(0);
+    public void setNewData(@Nullable List<ArticleBean> data) {
+        setNewData(data, true);
     }
 
-    private void setNewDiffData(@Nullable List<MultiItemEntity> data) {
+    public void setNewData(@Nullable List<ArticleBean> data, boolean useDiff) {
+        if (useDiff) {
+            boolean top = getRecyclerView().canScrollVertically(-1);
+            setNewDiffData(data);
+            if (!top) getRecyclerView().scrollToPosition(0);
+        } else {
+            super.setNewData(data);
+        }
+    }
+
+    private void setNewDiffData(@Nullable List<ArticleBean> data) {
         setNewDiffData(new ArticleDiffCallback(data));
     }
 
     @Override
-    public void addData(@NonNull Collection<? extends MultiItemEntity> newData) {
-        if (mPageLoadedCallback != null) {
-            if (newData instanceof List) {
-                mPageLoadedCallback.pageLoaded(getData().size(), (List<? super MultiItemEntity>) newData);
-            }
-        }
+    public void addData(@NonNull Collection<? extends ArticleBean> newData) {
         super.addData(newData);
-    }
-
-    public ArticleBean getArticleBean(int position) {
-        MultiItemEntity entity = getItem(position);
-        if (entity != null && entity.getItemType() == ITEM_TYPE_ARTICLE) {
-            return (ArticleBean) entity;
-        }
-        return null;
-    }
-
-    public AdEntity getAdEntity(int position) {
-        MultiItemEntity entity = getItem(position);
-        if (entity != null && entity.getItemType() == ITEM_TYPE_AD) {
-            return (AdEntity) entity;
-        }
-        return null;
     }
 
     public void notifyAllUnCollect() {
@@ -134,31 +104,17 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
     }
 
     public void forEach(@NonNull ArticleForEach articleForEach) {
-        List<MultiItemEntity> list = getData();
+        List<ArticleBean> list = getData();
         for (int i = 0; i < list.size(); i++) {
-            MultiItemEntity item = list.get(i);
-            if (item.getItemType() == ITEM_TYPE_ARTICLE) {
-                ArticleBean bean = (ArticleBean) item;
-                if (articleForEach.forEach(i, i + getHeaderLayoutCount(), bean)) {
-                    break;
-                }
+            ArticleBean item = list.get(i);
+            if (articleForEach.forEach(i, i + getHeaderLayoutCount(), item)) {
+                break;
             }
         }
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, MultiItemEntity item) {
-        switch (helper.getItemViewType()) {
-            case ITEM_TYPE_ARTICLE:
-                convertArticle(helper, (ArticleBean) item);
-                break;
-            case ITEM_TYPE_AD:
-                convertAd(helper, (AdEntity) item);
-                break;
-        }
-    }
-
-    protected void convertArticle(BaseViewHolder helper, ArticleBean item) {
+    protected void convert(@NonNull BaseViewHolder helper, ArticleBean item) {
         bindArticle(helper.itemView, item, new OnCollectListener() {
             @Override
             public void collect(ArticleBean item, CollectView v) {
@@ -176,82 +132,6 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
         });
     }
 
-    private void convertAd(BaseViewHolder helper, AdEntity item) {
-        AdContainer adc = helper.getView(R.id.adc);
-        if (item.getView() != null) {
-            final NativeExpressADView adView = item.getView();
-            item.setPosition(helper.getAdapterPosition());
-            if (adc.getChildCount() > 0 && adc.getChildAt(0) == adView) {
-                return;
-            }
-            adView.render();
-            if (scrolling) {
-                return;
-            }
-            adc.setVisibility(View.INVISIBLE);
-            if (adc.getChildCount() > 0) {
-                adc.removeAllViews();
-            }
-            if (adView.getParent() != null) {
-                ((ViewGroup) adView.getParent()).removeView(adView);
-            }
-            adc.addView(adView);
-            adc.setVisibility(View.VISIBLE);
-        }
-    }
-
-    private boolean scrolling = false;
-    private AdForListFactory mAdForListFactory = null;
-
-    @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        super.onAttachedToRecyclerView(recyclerView);
-        mAdForListFactory = AdForListFactory.create(recyclerView.getContext(), this);
-        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    scrolling = false;
-                    if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
-                        LinearLayoutManager manager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                        int first = manager.findFirstVisibleItemPosition();
-                        int last = manager.findLastVisibleItemPosition();
-                        for (int i = first; i <= last; i++) {
-                            AdEntity adEntity = getAdEntity(i - getHeaderLayoutCount());
-                            if (adEntity != null && adEntity.getView() != null) {
-                                boolean needNotify = true;
-                                View view = manager.findViewByPosition(i);
-                                if (view != null) {
-                                    AdContainer adc = view.findViewById(R.id.adc);
-                                    if (adc != null && adc.getChildCount() > 0 && adc.getChildAt(0) == adEntity.getView()) {
-                                        needNotify = false;
-                                        return;
-                                    }
-                                } else {
-                                    needNotify = false;
-                                }
-                                if (needNotify) {
-                                    notifyItemChanged(i);
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    scrolling = true;
-                }
-            }
-        });
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        if (mAdForListFactory != null) {
-            mAdForListFactory.destroy();
-        }
-        super.onDetachedFromRecyclerView(recyclerView);
-    }
-
     public interface OnItemChildViewClickListener {
         void onCollectClick(BaseViewHolder helper, CollectView v, int position);
     }
@@ -263,6 +143,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
     }
 
     public static void bindArticle(View view, ArticleBean item, OnCollectListener onCollectListener) {
+        HtmlCacheManager.INSTANCE.submit(item.getLink());
         TextView tv_top = view.findViewById(R.id.tv_top);
         TextView tv_new = view.findViewById(R.id.tv_new);
         TextView tv_author = view.findViewById(R.id.tv_author);
@@ -315,11 +196,7 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
             tv_desc.setText(desc);
         }
         tv_chapter_name.setText(Html.fromHtml(formatChapterName(item.getSuperChapterName(), item.getChapterName())));
-        if (item.isCollect()) {
-            cv_collect.setChecked(true);
-        } else {
-            cv_collect.setChecked(false);
-        }
+        cv_collect.setChecked(item.isCollect(), false);
         tv_chapter_name.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
@@ -371,9 +248,5 @@ public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, B
 
     public interface ArticleForEach {
         boolean forEach(int dataPos, int adapterPos, ArticleBean bean);
-    }
-
-    public interface PageLoadedCallback {
-        void pageLoaded(int startPos, List<? super MultiItemEntity> pageData);
     }
 }

@@ -1,6 +1,9 @@
 package per.goweii.wanandroid.utils.cdkey;
 
+import android.text.TextUtils;
+
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import per.goweii.basic.utils.SPUtils;
 import per.goweii.wanandroid.BuildConfig;
@@ -12,11 +15,9 @@ import per.goweii.wanandroid.utils.UserUtils;
  * GitHub: https://github.com/goweii
  */
 public class CDKeyUtils {
-
     private static final String SP_NAME = "cdkey";
-    private static final String KEY = "cdkey";
-
-    private static boolean isActivated = false;
+    private static final String KEY_USERID = "userid";
+    private static final String KEY_CDKEY = "cdkey";
 
     private static class Holder {
         private static final CDKeyUtils sInstance = new CDKeyUtils();
@@ -26,40 +27,52 @@ public class CDKeyUtils {
         return Holder.sInstance;
     }
 
+    @Nullable
+    private final CDKey mCDKey;
+
     private CDKeyUtils() {
-        String cdKey = SPUtils.newInstance(SP_NAME).get(KEY, "");
-        isActivated = isActiveCDKey(UserUtils.getInstance().getUserId() + "", cdKey);
+        mCDKey = newCDKey();
     }
 
-    public boolean isActivated() {
-        return isActivated;
+    public boolean isActive() {
+        String id = String.valueOf(UserUtils.getInstance().getWanId());
+        return check(id, get());
     }
 
-    public void setActivatedCDKey(String cdKey) {
-        isActivated = isActiveCDKey(UserUtils.getInstance().getUserId() + "", cdKey);
-        SPUtils.newInstance(SP_NAME).save(KEY, cdKey);
+    public void set(String cdKey) {
+        String id = String.valueOf(UserUtils.getInstance().getWanId());
+        SPUtils.newInstance(SP_NAME)
+                .save(KEY_USERID, id)
+                .save(KEY_CDKEY, cdKey);
     }
 
     @NonNull
-    public static String createCDKey(@NonNull String userId) {
-        CDKey cdKey = newCDKeyClass();
-        if (cdKey == null) {
+    public String get() {
+        if (!UserUtils.getInstance().isLogin()) {
             return "";
         }
-        return cdKey.createCDKey(userId);
-    }
-
-    public static boolean isActiveCDKey(@NonNull String userId, @NonNull String cdkey) {
-        CDKey cdKey = newCDKeyClass();
-        if (cdKey == null) {
-            return false;
+        String currId = String.valueOf(UserUtils.getInstance().getWanId());
+        String saveId = SPUtils.newInstance(SP_NAME).get(KEY_USERID, "");
+        if (!TextUtils.equals(currId, saveId)) {
+            return "";
         }
-        return cdKey.active(userId, cdkey);
+        return SPUtils.newInstance(SP_NAME).get(KEY_CDKEY, "");
     }
 
-    private static CDKey newCDKeyClass() {
+    @NonNull
+    public String create(@NonNull String userId) {
+        if (mCDKey == null) return "";
+        return mCDKey.create(userId);
+    }
+
+    public boolean check(@NonNull String userId, @NonNull String cdkey) {
+        if (mCDKey == null) return false;
+        return mCDKey.check(userId, cdkey);
+    }
+
+    private CDKey newCDKey() {
         try {
-            Class clazz = Class.forName(BuildConfig.CDKEY_CLASS);
+            Class<?> clazz = Class.forName(BuildConfig.CDKEY_CLASS);
             return (CDKey) clazz.newInstance();
         } catch (Throwable e) {
             e.printStackTrace();

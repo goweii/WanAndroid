@@ -23,4 +23,10 @@ interface ReadLaterDao {
 
     @Query("SELECT * FROM ReadLaterModel ORDER BY time DESC LIMIT (:offset), (:count)")
     suspend fun findAll(offset: Int, count: Int): List<ReadLaterModel>
+
+    @Query("SELECT * FROM ReadLaterModel ORDER BY time DESC LIMIT 0, (:count)")
+    suspend fun findLately(count: Int): List<ReadLaterModel>
+
+    @Query("SELECT * FROM ReadLaterModel WHERE link = :link")
+    suspend fun findByLink(link: String): List<ReadLaterModel>
 }

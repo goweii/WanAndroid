@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_gravity="center"
+    android:layout_margin="@dimen/margin_big"
+    android:background="@drawable/bg_solid_round_color_surface_radius_def"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="@dimen/margin_def">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="温馨提示"
+        android:textColor="?colorTextSurface"
+        android:textSize="@dimen/text_title" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_def"
+        android:text="评论系统与玩安卓共用用户名密码，但独立于玩安卓账号体系，为方便使用评论功能，你需要绑定一个可用的邮箱地址！\n输入即可绑定使用！"
+        android:textColor="?colorTextSurface"
+        android:textSize="@dimen/text_content" />
+
+    <EditText
+        android:id="@+id/dialog_email_input_et_email"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/button_height"
+        android:gravity="center"
+        android:inputType="textEmailAddress"
+        android:hint="请输入邮箱"
+        android:textColorHint="?colorTextThird"
+        android:textSize="@dimen/text_content"
+        android:textColor="?colorTextSurface"
+        android:layout_marginTop="@dimen/margin_common"
+        android:background="@drawable/bg_solid_round_color_surface_top_radius_max" />
+
+    <TextView
+        android:id="@+id/dialog_email_input_tv_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        tools:text="邮箱地址不合法"
+        android:textColor="?colorTextAccent"
+        android:textSize="@dimen/text_notes" />
+
+    <TextView
+        android:id="@+id/dialog_email_input_tv_sure"
+        style="@style/ButtonMain"
+        android:layout_marginTop="@dimen/margin_def"
+        android:text="确定使用" />
+
+</LinearLayout>

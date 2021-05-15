@@ -1,26 +1,34 @@
 package per.goweii.wanandroid.module.home.fragment;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.chad.library.adapter.base.entity.MultiItemEntity;
 import com.kennyc.view.MultiStateView;
-import com.qq.e.ads.nativ.NativeExpressADView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
@@ -35,21 +43,27 @@ import java.util.List;
 
 import butterknife.BindView;
 import kotlin.Unit;
+import kotlin.jvm.functions.Function0;
 import kotlin.jvm.functions.Function1;
 import per.goweii.actionbarex.common.ActionBarCommon;
 import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.anylayer.Layer;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.glide.GlideHelper;
+import per.goweii.basic.core.glide.transformation.BlurTransformation;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
-import per.goweii.basic.utils.LogUtils;
+import per.goweii.basic.utils.ColorUtils;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
-import per.goweii.basic.utils.ext.ViewExtKt;
+import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
+import per.goweii.cropimageview.CropImageView;
+import per.goweii.statusbarcompat.utils.LuminanceUtils;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.common.ScrollTop;
+import per.goweii.wanandroid.event.BannerAutoSwitchEnableEvent;
+import per.goweii.wanandroid.event.CloseSecondFloorEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.HomeActionBarEvent;
 import per.goweii.wanandroid.event.LoginEvent;
@@ -61,23 +75,30 @@ import per.goweii.wanandroid.module.home.view.HomeView;
 import per.goweii.wanandroid.module.main.activity.ScanActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
+import per.goweii.wanandroid.module.main.fragment.BookmarkFragment;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.main.model.ConfigBean;
+import per.goweii.wanandroid.module.main.utils.BottomDrawerViewOutlineProvider;
+import per.goweii.wanandroid.utils.ConfigUtils;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.NightModeUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
-import per.goweii.wanandroid.utils.ad.AdForBannerFactory;
 import per.goweii.wanandroid.widget.CollectView;
+import per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout;
+import per.goweii.wanandroid.widget.refresh.ShiciRefreshHeader;
+import per.goweii.wanandroid.widget.refresh.SimpleOnMultiListener;
 
 /**
  * @author CuiZhen
  * @date 2019/5/11
  * GitHub: https://github.com/goweii
  */
-public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollTop, HomeView {
+public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrollTopUtils.ScrollTop, HomeView {
 
     private static final int PAGE_START = 0;
 
@@ -85,10 +106,22 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     MultiStateView msv;
     @BindView(R.id.abc)
     ActionBarCommon abc;
+    @BindView(R.id.dl)
+    BottomDrawerLayout dl;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.rv)
     RecyclerView rv;
+    @BindView(R.id.fl_dl_second_floor)
+    FrameLayout fl_dl_second_floor;
+    @BindView(R.id.fl_dl_content)
+    FrameLayout fl_dl_content;
+    @BindView(R.id.v_dl_content_handle)
+    FrameLayout v_dl_content_handle;
+    @BindView(R.id.v_dl_content_mask)
+    View v_dl_content_mask;
+    @BindView(R.id.iv_second_floor_background)
+    CropImageView iv_second_floor_background;
 
     private Banner mBanner;
     private ArticleAdapter mAdapter;
@@ -147,7 +180,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             }
         }
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -167,61 +200,29 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         }
     }
 
-    private HomeActionBarEvent mHomeActionBarEvent = null;
-
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void onHomeActionBarEvent(HomeActionBarEvent event) {
         event.removeSticky();
-        LogUtils.d("HomeFragment", "onHomeActionBarEvent");
-        if (isDetached()) {
-            return;
-        }
-        if (event.getHomeTitle() != null) {
-            if (mHomeActionBarEvent == null || !TextUtils.equals(mHomeActionBarEvent.getHomeTitle(), event.getHomeTitle())) {
-                abc.getTitleTextView().setText(event.getHomeTitle());
+        updateActionBarByConfig(event);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onCloseSecondFloorEvent(CloseSecondFloorEvent event) {
+        dl.open(300);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onBannerAutoSwitchEnableEvent(BannerAutoSwitchEnableEvent event) {
+        if (mBanner == null) return;
+        if (event.isEnable()) {
+            if (dl.isOpened()) {
+                mBanner.isAutoPlay(true);
+                mBanner.startAutoPlay();
             }
         } else {
-            abc.getTitleTextView().setText("首页");
+            mBanner.isAutoPlay(false);
+            mBanner.stopAutoPlay();
         }
-        if (TextUtils.isEmpty(event.getActionBarBgImageUrl())) {
-            if (TextUtils.isEmpty(event.getActionBarBgColor())) {
-                abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
-            } else {
-                if (mHomeActionBarEvent == null || !TextUtils.equals(mHomeActionBarEvent.getActionBarBgColor(), event.getActionBarBgColor())) {
-                    try {
-                        int color = Color.parseColor(event.getActionBarBgColor());
-                        abc.setBackgroundColor(color);
-                    } catch (IllegalArgumentException e) {
-                        abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
-                    }
-                }
-            }
-        } else {
-            if (mHomeActionBarEvent == null || !TextUtils.equals(mHomeActionBarEvent.getActionBarBgImageUrl(), event.getActionBarBgImageUrl())) {
-                if (TextUtils.isEmpty(event.getActionBarBgColor())) {
-                    abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
-                } else {
-                    if (mHomeActionBarEvent == null || !TextUtils.equals(mHomeActionBarEvent.getActionBarBgColor(), event.getActionBarBgColor())) {
-                        try {
-                            int color = Color.parseColor(event.getActionBarBgColor());
-                            abc.setBackgroundColor(color);
-                        } catch (IllegalArgumentException e) {
-                            abc.setBackgroundResource(R.color.basic_ui_action_bar_bg);
-                        }
-                    }
-                }
-                GlideHelper.with(getContext())
-                        .asBitmap()
-                        .load(event.getActionBarBgImageUrl())
-                        .getBitmap(new SimpleCallback<Bitmap>() {
-                            @Override
-                            public void onResult(Bitmap data) {
-                                abc.setBackground(new BitmapDrawable(data));
-                            }
-                        });
-            }
-        }
-        mHomeActionBarEvent = event;
     }
 
     @Override
@@ -242,6 +243,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
 
     @Override
     protected void initView() {
+        ConfigBean configBean = ConfigUtils.getInstance().getConfig();
+        if (configBean.isEnableAtNow()) {
+            updateActionBarByConfig(new HomeActionBarEvent(
+                    configBean.getHomeTitle(),
+                    configBean.getActionBarBgColor(),
+                    configBean.getActionBarBgImageUrl(),
+                    configBean.getSecondFloorBgImageUrl(),
+                    configBean.getSecondFloorBgImageBlurPercent()
+            ));
+        }
         abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,9 +282,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 presenter.getArticleList(currPage, true);
             }
         });
+        initSecondFloor();
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -291,7 +304,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     if (v.isChecked()) {
                         presenter.collect(item, v);
@@ -309,41 +322,204 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 loadData();
             }
         });
-        mAdForBannerFactory = AdForBannerFactory.create(getContext(), new AdForBannerFactory.OnADLoadedListener() {
+    }
+
+    private BookmarkFragment bookmarkFragment = null;
+    private OnBackPressedCallback onBackPressedCallback = null;
+    private BottomDrawerViewOutlineProvider secondFloorOutlineProvider = null;
+    private Animator abcAnim = null;
+
+    private void initSecondFloor() {
+        if (getActivity() == null) return;
+        ShiciRefreshHeader shiciRefreshHeader = (ShiciRefreshHeader) srl.getRefreshHeader();
+        if (shiciRefreshHeader != null) {
+            shiciRefreshHeader.setColor(ResUtils.getThemeColor(getActivity(), R.attr.colorOnMainOrSurface));
+        }
+        Fragment fragment = getChildFragmentManager().findFragmentByTag(BookmarkFragment.class.getName());
+        if (fragment == null) {
+            bookmarkFragment = new BookmarkFragment();
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.add(R.id.fl_dl_second_floor, bookmarkFragment, BookmarkFragment.class.getName());
+            ft.commitAllowingStateLoss();
+        } else {
+            bookmarkFragment = (BookmarkFragment) fragment;
+        }
+        onBackPressedCallback = new OnBackPressedCallback(false) {
             @Override
-            public void onLoaded(@NonNull NativeExpressADView adView) {
-                if (mBanner != null && mBanner.getVisibility() == View.VISIBLE) {
-                    if (mBannerDatas != null) {
-                        boolean nonAd = true;
-                        for (int i = mBannerDatas.size() - 1; i >= 0; i--) {
-                            Object obj = mBannerDatas.get(i);
-                            if (obj instanceof NativeExpressADView) {
-                                nonAd = false;
+            public void handleOnBackPressed() {
+                dl.open(300);
+            }
+        };
+        getActivity().getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
+        View bottomBar = getActivity().getWindow().getDecorView().findViewById(R.id.fl_bottom_bar);
+        fl_dl_second_floor.setPadding(0, 0, 0, dl.getCloseHeight());
+        iv_second_floor_background.setAutoMoveDuration(20_000);
+        iv_second_floor_background.setSmoothMoveAnimDuration(0);
+        iv_second_floor_background.setCropScale(1.3F);
+        iv_second_floor_background.setCropType(CropImageView.CropType.CENTER);
+        v_dl_content_mask.setOnClickListener(new OnClickListener2() {
+            @Override
+            public void onClick2(View v) {
+                dl.open(300);
+            }
+        });
+        dl.setEnable(true);
+        dl.setDraggable(false);
+        dl.onClosed(new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                if (onBackPressedCallback != null) {
+                    onBackPressedCallback.setEnabled(true);
+                }
+                v_dl_content_mask.setClickable(true);
+                dl.setDraggable(true);
+                iv_second_floor_background.setAutoMove(true);
+                mBanner.isAutoPlay(false);
+                mBanner.stopAutoPlay();
+                return null;
+            }
+        });
+        dl.onOpened(new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                if (onBackPressedCallback != null) {
+                    onBackPressedCallback.setEnabled(false);
+                }
+                v_dl_content_mask.setClickable(false);
+                dl.setDraggable(false);
+                if (bookmarkFragment != null) {
+                    getChildFragmentManager().beginTransaction()
+                            .hide(bookmarkFragment)
+                            .commitAllowingStateLoss();
+                }
+                iv_second_floor_background.setAutoMove(false);
+                mBanner.isAutoPlay(true);
+                mBanner.startAutoPlay();
+                return null;
+            }
+        });
+        dl.onDragStart(new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                if (mBanner != null) {
+                    mBanner.isAutoPlay(false);
+                    mBanner.stopAutoPlay();
+                }
+                return null;
+            }
+        });
+        dl.onDragEnd(new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                return null;
+            }
+        });
+        secondFloorOutlineProvider = new BottomDrawerViewOutlineProvider(ResUtils.getDimens(R.dimen.round_radius));
+        secondFloorOutlineProvider.setToView(fl_dl_content);
+        dl.onDragging(new Function1<Float, Unit>() {
+            @Override
+            public Unit invoke(Float f) {
+                bottomBar.setTranslationY(bottomBar.getHeight() * f);
+                fl_dl_second_floor.setAlpha(f);
+                final float minScale = 0.95F;
+                float s = minScale + f * (1F - minScale);
+                fl_dl_second_floor.setPivotX(fl_dl_second_floor.getWidth() * 0.5F);
+                fl_dl_second_floor.setPivotY(fl_dl_second_floor.getHeight() * 0F);
+                fl_dl_second_floor.setScaleX(s);
+                fl_dl_second_floor.setScaleY(s);
+                secondFloorOutlineProvider.updateFaction(f);
+                final float bgScale = 1.3F;
+                iv_second_floor_background.setCropScale(bgScale + (1F - f) * (1F - bgScale));
+                if ((abcAnim == null || !abcAnim.isRunning())) {
+                    abc.setTranslationY(-abc.getHeight() * f);
+                }
+                final float minAlpha = 0.3F;
+                final float fromFaction = 0.6F;
+                if (f < fromFaction) {
+                    srl.setAlpha(1F);
+                    v_dl_content_mask.setAlpha(0);
+                    v_dl_content_handle.setAlpha(0);
+                } else {
+                    final float fa = (f - fromFaction) / (1 - fromFaction);
+                    srl.setAlpha(minAlpha + (1F - fa) * (1F - minAlpha));
+                    v_dl_content_mask.setAlpha(fa);
+                    v_dl_content_handle.setAlpha(fa);
+                }
+                return null;
+            }
+        });
+        srl.setOnMultiListener(new SimpleOnMultiListener() {
+            private boolean isSecondFloor = false;
+
+            @Override
+            public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
+                super.onHeaderMoving(header, isDragging, percent, offset, headerHeight, maxDragHeight);
+                final float secondPercent = 1.5F;
+                // if(percent < 1F){
+                //     srl.getBackground().setAlpha(255);
+                // } else if (percent > secondPercent){
+                //     srl.getBackground().setAlpha(0);
+                // } else {
+                //     float f = (percent - 1F) / (secondPercent - 1F);
+                //     srl.getBackground().setAlpha((int) (255 * (1 - f)));
+                // }
+                if (isDragging) {
+                    if (percent > secondPercent) {
+                        if (!isSecondFloor) {
+                            isSecondFloor = true;
+                            srl.performHapticFeedback(HapticFeedbackConstants.GESTURE_START);
+                            if (abcAnim != null) {
+                                abcAnim.cancel();
                             }
+                            abcAnim = ObjectAnimator.ofFloat(abc, "translationY",
+                                    abc.getTranslationY(), -abc.getHeight());
+                            abcAnim.start();
                         }
-                        if (nonAd) {
-                            if (mBannerDatas.size() > 0) {
-                                mBannerDatas.add(1, adView);
-                            } else {
-                                mBannerDatas.add(0, adView);
+                    } else {
+                        if (isSecondFloor) {
+                            isSecondFloor = false;
+                            if (abcAnim != null) {
+                                abcAnim.cancel();
                             }
-                            mBanner.setImages(mBannerDatas);
-                            refreshBannerTitles();
-                            mBanner.start();
+                            abcAnim = ObjectAnimator.ofFloat(abc, "translationY",
+                                    abc.getTranslationY(), 0);
+                            abcAnim.start();
                         }
                     }
                 }
             }
+
+            @Override
+            public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
+                super.onHeaderReleased(header, headerHeight, maxDragHeight);
+                if (isSecondFloor) {
+                    isSecondFloor = false;
+                    if (abcAnim != null) {
+                        abcAnim.cancel();
+                    }
+                    abcAnim = ObjectAnimator.ofFloat(abc, "translationY",
+                            abc.getTranslationY(), -abc.getHeight());
+                    abcAnim.setDuration(300);
+                    abcAnim.start();
+                    srl.closeHeaderOrFooter();
+                    srl.finishRefresh();
+                    dl.close(300);
+                    if (bookmarkFragment != null) {
+                        getChildFragmentManager().beginTransaction()
+                                .show(bookmarkFragment)
+                                .commitAllowingStateLoss();
+                    }
+                }
+            }
+
+            @Override
+            public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
+            }
         });
     }
 
-    private AdForBannerFactory mAdForBannerFactory = null;
-
     @Override
     public void onDestroyView() {
-        if (mAdForBannerFactory != null) {
-            mAdForBannerFactory.destroy();
-        }
         super.onDestroyView();
     }
 
@@ -354,15 +530,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
             public void onPageChanged(int pos, ArticleBean data) {
                 int headerCount = mAdapter.getHeaderLayoutCount();
                 int currItemPos = 0;
-                List<MultiItemEntity> datas = mAdapter.getData();
+                List<ArticleBean> datas = mAdapter.getData();
                 for (int i = 0; i < datas.size(); i++) {
-                    MultiItemEntity entity = datas.get(i);
-                    if (entity.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
-                        ArticleBean bean = (ArticleBean) entity;
-                        if (bean.getId() == data.getId()) {
-                            currItemPos = headerCount + i;
-                            break;
-                        }
+                    ArticleBean bean = datas.get(i);
+                    if (bean.getId() == data.getId()) {
+                        currItemPos = headerCount + i;
+                        break;
                     }
                 }
                 if (currItemPos < 0) {
@@ -403,20 +576,22 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     @Override
     public void onVisible(boolean isFirstVisible) {
         super.onVisible(isFirstVisible);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
+        if (!isFirstVisible && abc != null) {
+            abc.refreshStatusBarMode();
+        }
         if (mBanner != null) {
-            mBanner.startAutoPlay();
+            if (dl.isOpened()) {
+                mBanner.isAutoPlay(true);
+                mBanner.startAutoPlay();
+            }
         }
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    protected void onInvisible() {
+        super.onInvisible();
         if (mBanner != null) {
+            mBanner.isAutoPlay(false);
             mBanner.stopAutoPlay();
         }
     }
@@ -431,44 +606,22 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     private void createHeaderBanner() {
         if (mBanner == null && getContext() != null) {
             mBanner = new Banner(getContext());
-            int height = (int) (DisplayInfoUtils.getInstance().getWidthPixels() * (9F / 16F));
+            int screenWidth = DisplayInfoUtils.getInstance().getWidthPixels();
+            int screenHeight = DisplayInfoUtils.getInstance().getHeightPixels();
+            int height = (int) (Math.min(screenWidth, screenHeight) * (9F / 16F));
             mBanner.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
-            mBanner.setImageLoader(new ImageLoaderInterface<FrameLayout>() {
+            mBanner.setImageLoader(new ImageLoaderInterface<ImageView>() {
                 @Override
-                public FrameLayout createImageView(Context context) {
-                    FrameLayout container = new FrameLayout(context);
-                    container.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                    return container;
+                public ImageView createImageView(Context context) {
+                    ImageView imageView = new ImageView(context);
+                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                    return imageView;
                 }
 
                 @Override
-                public void displayImage(Context context, Object data, FrameLayout container) {
-                    if (data instanceof BannerBean) {
-                        ImageView imageView = new ImageView(context);
-                        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                        if (container.getChildCount() > 0) {
-                            container.removeAllViews();
-                        }
-                        container.addView(imageView);
-                        ViewExtKt.onPreDraw(imageView, new Function1<View, Unit>() {
-                            @Override
-                            public Unit invoke(View view) {
-                                return null;
-                            }
-                        });
-                        ImageLoader.banner(imageView, ((BannerBean) data).getImagePath());
-                    } else if (data instanceof NativeExpressADView) {
-                        NativeExpressADView adView = (NativeExpressADView) data;
-                        if (container.getChildCount() > 0) {
-                            container.removeAllViews();
-                        }
-                        if (adView.getParent() != null) {
-                            ((ViewGroup) adView.getParent()).removeView(adView);
-                        }
-                        container.addView(adView);
-                        adView.render();
-                    }
+                public void displayImage(Context context, Object data, ImageView imageView) {
+                    ImageLoader.banner(imageView, ((BannerBean) data).getImagePath());
                 }
             });
             mBanner.setIndicatorGravity(BannerConfig.CENTER);
@@ -480,13 +633,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
                 @Override
                 public void OnBannerClick(int position) {
                     Object obj = mBannerDatas.get(position);
-                    if (obj instanceof BannerBean) {
-                        BannerBean bean = (BannerBean) obj;
-                        UrlOpenUtils.Companion
-                                .with(bean.getUrl())
-                                .title(bean.getTitle())
-                                .open(getContext());
-                    }
+                    BannerBean bean = (BannerBean) obj;
+                    UrlOpenUtils.Companion
+                            .with(bean.getUrl())
+                            .title(bean.getTitle())
+                            .open(getContext());
                 }
             });
             mAdapter.addHeaderView(mBanner, 0);
@@ -499,25 +650,19 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     }
 
     private void removeTopItems() {
-        List<MultiItemEntity> list = mAdapter.getData();
+        List<ArticleBean> list = mAdapter.getData();
         int from = -1;
         int count = 0;
         for (int i = 0; i < list.size(); i++) {
-            MultiItemEntity entity = list.get(i);
+            ArticleBean bean = list.get(i);
             if (from < 0) {
-                if (entity.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
-                    ArticleBean bean = (ArticleBean) entity;
-                    if (bean.isTop()) {
-                        from = i;
-                    }
+                if (bean.isTop()) {
+                    from = i;
                 }
             }
             if (from >= 0) {
-                if (entity.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
-                    ArticleBean bean = (ArticleBean) entity;
-                    if (!bean.isTop()) {
-                        break;
-                    }
+                if (!bean.isTop()) {
+                    break;
                 }
                 count++;
             }
@@ -536,16 +681,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         }
         mBannerDatas.clear();
         mBannerDatas.addAll(data);
-        if (mAdForBannerFactory != null) {
-            NativeExpressADView adView = mAdForBannerFactory.getADView();
-            if (adView != null) {
-                if (mBannerDatas.size() > 0) {
-                    mBannerDatas.add(1, adView);
-                } else {
-                    mBannerDatas.add(0, adView);
-                }
-            }
-        }
         mBanner.setImages(mBannerDatas);
         refreshBannerTitles();
         mBanner.start();
@@ -555,11 +690,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     private void refreshBannerTitles() {
         List<String> titles = new ArrayList<>(mBannerDatas.size());
         for (Object bean : mBannerDatas) {
-            if (bean instanceof BannerBean) {
-                titles.add(((BannerBean) bean).getTitle());
-            } else {
-                titles.add("");
-            }
+            titles.add(((BannerBean) bean).getTitle());
         }
         mBanner.setBannerTitles(titles);
     }
@@ -573,14 +704,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         currPage = data.getCurPage() + PAGE_START;
         if (data.getCurPage() == 1) {
             MultiStateUtils.toContent(msv);
-            List<MultiItemEntity> newList = new ArrayList<>();
-            List<MultiItemEntity> oldList = mAdapter.getData();
-            for (MultiItemEntity entity : oldList) {
-                if (entity.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
-                    ArticleBean bean = (ArticleBean) entity;
-                    if (bean.isTop()) {
-                        newList.add(bean);
-                    }
+            List<ArticleBean> newList = new ArrayList<>();
+            List<ArticleBean> oldList = mAdapter.getData();
+            for (ArticleBean bean : oldList) {
+                if (bean.isTop()) {
+                    newList.add(bean);
                 }
             }
             newList.addAll(data.getDatas());
@@ -615,14 +743,11 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
         for (ArticleBean bean : data) {
             bean.setTop(true);
         }
-        List<MultiItemEntity> newList = new ArrayList<>(data);
-        List<MultiItemEntity> oldList = mAdapter.getData();
-        for (MultiItemEntity entity : oldList) {
-            if (entity.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
-                ArticleBean bean = (ArticleBean) entity;
-                if (!bean.isTop()) {
-                    newList.add(bean);
-                }
+        List<ArticleBean> newList = new ArrayList<>(data);
+        List<ArticleBean> oldList = mAdapter.getData();
+        for (ArticleBean bean : oldList) {
+            if (!bean.isTop()) {
+                newList.add(bean);
             }
         }
         mAdapter.setNewData(newList);
@@ -635,5 +760,99 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements ScrollT
     @Override
     public void allFail() {
         MultiStateUtils.toError(msv);
+    }
+
+    private void updateActionBarByConfig(@NonNull HomeActionBarEvent event) {
+        if (abc == null) {
+            return;
+        }
+        if (event.getHomeTitle() != null) {
+            abc.getTitleTextView().setText(event.getHomeTitle());
+        } else {
+            abc.getTitleTextView().setText("首页");
+        }
+        clearActionBarIconMode();
+        changeActionBarBgColor(event.getActionBarBgColor());
+        if (!TextUtils.isEmpty(event.getActionBarBgImageUrl())) {
+            GlideHelper.with(getContext())
+                    .asBitmap()
+                    .load(event.getActionBarBgImageUrl())
+                    .getBitmap(new SimpleCallback<Bitmap>() {
+                        @Override
+                        public void onResult(Bitmap data) {
+                            if (abc != null) {
+                                abc.setBackground(new BitmapDrawable(data));
+                            }
+                        }
+                    });
+        }
+        if (!TextUtils.isEmpty(event.getSecondFloorBgImageUrl())) {
+            GlideHelper.with(getContext())
+                    .asBitmap()
+                    .load(event.getSecondFloorBgImageUrl())
+                    .transformation(new BlurTransformation(event.getSecondFloorBgImageBlurPercent()))
+                    .getBitmap(new SimpleCallback<Bitmap>() {
+                        @Override
+                        public void onResult(Bitmap data) {
+                            if (iv_second_floor_background != null) {
+                                iv_second_floor_background.setImageBitmap(data);
+                            }
+                        }
+                    });
+        } else {
+            if (iv_second_floor_background != null) {
+                int color = ResUtils.getThemeColor(iv_second_floor_background, R.attr.colorMain);
+                color = ColorUtils.changingColor(color, Color.BLACK, 0.5F);
+                iv_second_floor_background.setImageDrawable(new ColorDrawable(color));
+            }
+        }
+    }
+
+    private void changeActionBarBgColor(@Nullable String colorStr) {
+        if (!TextUtils.isEmpty(colorStr)) {
+            try {
+                int color = Color.parseColor(colorStr);
+                abc.setBackgroundColor(color);
+                changeActionBarMode(isColorLight(color));
+                return;
+            } catch (IllegalArgumentException ignore) {
+            }
+        }
+        int color = ResUtils.getThemeColor(abc, R.attr.colorMainOrSurface);
+        abc.setBackgroundColor(color);
+    }
+
+    private boolean isColorLight(int color) {
+        double lumi = LuminanceUtils.calcLuminance(color);
+        Context context = getContext();
+        if (context != null) {
+            if (NightModeUtils.isNightMode(context)) {
+                return lumi > 0.1F;
+            }
+        }
+        return LuminanceUtils.isLight(lumi);
+    }
+
+    private void clearActionBarIconMode() {
+        int color = ResUtils.getThemeColor(abc, R.attr.colorOnMainOrSurface);
+        abc.getTitleTextView().setTextColor(color);
+        abc.getLeftTextView().setTextColor(color);
+        abc.getRightTextView().setTextColor(color);
+        abc.getRightIconView().setColorFilter(color);
+        abc.getLeftIconView().setColorFilter(color);
+    }
+
+    private void changeActionBarMode(boolean darkIcon) {
+        int color;
+        if (darkIcon) {
+            color = ResUtils.getThemeColor(abc, R.attr.colorIconDark);
+        } else {
+            color = ResUtils.getThemeColor(abc, R.attr.colorIconLight);
+        }
+        abc.getTitleTextView().setTextColor(color);
+        abc.getLeftTextView().setTextColor(color);
+        abc.getRightTextView().setTextColor(color);
+        abc.getRightIconView().setColorFilter(color);
+        abc.getLeftIconView().setColorFilter(color);
     }
 }

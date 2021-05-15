@@ -35,7 +35,7 @@ public class ViewUtils {
             });
         }
         for (RadioButton radioButton : radioButtons) {
-            if (defaultSelect == null){
+            if (defaultSelect == null) {
                 radioButton.setChecked(false);
             } else {
                 if (radioButton.getId() == defaultSelect.getId()) {
@@ -46,7 +46,7 @@ public class ViewUtils {
         }
     }
 
-    public interface SimpleListener<E>{
+    public interface SimpleListener<E> {
         void onAction(E data);
     }
 }

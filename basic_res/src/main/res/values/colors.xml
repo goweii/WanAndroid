@@ -1,45 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="dialog_bg">#aa000000</color>
-    <color name="toast_bg">#000000</color>
-    <color name="ripple_dark">#11000000</color>
-    <color name="ripple_light">#11ffffff</color>
+    <color name="color_transparent">#00000000</color>
 
-    <!--通用颜色-->
-    <color name="main">#4282f4</color>
-    <color name="main_alpha">#994282f4</color>
-    <color name="assist">#3cdc86</color>
-    <color name="accent">#f86734</color>
-    <color name="transparent">#00000000</color>
-    <color name="line">#f5f5f5</color>
-    <color name="background">#f5f5f5</color>
-    <color name="background_alpha">#ccf5f5f5</color>
-    <color name="background_mask">#11000000</color>
-    <color name="foreground">#ffffff</color>
-    <color name="foreground_alpha">#ccffffff</color>
-    <color name="foreground_mask">#ccffffff</color>
-    <color name="foreground_top">#f5f5f5</color>
-    <color name="surface">#ffffff</color>
-    <color name="surface_alpha">#ccffffff</color>
-    <color name="surface_mask">#ccffffff</color>
-    <color name="surface_top">#f5f5f5</color>
-    <color name="surface_top_alpha">#ccf5f5f5</color>
-    <color name="surface_top_mask">#11000000</color>
-    <color name="invert">#333333</color>
-    <color name="invert_alpha">#11000000</color>
-    <color name="second">#666666</color>
-    <color name="third">#999999</color>
-    <color name="fourth">#cccccc</color>
-    <!--文字颜色-->
-    <color name="text_main">@color/main</color>
-    <color name="text_main_alpha">@color/main_alpha</color>
-    <color name="text_accent">@color/accent</color>
-    <color name="text_surface">#333333</color>
-    <color name="text_surface_alpha">#88333333</color>
-    <color name="text_second">#666666</color>
-    <color name="text_third">#999999</color>
-    <color name="text_fourth">#cccccc</color>
-    <color name="text_invert">#ffffff</color>
-    <color name="text_invert_alpha">#88ffffff</color>
-    <color name="text_on_main">#ffffff</color>
+    <color name="color_blue">#4282f4</color>
+    <color name="color_blue_a60">#994282f4</color>
+    <color name="color_blue_dark">#3365BD</color>
+    <color name="color_blue_dark_a60">#993365BD</color>
+    <color name="color_blue_light">#73a3f5</color>
+    <color name="color_blue_light_a05">#1173a3f5</color>
+    <color name="color_blue_light_a60">#9973a3f5</color>
+
+    <color name="color_green">#3cdc86</color>
+    <color name="color_green_light">#67db9d</color>
+
+    <color name="color_orange">#f86734</color>
+    <color name="color_orange_light">#f78c65</color>
+
+    <color name="color_black">#000000</color>
+    <color name="color_black_a05">#11000000</color>
+    <color name="color_black_a08">#14000000</color>
+    <color name="color_black_a10">#1A000000</color>
+    <color name="color_black_a13">#22000000</color>
+    <color name="color_black_a30">#4D000000</color>
+    <color name="color_black_a40">#66000000</color>
+    <color name="color_black_a47">#77000000</color>
+    <color name="color_black_a50">#aa000000</color>
+    <color name="color_black_a93">#ee000000</color>
+
+    <color name="color_black_dark1">#111111</color>
+    <color name="color_black_dark1_a86">#dd111111</color>
+    <color name="color_black_dark2">#131313</color>
+    <color name="color_black_dark3">#181818</color>
+    <color name="color_black_dark3_a80">#cc181818</color>
+    <color name="color_black_dark4">#222425</color>
+    <color name="color_black_dark4_a93">#EE222425</color>
+
+    <color name="color_gray">#eaeaea</color>
+    <color name="color_gray_light">#f5f5f5</color>
+    <color name="color_gray_light_a80">#ccf5f5f5</color>
+    <color name="color_gray_dark1">#333333</color>
+    <color name="color_gray_dark1_a50">#88333333</color>
+    <color name="color_gray_dark2">#666666</color>
+    <color name="color_gray_dark3">#999999</color>
+    <color name="color_gray_dark4">#cccccc</color>
+
+    <color name="color_white">#ffffff</color>
+    <color name="color_white_a05">#11ffffff</color>
+    <color name="color_white_a20">#33ffffff</color>
+    <color name="color_white_a30">#4DFFFFFF</color>
+    <color name="color_white_a33">#54ffffff</color>
+    <color name="color_white_a50">#88ffffff</color>
+    <color name="color_white_a70">#B3FFFFFF</color>
+    <color name="color_white_a80">#ccffffff</color>
+
 </resources>

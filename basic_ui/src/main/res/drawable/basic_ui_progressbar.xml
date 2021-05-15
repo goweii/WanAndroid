@@ -7,8 +7,8 @@
             <gradient
                 android:angle="0"
                 android:centerY="0.5"
-                android:endColor="@color/transparent"
-                android:startColor="@color/transparent"/>
+                android:endColor="@android:color/transparent"
+                android:startColor="@android:color/transparent" />
         </shape>
     </item>
     <!-- 第二进度条样式，用不怎么到直接设置成了和背景色一样的颜色，隐藏起来 -->
@@ -19,8 +19,8 @@
                 <gradient
                     android:angle="0"
                     android:centerY="0.5"
-                    android:endColor="@color/third"
-                    android:startColor="@color/third" />
+                    android:endColor="?colorThird"
+                    android:startColor="?colorThird" />
             </shape>
         </clip>
     </item>
@@ -33,8 +33,8 @@
                 <gradient
                     android:angle="0"
                     android:centerY="0.5"
-                    android:endColor="@color/main"
-                    android:startColor="@color/main"/>
+                    android:endColor="?colorMain"
+                    android:startColor="?colorMain" />
             </shape>
         </clip>
     </item>

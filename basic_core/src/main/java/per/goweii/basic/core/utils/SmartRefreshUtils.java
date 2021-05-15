@@ -3,9 +3,9 @@ package per.goweii.basic.core.utils;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import per.goweii.basic.core.common.Config;
 
@@ -16,14 +16,9 @@ import per.goweii.basic.core.common.Config;
  * @date 2018/7/6-下午5:06
  */
 public class SmartRefreshUtils {
-    private static final int FIRST_PAGE = 0;
-
     private final RefreshLayout mRefreshLayout;
     private RefreshListener mRefreshListener = null;
     private LoadMoreListener mLoadMoreListener = null;
-
-    private int currentPage = FIRST_PAGE;
-    private int perPageCount = 0;
 
     public static SmartRefreshUtils with(RefreshLayout layout) {
         return new SmartRefreshUtils(layout);

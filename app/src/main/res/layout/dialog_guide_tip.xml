@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/dialog_guide_tv_tip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_solid_round_color_surface_radius_max"
+        android:padding="@dimen/margin_common"
+        tools:text="长按返回按钮有惊喜哦~"
+        android:textColor="?colorTextSurface"
+        android:textSize="@dimen/text_content" />
+
+</FrameLayout>

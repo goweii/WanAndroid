@@ -49,6 +49,7 @@ public class MultiFragmentPagerAdapter<E, F extends Fragment> extends FragmentSt
 
     public interface FragmentCreator<E, F> {
         F create(E data, int pos);
+
         String getTitle(E data);
     }
 }

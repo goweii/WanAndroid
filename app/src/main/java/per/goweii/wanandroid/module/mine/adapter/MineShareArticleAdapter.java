@@ -50,7 +50,7 @@ public class MineShareArticleAdapter extends ArticleAdapter {
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -69,7 +69,7 @@ public class MineShareArticleAdapter extends ArticleAdapter {
     }
 
     @Override
-    protected void convertArticle(BaseViewHolder helper, ArticleBean item) {
+    protected void convert(@NonNull BaseViewHolder helper, ArticleBean item) {
         SwipeLayout sl = helper.getView(R.id.sl);
         sl.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override

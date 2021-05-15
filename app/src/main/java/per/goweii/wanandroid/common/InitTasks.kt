@@ -1,7 +1,6 @@
 package per.goweii.wanandroid.common
 
 import android.app.Application
-import cat.ereza.customactivityoncrash.config.CaocConfig
 import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.bugly.crashreport.CrashReport.CrashHandleCallback
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy
@@ -15,14 +14,15 @@ import per.goweii.basic.utils.LogUtils
 import per.goweii.basic.utils.SyncInitTask
 import per.goweii.basic.utils.listener.SimpleCallback
 import per.goweii.burred.Blurred
+import per.goweii.ponyo.crash.Crash
 import per.goweii.rxhttp.core.RxHttp
 import per.goweii.wanandroid.BuildConfig
 import per.goweii.wanandroid.db.WanDb
 import per.goweii.wanandroid.http.RxHttpRequestSetting
 import per.goweii.wanandroid.http.WanCache
 import per.goweii.wanandroid.module.main.activity.CrashActivity
-import per.goweii.wanandroid.module.main.activity.MainActivity
 import per.goweii.wanandroid.utils.UserUtils
+import per.goweii.wanandroid.utils.web.interceptor.WebReadingModeInterceptor
 import java.util.*
 
 /**
@@ -105,17 +105,8 @@ class BlurredInitTask : AsyncInitTask() {
 
 class CrashInitTask : SyncInitTask() {
     override fun init(application: Application) {
-        CaocConfig.Builder.create()
-                .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
-                .enabled(true)
-                .showErrorDetails(true)
-                .showRestartButton(true)
-                .logErrorOnRestart(false)
-                .trackActivities(false)
-                .minTimeBetweenCrashesMs(2000)
-                .restartActivity(MainActivity::class.java)
-                .errorActivity(CrashActivity::class.java)
-                .apply()
+        Crash.initialize(application)
+        Crash.setCrashActivity(CrashActivity::class.java)
     }
 
     override fun onlyMainProcess(): Boolean {
@@ -146,6 +137,20 @@ class X5InitTask : AsyncInitTask() {
 
     override fun level(): Int {
         return 0
+    }
+}
+
+class ReadingModeTask : AsyncInitTask() {
+    override fun init(application: Application) {
+        WebReadingModeInterceptor.setup()
+    }
+
+    override fun onlyMainProcess(): Boolean {
+        return true
+    }
+
+    override fun level(): Int {
+        return 3
     }
 }
 

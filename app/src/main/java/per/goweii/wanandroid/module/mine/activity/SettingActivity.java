@@ -27,6 +27,7 @@ import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.Constant;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
@@ -34,7 +35,7 @@ import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.presenter.SettingPresenter;
 import per.goweii.wanandroid.module.mine.view.SettingView;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UpdateUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -135,7 +136,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         sc_hide_open.setChecked(mHideOpen);
         sc_web_swipeback_edge.setChecked(SettingUtils.getInstance().isWebSwipeBackEdge());
         mRvAnim = SettingUtils.getInstance().getRvAnim();
-        tv_rv_anim.setText(RvAnimUtils.getName(mRvAnim));
+        tv_rv_anim.setText(RvConfigUtils.getName(mRvAnim));
         mUrlIntercept = SettingUtils.getInstance().getUrlInterceptType();
         tv_intercept_host.setText(HostInterceptUtils.getName(mUrlIntercept));
         sc_system_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -315,17 +316,17 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 ListDialog.with(getContext())
                         .cancelable(true)
 //                        .title("列表动画")
-                        .datas(RvAnimUtils.getName(RvAnimUtils.RvAnim.NONE),
-                                RvAnimUtils.getName(RvAnimUtils.RvAnim.ALPHAIN),
-                                RvAnimUtils.getName(RvAnimUtils.RvAnim.SCALEIN),
-                                RvAnimUtils.getName(RvAnimUtils.RvAnim.SLIDEIN_BOTTOM),
-                                RvAnimUtils.getName(RvAnimUtils.RvAnim.SLIDEIN_LEFT),
-                                RvAnimUtils.getName(RvAnimUtils.RvAnim.SLIDEIN_RIGHT))
+                        .datas(RvConfigUtils.getName(RvConfigUtils.RvAnim.NONE),
+                                RvConfigUtils.getName(RvConfigUtils.RvAnim.ALPHAIN),
+                                RvConfigUtils.getName(RvConfigUtils.RvAnim.SCALEIN),
+                                RvConfigUtils.getName(RvConfigUtils.RvAnim.SLIDEIN_BOTTOM),
+                                RvConfigUtils.getName(RvConfigUtils.RvAnim.SLIDEIN_LEFT),
+                                RvConfigUtils.getName(RvConfigUtils.RvAnim.SLIDEIN_RIGHT))
                         .currSelectPos(SettingUtils.getInstance().getRvAnim())
                         .listener(new ListDialog.OnItemSelectedListener() {
                             @Override
                             public void onSelect(String data, int pos) {
-                                tv_rv_anim.setText(RvAnimUtils.getName(pos));
+                                tv_rv_anim.setText(RvConfigUtils.getName(pos));
                                 SettingUtils.getInstance().setRvAnim(pos);
                             }
                         })
@@ -350,7 +351,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 break;
             case R.id.ll_privacy_policy:
                 UrlOpenUtils.Companion
-                        .with("file:///android_asset/privacy_policy.html")
+                        .with(Constant.PRIVACY_POLICY_URL)
                         .open(getContext());
                 break;
             case R.id.ll_logout:
@@ -372,44 +373,83 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         if (mUpdateUtils == null) {
             mUpdateUtils = UpdateUtils.newInstance();
         }
-        boolean isNewest = mUpdateUtils.isNewest(data.getVersion_code());
-        if (isNewest) {
-            tv_has_update.setTextColor(ResUtils.getColor(getContext(), R.color.text_main));
+        if (mUpdateUtils.isNewest(data)) {
+            tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextMain));
             tv_has_update.setText("发现新版本");
-        } else {
-            tv_has_update.setTextColor(ResUtils.getColor(getContext(), R.color.text_third));
-            tv_has_update.setText("已是最新版");
-        }
-        if (!click) {
-            return;
-        }
-        if (!isNewest) {
-            ToastMaker.showShort("已是最新版");
-            return;
-        }
-        UpdateDialog.with(getContext())
-                .setUrl(data.getUrl())
-                .setUrlBackup(data.getUrl_backup())
-                .setVersionCode(data.getVersion_code())
-                .setVersionName(data.getVersion_name())
-                .setForce(data.isForce())
-                .setDescription(data.getDesc())
-                .setTime(data.getTime())
-                .setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
-                    @Override
-                    public void onDownload(String url, String urlBackup, boolean isForce) {
-                        download(data.getVersion_name(), url, urlBackup, isForce);
-                    }
+            if (click) {
+                UpdateDialog.with(getContext())
+                        .setUrl(data.getUrl())
+                        .setUrlBackup(data.getUrl_backup())
+                        .setVersionCode(data.getVersion_code())
+                        .setVersionName(data.getVersion_name())
+                        .setForce(mUpdateUtils.shouldForceUpdate(data))
+                        .setDescription(data.getDesc())
+                        .setTime(data.getTime())
+                        .setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
+                            @Override
+                            public void onDownload(String url, String urlBackup, boolean isForce) {
+                                download(url, urlBackup, isForce);
+                            }
 
-                    @Override
-                    public void onIgnore(int versionCode) {
-                    }
-                })
-                .show();
+                            @Override
+                            public void onIgnore(String versionName, int versionCode) {
+                                mUpdateUtils.ignore(versionCode);
+                            }
+                        })
+                        .show();
+            }
+        } else {
+            presenter.betaUpdate(click);
+        }
     }
 
     @Override
     public void updateFailed(int code, String msg, boolean click) {
+        tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
+        tv_has_update.setText("已是最新版");
+    }
+
+    @Override
+    public void betaUpdateSuccess(int code, UpdateBean data, boolean click) {
+        if (mUpdateUtils.isNewest(data)) {
+            tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextAccent));
+            tv_has_update.setText("发现内测版本");
+            if (click) {
+                UpdateDialog.with(getContext())
+                        .setTest(true)
+                        .setUrl(data.getUrl())
+                        .setUrlBackup(data.getUrl_backup())
+                        .setVersionCode(data.getVersion_code())
+                        .setVersionName(data.getVersion_name())
+                        .setForce(mUpdateUtils.shouldForceUpdate(data))
+                        .setDescription(data.getDesc())
+                        .setTime(data.getTime())
+                        .setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
+                            @Override
+                            public void onDownload(String url, String urlBackup, boolean isForce) {
+                                download(url, urlBackup, isForce);
+                            }
+
+                            @Override
+                            public void onIgnore(String versionName, int versionCode) {
+                                mUpdateUtils.ignoreBeta(versionName, versionCode);
+                            }
+                        })
+                        .show();
+            }
+        } else {
+            tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
+            tv_has_update.setText("已是最新版");
+            if (click) {
+                ToastMaker.showShort("已是最新版");
+            }
+        }
+    }
+
+    @Override
+    public void betaUpdateFailed(int code, String msg, boolean click) {
+        tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
+        tv_has_update.setText("已是最新版");
     }
 
     @Override
@@ -437,11 +477,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         }
     }
 
-    private void download(final String versionName, final String url, final String urlBackup, final boolean isForce) {
+    private void download(final String url, final String urlBackup, final boolean isForce) {
         mRuntimeRequester = PermissionUtils.request(new RequestListener() {
             @Override
             public void onSuccess() {
-                DownloadDialog.with(getActivity(), isForce, url, urlBackup, versionName, null);
+                DownloadDialog.with(getActivity(), isForce, url, urlBackup, null);
             }
 
             @Override

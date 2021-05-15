@@ -3,6 +3,7 @@ package per.goweii.wanandroid.module.mine.adapter;
 import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.util.TypedValue;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
@@ -10,13 +11,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.List;
 
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.model.CoinInfoBean;
 
@@ -73,8 +74,8 @@ public class CoinRankAdapter extends BaseQuickAdapter<CoinInfoBean, BaseViewHold
             tv_index.setTextColor(Color.parseColor("#d49682"));
             tv_index.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv_index.getContext().getResources().getDimension(R.dimen.text_auxiliary));
         } else {
-            iv_index.setImageResource(R.color.transparent);
-            tv_index.setTextColor(ContextCompat.getColor(tv_index.getContext(), R.color.text_second));
+            iv_index.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
+            tv_index.setTextColor(ResUtils.getThemeColor(tv_index.getContext(), R.attr.colorTextSecond));
             tv_index.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv_index.getContext().getResources().getDimension(R.dimen.text_content));
         }
     }

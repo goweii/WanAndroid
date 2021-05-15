@@ -325,8 +325,8 @@ public class AnimatorUtils {
         ValueAnimator animator = ValueAnimator.ofObject(new TypeEvaluator<String>() {
             private int startLength = 0;
             private int endLength = 0;
-            private StringBuilder baseBuilder = new StringBuilder();
-            private Random random = new Random();
+            private final StringBuilder baseBuilder = new StringBuilder();
+            private final Random random = new Random();
 
             @Override
             public String evaluate(float fraction, String startValue, String endValue) {

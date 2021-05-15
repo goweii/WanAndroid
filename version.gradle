@@ -1,0 +1,25 @@
+subprojects {
+    project.configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            String group = details.requested.group
+            String name = details.requested.name
+            if (group == 'androidx.annotation' && name == 'annotation') {
+                //details.useVersion rootProject.ext.versions.androidx_annotation
+            } else if (group == 'androidx.arch.core') {
+                //details.useVersion rootProject.ext.versions.androidx_arch
+            } else if (group == 'androidx.core') {
+                //details.useVersion rootProject.ext.versions.androidx_core
+            } else if (group == 'androidx.fragment' && name == 'fragment') {
+                //details.useVersion rootProject.ext.versions.androidx_fragment
+            } else if (group == 'androidx.lifecycle') {
+                //details.useVersion rootProject.ext.versions.androidx_lifecycle
+            } else if (group == 'androidx.multidex' && name == 'multidex') {
+                //details.useVersion rootProject.ext.versions.androidx_multidex
+            } else if (group == 'androidx.recyclerview' && name == 'recyclerview') {
+                //details.useVersion rootProject.ext.versions.androidx_recyclerview
+            } else if (group == 'androidx.room') {
+                //details.useVersion rootProject.ext.versions.androidx_room
+            }
+        }
+    }
+}

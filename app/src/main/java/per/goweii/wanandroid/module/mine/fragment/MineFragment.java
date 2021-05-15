@@ -1,9 +1,8 @@
 package per.goweii.wanandroid.module.mine.fragment;
 
-import android.Manifest;
-import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,50 +13,42 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshFooter;
-import com.scwang.smartrefresh.layout.api.RefreshHeader;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.RefreshState;
-import com.scwang.smartrefresh.layout.listener.OnMultiPurposeListener;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshFooter;
+import com.scwang.smart.refresh.layout.api.RefreshHeader;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.constant.RefreshState;
+import com.scwang.smart.refresh.layout.listener.OnMultiListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
-import java.io.IOException;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-import per.goweii.actionbarex.common.ActionBarCommon;
-import per.goweii.actionbarex.common.OnActionBarChildClickListener;
-import per.goweii.anypermission.RequestListener;
 import per.goweii.basic.core.base.BaseFragment;
-import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
-import per.goweii.basic.ui.toast.ToastMaker;
-import per.goweii.basic.utils.file.CacheUtils;
-import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.event.LoginEvent;
+import per.goweii.wanandroid.event.NotificationEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.login.model.LoginBean;
+import per.goweii.wanandroid.event.UserInfoUpdateEvent;
+import per.goweii.wanandroid.module.login.model.UserEntity;
 import per.goweii.wanandroid.module.mine.activity.AboutMeActivity;
 import per.goweii.wanandroid.module.mine.activity.CoinActivity;
-import per.goweii.wanandroid.module.mine.activity.CoinRankActivity;
 import per.goweii.wanandroid.module.mine.activity.CollectionActivity;
 import per.goweii.wanandroid.module.mine.activity.MineShareActivity;
+import per.goweii.wanandroid.module.mine.activity.NotificationActivity;
 import per.goweii.wanandroid.module.mine.activity.OpenActivity;
 import per.goweii.wanandroid.module.mine.activity.ReadLaterActivity;
 import per.goweii.wanandroid.module.mine.activity.ReadRecordActivity;
 import per.goweii.wanandroid.module.mine.activity.SettingActivity;
+import per.goweii.wanandroid.module.mine.activity.UserInfoActivity;
 import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 import per.goweii.wanandroid.module.mine.presenter.MinePresenter;
 import per.goweii.wanandroid.module.mine.view.MineView;
 import per.goweii.wanandroid.utils.ImageLoader;
-import per.goweii.wanandroid.utils.PictureSelector;
 import per.goweii.wanandroid.utils.SettingUtils;
-import per.goweii.wanandroid.utils.UserInfoUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -67,14 +58,10 @@ import per.goweii.wanandroid.utils.UserUtils;
  */
 public class MineFragment extends BaseFragment<MinePresenter> implements MineView {
 
-    private static final int REQUEST_CODE_PERMISSION_ALBUM = 1;
-    private static final int REQUEST_CODE_SELECT_USER_ICON = 2;
-    private static final int REQUEST_CODE_CROP_USER_ICON = 3;
-    private static final int REQUEST_CODE_SELECT_BG = 4;
-    private static final int REQUEST_CODE_CROP_BG = 5;
-
-    @BindView(R.id.abc)
-    ActionBarCommon abc;
+    @BindView(R.id.aiv_notification)
+    ImageView aiv_notification;
+    @BindView(R.id.tv_notification)
+    TextView tv_notification;
     @BindView(R.id.srl)
     SmartRefreshLayout srl;
     @BindView(R.id.nsv)
@@ -87,10 +74,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     ImageView civ_user_icon;
     @BindView(R.id.tv_user_name)
     TextView tv_user_name;
-    @BindView(R.id.tv_user_id)
-    TextView tv_user_id;
-    @BindView(R.id.ll_user_id)
-    LinearLayout ll_user_id;
+    @BindView(R.id.tv_user_signature)
+    TextView tv_user_signature;
+    @BindView(R.id.ll_user_signature)
+    LinearLayout ll_user_signature;
     @BindView(R.id.ll_user_level_ranking)
     LinearLayout ll_user_level_ranking;
     @BindView(R.id.ll_read_later)
@@ -120,8 +107,17 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             return;
         }
         setRefresh();
-        changeUserInfo();
+        refreshUserInfo();
         loadUserInfo();
+        loadNotificationCount();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserInfoUpdateEvent(UserInfoUpdateEvent event) {
+        if (isDetached()) {
+            return;
+        }
+        refreshUserInfo();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -152,10 +148,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
 
     @Override
     protected void initView() {
-        abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
+        aiv_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CoinRankActivity.start(getContext());
+                NotificationActivity.start(getContext());
+                loadNotificationCount();
             }
         });
         nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -165,7 +162,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 setIvBlurHeight(rl_user_info.getMeasuredHeight() - scrollY);
             }
         });
-        srl.setOnMultiPurposeListener(new OnMultiPurposeListener() {
+        srl.setOnMultiListener(new OnMultiListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
                 if (nsv == null || rl_user_info == null) return;
@@ -213,38 +210,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
             }
         });
-        rl_user_info.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (UserUtils.getInstance().doIfLogin(getContext())) {
-                    requestAlbumPermission(new SimpleListener() {
-                        @Override
-                        public void onResult() {
-                            PictureSelector.select(MineFragment.this, REQUEST_CODE_SELECT_BG);
-                        }
-                    });
-                }
-                return true;
-            }
-        });
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);
         mSmartRefreshUtils.pureScrollMode();
         setRefresh();
         changeMenuVisible();
-    }
-
-    private void requestAlbumPermission(@NonNull SimpleListener listener) {
-        PermissionUtils.request(new RequestListener() {
-            @Override
-            public void onSuccess() {
-                listener.onResult();
-            }
-
-            @Override
-            public void onFailed() {
-                ToastMaker.showShort("获取存储设备读取权限失败");
-            }
-        }, getContext(), REQUEST_CODE_PERMISSION_ALBUM, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
     private void setIvBlurHeight(int h) {
@@ -263,6 +232,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 @Override
                 public void onRefresh() {
                     loadUserInfo();
+                    loadNotificationCount();
                 }
             });
         } else {
@@ -272,13 +242,18 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
 
     @Override
     protected void loadData() {
-        changeUserInfo();
+        refreshUserInfo();
+        loadNotificationCount();
     }
 
     private void loadUserInfo() {
         if (UserUtils.getInstance().isLogin()) {
             presenter.getUserInfo();
         }
+    }
+
+    private void loadNotificationCount() {
+        presenter.getNotificationCount();
     }
 
     @Override
@@ -313,24 +288,34 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         }
     }
 
-    private void changeUserInfo() {
+    private void refreshUserInfo() {
         if (UserUtils.getInstance().isLogin()) {
-            LoginBean bean = UserUtils.getInstance().getLoginBean();
-            ImageLoader.userIcon(civ_user_icon, UserInfoUtils.getInstance().getIcon());
-            ImageLoader.userBlur(iv_blur, UserInfoUtils.getInstance().getBg());
+            UserEntity bean = UserUtils.getInstance().getLoginUser();
+            ImageLoader.userIcon(civ_user_icon, bean.getAvatar());
+            ImageLoader.userBlur(iv_blur, bean.getCover());
             tv_user_name.setText(bean.getUsername());
-            ll_user_id.setVisibility(View.VISIBLE);
-            tv_user_id.setText(bean.getId() + "");
+            ll_user_signature.setVisibility(View.VISIBLE);
+            if (TextUtils.isEmpty(bean.getSignature())) {
+                tv_user_signature.setText("写个签名鼓励下自己吧");
+            } else {
+                tv_user_signature.setText(bean.getSignature());
+            }
             ll_user_level_ranking.setVisibility(View.VISIBLE);
-            tv_user_level.setText("--");
-            tv_user_ranking.setText("--");
-            tv_coin.setText("");
+            if (presenter.mUserInfoBean != null) {
+                tv_coin.setText(presenter.mUserInfoBean.getCoinCount() + "");
+                tv_user_level.setText(presenter.mUserInfoBean.getLevel() + "");
+                tv_user_ranking.setText(presenter.mUserInfoBean.getRank() + "");
+            } else {
+                tv_user_level.setText("--");
+                tv_user_ranking.setText("--");
+                tv_coin.setText("");
+            }
         } else {
-            civ_user_icon.setImageResource(R.color.transparent);
-            iv_blur.setImageResource(R.color.transparent);
+            civ_user_icon.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
+            iv_blur.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
             tv_user_name.setText("去登陆");
-            ll_user_id.setVisibility(View.INVISIBLE);
-            tv_user_id.setText("-----");
+            ll_user_signature.setVisibility(View.INVISIBLE);
+            tv_user_signature.setText("");
             ll_user_level_ranking.setVisibility(View.INVISIBLE);
             tv_user_level.setText("--");
             tv_user_ranking.setText("--");
@@ -339,7 +324,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     }
 
     @OnClick({
-            R.id.civ_user_icon, R.id.tv_user_name, R.id.ll_user_id,
+            R.id.civ_user_icon, R.id.tv_user_name,
             R.id.ll_collect, R.id.ll_read_later, R.id.ll_read_record, R.id.ll_about_me,
             R.id.ll_open, R.id.ll_setting, R.id.ll_coin, R.id.ll_share
     })
@@ -359,22 +344,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 }
                 break;
             case R.id.civ_user_icon:
-                if (UserUtils.getInstance().doIfLogin(getContext())) {
-                    requestAlbumPermission(new SimpleListener() {
-                        @Override
-                        public void onResult() {
-                            PictureSelector.select(MineFragment.this, REQUEST_CODE_SELECT_USER_ICON);
-                        }
-                    });
-                }
-                break;
             case R.id.tv_user_name:
                 if (UserUtils.getInstance().doIfLogin(getContext())) {
-                    // Ignore
+                    UserInfoActivity.start(getContext());
                 }
-                break;
-            case R.id.ll_user_id:
-                UserUtils.getInstance().doIfLogin(getContext());
                 break;
             case R.id.ll_share:
                 if (UserUtils.getInstance().doIfLogin(getContext())) {
@@ -405,83 +378,6 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            default:
-                break;
-            case REQUEST_CODE_SELECT_USER_ICON:
-                Uri userIconUri = PictureSelector.result(resultCode, data);
-                if (userIconUri != null) {
-                    File sourceFile = PictureSelector.getFileFormUri(getContext(), userIconUri);
-                    if (sourceFile != null) {
-                        File file = new File(CacheUtils.getCacheDir(), "user_info");
-                        if (!file.exists()) {
-                            file.mkdirs();
-                        }
-                        File clipFile = new File(file, "user_icon.jpeg");
-                        try {
-                            clipFile.createNewFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        PictureSelector.crop(MineFragment.this, sourceFile, clipFile, REQUEST_CODE_CROP_USER_ICON);
-                    }
-                }
-                break;
-            case REQUEST_CODE_SELECT_BG:
-                Uri bgUri = PictureSelector.result(resultCode, data);
-                if (bgUri != null) {
-                    File sourceFile = PictureSelector.getFileFormUri(getContext(), bgUri);
-                    if (sourceFile != null) {
-                        File file = new File(CacheUtils.getCacheDir(), "user_info");
-                        if (!file.exists()) {
-                            file.mkdirs();
-                        }
-                        File clipFile = new File(file, "user_bg.jpeg");
-                        try {
-                            clipFile.createNewFile();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        PictureSelector.crop(MineFragment.this, sourceFile, clipFile, REQUEST_CODE_CROP_BG);
-                    }
-                }
-                break;
-            case REQUEST_CODE_CROP_USER_ICON:
-                if (resultCode == Activity.RESULT_OK) {
-                    File file = new File(CacheUtils.getCacheDir(), "user_info");
-                    if (!file.exists()) {
-                        file.mkdirs();
-                    }
-                    File clipFile = new File(file, "user_icon.jpeg");
-                    if (clipFile.exists()) {
-                        String path = clipFile.getAbsolutePath();
-                        UserInfoUtils.getInstance().setIcon(path);
-                        UserInfoUtils.getInstance().setBg(path);
-                        ImageLoader.userIcon(civ_user_icon, path);
-                        ImageLoader.userBlur(iv_blur, path);
-                    }
-                }
-                break;
-            case REQUEST_CODE_CROP_BG:
-                if (resultCode == Activity.RESULT_OK) {
-                    File file = new File(CacheUtils.getCacheDir(), "user_info");
-                    if (!file.exists()) {
-                        file.mkdirs();
-                    }
-                    File clipFile = new File(file, "user_bg.jpeg");
-                    if (clipFile.exists()) {
-                        String path = clipFile.getAbsolutePath();
-                        UserInfoUtils.getInstance().setBg(path);
-                        ImageLoader.userBlur(iv_blur, path);
-                    }
-                }
-                break;
-        }
-    }
-
-    @Override
     public void getUserInfoSuccess(int code, UserInfoBean data) {
         mSmartRefreshUtils.success();
         tv_coin.setText(data.getCoinCount() + "");
@@ -497,4 +393,20 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         tv_user_level.setText("--");
         tv_user_ranking.setText("--");
     }
+
+    @Override
+    public void getNotificationCountSuccess(int count) {
+        NotificationEvent.post(count);
+        if (count > 0) {
+            tv_notification.setVisibility(View.VISIBLE);
+            if (count > Config.NOTIFICATION_MAX_SHOW_COUNT) {
+                tv_notification.setText(Config.NOTIFICATION_MAX_SHOW_COUNT + "+");
+            } else {
+                tv_notification.setText(count + "");
+            }
+        } else {
+            tv_notification.setVisibility(View.GONE);
+        }
+    }
+
 }

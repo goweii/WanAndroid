@@ -17,8 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import per.goweii.actionbarex.ActionBarEx;
@@ -35,9 +33,11 @@ import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.ShareUtils;
 import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.listener.OnClickListener2;
-import per.goweii.basic.utils.listener.SimpleListener;
+import per.goweii.basic.utils.listener.SimpleCallback;
+import per.goweii.swipeback.SwipeBackAbility;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.db.model.ReadLaterModel;
 import per.goweii.wanandroid.module.main.dialog.QrcodeShareDialog;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
@@ -56,7 +56,7 @@ import per.goweii.wanandroid.widget.WebContainer;
  * @date 2019/5/15
  * GitHub: https://github.com/goweii
  */
-public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView {
+public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView, SwipeBackAbility.OnlyEdge {
 
     private static final int REQ_CODE_PERMISSION = 1;
 
@@ -87,8 +87,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     private WebGuideDialog mWebGuideDialog = null;
     private WebHolder mWebHolder;
-
-    private List<CollectArticleEntity> mCollectedList = new ArrayList<>(1);
     private WebQuickDialog mWebQuickDialog;
 
     public static void start(Context context, String url, String title,
@@ -103,11 +101,10 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     public void refreshSwipeBackOnlyEdge() {
-        mSwipeBackHelper.setSwipeBackOnlyEdge(swipeBackOnlyEdge());
     }
 
     @Override
-    protected boolean swipeBackOnlyEdge() {
+    public boolean swipeBackOnlyEdge() {
         return SettingUtils.getInstance().isWebSwipeBackEdge();
     }
 
@@ -124,7 +121,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     protected void initView() {
-        Uri uri = Router.uri(getIntent());
+        Uri uri = Router.getUriFrom(getIntent());
         if (uri != null) {
             mUrl = uri.toString();
         } else {
@@ -146,7 +143,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             entity.setAuthor(mAuthor);
             entity.setUrl(mUrl);
             entity.setCollect(true);
-            mCollectedList.add(entity);
+            presenter.addCollected(entity);
         }
         iv_menu.setOnClickListener(new OnClickListener2() {
             @Override
@@ -233,6 +230,86 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         });
     }
 
+    @Override
+    protected void loadData() {
+        mWebHolder = WebHolder.with(this, wc)
+                .setOnPageTitleCallback(new WebHolder.OnPageTitleCallback() {
+                    @Override
+                    public void onReceivedTitle(@NonNull String title) {
+                        setTitle();
+                        presenter.readRecord(mWebHolder.getUrl(), mWebHolder.getTitle());
+                    }
+                })
+                .setOnPageLoadCallback(new WebHolder.OnPageLoadCallback() {
+                    @Override
+                    public void onPageStarted() {
+                        et_title.clearFocus();
+                    }
+
+                    @Override
+                    public void onPageFinished() {
+                        showWebGuideDialogIfNeeded();
+                    }
+                })
+                .setOnHistoryUpdateCallback(new WebHolder.OnHistoryUpdateCallback() {
+                    @Override
+                    public void onHistoryUpdate(boolean isReload) {
+                        resetCollect();
+                        if (mWebHolder.canGoBack()) {
+                            iv_back.setImageResource(R.drawable.ic_back);
+                        } else {
+                            iv_back.setImageResource(R.drawable.ic_close);
+                        }
+                        switchIconEnable(iv_forward, mWebHolder.canGoForward());
+                    }
+                })
+                .setOnPageProgressCallback(new WebHolder.OnPageProgressCallback() {
+                    @Override
+                    public void onShowProgress() {
+                    }
+
+                    @Override
+                    public void onProgressChanged(int progress) {
+                    }
+
+                    @Override
+                    public void onHideProgress() {
+                        presenter.isAddedReadLater(mWebHolder.getUrl());
+                    }
+                });
+        mWebHolder.loadUrl(mUrl);
+        mWebHolder.setOnPageScrollEndListener(new WebHolder.OnPageScrollEndListener() {
+            @Override
+            public void onPageScrollEnd() {
+                if (isReadLater()) {
+                    presenter.deleteReadLater(mWebHolder.getUrl());
+                }
+            }
+        });
+    }
+
+    private void showWebGuideDialogIfNeeded() {
+        if (GuideSPUtils.getInstance().isWebGuideShown()) {
+            return;
+        }
+        if (mWebGuideDialog != null) {
+            return;
+        }
+        mWebGuideDialog = new WebGuideDialog(getContext());
+        mWebGuideDialog.onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
+            @Override
+            public void onShow(@NonNull Layer layer) {
+            }
+
+            @Override
+            public void onDismiss(@NonNull Layer layer) {
+                GuideSPUtils.getInstance().setWebGuideShown();
+                mWebGuideDialog = null;
+            }
+        });
+        mWebGuideDialog.show();
+    }
+
     private void showQuickDialog() {
         if (mWebQuickDialog == null) {
             mWebQuickDialog = new WebQuickDialog(ab, new WebQuickDialog.OnQuickClickListener() {
@@ -280,60 +357,63 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     private void showMenuDialog() {
-        WebMenuDialog.show(getContext(), mWebHolder.getUrl(), isCollect(), new WebMenuDialog.OnMenuClickListener() {
-            @Override
-            public void onShareArticle() {
-                ShareArticleActivity.start(getContext(), mWebHolder.getTitle(), mWebHolder.getUrl());
-            }
-
-            @Override
-            public void onCollect() {
-                toggleCollect();
-            }
-
-            @Override
-            public void onReadLater() {
-                presenter.readLater(mWebHolder.getUrl(), mWebHolder.getTitle());
-            }
-
-            @Override
-            public void onHome() {
-                int step = 0;
-                while (true) {
-                    if (mWebHolder.canGoBackOrForward(step - 1)) {
-                        step--;
-                    } else {
-                        break;
-                    }
-                }
-                mWebHolder.goBackOrForward(step);
-            }
-
-            @Override
-            public void onRefresh() {
-                mWebHolder.reload();
-            }
-
-            @Override
-            public void onCloseActivity() {
-                finish();
-            }
-
-            @Override
-            public void onShare() {
-                new QrcodeShareDialog(getContext(), mWebHolder.getUrl(), mWebHolder.getTitle(), new QrcodeShareDialog.OnShareClickListener() {
+        WebMenuDialog.show(getContext(), mWebHolder.getUrl(),
+                isCollect(), isReadLater(),
+                new WebMenuDialog.OnMenuClickListener() {
                     @Override
-                    public void onSave(Bitmap bitmap) {
-                        saveQrcodeGallery(bitmap);
+                    public void onShareArticle() {
+                        ShareArticleActivity.start(getContext(), mWebHolder.getTitle(), mWebHolder.getUrl());
                     }
 
                     @Override
-                    public void onShare(Bitmap bitmap) {
-                        shareBitmap(bitmap);
+                    public void onCollect() {
+                        toggleCollect();
                     }
-                }).show();
-            }
-        });
+
+                    @Override
+                    public void onReadLater() {
+                        if (isReadLater()) {
+                            presenter.deleteReadLater(mWebHolder.getUrl());
+                        } else {
+                            presenter.readLater(mWebHolder.getUrl(), mWebHolder.getTitle());
+                        }
+                    }
+
+                    @Override
+                    public void onHome() {
+                        int step = 0;
+                        while (mWebHolder.canGoBackOrForward(step - 1)) step--;
+                        mWebHolder.goBackOrForward(step);
+                    }
+
+                    @Override
+                    public void onRefresh() {
+                        mWebHolder.reload();
+                    }
+
+                    @Override
+                    public void onCloseActivity() {
+                        finish();
+                    }
+
+                    @Override
+                    public void onShare() {
+                        new QrcodeShareDialog(getContext(), mWebHolder.getUrl(), mWebHolder.getTitle())
+                                .setOnAlbumClickListener(new SimpleCallback<Bitmap>() {
+                                    @Override
+                                    public void onResult(Bitmap data) {
+                                        saveQrcodeGallery(data);
+                                    }
+                                })
+                                .setOnShareClickListener(new SimpleCallback<Bitmap>() {
+                                    @Override
+                                    public void onResult(Bitmap data) {
+                                        shareBitmap(data);
+                                    }
+                                })
+                                .show();
+                    }
+                });
     }
 
     private void shareBitmap(final Bitmap bitmap) {
@@ -374,65 +454,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         cv_collect.setChecked(isCollect(), true);
     }
 
-    @Override
-    protected void loadData() {
-        mWebHolder = WebHolder.with(this, wc)
-                .setOnPageTitleCallback(new WebHolder.OnPageTitleCallback() {
-                    @Override
-                    public void onReceivedTitle(@NonNull String title) {
-                        setTitle();
-                        presenter.readRecord(mWebHolder.getUrl(), mWebHolder.getTitle());
-                    }
-                })
-                .setOnPageLoadCallback(new WebHolder.OnPageLoadCallback() {
-                    @Override
-                    public void onPageStarted() {
-                        et_title.clearFocus();
-                    }
-
-                    @Override
-                    public void onPageFinished() {
-                        if (!GuideSPUtils.getInstance().isWebGuideShown()) {
-                            if (mWebGuideDialog == null) {
-                                mWebGuideDialog = WebGuideDialog.show(getContext(), false, new SimpleListener() {
-                                    @Override
-                                    public void onResult() {
-                                        GuideSPUtils.getInstance().setWebGuideShown();
-                                        mWebGuideDialog = null;
-                                    }
-                                });
-                            }
-                        }
-                    }
-                })
-                .setOnHistoryUpdateCallback(new WebHolder.OnHistoryUpdateCallback() {
-                    @Override
-                    public void onHistoryUpdate(boolean isReload) {
-                        resetCollect();
-                        if (mWebHolder.canGoBack()) {
-                            iv_back.setImageResource(R.drawable.ic_back);
-                        } else {
-                            iv_back.setImageResource(R.drawable.ic_close);
-                        }
-                        switchIconEnable(iv_forward, mWebHolder.canGoForward());
-                    }
-                })
-                .setOnPageProgressCallback(new WebHolder.OnPageProgressCallback() {
-                    @Override
-                    public void onShowProgress() {
-                    }
-
-                    @Override
-                    public void onProgressChanged(int progress) {
-                    }
-
-                    @Override
-                    public void onHideProgress() {
-                    }
-                });
-        mWebHolder.loadUrl(mUrl);
-    }
-
     private void switchIconEnable(View view, boolean enable) {
         if (enable) {
             view.setEnabled(true);
@@ -457,7 +478,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     protected void onDestroy() {
-        mWebHolder.onDestroy();
+        mWebHolder.onDestroy(true);
         super.onDestroy();
     }
 
@@ -470,21 +491,24 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     private boolean isCollect() {
-        CollectArticleEntity entity = findCollectArticleEntity();
+        CollectArticleEntity entity = findCollected();
         if (entity == null) return false;
         return entity.isCollect();
     }
 
-    private CollectArticleEntity findCollectArticleEntity() {
+    private boolean isReadLater() {
+        ReadLaterModel entity = findReadLater();
+        return entity != null;
+    }
+
+    private CollectArticleEntity findCollected() {
         String url = mWebHolder.getUrl();
-        CollectArticleEntity collectArticleEntity = null;
-        for (CollectArticleEntity entity : mCollectedList) {
-            if (TextUtils.equals(entity.getUrl(), url)) {
-                collectArticleEntity = entity;
-                break;
-            }
-        }
-        return collectArticleEntity;
+        return presenter.findCollected(url);
+    }
+
+    private ReadLaterModel findReadLater() {
+        String url = mWebHolder.getUrl();
+        return presenter.findReadLater(url);
     }
 
     private CollectArticleEntity newCollectArticleEntity() {
@@ -515,7 +539,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     private void collect() {
-        CollectArticleEntity entity = findCollectArticleEntity();
+        CollectArticleEntity entity = findCollected();
         if (entity != null) {
             if (entity.isCollect()) {
                 resetCollect();
@@ -529,7 +553,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     }
 
     private void uncollect() {
-        CollectArticleEntity entity = findCollectArticleEntity();
+        CollectArticleEntity entity = findCollected();
         if (entity == null) {
             resetCollect();
             return;
@@ -543,9 +567,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     public void collectSuccess(CollectArticleEntity entity) {
-        if (!mCollectedList.contains(entity)) {
-            mCollectedList.add(entity);
-        }
         resetCollect();
     }
 
@@ -564,5 +585,11 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     public void uncollectFailed(String msg) {
         ToastMaker.showShort(msg);
         resetCollect();
+    }
+
+    @Override
+    public void isAddedReadLaterSuccess(ReadLaterModel data) {
+        if (TextUtils.equals(data.getLink(), mWebHolder.getUrl())) {
+        }
     }
 }

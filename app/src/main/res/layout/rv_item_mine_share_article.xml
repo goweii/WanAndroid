@@ -17,12 +17,12 @@
             android:id="@+id/tv_delete"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/accent"
+            android:background="?colorStriking"
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:text="删除"
-            android:textColor="@color/text_invert"
+            android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 
     </LinearLayout>

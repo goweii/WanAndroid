@@ -25,7 +25,20 @@ public class ShareUtils {
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_STREAM, UriUtils.getFileUri(file));
-        intent = Intent.createChooser(intent, "");
-        context.startActivity(intent);
+        intent = Intent.createChooser(intent, "分享到");
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
+    }
+
+    public static void shareLink(Context context, String url) {
+        Intent intent = new Intent();
+        intent.setAction(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, url);
+        intent.setType("text/plain");
+        intent = Intent.createChooser(intent, "分享到");
+        if (intent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(intent);
+        }
     }
 }

@@ -8,8 +8,8 @@ import android.widget.TextView;
 import androidx.annotation.StringRes;
 
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.DialogLayer;
 import per.goweii.anylayer.Layer;
+import per.goweii.anylayer.dialog.DialogLayer;
 import per.goweii.basic.ui.R;
 import per.goweii.basic.utils.listener.SimpleCallback;
 
@@ -24,12 +24,13 @@ public class TipDialog {
     private CharSequence msg;
     private CharSequence yesText;
     private CharSequence noText;
+    private boolean msgCenter = true;
     private boolean singleBtnYes = false;
     private boolean cancelable = true;
     private SimpleCallback<Void> callbackYes = null;
     private SimpleCallback<Void> callbackNo = null;
     private SimpleCallback<Void> onDismissListener = null;
-    private DialogLayer mDialogLayer;
+    private final DialogLayer mDialogLayer;
 
     public static TipDialog with(Context context) {
         return new TipDialog(context);
@@ -90,6 +91,11 @@ public class TipDialog {
                         }
 
                         TextView tvContent = layer.getView(R.id.basic_ui_tv_dialog_tip_content);
+                        if (msgCenter) {
+                            tvContent.setGravity(Gravity.CENTER);
+                        } else {
+                            tvContent.setGravity(Gravity.START);
+                        }
                         tvContent.setText(msg);
                     }
                 })
@@ -158,6 +164,11 @@ public class TipDialog {
 
     public TipDialog cancelable(boolean cancelable) {
         this.cancelable = cancelable;
+        return this;
+    }
+
+    public TipDialog msgCenter(boolean msgCenter) {
+        this.msgCenter = msgCenter;
         return this;
     }
 

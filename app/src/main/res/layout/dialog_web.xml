@@ -13,7 +13,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:scrollbars="none"
-        tools:background="@color/dialog_bg" />
+        tools:background="?colorDialogBg" />
 
     <RelativeLayout
         android:id="@+id/dialog_web_rl_bottom_bar"
@@ -24,24 +24,25 @@
         android:layout_marginBottom="@dimen/margin_def">
 
         <ImageView
-            android:id="@+id/dialog_web_iv_back"
+            android:id="@+id/dialog_web_iv_read_later"
             android:layout_width="44dp"
             android:layout_height="44dp"
             android:layout_marginRight="@dimen/margin_middle"
             android:layout_toLeftOf="@+id/dialog_web_iv_close"
             android:padding="13dp"
-            android:tint="@color/basic_ui_action_bar_icon"
-            android:src="@drawable/ic_back" />
+            android:src="@drawable/ic_read_later_added"
+            android:tint="?colorOnMainOrSurface"
+            tools:ignore="UseAppTint" />
 
         <ImageView
             android:id="@+id/dialog_web_iv_close"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:background="@drawable/bg_solid_round_color_surface_radius_max"
             android:layout_centerInParent="true"
+            android:background="@drawable/bg_solid_round_color_surface_radius_max"
             android:padding="13dp"
-            android:tint="@color/text_surface"
-            android:src="@drawable/ic_close" />
+            android:src="@drawable/ic_close"
+            android:tint="?colorIconSurface" />
 
         <per.goweii.wanandroid.widget.CollectView
             android:id="@+id/dialog_web_cv_collect"

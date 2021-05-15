@@ -16,7 +16,7 @@ import per.goweii.wanandroid.module.wxarticle.view.WxView;
  */
 public class WxPresenter extends BasePresenter<WxView> {
 
-    public void getWxArticleChapters(){
+    public void getWxArticleChapters() {
         WxRequest.getWxArticleChapters(getRxLife(), new RequestListener<List<ChapterBean>>() {
             @Override
             public void onStart() {

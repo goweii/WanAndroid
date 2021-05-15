@@ -1,13 +1,13 @@
 package per.goweii.wanandroid.module.main.dialog;
 
-import android.annotation.SuppressLint;
 import android.view.View;
 import android.widget.TextView;
 
-import per.goweii.anylayer.Align;
-import per.goweii.anylayer.DragLayout;
+import androidx.annotation.NonNull;
+
 import per.goweii.anylayer.Layer;
-import per.goweii.anylayer.PopupLayer;
+import per.goweii.anylayer.popup.PopupLayer;
+import per.goweii.anylayer.widget.SwipeLayout;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.CopiedTextProcessor;
 import per.goweii.wanandroid.utils.router.Router;
@@ -30,18 +30,18 @@ public class CopiedLinkDialog extends PopupLayer {
         horizontal(Align.Horizontal.ALIGN_LEFT);
         vertical(Align.Vertical.ALIGN_BOTTOM);
         direction(Align.Direction.HORIZONTAL);
-        dragDismiss(DragLayout.DragStyle.Left);
+        swipeDismiss(SwipeLayout.Direction.LEFT);
         onClickToDismiss(new OnClickListener() {
             @Override
-            public void onClick(Layer layer, View v) {
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
                 CopiedTextProcessor.getInstance().processed();
             }
         }, R.id.dialog_copied_link_iv_close);
         onClickToDismiss(new OnClickListener() {
             @Override
-            public void onClick(Layer layer, View v) {
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
                 CopiedTextProcessor.getInstance().processed();
-                Router.router(link);
+                Router.routeTo(link);
             }
         }, R.id.dialog_copied_link_rl);
     }
@@ -50,7 +50,6 @@ public class CopiedLinkDialog extends PopupLayer {
         return link;
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onAttach() {
         super.onAttach();

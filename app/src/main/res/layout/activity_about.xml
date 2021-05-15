@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="?colorBackground">
 
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
@@ -22,7 +22,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/main"
+            android:background="?colorMain"
             android:padding="10dp"
             app:riv_corner_radius="16dp"
             app:riv_mutate_background="true" />
@@ -42,9 +42,9 @@
         android:layout_below="@+id/fl_logo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
-        android:textColor="@color/text_third"
+        android:textColor="?colorTextThird"
         android:textSize="@dimen/text_content"
-        tools:text="V1.0.0(1)" />
+        tools:text="1.0.0(1)" />
 
     <LinearLayout
         android:id="@+id/ll_web"
@@ -67,16 +67,15 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="官方网站"
-            android:textColor="@color/text_surface"
+            android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content" />
 
         <ImageView
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:rotation="180"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_back"
-            android:tint="@color/third" />
+            android:src="@drawable/ic_enter"
+            android:tint="?colorIconThird" />
 
     </LinearLayout>
 
@@ -100,16 +99,15 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="网站内容"
-            android:textColor="@color/text_surface"
+            android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content" />
 
         <ImageView
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:rotation="180"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_back"
-            android:tint="@color/third" />
+            android:src="@drawable/ic_enter"
+            android:tint="?colorIconThird" />
 
     </LinearLayout>
 
@@ -133,16 +131,47 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:text="项目仓库"
-            android:textColor="@color/text_surface"
+            android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content" />
 
         <ImageView
-            android:layout_width="13dp"
-            android:layout_height="13dp"
-            android:rotation="180"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_back"
-            android:tint="@color/third" />
+            android:src="@drawable/ic_enter"
+            android:tint="?colorIconThird" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_beta"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/ll_github"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/bg_press_color_surface"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp">
+
+        <TextView
+            android:id="@+id/tv_beta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:singleLine="true"
+            android:text="申请内测"
+            android:textColor="?colorTextSurface"
+            android:textSize="@dimen/text_content" />
+
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_enter"
+            android:tint="?colorIconThird" />
 
     </LinearLayout>
 
@@ -153,7 +182,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
         android:text="本APP由Goweii独立开发"
-        android:textColor="@color/text_third"
+        android:textColor="?colorTextThird"
         android:textSize="@dimen/text_notes" />
 
 </RelativeLayout>

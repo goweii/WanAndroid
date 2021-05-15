@@ -59,7 +59,7 @@ public class HostInterceptUtils {
     public static final String[] WHITE_HOST = new String[]{
             "www.wanandroid.com",
             "study.163.com",
-            "juejin.im",
+            "juejin.cn",
             "www.jianshu.com",
             "mp.weixin.qq.com",
             "blog.csdn.net",

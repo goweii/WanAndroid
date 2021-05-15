@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -37,7 +37,7 @@ import per.goweii.wanandroid.module.mine.adapter.ReadLaterAdapter;
 import per.goweii.wanandroid.module.mine.presenter.ReadLaterPresenter;
 import per.goweii.wanandroid.module.mine.view.ReadLaterView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 
@@ -61,7 +61,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     private ReadLaterAdapter mAdapter;
 
     private int offset = 0;
-    private int perPageCount = 20;
+    private final int perPageCount = 20;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, ReadLaterActivity.class);
@@ -74,7 +74,7 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
             return;
         }
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -130,7 +130,8 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ReadLaterAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

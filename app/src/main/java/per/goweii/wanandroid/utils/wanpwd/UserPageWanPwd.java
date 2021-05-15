@@ -3,7 +3,6 @@ package per.goweii.wanandroid.utils.wanpwd;
 import androidx.annotation.Nullable;
 
 import per.goweii.wanandroid.utils.router.Param;
-import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.utils.router.RouterMap;
 
 /**
@@ -58,7 +57,7 @@ public class UserPageWanPwd implements IWanPwd {
         mRunnable = new Runnable() {
             @Override
             public void run() {
-                Router.router(RouterMap.USER_PAGE.url(new Param("id", "" + finalUserId)));
+                RouterMap.USER_PAGE.navigation(new Param("id", "" + finalUserId));
             }
         };
     }

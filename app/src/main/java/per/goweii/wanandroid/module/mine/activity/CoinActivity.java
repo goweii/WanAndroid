@@ -13,11 +13,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
 
 import butterknife.BindView;
-import per.goweii.actionbarex.common.ActionBarCommon;
-import per.goweii.actionbarex.common.OnActionBarChildClickListener;
+import per.goweii.actionbarex.common.ActionBarSuper;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.AnimatorUtils;
+import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
@@ -26,7 +26,7 @@ import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
 import per.goweii.wanandroid.module.mine.presenter.CoinPresenter;
 import per.goweii.wanandroid.module.mine.view.CoinView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 
 /**
@@ -39,7 +39,7 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
     private static final int PAGE_START = 1;
 
     @BindView(R.id.abc)
-    ActionBarCommon abc;
+    ActionBarSuper abc;
     @BindView(R.id.tv_coin)
     TextView tv_coin;
     @BindView(R.id.msv)
@@ -68,16 +68,23 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
 
     @Override
     protected void initView() {
-        abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
+        abc.getRightActionView(0).setOnClickListener(new OnClickListener2() {
             @Override
-            public void onClick(View v) {
+            public void onClick2(View v) {
                 WebDialog.create(getContext(), "https://www.wanandroid.com/blog/show/2653").show();
+            }
+        });
+        abc.getRightActionView(1).setOnClickListener(new OnClickListener2() {
+            @Override
+            public void onClick2(View v) {
+                CoinRankActivity.start(getContext());
             }
         });
         tv_coin.setText("0");
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mCoinRecordAdapter = new CoinRecordAdapter();
-        RvAnimUtils.setAnim(mCoinRecordAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mCoinRecordAdapter);
+        RvConfigUtils.setAnim(mCoinRecordAdapter, SettingUtils.getInstance().getRvAnim());
         mCoinRecordAdapter.setEnableLoadMore(false);
         mCoinRecordAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

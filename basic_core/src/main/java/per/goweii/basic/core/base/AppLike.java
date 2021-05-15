@@ -12,9 +12,14 @@ import android.content.res.Configuration;
  */
 interface AppLike {
     void attachBaseContext(Context context);
+
     void onCreate(Application app);
+
     void onConfigurationChanged(Application app, Configuration newConfig);
+
     void onTerminate(Application app);
+
     void onLowMemory(Application app);
+
     void onTrimMemory(Application app, int level);
 }

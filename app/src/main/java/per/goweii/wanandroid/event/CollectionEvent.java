@@ -11,23 +11,23 @@ public class CollectionEvent extends BaseEvent {
     private int articleId;
     private int collectId;
 
-    public static void postCollectWithCollectId(int collectId){
+    public static void postCollectWithCollectId(int collectId) {
         new CollectionEvent(true, -1, collectId).post();
     }
 
-    public static void postCollectWithArticleId(int articleId){
+    public static void postCollectWithArticleId(int articleId) {
         new CollectionEvent(true, articleId, -1).post();
     }
 
-    public static void postUnCollectWithArticleId(int articleId){
+    public static void postUnCollectWithArticleId(int articleId) {
         new CollectionEvent(false, articleId, -1).post();
     }
 
-    public static void postUncollectWithCollectId(int collectId){
+    public static void postUncollectWithCollectId(int collectId) {
         new CollectionEvent(false, -1, collectId).post();
     }
 
-    public static void postUncollect(int articleId, int collectId){
+    public static void postUncollect(int articleId, int collectId) {
         new CollectionEvent(false, articleId, collectId).post();
     }
 

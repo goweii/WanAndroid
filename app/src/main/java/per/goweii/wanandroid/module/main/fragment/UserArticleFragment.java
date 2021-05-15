@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.kennyc.view.MultiStateView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -34,7 +34,7 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.presenter.UserArticlePresenter;
 import per.goweii.wanandroid.module.main.view.UserArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -96,7 +96,7 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSettingChangeEvent(SettingChangeEvent event) {
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -145,7 +145,8 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -156,7 +157,7 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     UrlOpenUtils.Companion.with(item).open(getContext());
                 }
@@ -165,7 +166,7 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item != null) {
                     if (v.isChecked()) {
                         presenter.collect(item, v);

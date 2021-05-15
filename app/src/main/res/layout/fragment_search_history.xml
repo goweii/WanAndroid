@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/foreground"
+    android:background="?colorForeground"
     android:orientation="vertical">
 
     <TextView
@@ -12,7 +12,7 @@
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
         android:text="热门搜索"
-        android:textColor="@color/main"
+        android:textColor="?colorMain"
         android:textSize="@dimen/text_content" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -28,13 +28,6 @@
         tools:layoutManager="GridLayoutManager"
         tools:listitem="@layout/rv_item_knowledge_child"
         tools:spanCount="3" />
-
-    <per.goweii.wanandroid.utils.ad.widget.AdBanner2Container
-        android:id="@+id/adc"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        tools:background="#f8f8f8" />
 
     <LinearLayout
         android:id="@+id/ll_history"
@@ -54,7 +47,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="16dp"
                 android:text="历史搜索"
-                android:textColor="@color/main"
+                android:textColor="?colorMain"
                 android:textSize="@dimen/text_content" />
 
             <TextView
@@ -66,7 +59,7 @@
                 android:text="完成"
                 android:visibility="gone"
                 tools:visibility="visible"
-                android:textColor="@color/main"
+                android:textColor="?colorMain"
                 android:textSize="@dimen/text_notes" />
 
             <TextView
@@ -76,7 +69,7 @@
                 android:layout_gravity="center_vertical|right"
                 android:layout_marginRight="16dp"
                 android:text="清除"
-                android:textColor="@color/third"
+                android:textColor="?colorThird"
                 android:textSize="@dimen/text_notes" />
 
         </FrameLayout>

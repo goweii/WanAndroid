@@ -10,5 +10,6 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
  */
 public interface KnowledgeArticleView extends BaseView {
     void getKnowledgeArticleListSuccess(int code, ArticleListBean data);
+
     void getKnowledgeArticleListFail(int code, String msg);
 }

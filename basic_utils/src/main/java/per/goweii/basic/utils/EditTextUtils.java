@@ -26,7 +26,7 @@ import java.lang.reflect.Field;
  */
 public class EditTextUtils {
 
-    public static void changeCursorColor(TextView target, int colorInt){
+    public static void changeCursorColor(TextView target, int colorInt) {
         try {
             Field fCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
             fCursorDrawableRes.setAccessible(true);
@@ -45,11 +45,11 @@ public class EditTextUtils {
         }
     }
 
-    public static void setEditTextMaxLength(@NonNull EditText editText, @IntRange(from = 1) int length){
+    public static void setEditTextMaxLength(@NonNull EditText editText, @IntRange(from = 1) int length) {
         editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(length)});
     }
 
-    public static void setEditTextDigitsKey(@NonNull EditText editText, @NonNull String keys){
+    public static void setEditTextDigitsKey(@NonNull EditText editText, @NonNull String keys) {
         editText.setKeyListener(DigitsKeyListener.getInstance(keys));
     }
 
@@ -68,7 +68,7 @@ public class EditTextUtils {
             boolean isChanged = false;
             int cursorLocation = 0;
             private char[] tempChar;
-            private StringBuffer buffer = new StringBuffer();
+            private final StringBuffer buffer = new StringBuffer();
             int separatorNum = 0;
 
             @Override

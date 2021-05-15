@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/surface">
+    android:background="?colorSurface">
 
     <ProgressBar
         android:id="@+id/pb"
@@ -42,7 +42,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:includeFontPadding="false"
-                android:textColor="@color/text_surface"
+                android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_auxiliary"
                 tools:text="1" />
 
@@ -57,7 +57,7 @@
             android:layout_toRightOf="@+id/fl_index"
             android:includeFontPadding="false"
             android:lineSpacingExtra="0dp"
-            android:textColor="@color/text_surface"
+            android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content"
             tools:text="g**eii" />
 
@@ -68,7 +68,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:includeFontPadding="false"
-            android:textColor="@color/text_main"
+            android:textColor="?colorTextMain"
             android:textSize="@dimen/text_content"
             tools:text="520" />
 

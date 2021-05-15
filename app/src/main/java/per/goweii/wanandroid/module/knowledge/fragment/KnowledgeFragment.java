@@ -13,7 +13,6 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.knowledge.activity.KnowledgeArticleActivity;
 import per.goweii.wanandroid.module.knowledge.adapter.KnowledgeAdapter;
 import per.goweii.wanandroid.module.knowledge.presenter.KnowledgePresenter;
@@ -27,7 +26,7 @@ import per.goweii.wanandroid.utils.RvScrollTopUtils;
  * @date 2019/5/12
  * GitHub: https://github.com/goweii
  */
-public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implements ScrollTop, KnowledgeView {
+public class KnowledgeFragment extends BaseFragment<KnowledgePresenter> implements RvScrollTopUtils.ScrollTop, KnowledgeView {
 
     @BindView(R.id.msv)
     MultiStateView msv;

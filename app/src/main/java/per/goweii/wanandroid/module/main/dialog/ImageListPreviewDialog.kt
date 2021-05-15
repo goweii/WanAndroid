@@ -6,11 +6,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
 import android.view.ViewGroup
-import androidx.viewpager.widget.ViewPager
 import per.goweii.actionbarex.common.ActionBarCommon
-import per.goweii.anylayer.AnimatorHelper
-import per.goweii.anylayer.DialogLayer
-import per.goweii.anylayer.DragLayout
+import per.goweii.anylayer.dialog.DialogLayer
+import per.goweii.anylayer.utils.AnimatorHelper
+import per.goweii.anylayer.widget.SwipeLayout
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.utils.ImageLoader
 import per.goweii.wanandroid.widget.ImagePreviewView
@@ -32,8 +31,8 @@ class ImageListPreviewDialog(
         contentView(R.layout.dialog_image_list_preview)
         contentAnimator(object : AnimatorCreator {
             override fun createInAnimator(target: View): Animator {
-                val abc = getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)
-                val vp = getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)
+                val abc = getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)!!
+                val vp = getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)!!
                 return AnimatorSet().apply {
                     playTogether(
                             AnimatorHelper.createTopInAnim(abc),
@@ -43,8 +42,8 @@ class ImageListPreviewDialog(
             }
 
             override fun createOutAnimator(target: View): Animator {
-                val abc = getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)
-                val vp = getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)
+                val abc = getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)!!
+                val vp = getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)!!
                 return AnimatorSet().apply {
                     playTogether(
                             AnimatorHelper.createTopOutAnim(abc),
@@ -55,9 +54,9 @@ class ImageListPreviewDialog(
         })
     }
 
-    private val abc by lazy { getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc) }
-    private val vp by lazy { getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp) }
-    private val dl by lazy { getView<DragLayout>(R.id.dialog_image_list_preview_dl) }
+    private val abc by lazy { getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)!! }
+    private val vp by lazy { getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)!! }
+    private val dl by lazy { getView<SwipeLayout>(R.id.dialog_image_list_preview_dl)!! }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onAttach() {
@@ -76,11 +75,11 @@ class ImageListPreviewDialog(
             }
 
             override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {
-                dl.setDragStyle(DragLayout.DragStyle.None)
+                dl.setSwipeDirection(0)
             }
 
             override fun onPageSelected(p0: Int) {
-                dl.setDragStyle(DragLayout.DragStyle.Bottom)
+                dl.setSwipeDirection(SwipeLayout.Direction.BOTTOM)
                 abc.rightTextView.text = "${p0 + 1}/${imgs.size}"
             }
         })
@@ -103,15 +102,15 @@ class ImageListPreviewDialog(
                     }
 
                     override fun onTouching1() {
-                        dl.setDragStyle(DragLayout.DragStyle.Bottom)
+                        dl.setSwipeDirection(SwipeLayout.Direction.BOTTOM)
                     }
 
                     override fun onTouching2() {
-                        dl.setDragStyle(DragLayout.DragStyle.None)
+                        dl.setSwipeDirection(0)
                     }
 
                     override fun onTouchingUp() {
-                        dl.setDragStyle(DragLayout.DragStyle.Bottom)
+                        dl.setSwipeDirection(SwipeLayout.Direction.BOTTOM)
                     }
 
                     override fun onLongClick() {
@@ -128,19 +127,21 @@ class ImageListPreviewDialog(
                 container.removeView(obj as View)
             }
         }
-        dl.setDragStyle(DragLayout.DragStyle.Bottom)
-        dl.setOnDragListener(object : DragLayout.OnDragListener {
-            override fun onDragStart() {
+        dl.setSwipeDirection(SwipeLayout.Direction.BOTTOM)
+        dl.setOnSwipeListener(object : SwipeLayout.OnSwipeListener {
+            override fun onStart(direction: Int, fraction: Float) {
                 imageMenuDialog?.dismiss()
             }
 
-            override fun onDragging(f: Float) {
-                background.alpha = 1F - f
-                abc.translationY = -abc.bottom * f
+            override fun onSwiping(direction: Int, fraction: Float) {
+                background.alpha = 1F - fraction
+                abc.translationY = -abc.bottom * fraction
             }
 
-            override fun onDragEnd() {
-                dismiss(false)
+            override fun onEnd(direction: Int, fraction: Float) {
+                if (fraction == 1F) {
+                    dl.post { dismiss(false) }
+                }
             }
         })
         abc.rightTextView.text = "${index + 1}/${imgs.size}"

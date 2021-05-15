@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AppTheme" parent="BaseAppTheme">
+        <item name="colorIcLauncherBackgroundStart">@color/color_blue</item>
+        <item name="colorIcLauncherBackgroundEnd">@color/color_blue</item>
+        <item name="colorLoginBg">@color/color_blue</item>
+        <item name="colorBottomBarOverlay">@color/color_gray_light_a80</item>
+        <item name="colorMineBlurOverlay">@color/color_black_a05</item>
+        <item name="colorAboutMeBlurOverlay">@color/color_black_a05</item>
+        <item name="colorScrollbar">@color/color_black_a13</item>
+        <item name="colorHeartUncheckedOnMain">@color/color_blue</item>
+        <item name="colorHeartOuter">@color/color_orange</item>
+        <item name="colorHeartCenter">@color/color_orange_light</item>
+    </style>
+
+    <style name="AppTheme.Splash">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+    </style>
+
+    <style name="AppTheme.Router">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowDisablePreview">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="AppTheme.Main">
+        <item name="android:windowBackground">@drawable/splash_bg</item>
+    </style>
+
+    <style name="AppTheme.Normal">
+        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimRightInParallaxOut
+        </item>
+    </style>
+
+    <style name="AppTheme.Login">
+        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimBottomInParallaxOut
+        </item>
+    </style>
+
+</resources>

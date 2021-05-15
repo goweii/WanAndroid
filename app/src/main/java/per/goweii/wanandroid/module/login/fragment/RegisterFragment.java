@@ -2,6 +2,7 @@ package per.goweii.wanandroid.module.login.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -11,10 +12,12 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.InputMethodUtils;
+import per.goweii.basic.utils.RegexUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.LoginEvent;
-import per.goweii.wanandroid.module.login.activity.LoginActivity;
-import per.goweii.wanandroid.module.login.model.LoginBean;
+import per.goweii.wanandroid.module.login.activity.AuthActivity;
+import per.goweii.wanandroid.module.login.model.UserEntity;
 import per.goweii.wanandroid.module.login.presenter.RegisterPresenter;
 import per.goweii.wanandroid.module.login.view.RegisterView;
 import per.goweii.wanandroid.widget.InputView;
@@ -30,6 +33,8 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
 
     @BindView(R.id.ll_go_login)
     LinearLayout ll_go_login;
+    @BindView(R.id.piv_register_email)
+    InputView piv_email;
     @BindView(R.id.piv_register_account)
     InputView piv_account;
     @BindView(R.id.piv_register_password)
@@ -39,7 +44,7 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     @BindView(R.id.sv_register)
     SubmitView sv_register;
 
-    private LoginActivity mActivity;
+    private AuthActivity mActivity;
 
     public static RegisterFragment create() {
         return new RegisterFragment();
@@ -59,7 +64,7 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        mActivity = (LoginActivity) context;
+        mActivity = (AuthActivity) context;
     }
 
     @Override
@@ -85,8 +90,12 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mActivity.getSoftInputHelper().moveWith(sv_register,
-                piv_account.getEditText(), piv_password.getEditText(), piv_password_again.getEditText());
+        mActivity.getSoftInputHelper().moveWith(
+                sv_register,
+                piv_email.getEditText(),
+                piv_account.getEditText(),
+                piv_password.getEditText(),
+                piv_password_again.getEditText());
     }
 
     @Override
@@ -119,19 +128,34 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
                 mActivity.changeToLogin();
                 break;
             case R.id.sv_register:
-                String userName = piv_account.getText();
-                String password = piv_password.getText();
-                String repassword = piv_password_again.getText();
-                presenter.register(userName, password, repassword);
+                InputMethodUtils.hide(sv_register);
+                register();
                 break;
         }
         return true;
     }
 
+    private void register() {
+        String email = piv_email.getText();
+        if (!RegexUtils.matchEmail(email)) {
+            ToastMaker.showShort("邮箱格式不正确");
+            return;
+        }
+        String password = piv_password.getText();
+        String repassword = piv_password_again.getText();
+        if (!TextUtils.equals(password, repassword)) {
+            ToastMaker.showShort("请确认2次密码一致");
+            return;
+        }
+        String username = piv_account.getText();
+        presenter.register(email, username, password, repassword);
+    }
+
     @Override
-    public void registerSuccess(int code, LoginBean data) {
+    public void registerSuccess(int code, UserEntity data, String username, String password) {
         new LoginEvent(true).post();
-        finish();
+        mActivity.tryOpenLoginByBiometric(username, password);
+        //finish();
     }
 
     @Override

@@ -6,10 +6,7 @@ import android.os.Build;
 import android.view.View;
 import android.view.WindowInsets;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
-import per.goweii.basic.utils.LogUtils;
 
 /**
  * 描述：判断是否是刘海屏
@@ -53,7 +50,7 @@ public class NotchScreenUtils {
                 paramTypes[1] = int.class;
                 Method getInt = SystemProperties.getMethod("getInt", paramTypes);
                 Object[] params = new Object[2];
-                params[0] = new String("ro.miui.notch");
+                params[0] = "ro.miui.notch";
                 params[1] = new Integer(0);
                 result = (Integer) getInt.invoke(SystemProperties, params);
             } catch (Exception e) {

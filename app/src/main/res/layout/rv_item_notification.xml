@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_notification"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_press_color_surface"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tv_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_user"
+            android:layout_alignBottom="@+id/tv_user"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="5dp"
+            android:background="@drawable/article_tag_bg"
+            android:gravity="center"
+            android:paddingLeft="3dp"
+            android:paddingRight="3dp"
+            android:textColor="?colorTextMain"
+            android:textSize="@dimen/text_time"
+            tools:text="新回答" />
+
+        <TextView
+            android:id="@+id/tv_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/tv_tag"
+            android:textColor="?colorTextSecond"
+            android:textSize="@dimen/text_notes"
+            tools:text=" @林帅并不帅" />
+
+        <TextView
+            android:id="@+id/tv_data"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_alignTop="@+id/tv_user"
+            android:layout_alignBottom="@+id/tv_user"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textColor="?colorTextThird"
+            android:textSize="@dimen/text_notes"
+            tools:text="21小时前" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_middle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rl_top"
+        android:layout_marginTop="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:lineSpacingExtra="0dp"
+            android:textColor="?colorTextSurface"
+            android:textSize="@dimen/text_content"
+            tools:text="回答了：每日一问 | 我们常说的dalvik虚拟机是基于寄存器的，而jvm是基于栈，到底指的是什么？" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/bg_solid_round_color_surface_top_radius_small"
+            android:padding="@dimen/margin_small"
+            android:textColor="?colorTextSecond"
+            android:textSize="@dimen/text_auxiliary"
+            tools:text="公众号文章列表强势上线公众号文章列表强势上线公众号文章列表强势上线公众号文章列表强势上线" />
+
+    </LinearLayout>
+
+</RelativeLayout>

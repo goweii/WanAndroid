@@ -11,10 +11,10 @@
         style="@style/ActionBar.Common.Back"
         app:abc_titleText="设置" />
 
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/foreground"
+        android:background="?colorForeground"
         app:srlEnablePureScrollMode="true">
 
         <ScrollView
@@ -41,10 +41,10 @@
                         android:id="@+id/tv_system_theme_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
                         android:layout_centerVertical="true"
+                        android:singleLine="true"
                         android:text="跟随系统暗色模式"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -69,10 +69,10 @@
                         android:id="@+id/tv_dark_theme_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:singleLine="true"
                         android:layout_centerVertical="true"
+                        android:singleLine="true"
                         android:text="暗色模式"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -98,8 +98,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="稍后阅读"
-                        android:textColor="@color/text_surface"
+                        android:text="我的书签"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -112,7 +112,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_read_later"
                         android:text="不同于收藏，此功能无需登录，为本地操作，更换手机或重置APP后已添加的数据将丢失"
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -139,7 +139,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="阅读历史"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -152,7 +152,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_read_record"
                         android:text="便于查找阅读过的文章，为本地操作，更换手机或重置APP后已添加的数据将丢失"
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -179,7 +179,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="显示置顶"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -192,7 +192,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_top"
                         android:text="开启后首页显示置顶文章"
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -219,7 +219,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="显示轮播"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -232,7 +232,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_banner"
                         android:text="开启后首页显示轮播图"
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -259,7 +259,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="隐藏关于作者"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -272,7 +272,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_hide_about_me"
                         android:text="开启后隐藏我的页面的关于作者入口"
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -299,7 +299,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="隐藏开源项目"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -312,7 +312,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_hide_open"
                         android:text="开启后隐藏我的页面的开源项目入口"
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -339,7 +339,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="网页边缘滑动返回"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -352,7 +352,7 @@
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_web_swipeback_edge"
                         android:text="开启后网页仅在边缘可触发滑动返回，避免左右滑动代码时误触发滑动返回"
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <androidx.appcompat.widget.SwitchCompat
@@ -381,7 +381,7 @@
                         android:layout_height="wrap_content"
                         android:singleLine="true"
                         android:text="网页拦截"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -393,32 +393,31 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
                         android:text="长按可自定义拦截列表"
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <TextView
                         android:id="@+id/tv_intercept_host"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
                         android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
                         android:layout_toLeftOf="@+id/iv_intercept_host_next"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes"
                         tools:text="不拦截" />
 
                     <ImageView
                         android:id="@+id/iv_intercept_host_next"
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:layout_centerVertical="true"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:layout_alignParentRight="true"
-                        android:rotation="180"
+                        android:layout_centerVertical="true"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_back"
-                        android:tint="@color/third" />
+                        android:src="@drawable/ic_enter"
+                        android:tint="?colorIconThird" />
 
                 </RelativeLayout>
 
@@ -439,7 +438,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="列表动画"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -449,17 +448,16 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes"
                         tools:text="无" />
 
                     <ImageView
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:rotation="180"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_back"
-                        android:tint="@color/third" />
+                        android:src="@drawable/ic_enter"
+                        android:tint="?colorIconThird" />
 
                 </LinearLayout>
 
@@ -480,7 +478,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="清除缓存"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -490,17 +488,16 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes"
                         tools:text="100MB" />
 
                     <ImageView
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:rotation="180"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_back"
-                        android:tint="@color/third" />
+                        android:src="@drawable/ic_enter"
+                        android:tint="?colorIconThird" />
 
                 </LinearLayout>
 
@@ -521,7 +518,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="版本更新"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -531,17 +528,16 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes"
                         tools:text="已是最新版本" />
 
                     <ImageView
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:rotation="180"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_back"
-                        android:tint="@color/third" />
+                        android:src="@drawable/ic_enter"
+                        android:tint="?colorIconThird" />
 
                 </LinearLayout>
 
@@ -562,7 +558,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="关于我们"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
@@ -572,17 +568,16 @@
                         android:layout_marginRight="5dp"
                         android:singleLine="true"
                         android:text=""
-                        android:textColor="@color/text_third"
+                        android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes"
                         tools:text="1.0.0" />
 
                     <ImageView
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:rotation="180"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_back"
-                        android:tint="@color/third" />
+                        android:src="@drawable/ic_enter"
+                        android:tint="?colorIconThird" />
 
                 </LinearLayout>
 
@@ -603,16 +598,15 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="隐私政策"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <ImageView
-                        android:layout_width="13dp"
-                        android:layout_height="13dp"
-                        android:rotation="180"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
                         android:scaleType="fitCenter"
-                        android:src="@drawable/ic_back"
-                        android:tint="@color/third" />
+                        android:src="@drawable/ic_enter"
+                        android:tint="?colorIconThird" />
 
                 </LinearLayout>
 
@@ -633,7 +627,7 @@
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="退出登录"
-                        android:textColor="@color/text_surface"
+                        android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                 </LinearLayout>
@@ -642,6 +636,6 @@
 
         </ScrollView>
 
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
 </LinearLayout>

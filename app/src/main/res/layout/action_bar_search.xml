@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/action_bar_height"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="?colorMainOrSurface"
+    android:orientation="horizontal">
+
+    <per.goweii.actionbarex.common.ActionIconView
+        android:id="@+id/aiv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:padding="@dimen/basic_ui_action_bar_icon_padding"
+        android:src="@drawable/ic_back"
+        android:tint="?colorOnMainOrSurface" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/margin_thin"
+        android:layout_marginBottom="@dimen/margin_thin"
+        android:layout_weight="1"
+        android:background="@drawable/action_search_bg"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_search"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/margin_def"
+            android:layout_weight="1"
+            android:background="?colorTransparent"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:hint="用空格隔开多个关键词"
+            android:imeOptions="actionSearch"
+            android:lines="1"
+            android:textColor="?colorOnMainOrSurface"
+            android:textColorHint="?colorOnMainOrSurfaceAlpha"
+            android:textSize="@dimen/text_content" />
+
+        <per.goweii.actionbarex.common.ActionIconView
+            android:id="@+id/aiv_clear"
+            android:visibility="invisible"
+            tools:visibility="visible"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:alpha="0.8"
+            android:padding="8dp"
+            android:src="@drawable/ic_remove"
+            android:tint="?colorOnMainOrSurface" />
+
+    </LinearLayout>
+
+    <per.goweii.actionbarex.common.ActionIconView
+        android:id="@+id/aiv_search"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/basic_ui_action_bar_icon_margin"
+        android:layout_marginEnd="@dimen/basic_ui_action_bar_icon_margin"
+        android:padding="@dimen/basic_ui_action_bar_icon_padding"
+        android:src="@drawable/ic_search"
+        android:tint="?colorOnMainOrSurface" />
+
+</LinearLayout>

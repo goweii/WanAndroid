@@ -12,7 +12,7 @@
         android:layout_height="@dimen/button_height"
         android:gravity="center"
         android:textSize="@dimen/text_content"
-        android:textColor="@color/text_surface"
+        android:textColor="?colorTextSurface"
         tools:text="列表条目"/>
 
 </LinearLayout>

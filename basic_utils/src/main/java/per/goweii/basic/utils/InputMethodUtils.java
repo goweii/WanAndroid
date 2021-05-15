@@ -41,8 +41,8 @@ public class InputMethodUtils {
      */
     public static void hide(View v) {
         InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null && imm.isActive()) {
-            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
         }
     }
 
@@ -51,16 +51,8 @@ public class InputMethodUtils {
      */
     public static void show(View v) {
         InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm != null && !imm.isActive()) {
-            imm.showSoftInput(v, InputMethodManager.SHOW_FORCED);
+        if (imm != null) {
+            imm.showSoftInput(v, 0);
         }
-    }
-
-    /**
-     * 输入法是否显示着
-     */
-    public static boolean isShow(View v) {
-        InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        return imm != null && imm.isActive();
     }
 }

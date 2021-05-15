@@ -27,7 +27,7 @@ public class CopiedTextProcessor {
     private String mCurrProcessText = null;
 
     private static class Holder {
-        private static CopiedTextProcessor sInstance = new CopiedTextProcessor();
+        private static final CopiedTextProcessor sInstance = new CopiedTextProcessor();
     }
 
     private CopiedTextProcessor() {
@@ -51,20 +51,25 @@ public class CopiedTextProcessor {
 
     public void process() {
         mCurrProcessText = getPrimaryClipText();
-        if (TextUtils.isEmpty(mCurrProcessText)) return;
-        if (!isDiff(mCurrProcessText)) return;
-        if (isLink(mCurrProcessText)) {
-            if (mProcessCallback != null) {
-                mProcessCallback.isLink(mCurrProcessText);
+        if (!TextUtils.isEmpty(mCurrProcessText)) {
+            if (isDiff(mCurrProcessText)) {
+                if (isLink(mCurrProcessText)) {
+                    if (mProcessCallback != null) {
+                        mProcessCallback.isLink(mCurrProcessText);
+                    }
+                    return;
+                }
+                WanPwdParser parser = WanPwdParser.match(mCurrProcessText);
+                if (parser != null) {
+                    if (mProcessCallback != null) {
+                        mProcessCallback.isWanPwd(parser);
+                    }
+                    return;
+                }
             }
-            return;
         }
-        WanPwdParser parser = WanPwdParser.match(mCurrProcessText);
-        if (parser != null) {
-            if (mProcessCallback != null) {
-                mProcessCallback.isPassword(parser);
-            }
-            return;
+        if (mProcessCallback != null) {
+            mProcessCallback.ignored();
         }
         LogUtils.d("CopiedTextProcessor", "nothing");
     }
@@ -98,7 +103,9 @@ public class CopiedTextProcessor {
     public interface ProcessCallback {
         void isLink(String link);
 
-        void isPassword(WanPwdParser pwd);
+        void isWanPwd(WanPwdParser pwd);
+
+        void ignored();
     }
 
 }

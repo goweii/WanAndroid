@@ -5,19 +5,25 @@
     <dimen name="action_bar_bottom_line_height">0dp</dimen>
     <dimen name="bottom_bar_height">49dp</dimen>
     <dimen name="button_height">44dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="button_height_half">22dp</dimen>
     <dimen name="action_bar_bottom_tab_height">36dp</dimen>
 
+    <dimen name="line_thin">2px</dimen>
     <dimen name="line">1dp</dimen>
 
     <dimen name="round_radius">12dp</dimen>
     <dimen name="round_radius_small">3dp</dimen>
 
+    <dimen name="margin_very_thin">4dp</dimen>
     <dimen name="margin_thin">6dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_common">10dp</dimen>
     <dimen name="margin_def">16dp</dimen>
     <dimen name="margin_middle">32dp</dimen>
     <dimen name="margin_big">48dp</dimen>
+    <dimen name="margin_large">60dp</dimen>
+    <dimen name="margin_very_large">80dp</dimen>
 
     <!--==========================文字大小============================-->
     <dimen name="text_headline">22sp</dimen>

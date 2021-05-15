@@ -7,8 +7,8 @@ import android.view.View;
 import androidx.annotation.NonNull;
 
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
+import per.goweii.anylayer.widget.SwipeLayout;
 import per.goweii.wanandroid.R;
 
 /**
@@ -24,7 +24,7 @@ public class WebShareDialog {
                 .contentView(R.layout.dialog_web_share)
                 .gravity(Gravity.BOTTOM)
                 .backgroundDimDefault()
-                .dragDismiss(DragLayout.DragStyle.Bottom)
+                .swipeDismiss(SwipeLayout.Direction.BOTTOM)
                 .onClickToDismiss(new Layer.OnClickListener() {
                                       @Override
                                       public void onClick(Layer layer, View v) {

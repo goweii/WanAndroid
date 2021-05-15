@@ -159,13 +159,13 @@ public class Timer implements Runnable {
         }
     }
 
-    private void increaseTime(){
+    private void increaseTime() {
         if (mIncrease) {
             mTime += mDelay;
         } else {
             mTime -= mDelay;
         }
-        if (mTime < 0){
+        if (mTime < 0) {
             mTime = 0;
         }
     }

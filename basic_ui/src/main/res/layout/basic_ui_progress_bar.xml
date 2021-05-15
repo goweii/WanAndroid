@@ -7,10 +7,10 @@
     android:layout_height="@dimen/basic_ui_action_bar_loading_bar_height"
     android:layout_gravity="top"
     android:indeterminate="false"
-    android:background="@color/transparent"
+    android:background="?colorTransparent"
     app:mpb_showProgressBackground="false"
     tools:progress="50"
-    app:mpb_progressTint="@color/assist"
-    app:mpb_indeterminateTint="@color/assist"
+    app:mpb_progressTint="?colorAssist"
+    app:mpb_indeterminateTint="?colorAssist"
     app:mpb_progressStyle="horizontal"
     app:mpb_useIntrinsicPadding="false" />

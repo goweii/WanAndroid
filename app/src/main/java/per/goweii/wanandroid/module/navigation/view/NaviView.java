@@ -12,5 +12,6 @@ import per.goweii.wanandroid.module.navigation.model.NaviBean;
  */
 public interface NaviView extends BaseView {
     void getNaviListSuccess(int code, List<NaviBean> data);
+
     void getNaviListFail(int code, String msg);
 }

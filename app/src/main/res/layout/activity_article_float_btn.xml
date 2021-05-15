@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_above="@+id/v_bottom_bar_stub"
+    android:layout_below="@+id/ab"
+    android:orientation="vertical"
+    tools:showIn="@layout/activity_article_content">
+
+    <RelativeLayout
+        android:id="@+id/rl_icon_share"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:visibility="invisible"
+        tools:translationY="-240dp"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_share_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_common"
+            android:layout_toEndOf="@+id/sl_share"
+            android:alpha="0"
+            android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+            android:paddingStart="@dimen/margin_def"
+            android:paddingTop="@dimen/margin_thin"
+            android:paddingEnd="@dimen/margin_def"
+            android:paddingBottom="@dimen/margin_thin"
+            android:text="分享"
+            android:textColor="?colorTextSurfaceAlpha"
+            android:textSize="@dimen/text_notes"
+            android:visibility="invisible"
+            tools:alpha="1"
+            tools:translationX="-44dp"
+            tools:visibility="visible" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/sl_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <ImageView
+                android:id="@+id/aiv_share"
+                android:layout_width="@dimen/button_height"
+                android:layout_height="@dimen/button_height"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                android:padding="13dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_share"
+                android:tint="?colorIconSurface"
+                tools:ignore="ContentDescription,UseAppTint" />
+
+        </com.lihang.ShadowLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_icon_open"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:visibility="invisible"
+        tools:translationY="-180dp"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_open_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_common"
+            android:layout_toEndOf="@+id/sl_open"
+            android:alpha="0"
+            android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+            android:paddingStart="@dimen/margin_def"
+            android:paddingTop="@dimen/margin_thin"
+            android:paddingEnd="@dimen/margin_def"
+            android:paddingBottom="@dimen/margin_thin"
+            android:text="打开"
+            android:textColor="?colorTextSurfaceAlpha"
+            android:textSize="@dimen/text_notes"
+            android:visibility="invisible"
+            tools:alpha="1"
+            tools:translationX="-44dp"
+            tools:visibility="visible" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/sl_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <ImageView
+                android:id="@+id/aiv_open"
+                android:layout_width="@dimen/button_height"
+                android:layout_height="@dimen/button_height"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                android:padding="13dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_browser"
+                android:tint="?colorIconSurface"
+                tools:ignore="ContentDescription,UseAppTint" />
+
+        </com.lihang.ShadowLayout>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_icon_read_later"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:visibility="invisible"
+        tools:translationY="-120dp"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_read_later_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_common"
+            android:layout_toEndOf="@+id/sl_read_later"
+            android:alpha="0"
+            android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+            android:paddingStart="@dimen/margin_def"
+            android:paddingTop="@dimen/margin_thin"
+            android:paddingEnd="@dimen/margin_def"
+            android:paddingBottom="@dimen/margin_thin"
+            android:text="书签"
+            android:textColor="?colorTextSurfaceAlpha"
+            android:textSize="@dimen/text_notes"
+            android:visibility="invisible"
+            tools:alpha="1"
+            tools:translationX="-44dp"
+            tools:visibility="visible" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/sl_read_later"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <ImageView
+                android:id="@+id/aiv_read_later"
+                android:layout_width="@dimen/button_height"
+                android:layout_height="@dimen/button_height"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                android:padding="13dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_read_later"
+                android:tint="?colorIconSurface"
+                tools:ignore="ContentDescription,UseAppTint" />
+
+        </com.lihang.ShadowLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_icon_collect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp"
+        android:visibility="invisible"
+        tools:translationY="-60dp"
+        tools:visibility="visible">
+
+        <TextView
+            android:id="@+id/tv_collect_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/margin_common"
+            android:layout_toEndOf="@+id/sl_collect"
+            android:alpha="0"
+            android:background="@drawable/bg_solid_round_color_surface_top_radius_max"
+            android:paddingStart="@dimen/margin_def"
+            android:paddingTop="@dimen/margin_thin"
+            android:paddingEnd="@dimen/margin_def"
+            android:paddingBottom="@dimen/margin_thin"
+            android:text="收藏"
+            android:textColor="?colorTextSurfaceAlpha"
+            android:textSize="@dimen/text_notes"
+            android:visibility="invisible"
+            tools:alpha="1"
+            tools:translationX="-44dp"
+            tools:visibility="visible" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/sl_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <per.goweii.wanandroid.widget.CollectView
+                android:id="@+id/cv_collect"
+                android:layout_width="@dimen/button_height"
+                android:layout_height="@dimen/button_height"
+                android:layout_gravity="center"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                android:padding="13dp" />
+
+        </com.lihang.ShadowLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_icon_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="8dp">
+
+        <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+            android:id="@+id/pb"
+            style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_alignStart="@+id/sl_back"
+            android:layout_alignTop="@+id/sl_back"
+            android:layout_alignEnd="@+id/sl_back"
+            android:layout_alignBottom="@+id/sl_back"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="7dp"
+            android:max="100"
+            app:mpb_determinateCircularProgressStyle="normal"
+            app:mpb_progressStyle="circular"
+            app:mpb_progressTint="?colorMain"
+            app:mpb_showProgressBackground="false"
+            app:mpb_useIntrinsicPadding="false"
+            tools:progress="30" />
+
+        <com.lihang.ShadowLayout
+            android:id="@+id/sl_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="?colorSurface"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <FrameLayout
+                android:id="@+id/fl_back"
+                android:layout_width="@dimen/button_height"
+                android:layout_height="@dimen/button_height">
+
+                <per.goweii.reveallayout.RevealLayout
+                    android:id="@+id/rl"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:rl_allowRevert="true"
+                    app:rl_checkedLayout="@layout/layout_article_collect_view_checked"
+                    app:rl_uncheckedLayout="@layout/layout_article_collect_view_unchecked"
+                    tools:rl_checked="false" />
+
+                <ImageView
+                    android:id="@+id/iv_close"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                    android:padding="13dp"
+                    android:src="@drawable/ic_close"
+                    android:tint="?colorIconSurface"
+                    android:visibility="invisible"
+                    tools:ignore="ContentDescription,UseAppTint" />
+
+                <View
+                    android:id="@+id/v_back"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </FrameLayout>
+
+        </com.lihang.ShadowLayout>
+
+    </RelativeLayout>
+
+</RelativeLayout>

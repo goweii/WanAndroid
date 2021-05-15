@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/surface"
+    android:background="?colorSurface"
     android:padding="16dp">
 
     <TextView
@@ -13,7 +13,7 @@
         android:includeFontPadding="false"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:textColor="@color/text_main"
+        android:textColor="?colorTextMain"
         android:textSize="@dimen/text_content"
         tools:text="+31" />
 
@@ -24,7 +24,7 @@
         android:includeFontPadding="false"
         android:lineSpacingExtra="0dp"
         android:layout_marginTop="5dp"
-        android:textColor="@color/text_second"
+        android:textColor="?colorTextSecond"
         android:textSize="@dimen/text_content"
         tools:text="签到 积分10+21" />
 
@@ -36,7 +36,7 @@
         android:lineSpacingExtra="0dp"
         android:layout_marginTop="5dp"
         android:layout_below="@+id/tv_title"
-        android:textColor="@color/text_third"
+        android:textColor="?colorTextThird"
         android:textSize="@dimen/text_time"
         tools:text="2019-08-31 00:03:16" />
 

@@ -12,17 +12,17 @@ import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
-import per.goweii.wanandroid.common.ScrollTop;
 import per.goweii.wanandroid.module.knowledge.fragment.KnowledgeFragment;
 import per.goweii.wanandroid.module.navigation.fragment.NaviFragment;
 import per.goweii.wanandroid.utils.MagicIndicatorUtils;
+import per.goweii.wanandroid.utils.RvScrollTopUtils;
 
 /**
  * @author CuiZhen
  * @date 2019/5/19
  * GitHub: https://github.com/goweii
  */
-public class KnowledgeNavigationFragment extends BaseFragment implements ScrollTop {
+public class KnowledgeNavigationFragment extends BaseFragment implements RvScrollTopUtils.ScrollTop {
 
     @BindView(R.id.ab)
     ActionBarEx ab;
@@ -57,7 +57,7 @@ public class KnowledgeNavigationFragment extends BaseFragment implements ScrollT
                 NaviFragment.create()
         );
         vp.setAdapter(mAdapter);
-        MagicIndicatorUtils.commonNavigator(ab.getView(R.id.mi), vp, mAdapter, new SimpleCallback<Integer>(){
+        MagicIndicatorUtils.commonNavigator(ab.getView(R.id.mi), vp, mAdapter, new SimpleCallback<Integer>() {
             @Override
             public void onResult(Integer data) {
                 notifyScrollTop(data);
@@ -78,8 +78,8 @@ public class KnowledgeNavigationFragment extends BaseFragment implements ScrollT
     public void scrollTop() {
         if (isAdded() && !isDetached()) {
             Fragment fragment = mAdapter.getItem(vp.getCurrentItem());
-            if (fragment instanceof ScrollTop) {
-                ScrollTop scrollTop = (ScrollTop) fragment;
+            if (fragment instanceof RvScrollTopUtils.ScrollTop) {
+                RvScrollTopUtils.ScrollTop scrollTop = (RvScrollTopUtils.ScrollTop) fragment;
                 scrollTop.scrollTop();
             }
         }
@@ -89,8 +89,8 @@ public class KnowledgeNavigationFragment extends BaseFragment implements ScrollT
         long currClickTime = System.currentTimeMillis();
         if (lastClickPos == pos && currClickTime - lastClickTime <= Config.SCROLL_TOP_DOUBLE_CLICK_DELAY) {
             Fragment fragment = mAdapter.getItem(vp.getCurrentItem());
-            if (fragment instanceof ScrollTop) {
-                ScrollTop scrollTop = (ScrollTop) fragment;
+            if (fragment instanceof RvScrollTopUtils.ScrollTop) {
+                RvScrollTopUtils.ScrollTop scrollTop = (RvScrollTopUtils.ScrollTop) fragment;
                 scrollTop.scrollTop();
             }
         }

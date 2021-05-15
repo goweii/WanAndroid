@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
  */
 public interface CDKey {
     @NonNull
-    String createCDKey(@NonNull String userId);
+    String create(@NonNull String userId);
 
-    boolean active(@NonNull String userId, @NonNull String cdkey);
+    boolean check(@NonNull String userId, @NonNull String cdkey);
 }

@@ -36,7 +36,6 @@ public class DownloadDialog {
     private final boolean isForce;
     private final String url;
     private final String urlBackup;
-    private final String versionName;
     private boolean isAutoInstall = true;
 
     private ProgressBar progressBar;
@@ -50,28 +49,25 @@ public class DownloadDialog {
 
     private int retryCount = 0;
 
-    private OnDismissListener mOnDismissListener;
+    private final OnDismissListener mOnDismissListener;
 
     public static DownloadDialog with(Activity activity,
                                       boolean isForce,
                                       String url,
                                       String urlBackup,
-                                      String versionName,
                                       OnDismissListener onDismissListener) {
-        return new DownloadDialog(activity, isForce, url, urlBackup, versionName, onDismissListener);
+        return new DownloadDialog(activity, isForce, url, urlBackup, onDismissListener);
     }
 
     private DownloadDialog(Activity activity,
                            boolean isForce,
                            String url,
                            String urlBackup,
-                           String versionName,
                            OnDismissListener onDismissListener) {
         this.mActivity = activity;
         this.url = url;
         this.urlBackup = urlBackup;
         this.isForce = isForce;
-        this.versionName = versionName;
         this.mOnDismissListener = onDismissListener;
         showDialog();
         startDownload(this.url);
@@ -207,7 +203,7 @@ public class DownloadDialog {
         mAnyLayer.show();
     }
 
-    private void installApk(){
+    private void installApk() {
         AnyPermission.with(mActivity)
                 .install(mApk)
                 .request(new RequestListener() {
@@ -247,7 +243,7 @@ public class DownloadDialog {
         if (progress >= 100) {
             if (tvState != null) {
                 tvState.setText(R.string.basic_ui_dialog_download_state_install);
-                tvState.setTextColor(ResUtils.getColor(mActivity, R.color.text_main));
+                tvState.setTextColor(ResUtils.getThemeColor(tvState, R.attr.colorTextMain));
             }
         }
     }

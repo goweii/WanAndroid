@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<per.goweii.anylayer.notification.MaxSizeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="top|center_horizontal"
+    android:maxWidth="480dp"
+    android:maxHeight="480dp"
+    tools:ignore="RtlHardcoded">
+
+    <com.lihang.ShadowLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:hl_cornerRadius="@dimen/round_radius"
+        app:hl_layoutBackground="?colorTransparent"
+        app:hl_shadowColor="?colorShadow"
+        app:hl_shadowLimit="@dimen/margin_small"
+        app:hl_shadowOffsetY="@dimen/margin_very_thin">
+
+        <LinearLayout
+            android:id="@+id/dialog_read_later_notification_ll_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_solid_round_color_surface_radius_def"
+            android:orientation="vertical"
+            android:paddingLeft="15dp"
+            android:paddingTop="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp">
+
+            <TextView
+                android:id="@+id/dialog_read_later_notification_tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textColor="?colorTextSurface"
+                android:textSize="@dimen/text_content"
+                android:textStyle="bold"
+                tools:text="@tools:sample/lorem/random" />
+
+            <TextView
+                android:id="@+id/dialog_read_later_notification_tv_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="3"
+                android:textColor="?colorTextSecond"
+                android:textSize="@dimen/text_auxiliary"
+                tools:text="@tools:sample/lorem/random" />
+
+        </LinearLayout>
+
+    </com.lihang.ShadowLayout>
+
+</per.goweii.anylayer.notification.MaxSizeFrameLayout>

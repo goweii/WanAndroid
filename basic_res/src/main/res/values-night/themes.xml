@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="BaseAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@color/color_black_dark1</item>
+        <item name="colorPrimary">@color/color_blue_light</item>
+        <item name="colorPrimaryDark">@color/color_transparent</item>
+        <item name="colorAccent">@color/color_blue_light</item>
+        <!-- 主题颜色 -->
+        <item name="colorMain">@color/color_blue_light</item>
+        <item name="colorMainAlpha">@color/color_blue_light_a60</item>
+        <item name="colorStriking">@color/color_orange_light</item>
+        <item name="colorAssist">@color/color_green_light</item>
+        <item name="colorDialogBg">@color/color_black_a50</item>
+        <item name="colorToastBg">@color/color_black_dark1</item>
+        <item name="colorRippleDark">@color/color_blue_light_a05</item>
+        <item name="colorRippleLight">@color/color_white_a20</item>
+        <item name="colorLauncherBackground">@color/color_blue</item>
+        <item name="colorTransparent">@color/color_transparent</item>
+        <item name="colorLine">@color/color_black_dark1</item>
+        <item name="colorBackground">@color/color_black_dark1</item>
+        <item name="colorBackgroundAlpha">@color/color_black_dark1_a86</item>
+        <item name="colorBackgroundMask">@color/color_white_a05</item>
+        <item name="colorForeground">@color/color_black_dark1</item>
+        <item name="colorForegroundAlpha">@color/color_black_dark1_a86</item>
+        <item name="colorForegroundMask">@color/color_white_a05</item>
+        <item name="colorForegroundTop">@color/color_black_dark3</item>
+        <item name="colorSurface">@color/color_black_dark3</item>
+        <item name="colorSurfaceAlpha">@color/color_black_dark3_a80</item>
+        <item name="colorSurfaceMask">@color/color_white_a05</item>
+        <item name="colorSurfaceTop">@color/color_black_dark4</item>
+        <item name="colorSurfaceTopAlpha">@color/color_black_dark4_a93</item>
+        <item name="colorSurfaceTopMask">@color/color_white_a05</item>
+        <item name="colorInvert">@color/color_white_a70</item>
+        <item name="colorInvertAlpha">@color/color_white_a05</item>
+        <item name="colorSecond">@color/color_white_a50</item>
+        <item name="colorThird">@color/color_white_a33</item>
+        <item name="colorFourth">@color/color_white_a20</item>
+        <item name="colorShadow">@color/color_black_a40</item>
+        <item name="colorShadowMain">@color/color_blue_dark_a60</item>
+        <item name="colorTextMain">@color/color_blue_light</item>
+        <item name="colorTextMainAlpha">@color/color_blue_light_a60</item>
+        <item name="colorTextAccent">@color/color_orange_light</item>
+        <item name="colorTextSurface">@color/color_white_a70</item>
+        <item name="colorTextSurfaceAlpha">@color/color_white_a30</item>
+        <item name="colorTextSecond">@color/color_white_a50</item>
+        <item name="colorTextThird">@color/color_white_a33</item>
+        <item name="colorTextFourth">@color/color_white_a20</item>
+        <item name="colorTextInvert">@color/color_black_a93</item>
+        <item name="colorTextInvertAlpha">@color/color_black_a47</item>
+        <item name="colorTextOnMain">@color/color_black_a93</item>
+        <item name="colorIconMain">@color/color_blue_light</item>
+        <item name="colorIconAccent">@color/color_orange_light</item>
+        <item name="colorIconSurface">@color/color_white_a70</item>
+        <item name="colorIconSecond">@color/color_white_a50</item>
+        <item name="colorIconThird">@color/color_white_a33</item>
+        <item name="colorIconFourth">@color/color_white_a20</item>
+        <item name="colorIconInvert">@color/color_black_a93</item>
+        <item name="colorIconOnMain">@color/color_black_a10</item>
+        <item name="colorMainOrSurface">@color/color_black_dark3</item>
+        <item name="colorOnMainOrSurface">@color/color_white_a70</item>
+        <item name="colorOnMainOrSurfaceAlpha">@color/color_white_a30</item>
+        <item name="colorIconLight">@color/color_white_a70</item>
+        <item name="colorIconDark">@color/color_black_a93</item>
+    </style>
+
+</resources>

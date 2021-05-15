@@ -44,8 +44,9 @@ public class SearchHistoryUtils {
             return null;
         }
         try {
-            return mGson.fromJson(json, new TypeToken<List<String>>(){}.getType());
-        } catch (Exception e){
+            return mGson.fromJson(json, new TypeToken<List<String>>() {
+            }.getType());
+        } catch (Exception e) {
             mSPUtils.clear();
             return null;
         }

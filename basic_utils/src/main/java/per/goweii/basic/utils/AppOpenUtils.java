@@ -1,6 +1,5 @@
 package per.goweii.basic.utils;
 
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -67,14 +66,60 @@ public class AppOpenUtils {
     }
 
     public static boolean openWechat(Context context) {
-        Intent intent = new Intent();
-        ComponentName cmp = new ComponentName(AppInfoUtils.PackageName.WECHAT,
-                AppInfoUtils.PackageName.WECHAT + ".ui.LauncherUI");
-        intent.setAction(Intent.ACTION_MAIN);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setComponent(cmp);
         try {
+            Intent intent = context.getPackageManager().getLaunchIntentForPackage(AppInfoUtils.PackageName.WECHAT);
+            if (intent == null) return false;
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction("android.intent.action.VIEW");
+            context.startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean openWechatQRCode(Context context) {
+        try {
+            Intent intent = context.getPackageManager().getLaunchIntentForPackage(AppInfoUtils.PackageName.WECHAT);
+            if (intent == null) return false;
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction("android.intent.action.VIEW");
+            intent.putExtra("LauncherUI.From.Scaner.Shortcut", true);
+            context.startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean openQQ(Context context) {
+        try {
+            Intent intent = context.getPackageManager().getLaunchIntentForPackage(AppInfoUtils.PackageName.QQ);
+            if (intent == null) return false;
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction("android.intent.action.VIEW");
+            context.startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean openZFBScan(Context context) {
+        try {
+            Uri uri = Uri.parse("alipayqr://platformapi/startapp?saId=10000007");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+            context.startActivity(intent);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public static boolean openZFB(Context context) {
+        try {
+            Uri uri = Uri.parse("alipayqr://platformapi/startapp");
+            Intent intent = new Intent(Intent.ACTION_VIEW, uri);
             context.startActivity(intent);
             return true;
         } catch (Exception e) {

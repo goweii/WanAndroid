@@ -10,7 +10,6 @@ import android.os.Looper;
 import android.os.Message;
 import android.widget.ImageView;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -46,8 +45,8 @@ public class GlideHelper {
     private RequestBuilder<Bitmap> mBuilderBmp;
     private RequestBuilder<GifDrawable> mBuilderGif;
     private boolean mCache = true;
-    private int mPlaceHolder = 0;
-    private int mErrorHolder = 0;
+    private Drawable mPlaceHolder = null;
+    private Drawable mErrorHolder = null;
     private OnGlideProgressListener mOnGlideProgressListener = null;
     private OnProgressListener mProgressListener = null;
     private Handler mProgressHandler = null;
@@ -80,12 +79,12 @@ public class GlideHelper {
         return this;
     }
 
-    public GlideHelper placeHolder(@DrawableRes int placeHolder) {
+    public GlideHelper placeHolder(Drawable placeHolder) {
         this.mPlaceHolder = placeHolder;
         return this;
     }
 
-    public GlideHelper errorHolder(@DrawableRes int errorHolder) {
+    public GlideHelper errorHolder(Drawable errorHolder) {
         this.mErrorHolder = errorHolder;
         return this;
     }
@@ -202,9 +201,13 @@ public class GlideHelper {
             };
             ProgressInterceptor.addProgressListener(mImageUrl, mProgressListener);
         }
+        RequestOptions options = getOptions();
+        if (imageView.getMeasuredWidth() > 0 && imageView.getMeasuredHeight() > 0) {
+            options = options.override(imageView.getMeasuredWidth(), imageView.getMeasuredHeight());
+        }
         switch (as) {
             case DRAWABLE:
-                getBuilder().apply(getOptions()).into(new ImageViewTarget<Drawable>(imageView) {
+                getBuilder().apply(options).into(new ImageViewTarget<Drawable>(imageView) {
                     @Override
                     protected void setResource(@Nullable Drawable resource) {
                         imageView.setImageDrawable(resource);
@@ -230,7 +233,7 @@ public class GlideHelper {
                 });
                 break;
             case GIF:
-                getGifBuilder().apply(getOptions()).into(new ImageViewTarget<GifDrawable>(imageView) {
+                getGifBuilder().apply(options).into(new ImageViewTarget<GifDrawable>(imageView) {
                     @Override
                     protected void setResource(@Nullable GifDrawable resource) {
                         imageView.setImageDrawable(resource);
@@ -256,7 +259,7 @@ public class GlideHelper {
                 });
                 break;
             case BITMAP:
-                getBmpBuilder().apply(getOptions()).into(new BitmapImageViewTarget(imageView) {
+                getBmpBuilder().apply(options).into(new BitmapImageViewTarget(imageView) {
                     @Override
                     public void onLoadStarted(@Nullable Drawable placeholder) {
                         super.onLoadStarted(placeholder);
@@ -391,10 +394,10 @@ public class GlideHelper {
     @SuppressLint("CheckResult")
     private RequestOptions getOptions() {
         RequestOptions options = new RequestOptions();
-        if (mPlaceHolder > 0) {
+        if (mPlaceHolder != null) {
             options.placeholder(mPlaceHolder);
         }
-        if (mErrorHolder > 0) {
+        if (mErrorHolder != null) {
             options.error(mErrorHolder);
         }
         if (mCache) {

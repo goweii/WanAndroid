@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.kennyc.view.MultiStateView;
-import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -36,7 +36,7 @@ import per.goweii.wanandroid.module.mine.adapter.MineShareArticleAdapter;
 import per.goweii.wanandroid.module.mine.presenter.MineSharePresenter;
 import per.goweii.wanandroid.module.mine.view.MineShareView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvAnimUtils;
+import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
@@ -82,7 +82,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onSettingChangeEvent(SettingChangeEvent event) {
         if (event.isRvAnimChanged()) {
-            RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -156,7 +156,8 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new MineShareArticleAdapter();
-        RvAnimUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
+        RvConfigUtils.init(mAdapter);
+        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -179,7 +180,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 mAdapter.closeAll(null);
-                ArticleBean item = mAdapter.getArticleBean(position);
+                ArticleBean item = mAdapter.getItem(position);
                 if (item == null) {
                     return;
                 }
@@ -222,7 +223,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
                 MultiStateUtils.toContent(msv);
             }
         } else {
-            mAdapter.addData(data.getArticles());
+            mAdapter.addData(data.getDatas());
             mAdapter.loadMoreComplete();
         }
         if (data.isOver()) {

@@ -38,7 +38,7 @@ public class KeyboardHelper implements ViewTreeObserver.OnGlobalFocusChangeListe
     private int moveHeight = 0;
     private boolean isFocusChange = false;
 
-    private Runnable moveRunnable = new Runnable() {
+    private final Runnable moveRunnable = new Runnable() {
         @Override
         public void run() {
             if (isViewFocus()) {
@@ -225,11 +225,7 @@ public class KeyboardHelper implements ViewTreeObserver.OnGlobalFocusChangeListe
      */
     private boolean isSoftOpen(int usableHeightNow, int usableHeightSansKeyboard) {
         int heightDifference = usableHeightSansKeyboard - usableHeightNow;
-        if (heightDifference > (usableHeightSansKeyboard / 4)) {
-            return true;
-        } else {
-            return false;
-        }
+        return heightDifference > (usableHeightSansKeyboard / 4);
     }
 
     private boolean isViewFocus() {

@@ -3,15 +3,19 @@ package per.goweii.basic.utils;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.annotation.ArrayRes;
+import androidx.annotation.AttrRes;
 import androidx.annotation.BoolRes;
 import androidx.annotation.ColorRes;
 import androidx.annotation.DimenRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntegerRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 
@@ -44,12 +48,23 @@ public class ResUtils {
         return ContextCompat.getColor(Utils.getAppContext(), id);
     }
 
-    public static int getColor(Context context, @ColorRes int id) {
+    public static int getColor(@NonNull Context context, @ColorRes int id) {
         return context.getResources().getColor(id);
     }
 
-    public static int getColor(View view, @ColorRes int id) {
+    public static int getColor(@NonNull View view, @ColorRes int id) {
         return view.getContext().getResources().getColor(id);
+    }
+
+    public static int getThemeColor(@NonNull View view, @AttrRes int id) {
+        return getThemeColor(view.getContext(), id);
+    }
+
+    public static int getThemeColor(Context context, @AttrRes int id) {
+        TypedArray typedArray = context.obtainStyledAttributes(new int[]{id});
+        int color = typedArray.getColor(0, Color.TRANSPARENT);
+        typedArray.recycle();
+        return color;
     }
 
     public static float getDimens(@DimenRes int id) {

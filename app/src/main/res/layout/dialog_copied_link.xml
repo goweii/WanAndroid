@@ -25,7 +25,7 @@
             android:padding="5dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_close"
-            android:tint="@color/text_invert" />
+            android:tint="?colorIconInvert" />
 
         <TextView
             android:id="@+id/dialog_copied_link_tv_open"
@@ -35,7 +35,7 @@
             android:layout_marginTop="@dimen/margin_def"
             android:layout_toRightOf="@+id/dialog_copied_link_iv_close"
             android:text="打开链接"
-            android:textColor="@color/text_invert"
+            android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:layout_alignLeft="@+id/dialog_copied_link_tv_open"
             android:layout_marginBottom="@dimen/margin_def"
             android:maxWidth="200dp"
-            android:textColor="@color/text_invert_alpha"
+            android:textColor="?colorTextInvertAlpha"
             android:textSize="@dimen/text_notes"
             tools:text="https://www.github.goweii/WanAndroid" />
 

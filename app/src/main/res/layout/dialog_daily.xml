@@ -22,7 +22,7 @@
             android:scaleType="centerCrop"
             app:riv_corner_radius_top_left="@dimen/round_radius"
             app:riv_corner_radius_top_right="@dimen/round_radius"
-            tools:background="@color/colorPrimary" />
+            tools:background="?colorMain" />
 
         <TextView
             android:layout_width="match_parent"

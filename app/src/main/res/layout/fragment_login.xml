@@ -19,15 +19,16 @@
             android:rotation="180"
             android:visibility="invisible"
             android:scaleType="fitCenter"
+            android:tint="?colorIconMain"
             android:src="@drawable/ic_next"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginLeft="@dimen/margin_small"
+            android:layout_marginRight="@dimen/margin_small"
             android:textSize="@dimen/text_content"
-            android:textColor="@color/text_main"
+            android:textColor="?colorTextMain"
             android:text="去注册"/>
 
         <ImageView
@@ -35,6 +36,7 @@
             android:layout_height="15dp"
             android:rotation="0"
             android:scaleType="fitCenter"
+            android:tint="?colorIconMain"
             android:src="@drawable/ic_next"/>
 
     </LinearLayout>

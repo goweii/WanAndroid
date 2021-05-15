@@ -20,7 +20,7 @@ public class SearchHistoryPresenter extends BasePresenter<SearchHistoryView> {
 
     private final SearchHistoryUtils mSearchHistoryUtils = SearchHistoryUtils.newInstance();
 
-    public void getHotKeyList(){
+    public void getHotKeyList() {
         HomeRequest.getHotKeyList(getRxLife(), new RequestListener<List<HotKeyBean>>() {
             @Override
             public void onStart() {
@@ -50,11 +50,11 @@ public class SearchHistoryPresenter extends BasePresenter<SearchHistoryView> {
         });
     }
 
-    public List<String> getHistory(){
+    public List<String> getHistory() {
         return mSearchHistoryUtils.get();
     }
 
-    public void saveHistory(List<String> list){
+    public void saveHistory(List<String> list) {
         List<String> saves = list;
         int max = SettingUtils.getInstance().getSearchHistoryMaxCount();
         if (list != null && list.size() > max) {

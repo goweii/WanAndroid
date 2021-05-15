@@ -148,8 +148,8 @@ public class PermissionDialog {
         }
         return resId;
     }
-    
-    private int getTitleResId(){
+
+    private int getTitleResId() {
         int resId = R.string.basic_ui_dialog_permission_title_unknow;
         if (mGroupType == null) {
             return resId;

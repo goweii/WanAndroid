@@ -16,7 +16,7 @@
         android:gravity="center"
         android:visibility="gone"
         tools:visibility="visible"
-        android:textColor="@color/text_surface"
+        android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_title"
         tools:text="提示" />
 
@@ -29,14 +29,14 @@
         android:paddingTop="@dimen/margin_def"
         android:paddingRight="@dimen/margin_middle"
         android:paddingBottom="@dimen/margin_middle"
-        android:textColor="@color/text_surface"
+        android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content"
         tools:text="提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/line"/>
+        android:layout_height="@dimen/line_thin"
+        android:background="?colorLine" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -50,14 +50,14 @@
             android:layout_weight="1"
             android:gravity="center"
             tools:text="@string/basic_ui_dialog_btn_no"
-            android:textColor="@color/text_third"
+            android:textColor="?colorTextThird"
             android:textSize="@dimen/text_content" />
 
         <View
             android:id="@+id/basic_ui_v_dialog_tip_line"
-            android:layout_width="1dp"
+            android:layout_width="@dimen/line_thin"
             android:layout_height="match_parent"
-            android:background="@color/line" />
+            android:background="?colorLine" />
 
         <TextView
             android:id="@+id/basic_ui_tv_dialog_tip_yes"
@@ -66,7 +66,7 @@
             android:layout_weight="1"
             android:gravity="center"
             tools:text="@string/basic_ui_dialog_btn_yes"
-            android:textColor="@color/text_main"
+            android:textColor="?colorTextMain"
             android:textSize="@dimen/text_content" />
 
     </LinearLayout>

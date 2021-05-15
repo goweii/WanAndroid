@@ -11,8 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import per.goweii.anylayer.AnyLayer;
-import per.goweii.anylayer.DragLayout;
 import per.goweii.anylayer.Layer;
+import per.goweii.anylayer.widget.SwipeLayout;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.activity.HostInterruptActivity;
@@ -31,11 +32,12 @@ public class WebMenuDialog {
     public static void show(@NonNull Context context,
                             final String url,
                             final boolean collected,
+                            final boolean readLater,
                             @NonNull OnMenuClickListener listener) {
         AnyLayer.dialog(context)
                 .contentView(R.layout.dialog_web_menu)
                 .backgroundDimDefault()
-                .dragDismiss(DragLayout.DragStyle.Bottom)
+                .swipeDismiss(SwipeLayout.Direction.BOTTOM)
                 .gravity(Gravity.BOTTOM)
                 .onClickToDismiss(
                         new Layer.OnClickListener() {
@@ -140,6 +142,8 @@ public class WebMenuDialog {
                         ImageView iv_collect = layer.getView(R.id.dialog_web_menu_iv_collect);
                         TextView tv_collect = layer.getView(R.id.dialog_web_menu_tv_collect);
                         switchCollectState(iv_collect, tv_collect, collected);
+                        ImageView iv_read_later = layer.getView(R.id.dialog_web_menu_iv_read_later);
+                        switchReadLaterState(iv_read_later, readLater);
                         ImageView iv_interrupt = layer.getView(R.id.dialog_web_menu_iv_interrupt);
                         TextView tv_interrupt = layer.getView(R.id.dialog_web_menu_tv_interrupt);
                         switchInterruptState(iv_interrupt, tv_interrupt);
@@ -167,6 +171,10 @@ public class WebMenuDialog {
         }
     }
 
+    private static void switchReadLaterState(ImageView iv_read_later, boolean readLater) {
+        setIconChecked(iv_read_later, readLater);
+    }
+
     private static void switchInterruptState(ImageView iv_interrupt, TextView tv_interrupt) {
         switch (SettingUtils.getInstance().getUrlInterceptType()) {
             default:
@@ -191,8 +199,10 @@ public class WebMenuDialog {
 
     private static void setIconChecked(ImageView iv, boolean checked) {
         if (checked) {
+            iv.setColorFilter(ResUtils.getThemeColor(iv, R.attr.colorIconOnMain));
             iv.setBackgroundResource(R.drawable.bg_press_color_main_radius_max);
         } else {
+            iv.setColorFilter(ResUtils.getThemeColor(iv, R.attr.colorIconSurface));
             iv.setBackgroundResource(R.drawable.bg_press_color_surface_top_radius_max);
         }
     }

@@ -28,7 +28,6 @@ import per.goweii.wanandroid.module.home.presenter.SearchHistoryPresenter;
 import per.goweii.wanandroid.module.home.view.SearchHistoryView;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
-import per.goweii.wanandroid.utils.ad.widget.AdContainer;
 
 /**
  * @author CuiZhen
@@ -47,8 +46,6 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
     TextView tv_clean;
     @BindView(R.id.tv_down)
     TextView tv_down;
-    @BindView(R.id.adc)
-    AdContainer adc;
 
     private BaseQuickAdapter<HotKeyBean, BaseViewHolder> mHotAdapter;
     private BaseQuickAdapter<String, BaseViewHolder> mHistoryAdapter;

@@ -1,12 +1,15 @@
 package per.goweii.wanandroid.http;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import per.goweii.basic.core.receiver.LoginReceiver;
+import per.goweii.basic.core.utils.JsonFormatUtils;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.rxhttp.core.RxLife;
 import per.goweii.rxhttp.request.RxRequest;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
@@ -19,43 +22,14 @@ import per.goweii.wanandroid.utils.UserUtils;
  */
 public class BaseRequest {
 
-    protected static <T> Disposable request(@NonNull Observable<WanResponse<T>> observable, @NonNull RequestListener<T> listener) {
-        return RxRequest.create(observable)
-                .listener(new RxRequest.RequestListener() {
-                    @Override
-                    public void onStart() {
-                        listener.onStart();
-                    }
-
-                    @Override
-                    public void onError(ExceptionHandle handle) {
-                        listener.onError(handle);
-                        listener.onFailed(WanApi.ApiCode.ERROR, handle.getMsg());
-                    }
-
-                    @Override
-                    public void onFinish() {
-                        listener.onFinish();
-                    }
-                })
-                .request(new RxRequest.ResultCallback<T>() {
-                    @Override
-                    public void onSuccess(int code, T data) {
-                        listener.onSuccess(code, data);
-                    }
-
-                    @Override
-                    public void onFailed(int code, String msg) {
-                        if (code == WanApi.ApiCode.FAILED_NOT_LOGIN) {
-                            UserUtils.getInstance().logout();
-                            LoginReceiver.sendNotLogin();
-                        }
-                        listener.onFailed(code, msg);
-                    }
-                });
+    protected static <T> Disposable request(@NonNull Observable<WanResponse<T>> observable,
+                                            @NonNull RequestListener<T> listener) {
+        return request(observable, listener, null);
     }
 
-    protected static <T> Disposable request(@NonNull Observable<WanResponse<T>> observable, @NonNull RequestListener<T> listener, ResponseToCache<T> responseToCache) {
+    protected static <T> Disposable request(@NonNull Observable<WanResponse<T>> observable,
+                                            @NonNull RequestListener<T> listener,
+                                            @Nullable ResponseToCache<T> responseToCache) {
         return RxRequest.create(observable)
                 .listener(new RxRequest.RequestListener() {
                     @Override
@@ -65,6 +39,8 @@ public class BaseRequest {
 
                     @Override
                     public void onError(ExceptionHandle handle) {
+                        handle.getException().printStackTrace();
+                        LogUtils.httpe(handle.getMsg());
                         listener.onError(handle);
                         listener.onFailed(WanApi.ApiCode.ERROR, handle.getMsg());
                     }
@@ -77,7 +53,12 @@ public class BaseRequest {
                 .request(new RxRequest.ResultCallback<T>() {
                     @Override
                     public void onSuccess(int code, T data) {
-                        if (responseToCache.onResponse(data)) {
+                        LogUtils.httpi(JsonFormatUtils.INSTANCE.toJson(data));
+                        boolean diffCache = true;
+                        if (responseToCache != null) {
+                            diffCache = responseToCache.onResponse(data);
+                        }
+                        if (diffCache) {
                             listener.onSuccess(code, data);
                         }
                     }
@@ -240,6 +221,37 @@ public class BaseRequest {
                         return true;
                     }
                 }));
+            }
+        }));
+    }
+
+    protected static <T> void cacheOrNetBean(RxLife rxLife,
+                                             Observable<WanResponse<T>> observable,
+                                             String key,
+                                             Class<T> clazz,
+                                             RequestListener<T> listener) {
+        cacheOrNetBean(rxLife, observable, false, key, clazz, listener);
+    }
+
+    protected static <T> void cacheOrNetBean(RxLife rxLife,
+                                             Observable<WanResponse<T>> observable,
+                                             boolean refresh,
+                                             String key,
+                                             Class<T> clazz,
+                                             RequestListener<T> listener) {
+        if (refresh) {
+            netBean(rxLife, observable, key, listener);
+            return;
+        }
+        rxLife.add(WanCache.getInstance().getBean(key, clazz, new CacheListener<T>() {
+            @Override
+            public void onSuccess(int code, T data) {
+                listener.onSuccess(code, data);
+            }
+
+            @Override
+            public void onFailed() {
+                netBean(rxLife, observable, key, listener);
             }
         }));
     }
