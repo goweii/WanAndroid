@@ -8,6 +8,7 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
+import per.goweii.wanandroid.http.CmsApi;
 import per.goweii.wanandroid.http.CmsBaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.login.model.CmsLoginRequest;
@@ -40,7 +41,14 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
 
             @Override
             public void onSuccess(int code, LoginBean data) {
-                cmsRegister(data.getId(), email, username, password);
+                if (CmsApi.Companion.isEnabled()) {
+                    cmsRegister(data.getId(), email, username, password);
+                } else {
+                    UserUtils.getInstance().login(data);
+                    if (isAttach()) {
+                        getBaseView().registerSuccess(0, UserUtils.getInstance().getLoginUser(), username, password);
+                    }
+                }
             }
 
             @Override
@@ -59,6 +67,9 @@ public class RegisterPresenter extends BasePresenter<RegisterView> {
 
             @Override
             public void onFinish() {
+                if (!CmsApi.Companion.isEnabled()) {
+                    dismissLoadingDialog();
+                }
             }
         }));
     }

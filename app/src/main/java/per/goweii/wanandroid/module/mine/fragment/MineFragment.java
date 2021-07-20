@@ -33,6 +33,7 @@ import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.NotificationEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.event.UserInfoUpdateEvent;
+import per.goweii.wanandroid.http.CmsApi;
 import per.goweii.wanandroid.module.login.model.UserEntity;
 import per.goweii.wanandroid.module.mine.activity.AboutMeActivity;
 import per.goweii.wanandroid.module.mine.activity.CoinActivity;
@@ -291,14 +292,20 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     private void refreshUserInfo() {
         if (UserUtils.getInstance().isLogin()) {
             UserEntity bean = UserUtils.getInstance().getLoginUser();
-            ImageLoader.userIcon(civ_user_icon, bean.getAvatar());
-            ImageLoader.userBlur(iv_blur, bean.getCover());
             tv_user_name.setText(bean.getUsername());
-            ll_user_signature.setVisibility(View.VISIBLE);
-            if (TextUtils.isEmpty(bean.getSignature())) {
-                tv_user_signature.setText("写个签名鼓励下自己吧");
+            if (CmsApi.Companion.isEnabled()) {
+                ImageLoader.userIcon(civ_user_icon, bean.getAvatar());
+                ImageLoader.userBlur(iv_blur, bean.getCover());
+                ll_user_signature.setVisibility(View.VISIBLE);
+                if (TextUtils.isEmpty(bean.getSignature())) {
+                    tv_user_signature.setText("写个签名鼓励下自己吧");
+                } else {
+                    tv_user_signature.setText(bean.getSignature());
+                }
             } else {
-                tv_user_signature.setText(bean.getSignature());
+                civ_user_icon.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
+                iv_blur.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
+                ll_user_signature.setVisibility(View.INVISIBLE);
             }
             ll_user_level_ranking.setVisibility(View.VISIBLE);
             if (presenter.mUserInfoBean != null) {

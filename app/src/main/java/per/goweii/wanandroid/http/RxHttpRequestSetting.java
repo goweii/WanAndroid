@@ -52,7 +52,9 @@ public class RxHttpRequestSetting extends DefaultRequestSetting {
     @Override
     public Map<Class<?>, String> getServiceBaseUrl() {
         Map<Class<?>, String> map = new HashMap<>(1);
-        map.put(CmsApi.ApiService.class, CmsApi.ApiConfig.BASE_URL);
+        if (CmsApi.Companion.isEnabled()) {
+            map.put(CmsApi.ApiService.class, CmsApi.ApiConfig.BASE_URL);
+        }
         return map;
     }
 

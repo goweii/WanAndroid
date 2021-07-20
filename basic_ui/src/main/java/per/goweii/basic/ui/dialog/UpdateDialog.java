@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.Layer;
+import per.goweii.basic.ui.BuildConfig;
 import per.goweii.basic.ui.R;
 import per.goweii.basic.utils.ResUtils;
 
@@ -57,7 +58,9 @@ public class UpdateDialog {
     }
 
     public UpdateDialog setForce(boolean force) {
-        mForce = force;
+        if (!BuildConfig.DEBUG) {
+            mForce = force;
+        }
         return this;
     }
 

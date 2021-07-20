@@ -19,6 +19,13 @@ import retrofit2.http.*
 class CmsApi : Api() {
 
     companion object {
+        val isEnabled: Boolean
+            get() {
+                if (BuildConfig.CMS_BASE_URL.isNotBlank()) return false
+                if ("null" == BuildConfig.CMS_BASE_URL) return false
+                return true
+            }
+
         @JvmStatic
         fun api(): ApiService {
             return api(ApiService::class.java)

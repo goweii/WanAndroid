@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,6 +48,7 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
+import per.goweii.wanandroid.http.CmsApi;
 import per.goweii.wanandroid.module.home.presenter.UserPagePresenter;
 import per.goweii.wanandroid.module.home.view.UserPageView;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
@@ -90,6 +92,8 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
     RecyclerView rv;
     @BindView(R.id.tv_user_name)
     TextView tv_user_name;
+    @BindView(R.id.ll_user_signature)
+    LinearLayout ll_user_signature;
     @BindView(R.id.tv_user_signature)
     TextView tv_user_signature;
     @BindView(R.id.tv_user_id)
@@ -361,6 +365,11 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             tv_user_id.setText("" + data.getCoinInfo().getUserId());
             tv_user_coin.setText("" + data.getCoinInfo().getCoinCount());
             tv_user_ranking.setText("" + data.getCoinInfo().getRank());
+            if (CmsApi.Companion.isEnabled()) {
+                ll_user_signature.setVisibility(View.VISIBLE);
+            } else {
+                ll_user_signature.setVisibility(View.INVISIBLE);
+            }
             mAdapter.setNewData(data.getShareArticles().getDatas());
             mAdapter.setEnableLoadMore(true);
             msv_list.setVisibility(View.VISIBLE);

@@ -7,6 +7,7 @@ import per.goweii.basic.utils.Base64Utils.encodeToBytes
 import per.goweii.basic.utils.Base64Utils.encodeToString
 import per.goweii.basic.utils.SPUtils
 import per.goweii.rxhttp.request.exception.ExceptionHandle
+import per.goweii.wanandroid.http.CmsApi
 import per.goweii.wanandroid.http.CmsBaseRequest
 import per.goweii.wanandroid.http.RequestListener
 import per.goweii.wanandroid.module.login.model.CmsLoginRequest.login
@@ -63,7 +64,14 @@ class QuickLoginPresenter : BasePresenter<QuickLoginView>() {
             }
 
             override fun onSuccess(code: Int, data: LoginBean) {
-                cmsLogin(username, password)
+                if (CmsApi.isEnabled) {
+                    cmsLogin(username, password)
+                } else {
+                    UserUtils.getInstance().login(data)
+                    if (isAttach) {
+                        baseView.loginSuccess(0, UserUtils.getInstance().loginUser)
+                    }
+                }
             }
 
             override fun onFailed(code: Int, msg: String) {
@@ -75,7 +83,11 @@ class QuickLoginPresenter : BasePresenter<QuickLoginView>() {
             }
 
             override fun onError(handle: ExceptionHandle) {}
-            override fun onFinish() {}
+            override fun onFinish() {
+                if (!CmsApi.isEnabled) {
+                    dismissLoadingDialog()
+                }
+            }
         }))
     }
 

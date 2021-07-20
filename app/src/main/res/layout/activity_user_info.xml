@@ -45,6 +45,7 @@
         android:layout_alignBottom="@+id/civ_user_icon" />
 
     <TextView
+        android:id="@+id/tv_user_icon_edit_tip"
         android:layout_below="@+id/civ_user_icon"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/margin_def"
@@ -197,6 +198,7 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/v_line"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/line_thin"
                     android:layout_marginStart="@dimen/margin_def"

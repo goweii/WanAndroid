@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Rect
 import android.view.*
 import android.view.animation.DecelerateInterpolator
+import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.doOnLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +27,7 @@ import per.goweii.basic.utils.ext.visible
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.swipeback.SwipeBackAbility
 import per.goweii.wanandroid.R
+import per.goweii.wanandroid.http.CmsApi
 import per.goweii.wanandroid.module.home.activity.UserPageActivity
 import per.goweii.wanandroid.module.main.adapter.ArticleCommentAdapter
 import per.goweii.wanandroid.module.main.dialog.CommentInputDialog
@@ -288,6 +290,15 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         window.decorView.doOnLayout {
             showGuideDialogIfNeeded()
         }
+        if (!CmsApi.isEnabled) {
+            dl.setCloseHeight(0)
+            wc.layoutParams.let {
+                it as RelativeLayout.LayoutParams
+                it.removeRule(RelativeLayout.ABOVE)
+                it.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
+            }
+            wc.requestLayout()
+        }
     }
 
     override fun loadData() {
@@ -296,8 +307,10 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         tv_user_name.text = if (presenter.userName.isNotEmpty()) presenter.userName else "匿名"
         MultiStateUtils.toLoading(msv)
         presenter.isReadLater { switchReadLaterIcon() }
-        presenter.commentCount()
-        presenter.comments(adapter.data.size, LIMIT)
+        if (CmsApi.isEnabled) {
+            presenter.commentCount()
+            presenter.comments(adapter.data.size, LIMIT)
+        }
     }
 
     override fun onPause() {

@@ -5,6 +5,7 @@ import okhttp3.RequestBody
 import org.json.JSONObject
 import per.goweii.basic.core.base.BasePresenter
 import per.goweii.basic.core.base.BaseView
+import per.goweii.wanandroid.http.CmsApi
 import per.goweii.wanandroid.http.CmsBaseRequest
 import per.goweii.wanandroid.module.login.model.UserEntity
 import per.goweii.wanandroid.module.mine.model.CmsMineRequest
@@ -33,6 +34,9 @@ class UserInfoPresenter : BasePresenter<UserInfoView>() {
             if (isAttach) {
                 baseView.mineInfoSuccess(it)
             }
+        }
+        if (!CmsApi.isEnabled) {
+            return
         }
         addToRxLife(CmsMineRequest.mineInfo(CmsBaseRequest.Listener(
                 onSuccess = {

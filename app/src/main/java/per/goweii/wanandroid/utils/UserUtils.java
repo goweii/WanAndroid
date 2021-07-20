@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 import per.goweii.basic.utils.SPUtils;
 import per.goweii.wanandroid.module.login.activity.AuthActivity;
 import per.goweii.wanandroid.module.login.model.CmsLoginResp;
+import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.login.model.UserEntity;
 import per.goweii.wanandroid.module.mine.model.CmsUserResp;
 
@@ -52,6 +53,21 @@ public class UserUtils {
         SPUtils.getInstance().save(KEY_LOGIN_USER_ENTITY, new Gson().toJson(userEntity));
     }
 
+    public void login(LoginBean loginBean) {
+        UserEntity userEntity = new UserEntity(
+                loginBean.getEmail(),
+                loginBean.getUsername(),
+                loginBean.getId(),
+                "",
+                "",
+                0,
+                "",
+                "",
+                ""
+        );
+        login(userEntity);
+    }
+
     public void login(CmsLoginResp loginResp) {
         CmsUserResp userResp = loginResp.getUser();
         UserEntity userEntity = new UserEntity(
@@ -71,6 +87,21 @@ public class UserUtils {
     public void logout() {
         mUserEntity = null;
         SPUtils.getInstance().clear();
+    }
+
+    public void update(LoginBean loginBean) {
+        UserEntity userEntity = new UserEntity(
+                loginBean.getEmail(),
+                loginBean.getUsername(),
+                loginBean.getId(),
+                "",
+                "",
+                0,
+                "",
+                "",
+                ""
+        );
+        update(userEntity);
     }
 
     public void update(CmsUserResp userResp) {

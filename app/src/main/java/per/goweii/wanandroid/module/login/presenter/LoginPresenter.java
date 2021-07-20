@@ -8,6 +8,7 @@ import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
+import per.goweii.wanandroid.http.CmsApi;
 import per.goweii.wanandroid.http.CmsBaseRequest;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.login.model.CmsLoginRequest;
@@ -35,7 +36,14 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
             @Override
             public void onSuccess(int code, LoginBean data) {
-                cmsLogin(data.getId(), username, password, isBiometric);
+                if (CmsApi.Companion.isEnabled()) {
+                    cmsLogin(data.getId(), username, password, isBiometric);
+                } else {
+                    UserUtils.getInstance().login(data);
+                    if (isAttach()) {
+                        getBaseView().loginSuccess(0, UserUtils.getInstance().getLoginUser(), username, password, isBiometric);
+                    }
+                }
             }
 
             @Override
@@ -54,6 +62,9 @@ public class LoginPresenter extends BasePresenter<LoginView> {
 
             @Override
             public void onFinish() {
+                if (!CmsApi.Companion.isEnabled()) {
+                    dismissLoadingDialog();
+                }
             }
         }));
     }

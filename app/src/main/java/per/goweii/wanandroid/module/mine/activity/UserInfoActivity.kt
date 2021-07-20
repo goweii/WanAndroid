@@ -10,10 +10,12 @@ import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.core.permission.PermissionUtils
 import per.goweii.basic.ui.dialog.ListDialog
 import per.goweii.basic.ui.toast.ToastMaker
+import per.goweii.basic.utils.ext.gone
 import per.goweii.basic.utils.file.CacheUtils
 import per.goweii.basic.utils.listener.SimpleListener
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.event.UserInfoUpdateEvent
+import per.goweii.wanandroid.http.CmsApi
 import per.goweii.wanandroid.module.login.activity.AuthActivity
 import per.goweii.wanandroid.module.login.model.UserEntity
 import per.goweii.wanandroid.module.mine.contract.UserInfoPresenter
@@ -46,21 +48,40 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoView {
     override fun initPresenter(): UserInfoPresenter = UserInfoPresenter()
 
     override fun initView() {
+        if (!CmsApi.isEnabled) {
+            iv_user_icon_edit.gone()
+            tv_user_icon_edit_tip.gone()
+            ll_user_email.gone()
+            ll_user_sex.gone()
+            ll_user_signature.gone()
+            ll_user_cmsid.gone()
+            v_line.gone()
+        }
         iv_blur.setOnLongClickListener {
-            showCoverUrlInputDialog()
+            if (CmsApi.isEnabled) {
+                showCoverUrlInputDialog()
+            }
             return@setOnLongClickListener true
         }
         iv_user_icon_edit.setOnClickListener {
-            showAvatarUrlInputDialog()
+            if (CmsApi.isEnabled) {
+                showAvatarUrlInputDialog()
+            }
         }
         ll_user_email.setOnClickListener {
-            showEmailInputDialog()
+            if (CmsApi.isEnabled) {
+                showEmailInputDialog()
+            }
         }
         ll_user_sex.setOnClickListener {
-            showSexChoiceDialog()
+            if (CmsApi.isEnabled) {
+                showSexChoiceDialog()
+            }
         }
         ll_user_signature.setOnClickListener {
-            showSignatureChoiceDialog()
+            if (CmsApi.isEnabled) {
+                showSignatureChoiceDialog()
+            }
         }
     }
 
