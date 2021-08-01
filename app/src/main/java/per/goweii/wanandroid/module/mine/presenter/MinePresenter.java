@@ -91,11 +91,21 @@ public class MinePresenter extends BasePresenter<MineView> {
                 Document document = Jsoup.connect("https://www.wanandroid.com/")
                         .cookies(map)
                         .get();
-                Elements newMsgDotElements = document.getElementsByClass("newMsgDot");
+                /*-示例：
+                    <div class="header_inbox">
+                        <a class="active" href="/message/lg/list/1">
+                            <span class="iconfont iconxiaoxi">::before</span>
+                            <i>1</i>
+                        </a>
+                    </div>
+                 */
+                Elements newMsgDotElements = document.getElementsByClass("header_inbox");
                 Element newMsgDotElement = newMsgDotElements.get(0);
                 Elements aElements = newMsgDotElement.getElementsByTag("a");
                 Element aElement = aElements.get(0);
-                String num = aElement.ownText();
+                Elements iElements = aElement.getElementsByTag("i");
+                Element iElement = iElements.get(0);
+                String num = iElement.ownText();
                 int count = Integer.parseInt(num);
                 emitter.onNext(count);
                 emitter.onComplete();
