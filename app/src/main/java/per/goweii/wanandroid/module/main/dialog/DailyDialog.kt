@@ -8,4 +8,5 @@ import per.goweii.anylayer.dialog.DialogLayer
  * @date 2020/2/16
  * GitHub: https://github.com/goweii
  */
-class DailyDialog(context: Context) : DialogLayer(context)
+class DailyDialog(context: Context) : DialogLayer(context) {
+}

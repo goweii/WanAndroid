@@ -25,7 +25,6 @@ import per.goweii.wanandroid.module.mine.presenter.CoinRankPresenter;
 import per.goweii.wanandroid.module.mine.view.CoinRankView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvConfigUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 
 /**
  * @author CuiZhen
@@ -73,7 +72,6 @@ public class CoinRankActivity extends BaseActivity<CoinRankPresenter> implements
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new CoinRankAdapter();
         RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

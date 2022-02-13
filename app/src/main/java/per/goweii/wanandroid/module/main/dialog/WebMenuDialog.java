@@ -15,7 +15,6 @@ import per.goweii.anylayer.Layer;
 import per.goweii.anylayer.widget.SwipeLayout;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.main.activity.WebActivity;
 import per.goweii.wanandroid.module.mine.activity.HostInterruptActivity;
 import per.goweii.wanandroid.module.mine.activity.SettingActivity;
 import per.goweii.wanandroid.utils.SettingUtils;
@@ -35,14 +34,14 @@ public class WebMenuDialog {
                             final boolean readLater,
                             @NonNull OnMenuClickListener listener) {
         AnyLayer.dialog(context)
-                .contentView(R.layout.dialog_web_menu)
-                .backgroundDimDefault()
-                .swipeDismiss(SwipeLayout.Direction.BOTTOM)
-                .gravity(Gravity.BOTTOM)
-                .onClickToDismiss(
+                .setContentView(R.layout.dialog_web_menu)
+                .setBackgroundDimDefault()
+                .setSwipeDismiss(SwipeLayout.Direction.BOTTOM)
+                .setGravity(Gravity.BOTTOM)
+                .addOnClickToDismissListener(
                         new Layer.OnClickListener() {
                             @Override
-                            public void onClick(Layer layer, View v) {
+                            public void onClick(@NonNull Layer layer, @NonNull View v) {
                                 switch (v.getId()) {
                                     default:
                                         break;
@@ -74,6 +73,9 @@ public class WebMenuDialog {
                                     case R.id.dialog_web_menu_iv_share:
                                         listener.onShare();
                                         break;
+                                    case R.id.dialog_web_menu_iv_go_top:
+                                        listener.onGoTop();
+                                        break;
                                 }
                             }
                         },
@@ -82,52 +84,37 @@ public class WebMenuDialog {
                         R.id.dialog_web_menu_iv_home,
                         R.id.dialog_web_menu_iv_collect,
                         R.id.dialog_web_menu_iv_refresh,
+                        R.id.dialog_web_menu_iv_go_top,
                         R.id.dialog_web_menu_iv_close_activity,
                         R.id.dialog_web_menu_iv_dismiss,
                         R.id.dialog_web_menu_iv_setting,
                         R.id.dialog_web_menu_iv_share)
-                .onClick(new Layer.OnClickListener() {
-                             @Override
-                             public void onClick(Layer layer, View v) {
-                                 switch (v.getId()) {
-                                     default:
-                                         break;
-                                     case R.id.dialog_web_menu_iv_interrupt:
-                                         switch (SettingUtils.getInstance().getUrlInterceptType()) {
-                                             default:
-                                             case HostInterceptUtils.TYPE_NOTHING:
-                                                 SettingUtils.getInstance().setUrlInterceptType(HostInterceptUtils.TYPE_ONLY_WHITE);
-                                                 break;
-                                             case HostInterceptUtils.TYPE_ONLY_WHITE:
-                                                 SettingUtils.getInstance().setUrlInterceptType(HostInterceptUtils.TYPE_INTERCEPT_BLACK);
-                                                 break;
-                                             case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
-                                                 SettingUtils.getInstance().setUrlInterceptType(HostInterceptUtils.TYPE_NOTHING);
-                                                 break;
-                                         }
-                                         ImageView iv_interrupt = layer.getView(R.id.dialog_web_menu_iv_interrupt);
-                                         TextView tv_interrupt = layer.getView(R.id.dialog_web_menu_tv_interrupt);
-                                         switchInterruptState(iv_interrupt, tv_interrupt);
-                                         break;
-                                     case R.id.dialog_web_menu_iv_swipe_back:
-                                         boolean webSwipeBackEdge = !SettingUtils.getInstance().isWebSwipeBackEdge();
-                                         SettingUtils.getInstance().setWebSwipeBackEdge(webSwipeBackEdge);
-                                         if (context instanceof WebActivity) {
-                                             WebActivity webActivity = (WebActivity) context;
-                                             webActivity.refreshSwipeBackOnlyEdge();
-                                         }
-                                         ImageView iv_swipe_back = layer.getView(R.id.dialog_web_menu_iv_swipe_back);
-                                         switchSwipeBackState(iv_swipe_back);
-                                         break;
-                                 }
-                             }
-                         },
-                        R.id.dialog_web_menu_iv_interrupt,
-                        R.id.dialog_web_menu_iv_swipe_back)
-                .bindData(new Layer.DataBinder() {
+                .addOnClickListener(
+                        new Layer.OnClickListener() {
+                            @Override
+                            public void onClick(@NonNull Layer layer, @NonNull View v) {
+                                switch (SettingUtils.getInstance().getUrlInterceptType()) {
+                                    default:
+                                    case HostInterceptUtils.TYPE_NOTHING:
+                                        SettingUtils.getInstance().setUrlInterceptType(HostInterceptUtils.TYPE_ONLY_WHITE);
+                                        break;
+                                    case HostInterceptUtils.TYPE_ONLY_WHITE:
+                                        SettingUtils.getInstance().setUrlInterceptType(HostInterceptUtils.TYPE_INTERCEPT_BLACK);
+                                        break;
+                                    case HostInterceptUtils.TYPE_INTERCEPT_BLACK:
+                                        SettingUtils.getInstance().setUrlInterceptType(HostInterceptUtils.TYPE_NOTHING);
+                                        break;
+                                }
+                                ImageView iv_interrupt = layer.requireView(R.id.dialog_web_menu_iv_interrupt);
+                                TextView tv_interrupt = layer.requireView(R.id.dialog_web_menu_tv_interrupt);
+                                switchInterruptState(iv_interrupt, tv_interrupt);
+                            }
+                        },
+                        R.id.dialog_web_menu_iv_interrupt)
+                .addOnBindDataListener(new Layer.OnBindDataListener() {
                     @Override
-                    public void bindData(Layer layer) {
-                        TextView tv_host = layer.getView(R.id.dialog_web_menu_tv_host);
+                    public void onBindData(@NonNull Layer layer) {
+                        TextView tv_host = layer.requireView(R.id.dialog_web_menu_tv_host);
                         String host = null;
                         if (!TextUtils.isEmpty(url)) {
                             Uri uri = Uri.parse(url);
@@ -139,16 +126,14 @@ public class WebMenuDialog {
                             tv_host.setVisibility(View.VISIBLE);
                             tv_host.setText("网页由 " + host + " 提供");
                         }
-                        ImageView iv_collect = layer.getView(R.id.dialog_web_menu_iv_collect);
-                        TextView tv_collect = layer.getView(R.id.dialog_web_menu_tv_collect);
+                        ImageView iv_collect = layer.requireView(R.id.dialog_web_menu_iv_collect);
+                        TextView tv_collect = layer.requireView(R.id.dialog_web_menu_tv_collect);
                         switchCollectState(iv_collect, tv_collect, collected);
-                        ImageView iv_read_later = layer.getView(R.id.dialog_web_menu_iv_read_later);
+                        ImageView iv_read_later = layer.requireView(R.id.dialog_web_menu_iv_read_later);
                         switchReadLaterState(iv_read_later, readLater);
-                        ImageView iv_interrupt = layer.getView(R.id.dialog_web_menu_iv_interrupt);
-                        TextView tv_interrupt = layer.getView(R.id.dialog_web_menu_tv_interrupt);
+                        ImageView iv_interrupt = layer.requireView(R.id.dialog_web_menu_iv_interrupt);
+                        TextView tv_interrupt = layer.requireView(R.id.dialog_web_menu_tv_interrupt);
                         switchInterruptState(iv_interrupt, tv_interrupt);
-                        ImageView iv_swipe_back = layer.getView(R.id.dialog_web_menu_iv_swipe_back);
-                        switchSwipeBackState(iv_swipe_back);
                         iv_interrupt.setOnLongClickListener(new View.OnLongClickListener() {
                             @Override
                             public boolean onLongClick(View v) {
@@ -193,10 +178,6 @@ public class WebMenuDialog {
         }
     }
 
-    private static void switchSwipeBackState(ImageView iv_swipe_back) {
-        setIconChecked(iv_swipe_back, SettingUtils.getInstance().isWebSwipeBackEdge());
-    }
-
     private static void setIconChecked(ImageView iv, boolean checked) {
         if (checked) {
             iv.setColorFilter(ResUtils.getThemeColor(iv, R.attr.colorIconOnMain));
@@ -217,6 +198,8 @@ public class WebMenuDialog {
         void onHome();
 
         void onRefresh();
+
+        void onGoTop();
 
         void onCloseActivity();
 

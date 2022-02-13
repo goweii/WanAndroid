@@ -10,34 +10,23 @@ import android.os.Bundle;
 import android.os.Process;
 import android.text.TextUtils;
 
-import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.multidex.MultiDex;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import per.goweii.basic.utils.ProcessUtils;
 
 /**
  * @author Cuizhen
  * @date 2018/6/25-上午10:39
  */
 class App extends Application implements Application.ActivityLifecycleCallbacks {
-
-    protected static final int FLAG_CLEAR_TOP = 0;
-    protected static final int FLAG_CLEAR_OLD = 1;
-
     @SuppressLint("StaticFieldLeak")
     private static Application application = null;
-    private static final List<Activity> activities = Collections.synchronizedList(new LinkedList<Activity>());
-    private static final Map<Class<? extends Activity>, Integer> singleInstanceActivities = Collections.synchronizedMap(new HashMap<Class<? extends Activity>, Integer>());
+    private static final List<Activity> activities = new ArrayList<>();
 
     public static Application getApp() {
         if (application == null) {
@@ -51,25 +40,19 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         return getApp().getApplicationContext();
     }
 
-    public static void addSingleInstanceActivity(Class<? extends Activity> cls, @Flag int flag) {
-        singleInstanceActivities.put(cls, flag);
-    }
-
     public static List<Activity> getActivities() {
         return activities;
     }
 
     public static boolean isAppAlive() {
-        if (application == null) {
-            return false;
-        }
-        return activities != null && activities.size() != 0;
+        if (application == null) return false;
+        return activities.size() != 0;
     }
 
     /**
      * 判断Android程序是否在前台运行
      */
-    public static boolean isAppOnForeground() {
+    public static boolean isForeground() {
         ActivityManager activityManager = (ActivityManager) getAppContext().getSystemService(Context.ACTIVITY_SERVICE);
         if (activityManager == null) {
             return false;
@@ -90,8 +73,8 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
     /**
      * APP从后台切换回前台
      */
-    public static void returnToForeground() {
-        if (!isAppOnForeground()) {
+    public static void bringToForeground() {
+        if (!isForeground()) {
             Activity currentActivity = currentActivity();
             if (currentActivity != null) {
                 Intent intent = new Intent(getAppContext(), currentActivity.getClass());
@@ -101,53 +84,12 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         }
     }
 
-    public static boolean isMainProcess() {
-        String mainProcessName = getAppContext().getPackageName();
-        String processName = currentProcessName();
-        return processName == null || TextUtils.equals(processName, mainProcessName);
-    }
-
-    @Nullable
-    public static String currentProcessName() {
-        return getProcessName(Process.myPid());
-    }
-
-    /**
-     * 获取进程号对应的进程名
-     *
-     * @param pid 进程号
-     * @return 进程名
-     */
-    @Nullable
-    private static String getProcessName(int pid) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
-            String processName = reader.readLine();
-            if (!TextUtils.isEmpty(processName)) {
-                processName = processName.trim();
-            }
-            return processName;
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return null;
-    }
-
     /**
      * 获取当前Activity
      */
     @Nullable
     public static Activity currentActivity() {
-        if (activities == null || activities.isEmpty()) {
+        if (activities.isEmpty()) {
             return null;
         }
         return activities.get(activities.size() - 1);
@@ -157,11 +99,11 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
      * 按照指定类名找到activity
      */
     @Nullable
-    public static Activity findActivity(Class<?> cls) {
+    public static Activity findActivity(@Nullable Class<?> cls) {
         if (cls == null) {
             return null;
         }
-        if (activities == null || activities.isEmpty()) {
+        if (activities.isEmpty()) {
             return null;
         }
         for (Activity activity : activities) {
@@ -182,11 +124,11 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
     /**
      * 结束指定的Activity
      */
-    public static void finishActivity(Activity activity) {
+    public static void finishActivity(@Nullable Activity activity) {
         if (activity == null) {
             return;
         }
-        if (activities == null || activities.isEmpty()) {
+        if (activities.isEmpty()) {
             return;
         }
         activities.remove(activity);
@@ -197,11 +139,11 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
     /**
      * 结束指定类名的Activity
      */
-    public static void finishActivity(Class<? extends Activity> cls) {
+    public static void finishActivity(@Nullable Class<? extends Activity> cls) {
         if (cls == null) {
             return;
         }
-        if (activities == null || activities.isEmpty()) {
+        if (activities.isEmpty()) {
             return;
         }
         for (int i = activities.size() - 1; i >= 0; i--) {
@@ -216,7 +158,7 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
      * 结束所有Activity
      */
     public static void finishAllActivity() {
-        if (activities == null || activities.isEmpty()) {
+        if (activities.isEmpty()) {
             return;
         }
         for (int i = activities.size() - 1; i >= 0; i--) {
@@ -246,14 +188,14 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
             killProcess();
         } else {
             finishActivityWithoutCount(1);
-            if (activities != null && !activities.isEmpty()) {
+            if (!activities.isEmpty()) {
                 activities.get(0).recreate();
             }
         }
     }
 
     public static void recreate() {
-        if (activities != null && !activities.isEmpty()) {
+        if (!activities.isEmpty()) {
             for (Activity activity : activities) {
                 activity.recreate();
             }
@@ -261,7 +203,7 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
     }
 
     public static void finishActivityWithoutCount(int count) {
-        if (activities == null || activities.isEmpty()) {
+        if (activities.isEmpty()) {
             return;
         }
         if (count <= 0) {
@@ -273,12 +215,12 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         }
     }
 
-    public static void finishActivityWithout(Class<? extends Activity> cls) {
+    public static void finishActivityWithout(@Nullable Class<? extends Activity> cls) {
         if (cls == null) {
             finishAllActivity();
             return;
         }
-        if (activities == null || activities.isEmpty()) {
+        if (activities.isEmpty()) {
             return;
         }
         for (int i = activities.size() - 1; i >= 0; i--) {
@@ -289,7 +231,7 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         }
     }
 
-    public static void finishActivityWithout(Activity activity) {
+    public static void finishActivityWithout(@Nullable Activity activity) {
         if (activity == null) {
             finishAllActivity();
             return;
@@ -297,104 +239,58 @@ class App extends Application implements Application.ActivityLifecycleCallbacks 
         finishActivityWithout(activity.getClass());
     }
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        application = this;
-        registerActivityListener();
+    public static boolean isMainProcess() {
+        String mainProcessName = getAppContext().getPackageName();
+        String processName = getCurrentProcessName();
+        return TextUtils.equals(processName, mainProcessName);
+    }
+
+    @NonNull
+    public static String getCurrentProcessName() {
+        return ProcessUtils.INSTANCE.getCurrentProcessName(getAppContext());
     }
 
     @Override
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
+        application = this;
         MultiDex.install(this);
     }
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-        if (activity == null) {
-            return;
-        }
-        Class<? extends Activity> cls = activity.getClass();
-        if (!singleInstanceActivities.containsKey(cls)) {
-            activities.add(activity);
-            return;
-        }
-        int flag = singleInstanceActivities.get(cls);
-        switch (flag) {
-            default:
-                throw new UnsupportedOperationException("Flag not find");
-            case FLAG_CLEAR_TOP:
-                int oldPos = -1;
-                for (int i = 0; i < activities.size(); i++) {
-                    if (cls.equals(activities.get(i).getClass())) {
-                        oldPos = i;
-                    }
-                }
-                if (oldPos >= 0) {
-                    for (int i = activities.size() - 1; i >= oldPos; i--) {
-                        Activity top = activities.get(i);
-                        if (!top.isFinishing()) {
-                            top.finish();
-                        }
-                    }
-                }
-                break;
-            case FLAG_CLEAR_OLD:
-                for (int i = activities.size() - 1; i >= 0; i--) {
-                    Activity old = activities.get(i);
-                    if (cls.equals(old.getClass()) && !old.isFinishing()) {
-                        old.finish();
-                    }
-                }
-                break;
-        }
+    public void onCreate() {
+        super.onCreate();
+        registerActivityLifecycleCallbacks(this);
+    }
+
+    @Override
+    public void onActivityCreated(@NonNull Activity activity, @Nullable Bundle savedInstanceState) {
         activities.add(activity);
     }
 
     @Override
-    public void onActivityStarted(Activity activity) {
-
+    public void onActivityStarted(@NonNull Activity activity) {
     }
 
     @Override
-    public void onActivityResumed(Activity activity) {
-
+    public void onActivityResumed(@NonNull Activity activity) {
     }
 
     @Override
-    public void onActivityPaused(Activity activity) {
-
+    public void onActivityPaused(@NonNull Activity activity) {
     }
 
     @Override
-    public void onActivityStopped(Activity activity) {
-
+    public void onActivityStopped(@NonNull Activity activity) {
     }
 
     @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-
+    public void onActivitySaveInstanceState(@NonNull Activity activity, @NonNull Bundle outState) {
     }
 
     @Override
-    public void onActivityDestroyed(Activity activity) {
-        if (activity == null) {
-            return;
-        }
-        if (activities == null || activities.isEmpty()) {
-            return;
-        }
+    public void onActivityDestroyed(@NonNull Activity activity) {
         activities.remove(activity);
-    }
-
-    private void registerActivityListener() {
-        registerActivityLifecycleCallbacks(this);
-    }
-
-    @IntDef({FLAG_CLEAR_TOP, FLAG_CLEAR_OLD})
-    @Retention(RetentionPolicy.SOURCE)
-    @interface Flag {
     }
 
 }

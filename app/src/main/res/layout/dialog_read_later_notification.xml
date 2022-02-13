@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<per.goweii.anylayer.notification.MaxSizeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<per.goweii.anylayer.widget.MaxSizeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_read_later_notification"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="top|center_horizontal"
@@ -16,13 +17,14 @@
         app:hl_layoutBackground="?colorTransparent"
         app:hl_shadowColor="?colorShadow"
         app:hl_shadowLimit="@dimen/margin_small"
+        app:hl_shadowSymmetry="false"
         app:hl_shadowOffsetY="@dimen/margin_very_thin">
 
         <LinearLayout
             android:id="@+id/dialog_read_later_notification_ll_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_solid_round_color_surface_radius_def"
+            android:background="@drawable/bg_notification"
             android:orientation="vertical"
             android:paddingLeft="15dp"
             android:paddingTop="15dp"
@@ -55,4 +57,4 @@
 
     </com.lihang.ShadowLayout>
 
-</per.goweii.anylayer.notification.MaxSizeFrameLayout>
+</per.goweii.anylayer.widget.MaxSizeFrameLayout>

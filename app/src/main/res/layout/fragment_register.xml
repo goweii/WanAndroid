@@ -49,20 +49,11 @@
         android:layout_marginTop="100dp"
         android:layout_marginRight="60dp" />
 
-    <per.goweii.wanandroid.widget.EmailInputView
-        android:id="@+id/piv_register_email"
-        android:layout_width="match_parent"
-        android:layout_height="44dp"
-        android:layout_below="@+id/piv_register_account"
-        android:layout_marginLeft="60dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="60dp" />
-
     <per.goweii.wanandroid.widget.PasswordInputView
         android:id="@+id/piv_register_password"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:layout_below="@+id/piv_register_email"
+        android:layout_below="@+id/piv_register_account"
         android:layout_marginLeft="60dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="60dp" />

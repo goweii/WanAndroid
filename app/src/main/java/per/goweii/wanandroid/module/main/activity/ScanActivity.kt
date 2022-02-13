@@ -52,7 +52,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
             activity.startActivity(intent)
             activity.overridePendingTransition(
                     R.anim.swipeback_activity_open_bottom_in,
-                    R.anim.activity_no_anim
+                    R.anim.swipeback_activity_open_alpha_out
             )
         }
 
@@ -62,7 +62,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
             activity.startActivityForResult(intent, requestCode)
             activity.overridePendingTransition(
                     R.anim.swipeback_activity_open_bottom_in,
-                    R.anim.activity_no_anim
+                    R.anim.swipeback_activity_open_alpha_out
             )
         }
     }
@@ -127,7 +127,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
     override fun finish() {
         super.finish()
         overridePendingTransition(
-                R.anim.activity_no_anim,
+                R.anim.swipeback_activity_close_alpha_in,
                 R.anim.swipeback_activity_close_bottom_out
         )
     }

@@ -23,6 +23,7 @@ public class SettingUtils {
     private static final String KEY_SYSTEM_THEME = "KEY_SYSTEM_THEME";
     private static final String KEY_DARK_THEME = "KEY_DARK_THEME";
     private static final String KEY_SHOW_READ_LATER = "KEY_SHOW_READ_LATER";
+    private static final String KEY_SHOW_READ_LATER_NOTIFICATION = "KEY_SHOW_READ_LATER_NOTIFICATION";
     private static final String KEY_SHOW_READ_RECORD = "KEY_SHOW_READ_RECORD";
     private static final String KEY_SHOW_TOP = "KEY_SHOW_TOP";
     private static final String KEY_SHOW_BANNER = "KEY_SHOW_BANNER";
@@ -40,14 +41,9 @@ public class SettingUtils {
 
     private boolean mSystemTheme = true;
     private boolean mDarkTheme = false;
-    private boolean mShowReadLater = true;
-    private boolean mShowReadRecord = true;
+    private boolean mShowReadLaterNotification = true;
     private boolean mShowTop = true;
     private boolean mShowBanner = true;
-    private boolean mHideAboutMe = false;
-    private boolean mHideOpen = false;
-    private boolean mWebSwipeBackEdge = true;
-    private int mRvAnim = RvConfigUtils.RvAnim.NONE;
     private int mUrlInterceptType = HostInterceptUtils.TYPE_NOTHING;
     private final List<HostEntity> mHostWhite = new ArrayList<>();
     private final List<HostEntity> mHostBlack = new ArrayList<>();
@@ -65,14 +61,9 @@ public class SettingUtils {
     private SettingUtils() {
         mSystemTheme = mSPUtils.get(KEY_SYSTEM_THEME, mSystemTheme);
         mDarkTheme = mSPUtils.get(KEY_DARK_THEME, mDarkTheme);
-        mShowReadLater = mSPUtils.get(KEY_SHOW_READ_LATER, mShowReadLater);
-        mShowReadRecord = mSPUtils.get(KEY_SHOW_READ_RECORD, mShowReadRecord);
+        mShowReadLaterNotification = mSPUtils.get(KEY_SHOW_READ_LATER_NOTIFICATION, mShowReadLaterNotification);
         mShowTop = mSPUtils.get(KEY_SHOW_TOP, mShowTop);
         mShowBanner = mSPUtils.get(KEY_SHOW_BANNER, mShowBanner);
-        mHideAboutMe = mSPUtils.get(KEY_HIDE_ABOUT_ME, mHideAboutMe);
-        mHideOpen = mSPUtils.get(KEY_HIDE_OPEN, mHideOpen);
-        mWebSwipeBackEdge = mSPUtils.get(KEY_WEB_SWIPE_BACK_EDGE, mWebSwipeBackEdge);
-        mRvAnim = mSPUtils.get(KEY_RV_ANIM, mRvAnim);
         mUrlInterceptType = mSPUtils.get(KEY_URL_INTERCEPT_TYPE, mUrlInterceptType);
         mSearchHistoryMaxCount = mSPUtils.get(KEY_SEARCH_HISTORY_MAX_COUNT, mSearchHistoryMaxCount);
         mUpdateIgnoreDuration = mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, mUpdateIgnoreDuration);
@@ -119,22 +110,13 @@ public class SettingUtils {
         return mDarkTheme;
     }
 
-    public void setShowReadLater(boolean showReadLater) {
-        mShowReadLater = showReadLater;
-        mSPUtils.save(KEY_SHOW_READ_LATER, showReadLater);
+    public void setShowReadLaterNotification(boolean showReadLaterNotification) {
+        mShowReadLaterNotification = showReadLaterNotification;
+        mSPUtils.save(KEY_SHOW_READ_LATER_NOTIFICATION, showReadLaterNotification);
     }
 
-    public boolean isShowReadRecord() {
-        return mShowReadRecord;
-    }
-
-    public void setShowReadRecord(boolean showReadRecord) {
-        mShowReadRecord = showReadRecord;
-        mSPUtils.save(KEY_SHOW_READ_RECORD, showReadRecord);
-    }
-
-    public boolean isShowReadLater() {
-        return mShowReadLater;
+    public boolean isShowReadLaterNotification() {
+        return mShowReadLaterNotification;
     }
 
     public void setShowTop(boolean showTop) {
@@ -153,33 +135,6 @@ public class SettingUtils {
 
     public boolean isShowBanner() {
         return mShowBanner;
-    }
-
-    public void setHideAboutMe(boolean hideAboutMe) {
-        mHideAboutMe = hideAboutMe;
-        mSPUtils.save(KEY_HIDE_ABOUT_ME, hideAboutMe);
-    }
-
-    public boolean isHideAboutMe() {
-        return mHideAboutMe;
-    }
-
-    public void setHideOpen(boolean hideOpen) {
-        mHideOpen = hideOpen;
-        mSPUtils.save(KEY_HIDE_OPEN, hideOpen);
-    }
-
-    public boolean isHideOpen() {
-        return mHideOpen;
-    }
-
-    public void setWebSwipeBackEdge(boolean webSwipeBackEdge) {
-        mWebSwipeBackEdge = webSwipeBackEdge;
-        mSPUtils.save(KEY_WEB_SWIPE_BACK_EDGE, webSwipeBackEdge);
-    }
-
-    public boolean isWebSwipeBackEdge() {
-        return mWebSwipeBackEdge;
     }
 
     public void setUrlInterceptType(int type) {
@@ -211,15 +166,6 @@ public class SettingUtils {
     @NonNull
     public List<HostEntity> getHostBlackIntercept() {
         return mHostBlack;
-    }
-
-    public void setRvAnim(int anim) {
-        mRvAnim = anim;
-        mSPUtils.save(KEY_RV_ANIM, anim);
-    }
-
-    public int getRvAnim() {
-        return mRvAnim;
     }
 
     public void setSearchHistoryMaxCount(int count) {

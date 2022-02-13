@@ -9,9 +9,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +18,6 @@ import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.mine.adapter.HostInterruptAdapter;
 import per.goweii.wanandroid.module.mine.dialog.AddHostDialog;
 import per.goweii.wanandroid.module.mine.model.HostEntity;
@@ -45,21 +41,6 @@ public class HostWhiteFragment extends BaseFragment implements RvScrollTopUtils.
         return new HostWhiteFragment();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (isDetached()) {
-            return;
-        }
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        }
-    }
-
-    @Override
-    protected boolean isRegisterEventBus() {
-        return true;
-    }
-
     @Override
     protected int getLayoutRes() {
         return R.layout.fragment_host_interrupt;
@@ -76,7 +57,6 @@ public class HostWhiteFragment extends BaseFragment implements RvScrollTopUtils.
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new HostInterruptAdapter();
         RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {

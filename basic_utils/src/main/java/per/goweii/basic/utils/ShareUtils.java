@@ -1,5 +1,6 @@
 package per.goweii.basic.utils;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,8 +27,10 @@ public class ShareUtils {
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_STREAM, UriUtils.getFileUri(file));
         intent = Intent.createChooser(intent, "分享到");
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
+        try {
             context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -37,8 +40,10 @@ public class ShareUtils {
         intent.putExtra(Intent.EXTRA_TEXT, url);
         intent.setType("text/plain");
         intent = Intent.createChooser(intent, "分享到");
-        if (intent.resolveActivity(context.getPackageManager()) != null) {
+        try {
             context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }

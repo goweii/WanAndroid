@@ -1,13 +1,15 @@
 package per.goweii.wanandroid.module.mine.presenter;
 
+import android.text.TextUtils;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -17,14 +19,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.Cookie;
-import okhttp3.HttpUrl;
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
-import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.mine.model.MineRequest;
 import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 import per.goweii.wanandroid.module.mine.view.MineView;
+import per.goweii.wanandroid.utils.CookieUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -67,10 +68,46 @@ public class MinePresenter extends BasePresenter<MineView> {
         }));
     }
 
+    public void getMessageUnreadCount() {
+        if (!UserUtils.getInstance().isLogin()) {
+            if (isAttach()) {
+                getBaseView().getMessageUnreadCountSuccess(0);
+            }
+            return;
+        }
+        addToRxLife(MineRequest.getMessageUnreadCount(new RequestListener<Integer>() {
+            @Override
+            public void onStart() {
+            }
+
+            @Override
+            public void onSuccess(int code, Integer data) {
+                if (isAttach()) {
+                    getBaseView().getMessageUnreadCountSuccess(data);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if (isAttach()) {
+                    getBaseView().getMessageUnreadCountSuccess(0);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        }));
+    }
+
     public void getNotificationCount() {
         if (!UserUtils.getInstance().isLogin()) {
             if (isAttach()) {
-                getBaseView().getNotificationCountSuccess(0);
+                getBaseView().getMessageUnreadCountSuccess(0);
             }
             return;
         }
@@ -78,7 +115,7 @@ public class MinePresenter extends BasePresenter<MineView> {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
                 String url = "https://www.wanandroid.com/";
-                List<Cookie> cookies = WanApp.getCookieJar().loadForRequest(HttpUrl.get(url));
+                List<Cookie> cookies = CookieUtils.INSTANCE.loadForUrl(url);
                 if (cookies == null || cookies.isEmpty()) {
                     emitter.onNext(0);
                     emitter.onComplete();
@@ -91,22 +128,31 @@ public class MinePresenter extends BasePresenter<MineView> {
                 Document document = Jsoup.connect("https://www.wanandroid.com/")
                         .cookies(map)
                         .get();
-                /*-示例：
-                    <div class="header_inbox">
-                        <a class="active" href="/message/lg/list/1">
-                            <span class="iconfont iconxiaoxi">::before</span>
-                            <i>1</i>
-                        </a>
-                    </div>
-                 */
-                Elements newMsgDotElements = document.getElementsByClass("header_inbox");
-                Element newMsgDotElement = newMsgDotElements.get(0);
-                Elements aElements = newMsgDotElement.getElementsByTag("a");
-                Element aElement = aElements.get(0);
-                Elements iElements = aElement.getElementsByTag("i");
-                Element iElement = iElements.get(0);
-                String num = iElement.ownText();
-                int count = Integer.parseInt(num);
+                String num = null;
+                try {
+                    num = document.getElementsByClass("header_inbox").get(0)
+                            .getElementsByTag("a").get(0)
+                            .getElementsByTag("i").get(0)
+                            .ownText();
+                } catch (Exception ignore) {
+                }
+                if (TextUtils.isEmpty(num)) {
+                    try {
+                        Pattern pattern = Pattern.compile("你有([0-9]*)条未读消息");
+                        String text = document.getElementsByClass("lead_list").get(0)
+                                .getElementsMatchingOwnText(pattern).get(0)
+                                .ownText();
+                        Matcher matcher = pattern.matcher(text);
+                        if (matcher.find()) {
+                            num = matcher.group(1);
+                        }
+                    } catch (Exception ignore) {
+                    }
+                }
+                int count = 0;
+                if (!TextUtils.isEmpty(num)) {
+                    count = Integer.parseInt(num);
+                }
                 emitter.onNext(count);
                 emitter.onComplete();
             }
@@ -119,14 +165,14 @@ public class MinePresenter extends BasePresenter<MineView> {
             @Override
             public void onNext(Integer integer) {
                 if (isAttach()) {
-                    getBaseView().getNotificationCountSuccess(integer);
+                    getBaseView().getMessageUnreadCountSuccess(integer);
                 }
             }
 
             @Override
             public void onError(Throwable e) {
                 if (isAttach()) {
-                    getBaseView().getNotificationCountSuccess(0);
+                    getBaseView().getMessageUnreadCountSuccess(0);
                 }
             }
 

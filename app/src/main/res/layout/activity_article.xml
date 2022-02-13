@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/dl"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?colorSurface"
-    app:bdl_closeHeight="@dimen/bottom_bar_height"
-    app:bdl_enable="true"
-    tools:bdl_open="true"
-    app:bdl_open="false"
-    app:bdl_openTopMargin="200dp">
+    android:orientation="vertical">
 
-    <include layout="@layout/activity_article_content" />
+    <per.goweii.actionbarex.ActionBarEx
+        android:id="@+id/ab"
+        style="@style/ActionBar"
+        app:ab_statusBarColor="?colorSurface"
+        app:ab_titleBarHeight="0dp" />
 
-    <include layout="@layout/activity_article_comment" />
+    <per.goweii.wanandroid.widget.WebContainer
+        android:id="@+id/wc"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_below="@+id/ab"
+        android:layout_alignParentBottom="true" />
 
-</per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout>
+    <include layout="@layout/activity_article_float_btn" />
+
+</RelativeLayout>

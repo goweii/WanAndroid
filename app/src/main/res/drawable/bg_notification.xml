@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="?colorDialogCard" />
+    <stroke
+        android:width="@dimen/line_very_thin"
+        android:color="?colorLine" />
+    <corners android:radius="@dimen/round_radius" />
+</shape>

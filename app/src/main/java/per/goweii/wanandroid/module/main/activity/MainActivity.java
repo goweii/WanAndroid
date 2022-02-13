@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +25,9 @@ import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.dialog.UpdateDialog;
+import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.ResUtils;
+import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.db.model.ReadLaterModel;
@@ -44,8 +47,11 @@ import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.presenter.MainPresenter;
 import per.goweii.wanandroid.module.main.view.MainView;
 import per.goweii.wanandroid.utils.ADUtils;
+import per.goweii.wanandroid.utils.ConfigUtils;
 import per.goweii.wanandroid.utils.CopiedTextProcessor;
 import per.goweii.wanandroid.utils.PredefinedTaskQueen;
+import per.goweii.wanandroid.utils.SettingUtils;
+import per.goweii.wanandroid.utils.ThemeUtils;
 import per.goweii.wanandroid.utils.UpdateUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.UserUtils;
@@ -78,6 +84,15 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            LogUtils.d("ThemeUtils", "MainActivity onCreate setNotInstall");
+            ThemeUtils.setNotInstall();
+        }
     }
 
     @Override
@@ -212,8 +227,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
+        if (isFinishing()) {
+            if (!ThemeUtils.isWillInstall()) {
+                ThemeUtils.updateLauncher(getApplicationContext(), ConfigUtils.getInstance().getThemeName());
+            }
+        }
     }
 
     private void showCopiedLinkDialog(String link) {
@@ -237,13 +257,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 task.runnable(new Function1<PredefinedTaskQueen.Completion, Unit>() {
                     @Override
                     public Unit invoke(PredefinedTaskQueen.Completion completion) {
-                        mCopiedLinkDialog.onDismissListener(new Layer.OnDismissListener() {
+                        mCopiedLinkDialog.addOnDismissListener(new Layer.OnDismissListener() {
                             @Override
-                            public void onDismissing(@NonNull Layer layer) {
+                            public void onPreDismiss(@NonNull Layer layer) {
                             }
 
                             @Override
-                            public void onDismissed(@NonNull Layer layer) {
+                            public void onPostDismiss(@NonNull Layer layer) {
                                 completion.complete();
                             }
                         });
@@ -279,13 +299,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 task.runnable(new Function1<PredefinedTaskQueen.Completion, Unit>() {
                     @Override
                     public Unit invoke(PredefinedTaskQueen.Completion completion) {
-                        mPasswordDialog.onDismissListener(new Layer.OnDismissListener() {
+                        mPasswordDialog.addOnDismissListener(new Layer.OnDismissListener() {
                             @Override
-                            public void onDismissing(@NonNull Layer layer) {
+                            public void onPreDismiss(@NonNull Layer layer) {
                             }
 
                             @Override
-                            public void onDismissed(@NonNull Layer layer) {
+                            public void onPostDismiss(@NonNull Layer layer) {
                                 mPasswordDialog = null;
                                 completion.complete();
                             }
@@ -496,7 +516,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                     public Unit invoke(PredefinedTaskQueen.Completion completion) {
                         new AdvertDialog(MainActivity.this)
                                 .setAdvertBean(advertBean)
-                                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
+                                .addOnVisibleChangeListener(new Layer.OnVisibleChangedListener() {
                                     @Override
                                     public void onShow(@NonNull Layer layer) {
                                         ADUtils.getInstance().setAdShown();
@@ -524,18 +544,24 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 .runnable(new Function1<PredefinedTaskQueen.Completion, Unit>() {
                     @Override
                     public Unit invoke(PredefinedTaskQueen.Completion completion) {
+                        if (!SettingUtils.getInstance().isShowReadLaterNotification()) {
+                            completion.complete();
+                            return null;
+                        }
                         new NotificationLayer(MainActivity.this)
-                                .contentView(R.layout.dialog_read_later_notification)
-                                .bindData(new Layer.DataBinder() {
+                                .setContentView(R.layout.dialog_read_later_notification)
+                                .addOnBindDataListener(new Layer.OnBindDataListener() {
                                     @Override
-                                    public void bindData(@NonNull Layer layer) {
-                                        TextView tv_title = layer.getView(R.id.dialog_read_later_notification_tv_title);
-                                        TextView tv_desc = layer.getView(R.id.dialog_read_later_notification_tv_desc);
+                                    public void onBindData(@NonNull Layer layer) {
+                                        View child = layer.requireView(R.id.dialog_read_later_notification);
+                                        child.setPadding(0, DisplayInfoUtils.getInstance().getStatusBarHeight(), 0, 0);
+                                        TextView tv_title = layer.requireView(R.id.dialog_read_later_notification_tv_title);
+                                        TextView tv_desc = layer.requireView(R.id.dialog_read_later_notification_tv_desc);
                                         tv_title.setText("是否继续阅读？");
                                         tv_desc.setText(readLaterModel.getTitle());
                                     }
                                 })
-                                .onClickToDismiss(new Layer.OnClickListener() {
+                                .addOnClickToDismissListener(new Layer.OnClickListener() {
                                     @Override
                                     public void onClick(@NonNull Layer layer, @NonNull View view) {
                                         UrlOpenUtils.Companion
@@ -543,18 +569,16 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                                                 .open(getContext());
                                     }
                                 }, R.id.dialog_read_later_notification_ll_content)
-                                .onDismissListener(new Layer.OnDismissListener() {
+                                .addOnDismissListener(new Layer.OnDismissListener() {
                                     @Override
-                                    public void onDismissing(@NonNull Layer layer) {
+                                    public void onPreDismiss(@NonNull Layer layer) {
                                     }
 
                                     @Override
-                                    public void onDismissed(@NonNull Layer layer) {
+                                    public void onPostDismiss(@NonNull Layer layer) {
                                         completion.complete();
                                     }
-                                });
-                        //.show();
-                        completion.complete();
+                                }).show();
                         return null;
                     }
                 });

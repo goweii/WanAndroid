@@ -12,7 +12,11 @@ public class HomeActionBarEvent extends BaseEvent {
     private String secondFloorBg;
     private float secondFloorBgBlurPercent;
 
-    public HomeActionBarEvent(String text, String color, String image, String secondFloorBg, float secondFloorBgBlurPercent) {
+    public HomeActionBarEvent(String text,
+                              String color,
+                              String image,
+                              String secondFloorBg,
+                              float secondFloorBgBlurPercent) {
         this.text = text;
         this.color = color;
         this.image = image;

@@ -33,25 +33,31 @@ import com.tencent.smtt.sdk.CookieManager;
 import com.tencent.smtt.sdk.CookieSyncManager;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.QbSdk;
+import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
 import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import okhttp3.Cookie;
-import okhttp3.HttpUrl;
 import per.goweii.anylayer.DecorLayer;
-import per.goweii.anylayer.Layer;
+import per.goweii.anylayer.ext.NullAnimatorCreator;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.module.main.dialog.ImagePreviewDialog;
-import per.goweii.wanandroid.utils.NightModeUtils;
+import per.goweii.wanandroid.utils.CookieUtils;
+import per.goweii.wanandroid.utils.DarkModeUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.web.js.JsInjector;
 import per.goweii.wanandroid.widget.WebContainer;
@@ -104,8 +110,8 @@ public class WebHolder {
         if (!TextUtils.equals(host, "www.wanandroid.com")) {
             return;
         }
-        List<Cookie> cookies = WanApp.getCookieJar().loadForRequest(HttpUrl.get(url));
-        if (cookies == null || cookies.isEmpty()) {
+        List<Cookie> cookies = CookieUtils.INSTANCE.loadForUrl(url);
+        if (cookies.isEmpty()) {
             return;
         }
         CookieManager cookieManager = CookieManager.getInstance();
@@ -212,7 +218,7 @@ public class WebHolder {
         }
         WebSettings webSetting = mWebView.getSettings();
         mUserAgentString = webSetting.getUserAgentString();
-        boolean isAppDarkMode = NightModeUtils.isNightMode(activity);
+        boolean isAppDarkMode = DarkModeUtils.isDarkMode(activity);
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
             View v = mWebView.getView();
             if (v instanceof android.webkit.WebView) {
@@ -241,10 +247,73 @@ public class WebHolder {
         return url == null ? "" : url;
     }
 
+    public void getShareInfo(OnShareInfoCallback callback) {
+        String js = "javascript:(" +
+                "function getShareInfo() {" +
+                "  var map = {};" +
+                "  map[\"title\"] = document.title;" +
+                "  map[\"desc\"] = document.querySelector('meta[name=\"description\"]').getAttribute('content');" +
+                "  var imgElements = document.getElementsByTagName(\"img\");" +
+                "  var imgs = [];" +
+                "  for(var i = 0 ; i < imgElements.length; i++){" +
+                "    var imgEle = imgElements[i];" +
+                "    var w = imgEle.naturalWidth;" +
+                "    var h = imgEle.naturalHeight;" +
+                "    console.log(\"img\" + i + \" w*h=\" + w + \"*\" + h);" +
+                "    if(w > 200 && h > 100){" +
+                "      imgs.push(imgEle.src);" +
+                "    }" +
+                "  }" +
+                "  map[\"imgs\"] = imgs;" +
+                "  return map;" +
+                "}" +
+                ")()";
+        mWebView.evaluateJavascript(js, new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String s) {
+                String title = "";
+                String desc = "";
+                List<String> imgs = new ArrayList<>();
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    title = jsonObject.optString("title");
+                    desc = jsonObject.optString("desc");
+                    JSONArray imgArr = jsonObject.optJSONArray("imgs");
+                    if (imgArr != null) {
+                        for (int i = 0; i < imgArr.length(); i++) {
+                            String img = imgArr.optString(i);
+                            if (!TextUtils.isEmpty(img)) {
+                                if (!imgs.contains(img)) {
+                                    imgs.add(img);
+                                }
+                            }
+                        }
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                if (TextUtils.isEmpty(title)) {
+                    title = getTitle();
+                }
+                if (TextUtils.isEmpty(desc)) {
+                    desc = getUrl();
+                }
+                if (callback != null) {
+                    callback.onShareInfo(getUrl(), imgs, title, desc);
+                }
+            }
+        });
+    }
+
     @NonNull
     public String getTitle() {
         String title = mWebView.getTitle();
         return title == null ? "" : title;
+    }
+
+    @Nullable
+    public WebView.HitTestResult getHitTestResult() {
+        return mWebView.getHitTestResult();
     }
 
     @NonNull
@@ -282,6 +351,28 @@ public class WebHolder {
 
     public void stopLoading() {
         mWebView.stopLoading();
+    }
+
+    public void goTop() {
+        String js = "javascript:(" +
+                "function(){\n" +
+                "  var timer = null;\n" +
+                "  cancelAnimationFrame(timer);\n" +
+                "  var startTime = +new Date();     \n" +
+                "  var b = document.body.scrollTop || document.documentElement.scrollTop;\n" +
+                "  var d = 500;\n" +
+                "  var c = b;\n" +
+                "  var timer = requestAnimationFrame(function func(){\n" +
+                "    var t = d - Math.max(0,startTime - (+new Date()) + d);\n" +
+                "    document.documentElement.scrollTop = document.body.scrollTop = t * (-c) / d + b;\n" +
+                "    timer = requestAnimationFrame(func);\n" +
+                "    if(t == d){\n" +
+                "      cancelAnimationFrame(timer);\n" +
+                "    }\n" +
+                "  });\n" +
+                "}" +
+                ")()";
+        mWebView.evaluateJavascript(js, null);
     }
 
     public void onResume() {
@@ -513,23 +604,13 @@ public class WebHolder {
             }
             mCustomViewCallback = customViewCallback;
             mCustomViewLayer = new DecorLayer(mActivity);
-            mCustomViewLayer.level(Integer.MAX_VALUE);
-            mCustomViewLayer.animator(new Layer.AnimatorCreator() {
-                @Override
-                public Animator createInAnimator(@NonNull View target) {
-                    return null;
-                }
-
-                @Override
-                public Animator createOutAnimator(@NonNull View target) {
-                    return null;
-                }
-            });
+            mCustomViewLayer.setLevel(Integer.MAX_VALUE);
+            mCustomViewLayer.setAnimator(new NullAnimatorCreator());
             view.setLayoutParams(new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.MATCH_PARENT
             ));
-            mCustomViewLayer.child(view);
+            mCustomViewLayer.setChild(view);
             mCustomViewLayer.show();
             mOldActivityOrientation = mActivity.getRequestedOrientation();
             mActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
@@ -699,6 +780,13 @@ public class WebHolder {
                 mOnHistoryUpdateCallback.onHistoryUpdate(isReload);
             }
         }
+    }
+
+    public interface OnShareInfoCallback {
+        void onShareInfo(@NonNull String url,
+                         @NonNull List<String> covers,
+                         @NonNull String title,
+                         @NonNull String desc);
     }
 
     public interface OnPageScrollEndListener {

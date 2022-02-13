@@ -39,7 +39,7 @@ public class WanCache {
     private static WanCache INSTANCE;
 
     private DiskLruCache mDiskLruCache = null;
-    private final Gson mGson = new Gson();
+    private Gson mGson = new Gson();
 
     public static void init() {
         if (INSTANCE == null) {

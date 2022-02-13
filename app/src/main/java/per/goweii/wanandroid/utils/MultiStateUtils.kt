@@ -21,6 +21,11 @@ class MultiStateUtils {
     companion object {
 
         @JvmStatic
+        fun isContent(view: MultiStateView): Boolean {
+            return view.viewState == MultiStateView.VIEW_STATE_CONTENT
+        }
+
+        @JvmStatic
         fun toLoading(view: MultiStateView) {
             view.viewState = MultiStateView.VIEW_STATE_LOADING
         }

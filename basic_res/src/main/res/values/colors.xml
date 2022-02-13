@@ -34,6 +34,8 @@
     <color name="color_black_dark3_a80">#cc181818</color>
     <color name="color_black_dark4">#222425</color>
     <color name="color_black_dark4_a93">#EE222425</color>
+    <color name="color_black_dark5">#363839</color>
+    <color name="color_black_dark5_a93">#EE363839</color>
 
     <color name="color_gray">#eaeaea</color>
     <color name="color_gray_light">#f5f5f5</color>

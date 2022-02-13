@@ -7,10 +7,7 @@ import per.goweii.basic.utils.Base64Utils.encodeToBytes
 import per.goweii.basic.utils.Base64Utils.encodeToString
 import per.goweii.basic.utils.SPUtils
 import per.goweii.rxhttp.request.exception.ExceptionHandle
-import per.goweii.wanandroid.http.CmsApi
-import per.goweii.wanandroid.http.CmsBaseRequest
 import per.goweii.wanandroid.http.RequestListener
-import per.goweii.wanandroid.module.login.model.CmsLoginRequest.login
 import per.goweii.wanandroid.module.login.model.LoginBean
 import per.goweii.wanandroid.module.login.model.LoginInfoEntity
 import per.goweii.wanandroid.module.login.model.LoginRequest
@@ -64,19 +61,14 @@ class QuickLoginPresenter : BasePresenter<QuickLoginView>() {
             }
 
             override fun onSuccess(code: Int, data: LoginBean) {
-                if (CmsApi.isEnabled) {
-                    cmsLogin(username, password)
-                } else {
-                    UserUtils.getInstance().login(data)
-                    if (isAttach) {
-                        baseView.loginSuccess(0, UserUtils.getInstance().loginUser)
-                    }
+                UserUtils.getInstance().login(data)
+                if (isAttach) {
+                    baseView.loginSuccess(0, UserUtils.getInstance().loginUser)
                 }
             }
 
             override fun onFailed(code: Int, msg: String) {
                 UserUtils.getInstance().logout()
-                dismissLoadingDialog()
                 if (isAttach) {
                     baseView.loginFailed(code, msg)
                 }
@@ -84,33 +76,9 @@ class QuickLoginPresenter : BasePresenter<QuickLoginView>() {
 
             override fun onError(handle: ExceptionHandle) {}
             override fun onFinish() {
-                if (!CmsApi.isEnabled) {
-                    dismissLoadingDialog()
-                }
+                dismissLoadingDialog()
             }
         }))
-    }
-
-    private fun cmsLogin(username: String, password: String) {
-        addToRxLife(login(username, password, CmsBaseRequest.Listener(null, null, {
-            UserUtils.getInstance().login(it)
-            dismissLoadingDialog()
-            if (it.user.wanid > 0) {
-                if (isAttach) {
-                    baseView.loginSuccess(0, UserUtils.getInstance().loginUser)
-                }
-            } else {
-                if (isAttach) {
-                    baseView.loginFailed(0, "")
-                }
-            }
-        }, {
-            UserUtils.getInstance().logout()
-            dismissLoadingDialog()
-            if (isAttach) {
-                baseView.loginFailed(0, it)
-            }
-        })))
     }
 
     companion object {

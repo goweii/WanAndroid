@@ -10,6 +10,8 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import per.goweii.anylayer.Layer;
 import per.goweii.anylayer.dialog.DialogLayer;
 import per.goweii.anylayer.utils.AnimatorHelper;
@@ -32,34 +34,34 @@ public class PasswordDialog extends DialogLayer {
     public PasswordDialog(Context context, WanPwdParser parser) {
         super(context);
         this.mParser = parser;
-        contentView(R.layout.dialog_password);
-        backgroundDimAmount(0.5F);
-        cancelableOnClickKeyBack(false);
-        cancelableOnTouchOutside(false);
-        contentAnimator(new AnimatorCreator() {
+        setContentView(R.layout.dialog_password);
+        setBackgroundDimAmount(0.5F);
+        setCancelableOnClickKeyBack(false);
+        setCancelableOnTouchOutside(false);
+        setContentAnimator(new AnimatorCreator() {
             @Override
-            public Animator createInAnimator(View target) {
+            public Animator createInAnimator(@NonNull View target) {
                 Animator a = AnimatorHelper.createZoomAlphaInAnim(target);
                 a.setInterpolator(new OvershootInterpolator());
                 return a;
             }
 
             @Override
-            public Animator createOutAnimator(View target) {
+            public Animator createOutAnimator(@NonNull View target) {
                 Animator a = AnimatorHelper.createZoomAlphaOutAnim(target);
                 a.setInterpolator(new OvershootInterpolator());
                 return a;
             }
         });
-        onClickToDismiss(new OnClickListener() {
+        addOnClickToDismissListener(new OnClickListener() {
             @Override
-            public void onClick(Layer layer, View v) {
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
                 CopiedTextProcessor.getInstance().processed();
             }
         }, R.id.dialog_password_iv_close);
-        onClickToDismiss(new OnClickListener() {
+        addOnClickToDismissListener(new OnClickListener() {
             @Override
-            public void onClick(Layer layer, View v) {
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
                 CopiedTextProcessor.getInstance().processed();
                 Runnable runnable = mParser.getWanPwd().getRunnable();
                 if (runnable != null) runnable.run();
@@ -76,21 +78,21 @@ public class PasswordDialog extends DialogLayer {
     public void onAttach() {
         super.onAttach();
         mHandler = new Handler();
-        TextView tvContent = getView(R.id.dialog_password_tv_content);
-        TextView tvOpen = getView(R.id.dialog_password_tv_open);
+        TextView tvContent = requireView(R.id.dialog_password_tv_content);
+        TextView tvOpen = requireView(R.id.dialog_password_tv_open);
         tvContent.setText(mParser.getWanPwd().getShowText());
         tvOpen.setText(mParser.getWanPwd().getBtnText());
     }
 
     @Override
-    public void onShow() {
-        super.onShow();
+    protected void onPostShow() {
+        super.onPostShow();
         doEyeAnim();
     }
 
     @Override
-    protected void onDisappear() {
-        super.onDisappear();
+    protected void onPreDismiss() {
+        super.onPreDismiss();
         mHandler.removeCallbacksAndMessages(null);
         mHandler = null;
         if (mAnim != null) {
@@ -100,7 +102,7 @@ public class PasswordDialog extends DialogLayer {
     }
 
     private void doEyeAnim() {
-        View flEye = getView(R.id.dialog_password_fl_eye);
+        View flEye = findView(R.id.dialog_password_fl_eye);
         if (flEye == null) {
             return;
         }

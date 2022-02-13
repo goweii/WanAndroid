@@ -23,7 +23,7 @@ public final class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutLis
 
     private long duration = 300;
     private View moveView = null;
-    private final Map<View, View> focusBottomMap = new HashMap<>(1);
+    private Map<View, View> focusBottomMap = new HashMap<>(1);
     private OnSoftInputListener onSoftInputListener = null;
 
     private boolean moveWithScroll = false;
@@ -32,7 +32,7 @@ public final class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutLis
     private int moveHeight = 0;
     private boolean isFocusChange = false;
 
-    private final Runnable moveRunnable = new Runnable() {
+    private Runnable moveRunnable = new Runnable() {
         @Override
         public void run() {
             calcToMove();
@@ -224,7 +224,11 @@ public final class SoftInputHelper implements ViewTreeObserver.OnGlobalLayoutLis
         int usableHeightNow = rect.bottom - rect.top;
         int usableHeightSansKeyboard = rootView.getHeight();
         int heightDifference = usableHeightSansKeyboard - usableHeightNow;
-        return heightDifference > (usableHeightSansKeyboard / 4);
+        if (heightDifference > (usableHeightSansKeyboard / 4)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private View isViewFocus() {

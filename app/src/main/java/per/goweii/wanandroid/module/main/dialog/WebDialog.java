@@ -9,6 +9,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class WebDialog extends DialogLayer implements WebDialogView {
 
     private WebDialogPresenter presenter = null;
     private OnPageChangedListener mOnPageChangedListener = null;
-    private final WebDialogPagerAdapter mAdapter;
+    private WebDialogPagerAdapter mAdapter;
 
     public static WebDialog create(Context context, String url) {
         List<ArticleBean> urls = new ArrayList<>(1);
@@ -61,15 +62,15 @@ public class WebDialog extends DialogLayer implements WebDialogView {
         super(context);
         this.currPos = currPos;
         this.singleTipMode = singleTipMode;
-        contentView(R.layout.dialog_web);
-        backgroundDimDefault();
-        cancelableOnTouchOutside(true);
-        cancelableOnClickKeyBack(true);
-        onClickToDismiss(R.id.dialog_web_iv_close);
-        contentAnimator(new AnimatorCreator() {
+        setContentView(R.layout.dialog_web);
+        setBackgroundDimDefault();
+        setCancelableOnTouchOutside(true);
+        setCancelableOnClickKeyBack(true);
+        addOnClickToDismissListener(R.id.dialog_web_iv_close);
+        setContentAnimator(new AnimatorCreator() {
             @Override
-            public Animator createInAnimator(View target) {
-                final ViewPager vp = getView(R.id.dialog_web_vp);
+            public Animator createInAnimator(@NonNull View target) {
+                final ViewPager vp = requireView(R.id.dialog_web_vp);
                 View bar = target.findViewById(R.id.dialog_web_rl_bottom_bar);
                 bar.setTranslationY(1000);
                 vp.setPageMargin((int) DisplayInfoUtils.getInstance().dp2px(12));
@@ -96,8 +97,8 @@ public class WebDialog extends DialogLayer implements WebDialogView {
             }
 
             @Override
-            public Animator createOutAnimator(View target) {
-                final ViewPager vp = getView(R.id.dialog_web_vp);
+            public Animator createOutAnimator(@NonNull View target) {
+                final ViewPager vp = requireView(R.id.dialog_web_vp);
                 View bar = target.findViewById(R.id.dialog_web_rl_bottom_bar);
                 ValueAnimator vpMargin = ValueAnimator.ofInt(vp.getPageMargin(), vp.getPageMargin());
                 vpMargin.setInterpolator(new AccelerateInterpolator());
@@ -240,13 +241,8 @@ public class WebDialog extends DialogLayer implements WebDialogView {
     }
 
     @Override
-    public void onShow() {
-        super.onShow();
-    }
-
-    @Override
-    protected void onDisappear() {
-        super.onDisappear();
+    protected void onPreDismiss() {
+        super.onPreDismiss();
         if (mAdapter != null) {
             mAdapter.pauseAllWeb();
         }

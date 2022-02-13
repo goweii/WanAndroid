@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
 
 import per.goweii.anylayer.AnyLayer;
@@ -87,23 +89,23 @@ public class DownloadDialog {
 
     private void showDialog() {
         mAnyLayer = AnyLayer.dialog(mActivity)
-                .contentView(R.layout.basic_ui_dialog_download)
-                .gravity(Gravity.CENTER)
-                .backgroundDimDefault()
-                .cancelableOnTouchOutside(false)
-                .cancelableOnClickKeyBack(false)
-                .bindData(new Layer.DataBinder() {
+                .setContentView(R.layout.basic_ui_dialog_download)
+                .setGravity(Gravity.CENTER)
+                .setBackgroundDimDefault()
+                .setCancelableOnTouchOutside(false)
+                .setCancelableOnClickKeyBack(false)
+                .addOnBindDataListener(new Layer.OnBindDataListener() {
                     @Override
-                    public void bindData(Layer layer) {
-                        progressBar = layer.getView(R.id.basic_ui_pb_dialog_download);
-                        tvProgress = layer.getView(R.id.basic_ui_tv_dialog_download_progress);
-                        tvApkSize = layer.getView(R.id.basic_ui_tv_dialog_download_apk_size);
-                        tvState = layer.getView(R.id.basic_ui_tv_dialog_download_state);
+                    public void onBindData(@NonNull Layer layer) {
+                        progressBar = layer.requireView(R.id.basic_ui_pb_dialog_download);
+                        tvProgress = layer.requireView(R.id.basic_ui_tv_dialog_download_progress);
+                        tvApkSize = layer.requireView(R.id.basic_ui_tv_dialog_download_apk_size);
+                        tvState = layer.requireView(R.id.basic_ui_tv_dialog_download_state);
                     }
                 })
-                .onClick(new Layer.OnClickListener() {
+                .addOnClickListener(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(Layer layer, View v) {
+                    public void onClick(@NonNull Layer layer, @NonNull View v) {
                         if (mApk == null) {
                             return;
                         }

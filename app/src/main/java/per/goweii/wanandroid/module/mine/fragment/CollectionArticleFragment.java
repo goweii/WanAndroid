@@ -21,16 +21,13 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
-import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.mine.presenter.CollectionArticlePresenter;
 import per.goweii.wanandroid.module.mine.view.CollectionArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -91,16 +88,6 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (isDetached()) {
-            return;
-        }
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        }
-    }
-
     @Override
     protected boolean isRegisterEventBus() {
         return true;
@@ -130,8 +117,6 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

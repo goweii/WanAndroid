@@ -76,7 +76,7 @@ public class MD5Coder {
         }
         FileInputStream in = null;
         StringBuilder result = new StringBuilder();
-        byte[] buffer = new byte[8192];
+        byte buffer[] = new byte[8192];
         int len;
         try {
             MessageDigest md5 = MessageDigest.getInstance("MD5");

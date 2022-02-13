@@ -54,14 +54,14 @@ public class ToastMaker {
     public static void showShort(CharSequence message) {
         if (TextUtils.isEmpty(message)) return;
         AnyLayer.toast()
-                .message(message)
-                .removeOthers(true)
-                .duration(2000)
-                .gravity(Gravity.CENTER)
-                .contentView(R.layout.basic_ui_toast)
-                .bindData(new Layer.DataBinder() {
+                .setMessage(message)
+                .setRemoveOthers(true)
+                .setDuration(2000)
+                .setGravity(Gravity.CENTER)
+                .setContentView(R.layout.basic_ui_toast)
+                .addOnBindDataListener(new Layer.OnBindDataListener() {
                     @Override
-                    public void bindData(@NonNull Layer layer) {
+                    public void onBindData(@NonNull Layer layer) {
                         TextView textView = layer.requireView(R.id.basic_ui_toast_msg);
                         textView.setText(message);
                     }
@@ -112,7 +112,7 @@ public class ToastMaker {
     }
 
     public void show() {
-        if (Looper.myLooper() != Looper.getMainLooper()) {
+        if (Thread.currentThread() != Looper.getMainLooper().getThread()) {
             sHandler.sendEmptyMessage(0);
         } else {
             sToast.show();

@@ -97,6 +97,7 @@ public class OpenActivity extends BaseActivity {
         list.add(new OpenEntity("goweii/ActionBarEx", "高拓展高自定义性ActionBar，完美替代Android系统默认", "https://github.com/goweii/ActionBarEx"));
         list.add(new OpenEntity("goweii/AnyLayer", "用于替代Android自带Dialog和PopupWindow", "https://github.com/goweii/AnyLayer"));
         list.add(new OpenEntity("goweii/AnyDialog", "Android高定制性，高易用性Dialog。", "https://github.com/goweii/AnyDialog"));
+        list.add(new OpenEntity("goweii/VisualEffect", "Used to achieve visual effects in Android, such as Gaussian blur, mosaic, watermark, etc.", "https://github.com/goweii/VisualEffect"));
         list.add(new OpenEntity("goweii/RevealLayout", "揭示效果布局，可以指定2个子布局，以圆形揭示效果切换选中状态", "https://github.com/goweii/RevealLayout"));
         list.add(new OpenEntity("goweii/PercentImageView", "自由指定宽高比的ImageView", "https://github.com/goweii/PercentImageView"));
         list.add(new OpenEntity("goweii/Blurred", "Android高斯模糊库", "https://github.com/goweii/Blurred"));
@@ -116,7 +117,6 @@ public class OpenActivity extends BaseActivity {
         list.add(new OpenEntity("zhanghai/MaterialProgressBar", "Material Design ProgressBar with consistent appearance", "https://github.com/zhanghai/MaterialProgressBar"));
         list.add(new OpenEntity("google/flexbox-layout", "Flexbox for Android", "https://github.com/google/flexbox-layout"));
         list.add(new OpenEntity("youth5201314/banner", "Android广告图片轮播控件，支持无限循环和多种主题，可以灵活设置轮播样式、动画、轮播和切换时间、位置、图片加载框架等！", "https://github.com/youth5201314/banner"));
-        list.add(new OpenEntity("mmin18/RealtimeBlurView", "A realtime blurring overlay for Android (like iOS UIVisualEffectView)", "https://github.com/mmin18/RealtimeBlurView"));
         list.add(new OpenEntity("Kennyc1012/MultiStateView", "Android View that displays different content based on its state", "https://github.com/Kennyc1012/MultiStateView"));
         list.add(new OpenEntity("JakeWharton/DiskLruCache", "Java implementation of a Disk-based LRU cache which specifically targets Android compatibility.", "https://github.com/JakeWharton/DiskLruCache"));
         list.add(new OpenEntity("daimajia/AndroidSwipeLayout", "The Most Powerful Swipe Layout!", "https://github.com/daimajia/AndroidSwipeLayout"));

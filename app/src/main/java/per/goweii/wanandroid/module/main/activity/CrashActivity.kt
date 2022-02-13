@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_crash.*
 import per.goweii.ponyo.crash.Crash
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.wanandroid.R
-import per.goweii.wanandroid.common.WanApp
+import per.goweii.wanandroid.utils.DarkModeUtils
 import java.io.PrintWriter
 import java.io.StringWriter
 import kotlin.system.exitProcess
@@ -27,8 +27,8 @@ class CrashActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = Color.TRANSPARENT
-        WanApp.initDarkMode()
-        StatusBarCompat.setIconMode(this, !WanApp.isDarkMode())
+        DarkModeUtils.initDarkMode()
+        StatusBarCompat.setIconMode(this, !DarkModeUtils.isDarkMode(this))
         setContentView(R.layout.activity_crash)
         tv_copy_log.setOnClickListener {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager

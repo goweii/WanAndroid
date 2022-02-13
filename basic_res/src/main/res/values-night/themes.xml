@@ -12,7 +12,7 @@
         <item name="colorStriking">@color/color_orange_light</item>
         <item name="colorAssist">@color/color_green_light</item>
         <item name="colorDialogBg">@color/color_black_a50</item>
-        <item name="colorToastBg">@color/color_black_dark1</item>
+        <item name="colorToastBg">@color/color_black_dark5_a93</item>
         <item name="colorRippleDark">@color/color_blue_light_a05</item>
         <item name="colorRippleLight">@color/color_white_a20</item>
         <item name="colorLauncherBackground">@color/color_blue</item>
@@ -31,6 +31,7 @@
         <item name="colorSurfaceTop">@color/color_black_dark4</item>
         <item name="colorSurfaceTopAlpha">@color/color_black_dark4_a93</item>
         <item name="colorSurfaceTopMask">@color/color_white_a05</item>
+        <item name="colorDialogCard">@color/color_black_dark4</item>
         <item name="colorInvert">@color/color_white_a70</item>
         <item name="colorInvertAlpha">@color/color_white_a05</item>
         <item name="colorSecond">@color/color_white_a50</item>
@@ -49,6 +50,8 @@
         <item name="colorTextInvert">@color/color_black_a93</item>
         <item name="colorTextInvertAlpha">@color/color_black_a47</item>
         <item name="colorTextOnMain">@color/color_black_a93</item>
+        <item name="colorTextOnShadow">@color/color_white_a80</item>
+        <item name="colorTextToast">@color/color_white_a70</item>
         <item name="colorIconMain">@color/color_blue_light</item>
         <item name="colorIconAccent">@color/color_orange_light</item>
         <item name="colorIconSurface">@color/color_white_a70</item>

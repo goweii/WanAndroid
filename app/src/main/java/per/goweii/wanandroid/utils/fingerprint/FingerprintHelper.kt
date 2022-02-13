@@ -72,6 +72,9 @@ class FingerprintHelper(
                         super.onAuthenticationSucceeded(result)
                     }
 
+                    override fun onAuthenticationFailed() {
+                        super.onAuthenticationFailed()
+                    }
                 }, // 认证回调接口
                 Handler(Looper.getMainLooper()) // 回调所在 Handler，一般为 null
         )
@@ -114,6 +117,9 @@ class FingerprintHelper(
                         super.onAuthenticationSucceeded(result)
                     }
 
+                    override fun onAuthenticationFailed() {
+                        super.onAuthenticationFailed()
+                    }
                 }// 认证回调
         )
     }

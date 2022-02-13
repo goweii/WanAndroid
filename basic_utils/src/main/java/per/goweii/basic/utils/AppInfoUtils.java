@@ -7,12 +7,21 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 /**
- * 描述：敏感词过滤
- *
  * @author Cuizhen
  * @date 2018/8/28-上午10:04
  */
 public class AppInfoUtils {
+
+    public static String getAppName() {
+        String appName = "";
+        try {
+            PackageInfo packageInfo = Utils.getAppContext().getApplicationContext().getPackageManager().getPackageInfo(Utils.getAppContext().getPackageName(), 0);
+            appName = Utils.getAppContext().getString(packageInfo.applicationInfo.labelRes);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return appName;
+    }
 
     /**
      * 获取本地软件版本号code

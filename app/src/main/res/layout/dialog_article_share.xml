@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="?colorDialogBg">
+
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/dialog_article_share_srl_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnablePureScrollMode="true">
+
+        <per.goweii.wanandroid.widget.ListenableNestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:overScrollMode="never">
+
+            <LinearLayout
+                android:id="@+id/dialog_article_share_ll_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_middle"
+                android:paddingBottom="170dp">
+
+                <per.goweii.anylayer.widget.MaxSizeFrameLayout
+                    android:id="@+id/dialog_article_share_fl_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_white"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:maxWidth="320dp">
+
+                    <RelativeLayout
+                        android:id="@+id/dialog_article_share_rl_card"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+
+                        <ImageView
+                            android:id="@+id/dialog_article_share_iv_cover"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitXY"
+                            tools:ignore="ContentDescription"
+                            tools:src="@tools:sample/backgrounds/scenic"
+                            tools:visibility="visible" />
+
+                        <TextView
+                            android:id="@+id/dialog_article_share_tv_title"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/dialog_article_share_iv_cover"
+                            android:layout_marginStart="@dimen/margin_def"
+                            android:layout_marginTop="@dimen/margin_def"
+                            android:layout_marginEnd="@dimen/margin_def"
+                            android:ellipsize="end"
+                            android:maxLines="2"
+                            android:textColor="@color/color_black_a93"
+                            android:textSize="@dimen/text_content"
+                            android:textStyle="bold"
+                            tools:text="文章标题文章标题文标题文章标题文章标题文章标题文章标题文章标题文章标题文标题文章标题文章标题文章标题文章标题" />
+
+                        <LinearLayout
+                            android:id="@+id/dialog_article_share_ll_article"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/dialog_article_share_tv_title"
+                            android:layout_marginStart="@dimen/margin_def"
+                            android:layout_marginTop="@dimen/margin_thin"
+                            android:layout_marginEnd="@dimen/margin_def"
+                            android:layout_marginBottom="@dimen/margin_def"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/dialog_article_share_tv_desc"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:maxLines="3"
+                                android:textColor="@color/color_black_a50"
+                                android:textSize="@dimen/text_auxiliary"
+                                tools:text="文章标题文章标题文标题文章标题文章标题文章标题文章标题文章标题文章标题文标题文章标题文章标题文章标题文章标题" />
+
+                            <ImageView
+                                android:id="@+id/dialog_article_share_iv_qrcode"
+                                android:layout_width="56dp"
+                                android:layout_height="56dp"
+                                android:scaleType="fitCenter"
+                                tools:ignore="ContentDescription"
+                                tools:src="@color/color_black_a93" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/line_thin"
+                            android:layout_below="@+id/dialog_article_share_ll_article"
+                            android:layout_marginStart="@dimen/margin_def"
+                            android:layout_marginEnd="@dimen/margin_def"
+                            android:background="@color/color_black_a08" />
+
+                        <RelativeLayout
+                            android:id="@+id/dialog_article_share_rv_app"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/dialog_article_share_ll_article"
+                            android:paddingLeft="@dimen/margin_def"
+                            android:paddingTop="@dimen/margin_thin"
+                            android:paddingRight="@dimen/margin_def"
+                            android:paddingBottom="@dimen/margin_thin">
+
+                            <com.makeramen.roundedimageview.RoundedImageView
+                                android:id="@+id/dialog_article_share_iv_app"
+                                android:layout_width="14dp"
+                                android:layout_height="14dp"
+                                android:layout_centerVertical="true"
+                                android:background="@color/color_blue"
+                                android:padding="2dp"
+                                android:src="@drawable/logo"
+                                app:riv_corner_radius="3dp"
+                                app:riv_mutate_background="true" />
+
+                            <TextView
+                                android:id="@+id/dialog_article_share_tv_app"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="5dp"
+                                android:layout_toRightOf="@+id/dialog_article_share_iv_app"
+                                android:text="由玩安卓客户端生成"
+                                android:textColor="@color/color_black_a50"
+                                android:textSize="@dimen/text_time" />
+
+                        </RelativeLayout>
+
+                    </RelativeLayout>
+
+                </per.goweii.anylayer.widget.MaxSizeFrameLayout>
+
+            </LinearLayout>
+
+        </per.goweii.wanandroid.widget.ListenableNestedScrollView>
+
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+
+        <LinearLayout
+            android:id="@+id/dialog_article_share_ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/shape_dialog_card_share_btn_mask"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/margin_def"
+            tools:ignore="UselessParent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/dialog_article_share_rv_covers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"
+                android:overScrollMode="never"
+                android:padding="@dimen/margin_thin"
+                tools:itemCount="2"
+                tools:layoutManager="LinearLayoutManager"
+                tools:listitem="@layout/rv_item_article_share_cover"
+                tools:orientation="horizontal" />
+
+            <LinearLayout
+                android:id="@+id/dialog_article_share_ll_btn"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingTop="@dimen/margin_thin"
+                android:paddingBottom="@dimen/margin_def">
+
+                <LinearLayout
+                    android:id="@+id/dialog_article_share_ll_album"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:layout_marginEnd="@dimen/margin_def"
+                    android:background="@drawable/bg_press_color_surface_radius_max"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/margin_def"
+                    android:paddingEnd="@dimen/margin_def">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_album"
+                        android:tint="?colorTextSurface" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_common"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="保存相册"
+                        android:textColor="?colorTextSurface"
+                        android:textSize="@dimen/text_content"
+                        tools:ignore="UseCompatTextViewDrawableXml" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/dialog_article_share_ll_share"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/button_height"
+                    android:layout_marginStart="@dimen/margin_def"
+                    android:layout_marginEnd="@dimen/margin_def"
+                    android:background="@drawable/bg_press_color_surface_radius_max"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:paddingStart="@dimen/margin_def"
+                    android:paddingEnd="@dimen/margin_def">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_share"
+                        android:tint="?colorTextSurface" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/margin_common"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="立即分享"
+                        android:textColor="?colorTextSurface"
+                        android:textSize="@dimen/text_content"
+                        tools:ignore="UseCompatTextViewDrawableXml" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>

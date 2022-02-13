@@ -15,6 +15,7 @@ import per.goweii.wanandroid.http.WanApi;
 import per.goweii.wanandroid.http.WanCache;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
+import per.goweii.wanandroid.module.main.model.ListBean;
 import per.goweii.wanandroid.module.main.model.UserPageBean;
 
 /**
@@ -138,6 +139,22 @@ public class MineRequest extends BaseRequest {
 
     public static Disposable getUserInfo(@NonNull RequestListener<UserInfoBean> listener) {
         return request(WanApi.api().getUserInfo(), listener);
+    }
+
+    public static Disposable getMessageUnreadCount(@NonNull RequestListener<Integer> listener) {
+        return request(WanApi.api().getMessageUnreadCount(), listener);
+    }
+
+    public static Disposable getMessageUnreadList(int page, @NonNull RequestListener<ListBean<MessageBean>> listener) {
+        return request(WanApi.api().getMessageUnreadList(page), listener);
+    }
+
+    public static Disposable getMessageReadList(int page, @NonNull RequestListener<ListBean<MessageBean>> listener) {
+        return request(WanApi.api().getMessageReadList(page), listener);
+    }
+
+    public static Disposable deleteMessage(int id, @NonNull RequestListener<Object> listener) {
+        return request(WanApi.api().deleteMessage(id), listener);
     }
 
     public static Disposable getCoinRecordList(int page, @NonNull RequestListener<CoinRecordBean> listener) {

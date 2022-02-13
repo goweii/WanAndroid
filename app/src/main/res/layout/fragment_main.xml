@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -19,22 +18,20 @@
         android:id="@+id/fl_bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bottom_bar_height"
-        android:layout_gravity="bottom">
-
-        <com.github.mmin18.widget.RealtimeBlurView
-            android:id="@+id/blurView"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/bottom_bar_height"
-            android:visibility="visible"
-            app:realtimeBlurRadius="16dp"
-            app:realtimeOverlayColor="?colorBottomBarOverlay" />
+        android:layout_gravity="bottom"
+        android:background="?colorSurface">
 
         <LinearLayout
-            android:id="@+id/ll_bb"
+            android:id="@+id/ll_bottom_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bottom_bar_height"
             android:baselineAligned="false"
             android:orientation="horizontal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line_thin"
+            android:background="?colorLine" />
 
     </FrameLayout>
 

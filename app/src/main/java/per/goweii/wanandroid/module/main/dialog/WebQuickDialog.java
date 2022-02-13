@@ -2,6 +2,8 @@ package per.goweii.wanandroid.module.main.dialog;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import per.goweii.anylayer.Layer;
 import per.goweii.anylayer.popup.PopupLayer;
 import per.goweii.anylayer.widget.SwipeLayout;
@@ -16,30 +18,30 @@ public class WebQuickDialog extends PopupLayer {
 
     public WebQuickDialog(View targetView, OnQuickClickListener onQuickClickListener) {
         super(targetView);
-        contentView(R.layout.dialog_web_quick);
-        outsideInterceptTouchEvent(false);
-        interceptKeyEvent(false);
-        backgroundDimDefault();
-        swipeDismiss(SwipeLayout.Direction.TOP);
-        onClickToDismiss(new OnClickListener() {
+        setContentView(R.layout.dialog_web_quick);
+        setOutsideInterceptTouchEvent(false);
+        setInterceptKeyEvent(false);
+        setBackgroundDimDefault();
+        setSwipeDismiss(SwipeLayout.Direction.TOP);
+        addOnClickToDismissListener(new OnClickListener() {
             @Override
-            public void onClick(Layer layer, View v) {
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
                 if (onQuickClickListener != null) {
                     onQuickClickListener.onCopyLink();
                 }
             }
         }, R.id.dialog_web_quick_tv_copy_link);
-        onClickToDismiss(new OnClickListener() {
+        addOnClickToDismissListener(new OnClickListener() {
             @Override
-            public void onClick(Layer layer, View v) {
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
                 if (onQuickClickListener != null) {
                     onQuickClickListener.onBrowser();
                 }
             }
         }, R.id.dialog_web_quick_tv_browser);
-        onClickToDismiss(new OnClickListener() {
+        addOnClickToDismissListener(new OnClickListener() {
             @Override
-            public void onClick(Layer layer, View v) {
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
                 if (onQuickClickListener != null) {
                     onQuickClickListener.onWanPwd();
                 }

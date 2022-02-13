@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <item>
+        <shape>
+            <size
+                tools:height="360dp"
+                tools:width="360dp" />
+            <solid android:color="?attr/colorBackground" />
+        </shape>
+    </item>
+
+    <item>
+        <bitmap
+            android:alpha="0.8"
+            android:gravity="center"
+            android:src="@drawable/logo"
+            android:tint="#FFFFFF" />
+    </item>
+
+</layer-list>

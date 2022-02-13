@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<per.goweii.anylayer.widget.MaxSizeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:maxWidth="320dp">
+
+    <RelativeLayout
+        android:id="@+id/layout_app_qrcode_share_ll_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/color_white"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/layout_app_qrcode_share_rl_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_middle"
+            android:layout_marginTop="@dimen/margin_middle"
+            android:layout_marginEnd="@dimen/margin_middle">
+
+            <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/dialog_qrcode_share_riv_logo"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@color/color_blue"
+                android:padding="10dp"
+                android:src="@drawable/logo"
+                app:riv_corner_radius="16dp"
+                app:riv_mutate_background="true" />
+
+            <TextView
+                android:id="@+id/layout_app_qrcode_share_tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/dialog_qrcode_share_riv_logo"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/dialog_qrcode_share_riv_logo"
+                android:textColor="@color/color_black_a93"
+                android:textSize="@dimen/text_headline"
+                android:textStyle="bold"
+                tools:text="玩安卓" />
+
+            <TextView
+                android:id="@+id/layout_app_qrcode_share_tv_version"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/dialog_qrcode_share_riv_logo"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@+id/dialog_qrcode_share_riv_logo"
+                android:textColor="@color/color_black_a50"
+                android:textSize="@dimen/text_title"
+                tools:text="2.0.15(67)" />
+
+        </RelativeLayout>
+
+        <per.goweii.percentimageview.percentimageview.PercentImageView
+            android:id="@+id/layout_app_qrcode_share_iv_qrcode"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_below="@+id/layout_app_qrcode_share_rl_logo"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="@dimen/margin_middle"
+            android:layout_marginTop="@dimen/margin_middle"
+            android:layout_marginEnd="@dimen/margin_middle"
+            android:background="@color/color_white"
+            app:piv_basics="width"
+            app:piv_percent="1"
+            tools:src="?colorIconSurface" />
+
+        <TextView
+            android:id="@+id/layout_app_qrcode_share_tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/layout_app_qrcode_share_iv_qrcode"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/margin_def"
+            android:layout_marginBottom="@dimen/margin_middle"
+            android:textColor="@color/color_black_a50"
+            android:textSize="@dimen/text_content"
+            android:text="扫码下载安装" />
+
+    </RelativeLayout>
+
+</per.goweii.anylayer.widget.MaxSizeFrameLayout>

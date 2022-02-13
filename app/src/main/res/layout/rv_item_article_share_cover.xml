@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rl_cover"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_very_thin"
+    android:background="@drawable/bg_solid_round_color_main_radius_def"
+    android:padding="3dp">
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/iv_cover"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:background="?colorSurfaceTop"
+        android:scaleType="centerCrop"
+        app:riv_corner_radius="@dimen/round_radius"
+        app:riv_mutate_background="true"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <ImageView
+        android:id="@+id/iv_none"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:padding="10dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_none"
+        android:visibility="gone" />
+
+</RelativeLayout>

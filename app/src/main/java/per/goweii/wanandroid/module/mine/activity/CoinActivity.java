@@ -27,7 +27,6 @@ import per.goweii.wanandroid.module.mine.presenter.CoinPresenter;
 import per.goweii.wanandroid.module.mine.view.CoinView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvConfigUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 
 /**
  * @author CuiZhen
@@ -84,7 +83,6 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mCoinRecordAdapter = new CoinRecordAdapter();
         RvConfigUtils.init(mCoinRecordAdapter);
-        RvConfigUtils.setAnim(mCoinRecordAdapter, SettingUtils.getInstance().getRvAnim());
         mCoinRecordAdapter.setEnableLoadMore(false);
         mCoinRecordAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

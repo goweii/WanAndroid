@@ -26,7 +26,6 @@ import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.event.ArticleShareEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
-import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.activity.ShareArticleActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
@@ -34,9 +33,7 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.presenter.UserArticlePresenter;
 import per.goweii.wanandroid.module.main.view.UserArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -93,13 +90,6 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
         getProjectArticleList(true);
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        }
-    }
-
     @Override
     protected boolean isRegisterEventBus() {
         return true;
@@ -145,8 +135,6 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

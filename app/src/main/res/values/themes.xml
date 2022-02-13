@@ -34,12 +34,12 @@
     </style>
 
     <style name="AppTheme.Normal">
-        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimRightInParallaxOut
+        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimRightInAlphaOut
         </item>
     </style>
 
     <style name="AppTheme.Login">
-        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimBottomInParallaxOut
+        <item name="android:windowAnimationStyle">@style/SwipeBackActivityAnimBottomInAlphaOut
         </item>
     </style>
 

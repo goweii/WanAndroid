@@ -2,10 +2,8 @@ package per.goweii.wanandroid.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.HttpUrl
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
-import per.goweii.wanandroid.common.WanApp
 import per.goweii.wanandroid.module.mine.model.NotificationBean
 
 /**
@@ -13,7 +11,7 @@ import per.goweii.wanandroid.module.mine.model.NotificationBean
  * @date 2020/5/17
  */
 class NotificationHtmlParser(
-        private val urlPath: String // message/lg/list/
+        private val urlPath: String // message/lg/list/ | message/lg/history/list/
 ) {
 
     private val baseUrl = "https://www.wanandroid.com/"
@@ -32,7 +30,7 @@ class NotificationHtmlParser(
 
     private suspend fun parseDocument(doc: Document): List<NotificationBean> = withContext(Dispatchers.IO) {
         val list = arrayListOf<NotificationBean>()
-        val listArticleElements = doc.getElementsByClass("list_article listArticle")
+        val listArticleElements = doc.getElementsByClass("list_article list_msg")
         if (listArticleElements.isNullOrEmpty()) {
             return@withContext list
         }
@@ -52,9 +50,8 @@ class NotificationHtmlParser(
             }
             val aniceDate = infoArtDiv1.getElementsByClass("aniceDate")[0].ownText()
             val fromUser = infoArtDiv1.getElementsByTag("em")[0].ownText().removePrefix("@")
-            val articleContent = infoArtDiv1.ownText()
-            val spanElements = infoArtDiv1.getElementsByTag("span")
-            val deleteUrlElement = spanElements.last().getElementsByTag("a")[0]
+            val articleContent = infoArtDiv1.getElementsByTag("span")[2].ownText()
+            val deleteUrlElement = infoArtDiv1.getElementsByTag("a")[0]
             var deleteUrl = deleteUrlElement.attr("href")
             if (!deleteUrl.startsWith("http://") && !deleteUrl.startsWith("https://")) {
                 deleteUrl = "https://www.wanandroid.com$deleteUrl"
@@ -73,7 +70,7 @@ class NotificationHtmlParser(
 
     private fun getCookies(url: String): Map<String, String> {
         val map: MutableMap<String, String> = mutableMapOf()
-        val cookies = WanApp.getCookieJar().loadForRequest(HttpUrl.get(url))
+        val cookies = CookieUtils.loadForUrl(url)
         if (cookies.isNullOrEmpty()) {
             return map
         }

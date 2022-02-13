@@ -22,4 +22,11 @@
         <attr name="ccbv_color4" format="color" />
         <attr name="ccbv_color5" format="color" />
     </declare-styleable>
+    <declare-styleable name="ParallaxStackLayout_Layout">
+        <attr name="layout_parallaxDeviationX" format="dimension" />
+        <attr name="layout_parallaxDeviationY" format="dimension" />
+        <attr name="layout_parallaxRotationX" format="float" />
+        <attr name="layout_parallaxRotationY" format="float" />
+        <attr name="layout_parallaxRotationZ" format="float" />
+    </declare-styleable>
 </resources>

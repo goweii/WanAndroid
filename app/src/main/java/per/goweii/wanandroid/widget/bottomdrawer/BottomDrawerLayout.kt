@@ -13,6 +13,7 @@ import android.widget.Scroller
 import androidx.core.view.*
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.wanandroid.R
+import java.lang.ref.WeakReference
 import kotlin.math.abs
 
 class BottomDrawerLayout : FrameLayout, NestedScrollingParent2 {
@@ -47,10 +48,15 @@ class BottomDrawerLayout : FrameLayout, NestedScrollingParent2 {
     private var enable: Boolean = false
     private var draggable: Boolean = true
 
+    private var moveDownY = 0F
+    private var moveUpOrDown: Boolean? = null
+
     private var open = false
     private var openTopMarginStatusBarHeight = false
     private var closeHeight: Int = 0
     private var openTopMargin: Int = 0
+
+    private val handleViews = arrayListOf<WeakReference<View>>()
 
     constructor(context: Context) : this(context, null)
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -65,7 +71,40 @@ class BottomDrawerLayout : FrameLayout, NestedScrollingParent2 {
         } else {
             typedArray.getDimension(R.styleable.BottomDrawerLayout_bdl_openTopMargin, openTopMargin.toFloat()).toInt()
         }
+        mDragFraction = if (open) 0F else 1F
         typedArray.recycle()
+    }
+
+    fun addHandleView(vararg views: View) {
+        views.forEach { handleViews.add(WeakReference(it)) }
+    }
+
+    fun removeHandleView(vararg views: View) {
+        val removeViews = views.toList()
+        val iterator = handleViews.iterator()
+        while (iterator.hasNext()) {
+            val next = iterator.next()
+            if (next.get() == null || removeViews.contains(next.get())) {
+                next.clear()
+                iterator.remove()
+            }
+        }
+    }
+
+    fun clearHandleViews() {
+        handleViews.forEach { it.clear() }
+        handleViews.clear()
+    }
+
+    fun cleanHandleViewIfRecycled() {
+        val iterator = handleViews.iterator()
+        while (iterator.hasNext()) {
+            val next = iterator.next()
+            if (next.get() == null) {
+                next.clear()
+                iterator.remove()
+            }
+        }
     }
 
     fun onDragStart(listener: () -> Unit) {
@@ -214,6 +253,32 @@ class BottomDrawerLayout : FrameLayout, NestedScrollingParent2 {
         mTop = dragView.top
         mBottom = dragView.bottom
         initStateImmediately(open)
+        when {
+            mDragFraction <= 0F -> initStateImmediately(true)
+            mDragFraction >= 1F -> initStateImmediately(false)
+            else -> setDragY(mDragFraction * abs(getMaxDragY() - getMinDragY()) + getMinDragY())
+        }
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        when (ev.action and MotionEvent.ACTION_MASK) {
+            MotionEvent.ACTION_DOWN -> {
+                moveDownY = ev.rawY
+                moveUpOrDown = null
+            }
+            MotionEvent.ACTION_MOVE -> {
+                moveUpOrDown = when {
+                    ev.rawY - moveDownY > 0F -> false
+                    ev.rawY - moveDownY < 0F -> true
+                    else -> null
+                }
+            }
+            MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                moveDownY = 0F
+                moveUpOrDown = null
+            }
+        }
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onInterceptTouchEvent(ev: MotionEvent): Boolean {
@@ -554,8 +619,21 @@ class BottomDrawerLayout : FrameLayout, NestedScrollingParent2 {
     private inner class DragCallback : androidx.customview.widget.ViewDragHelper.Callback() {
         override fun tryCaptureView(child: View, pointerId: Int): Boolean {
             if (!enable) return false
+            if (child != dragView) return false
+            cleanHandleViewIfRecycled()
+            handleViews.forEach {
+                if (DragCompat.contains(it.get()!!, mDownX, mDownY)) {
+                    return true
+                }
+            }
             if (usingNested) return false
-            return child == dragView && !DragCompat.canViewScrollUp(mInnerScrollViews, mDownX, mDownY, false)
+            if (isOpened()) {
+                return !DragCompat.canViewScrollUp(mInnerScrollViews, mDownX, mDownY, false)
+            }
+            if (isClosed()) {
+                return !DragCompat.canViewScrollDown(mInnerScrollViews, mDownX, mDownY, false)
+            }
+            return true
         }
 
         override fun onViewCaptured(capturedChild: View, activePointerId: Int) {

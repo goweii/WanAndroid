@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_card_share_rl_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:background="?colorDialogBg">
+
+    <per.goweii.anylayer.widget.MaxSizeFrameLayout
+        android:id="@+id/dialog_card_share_fl_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:maxWidth="320dp">
+
+        <com.scwang.smart.refresh.layout.SmartRefreshLayout
+            android:id="@+id/dialog_card_share_srl_card"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnablePureScrollMode="true">
+
+            <per.goweii.wanandroid.widget.ListenableNestedScrollView
+                android:id="@+id/dialog_card_share_nsv_card"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:fillViewport="true"
+                android:overScrollMode="never"
+                android:paddingTop="@dimen/margin_middle"
+                android:paddingBottom="160dp">
+
+                <LinearLayout
+                    android:id="@+id/dialog_card_share_ll_card"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    tools:ignore="UselessLeaf" />
+
+            </per.goweii.wanandroid.widget.ListenableNestedScrollView>
+
+        </com.scwang.smart.refresh.layout.SmartRefreshLayout>
+
+    </per.goweii.anylayer.widget.MaxSizeFrameLayout>
+
+    <LinearLayout
+        android:id="@+id/dialog_card_share_ll_btn"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/shape_dialog_card_share_btn_mask"
+        android:baselineAligned="false"
+        android:gravity="center">
+
+        <LinearLayout
+            android:id="@+id/dialog_card_share_ll_album"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_middle"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_card_share_iv_album"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_radius_max"
+                android:gravity="center"
+                android:padding="13dp"
+                android:src="@drawable/ic_album"
+                android:tint="?colorIconSurface" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="保存相册"
+                android:textColor="?colorTextOnShadow"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/dialog_card_share_ll_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_middle"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_card_share_iv_share"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_radius_max"
+                android:gravity="center"
+                android:padding="13dp"
+                android:src="@drawable/ic_share"
+                android:tint="?colorIconSurface" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="立即分享"
+                android:textColor="?colorTextOnShadow"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

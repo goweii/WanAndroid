@@ -23,14 +23,14 @@ public class AddHostDialog {
 
     public static void show(Context context, SimpleCallback<String> callback) {
         AnyLayer.dialog(context)
-                .contentView(R.layout.dialog_add_host)
-                .compatSoftInput(true, R.id.dialog_add_host_et_host)
-                .swipeDismiss(SwipeLayout.Direction.BOTTOM)
-                .backgroundDimDefault()
-                .cancelableOnClickKeyBack(true)
-                .cancelableOnTouchOutside(true)
-                .gravity(Gravity.BOTTOM)
-                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
+                .setContentView(R.layout.dialog_add_host)
+                .addSoftInputCompat(true, R.id.dialog_add_host_et_host)
+                .setSwipeDismiss(SwipeLayout.Direction.BOTTOM)
+                .setBackgroundDimDefault()
+                .setCancelableOnClickKeyBack(true)
+                .setCancelableOnTouchOutside(true)
+                .setGravity(Gravity.BOTTOM)
+                .addOnVisibleChangeListener(new Layer.OnVisibleChangedListener() {
                     @Override
                     public void onShow(@NonNull Layer layer) {
                         EditText et_host = layer.requireView(R.id.dialog_add_host_et_host);
@@ -50,8 +50,8 @@ public class AddHostDialog {
                         InputMethodUtils.hide(et_host);
                     }
                 })
-                .onClickToDismiss(R.id.dialog_add_host_tv_no)
-                .onClickToDismiss(new Layer.OnClickListener() {
+                .addOnClickToDismissListener(R.id.dialog_add_host_tv_no)
+                .addOnClickToDismissListener(new Layer.OnClickListener() {
                     @Override
                     public void onClick(@NonNull Layer layer, @NonNull View v) {
                         EditText et_host = layer.requireView(R.id.dialog_add_host_et_host);

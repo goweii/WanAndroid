@@ -11,9 +11,10 @@ import androidx.core.view.ScrollingView
 import java.util.*
 
 object DragCompat {
+    private val localRect = Rect()
 
     fun canViewScrollUp(view: View?, x: Float, y: Float, defaultValueForNull: Boolean): Boolean {
-        return if (view == null || !contains(view, x, y)) {
+        return if (view == null || !view.isShown || !contains(view, x, y)) {
             defaultValueForNull
         } else view.canScrollVertically(-1)
     }
@@ -25,6 +26,9 @@ object DragCompat {
         val contains = contains(views, x, y) ?: return defaultValueForNull
         var canViewScroll = false
         for (i in contains.indices.reversed()) {
+            if (!contains[i].isShown) {
+                continue
+            }
             canViewScroll = ScrollCompat.canScrollVertically(contains[i], -1)
             if (canViewScroll) {
                 break
@@ -39,16 +43,18 @@ object DragCompat {
         }
         val contains = contains(views, x, y) ?: return null
         for (i in contains.indices.reversed()) {
-            val view = contains[i]
-            if (ScrollCompat.canScrollVertically(view, -1)) {
-                return view
+            if (!contains[i].isShown) {
+                continue
+            }
+            if (ScrollCompat.canScrollVertically(contains[i], -1)) {
+                return contains[i]
             }
         }
         return null
     }
 
     fun canViewScrollDown(view: View?, x: Float, y: Float, defaultValueForNull: Boolean): Boolean {
-        return if (view == null || !contains(view, x, y)) {
+        return if (view == null || !view.isShown || !contains(view, x, y)) {
             defaultValueForNull
         } else view.canScrollVertically(1)
     }
@@ -60,7 +66,11 @@ object DragCompat {
         val contains = contains(views, x, y) ?: return defaultValueForNull
         var canViewScroll = false
         for (i in contains.indices.reversed()) {
-            canViewScroll = ScrollCompat.canScrollVertically(contains[i], 1)
+            val view = contains[i]
+            if (!view.isShown) {
+                continue
+            }
+            canViewScroll = ScrollCompat.canScrollVertically(view, 1)
             if (canViewScroll) {
                 break
             }
@@ -75,6 +85,9 @@ object DragCompat {
         val contains = contains(views, x, y) ?: return null
         for (i in contains.indices.reversed()) {
             val view = contains[i]
+            if (!view.isShown) {
+                continue
+            }
             if (ScrollCompat.canScrollVertically(view, 1)) {
                 return view
             }
@@ -83,7 +96,7 @@ object DragCompat {
     }
 
     fun canViewScrollRight(view: View?, x: Float, y: Float, defaultValueForNull: Boolean): Boolean {
-        return if (view == null || !contains(view, x, y)) {
+        return if (view == null || !view.isShown || !contains(view, x, y)) {
             defaultValueForNull
         } else view.canScrollHorizontally(-1)
     }
@@ -95,7 +108,11 @@ object DragCompat {
         val contains = contains(views, x, y) ?: return defaultValueForNull
         var canViewScroll = false
         for (i in contains.indices.reversed()) {
-            canViewScroll = ScrollCompat.canScrollHorizontally(contains[i], 1)
+            val view = contains[i]
+            if (!view.isShown) {
+                continue
+            }
+            canViewScroll = ScrollCompat.canScrollHorizontally(view, 1)
             if (canViewScroll) {
                 break
             }
@@ -110,6 +127,9 @@ object DragCompat {
         val contains = contains(views, x, y) ?: return null
         for (i in contains.indices.reversed()) {
             val view = contains[i]
+            if (!view.isShown) {
+                continue
+            }
             if (ScrollCompat.canScrollHorizontally(view, 1)) {
                 return view
             }
@@ -118,7 +138,7 @@ object DragCompat {
     }
 
     fun canViewScrollLeft(view: View?, x: Float, y: Float, defaultValueForNull: Boolean): Boolean {
-        return if (view == null || !contains(view, x, y)) {
+        return if (view == null || !view.isShown || !contains(view, x, y)) {
             defaultValueForNull
         } else view.canScrollHorizontally(1)
     }
@@ -130,7 +150,11 @@ object DragCompat {
         val contains = contains(views, x, y) ?: return defaultValueForNull
         var canViewScroll = false
         for (i in contains.indices.reversed()) {
-            canViewScroll = ScrollCompat.canScrollHorizontally(contains[i], -1)
+            val view = contains[i]
+            if (!view.isShown) {
+                continue
+            }
+            canViewScroll = ScrollCompat.canScrollHorizontally(view, -1)
             if (canViewScroll) {
                 break
             }
@@ -145,11 +169,25 @@ object DragCompat {
         val contains = contains(views, x, y) ?: return null
         for (i in contains.indices.reversed()) {
             val view = contains[i]
+            if (!view.isShown) {
+                continue
+            }
             if (ScrollCompat.canScrollHorizontally(view, -1)) {
                 return view
             }
         }
         return null
+    }
+
+    fun findAllScrollViews(view: View, scrollViews: MutableList<View>) {
+        if (isScrollableView(view)) {
+            scrollViews.add(view)
+        }
+        if (view is ViewGroup) {
+            for (i in 0 until view.childCount) {
+                findAllScrollViews(view.getChildAt(i), scrollViews)
+            }
+        }
     }
 
     fun findAllScrollViews(view: View): List<View> {
@@ -165,6 +203,39 @@ object DragCompat {
         return views
     }
 
+    fun hasScrollableParent(view: View): Boolean {
+        return findScrollableParent(view) != null
+    }
+
+    fun findScrollableParent(view: View): View? {
+        var viewGroup = view.parent as? ViewGroup?
+        while (viewGroup != null) {
+            if (isScrollableView(viewGroup)) {
+                return viewGroup
+            }
+            viewGroup = viewGroup.parent as? ViewGroup?
+        }
+        return null
+    }
+
+    fun findFirstClickableView(view: View, x: Float, y: Float): View? {
+        if (!contains(view, x, y)) return null
+        var clickableChild: View? = null
+        if (view is ViewGroup) {
+            for (i in view.childCount - 1 downTo 0) {
+                val child = view.getChildAt(i)
+                clickableChild = findFirstClickableView(child, x, y)
+                if (clickableChild != null) {
+                    return clickableChild
+                }
+            }
+        }
+        if (view.isClickable) {
+            return view
+        }
+        return null
+    }
+
     private fun isScrollableView(view: View): Boolean {
         return (view is ScrollView
                 || view is HorizontalScrollView
@@ -175,7 +246,6 @@ object DragCompat {
     }
 
     fun contains(view: View, x: Float, y: Float): Boolean {
-        val localRect = Rect()
         view.getGlobalVisibleRect(localRect)
         return localRect.contains(x.toInt(), y.toInt())
     }
@@ -185,7 +255,7 @@ object DragCompat {
             return null
         }
         val contains = ArrayList<View>(views.size)
-        val r = Rect()
+        val r = localRect
         val l = IntArray(2)
         for (i in views.indices.reversed()) {
             val v = views[i]

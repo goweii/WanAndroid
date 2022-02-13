@@ -26,7 +26,7 @@ import per.goweii.wanandroid.module.navigation.model.NaviBean;
 public class NaviAdapter extends BaseQuickAdapter<NaviBean, BaseViewHolder> {
 
     private LayoutInflater mInflater = null;
-    private final Queue<TextView> mFlexItemTextViewCaches = new LinkedList<>();
+    private Queue<TextView> mFlexItemTextViewCaches = new LinkedList<>();
     private OnItemClickListener mOnItemClickListener = null;
 
     public NaviAdapter() {

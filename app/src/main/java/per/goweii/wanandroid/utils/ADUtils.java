@@ -61,7 +61,10 @@ public class ADUtils {
         if (currDate.getMonth() != showDate.getMonth()) {
             return false;
         }
-        return currDate.getDay() == showDate.getDay();
+        if (currDate.getDay() != showDate.getDay()) {
+            return false;
+        }
+        return true;
     }
 
     public void setAdShown() {

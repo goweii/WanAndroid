@@ -1,49 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:gravity="center"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
     android:orientation="vertical">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
+    <per.goweii.basic.ui.widget.StatusBarView
+        android:id="@+id/dialog_advert_sbv"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="?colorTransparent"
-        app:cardCornerRadius="@dimen/round_radius"
-        app:cardElevation="0dp"
-        app:cardMaxElevation="0dp">
+        android:layout_alignParentTop="true" />
 
-        <ImageView
-            android:id="@+id/dialog_advert_iv_image"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:scaleType="fitCenter"
-            tools:ignore="ContentDescription"
-            tools:srcCompat="@tools:sample/backgrounds/scenic" />
-
-    </androidx.cardview.widget.CardView>
+    <per.goweii.wanandroid.widget.ParallaxStackLayout
+        android:id="@+id/dialog_advert_psl"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true" />
 
     <RelativeLayout
-        android:layout_marginTop="@dimen/margin_def"
+        android:id="@+id/dialog_advert_rl_close"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_advert_sbv"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_def"
+        android:layout_marginEnd="@dimen/margin_def">
 
         <me.zhanghai.android.materialprogressbar.MaterialProgressBar
             android:id="@+id/dialog_advert_pb_close"
             style="@style/Widget.MaterialProgressBar.ProgressBar.Small.NoPadding"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_alignStart="@+id/dialog_advert_iv_close"
-            android:layout_alignTop="@+id/dialog_advert_iv_close"
-            android:layout_alignEnd="@+id/dialog_advert_iv_close"
-            android:layout_alignBottom="@+id/dialog_advert_iv_close"
-            android:layout_marginStart="-3dp"
-            android:layout_marginTop="-3dp"
-            android:layout_marginEnd="-3dp"
-            android:layout_marginBottom="-3dp"
+            android:layout_alignStart="@+id/dialog_advert_sl_close"
+            android:layout_alignTop="@+id/dialog_advert_sl_close"
+            android:layout_alignEnd="@+id/dialog_advert_sl_close"
+            android:layout_alignBottom="@+id/dialog_advert_sl_close"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="7dp"
             android:max="100"
             app:mpb_determinateCircularProgressStyle="normal"
             app:mpb_progressStyle="circular"
@@ -52,17 +49,28 @@
             app:mpb_useIntrinsicPadding="false"
             tools:progress="30" />
 
-        <ImageView
-            android:id="@+id/dialog_advert_iv_close"
-            android:layout_width="@dimen/button_height"
-            android:layout_height="@dimen/button_height"
-            android:layout_margin="3dp"
-            android:background="@drawable/bg_solid_round_color_surface_radius_max"
-            android:src="@drawable/ic_close"
-            android:padding="13dp"
-            android:tint="?colorIconSurface"
-            tools:ignore="ContentDescription" />
+        <com.lihang.ShadowLayout
+            android:id="@+id/dialog_advert_sl_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:hl_cornerRadius="22dp"
+            app:hl_layoutBackground="@color/color_transparent"
+            app:hl_shadowColor="?colorShadow"
+            app:hl_shadowLimit="8dp"
+            app:hl_shadowOffsetY="2dp">
+
+            <ImageView
+                android:id="@+id/dialog_advert_iv_close"
+                android:layout_width="@dimen/button_height"
+                android:layout_height="@dimen/button_height"
+                android:background="@drawable/bg_solid_round_color_surface_radius_max"
+                android:padding="13dp"
+                android:src="@drawable/ic_close"
+                android:tint="?colorIconSurface"
+                tools:ignore="ContentDescription" />
+
+        </com.lihang.ShadowLayout>
 
     </RelativeLayout>
 
-</LinearLayout>
+</RelativeLayout>

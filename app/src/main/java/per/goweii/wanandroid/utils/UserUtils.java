@@ -7,10 +7,8 @@ import com.google.gson.Gson;
 
 import per.goweii.basic.utils.SPUtils;
 import per.goweii.wanandroid.module.login.activity.AuthActivity;
-import per.goweii.wanandroid.module.login.model.CmsLoginResp;
 import per.goweii.wanandroid.module.login.model.LoginBean;
 import per.goweii.wanandroid.module.login.model.UserEntity;
-import per.goweii.wanandroid.module.mine.model.CmsUserResp;
 
 /**
  * @author CuiZhen
@@ -48,75 +46,22 @@ public class UserUtils {
         return mUserEntity;
     }
 
-    public void login(UserEntity userEntity) {
-        mUserEntity = userEntity;
-        SPUtils.getInstance().save(KEY_LOGIN_USER_ENTITY, new Gson().toJson(userEntity));
-    }
-
     public void login(LoginBean loginBean) {
-        UserEntity userEntity = new UserEntity(
+        mUserEntity = new UserEntity(
                 loginBean.getEmail(),
                 loginBean.getUsername(),
                 loginBean.getId(),
-                "",
-                "",
                 0,
-                "",
-                "",
-                ""
+                null,
+                null,
+                null
         );
-        login(userEntity);
-    }
-
-    public void login(CmsLoginResp loginResp) {
-        CmsUserResp userResp = loginResp.getUser();
-        UserEntity userEntity = new UserEntity(
-                userResp.getEmail(),
-                userResp.getUsername(),
-                userResp.getWanid(),
-                userResp.getId(),
-                loginResp.getJwt(),
-                userResp.getSex(),
-                userResp.getSignature(),
-                userResp.getAvatar(),
-                userResp.getCover()
-        );
-        login(userEntity);
+        SPUtils.getInstance().save(KEY_LOGIN_USER_ENTITY, new Gson().toJson(mUserEntity));
     }
 
     public void logout() {
         mUserEntity = null;
         SPUtils.getInstance().clear();
-    }
-
-    public void update(LoginBean loginBean) {
-        UserEntity userEntity = new UserEntity(
-                loginBean.getEmail(),
-                loginBean.getUsername(),
-                loginBean.getId(),
-                "",
-                "",
-                0,
-                "",
-                "",
-                ""
-        );
-        update(userEntity);
-    }
-
-    public void update(CmsUserResp userResp) {
-        UserEntity userEntity = new UserEntity(
-                userResp.getEmail(),
-                userResp.getUsername(),
-                userResp.getWanid(),
-                userResp.getId(),
-                getCmsJwt(),
-                userResp.getSex(),
-                userResp.getSignature(),
-                userResp.getAvatar(),
-                userResp.getCover()
-        );
-        update(userEntity);
     }
 
     public void update(UserEntity userEntity) {
@@ -129,10 +74,7 @@ public class UserUtils {
         if (loginBean == null) {
             return false;
         }
-        if (loginBean.getWanid() <= 0) {
-            return false;
-        }
-        return !loginBean.getCmsid().isEmpty();
+        return loginBean.getWanid() > 0;
     }
 
     public int getWanId() {
@@ -141,22 +83,6 @@ public class UserUtils {
             return 0;
         }
         return loginBean.getWanid();
-    }
-
-    public String getCmsId() {
-        UserEntity loginBean = getLoginUser();
-        if (loginBean == null) {
-            return "";
-        }
-        return loginBean.getCmsid();
-    }
-
-    public String getCmsJwt() {
-        UserEntity loginBean = getLoginUser();
-        if (loginBean == null) {
-            return "";
-        }
-        return loginBean.getJwt();
     }
 
     public boolean doIfLogin(Context context) {

@@ -50,7 +50,7 @@ public class NotchScreenUtils {
                 paramTypes[1] = int.class;
                 Method getInt = SystemProperties.getMethod("getInt", paramTypes);
                 Object[] params = new Object[2];
-                params[0] = "ro.miui.notch";
+                params[0] = new String("ro.miui.notch");
                 params[1] = new Integer(0);
                 result = (Integer) getInt.invoke(SystemProperties, params);
             } catch (Exception e) {

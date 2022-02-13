@@ -1,9 +1,7 @@
 package per.goweii.wanandroid.module.main.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -17,35 +15,29 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.net.URLEncoder;
+import java.util.List;
 
 import butterknife.BindView;
 import per.goweii.actionbarex.ActionBarEx;
 import per.goweii.anylayer.Layer;
-import per.goweii.anypermission.RequestListener;
-import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.base.BaseActivity;
-import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.LogUtils;
-import per.goweii.basic.utils.ShareUtils;
-import per.goweii.basic.utils.coder.MD5Coder;
 import per.goweii.basic.utils.listener.OnClickListener2;
-import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.swipeback.SwipeBackAbility;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.db.model.ReadLaterModel;
-import per.goweii.wanandroid.module.main.dialog.QrcodeShareDialog;
+import per.goweii.wanandroid.module.main.dialog.ArticleShareDialog;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
 import per.goweii.wanandroid.module.main.dialog.WebMenuDialog;
 import per.goweii.wanandroid.module.main.dialog.WebQuickDialog;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
 import per.goweii.wanandroid.utils.GuideSPUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.utils.web.WebHolder;
 import per.goweii.wanandroid.widget.CollectView;
@@ -57,8 +49,6 @@ import per.goweii.wanandroid.widget.WebContainer;
  * GitHub: https://github.com/goweii
  */
 public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView, SwipeBackAbility.OnlyEdge {
-
-    private static final int REQ_CODE_PERMISSION = 1;
 
     @BindView(R.id.ab)
     ActionBarEx ab;
@@ -76,8 +66,6 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
     ImageView iv_forward;
     @BindView(R.id.iv_menu)
     ImageView iv_menu;
-
-    private RuntimeRequester mRuntimeRequester = null;
 
     private int mArticleId = -1;
     private int mCollectId = -1;
@@ -105,7 +93,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     public boolean swipeBackOnlyEdge() {
-        return SettingUtils.getInstance().isWebSwipeBackEdge();
+        return true;
     }
 
     @Override
@@ -207,12 +195,11 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         et_title.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                updateTitle();
                 if (hasFocus) {
-                    et_title.setText(mWebHolder.getUrl());
                     InputMethodUtils.show(et_title);
                     showQuickDialog();
                 } else {
-                    setTitle();
                     InputMethodUtils.hide(et_title);
                     dismissQuickDialog();
                 }
@@ -236,7 +223,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 .setOnPageTitleCallback(new WebHolder.OnPageTitleCallback() {
                     @Override
                     public void onReceivedTitle(@NonNull String title) {
-                        setTitle();
+                        updateTitle();
                         presenter.readRecord(mWebHolder.getUrl(), mWebHolder.getTitle());
                     }
                 })
@@ -296,7 +283,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
             return;
         }
         mWebGuideDialog = new WebGuideDialog(getContext());
-        mWebGuideDialog.onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
+        mWebGuideDialog.addOnVisibleChangeListener(new Layer.OnVisibleChangedListener() {
             @Override
             public void onShow(@NonNull Layer layer) {
             }
@@ -336,13 +323,13 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     ToastMaker.showShort("口令已复制");
                 }
             });
-            mWebQuickDialog.onDismissListener(new Layer.OnDismissListener() {
+            mWebQuickDialog.addOnDismissListener(new Layer.OnDismissListener() {
                 @Override
-                public void onDismissing(Layer layer) {
+                public void onPreDismiss(@NonNull Layer layer) {
                 }
 
                 @Override
-                public void onDismissed(Layer layer) {
+                public void onPostDismiss(@NonNull Layer layer) {
                     et_title.clearFocus();
                 }
             });
@@ -392,61 +379,40 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     }
 
                     @Override
+                    public void onGoTop() {
+                        mWebHolder.goTop();
+                    }
+
+                    @Override
                     public void onCloseActivity() {
                         finish();
                     }
 
                     @Override
                     public void onShare() {
-                        new QrcodeShareDialog(getContext(), mWebHolder.getUrl(), mWebHolder.getTitle())
-                                .setOnAlbumClickListener(new SimpleCallback<Bitmap>() {
-                                    @Override
-                                    public void onResult(Bitmap data) {
-                                        saveQrcodeGallery(data);
-                                    }
-                                })
-                                .setOnShareClickListener(new SimpleCallback<Bitmap>() {
-                                    @Override
-                                    public void onResult(Bitmap data) {
-                                        shareBitmap(data);
-                                    }
-                                })
-                                .show();
+                        mWebHolder.getShareInfo(new WebHolder.OnShareInfoCallback() {
+                            @Override
+                            public void onShareInfo(@NonNull String url,
+                                                    @NonNull List<String> covers,
+                                                    @NonNull String title,
+                                                    @NonNull String desc) {
+                                new ArticleShareDialog(getContext(), covers, title, desc, url).show();
+                            }
+                        });
                     }
                 });
     }
 
-    private void shareBitmap(final Bitmap bitmap) {
-        ShareUtils.shareBitmap(getContext(), bitmap);
-    }
-
-    private void saveQrcodeGallery(final Bitmap bitmap) {
-        mRuntimeRequester = PermissionUtils.request(new RequestListener() {
-            @Override
-            public void onSuccess() {
-                presenter.saveGallery(bitmap, "wanandroid_article_qrcode_" + MD5Coder.encode(mWebHolder.getUrl()) + "_" + System.currentTimeMillis());
-            }
-
-            @Override
-            public void onFailed() {
-            }
-        }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (mRuntimeRequester != null) {
-            mRuntimeRequester.onActivityResult(requestCode);
-        }
-    }
-
-    private void setTitle() {
+    private void updateTitle() {
         et_title.setTag(mWebHolder.getUrl());
-        if (!TextUtils.isEmpty(mWebHolder.getTitle())) {
-            et_title.setText(mWebHolder.getTitle());
-        } else {
+        if (et_title.hasFocus()) {
             et_title.setText(mWebHolder.getUrl());
+        } else {
+            if (!TextUtils.isEmpty(mWebHolder.getTitle())) {
+                et_title.setText(mWebHolder.getTitle());
+            } else {
+                et_title.setText(mWebHolder.getUrl());
+            }
         }
     }
 

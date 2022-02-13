@@ -196,6 +196,38 @@
             tools:layout_width="100dp">
 
             <per.goweii.percentimageview.percentimageview.PercentImageView
+                android:id="@+id/dialog_web_menu_iv_go_top"
+                android:layout_width="48dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/bg_press_color_surface_top_radius_max"
+                android:gravity="center"
+                android:padding="12dp"
+                android:rotation="90"
+                android:src="@drawable/ic_go_left"
+                android:tint="?colorIconSurface" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="回到顶部"
+                android:textColor="?colorTextSurface"
+                android:textSize="@dimen/text_notes" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="10dp"
+            tools:layout_width="100dp">
+
+            <per.goweii.percentimageview.percentimageview.PercentImageView
                 android:id="@+id/dialog_web_menu_iv_interrupt"
                 android:layout_width="48dp"
                 android:layout_height="0dp"
@@ -214,37 +246,6 @@
                 android:gravity="center"
                 android:singleLine="true"
                 android:text="网页拦截"
-                android:textColor="?colorTextSurface"
-                android:textSize="@dimen/text_notes" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:padding="10dp"
-            tools:layout_width="100dp">
-
-            <per.goweii.percentimageview.percentimageview.PercentImageView
-                android:id="@+id/dialog_web_menu_iv_swipe_back"
-                android:layout_width="48dp"
-                android:layout_height="0dp"
-                android:layout_gravity="center_horizontal"
-                android:background="@drawable/bg_press_color_surface_top_radius_max"
-                android:gravity="center"
-                android:padding="12dp"
-                android:src="@drawable/ic_swipe_back"
-                android:tint="?colorIconSurface" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:singleLine="true"
-                android:text="边缘返回"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_notes" />
 

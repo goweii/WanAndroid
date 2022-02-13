@@ -9,6 +9,10 @@
     <color name="theme_pink_color_accent">#ff9f1c</color>
     <color name="theme_pink_color_assist">#27AE60</color>
 
+    <style name="AppTheme.Main.Pink">
+        <item name="android:windowBackground">@drawable/splash_bg_pink</item>
+    </style>
+
     <style name="ThemePink">
         <item name="colorPrimary">@color/theme_pink_color_primary</item>
         <item name="colorAccent">@color/theme_pink_color_primary</item>

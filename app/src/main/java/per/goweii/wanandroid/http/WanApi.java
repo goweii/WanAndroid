@@ -16,6 +16,7 @@ import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.model.JinrishiciBean;
+import per.goweii.wanandroid.module.main.model.ListBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
 import per.goweii.wanandroid.module.main.model.UserPageBean;
@@ -23,6 +24,7 @@ import per.goweii.wanandroid.module.main.model.WebArticleUrlRegexBean;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
 import per.goweii.wanandroid.module.mine.model.CoinRankBean;
 import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
+import per.goweii.wanandroid.module.mine.model.MessageBean;
 import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import retrofit2.http.Field;
@@ -338,6 +340,30 @@ public class WanApi extends Api {
          */
         @GET("lg/coin/userinfo/json")
         Observable<WanResponse<UserInfoBean>> getUserInfo();
+
+        /**
+         * 未读消息数量
+         */
+        @GET("message/lg/count_unread/json")
+        Observable<WanResponse<Integer>> getMessageUnreadCount();
+
+        /**
+         * 未读消息列表
+         */
+        @GET("message/lg/unread_list/{page}/json")
+        Observable<WanResponse<ListBean<MessageBean>>> getMessageUnreadList(@Path("page") int page);
+
+        /**
+         * 已读消息列表
+         */
+        @GET("message/lg/readed_list/{page}/json")
+        Observable<WanResponse<ListBean<MessageBean>>> getMessageReadList(@Path("page") int page);
+
+        /**
+         * 删除消息
+         */
+        @GET("/message/lg/delete/{id}")
+        Observable<WanResponse<Object>> deleteMessage(@Path("id") int id);
 
         /**
          * 获取个人积分获取列表

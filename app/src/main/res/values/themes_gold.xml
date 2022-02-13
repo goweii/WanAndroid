@@ -9,6 +9,10 @@
     <color name="theme_gold_color_accent">#F5422F</color>
     <color name="theme_gold_color_assist">#27AE60</color>
 
+    <style name="AppTheme.Main.Gold">
+        <item name="android:windowBackground">@drawable/splash_bg_gold</item>
+    </style>
+
     <style name="ThemeGold">
         <item name="colorPrimary">@color/theme_gold_color_primary</item>
         <item name="colorAccent">@color/theme_gold_color_primary</item>

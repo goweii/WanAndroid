@@ -35,7 +35,10 @@ public class DateRangeEntity extends BaseEntity {
         if (date.before(from)) {
             return false;
         }
-        return !date.after(to);
+        if (date.after(to)) {
+            return false;
+        }
+        return true;
     }
 
     /**

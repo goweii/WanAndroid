@@ -24,20 +24,20 @@ public class CopiedLinkDialog extends PopupLayer {
     public CopiedLinkDialog(View targetView, String link) {
         super(targetView);
         this.link = link;
-        contentView(R.layout.dialog_copied_link);
-        interceptKeyEvent(false);
-        outsideInterceptTouchEvent(false);
-        horizontal(Align.Horizontal.ALIGN_LEFT);
-        vertical(Align.Vertical.ALIGN_BOTTOM);
-        direction(Align.Direction.HORIZONTAL);
-        swipeDismiss(SwipeLayout.Direction.LEFT);
-        onClickToDismiss(new OnClickListener() {
+        setContentView(R.layout.dialog_copied_link);
+        setInterceptKeyEvent(false);
+        setOutsideInterceptTouchEvent(false);
+        setHorizontal(Align.Horizontal.ALIGN_LEFT);
+        setVertical(Align.Vertical.ALIGN_BOTTOM);
+        setDirection(Align.Direction.HORIZONTAL);
+        setSwipeDismiss(SwipeLayout.Direction.LEFT);
+        addOnClickToDismissListener(new OnClickListener() {
             @Override
             public void onClick(@NonNull Layer layer, @NonNull View v) {
                 CopiedTextProcessor.getInstance().processed();
             }
         }, R.id.dialog_copied_link_iv_close);
-        onClickToDismiss(new OnClickListener() {
+        addOnClickToDismissListener(new OnClickListener() {
             @Override
             public void onClick(@NonNull Layer layer, @NonNull View v) {
                 CopiedTextProcessor.getInstance().processed();
@@ -53,7 +53,7 @@ public class CopiedLinkDialog extends PopupLayer {
     @Override
     public void onAttach() {
         super.onAttach();
-        TextView tvLink = getView(R.id.dialog_copied_link_tv_link);
+        TextView tvLink = requireView(R.id.dialog_copied_link_tv_link);
         tvLink.setText(link);
     }
 }

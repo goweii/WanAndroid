@@ -1,5 +1,6 @@
 package per.goweii.wanandroid.module.main.dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.Gravity;
 import android.view.View;
@@ -7,12 +8,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
 
 import per.goweii.anylayer.AnyLayer;
 import per.goweii.anylayer.Layer;
-import per.goweii.anypermission.AnyPermission;
-import per.goweii.anypermission.RequestListener;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.coder.MD5Coder;
@@ -21,6 +22,7 @@ import per.goweii.basic.utils.file.FileUtils;
 import per.goweii.rxhttp.download.DownloadInfo;
 import per.goweii.rxhttp.download.RxDownload;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.module.main.activity.InstallApkActivity;
 
 
 /**
@@ -49,7 +51,7 @@ public class DownloadDialog {
 
     private int retryCount = 0;
 
-    private final OnDismissListener mOnDismissListener;
+    private OnDismissListener mOnDismissListener;
 
     public static DownloadDialog with(Activity activity,
                                       boolean isForce,
@@ -146,31 +148,31 @@ public class DownloadDialog {
 
     private void showDialog() {
         mAnyLayer = AnyLayer.dialog(mActivity)
-                .contentView(R.layout.dialog_download)
-                .backgroundDimDefault()
-                .gravity(Gravity.CENTER)
-                .cancelableOnTouchOutside(false)
-                .cancelableOnClickKeyBack(false)
-                .bindData(new Layer.DataBinder() {
+                .setContentView(R.layout.dialog_download)
+                .setBackgroundDimDefault()
+                .setGravity(Gravity.CENTER)
+                .setCancelableOnTouchOutside(false)
+                .setCancelableOnClickKeyBack(false)
+                .addOnBindDataListener(new Layer.OnBindDataListener() {
                     @Override
-                    public void bindData(Layer layer) {
-                        ImageView ivClose = layer.getView(R.id.iv_dialog_download_close);
+                    public void onBindData(@NonNull Layer layer) {
+                        ImageView ivClose = layer.requireView(R.id.iv_dialog_download_close);
                         if (isForce) {
                             ivClose.setVisibility(View.GONE);
                         } else {
                             ivClose.setVisibility(View.VISIBLE);
                         }
-                        progressBar = layer.getView(R.id.pb_dialog_download);
-                        tvProgress = layer.getView(R.id.tv_dialog_download_progress);
-                        tvApkSize = layer.getView(R.id.tv_dialog_download_apk_size);
-                        tvState = layer.getView(R.id.tv_dialog_download_state);
-                        tvSpeed = layer.getView(R.id.tv_dialog_download_speed);
-                        tvLine = layer.getView(R.id.tv_dialog_download_line);
+                        progressBar = layer.requireView(R.id.pb_dialog_download);
+                        tvProgress = layer.requireView(R.id.tv_dialog_download_progress);
+                        tvApkSize = layer.requireView(R.id.tv_dialog_download_apk_size);
+                        tvState = layer.requireView(R.id.tv_dialog_download_state);
+                        tvSpeed = layer.requireView(R.id.tv_dialog_download_speed);
+                        tvLine = layer.requireView(R.id.tv_dialog_download_line);
                     }
                 })
-                .onClick(new Layer.OnClickListener() {
+                .addOnClickListener(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(Layer layer, View v) {
+                    public void onClick(@NonNull Layer layer, @NonNull View v) {
                         if (mApk == null) {
                             return;
                         }
@@ -180,21 +182,21 @@ public class DownloadDialog {
                         installApk();
                     }
                 }, R.id.tv_dialog_download_state)
-                .onClick(new Layer.OnClickListener() {
+                .addOnClickListener(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(Layer layer, View v) {
+                    public void onClick(@NonNull Layer layer, @NonNull View v) {
                         if (!isForce) {
                             dismiss();
                         }
                     }
                 }, R.id.iv_dialog_download_close)
-                .onDismissListener(new Layer.OnDismissListener() {
+                .addOnDismissListener(new Layer.OnDismissListener() {
                     @Override
-                    public void onDismissing(Layer layer) {
+                    public void onPreDismiss(@NonNull Layer layer) {
                     }
 
                     @Override
-                    public void onDismissed(Layer layer) {
+                    public void onPostDismiss(@NonNull Layer layer) {
                         if (mOnDismissListener != null) {
                             mOnDismissListener.onDismiss();
                         }
@@ -204,17 +206,7 @@ public class DownloadDialog {
     }
 
     private void installApk() {
-        AnyPermission.with(mActivity)
-                .install(mApk)
-                .request(new RequestListener() {
-                    @Override
-                    public void onSuccess() {
-                    }
-
-                    @Override
-                    public void onFailed() {
-                    }
-                });
+        InstallApkActivity.start(mActivity, mApk);
     }
 
     private void preDownload() {
@@ -233,6 +225,7 @@ public class DownloadDialog {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private void setProgress(int progress) {
         if (progressBar != null) {
             progressBar.setProgress(progress);

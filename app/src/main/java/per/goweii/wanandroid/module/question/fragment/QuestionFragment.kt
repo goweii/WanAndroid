@@ -12,17 +12,14 @@ import per.goweii.wanandroid.R
 import per.goweii.wanandroid.event.CollectionEvent
 import per.goweii.wanandroid.event.LoginEvent
 import per.goweii.wanandroid.event.ScrollTopEvent
-import per.goweii.wanandroid.event.SettingChangeEvent
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter
 import per.goweii.wanandroid.module.main.model.ArticleListBean
 import per.goweii.wanandroid.module.question.presenter.QuestionPresenter
 import per.goweii.wanandroid.module.question.view.QuestionView
 import per.goweii.wanandroid.utils.MultiStateUtils
 import per.goweii.wanandroid.utils.MultiStateUtils.Companion.setEmptyAndErrorClick
-import per.goweii.wanandroid.utils.RvConfigUtils
 import per.goweii.wanandroid.utils.RvScrollTopUtils
 import per.goweii.wanandroid.utils.RvScrollTopUtils.ScrollTop
-import per.goweii.wanandroid.utils.SettingUtils
 
 /**
  * @author CuiZhen
@@ -69,16 +66,6 @@ class QuestionFragment : BaseFragment<QuestionPresenter>(), QuestionView, Scroll
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onSettingChangeEvent(event: SettingChangeEvent) {
-        if (isDetached) {
-            return
-        }
-        if (event.isRvAnimChanged) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().rvAnim)
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
     fun onScrollTopEvent(event: ScrollTopEvent) {
         if (isAdded && !isDetached) {
             RvScrollTopUtils.smoothScrollTop(rv)
@@ -100,7 +87,6 @@ class QuestionFragment : BaseFragment<QuestionPresenter>(), QuestionView, Scroll
         }
         rv.layoutManager = LinearLayoutManager(context)
         mAdapter = ArticleAdapter()
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().rvAnim)
         mAdapter.setEnableLoadMore(false)
         mAdapter.setOnLoadMoreListener({
             presenter.getQuestionList(currPage)

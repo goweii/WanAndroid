@@ -44,7 +44,7 @@
             android:textSize="@dimen/text_auxiliary"
             tools:text="2019-03-15" />
 
-        <per.goweii.anylayer.notification.MaxSizeFrameLayout
+        <per.goweii.anylayer.widget.MaxSizeFrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_def"
@@ -86,7 +86,7 @@
                 android:background="@drawable/bg_gradient_color_surface_to_transparent"
                 android:rotation="180" />
 
-        </per.goweii.anylayer.notification.MaxSizeFrameLayout>
+        </per.goweii.anylayer.widget.MaxSizeFrameLayout>
 
         <RelativeLayout
             android:layout_width="match_parent"

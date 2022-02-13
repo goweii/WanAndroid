@@ -27,7 +27,7 @@ public class CopiedTextProcessor {
     private String mCurrProcessText = null;
 
     private static class Holder {
-        private static final CopiedTextProcessor sInstance = new CopiedTextProcessor();
+        private static CopiedTextProcessor sInstance = new CopiedTextProcessor();
     }
 
     private CopiedTextProcessor() {

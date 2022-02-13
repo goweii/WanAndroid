@@ -21,7 +21,6 @@ import per.goweii.wanandroid.utils.MultiStateUtils.Companion.toEmpty
 import per.goweii.wanandroid.utils.MultiStateUtils.Companion.toError
 import per.goweii.wanandroid.utils.MultiStateUtils.Companion.toLoading
 import per.goweii.wanandroid.utils.RvConfigUtils
-import per.goweii.wanandroid.utils.SettingUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
 import per.goweii.wanandroid.widget.refresh.SimpleOnMultiListener
 
@@ -50,7 +49,6 @@ class BookmarkFragment : BaseFragment<BookmarkPresenter>(), BookmarkView {
         rv.layoutManager = LinearLayoutManager(context)
         mAdapter = BookmarkAdapter()
         RvConfigUtils.init(mAdapter)
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().rvAnim)
         mAdapter.setEnableLoadMore(true)
         mAdapter.setOnLoadMoreListener({ getPageList() }, rv)
         mAdapter.setOnItemClickListener { _, _, position ->
@@ -74,6 +72,10 @@ class BookmarkFragment : BaseFragment<BookmarkPresenter>(), BookmarkView {
         super.onVisible(isFirstVisible)
         offset = 0
         getPageList()
+    }
+
+    override fun onInvisible() {
+        super.onInvisible()
     }
 
     override fun isRegisterEventBus(): Boolean = true

@@ -35,8 +35,8 @@ public class MoveCircleNavigator extends View implements IPagerNavigator {
     private int mTotalCount;
     private Interpolator mStartInterpolator = new LinearInterpolator();
 
-    private final Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final List<PointF> mCirclePoints = new ArrayList<>();
+    private Paint mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private List<PointF> mCirclePoints = new ArrayList<>();
     private float mIndicatorX;
 
     private boolean mTouchable;

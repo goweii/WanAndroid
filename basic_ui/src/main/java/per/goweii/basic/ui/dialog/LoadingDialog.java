@@ -40,12 +40,12 @@ public class LoadingDialog {
         if (count <= 0) {
             count = 0;
             mAnyDialog = AnyLayer.dialog(context)
-                    .contentView(R.layout.basic_ui_dialog_loading)
-                    .backgroundColorInt(Color.TRANSPARENT)
-                    .cancelableOnClickKeyBack(false)
-                    .cancelableOnTouchOutside(false)
-                    .gravity(Gravity.CENTER)
-                    .contentAnimator(new Layer.AnimatorCreator() {
+                    .setContentView(R.layout.basic_ui_dialog_loading)
+                    .setBackgroundColorInt(Color.TRANSPARENT)
+                    .setCancelableOnTouchOutside(false)
+                    .setCancelableOnClickKeyBack(false)
+                    .setGravity(Gravity.CENTER)
+                    .setContentAnimator(new Layer.AnimatorCreator() {
                         @Nullable
                         @Override
                         public Animator createInAnimator(@NonNull View target) {

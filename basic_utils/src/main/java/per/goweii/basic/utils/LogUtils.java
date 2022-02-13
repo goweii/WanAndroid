@@ -13,10 +13,10 @@ import per.goweii.ponyo.log.Ponlog;
  * @date 2018/3/18-上午10:21
  */
 public final class LogUtils {
-    private static final boolean DEBUGGABLE = BuildConfig.DEBUG;
+    private static boolean DEBUGGABLE = BuildConfig.DEBUG;
 
-    private static final Ponlog.Logger sLogger;
-    private static final Ponlog.Logger sPonLogger;
+    private static Ponlog.Logger sLogger;
+    private static Ponlog.Logger sPonLogger;
 
     static {
         sLogger = Ponlog.INSTANCE.create();

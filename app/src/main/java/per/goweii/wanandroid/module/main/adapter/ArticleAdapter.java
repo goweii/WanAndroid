@@ -26,6 +26,7 @@ import per.goweii.wanandroid.utils.ArticleDiffCallback;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.web.cache.HtmlCacheManager;
+import per.goweii.wanandroid.widget.BravhLoadMoreView;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -39,6 +40,7 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
 
     public ArticleAdapter() {
         super(0);
+        setLoadMoreView(new BravhLoadMoreView());
         mLayoutResId = getArticleLayoutId();
     }
 
@@ -196,7 +198,11 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
             tv_desc.setText(desc);
         }
         tv_chapter_name.setText(Html.fromHtml(formatChapterName(item.getSuperChapterName(), item.getChapterName())));
-        cv_collect.setChecked(item.isCollect(), false);
+        if (item.isCollect()) {
+            cv_collect.setChecked(true, false);
+        } else {
+            cv_collect.setChecked(false, false);
+        }
         tv_chapter_name.setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {

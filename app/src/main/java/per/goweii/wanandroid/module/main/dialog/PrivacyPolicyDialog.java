@@ -16,7 +16,6 @@ import per.goweii.anylayer.Layer;
 import per.goweii.anylayer.dialog.DialogLayer;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.common.Constant;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -40,40 +39,41 @@ public class PrivacyPolicyDialog extends DialogLayer {
 
     private PrivacyPolicyDialog(Context context, CompleteCallback callback) {
         super(context);
-        onDismissListener(new OnDismissListener() {
+        addOnDismissListener(new OnDismissListener() {
             @Override
-            public void onDismissing(Layer layer) {
+            public void onPreDismiss(@NonNull Layer layer) {
             }
 
             @Override
-            public void onDismissed(Layer layer) {
+            public void onPostDismiss(@NonNull Layer layer) {
                 if (callback != null) {
                     callback.onComplete();
                 }
             }
         });
-        contentView(R.layout.dialog_privacy_policy)
-                .backgroundDimDefault()
-                .cancelableOnClickKeyBack(false)
-                .cancelableOnTouchOutside(false)
-                .onClickToDismiss(new OnClickListener() {
-                    @Override
-                    public void onClick(Layer layer, View v) {
-                        GuideSPUtils.getInstance().setPrivacyPolicyShown();
-                    }
-                }, R.id.dialog_privacy_policy_tv_yes)
-                .onClickToDismiss(new OnClickListener() {
-                    @Override
-                    public void onClick(Layer layer, View v) {
-                        WanApp.exitApp();
-                    }
-                }, R.id.dialog_privacy_policy_tv_no);
+        setContentView(R.layout.dialog_privacy_policy);
+        setBackgroundBlurRadius(4);
+        setBackgroundBlurSimple(20);
+        setCancelableOnClickKeyBack(false);
+        setCancelableOnTouchOutside(false);
+        addOnClickToDismissListener(new OnClickListener() {
+            @Override
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
+                GuideSPUtils.getInstance().setPrivacyPolicyShown();
+            }
+        }, R.id.dialog_privacy_policy_tv_yes);
+        addOnClickToDismissListener(new OnClickListener() {
+            @Override
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
+                WanApp.exitApp();
+            }
+        }, R.id.dialog_privacy_policy_tv_no);
     }
 
     @Override
     public void onAttach() {
         super.onAttach();
-        TextView content = getView(R.id.dialog_privacy_policy_tv_content);
+        TextView content = requireView(R.id.dialog_privacy_policy_tv_content);
         String text = getActivity().getString(R.string.privacy_policy_content);
         String link = getActivity().getString(R.string.privacy_policy_content_link);
         int start = text.indexOf(link);
@@ -83,7 +83,7 @@ public class PrivacyPolicyDialog extends DialogLayer {
             @Override
             public void onClick(View v) {
                 UrlOpenUtils.Companion
-                        .with(Constant.PRIVACY_POLICY_URL)
+                        .with("file:///android_asset/privacy_policy.html")
                         .open(getActivity());
             }
         }), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);

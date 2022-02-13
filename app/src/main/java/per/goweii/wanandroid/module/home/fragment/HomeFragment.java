@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
@@ -81,10 +82,9 @@ import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.utils.BottomDrawerViewOutlineProvider;
 import per.goweii.wanandroid.utils.ConfigUtils;
+import per.goweii.wanandroid.utils.DarkModeUtils;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.NightModeUtils;
-import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -179,9 +179,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                 presenter.getBanner();
             }
         }
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -243,16 +240,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
 
     @Override
     protected void initView() {
-        ConfigBean configBean = ConfigUtils.getInstance().getConfig();
-        if (configBean.isEnableAtNow()) {
-            updateActionBarByConfig(new HomeActionBarEvent(
-                    configBean.getHomeTitle(),
-                    configBean.getActionBarBgColor(),
-                    configBean.getActionBarBgImageUrl(),
-                    configBean.getSecondFloorBgImageUrl(),
-                    configBean.getSecondFloorBgImageBlurPercent()
-            ));
-        }
         abc.setOnRightIconClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,8 +272,6 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
         initSecondFloor();
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -352,7 +337,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
         };
         getActivity().getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
         View bottomBar = getActivity().getWindow().getDecorView().findViewById(R.id.fl_bottom_bar);
-        fl_dl_second_floor.setPadding(0, 0, 0, dl.getCloseHeight());
+        fl_dl_second_floor.setPadding(0, 0, 0, (int) dl.getCloseHeight());
         iv_second_floor_background.setAutoMoveDuration(20_000);
         iv_second_floor_background.setSmoothMoveAnimDuration(0);
         iv_second_floor_background.setCropScale(1.3F);
@@ -433,7 +418,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                 if ((abcAnim == null || !abcAnim.isRunning())) {
                     abc.setTranslationY(-abc.getHeight() * f);
                 }
-                final float minAlpha = 0.3F;
+                final float minAlpha = 0.0F;
                 final float fromFaction = 0.6F;
                 if (f < fromFaction) {
                     srl.setAlpha(1F);
@@ -441,9 +426,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                     v_dl_content_handle.setAlpha(0);
                 } else {
                     final float fa = (f - fromFaction) / (1 - fromFaction);
-                    srl.setAlpha(minAlpha + (1F - fa) * (1F - minAlpha));
+                    //srl.setAlpha(minAlpha + (1F - fa) * (1F - minAlpha));
                     v_dl_content_mask.setAlpha(fa);
                     v_dl_content_handle.setAlpha(fa);
+                }
+                if (f == 1F) {
+                    srl.setVisibility(View.INVISIBLE);
+                } else {
+                    srl.setVisibility(View.VISIBLE);
                 }
                 return null;
             }
@@ -455,19 +445,15 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
                 super.onHeaderMoving(header, isDragging, percent, offset, headerHeight, maxDragHeight);
                 final float secondPercent = 1.5F;
-                // if(percent < 1F){
-                //     srl.getBackground().setAlpha(255);
-                // } else if (percent > secondPercent){
-                //     srl.getBackground().setAlpha(0);
-                // } else {
-                //     float f = (percent - 1F) / (secondPercent - 1F);
-                //     srl.getBackground().setAlpha((int) (255 * (1 - f)));
-                // }
                 if (isDragging) {
                     if (percent > secondPercent) {
                         if (!isSecondFloor) {
                             isSecondFloor = true;
-                            srl.performHapticFeedback(HapticFeedbackConstants.GESTURE_START);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                                srl.performHapticFeedback(HapticFeedbackConstants.GESTURE_START);
+                            } else {
+                                srl.performHapticFeedback(HapticFeedbackConstants.VIRTUAL_KEY);
+                            }
                             if (abcAnim != null) {
                                 abcAnim.cancel();
                             }
@@ -547,13 +533,13 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                 rv.smoothScrollToPosition(currItemPos);
             }
         });
-        mWebDialog.onDismissListener(new Layer.OnDismissListener() {
+        mWebDialog.addOnDismissListener(new Layer.OnDismissListener() {
             @Override
-            public void onDismissing(Layer layer) {
+            public void onPreDismiss(@NonNull Layer layer) {
             }
 
             @Override
-            public void onDismissed(Layer layer) {
+            public void onPostDismiss(@NonNull Layer layer) {
                 mWebDialog = null;
             }
         });
@@ -562,6 +548,18 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
 
     @Override
     protected void loadData() {
+        ConfigBean configBean = ConfigUtils.getInstance().getConfig();
+        if (configBean.isEnableAtNow()) {
+            updateActionBarByConfig(new HomeActionBarEvent(
+                    configBean.getHomeTitle(),
+                    configBean.getActionBarBgColor(),
+                    configBean.getActionBarBgImageUrl(),
+                    configBean.getSecondFloorBgImageUrl(),
+                    configBean.getSecondFloorBgImageBlurPercent()
+            ));
+        } else {
+            updateActionBarByConfig(new HomeActionBarEvent());
+        }
         MultiStateUtils.toLoading(msv);
         if (SettingUtils.getInstance().isShowBanner()) {
             presenter.getBanner();
@@ -763,47 +761,37 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
     }
 
     private void updateActionBarByConfig(@NonNull HomeActionBarEvent event) {
-        if (abc == null) {
-            return;
-        }
-        if (event.getHomeTitle() != null) {
-            abc.getTitleTextView().setText(event.getHomeTitle());
-        } else {
-            abc.getTitleTextView().setText("首页");
-        }
-        clearActionBarIconMode();
-        changeActionBarBgColor(event.getActionBarBgColor());
-        if (!TextUtils.isEmpty(event.getActionBarBgImageUrl())) {
-            GlideHelper.with(getContext())
-                    .asBitmap()
-                    .load(event.getActionBarBgImageUrl())
-                    .getBitmap(new SimpleCallback<Bitmap>() {
-                        @Override
-                        public void onResult(Bitmap data) {
-                            if (abc != null) {
-                                abc.setBackground(new BitmapDrawable(data));
+        if (abc != null) {
+            if (event.getHomeTitle() == null) {
+                abc.getTitleTextView().setText("首页");
+            } else {
+                abc.getTitleTextView().setText(event.getHomeTitle());
+            }
+            clearActionBarIconMode();
+            changeActionBarBgColor(event.getActionBarBgColor());
+            if (!TextUtils.isEmpty(event.getActionBarBgImageUrl())) {
+                GlideHelper.with(getContext())
+                        .asBitmap()
+                        .load(event.getActionBarBgImageUrl())
+                        .getBitmap(new SimpleCallback<Bitmap>() {
+                            @Override
+                            public void onResult(Bitmap data) {
+                                if (abc != null) {
+                                    abc.setBackground(new BitmapDrawable(data));
+                                }
                             }
-                        }
-                    });
+                        });
+            }
         }
-        if (!TextUtils.isEmpty(event.getSecondFloorBgImageUrl())) {
-            GlideHelper.with(getContext())
-                    .asBitmap()
-                    .load(event.getSecondFloorBgImageUrl())
-                    .transformation(new BlurTransformation(event.getSecondFloorBgImageBlurPercent()))
-                    .getBitmap(new SimpleCallback<Bitmap>() {
-                        @Override
-                        public void onResult(Bitmap data) {
-                            if (iv_second_floor_background != null) {
-                                iv_second_floor_background.setImageBitmap(data);
-                            }
-                        }
-                    });
-        } else {
-            if (iv_second_floor_background != null) {
-                int color = ResUtils.getThemeColor(iv_second_floor_background, R.attr.colorMain);
-                color = ColorUtils.changingColor(color, Color.BLACK, 0.5F);
-                iv_second_floor_background.setImageDrawable(new ColorDrawable(color));
+        if (iv_second_floor_background != null) {
+            if (!TextUtils.isEmpty(event.getSecondFloorBgImageUrl())) {
+                GlideHelper.with(getContext())
+                        .asBitmap()
+                        .load(event.getSecondFloorBgImageUrl())
+                        .transformation(new BlurTransformation(event.getSecondFloorBgImageBlurPercent()))
+                        .into(iv_second_floor_background);
+            } else {
+                setSecondFloorDefBgColor();
             }
         }
     }
@@ -822,11 +810,18 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
         abc.setBackgroundColor(color);
     }
 
+    private void setSecondFloorDefBgColor() {
+        if (iv_second_floor_background == null) return;
+        int color = ResUtils.getThemeColor(iv_second_floor_background, R.attr.colorMain);
+        color = ColorUtils.changingColor(color, Color.BLACK, 0.5F);
+        iv_second_floor_background.setImageDrawable(new ColorDrawable(color));
+    }
+
     private boolean isColorLight(int color) {
         double lumi = LuminanceUtils.calcLuminance(color);
         Context context = getContext();
         if (context != null) {
-            if (NightModeUtils.isNightMode(context)) {
+            if (DarkModeUtils.isDarkMode(context)) {
                 return lumi > 0.1F;
             }
         }

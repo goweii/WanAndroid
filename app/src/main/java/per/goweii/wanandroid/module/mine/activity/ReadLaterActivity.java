@@ -32,13 +32,11 @@ import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.db.model.ReadLaterModel;
 import per.goweii.wanandroid.event.ReadLaterEvent;
-import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.mine.adapter.ReadLaterAdapter;
 import per.goweii.wanandroid.module.mine.presenter.ReadLaterPresenter;
 import per.goweii.wanandroid.module.mine.view.ReadLaterView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvConfigUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 
 /**
@@ -61,21 +59,11 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
     private ReadLaterAdapter mAdapter;
 
     private int offset = 0;
-    private final int perPageCount = 20;
+    private int perPageCount = 20;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, ReadLaterActivity.class);
         context.startActivity(intent);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (isDestroyed()) {
-            return;
-        }
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -131,7 +119,6 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ReadLaterAdapter();
         RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

@@ -1,20 +1,13 @@
 package per.goweii.wanandroid.module.login.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
-
-import java.util.Random;
 
 import butterknife.BindView;
 import kotlin.Unit;
@@ -24,6 +17,7 @@ import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.SoftInputHelper;
+import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.swipeback.SwipeBackAbility;
 import per.goweii.swipeback.SwipeBackDirection;
 import per.goweii.wanandroid.R;
@@ -33,6 +27,7 @@ import per.goweii.wanandroid.module.login.model.LoginInfoEntity;
 import per.goweii.wanandroid.module.login.presenter.AuthPresenter;
 import per.goweii.wanandroid.module.login.view.AuthView;
 import per.goweii.wanandroid.widget.LogoAnimView;
+import per.goweii.wanandroid.widget.ParallaxStackLayout;
 
 /**
  * @author CuiZhen
@@ -47,7 +42,7 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
     @BindView(R.id.abc)
     ActionBarCommon abc;
     @BindView(R.id.rl_input)
-    RelativeLayout rl_input;
+    ParallaxStackLayout rl_input;
     @BindView(R.id.iv_circle_1)
     ImageView iv_circle_1;
     @BindView(R.id.iv_circle_2)
@@ -57,9 +52,6 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
     @BindView(R.id.lav)
     LogoAnimView lav;
 
-    private boolean isRunning = false;
-    private AnimatorSet mSet1;
-    private AnimatorSet mSet2;
     private SoftInputHelper mSoftInputHelper;
 
     private LoginFragment loginFragment = null;
@@ -71,7 +63,7 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
         if (context instanceof Activity) {
             Activity activity = (Activity) context;
             activity.overridePendingTransition(R.anim.swipeback_activity_open_bottom_in,
-                    R.anim.swipeback_activity_open_top_out);
+                    R.anim.swipeback_activity_open_alpha_out);
         }
     }
 
@@ -98,7 +90,9 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
 
     @Override
     protected void initView() {
-        mSoftInputHelper = SoftInputHelper.attach(this).moveBy(rl_input);
+        int pt = DisplayInfoUtils.getInstance().getStatusBarHeight() + getResources().getDimensionPixelSize(R.dimen.action_bar_height);
+        rl_input.setPadding(0, pt, 0, 0);
+        mSoftInputHelper = SoftInputHelper.attach(this).moveBy(rl_input).moveWithScroll();
         FixedFragmentPagerAdapter adapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(adapter);
         loginFragment = LoginFragment.create();
@@ -113,16 +107,11 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
 
     @Override
     protected void onStart() {
-        isRunning = true;
-        mSet1 = startCircleAnim(iv_circle_1);
-        mSet2 = startCircleAnim(iv_circle_2);
         super.onStart();
     }
 
     @Override
     protected void onStop() {
-        isRunning = false;
-        stopCircleAnim();
         super.onStop();
     }
 
@@ -134,8 +123,10 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(R.anim.swipeback_activity_close_top_in,
-                R.anim.swipeback_activity_close_bottom_out);
+        overridePendingTransition(
+                R.anim.swipeback_activity_close_alpha_in,
+                R.anim.swipeback_activity_close_bottom_out
+        );
     }
 
     public SoftInputHelper getSoftInputHelper() {
@@ -187,17 +178,6 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
         }
     }
 
-    private void stopCircleAnim() {
-        if (mSet1 != null) {
-            mSet1.cancel();
-            mSet1 = null;
-        }
-        if (mSet2 != null) {
-            mSet2.cancel();
-            mSet2 = null;
-        }
-    }
-
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
@@ -218,67 +198,5 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
                 }
             });
         }
-    }
-
-    private AnimatorSet startCircleAnim(View target) {
-        if (target == null) {
-            return null;
-        }
-        float[] xy = calculateRandomXY();
-        AnimatorSet set = createTranslationAnimator(target, xy[0], xy[1]);
-        set.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                if (isRunning) {
-                    startCircleAnim(target);
-                }
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-            }
-        });
-        set.start();
-        return set;
-    }
-
-    private final long mMaxMoveDuration = 10000L;
-    private final int mMaxMoveDistanceX = 200;
-    private final int mMaxMoveDistanceY = 20;
-
-    private AnimatorSet createTranslationAnimator(View target, float toX, float toY) {
-        float fromX = target.getTranslationX();
-        float fromY = target.getTranslationY();
-        long duration = calculateDuration(fromX, fromY, toX, toY);
-        ObjectAnimator animatorX = ObjectAnimator.ofFloat(target, "translationX", fromX, toX);
-        animatorX.setDuration(duration);
-        ObjectAnimator animatorY = ObjectAnimator.ofFloat(target, "translationY", fromY, toY);
-        animatorY.setDuration(duration);
-        AnimatorSet set = new AnimatorSet();
-        set.playTogether(animatorX, animatorY);
-        return set;
-    }
-
-    private final Random mRandom = new Random();
-
-    private float[] calculateRandomXY() {
-        float x = mRandom.nextInt(mMaxMoveDistanceX) - (mMaxMoveDistanceX * 0.5F);
-        float y = mRandom.nextInt(mMaxMoveDistanceY) - (mMaxMoveDistanceY * 0.5F);
-        return new float[]{x, y};
-    }
-
-    private long calculateDuration(float x1, float y1, float x2, float y2) {
-        float distance = (float) Math.abs(Math.sqrt(Math.pow(Math.abs((x1 - x2)), 2) + Math.pow(Math.abs((y1 - y2)), 2)));
-        float maxDistance = (float) Math.abs(Math.sqrt(Math.pow(mMaxMoveDistanceX, 2) + Math.pow(mMaxMoveDistanceY, 2)));
-        long duration = (long) (mMaxMoveDuration * (distance / maxDistance));
-        return duration;
     }
 }

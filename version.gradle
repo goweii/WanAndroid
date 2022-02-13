@@ -19,6 +19,8 @@ subprojects {
                 //details.useVersion rootProject.ext.versions.androidx_recyclerview
             } else if (group == 'androidx.room') {
                 //details.useVersion rootProject.ext.versions.androidx_room
+            } else if (group == 'org.xerial' && name == 'sqlite-jdbc') {
+                details.useVersion '3.34.0'
             }
         }
     }

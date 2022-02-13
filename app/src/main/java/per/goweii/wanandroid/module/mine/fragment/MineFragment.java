@@ -1,24 +1,21 @@
 package per.goweii.wanandroid.module.mine.fragment;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshFooter;
 import com.scwang.smart.refresh.layout.api.RefreshHeader;
-import com.scwang.smart.refresh.layout.api.RefreshLayout;
-import com.scwang.smart.refresh.layout.constant.RefreshState;
-import com.scwang.smart.refresh.layout.listener.OnMultiListener;
+import com.scwang.smart.refresh.layout.simple.SimpleMultiListener;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -30,16 +27,15 @@ import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.event.LoginEvent;
-import per.goweii.wanandroid.event.NotificationEvent;
-import per.goweii.wanandroid.event.SettingChangeEvent;
+import per.goweii.wanandroid.event.MessageCountEvent;
+import per.goweii.wanandroid.event.MessageUpdateEvent;
 import per.goweii.wanandroid.event.UserInfoUpdateEvent;
-import per.goweii.wanandroid.http.CmsApi;
 import per.goweii.wanandroid.module.login.model.UserEntity;
 import per.goweii.wanandroid.module.mine.activity.AboutMeActivity;
 import per.goweii.wanandroid.module.mine.activity.CoinActivity;
 import per.goweii.wanandroid.module.mine.activity.CollectionActivity;
+import per.goweii.wanandroid.module.mine.activity.MessageActivity;
 import per.goweii.wanandroid.module.mine.activity.MineShareActivity;
-import per.goweii.wanandroid.module.mine.activity.NotificationActivity;
 import per.goweii.wanandroid.module.mine.activity.OpenActivity;
 import per.goweii.wanandroid.module.mine.activity.ReadLaterActivity;
 import per.goweii.wanandroid.module.mine.activity.ReadRecordActivity;
@@ -49,7 +45,6 @@ import per.goweii.wanandroid.module.mine.model.UserInfoBean;
 import per.goweii.wanandroid.module.mine.presenter.MinePresenter;
 import per.goweii.wanandroid.module.mine.view.MineView;
 import per.goweii.wanandroid.utils.ImageLoader;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 
 /**
@@ -75,10 +70,6 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     ImageView civ_user_icon;
     @BindView(R.id.tv_user_name)
     TextView tv_user_name;
-    @BindView(R.id.tv_user_signature)
-    TextView tv_user_signature;
-    @BindView(R.id.ll_user_signature)
-    LinearLayout ll_user_signature;
     @BindView(R.id.ll_user_level_ranking)
     LinearLayout ll_user_level_ranking;
     @BindView(R.id.ll_read_later)
@@ -122,13 +113,11 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
+    public void onMessageUpdateEvent(MessageUpdateEvent event) {
         if (isDetached()) {
             return;
         }
-        if (event.isShowReadLaterChanged() || event.isShowReadRecordChanged() || event.isHideAboutMeChanged() || event.isHideOpenChanged()) {
-            changeMenuVisible();
-        }
+        presenter.getMessageUnreadCount();
     }
 
     @Override
@@ -152,8 +141,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         aiv_notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotificationActivity.start(getContext());
-                loadNotificationCount();
+                if (UserUtils.getInstance().doIfLogin(getContext())) {
+                    MessageActivity.start(requireContext());
+                    loadNotificationCount();
+                }
             }
         });
         nsv.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
@@ -163,7 +154,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
                 setIvBlurHeight(rl_user_info.getMeasuredHeight() - scrollY);
             }
         });
-        srl.setOnMultiListener(new OnMultiListener() {
+        srl.setOnMultiListener(new SimpleMultiListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
                 if (nsv == null || rl_user_info == null) return;
@@ -171,50 +162,13 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             }
 
             @Override
-            public void onHeaderReleased(RefreshHeader header, int headerHeight, int maxDragHeight) {
-            }
-
-            @Override
-            public void onHeaderStartAnimator(RefreshHeader header, int headerHeight, int maxDragHeight) {
-            }
-
-            @Override
-            public void onHeaderFinish(RefreshHeader header, boolean success) {
-            }
-
-            @Override
             public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
                 setIvBlurHeight(rl_user_info.getMeasuredHeight() - nsv.getScrollY() - offset);
-            }
-
-            @Override
-            public void onFooterReleased(RefreshFooter footer, int footerHeight, int maxDragHeight) {
-            }
-
-            @Override
-            public void onFooterStartAnimator(RefreshFooter footer, int footerHeight, int maxDragHeight) {
-            }
-
-            @Override
-            public void onFooterFinish(RefreshFooter footer, boolean success) {
-            }
-
-            @Override
-            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
-            }
-
-            @Override
-            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-            }
-
-            @Override
-            public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
             }
         });
         mSmartRefreshUtils = SmartRefreshUtils.with(srl);
         mSmartRefreshUtils.pureScrollMode();
         setRefresh();
-        changeMenuVisible();
     }
 
     private void setIvBlurHeight(int h) {
@@ -254,7 +208,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     }
 
     private void loadNotificationCount() {
-        presenter.getNotificationCount();
+        presenter.getMessageUnreadCount();
     }
 
     @Override
@@ -265,48 +219,13 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         }
     }
 
-    private void changeMenuVisible() {
-        SettingUtils settingUtils = SettingUtils.getInstance();
-        if (settingUtils.isShowReadLater()) {
-            ll_read_later.setVisibility(View.VISIBLE);
-        } else {
-            ll_read_later.setVisibility(View.GONE);
-        }
-        if (settingUtils.isShowReadRecord()) {
-            ll_read_record.setVisibility(View.VISIBLE);
-        } else {
-            ll_read_record.setVisibility(View.GONE);
-        }
-        if (!settingUtils.isHideAboutMe()) {
-            ll_about_me.setVisibility(View.VISIBLE);
-        } else {
-            ll_about_me.setVisibility(View.GONE);
-        }
-        if (!settingUtils.isHideOpen()) {
-            ll_open.setVisibility(View.VISIBLE);
-        } else {
-            ll_open.setVisibility(View.GONE);
-        }
-    }
-
+    @SuppressLint("SetTextI18n")
     private void refreshUserInfo() {
         if (UserUtils.getInstance().isLogin()) {
             UserEntity bean = UserUtils.getInstance().getLoginUser();
+            ImageLoader.userIcon(civ_user_icon, bean.getAvatar());
+            ImageLoader.userBlur(iv_blur, bean.getCover());
             tv_user_name.setText(bean.getUsername());
-            if (CmsApi.Companion.isEnabled()) {
-                ImageLoader.userIcon(civ_user_icon, bean.getAvatar());
-                ImageLoader.userBlur(iv_blur, bean.getCover());
-                ll_user_signature.setVisibility(View.VISIBLE);
-                if (TextUtils.isEmpty(bean.getSignature())) {
-                    tv_user_signature.setText("写个签名鼓励下自己吧");
-                } else {
-                    tv_user_signature.setText(bean.getSignature());
-                }
-            } else {
-                civ_user_icon.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
-                iv_blur.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
-                ll_user_signature.setVisibility(View.INVISIBLE);
-            }
             ll_user_level_ranking.setVisibility(View.VISIBLE);
             if (presenter.mUserInfoBean != null) {
                 tv_coin.setText(presenter.mUserInfoBean.getCoinCount() + "");
@@ -320,9 +239,7 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         } else {
             civ_user_icon.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
             iv_blur.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
-            tv_user_name.setText("去登陆");
-            ll_user_signature.setVisibility(View.INVISIBLE);
-            tv_user_signature.setText("");
+            tv_user_name.setText("去登录");
             ll_user_level_ranking.setVisibility(View.INVISIBLE);
             tv_user_level.setText("--");
             tv_user_ranking.setText("--");
@@ -346,24 +263,24 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
             default:
                 break;
             case R.id.ll_coin:
-                if (UserUtils.getInstance().doIfLogin(getContext())) {
-                    CoinActivity.start(getContext());
+                if (UserUtils.getInstance().doIfLogin(requireContext())) {
+                    CoinActivity.start(requireContext());
                 }
                 break;
             case R.id.civ_user_icon:
             case R.id.tv_user_name:
-                if (UserUtils.getInstance().doIfLogin(getContext())) {
-                    UserInfoActivity.start(getContext());
+                if (UserUtils.getInstance().doIfLogin(requireContext())) {
+                    UserInfoActivity.start(requireContext());
                 }
                 break;
             case R.id.ll_share:
-                if (UserUtils.getInstance().doIfLogin(getContext())) {
-                    MineShareActivity.start(getContext());
+                if (UserUtils.getInstance().doIfLogin(requireContext())) {
+                    MineShareActivity.start(requireContext());
                 }
                 break;
             case R.id.ll_collect:
-                if (UserUtils.getInstance().doIfLogin(getContext())) {
-                    CollectionActivity.start(getContext());
+                if (UserUtils.getInstance().doIfLogin(requireContext())) {
+                    CollectionActivity.start(requireContext());
                 }
                 break;
             case R.id.ll_read_later:
@@ -402,8 +319,8 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
     }
 
     @Override
-    public void getNotificationCountSuccess(int count) {
-        NotificationEvent.post(count);
+    public void getMessageUnreadCountSuccess(int count) {
+        MessageCountEvent.post(count);
         if (count > 0) {
             tv_notification.setVisibility(View.VISIBLE);
             if (count > Config.NOTIFICATION_MAX_SHOW_COUNT) {

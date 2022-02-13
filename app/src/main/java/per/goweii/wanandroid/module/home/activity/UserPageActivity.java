@@ -1,11 +1,11 @@
 package per.goweii.wanandroid.module.home.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,16 +47,13 @@ import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
-import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.http.CmsApi;
 import per.goweii.wanandroid.module.home.presenter.UserPagePresenter;
 import per.goweii.wanandroid.module.home.view.UserPageView;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.UserPageBean;
+import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvConfigUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.widget.CollectView;
@@ -90,12 +87,10 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
     RelativeLayout rl_user_info;
     @BindView(R.id.rv)
     RecyclerView rv;
+    @BindView(R.id.civ_user_icon)
+    ImageView civ_user_icon;
     @BindView(R.id.tv_user_name)
     TextView tv_user_name;
-    @BindView(R.id.ll_user_signature)
-    LinearLayout ll_user_signature;
-    @BindView(R.id.tv_user_signature)
-    TextView tv_user_signature;
     @BindView(R.id.tv_user_id)
     TextView tv_user_id;
     @BindView(R.id.tv_user_coin)
@@ -130,13 +125,6 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             getUserPage(true);
         } else {
             mAdapter.notifyAllUnCollect();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         }
     }
 
@@ -196,8 +184,6 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -285,6 +271,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
             }
 
+            @SuppressLint("RestrictedApi")
             @Override
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
             }
@@ -361,15 +348,12 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         currPage = data.getShareArticles().getCurPage() + PAGE_START;
         if (data.getShareArticles().getCurPage() == 1) {
             abc.getTitleTextView().setText(data.getCoinInfo().getUsername());
+            ImageLoader.userIcon(civ_user_icon, "");
+            ImageLoader.userBlur(iv_blur, "");
             tv_user_name.setText(data.getCoinInfo().getUsername());
             tv_user_id.setText("" + data.getCoinInfo().getUserId());
             tv_user_coin.setText("" + data.getCoinInfo().getCoinCount());
             tv_user_ranking.setText("" + data.getCoinInfo().getRank());
-            if (CmsApi.Companion.isEnabled()) {
-                ll_user_signature.setVisibility(View.VISIBLE);
-            } else {
-                ll_user_signature.setVisibility(View.INVISIBLE);
-            }
             mAdapter.setNewData(data.getShareArticles().getDatas());
             mAdapter.setEnableLoadMore(true);
             msv_list.setVisibility(View.VISIBLE);

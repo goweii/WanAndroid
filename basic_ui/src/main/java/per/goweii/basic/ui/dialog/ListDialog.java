@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +40,7 @@ public class ListDialog {
     private boolean cancelable = true;
     private OnItemSelectedListener listener = null;
     private BaseQuickAdapter<String, BaseViewHolder> mAdapter = null;
-    private final List<String> datas = new ArrayList<>();
+    private List<String> datas = new ArrayList<>();
     private int currSelectPos = -1;
 
     public static ListDialog with(Context context) {
@@ -116,17 +117,17 @@ public class ListDialog {
 
     public void show() {
         AnyLayer.dialog(context)
-                .contentView(R.layout.basic_ui_dialog_list)
-                .gravity(Gravity.BOTTOM)
-                .backgroundDimDefault()
-                .swipeDismiss(SwipeLayout.Direction.BOTTOM)
-                .cancelableOnTouchOutside(cancelable)
-                .cancelableOnClickKeyBack(cancelable)
-                .bindData(new Layer.DataBinder() {
+                .setContentView(R.layout.basic_ui_dialog_list)
+                .setGravity(Gravity.BOTTOM)
+                .setBackgroundDimDefault()
+                .setSwipeDismiss(SwipeLayout.Direction.BOTTOM)
+                .setCancelableOnTouchOutside(cancelable)
+                .setCancelableOnClickKeyBack(cancelable)
+                .addOnBindDataListener(new Layer.OnBindDataListener() {
                     @Override
-                    public void bindData(Layer layer) {
-                        LinearLayout llYesNo = layer.getView(R.id.basic_ui_ll_dialog_list_yes_no);
-                        View vLineH = layer.getView(R.id.basic_ui_v_dialog_list_line_h);
+                    public void onBindData(@NonNull Layer layer) {
+                        LinearLayout llYesNo = layer.requireView(R.id.basic_ui_ll_dialog_list_yes_no);
+                        View vLineH = layer.requireView(R.id.basic_ui_v_dialog_list_line_h);
 
                         if (noBtn) {
                             vLineH.setVisibility(View.GONE);
@@ -134,9 +135,9 @@ public class ListDialog {
                         } else {
                             vLineH.setVisibility(View.VISIBLE);
                             llYesNo.setVisibility(View.VISIBLE);
-                            TextView tvYes = layer.getView(R.id.basic_ui_tv_dialog_list_yes);
-                            TextView tvNo = layer.getView(R.id.basic_ui_tv_dialog_list_no);
-                            View vLine = layer.getView(R.id.basic_ui_v_dialog_list_line);
+                            TextView tvYes = layer.requireView(R.id.basic_ui_tv_dialog_list_yes);
+                            TextView tvNo = layer.requireView(R.id.basic_ui_tv_dialog_list_no);
+                            View vLine = layer.requireView(R.id.basic_ui_v_dialog_list_line);
                             if (yesText != null) {
                                 tvYes.setText(yesText);
                             } else {
@@ -156,14 +157,14 @@ public class ListDialog {
                             }
                         }
 
-                        TextView tvTitle = layer.getView(R.id.basic_ui_tv_dialog_list_title);
+                        TextView tvTitle = layer.requireView(R.id.basic_ui_tv_dialog_list_title);
                         if (title == null) {
                             tvTitle.setVisibility(View.GONE);
                         } else {
                             tvTitle.setText(title);
                         }
 
-                        RecyclerView rv = layer.getView(R.id.basic_ui_rv_dialog_list);
+                        RecyclerView rv = layer.requireView(R.id.basic_ui_rv_dialog_list);
                         rv.setLayoutManager(new LinearLayoutManager(rv.getContext()));
                         mAdapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.basic_ui_rv_item_dialog_list) {
                             @Override
@@ -194,15 +195,15 @@ public class ListDialog {
                         mAdapter.setNewData(datas);
                     }
                 })
-                .onClickToDismiss(new Layer.OnClickListener() {
+                .addOnClickToDismissListener(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(Layer layer, View v) {
+                    public void onClick(@NonNull Layer layer, @NonNull View v) {
                         if (listener != null) {
                             listener.onSelect(datas.get(currSelectPos), currSelectPos);
                         }
                     }
                 }, R.id.basic_ui_tv_dialog_list_yes)
-                .onClickToDismiss(R.id.basic_ui_tv_dialog_list_no)
+                .addOnClickToDismissListener(R.id.basic_ui_tv_dialog_list_no)
                 .show();
     }
 

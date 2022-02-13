@@ -1,6 +1,5 @@
 package per.goweii.wanandroid.module.main.presenter;
 
-import android.graphics.Bitmap;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
@@ -9,7 +8,6 @@ import java.util.List;
 
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.ui.toast.ToastMaker;
-import per.goweii.basic.utils.bitmap.BitmapUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.rxhttp.request.base.BaseBean;
@@ -25,7 +23,6 @@ import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.MainRequest;
 import per.goweii.wanandroid.module.main.view.WebView;
-import per.goweii.wanandroid.utils.SettingUtils;
 
 /**
  * @author CuiZhen
@@ -33,8 +30,8 @@ import per.goweii.wanandroid.utils.SettingUtils;
  * GitHub: https://github.com/goweii
  */
 public class WebPresenter extends BasePresenter<WebView> {
-    private final List<CollectArticleEntity> mCollectedList = new ArrayList<>(1);
-    private final List<ReadLaterModel> mReadLaterList = new ArrayList<>(1);
+    private List<CollectArticleEntity> mCollectedList = new ArrayList<>(1);
+    private List<ReadLaterModel> mReadLaterList = new ArrayList<>(1);
 
     private ReadLaterExecutor mReadLaterExecutor = null;
     private ReadRecordExecutor mReadRecordExecutor = null;
@@ -298,15 +295,6 @@ public class WebPresenter extends BasePresenter<WebView> {
         }));
     }
 
-    public void saveGallery(Bitmap bitmap, String name) {
-        if (BitmapUtils.saveGallery(bitmap, name)) {
-            ToastMaker.showShort("保存成功");
-        } else {
-            ToastMaker.showShort("保存失败");
-        }
-        bitmap.recycle();
-    }
-
     public void readLater(String link, String title) {
         if (mReadLaterExecutor == null) return;
         mReadLaterExecutor.add(link, title, new SimpleCallback<ReadLaterModel>() {
@@ -361,9 +349,6 @@ public class WebPresenter extends BasePresenter<WebView> {
 
     public void readRecord(String link, String title) {
         if (mReadRecordExecutor == null) return;
-        if (!SettingUtils.getInstance().isShowReadRecord()) {
-            return;
-        }
         if (TextUtils.isEmpty(link)) {
             return;
         }

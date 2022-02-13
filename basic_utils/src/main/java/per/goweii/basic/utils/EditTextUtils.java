@@ -68,7 +68,7 @@ public class EditTextUtils {
             boolean isChanged = false;
             int cursorLocation = 0;
             private char[] tempChar;
-            private final StringBuffer buffer = new StringBuffer();
+            private StringBuffer buffer = new StringBuffer();
             int separatorNum = 0;
 
             @Override

@@ -32,6 +32,5 @@ android {
         buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", "\"${properties.getProperty('WANPWD_TYPE_CREATE_CDKEY')}\""
         buildConfigField "String", "CDKEY_CLASS", "\"${properties.getProperty('CDKEY_CLASS')}\""
         buildConfigField "String", "DEVELOPER_ID", "\"${properties.getProperty('DEVELOPER_ID')}\""
-        buildConfigField "String", "CMS_BASE_URL", "\"${properties.getProperty('CMS_BASE_URL')}\""
     }
 }

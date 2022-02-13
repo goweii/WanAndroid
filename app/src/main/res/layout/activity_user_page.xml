@@ -78,28 +78,6 @@
                                     android:textSize="@dimen/text_headline" />
 
                                 <LinearLayout
-                                    android:id="@+id/ll_user_signature"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_below="@+id/ll_id_coin_rank"
-                                    android:layout_centerHorizontal="true"
-                                    android:layout_marginTop="5dp"
-                                    android:alpha="0.8"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/tv_user_signature"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:lines="1"
-                                        android:ellipsize="end"
-                                        android:text="这个人很懒什么也没留下"
-                                        android:textColor="?colorOnMainOrSurface"
-                                        android:textSize="@dimen/text_notes" />
-
-                                </LinearLayout>
-
-                                <LinearLayout
                                     android:id="@+id/ll_id_coin_rank"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"

@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 
 import per.goweii.basic.core.glide.GlideHelper;
 import per.goweii.basic.core.glide.transformation.BlurTransformation;
+import per.goweii.basic.core.glide.transformation.RoundTransformation;
 import per.goweii.wanandroid.R;
 
 /**
@@ -23,6 +24,16 @@ public class ImageLoader {
         GlideHelper.with(imageView.getContext())
                 .errorHolder(ContextCompat.getDrawable(imageView.getContext(), R.drawable.shape_image_place_holder))
                 .placeHolder(ContextCompat.getDrawable(imageView.getContext(), R.drawable.shape_image_place_holder))
+                .cache(true)
+                .load(url)
+                .into(imageView);
+    }
+
+    public static void roundImage(ImageView imageView, String url, int radius) {
+        GlideHelper.with(imageView.getContext())
+                .errorHolder(ContextCompat.getDrawable(imageView.getContext(), R.drawable.shape_image_place_holder))
+                .placeHolder(ContextCompat.getDrawable(imageView.getContext(), R.drawable.shape_image_place_holder))
+                .transformation(new RoundTransformation(radius))
                 .cache(true)
                 .load(url)
                 .into(imageView);

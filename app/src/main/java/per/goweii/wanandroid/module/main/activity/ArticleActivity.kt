@@ -3,47 +3,37 @@ package per.goweii.wanandroid.module.main.activity
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
+import android.net.Uri
 import android.view.*
 import android.view.animation.DecelerateInterpolator
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.core.view.doOnLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_article.*
-import kotlinx.android.synthetic.main.activity_article_comment.*
-import kotlinx.android.synthetic.main.activity_article_content.*
 import kotlinx.android.synthetic.main.activity_article_float_btn.*
 import per.goweii.anylayer.Layer
 import per.goweii.anylayer.guide.GuideLayer
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.ui.toast.ToastMaker
 import per.goweii.basic.utils.ResUtils
-import per.goweii.basic.utils.ShareUtils
 import per.goweii.basic.utils.ext.invisible
 import per.goweii.basic.utils.ext.visible
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.swipeback.SwipeBackAbility
 import per.goweii.wanandroid.R
-import per.goweii.wanandroid.http.CmsApi
-import per.goweii.wanandroid.module.home.activity.UserPageActivity
-import per.goweii.wanandroid.module.main.adapter.ArticleCommentAdapter
-import per.goweii.wanandroid.module.main.dialog.CommentInputDialog
-import per.goweii.wanandroid.module.main.dialog.QrcodeShareDialog
-import per.goweii.wanandroid.module.main.model.CmsCommentResp
-import per.goweii.wanandroid.module.main.model.CommentItemEntity
+import per.goweii.wanandroid.module.main.dialog.ArticleShareDialog
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
-import per.goweii.wanandroid.module.main.utils.BottomDrawerViewOutlineProvider
 import per.goweii.wanandroid.module.main.utils.FloatIconTouchListener
 import per.goweii.wanandroid.module.main.view.ArticleView
+import per.goweii.wanandroid.utils.DarkModeUtils
 import per.goweii.wanandroid.utils.GuideSPUtils
-import per.goweii.wanandroid.utils.MultiStateUtils
-import per.goweii.wanandroid.utils.NightModeUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
 import per.goweii.wanandroid.utils.web.WebHolder
 import per.goweii.wanandroid.utils.web.WebHolder.with
+import per.goweii.wanandroid.utils.web.cache.ReadingModeManager
 import per.goweii.wanandroid.utils.web.interceptor.WebReadingModeInterceptor
 import per.goweii.wanandroid.utils.web.interceptor.WebResUrlInterceptor
 
@@ -52,7 +42,6 @@ import per.goweii.wanandroid.utils.web.interceptor.WebResUrlInterceptor
  * @date 2020/2/20
  */
 class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBackAbility.OnlyEdge {
-
     private data class FloatIcon(
             val container: View,
             val shadow: View,
@@ -62,8 +51,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
     )
 
     companion object {
-        const val LIMIT = 20
-
         fun start(context: Context, url: String, title: String,
                   articleId: Int, collected: Boolean,
                   userName: String, userId: Int) {
@@ -79,7 +66,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
     }
 
     private lateinit var mWebHolder: WebHolder
-    private lateinit var adapter: ArticleCommentAdapter
     private var lastUrlLoadTime = 0L
     private var userTouched = false
     private var isPageLoadFinished = false
@@ -95,14 +81,12 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         }
     }
 
-    private var dlOutlineProvider: BottomDrawerViewOutlineProvider? = null
-
     override fun getLayoutId(): Int = R.layout.activity_article
 
     override fun initPresenter(): ArticlePresenter = ArticlePresenter()
 
     override fun initView() {
-        StatusBarCompat.setIconMode(this, !NightModeUtils.isNightMode(this))
+        StatusBarCompat.setIconMode(this, !DarkModeUtils.isDarkMode(this))
         intent?.let {
             presenter.articleUrl = it.getStringExtra("url") ?: ""
             presenter.articleTitle = it.getStringExtra("title") ?: ""
@@ -136,11 +120,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
             return@setOnLongClickListener true
         }
         aiv_share.setOnClickListener {
-            QrcodeShareDialog(this, presenter.articleUrl, presenter.articleTitle)
-                    .setOnShareClickListener {
-                        ShareUtils.shareBitmap(this, it)
-                    }
-                    .show()
+            shareQrcode()
             if (floatIconsVisible) toggleFloatIcons()
         }
         aiv_read_later.setOnClickListener {
@@ -203,10 +183,13 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                     }
                 })
                 .setInterceptUrlInterceptor { uri, reqHeaders, reqMethod ->
-                    WebReadingModeInterceptor.intercept(uri, mWebHolder.userAgent, reqHeaders, reqMethod)?.let {
+                    val pageUri = Uri.parse(presenter.articleUrl)
+                    ReadingModeManager.getUrlRegexBeanForHost(pageUri.host)
+                            ?: return@setInterceptUrlInterceptor null
+                    WebReadingModeInterceptor.intercept(pageUri, uri, mWebHolder.userAgent, reqHeaders, reqMethod)?.let {
                         return@setInterceptUrlInterceptor it
                     }
-                    WebResUrlInterceptor.intercept(uri, mWebHolder.userAgent, reqHeaders, reqMethod)?.let {
+                    WebResUrlInterceptor.intercept(pageUri, uri, mWebHolder.userAgent, reqHeaders, reqMethod)?.let {
                         return@setInterceptUrlInterceptor it
                     }
                     return@setInterceptUrlInterceptor null
@@ -228,89 +211,21 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
             presenter.collect()
         }
 
-        rv.layoutManager = LinearLayoutManager(context)
-        adapter = ArticleCommentAdapter().apply {
-            setOnItemClickListener { _, _, position ->
-                adapter.getItem(position)?.let { item ->
-                    when (item.itemType) {
-                        CommentItemEntity.TYPE_COMMENT_ROOT -> {
-                            presenter.commentReply = item
-                            showCommentInputDialog()
-                        }
-                        CommentItemEntity.TYPE_COMMENT_CHILD -> {
-                            presenter.commentReply = item
-                            showCommentInputDialog()
-                        }
-                        CommentItemEntity.TYPE_COMMENT_LOAD -> {
-                            if (item.loading) {
-                                // do nothing
-                            } else {
-                                if (item.hasMore) {
-                                    item.loading = true
-                                    adapter.notifyItemChanged(position)
-                                    presenter.commentReplys(item, item.commentRoot!!, item.offset, item.limit)
-                                } else {
-                                    // do nothing
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        rv.adapter = adapter
-        adapter.setEnableLoadMore(true)
-        adapter.setOnLoadMoreListener({
-            presenter.comments(adapter.data.size, LIMIT)
-        }, rv)
-        MultiStateUtils.setEmptyAndErrorClick(msv) {
-            MultiStateUtils.toLoading(msv)
-            presenter.comments(adapter.data.size, LIMIT)
-        }
-        fl_top_bar_handle.setOnClickListener {
-            dl.toggle()
-        }
-        tv_user_name.setOnClickListener {
-            UserPageActivity.start(context, presenter.userId)
-        }
-        dlOutlineProvider = BottomDrawerViewOutlineProvider(ResUtils.getDimens(R.dimen.round_radius)).apply {
-            setToView(dl.dragView)
-        }
-        dl.onOpened { }
-        dl.onClosed { }
-        dl.onDragging {
-            if (floatIconsVisible) toggleFloatIcons()
-            v_mask.alpha = 1F - it
-            dlOutlineProvider?.updateFaction(1F - it)
-        }
-        rl_comment.setOnClickListener {
-            presenter.commentReply = null
-            showCommentInputDialog()
-        }
         window.decorView.doOnLayout {
             showGuideDialogIfNeeded()
         }
-        if (!CmsApi.isEnabled) {
-            dl.setCloseHeight(0)
-            wc.layoutParams.let {
-                it as RelativeLayout.LayoutParams
-                it.removeRule(RelativeLayout.ABOVE)
-                it.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM)
-            }
-            wc.requestLayout()
+    }
+
+    private fun shareQrcode() {
+        mWebHolder.getShareInfo { url, covers, title, desc ->
+            ArticleShareDialog(this, covers, title, desc, url).show()
         }
     }
 
     override fun loadData() {
         lastUrlLoadTime = System.currentTimeMillis()
         mWebHolder.loadUrl(presenter.articleUrl)
-        tv_user_name.text = if (presenter.userName.isNotEmpty()) presenter.userName else "匿名"
-        MultiStateUtils.toLoading(msv)
         presenter.isReadLater { switchReadLaterIcon() }
-        if (CmsApi.isEnabled) {
-            presenter.commentCount()
-            presenter.comments(adapter.data.size, LIMIT)
-        }
     }
 
     override fun onPause() {
@@ -332,12 +247,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         }
         mWebHolder.onDestroy(false)
         super.onDestroy()
-    }
-
-    override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean {
-        return if (dl.handleKeyEvent(keyCode, event)) {
-            true
-        } else super.onKeyDown(keyCode, event)
     }
 
     private fun doFloatTipAnim(floatIconOnTouched: FloatIcon?) {
@@ -478,11 +387,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         }?.start()
     }
 
-    private fun setCommentCount(count: Int) {
-        val countStr = if (count < 100) "$count" else "99+"
-        tv_comment_count.text = "评论($countStr)"
-    }
-
     override fun swipeBackOnlyEdge(): Boolean {
         return true
     }
@@ -550,106 +454,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         }
     }
 
-    override fun commentCountSuccess(resp: Int) {
-        setCommentCount(resp)
-    }
-
-    override fun commentCountFailed(msg: String) {
-        setCommentCount(0)
-    }
-
-    override fun commentSuccess(resp: CmsCommentResp) {
-        MultiStateUtils.toContent(msv)
-        presenter.commentReply?.let { reply ->
-            val rootIndex = adapter.data.indexOf(reply.rootItem)
-            val entity = CommentItemEntity.createTypeComment(resp)
-            entity.rootItem = reply.rootItem
-            entity.loadItem = reply.loadItem
-            entity.loadItem?.let { loadItem ->
-                loadItem.offset += 1
-            }
-            adapter.addData(rootIndex + 1, entity)
-        } ?: run {
-            val list = mutableListOf<CommentItemEntity>()
-            val entity = CommentItemEntity.createTypeComment(resp)
-            val load = CommentItemEntity.createTypeLoad(resp.id)
-            entity.rootItem = entity
-            entity.loadItem = load
-            load.rootItem = entity
-            load.loadItem = load
-            list.add(entity)
-            list.add(load)
-            adapter.addData(0, list)
-        }
-        presenter.commentContent = null
-        presenter.commentReply = null
-    }
-
-    override fun commentFailed(msg: String) {
-        ToastMaker.showShort(msg)
-    }
-
-    override fun commentsSuccess(resp: List<CmsCommentResp>) {
-        val list = mutableListOf<CommentItemEntity>()
-        resp.forEach {
-            val entity = CommentItemEntity.createTypeComment(it)
-            val load = CommentItemEntity.createTypeLoad(it.id)
-            entity.rootItem = entity
-            entity.loadItem = load
-            load.rootItem = entity
-            load.loadItem = load
-            list.add(entity)
-            list.add(load)
-        }
-        adapter.addData(list)
-        if (adapter.data.size == 0) {
-            MultiStateUtils.toEmpty(msv)
-        } else {
-            MultiStateUtils.toContent(msv)
-        }
-        adapter.loadMoreComplete()
-        if (resp.size < LIMIT) {
-            adapter.loadMoreEnd()
-        }
-    }
-
-    override fun commentsFailed(msg: String) {
-        if (adapter.data.size == 0) {
-            MultiStateUtils.toEmpty(msv)
-        }
-    }
-
-    override fun commentsReplysSuccess(item: CommentItemEntity, resp: List<CmsCommentResp>) {
-        val list = mutableListOf<CommentItemEntity>()
-        resp.forEach {
-            val entity = CommentItemEntity.createTypeComment(it)
-            entity.rootItem = item.rootItem
-            entity.loadItem = item.loadItem
-            list.add(entity)
-        }
-        item.hasMore = resp.size >= 3
-        item.loading = false
-        item.offset += resp.size
-        val index = adapter.data.indexOf(item)
-        adapter.notifyItemChanged(index)
-        adapter.addData(index, list)
-    }
-
-    override fun commentsReplysFailed(item: CommentItemEntity) {
-        item.loading = false
-        val index = adapter.data.indexOf(item)
-        adapter.notifyItemChanged(index)
-    }
-
-    private fun showCommentInputDialog() {
-        CommentInputDialog(context,
-                presenter.commentContent,
-                presenter.commentReply,
-                { presenter.commentContent = it },
-                { presenter.comment() })
-                .show()
-    }
-
     private fun showGuideDialogIfNeeded() {
         if (GuideSPUtils.getInstance().isArticleGuideShown) {
             return
@@ -667,38 +471,38 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
 
     private fun showGuideBackBtnDialog(onDismiss: () -> Unit) {
         GuideLayer(this@ArticleActivity)
-                .backgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
-                .mapping(GuideLayer.Mapping().apply {
-                    targetView(iv_close)
-                    cornerRadius(9999F)
-                    guideView(LayoutInflater.from(this@ArticleActivity)
+                .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
+                .addMapping(GuideLayer.Mapping().apply {
+                    setTargetView(iv_close)
+                    cornerRadius = 9999F
+                    guideView = LayoutInflater.from(this@ArticleActivity)
                             .inflate(R.layout.dialog_guide_tip, null, false).apply {
                                 findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
                                     text = "长按返回按钮有更多快捷菜单~"
                                 }
-                            })
-                    marginLeft(ResUtils.getDimens(R.dimen.margin_def).toInt())
-                    horizontalAlign(GuideLayer.Align.Horizontal.TO_RIGHT)
-                    verticalAlign(GuideLayer.Align.Vertical.CENTER)
+                            }
+                    marginLeft = ResUtils.getDimens(R.dimen.margin_def).toInt()
+                    setHorizontalAlign(GuideLayer.Align.Horizontal.TO_RIGHT)
+                    setVerticalAlign(GuideLayer.Align.Vertical.CENTER)
                 })
-                .mapping(GuideLayer.Mapping().apply {
+                .addMapping(GuideLayer.Mapping().apply {
                     val cx = window?.decorView?.width ?: 0 / 2
                     val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect(Rect(cx, cy, cx, cy))
-                    guideView(LayoutInflater.from(this@ArticleActivity)
+                    targetRect = Rect(cx, cy, cx, cy)
+                    guideView = LayoutInflater.from(this@ArticleActivity)
                             .inflate(R.layout.dialog_guide_btn, null, false).apply {
                                 findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
                                     text = "下一个"
                                 }
-                            })
-                    horizontalAlign(GuideLayer.Align.Horizontal.CENTER)
-                    verticalAlign(GuideLayer.Align.Vertical.CENTER)
-                    marginBottom(ResUtils.getDimens(R.dimen.margin_big).toInt())
-                    onClick(Layer.OnClickListener { layer, _ ->
+                            }
+                    marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
+                    setHorizontalAlign(GuideLayer.Align.Horizontal.CENTER)
+                    setVerticalAlign(GuideLayer.Align.Vertical.CENTER)
+                    addOnClickListener(Layer.OnClickListener { layer, _ ->
                         layer.dismiss()
                     }, R.id.dialog_guide_tv_btn)
                 })
-                .onVisibleChangeListener(object : Layer.OnVisibleChangeListener {
+                .addOnVisibleChangeListener(object : Layer.OnVisibleChangedListener {
                     override fun onShow(layer: Layer) {
                     }
 
@@ -709,40 +513,41 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                 .show()
     }
 
+    @SuppressLint("InflateParams")
     private fun showGuideDoubleTapDialog(onDismiss: () -> Unit) {
         GuideLayer(this@ArticleActivity)
-                .backgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
-                .mapping(GuideLayer.Mapping().apply {
+                .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
+                .addMapping(GuideLayer.Mapping().apply {
                     val cx = window?.decorView?.width ?: 0 / 2
                     val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect(Rect(cx, cy, cx, cy))
-                    guideView(LayoutInflater.from(this@ArticleActivity)
+                    targetRect = Rect(cx, cy, cx, cy)
+                    guideView = LayoutInflater.from(this@ArticleActivity)
                             .inflate(R.layout.dialog_guide_tip, null, false).apply {
                                 findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
                                     text = "双击任意位置可快速收藏~"
                                 }
-                            })
-                    horizontalAlign(GuideLayer.Align.Horizontal.CENTER)
-                    verticalAlign(GuideLayer.Align.Vertical.CENTER)
+                            }
+                    horizontalAlign = GuideLayer.Align.Horizontal.CENTER
+                    verticalAlign = GuideLayer.Align.Vertical.CENTER
                 })
-                .mapping(GuideLayer.Mapping().apply {
+                .addMapping(GuideLayer.Mapping().apply {
                     val cx = window?.decorView?.width ?: 0 / 2
                     val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect(Rect(cx, cy, cx, cy))
-                    guideView(LayoutInflater.from(this@ArticleActivity)
+                    targetRect = Rect(cx, cy, cx, cy)
+                    guideView = LayoutInflater.from(this@ArticleActivity)
                             .inflate(R.layout.dialog_guide_btn, null, false).apply {
                                 findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
                                     text = "下一个"
                                 }
-                            })
-                    horizontalAlign(GuideLayer.Align.Horizontal.CENTER)
-                    verticalAlign(GuideLayer.Align.Vertical.ALIGN_PARENT_BOTTOM)
-                    marginBottom(ResUtils.getDimens(R.dimen.margin_big).toInt())
-                    onClick(Layer.OnClickListener { layer, _ ->
+                            }
+                    horizontalAlign = GuideLayer.Align.Horizontal.CENTER
+                    verticalAlign = GuideLayer.Align.Vertical.ALIGN_PARENT_BOTTOM
+                    marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
+                    addOnClickListener(Layer.OnClickListener { layer, _ ->
                         layer.dismiss()
                     }, R.id.dialog_guide_tv_btn)
                 })
-                .onVisibleChangeListener(object : Layer.OnVisibleChangeListener {
+                .addOnVisibleChangeListener(object : Layer.OnVisibleChangedListener {
                     override fun onShow(layer: Layer) {
                     }
 
@@ -755,38 +560,38 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
 
     private fun showGuidePreviewImageDialog(onDismiss: () -> Unit) {
         GuideLayer(this@ArticleActivity)
-                .backgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
-                .mapping(GuideLayer.Mapping().apply {
+                .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
+                .addMapping(GuideLayer.Mapping().apply {
                     val cx = window?.decorView?.width ?: 0 / 2
                     val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect(Rect(cx, cy, cx, cy))
-                    guideView(LayoutInflater.from(this@ArticleActivity)
+                    targetRect = Rect(cx, cy, cx, cy)
+                    guideView = LayoutInflater.from(this@ArticleActivity)
                             .inflate(R.layout.dialog_guide_tip, null, false).apply {
                                 findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
                                     text = "长按网页图片可预览大图~"
                                 }
-                            })
-                    horizontalAlign(GuideLayer.Align.Horizontal.CENTER)
-                    verticalAlign(GuideLayer.Align.Vertical.CENTER)
+                            }
+                    horizontalAlign = GuideLayer.Align.Horizontal.CENTER
+                    verticalAlign = GuideLayer.Align.Vertical.CENTER
                 })
-                .mapping(GuideLayer.Mapping().apply {
+                .addMapping(GuideLayer.Mapping().apply {
                     val cx = window?.decorView?.width ?: 0 / 2
                     val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect(Rect(cx, cy, cx, cy))
-                    guideView(LayoutInflater.from(this@ArticleActivity)
+                    targetRect = Rect(cx, cy, cx, cy)
+                    guideView = LayoutInflater.from(this@ArticleActivity)
                             .inflate(R.layout.dialog_guide_btn, null, false).apply {
                                 findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
                                     text = "我知道了"
                                 }
-                            })
-                    horizontalAlign(GuideLayer.Align.Horizontal.CENTER)
-                    verticalAlign(GuideLayer.Align.Vertical.ALIGN_PARENT_BOTTOM)
-                    marginBottom(ResUtils.getDimens(R.dimen.margin_big).toInt())
-                    onClick(Layer.OnClickListener { layer, _ ->
+                            }
+                    horizontalAlign = GuideLayer.Align.Horizontal.CENTER
+                    verticalAlign = GuideLayer.Align.Vertical.ALIGN_PARENT_BOTTOM
+                    marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
+                    addOnClickListener(Layer.OnClickListener { layer, _ ->
                         layer.dismiss()
                     }, R.id.dialog_guide_tv_btn)
                 })
-                .onVisibleChangeListener(object : Layer.OnVisibleChangeListener {
+                .addOnVisibleChangeListener(object : Layer.OnVisibleChangedListener {
                     override fun onShow(layer: Layer) {
                     }
 

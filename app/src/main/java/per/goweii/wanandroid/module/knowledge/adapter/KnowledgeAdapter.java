@@ -25,7 +25,7 @@ import per.goweii.wanandroid.module.main.model.ChapterBean;
 public class KnowledgeAdapter extends BaseQuickAdapter<ChapterBean, BaseViewHolder> {
 
     private LayoutInflater mInflater = null;
-    private final Queue<TextView> mFlexItemTextViewCaches = new LinkedList<>();
+    private Queue<TextView> mFlexItemTextViewCaches = new LinkedList<>();
     private OnItemClickListener mOnItemClickListener = null;
 
     public KnowledgeAdapter() {

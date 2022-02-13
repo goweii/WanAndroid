@@ -94,109 +94,29 @@
                     android:paddingBottom="14dp">
 
                     <TextView
-                        android:id="@+id/tv_show_read_later_title"
+                        android:id="@+id/tv_show_read_later_notification_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="我的书签"
+                        android:text="书签提醒"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
-                        android:id="@+id/tv_show_read_later_desc"
+                        android:id="@+id/tv_show_read_later_notification_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_show_read_later_title"
+                        android:layout_below="@+id/tv_show_read_later_notification_title"
                         android:layout_alignParentLeft="true"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_show_read_later"
-                        android:text="不同于收藏，此功能无需登录，为本地操作，更换手机或重置APP后已添加的数据将丢失"
+                        android:layout_toLeftOf="@+id/sc_show_read_later_notification"
+                        android:text="打开应用时以通知方式提醒最新添加书签"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/sc_show_read_later"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_surface"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="14dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="14dp">
-
-                    <TextView
-                        android:id="@+id/tv_show_read_record_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="阅读历史"
-                        android:textColor="?colorTextSurface"
-                        android:textSize="@dimen/text_content" />
-
-                    <TextView
-                        android:id="@+id/tv_show_read_record_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_show_read_record_title"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_show_read_record"
-                        android:text="便于查找阅读过的文章，为本地操作，更换手机或重置APP后已添加的数据将丢失"
-                        android:textColor="?colorTextThird"
-                        android:textSize="@dimen/text_notes" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/sc_show_read_record"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_surface"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="14dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="14dp">
-
-                    <TextView
-                        android:id="@+id/tv_show_top_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="显示置顶"
-                        android:textColor="?colorTextSurface"
-                        android:textSize="@dimen/text_content" />
-
-                    <TextView
-                        android:id="@+id/tv_show_top_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_show_top_title"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_show_top"
-                        android:text="开启后首页显示置顶文章"
-                        android:textColor="?colorTextThird"
-                        android:textSize="@dimen/text_notes" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/sc_show_top"
+                        android:id="@+id/sc_show_read_later_notification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -254,109 +174,29 @@
                     android:paddingBottom="14dp">
 
                     <TextView
-                        android:id="@+id/tv_hide_about_me_title"
+                        android:id="@+id/tv_show_top_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="隐藏关于作者"
+                        android:text="显示置顶"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
                     <TextView
-                        android:id="@+id/tv_hide_about_me_desc"
+                        android:id="@+id/tv_show_top_desc"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_hide_about_me_title"
+                        android:layout_below="@+id/tv_show_top_title"
                         android:layout_alignParentLeft="true"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_hide_about_me"
-                        android:text="开启后隐藏我的页面的关于作者入口"
+                        android:layout_toLeftOf="@+id/sc_show_top"
+                        android:text="开启后首页显示置顶文章"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
                     <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/sc_hide_about_me"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_surface"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="14dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="14dp">
-
-                    <TextView
-                        android:id="@+id/tv_hide_open_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="隐藏开源项目"
-                        android:textColor="?colorTextSurface"
-                        android:textSize="@dimen/text_content" />
-
-                    <TextView
-                        android:id="@+id/tv_hide_open_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_hide_open_title"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_hide_open"
-                        android:text="开启后隐藏我的页面的开源项目入口"
-                        android:textColor="?colorTextThird"
-                        android:textSize="@dimen/text_notes" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/sc_hide_open"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_surface"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="14dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="14dp">
-
-                    <TextView
-                        android:id="@+id/tv_web_swipeback_edge_title"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:singleLine="true"
-                        android:text="网页边缘滑动返回"
-                        android:textColor="?colorTextSurface"
-                        android:textSize="@dimen/text_content" />
-
-                    <TextView
-                        android:id="@+id/tv_web_swipeback_edge_desc"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_web_swipeback_edge_title"
-                        android:layout_alignParentLeft="true"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_web_swipeback_edge"
-                        android:text="开启后网页仅在边缘可触发滑动返回，避免左右滑动代码时误触发滑动返回"
-                        android:textColor="?colorTextThird"
-                        android:textSize="@dimen/text_notes" />
-
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/sc_web_swipeback_edge"
+                        android:id="@+id/sc_show_top"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -420,46 +260,6 @@
                         android:tint="?colorIconThird" />
 
                 </RelativeLayout>
-
-                <LinearLayout
-                    android:id="@+id/ll_rv_anim"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_press_color_surface"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:singleLine="true"
-                        android:text="列表动画"
-                        android:textColor="?colorTextSurface"
-                        android:textSize="@dimen/text_content" />
-
-                    <TextView
-                        android:id="@+id/tv_rv_anim"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:singleLine="true"
-                        android:text=""
-                        android:textColor="?colorTextThird"
-                        android:textSize="@dimen/text_notes"
-                        tools:text="无" />
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_enter"
-                        android:tint="?colorIconThird" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_cache"

@@ -25,6 +25,7 @@
     <attr name="colorSurfaceTop" format="reference" />
     <attr name="colorSurfaceTopAlpha" format="reference" />
     <attr name="colorSurfaceTopMask" format="reference" />
+    <attr name="colorDialogCard" format="reference" />
     <attr name="colorInvert" format="reference" />
     <attr name="colorInvertAlpha" format="reference" />
     <attr name="colorSecond" format="reference" />
@@ -47,6 +48,8 @@
     <attr name="colorTextInvert" format="reference" />
     <attr name="colorTextInvertAlpha" format="reference" />
     <attr name="colorTextOnMain" format="reference" />
+    <attr name="colorTextOnShadow" format="reference" />
+    <attr name="colorTextToast" format="reference" />
     <!--图标颜色-->
     <attr name="colorIconMain" format="reference" />
     <attr name="colorIconAccent" format="reference" />

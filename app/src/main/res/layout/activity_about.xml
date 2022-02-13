@@ -9,6 +9,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
+        app:abc_rightIconRes="@drawable/ic_share"
         app:abc_titleText="关于我们" />
 
     <FrameLayout

@@ -35,7 +35,7 @@ import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.presenter.SettingPresenter;
 import per.goweii.wanandroid.module.mine.view.SettingView;
-import per.goweii.wanandroid.utils.RvConfigUtils;
+import per.goweii.wanandroid.utils.DarkModeUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UpdateUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -55,26 +55,20 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     SwitchCompat sc_system_theme;
     @BindView(R.id.tv_dark_theme_title)
     TextView tv_dark_theme_title;
+    @BindView(R.id.tv_show_read_later_notification_title)
+    TextView tv_show_read_later_notification_title;
+    @BindView(R.id.tv_show_read_later_notification_desc)
+    TextView tv_show_read_later_notification_desc;
     @BindView(R.id.sc_dark_theme)
     SwitchCompat sc_dark_theme;
-    @BindView(R.id.sc_show_read_later)
-    SwitchCompat sc_show_read_later;
-    @BindView(R.id.sc_show_read_record)
-    SwitchCompat sc_show_read_record;
+    @BindView(R.id.sc_show_read_later_notification)
+    SwitchCompat sc_show_read_later_notification;
     @BindView(R.id.sc_show_top)
     SwitchCompat sc_show_top;
     @BindView(R.id.sc_show_banner)
     SwitchCompat sc_show_banner;
-    @BindView(R.id.sc_hide_about_me)
-    SwitchCompat sc_hide_about_me;
-    @BindView(R.id.sc_hide_open)
-    SwitchCompat sc_hide_open;
-    @BindView(R.id.sc_web_swipeback_edge)
-    SwitchCompat sc_web_swipeback_edge;
     @BindView(R.id.tv_intercept_host)
     TextView tv_intercept_host;
-    @BindView(R.id.tv_rv_anim)
-    TextView tv_rv_anim;
     @BindView(R.id.tv_cache)
     TextView tv_cache;
     @BindView(R.id.tv_has_update)
@@ -88,13 +82,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     private UpdateUtils mUpdateUtils;
     private boolean mSystemTheme;
     private boolean mDarkTheme;
-    private boolean mShowTop;
     private boolean mShowBanner;
-    private boolean mShowReadLater;
-    private boolean mShowReadRecord;
-    private boolean mHideAboutMe;
-    private boolean mHideOpen;
-    private int mRvAnim;
+    private boolean mShowTop;
+    private boolean mShowReadLaterNotification;
     private int mUrlIntercept;
 
     public static void start(Context context) {
@@ -126,17 +116,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         sc_show_top.setChecked(mShowTop);
         mShowBanner = SettingUtils.getInstance().isShowBanner();
         sc_show_banner.setChecked(mShowBanner);
-        mShowReadLater = SettingUtils.getInstance().isShowReadLater();
-        sc_show_read_later.setChecked(mShowReadLater);
-        mShowReadRecord = SettingUtils.getInstance().isShowReadRecord();
-        sc_show_read_record.setChecked(mShowReadRecord);
-        mHideAboutMe = SettingUtils.getInstance().isHideAboutMe();
-        sc_hide_about_me.setChecked(mHideAboutMe);
-        mHideOpen = SettingUtils.getInstance().isHideOpen();
-        sc_hide_open.setChecked(mHideOpen);
-        sc_web_swipeback_edge.setChecked(SettingUtils.getInstance().isWebSwipeBackEdge());
-        mRvAnim = SettingUtils.getInstance().getRvAnim();
-        tv_rv_anim.setText(RvConfigUtils.getName(mRvAnim));
+        mShowReadLaterNotification = SettingUtils.getInstance().isShowReadLaterNotification();
+        sc_show_read_later_notification.setChecked(mShowReadLaterNotification);
         mUrlIntercept = SettingUtils.getInstance().getUrlInterceptType();
         tv_intercept_host.setText(HostInterceptUtils.getName(mUrlIntercept));
         sc_system_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -144,7 +125,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
                 changeEnable(!isChecked, tv_dark_theme_title, sc_dark_theme);
                 SettingUtils.getInstance().setSystemTheme(isChecked);
-                WanApp.initDarkMode();
+                DarkModeUtils.initDarkMode();
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -157,7 +138,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
                 SettingUtils.getInstance().setDarkTheme(isChecked);
-                WanApp.initDarkMode();
+                DarkModeUtils.initDarkMode();
                 v.postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -178,34 +159,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                 SettingUtils.getInstance().setShowBanner(isChecked);
             }
         });
-        sc_show_read_later.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        sc_show_read_later_notification.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-                SettingUtils.getInstance().setShowReadLater(isChecked);
-            }
-        });
-        sc_show_read_record.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-                SettingUtils.getInstance().setShowReadRecord(isChecked);
-            }
-        });
-        sc_hide_about_me.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-                SettingUtils.getInstance().setHideAboutMe(isChecked);
-            }
-        });
-        sc_hide_open.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-                SettingUtils.getInstance().setHideOpen(isChecked);
-            }
-        });
-        sc_web_swipeback_edge.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-                SettingUtils.getInstance().setWebSwipeBackEdge(isChecked);
+                SettingUtils.getInstance().setShowReadLaterNotification(isChecked);
             }
         });
         if (UserUtils.getInstance().isLogin()) {
@@ -247,23 +204,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     private void postSettingChangedEvent() {
         boolean showTopChanged = mShowTop != SettingUtils.getInstance().isShowTop();
         boolean showBannerChanged = mShowBanner != SettingUtils.getInstance().isShowBanner();
-        boolean showReadLaterChanged = mShowReadLater != SettingUtils.getInstance().isShowReadLater();
-        boolean showReadRecordChanged = mShowReadRecord != SettingUtils.getInstance().isShowReadRecord();
-        boolean hideAboutMeChanged = mHideAboutMe != SettingUtils.getInstance().isHideAboutMe();
-        boolean hideOpenChanged = mHideOpen != SettingUtils.getInstance().isHideOpen();
-        boolean rvAnimChanged = mRvAnim != SettingUtils.getInstance().getRvAnim();
         boolean urlInterceptChanged = mUrlIntercept != SettingUtils.getInstance().getUrlInterceptType();
-        if (showReadLaterChanged || showReadRecordChanged || showTopChanged || showBannerChanged ||
-                hideAboutMeChanged || hideOpenChanged || rvAnimChanged ||
-                urlInterceptChanged) {
+        if (showTopChanged || showBannerChanged || urlInterceptChanged) {
             SettingChangeEvent event = new SettingChangeEvent();
             event.setShowTopChanged(showTopChanged);
             event.setShowBannerChanged(showBannerChanged);
-            event.setShowReadLaterChanged(showReadLaterChanged);
-            event.setShowReadRecordChanged(showReadRecordChanged);
-            event.setHideAboutMeChanged(hideAboutMeChanged);
-            event.setHideOpenChanged(hideOpenChanged);
-            event.setRvAnimChanged(rvAnimChanged);
             event.post();
         }
     }
@@ -282,8 +227,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
 
     @OnClick({
-            R.id.rl_intercept_host, R.id.ll_rv_anim, R.id.ll_update,
-            R.id.ll_cache, R.id.ll_about, R.id.ll_privacy_policy, R.id.ll_logout
+            R.id.rl_intercept_host, R.id.ll_update,
+            R.id.ll_cache, R.id.ll_about,
+            R.id.ll_privacy_policy, R.id.ll_logout
     })
     @Override
     public void onClick(View v) {
@@ -308,26 +254,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                             public void onSelect(String data, int pos) {
                                 tv_intercept_host.setText(HostInterceptUtils.getName(pos));
                                 SettingUtils.getInstance().setUrlInterceptType(pos);
-                            }
-                        })
-                        .show();
-                break;
-            case R.id.ll_rv_anim:
-                ListDialog.with(getContext())
-                        .cancelable(true)
-//                        .title("列表动画")
-                        .datas(RvConfigUtils.getName(RvConfigUtils.RvAnim.NONE),
-                                RvConfigUtils.getName(RvConfigUtils.RvAnim.ALPHAIN),
-                                RvConfigUtils.getName(RvConfigUtils.RvAnim.SCALEIN),
-                                RvConfigUtils.getName(RvConfigUtils.RvAnim.SLIDEIN_BOTTOM),
-                                RvConfigUtils.getName(RvConfigUtils.RvAnim.SLIDEIN_LEFT),
-                                RvConfigUtils.getName(RvConfigUtils.RvAnim.SLIDEIN_RIGHT))
-                        .currSelectPos(SettingUtils.getInstance().getRvAnim())
-                        .listener(new ListDialog.OnItemSelectedListener() {
-                            @Override
-                            public void onSelect(String data, int pos) {
-                                tv_rv_anim.setText(RvConfigUtils.getName(pos));
-                                SettingUtils.getInstance().setRvAnim(pos);
                             }
                         })
                         .show();
@@ -450,6 +376,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     public void betaUpdateFailed(int code, String msg, boolean click) {
         tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
         tv_has_update.setText("已是最新版");
+        if (click) {
+            ToastMaker.showShort("已是最新版");
+        }
     }
 
     @Override

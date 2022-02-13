@@ -9,6 +9,7 @@
     <dimen name="button_height_half">22dp</dimen>
     <dimen name="action_bar_bottom_tab_height">36dp</dimen>
 
+    <dimen name="line_very_thin">1px</dimen>
     <dimen name="line_thin">2px</dimen>
     <dimen name="line">1dp</dimen>
 

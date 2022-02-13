@@ -109,6 +109,7 @@ public class SearchActivity extends BaseActivity {
                 if (TextUtils.isEmpty(key)) {
                     aiv_clear.setVisibility(View.INVISIBLE);
                     showHistoryFragment();
+                    mSearchResultFragment.clear();
                 } else {
                     aiv_clear.setVisibility(View.VISIBLE);
                 }
@@ -164,6 +165,7 @@ public class SearchActivity extends BaseActivity {
         et_search.clearFocus();
         if (TextUtils.isEmpty(key)) {
             showHistoryFragment();
+            mSearchResultFragment.clear();
         } else {
             EditTextUtils.setTextWithSelection(et_search, key);
             showResultFragment();

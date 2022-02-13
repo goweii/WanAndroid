@@ -46,10 +46,10 @@ public class WebContainer extends FrameLayout {
     private OnDoubleClickListener mOnDoubleClickListener = null;
     private OnTouchDownListener mOnTouchDownListener = null;
 
-    private final List<Animator> mHeartAnimators = new LinkedList<>();
+    private List<Animator> mHeartAnimators = new LinkedList<>();
 
     private boolean doubleClicked = false;
-    private final Runnable doubleClickTimeoutRunnable = new Runnable() {
+    private Runnable doubleClickTimeoutRunnable = new Runnable() {
         @Override
         public void run() {
             doubleClicked = false;

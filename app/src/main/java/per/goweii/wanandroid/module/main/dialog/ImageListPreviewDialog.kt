@@ -27,12 +27,12 @@ class ImageListPreviewDialog(
     private var imageMenuDialog: ImageMenuDialog? = null
 
     init {
-        backgroundDimAmount(1F)
-        contentView(R.layout.dialog_image_list_preview)
-        contentAnimator(object : AnimatorCreator {
+        setBackgroundDimAmount(1F)
+        setContentView(R.layout.dialog_image_list_preview)
+        setContentAnimator(object : AnimatorCreator {
             override fun createInAnimator(target: View): Animator {
-                val abc = getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)!!
-                val vp = getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)!!
+                val abc = requireView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)
+                val vp = requireView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)
                 return AnimatorSet().apply {
                     playTogether(
                             AnimatorHelper.createTopInAnim(abc),
@@ -42,8 +42,8 @@ class ImageListPreviewDialog(
             }
 
             override fun createOutAnimator(target: View): Animator {
-                val abc = getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)!!
-                val vp = getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)!!
+                val abc = requireView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)
+                val vp = requireView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)
                 return AnimatorSet().apply {
                     playTogether(
                             AnimatorHelper.createTopOutAnim(abc),
@@ -54,11 +54,11 @@ class ImageListPreviewDialog(
         })
     }
 
-    private val abc by lazy { getView<ActionBarCommon>(R.id.dialog_image_list_preview_abc)!! }
-    private val vp by lazy { getView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp)!! }
-    private val dl by lazy { getView<SwipeLayout>(R.id.dialog_image_list_preview_dl)!! }
+    private val abc by lazy { requireView<ActionBarCommon>(R.id.dialog_image_list_preview_abc) }
+    private val vp by lazy { requireView<androidx.viewpager.widget.ViewPager>(R.id.dialog_image_list_preview_vp) }
+    private val dl by lazy { requireView<SwipeLayout>(R.id.dialog_image_list_preview_dl) }
 
-    @SuppressLint("ClickableViewAccessibility")
+    @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onAttach() {
         super.onAttach()
         abc.setOnLeftIconClickListener {
@@ -134,7 +134,7 @@ class ImageListPreviewDialog(
             }
 
             override fun onSwiping(direction: Int, fraction: Float) {
-                background.alpha = 1F - fraction
+                viewHolder.background.alpha = 1F - fraction
                 abc.translationY = -abc.bottom * fraction
             }
 

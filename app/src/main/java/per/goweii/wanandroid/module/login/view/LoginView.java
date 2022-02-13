@@ -12,6 +12,4 @@ public interface LoginView extends BaseView {
     void loginSuccess(int code, UserEntity data, String username, String password, boolean isBiometric);
 
     void loginFailed(int code, String msg);
-
-    void getEmailAndThenRegisterCms(int wanid, String username, String password, boolean isBiometric);
 }

@@ -1,6 +1,10 @@
 package per.goweii.wanandroid.common
 
+import android.app.Activity
 import android.app.Application
+import android.os.Bundle
+import com.scwang.smart.refresh.footer.ClassicsFooter
+import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.bugly.crashreport.CrashReport.CrashHandleCallback
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy
@@ -16,13 +20,16 @@ import per.goweii.basic.utils.listener.SimpleCallback
 import per.goweii.burred.Blurred
 import per.goweii.ponyo.crash.Crash
 import per.goweii.rxhttp.core.RxHttp
+import per.goweii.swipeback.SwipeBack
+import per.goweii.swipeback.SwipeBackDirection
 import per.goweii.wanandroid.BuildConfig
 import per.goweii.wanandroid.db.WanDb
 import per.goweii.wanandroid.http.RxHttpRequestSetting
 import per.goweii.wanandroid.http.WanCache
 import per.goweii.wanandroid.module.main.activity.CrashActivity
-import per.goweii.wanandroid.utils.UserUtils
-import per.goweii.wanandroid.utils.web.interceptor.WebReadingModeInterceptor
+import per.goweii.wanandroid.utils.*
+import per.goweii.wanandroid.utils.web.cache.ReadingModeManager
+import per.goweii.wanandroid.widget.refresh.ShiciRefreshHeader
 import java.util.*
 
 /**
@@ -30,10 +37,122 @@ import java.util.*
  * @date 2020/2/20
  */
 
+class SmartRefreshInitTask : SyncInitTask() {
+    override fun init(application: Application) {
+        SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, _ -> ShiciRefreshHeader(context) }
+        SmartRefreshLayout.setDefaultRefreshFooterCreator { context, _ -> ClassicsFooter(context) }
+    }
+
+    override fun onlyMainProcess(): Boolean {
+        return true
+    }
+
+    override fun level(): Int {
+        return 0
+    }
+}
+
+class CookieManagerInitTask : SyncInitTask() {
+    override fun init(application: Application) {
+        CookieUtils.init(application)
+    }
+
+    override fun onlyMainProcess(): Boolean {
+        return true
+    }
+
+    override fun level(): Int {
+        return 0
+    }
+}
+
+class NightModeInitTask : SyncInitTask() {
+    override fun init(application: Application) {
+        DarkModeUtils.initDarkMode()
+    }
+
+    override fun onlyMainProcess(): Boolean {
+        return true
+    }
+
+    override fun level(): Int {
+        return 0
+    }
+}
+
+class ThemeInitTask : SyncInitTask(), Application.ActivityLifecycleCallbacks {
+    override fun init(application: Application) {
+        application.registerActivityLifecycleCallbacks(this)
+    }
+
+    override fun onlyMainProcess(): Boolean {
+        return true
+    }
+
+    override fun level(): Int {
+        return 0
+    }
+
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        val themeId = ConfigUtils.getInstance().theme
+        if (themeId > 0) {
+            activity.setTheme(themeId)
+        }
+    }
+
+    override fun onActivityStarted(activity: Activity) {
+    }
+
+    override fun onActivityResumed(activity: Activity) {
+    }
+
+    override fun onActivityPaused(activity: Activity) {
+    }
+
+    override fun onActivityStopped(activity: Activity) {
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+    }
+
+    override fun onActivityDestroyed(activity: Activity) {
+    }
+}
+
+class GrayFilterInitTask : SyncInitTask() {
+    override fun init(application: Application) {
+        GrayFilterHelper.attach(application)
+    }
+
+    override fun onlyMainProcess(): Boolean {
+        return true
+    }
+
+    override fun level(): Int {
+        return 0
+    }
+}
+
+class SwipeBackInitTask : SyncInitTask() {
+    override fun init(application: Application) {
+        SwipeBack.getInstance().init(application)
+        SwipeBack.getInstance().swipeBackDirection = SwipeBackDirection.RIGHT
+        SwipeBack.getInstance().swipeBackTransformer = null
+    }
+
+    override fun onlyMainProcess(): Boolean {
+        return true
+    }
+
+    override fun level(): Int {
+        return 0
+    }
+}
+
 class RxHttpInitTask : SyncInitTask() {
     override fun init(application: Application) {
         RxHttp.init(application)
-        RxHttp.initRequest(RxHttpRequestSetting(WanApp.getCookieJar()))
+        RxHttp.initRequest(RxHttpRequestSetting(CookieUtils.cookieJar))
     }
 
     override fun onlyMainProcess(): Boolean {
@@ -142,7 +261,7 @@ class X5InitTask : AsyncInitTask() {
 
 class ReadingModeTask : AsyncInitTask() {
     override fun init(application: Application) {
-        WebReadingModeInterceptor.setup()
+        ReadingModeManager.setup()
     }
 
     override fun onlyMainProcess(): Boolean {

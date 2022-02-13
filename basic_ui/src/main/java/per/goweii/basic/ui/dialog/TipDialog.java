@@ -5,6 +5,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 
 import per.goweii.anylayer.AnyLayer;
@@ -30,7 +31,7 @@ public class TipDialog {
     private SimpleCallback<Void> callbackYes = null;
     private SimpleCallback<Void> callbackNo = null;
     private SimpleCallback<Void> onDismissListener = null;
-    private final DialogLayer mDialogLayer;
+    private DialogLayer mDialogLayer;
 
     public static TipDialog with(Context context) {
         return new TipDialog(context);
@@ -39,29 +40,29 @@ public class TipDialog {
     private TipDialog(Context context) {
         this.context = context;
         mDialogLayer = AnyLayer.dialog(context);
-        mDialogLayer.contentView(R.layout.basic_ui_dialog_tip)
-                .gravity(Gravity.CENTER)
-                .backgroundDimDefault()
-                .cancelableOnTouchOutside(cancelable)
-                .cancelableOnClickKeyBack(cancelable)
-                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
+        mDialogLayer.setContentView(R.layout.basic_ui_dialog_tip)
+                .setGravity(Gravity.CENTER)
+                .setBackgroundDimDefault()
+                .setCancelableOnTouchOutside(cancelable)
+                .setCancelableOnClickKeyBack(cancelable)
+                .addOnVisibleChangeListener(new Layer.OnVisibleChangedListener() {
                     @Override
-                    public void onShow(Layer layer) {
+                    public void onShow(@NonNull Layer layer) {
                     }
 
                     @Override
-                    public void onDismiss(Layer layer) {
+                    public void onDismiss(@NonNull Layer layer) {
                         if (onDismissListener != null) {
                             onDismissListener.onResult(null);
                         }
                     }
                 })
-                .bindData(new Layer.DataBinder() {
+                .addOnBindDataListener(new Layer.OnBindDataListener() {
                     @Override
-                    public void bindData(Layer layer) {
-                        TextView tvYes = layer.getView(R.id.basic_ui_tv_dialog_tip_yes);
-                        TextView tvNo = layer.getView(R.id.basic_ui_tv_dialog_tip_no);
-                        View vLine = layer.getView(R.id.basic_ui_v_dialog_tip_line);
+                    public void onBindData(@NonNull Layer layer) {
+                        TextView tvYes = layer.requireView(R.id.basic_ui_tv_dialog_tip_yes);
+                        TextView tvNo = layer.requireView(R.id.basic_ui_tv_dialog_tip_no);
+                        View vLine = layer.requireView(R.id.basic_ui_v_dialog_tip_line);
 
                         if (singleBtnYes) {
                             tvNo.setVisibility(View.GONE);
@@ -82,7 +83,7 @@ public class TipDialog {
                             tvYes.setText(R.string.basic_ui_dialog_btn_yes);
                         }
 
-                        TextView tvTitle = layer.getView(R.id.basic_ui_tv_dialog_tip_title);
+                        TextView tvTitle = layer.requireView(R.id.basic_ui_tv_dialog_tip_title);
                         if (title == null) {
                             tvTitle.setVisibility(View.GONE);
                         } else {
@@ -90,7 +91,7 @@ public class TipDialog {
                             tvTitle.setText(title);
                         }
 
-                        TextView tvContent = layer.getView(R.id.basic_ui_tv_dialog_tip_content);
+                        TextView tvContent = layer.requireView(R.id.basic_ui_tv_dialog_tip_content);
                         if (msgCenter) {
                             tvContent.setGravity(Gravity.CENTER);
                         } else {
@@ -99,17 +100,17 @@ public class TipDialog {
                         tvContent.setText(msg);
                     }
                 })
-                .onClickToDismiss(new Layer.OnClickListener() {
+                .addOnClickToDismissListener(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(Layer layer, View v) {
+                    public void onClick(@NonNull Layer layer, @NonNull View v) {
                         if (callbackYes != null) {
                             callbackYes.onResult(null);
                         }
                     }
                 }, R.id.basic_ui_tv_dialog_tip_yes)
-                .onClickToDismiss(new Layer.OnClickListener() {
+                .addOnClickToDismissListener(new Layer.OnClickListener() {
                     @Override
-                    public void onClick(Layer layer, View v) {
+                    public void onClick(@NonNull Layer layer, @NonNull View v) {
                         if (callbackNo != null) {
                             callbackNo.onResult(null);
                         }

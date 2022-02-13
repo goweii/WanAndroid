@@ -14,7 +14,7 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CloseSecondFloorEvent;
-import per.goweii.wanandroid.event.NotificationEvent;
+import per.goweii.wanandroid.event.MessageCountEvent;
 import per.goweii.wanandroid.module.home.fragment.HomeFragment;
 import per.goweii.wanandroid.module.main.adapter.MainTabAdapter;
 import per.goweii.wanandroid.module.main.model.TabEntity;
@@ -25,8 +25,10 @@ public class MainFragment extends BaseFragment {
 
     @BindView(R.id.vp_tab)
     ViewPager vp_tab;
-    @BindView(R.id.ll_bb)
-    LinearLayout ll_bb;
+    @BindView(R.id.ll_bottom_bar)
+    LinearLayout ll_bottom_bar;
+    //@BindView(R.id.bvef)
+    //BackdropVisualEffectView bvef;
 
     private TabFragmentPagerAdapter.Page<TabEntity> mMinePage;
     private TabFragmentPagerAdapter<TabEntity> mTabFragmentPagerAdapter;
@@ -36,7 +38,7 @@ public class MainFragment extends BaseFragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onNotificationEvent(NotificationEvent event) {
+    public void onMessageCountEvent(MessageCountEvent event) {
         if (isDetached()) return;
         mMinePage.getData().setMsgCount(event.getCount());
         mTabFragmentPagerAdapter.notifyPageDataChanged();
@@ -60,7 +62,7 @@ public class MainFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        mTabFragmentPagerAdapter = new TabFragmentPagerAdapter<>(getChildFragmentManager(), vp_tab, ll_bb, R.layout.tab_item_main);
+        mTabFragmentPagerAdapter = new TabFragmentPagerAdapter<>(getChildFragmentManager(), vp_tab, ll_bottom_bar, R.layout.tab_item_main);
         mMinePage = new TabFragmentPagerAdapter.Page<>(MineFragment.create(), new TabEntity("我的", R.drawable.ic_bottom_bar_mine, -1), new MainTabAdapter());
         mTabFragmentPagerAdapter.setPages(
                 new TabFragmentPagerAdapter.Page<>(HomeFragment.create(), new TabEntity("首页", R.drawable.ic_bottom_bar_home, -1), new MainTabAdapter()),
@@ -82,6 +84,10 @@ public class MainFragment extends BaseFragment {
             public void onPageScrollStateChanged(int state) {
             }
         });
+        //bvef.setShowDebugInfo(false);
+        //bvef.setOverlayColor(ResUtils.getThemeColor(bvef, R.attr.colorBottomBarOverlay));
+        //bvef.setSimpleSize(8);
+        //bvef.setVisualEffect(new RSBlurEffect(getContext(), 8));
     }
 
     @Override

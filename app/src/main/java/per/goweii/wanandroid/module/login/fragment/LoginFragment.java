@@ -12,11 +12,9 @@ import butterknife.OnClick;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.InputMethodUtils;
-import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.module.login.activity.AuthActivity;
-import per.goweii.wanandroid.module.login.dialog.EmailInputDialog;
 import per.goweii.wanandroid.module.login.model.UserEntity;
 import per.goweii.wanandroid.module.login.presenter.LoginPresenter;
 import per.goweii.wanandroid.module.login.view.LoginView;
@@ -140,16 +138,5 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
     @Override
     public void loginFailed(int code, String msg) {
         ToastMaker.showShort(msg);
-    }
-
-    @Override
-    public void getEmailAndThenRegisterCms(int wanid, String username, String password, boolean isBiometric) {
-        new EmailInputDialog(getContext(), new SimpleCallback<String>() {
-            @Override
-            public void onResult(String data) {
-                InputMethodUtils.hide(sv_login);
-                presenter.cmsRegister(wanid, data, username, password, isBiometric);
-            }
-        }).show();
     }
 }

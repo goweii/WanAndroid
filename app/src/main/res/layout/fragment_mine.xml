@@ -122,26 +122,6 @@
 
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/ll_user_signature"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ll_user_level_ranking"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dp"
-                        android:alpha="0.8"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/tv_user_signature"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="?colorOnMainOrSurface"
-                            android:textSize="@dimen/text_notes"
-                            tools:text="写个签名鼓励下自己吧" />
-
-                    </LinearLayout>
-
                 </RelativeLayout>
 
                 <LinearLayout

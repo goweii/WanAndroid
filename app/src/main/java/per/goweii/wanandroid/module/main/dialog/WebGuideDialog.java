@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
+
 import per.goweii.anylayer.Layer;
 import per.goweii.anylayer.dialog.DialogLayer;
 import per.goweii.wanandroid.R;
@@ -18,24 +20,24 @@ public class WebGuideDialog extends DialogLayer {
 
     public WebGuideDialog(Context context) {
         super(context);
-        contentView(R.layout.dialog_web_guide)
-                .backgroundDimDefault()
-                .cancelableOnClickKeyBack(false)
-                .cancelableOnTouchOutside(false)
-                .animStyle(AnimStyle.ALPHA)
-                .onClick(new Layer.OnClickListener() {
-                    @Override
-                    public void onClick(Layer layer, View v) {
-                        layer.dismiss();
-                    }
-                }, R.id.dialog_web_guide_tv_know);
+        setContentView(R.layout.dialog_web_guide);
+        setBackgroundDimDefault();
+        setCancelableOnClickKeyBack(false);
+        setCancelableOnTouchOutside(false);
+        setAnimStyle(AnimStyle.ALPHA);
+        addOnClickListener(new Layer.OnClickListener() {
+            @Override
+            public void onClick(@NonNull Layer layer, @NonNull View v) {
+                layer.dismiss();
+            }
+        }, R.id.dialog_web_guide_tv_know);
     }
 
     @Override
     public void onAttach() {
         super.onAttach();
-        ImageView iv_1 = getView(R.id.dialog_web_guide_iv_1);
-        ImageView iv_2 = getView(R.id.dialog_web_guide_iv_2);
+        ImageView iv_1 = requireView(R.id.dialog_web_guide_iv_1);
+        ImageView iv_2 = requireView(R.id.dialog_web_guide_iv_2);
         ValueAnimator animator1 = ValueAnimator.ofFloat(1, 1.5F);
         animator1.setDuration(3000L);
         animator1.setRepeatCount(ValueAnimator.INFINITE);

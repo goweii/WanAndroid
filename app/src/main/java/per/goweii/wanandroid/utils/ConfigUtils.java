@@ -9,7 +9,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
 import per.goweii.basic.utils.SPUtils;
-import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 
 /**
@@ -18,7 +17,6 @@ import per.goweii.wanandroid.module.main.model.ConfigBean;
  * GitHub: https://github.com/goweii
  */
 public class ConfigUtils {
-
     private static final String SP_NAME = "config";
     private static final String KEY_CONFIG = "KEY_CONFIG";
 
@@ -65,21 +63,17 @@ public class ConfigUtils {
         GrayFilterHelper.INSTANCE.refresh();
     }
 
-    public int getTheme() {
+    @Nullable
+    public String getThemeName() {
         ConfigBean configBean = getConfig();
         if (configBean.isEnableAtNow() && !TextUtils.isEmpty(configBean.getTheme())) {
-            switch (configBean.getTheme().toLowerCase()) {
-                case "red":
-                    return R.style.ThemeRed;
-                case "green":
-                    return R.style.ThemeGreen;
-                case "pink":
-                    return R.style.ThemePink;
-                case "gold":
-                    return R.style.ThemeGold;
-            }
+            return configBean.getTheme();
         }
-        return 0;
+        return null;
+    }
+
+    public int getTheme() {
+        return ThemeUtils.getTheme(getThemeName());
     }
 
 }

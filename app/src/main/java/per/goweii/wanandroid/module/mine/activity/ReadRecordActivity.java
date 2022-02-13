@@ -32,13 +32,11 @@ import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.db.model.ReadRecordModel;
 import per.goweii.wanandroid.event.ReadRecordEvent;
-import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.mine.adapter.ReadRecordAdapter;
 import per.goweii.wanandroid.module.mine.presenter.ReadRecordPresenter;
 import per.goweii.wanandroid.module.mine.view.ReadRecordView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvConfigUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 
 /**
@@ -61,23 +59,13 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
     private ReadRecordAdapter mAdapter;
 
     private int offset = 0;
-    private final int perPageCount = 20;
+    private int perPageCount = 20;
 
     private boolean loading = false;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, ReadRecordActivity.class);
         context.startActivity(intent);
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (isDestroyed()) {
-            return;
-        }
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -136,7 +124,6 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ReadRecordAdapter();
         RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

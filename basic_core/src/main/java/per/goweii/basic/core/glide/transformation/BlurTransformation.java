@@ -21,9 +21,9 @@ public class BlurTransformation extends BitmapTransformation {
 
     private static final String ID = BlurTransformation.class.getName();
 
-    private static final float PERCENT = 0.1F;
+    private static float PERCENT = 0.1F;
 
-    private final float percent;
+    private float percent;
 
     public BlurTransformation() {
         this(PERCENT);

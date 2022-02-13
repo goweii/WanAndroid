@@ -33,8 +33,6 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
 
     @BindView(R.id.ll_go_login)
     LinearLayout ll_go_login;
-    @BindView(R.id.piv_register_email)
-    InputView piv_email;
     @BindView(R.id.piv_register_account)
     InputView piv_account;
     @BindView(R.id.piv_register_password)
@@ -92,7 +90,6 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
         super.onActivityCreated(savedInstanceState);
         mActivity.getSoftInputHelper().moveWith(
                 sv_register,
-                piv_email.getEditText(),
                 piv_account.getEditText(),
                 piv_password.getEditText(),
                 piv_password_again.getEditText());
@@ -136,11 +133,6 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
     }
 
     private void register() {
-        String email = piv_email.getText();
-        if (!RegexUtils.matchEmail(email)) {
-            ToastMaker.showShort("邮箱格式不正确");
-            return;
-        }
         String password = piv_password.getText();
         String repassword = piv_password_again.getText();
         if (!TextUtils.equals(password, repassword)) {
@@ -148,7 +140,7 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
             return;
         }
         String username = piv_account.getText();
-        presenter.register(email, username, password, repassword);
+        presenter.register(username, password, repassword);
     }
 
     @Override

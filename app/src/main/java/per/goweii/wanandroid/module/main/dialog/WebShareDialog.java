@@ -21,23 +21,23 @@ public class WebShareDialog {
     public static void show(@NonNull Context context,
                             @NonNull OnShareClickListener listener) {
         AnyLayer.dialog(context)
-                .contentView(R.layout.dialog_web_share)
-                .gravity(Gravity.BOTTOM)
-                .backgroundDimDefault()
-                .swipeDismiss(SwipeLayout.Direction.BOTTOM)
-                .onClickToDismiss(new Layer.OnClickListener() {
-                                      @Override
-                                      public void onClick(Layer layer, View v) {
-                                          switch (v.getId()) {
-                                              default:
-                                                  break;
-                                              case R.id.dialog_web_share_iv_capture:
-                                                  listener.onCapture();
-                                                  break;
-                                              case R.id.dialog_web_share_iv_qrcode:
-                                                  listener.onQrcode();
-                                                  break;
-                                          }
+                .setContentView(R.layout.dialog_web_share)
+                .setGravity(Gravity.BOTTOM)
+                .setBackgroundDimDefault()
+                .setSwipeDismiss(SwipeLayout.Direction.BOTTOM)
+                .addOnClickToDismissListener(new Layer.OnClickListener() {
+                                                 @Override
+                                                 public void onClick(@NonNull Layer layer, @NonNull View v) {
+                                                     switch (v.getId()) {
+                                                         default:
+                                                             break;
+                                                         case R.id.dialog_web_share_iv_capture:
+                                                             listener.onCapture();
+                                                             break;
+                                                         case R.id.dialog_web_share_iv_qrcode:
+                                                             listener.onQrcode();
+                                                             break;
+                                                     }
                                       }
                                   },
                         R.id.dialog_web_share_iv_capture,

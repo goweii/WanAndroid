@@ -31,12 +31,12 @@ class ImagePreviewDialog(
     private var imageMenuDialog: ImageMenuDialog? = null
 
     init {
-        backgroundDimAmount(1F)
-        contentView(R.layout.dialog_image_preview)
-        contentAnimator(object : AnimatorCreator {
+        setBackgroundDimAmount(1F)
+        setContentView(R.layout.dialog_image_preview)
+        setContentAnimator(object : AnimatorCreator {
             override fun createInAnimator(target: View): Animator {
-                val ll_bar = getView<LinearLayout>(R.id.dialog_image_preview_ll_bar)!!
-                val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
+                val ll_bar = requireView<LinearLayout>(R.id.dialog_image_preview_ll_bar)
+                val dl = requireView<SwipeLayout>(R.id.dialog_image_preview_dl)
                 return AnimatorSet().apply {
                     playTogether(
                             AnimatorHelper.createTopInAnim(ll_bar),
@@ -46,8 +46,8 @@ class ImagePreviewDialog(
             }
 
             override fun createOutAnimator(target: View): Animator {
-                val ll_bar = getView<LinearLayout>(R.id.dialog_image_preview_ll_bar)!!
-                val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
+                val ll_bar = requireView<LinearLayout>(R.id.dialog_image_preview_ll_bar)
+                val dl = requireView<SwipeLayout>(R.id.dialog_image_preview_dl)
                 return AnimatorSet().apply {
                     playTogether(
                             AnimatorHelper.createTopOutAnim(ll_bar),
@@ -58,11 +58,11 @@ class ImagePreviewDialog(
         })
     }
 
-    private val ll_bar by lazy { getView<LinearLayout>(R.id.dialog_image_preview_ll_bar)!! }
-    private val iv_close by lazy { getView<ImageView>(R.id.dialog_image_preview_iv_close)!! }
-    private val ipv by lazy { getView<ImagePreviewView>(R.id.dialog_image_preview_pv)!! }
-    private val dl by lazy { getView<SwipeLayout>(R.id.dialog_image_preview_dl)!! }
-    private val tv_tip by lazy { getView<TextView>(R.id.dialog_image_preview_tv_tip)!! }
+    private val ll_bar by lazy { requireView<LinearLayout>(R.id.dialog_image_preview_ll_bar) }
+    private val iv_close by lazy { requireView<ImageView>(R.id.dialog_image_preview_iv_close) }
+    private val ipv by lazy { requireView<ImagePreviewView>(R.id.dialog_image_preview_pv) }
+    private val dl by lazy { requireView<SwipeLayout>(R.id.dialog_image_preview_dl) }
+    private val tv_tip by lazy { requireView<TextView>(R.id.dialog_image_preview_tv_tip) }
 
     @SuppressLint("ClickableViewAccessibility", "SetTextI18n")
     override fun onAttach() {
@@ -77,21 +77,21 @@ class ImagePreviewDialog(
 
             override fun onTouching1() {
                 if (ipv.isShown) {
-                    val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
+                    val dl = requireView<SwipeLayout>(R.id.dialog_image_preview_dl)
                     dl.setSwipeDirection(SwipeLayout.Direction.BOTTOM)
                 }
             }
 
             override fun onTouching2() {
                 if (ipv.isShown) {
-                    val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
+                    val dl = requireView<SwipeLayout>(R.id.dialog_image_preview_dl)
                     dl.setSwipeDirection(0)
                 }
             }
 
             override fun onTouchingUp() {
                 if (ipv.isShown) {
-                    val dl = getView<SwipeLayout>(R.id.dialog_image_preview_dl)!!
+                    val dl = requireView<SwipeLayout>(R.id.dialog_image_preview_dl)
                     dl.setSwipeDirection(SwipeLayout.Direction.BOTTOM)
                 }
             }
@@ -137,7 +137,7 @@ class ImagePreviewDialog(
             }
 
             override fun onSwiping(direction: Int, fraction: Float) {
-                background.alpha = 1F - fraction
+                viewHolder.background.alpha = 1F - fraction
                 ll_bar.translationY = -ll_bar.bottom * fraction
             }
 

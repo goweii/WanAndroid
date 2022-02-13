@@ -9,6 +9,10 @@
     <color name="theme_green_color_accent">#ff9f1c</color>
     <color name="theme_green_color_assist">#4282f4</color>
 
+    <style name="AppTheme.Main.Green">
+        <item name="android:windowBackground">@drawable/splash_bg_green</item>
+    </style>
+
     <style name="ThemeGreen">
         <item name="colorPrimary">@color/theme_green_color_primary</item>
         <item name="colorAccent">@color/theme_green_color_primary</item>

@@ -9,6 +9,10 @@
     <color name="theme_red_color_accent">#ff9f1c</color>
     <color name="theme_red_color_assist">#27AE60</color>
 
+    <style name="AppTheme.Main.Red">
+        <item name="android:windowBackground">@drawable/splash_bg_red</item>
+    </style>
+
     <style name="ThemeRed">
         <item name="colorPrimary">@color/theme_red_color_primary</item>
         <item name="colorAccent">@color/theme_red_color_primary</item>

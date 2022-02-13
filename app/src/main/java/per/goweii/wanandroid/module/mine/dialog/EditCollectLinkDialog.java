@@ -25,24 +25,24 @@ public class EditCollectLinkDialog {
 
     public static void show(Context context, CollectionLinkBean data, SimpleCallback<CollectionLinkBean> callback) {
         AnyLayer.dialog(context)
-                .contentView(R.layout.dialog_edit_collect_link)
-                .swipeDismiss(SwipeLayout.Direction.BOTTOM)
-                .compatSoftInput(true, R.id.dialog_edit_collect_link_et_title)
-                .compatSoftInput(true, R.id.dialog_edit_collect_link_et_link)
-                .backgroundDimDefault()
-                .cancelableOnClickKeyBack(true)
-                .cancelableOnTouchOutside(true)
-                .gravity(Gravity.BOTTOM)
-                .bindData(new Layer.DataBinder() {
+                .setContentView(R.layout.dialog_edit_collect_link)
+                .setSwipeDismiss(SwipeLayout.Direction.BOTTOM)
+                .addSoftInputCompat(true, R.id.dialog_edit_collect_link_et_title)
+                .addSoftInputCompat(true, R.id.dialog_edit_collect_link_et_link)
+                .setBackgroundDimDefault()
+                .setCancelableOnClickKeyBack(true)
+                .setCancelableOnTouchOutside(true)
+                .setGravity(Gravity.BOTTOM)
+                .addOnBindDataListener(new Layer.OnBindDataListener() {
                     @Override
-                    public void bindData(@NonNull Layer layer) {
+                    public void onBindData(@NonNull Layer layer) {
                         EditText et_title = layer.requireView(R.id.dialog_edit_collect_link_et_title);
                         EditText et_link = layer.requireView(R.id.dialog_edit_collect_link_et_link);
                         EditTextUtils.setTextWithSelection(et_title, data.getName());
                         EditTextUtils.setTextWithSelection(et_link, data.getLink());
                     }
                 })
-                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
+                .addOnVisibleChangeListener(new Layer.OnVisibleChangedListener() {
                     @Override
                     public void onShow(@NonNull Layer layer) {
                         EditText et_title = layer.requireView(R.id.dialog_edit_collect_link_et_title);
@@ -68,8 +68,8 @@ public class EditCollectLinkDialog {
                         InputMethodUtils.hide(et_link);
                     }
                 })
-                .onClickToDismiss(R.id.dialog_edit_collect_link_tv_no)
-                .onClickToDismiss(new Layer.OnClickListener() {
+                .addOnClickToDismissListener(R.id.dialog_edit_collect_link_tv_no)
+                .addOnClickToDismissListener(new Layer.OnClickListener() {
                     @Override
                     public void onClick(@NonNull Layer layer, @NonNull View v) {
                         EditText et_title = layer.requireView(R.id.dialog_edit_collect_link_et_title);

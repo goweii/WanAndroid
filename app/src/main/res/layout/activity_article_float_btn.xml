@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="0dp"
-    android:layout_above="@+id/v_bottom_bar_stub"
+    android:layout_alignParentBottom="true"
+    android:layout_marginBottom="@dimen/bottom_bar_height"
     android:layout_below="@+id/ab"
-    android:orientation="vertical"
-    tools:showIn="@layout/activity_article_content">
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:id="@+id/rl_icon_share"

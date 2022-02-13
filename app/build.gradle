@@ -13,7 +13,7 @@ android {
         renderscriptTargetApi rootProject.ext.android.minSdkVersion
         renderscriptSupportModeEnabled true
         ndk {
-            abiFilters /*'armeabi',*/'armeabi-v7a','arm64-v8a'
+            abiFilters /*'armeabi',*/ 'armeabi-v7a', 'arm64-v8a'
         }
         javaCompileOptions {
             annotationProcessorOptions {
@@ -21,26 +21,28 @@ android {
             }
         }
     }
-    buildTypes {
-        release {
-            shrinkResources false
-        }
-        debug {
-            shrinkResources false
-        }
-    }
     signingConfigs {
         release {
             storeFile file(properties.getProperty('KEYSTORE_FILE'))
-            storePassword properties.getProperty('KEYSTORE_PASSWORD')
+            storePassword properties.getProperty('KEYSTORE_FILE_PASSWORD')
             keyAlias properties.getProperty('KEYSTORE_ALIAS')
             keyPassword properties.getProperty('KEYSTORE_ALIAS_PASSWORD')
         }
         debug {
             storeFile file(properties.getProperty('KEYSTORE_FILE'))
-            storePassword properties.getProperty('KEYSTORE_PASSWORD')
+            storePassword properties.getProperty('KEYSTORE_FILE_PASSWORD')
             keyAlias properties.getProperty('KEYSTORE_ALIAS')
             keyPassword properties.getProperty('KEYSTORE_ALIAS_PASSWORD')
+        }
+    }
+    buildTypes {
+        release {
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            shrinkResources false
+            signingConfig signingConfigs.debug
         }
     }
     resourcePrefix ""
@@ -62,8 +64,13 @@ bugly {
     debug = true
 }
 
+repositories {
+    flatDir { dirs 'libs'  }
+}
+
 dependencies {
     kapt rootProject.ext.dependencies.butterknifeCompiler
+    implementation rootProject.ext.dependencies.startup
     implementation rootProject.ext.dependencies.cardview
     implementation rootProject.ext.dependencies.flexbox
     implementation rootProject.ext.dependencies.realtimeBlurView

@@ -7,6 +7,8 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
+import per.goweii.wanandroid.module.home.model.ImageBean;
+
 public class AdvertBean {
     private String showMode;
     /**
@@ -18,8 +20,9 @@ public class AdvertBean {
     @Nullable
     private List<String> showAtDate;
     private int duration;
-    private String image;
     private String route;
+    private String image;
+    private List<ImageBean> images;
 
     public String getShowMode() {
         return showMode;
@@ -39,6 +42,9 @@ public class AdvertBean {
     }
 
     public boolean shouldShowAtNow() {
+        if ((images == null || images.isEmpty()) && TextUtils.isEmpty(image)) {
+            return false;
+        }
         List<DateRangeEntity> list = DateRangeEntity.parse(showAtDate);
         if (list == null) {
             return true;
@@ -65,6 +71,14 @@ public class AdvertBean {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public List<ImageBean> getImages() {
+        return images;
+    }
+
+    public void setImages(List<ImageBean> images) {
+        this.images = images;
     }
 
     public String getRoute() {

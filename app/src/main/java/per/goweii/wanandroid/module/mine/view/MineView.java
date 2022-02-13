@@ -13,5 +13,5 @@ public interface MineView extends BaseView {
 
     void getUserInfoFail(int code, String msg);
 
-    void getNotificationCountSuccess(int count);
+    void getMessageUnreadCountSuccess(int count);
 }

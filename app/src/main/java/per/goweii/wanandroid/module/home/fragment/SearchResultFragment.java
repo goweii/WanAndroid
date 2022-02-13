@@ -21,15 +21,12 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
-import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.home.presenter.SearchResultPresenter;
 import per.goweii.wanandroid.module.home.view.SearchResultView;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvConfigUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
@@ -57,16 +54,6 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     public static SearchResultFragment create() {
         return new SearchResultFragment();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (isDetached()) {
-            return;
-        }
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -109,8 +96,6 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override
@@ -151,12 +136,26 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
 
     @Override
     protected void loadData() {
+        MultiStateUtils.toLoading(msv);
+    }
+
+    public void clear() {
+        if (!isAdded()) return;
+        mKey = null;
+        currPage = PAGE_START;
+        MultiStateUtils.toLoading(msv);
+        if (mAdapter != null) {
+            mAdapter.setNewData(null, false);
+        }
     }
 
     public void search(String key) {
         if (!isAdded()) return;
         mKey = key;
         currPage = PAGE_START;
+        if (!MultiStateUtils.isContent(msv)) {
+            MultiStateUtils.toLoading(msv);
+        }
         presenter.search(currPage, key);
     }
 

@@ -23,7 +23,6 @@ import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.ScrollTopEvent;
-import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
@@ -31,9 +30,7 @@ import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.wxarticle.presenter.WxArticlePresenter;
 import per.goweii.wanandroid.module.wxarticle.view.WxArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
-import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -94,16 +91,6 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (isDetached()) {
-            return;
-        }
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onScrollTopEvent(ScrollTopEvent event) {
         if (!getClass().equals(event.getClazz())) {
             return;
@@ -151,8 +138,6 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         });
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
-        RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
             @Override

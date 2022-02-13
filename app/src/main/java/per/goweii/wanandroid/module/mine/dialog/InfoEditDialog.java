@@ -54,16 +54,16 @@ public class InfoEditDialog {
 
     public void show(SimpleCallback<String> callback) {
         AnyLayer.dialog(mContext)
-                .contentView(R.layout.dialog_info_edit)
-                .swipeDismiss(SwipeLayout.Direction.BOTTOM)
-                .compatSoftInput(true)
-                .backgroundDimDefault()
-                .cancelableOnClickKeyBack(true)
-                .cancelableOnTouchOutside(true)
-                .gravity(Gravity.BOTTOM)
-                .bindData(new Layer.DataBinder() {
+                .setContentView(R.layout.dialog_info_edit)
+                .setSwipeDismiss(SwipeLayout.Direction.BOTTOM)
+                .addSoftInputCompat(true)
+                .setBackgroundDimDefault()
+                .setCancelableOnClickKeyBack(true)
+                .setCancelableOnTouchOutside(true)
+                .setGravity(Gravity.BOTTOM)
+                .addOnBindDataListener(new Layer.OnBindDataListener() {
                     @Override
-                    public void bindData(@NonNull Layer layer) {
+                    public void onBindData(@NonNull Layer layer) {
                         if (!TextUtils.isEmpty(mTitle)) {
                             TextView tv_title = layer.requireView(R.id.dialog_info_edit_tv_title);
                             tv_title.setText(mTitle);
@@ -75,7 +75,7 @@ public class InfoEditDialog {
                         }
                     }
                 })
-                .onVisibleChangeListener(new Layer.OnVisibleChangeListener() {
+                .addOnVisibleChangeListener(new Layer.OnVisibleChangedListener() {
                     @Override
                     public void onShow(@NonNull Layer layer) {
                         EditText et_input = layer.requireView(R.id.dialog_info_edit_et_input);
@@ -96,8 +96,8 @@ public class InfoEditDialog {
                         InputMethodUtils.hide(et_input);
                     }
                 })
-                .onClickToDismiss(R.id.dialog_info_edit_tv_no)
-                .onClickToDismiss(new Layer.OnClickListener() {
+                .addOnClickToDismissListener(R.id.dialog_info_edit_tv_no)
+                .addOnClickToDismissListener(new Layer.OnClickListener() {
                     @Override
                     public void onClick(@NonNull Layer layer, @NonNull View v) {
                         EditText et_input = layer.requireView(R.id.dialog_info_edit_et_input);

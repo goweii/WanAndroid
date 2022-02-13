@@ -15,7 +15,6 @@ dependencies {
     api rootProject.ext.dependencies.smartRefreshFooterClassics
     api rootProject.ext.dependencies.bravh
     api rootProject.ext.dependencies.recyclerview
-    api rootProject.ext.dependencies.anyDialog
     api rootProject.ext.dependencies.anyLayer
     api rootProject.ext.dependencies.actionBarEx
     api rootProject.ext.dependencies.percentImageView
@@ -24,6 +23,12 @@ dependencies {
     api rootProject.ext.dependencies.magicIndicator
     api rootProject.ext.dependencies.materialProgressBar
     api rootProject.ext.dependencies.shadowLayout
+    api rootProject.ext.dependencies.blurred
+    api rootProject.ext.dependencies.visualeffectCore
+    api rootProject.ext.dependencies.visualeffectView
+    api rootProject.ext.dependencies.visualeffectBlur
+
+    implementation 'com.github.woxingxiao:BounceScrollView:1.5-androidx'
 }
 repositories {
     mavenCentral()

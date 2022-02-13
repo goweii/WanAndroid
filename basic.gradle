@@ -36,11 +36,6 @@ android {
     kotlinOptions {
         jvmTarget = rootProject.ext.kotlinOptions.jvmTarget
     }
-    sourceSets {
-        main {
-            jniLibs.srcDirs = ['libs']
-        }
-    }
     resourcePrefix project.name + "_"
 }
 
@@ -52,11 +47,4 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_version"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
-}
-
-repositories {
-    flatDir {
-        dirs 'libs'
-    }
-    mavenCentral()
 }

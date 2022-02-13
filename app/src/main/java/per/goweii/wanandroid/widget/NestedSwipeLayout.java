@@ -33,16 +33,32 @@ public class NestedSwipeLayout extends SwipeLayout implements ScrollingView {
         switch (edge) {
             case Top:
                 if (direction < 0) {
-                    return state != Status.Close;
+                    if (state == Status.Close) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else if (direction > 0) {
-                    return state != Status.Open;
+                    if (state == Status.Open) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
                 break;
             case Bottom:
                 if (direction < 0) {
-                    return state != Status.Open;
+                    if (state == Status.Open) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else if (direction > 0) {
-                    return state != Status.Close;
+                    if (state == Status.Close) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
                 break;
         }
@@ -56,16 +72,32 @@ public class NestedSwipeLayout extends SwipeLayout implements ScrollingView {
         switch (edge) {
             case Left:
                 if (direction < 0) {
-                    return state != Status.Close;
+                    if (state == Status.Close) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else if (direction > 0) {
-                    return state != Status.Open;
+                    if (state == Status.Open) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
                 break;
             case Right:
                 if (direction < 0) {
-                    return state != Status.Open;
+                    if (state == Status.Open) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 } else if (direction > 0) {
-                    return state != Status.Close;
+                    if (state == Status.Close) {
+                        return false;
+                    } else {
+                        return true;
+                    }
                 }
                 break;
         }

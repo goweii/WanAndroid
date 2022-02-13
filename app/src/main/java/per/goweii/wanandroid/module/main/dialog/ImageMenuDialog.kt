@@ -64,15 +64,15 @@ class ImageMenuDialog(
     }
 
     init {
-        backgroundDimAmount(0.3F)
-        contentView(R.layout.dialog_image_menu)
-        swipeDismiss(SwipeLayout.Direction.BOTTOM)
-        gravity(Gravity.BOTTOM)
-        onClickToDismiss(R.id.dialog_image_menu_iv_dismiss)
+        setBackgroundDimAmount(0.3F)
+        setContentView(R.layout.dialog_image_menu)
+        setSwipeDismiss(SwipeLayout.Direction.BOTTOM)
+        setGravity(Gravity.BOTTOM)
+        addOnClickToDismissListener(R.id.dialog_image_menu_iv_dismiss)
     }
 
-    private val tv_save by lazy { getView<TextView>(R.id.dialog_image_menu_tv_save)!! }
-    private val tv_qrcode by lazy { getView<TextView>(R.id.dialog_image_menu_tv_qrcode)!! }
+    private val tv_save by lazy { requireView<TextView>(R.id.dialog_image_menu_tv_save) }
+    private val tv_qrcode by lazy { requireView<TextView>(R.id.dialog_image_menu_tv_qrcode) }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onAttach() {

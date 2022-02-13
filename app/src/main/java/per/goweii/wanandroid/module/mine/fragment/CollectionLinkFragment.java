@@ -30,7 +30,6 @@ import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.event.CollectionEvent;
-import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.mine.adapter.CollectionLinkAdapter;
 import per.goweii.wanandroid.module.mine.dialog.EditCollectLinkDialog;
@@ -39,7 +38,6 @@ import per.goweii.wanandroid.module.mine.view.CollectionLinkView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvConfigUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 
 /**
@@ -85,16 +83,6 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onSettingChangeEvent(SettingChangeEvent event) {
-        if (isDetached()) {
-            return;
-        }
-        if (event.isRvAnimChanged()) {
-            RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
-        }
-    }
-
     @Override
     protected boolean isRegisterEventBus() {
         return true;
@@ -124,7 +112,6 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
         rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new CollectionLinkAdapter();
         RvConfigUtils.init(mAdapter);
-        RvConfigUtils.setAnim(mAdapter, SettingUtils.getInstance().getRvAnim());
         mAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
