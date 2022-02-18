@@ -54,7 +54,11 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
 
     @Override
     public void setNewData(@Nullable List<ArticleBean> data) {
-        setNewData(data, true);
+        if (data == null || data.isEmpty()) {
+            setNewData(null, false);
+        } else {
+            setNewData(data, true);
+        }
     }
 
     public void setNewData(@Nullable List<ArticleBean> data, boolean useDiff) {

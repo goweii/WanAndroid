@@ -166,7 +166,7 @@ public class SearchResultFragment extends BaseFragment<SearchResultPresenter> im
             mAdapter.setNewData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
-                MultiStateUtils.toEmpty(msv);
+                MultiStateUtils.toEmpty(msv, true);
             } else {
                 MultiStateUtils.toContent(msv);
             }
