@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item>
-        <bitmap
-            android:alpha="0.382"
-            android:gravity="center"
-            android:src="@drawable/image_holder"
-            android:tint="#ffffff" />
-    </item>
-
-</layer-list>
+<bitmap xmlns:android="http://schemas.android.com/apk/res/android"
+    android:alpha="0.382"
+    android:gravity="center"
+    android:src="@drawable/image_holder"
+    android:tint="#ffffff" />

@@ -36,6 +36,10 @@ public class ShiciRefreshHeader extends SimpleComponent implements RefreshHeader
     private final Drawable successDrawable;
     private final Drawable failureDrawable;
 
+    static {
+        ShiciRefreshHolder.instance().refresh();
+    }
+
     private String textPulling() {
         String shici = ShiciRefreshHolder.instance().get();
         if (!TextUtils.isEmpty(shici)) return shici;

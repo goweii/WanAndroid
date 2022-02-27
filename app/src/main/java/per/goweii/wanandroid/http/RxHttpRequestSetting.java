@@ -8,6 +8,7 @@ import com.franmontiel.persistentcookiejar.PersistentCookieJar;
 import java.util.HashMap;
 import java.util.Map;
 
+import okhttp3.CacheControl;
 import okhttp3.OkHttpClient;
 import per.goweii.basic.core.common.Config;
 import per.goweii.basic.utils.DebugUtils;
@@ -48,7 +49,7 @@ public class RxHttpRequestSetting extends DefaultRequestSetting {
     @Override
     public Map<String, String> getStaticHeaderParameter() {
         Map<String, String> map = new HashMap<>(1);
-        map.put("HeaderParameterHolder", "Nothing");
+        map.put("Cache-Control", CacheControl.FORCE_NETWORK.toString());
         return map;
     }
 
