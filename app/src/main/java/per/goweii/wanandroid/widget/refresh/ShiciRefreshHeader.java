@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.scwang.smart.drawable.ProgressDrawable;
 import com.scwang.smart.refresh.classics.ArrowDrawable;
@@ -35,6 +36,8 @@ public class ShiciRefreshHeader extends SimpleComponent implements RefreshHeader
     private final ProgressDrawable progressDrawable;
     private final Drawable successDrawable;
     private final Drawable failureDrawable;
+
+    private RefreshState mCurState = RefreshState.None;
 
     static {
         ShiciRefreshHolder.instance().refresh();
@@ -113,6 +116,16 @@ public class ShiciRefreshHeader extends SimpleComponent implements RefreshHeader
         failureDrawable.setTint(color);
     }
 
+    public void setTextAndHideIcon(@Nullable String text) {
+        progressDrawable.stop();
+        imageView.setImageResource(android.R.color.transparent);
+        textView.setText(text);
+    }
+
+    public void restoreToCurrState() {
+        updateByState(mCurState);
+    }
+
     @Override
     public int onFinish(@NonNull RefreshLayout layout, boolean success) {
         if (success) {
@@ -128,7 +141,12 @@ public class ShiciRefreshHeader extends SimpleComponent implements RefreshHeader
 
     @Override
     public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
+        mCurState = newState;
         super.onStateChanged(refreshLayout, oldState, newState);
+        updateByState(newState);
+    }
+
+    private void updateByState(@NonNull RefreshState newState) {
         switch (newState) {
             case None:
                 imageView.animate().cancel();

@@ -283,10 +283,12 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
                     abc.getTitleTextView().setAlpha(1F);
                     int color = ResUtils.getThemeColor(abc, R.attr.colorMainOrSurface);
                     abc.setBackgroundColor(color);
+                    rl_user_info.setAlpha(1f);
                 } else {
                     abc.getTitleTextView().setAlpha(0F);
                     int color = ResUtils.getThemeColor(abc, R.attr.colorTransparent);
                     abc.setBackgroundColor(color);
+                    rl_user_info.setAlpha(1f - ((float) Math.abs(offset) / (float) abl.getTotalScrollRange()));
                 }
             }
         });

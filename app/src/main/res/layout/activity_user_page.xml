@@ -53,6 +53,8 @@
                                 android:id="@+id/rl_user_info"
                                 android:layout_width="match_parent"
                                 android:layout_height="260dp"
+                                app:layout_collapseMode="parallax"
+                                app:layout_collapseParallaxMultiplier="0.6"
                                 app:layout_scrollFlags="scroll|enterAlways">
 
                                 <com.makeramen.roundedimageview.RoundedImageView

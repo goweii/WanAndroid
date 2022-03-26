@@ -69,6 +69,7 @@ import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.HomeActionBarEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
+import per.goweii.wanandroid.module.book.fragment.BookFragment;
 import per.goweii.wanandroid.module.home.activity.SearchActivity;
 import per.goweii.wanandroid.module.home.model.BannerBean;
 import per.goweii.wanandroid.module.home.presenter.HomePresenter;
@@ -76,7 +77,6 @@ import per.goweii.wanandroid.module.home.view.HomeView;
 import per.goweii.wanandroid.module.main.activity.ScanActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
-import per.goweii.wanandroid.module.main.fragment.BookmarkFragment;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
@@ -309,7 +309,7 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
         });
     }
 
-    private BookmarkFragment bookmarkFragment = null;
+    private BookFragment bookFragment = null;
     private OnBackPressedCallback onBackPressedCallback = null;
     private BottomDrawerViewOutlineProvider secondFloorOutlineProvider = null;
     private Animator abcAnim = null;
@@ -320,14 +320,14 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
         if (shiciRefreshHeader != null) {
             shiciRefreshHeader.setColor(ResUtils.getThemeColor(getActivity(), R.attr.colorOnMainOrSurface));
         }
-        Fragment fragment = getChildFragmentManager().findFragmentByTag(BookmarkFragment.class.getName());
+        Fragment fragment = getChildFragmentManager().findFragmentByTag(BookFragment.class.getName());
         if (fragment == null) {
-            bookmarkFragment = new BookmarkFragment();
+            bookFragment = new BookFragment();
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-            ft.add(R.id.fl_dl_second_floor, bookmarkFragment, BookmarkFragment.class.getName());
+            ft.add(R.id.fl_dl_second_floor, bookFragment, BookFragment.class.getName());
             ft.commitAllowingStateLoss();
         } else {
-            bookmarkFragment = (BookmarkFragment) fragment;
+            bookFragment = (BookFragment) fragment;
         }
         onBackPressedCallback = new OnBackPressedCallback(false) {
             @Override
@@ -372,9 +372,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                 }
                 v_dl_content_mask.setClickable(false);
                 dl.setDraggable(false);
-                if (bookmarkFragment != null) {
+                if (bookFragment != null) {
                     getChildFragmentManager().beginTransaction()
-                            .hide(bookmarkFragment)
+                            .hide(bookFragment)
                             .commitAllowingStateLoss();
                 }
                 iv_second_floor_background.setAutoMove(false);
@@ -460,6 +460,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                             abcAnim = ObjectAnimator.ofFloat(abc, "translationY",
                                     abc.getTranslationY(), -abc.getHeight());
                             abcAnim.start();
+                            if (shiciRefreshHeader != null) {
+                                shiciRefreshHeader.setTextAndHideIcon("释放进入书籍教程");
+                            }
                         }
                     } else {
                         if (isSecondFloor) {
@@ -470,6 +473,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                             abcAnim = ObjectAnimator.ofFloat(abc, "translationY",
                                     abc.getTranslationY(), 0);
                             abcAnim.start();
+                            if (shiciRefreshHeader != null) {
+                                shiciRefreshHeader.restoreToCurrState();
+                            }
                         }
                     }
                 }
@@ -490,9 +496,9 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                     srl.closeHeaderOrFooter();
                     srl.finishRefresh();
                     dl.close(300);
-                    if (bookmarkFragment != null) {
+                    if (bookFragment != null) {
                         getChildFragmentManager().beginTransaction()
-                                .show(bookmarkFragment)
+                                .show(bookFragment)
                                 .commitAllowingStateLoss();
                     }
                 }

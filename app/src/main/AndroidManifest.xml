@@ -213,6 +213,10 @@
             android:name=".module.mine.activity.UserInfoActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".module.book.activity.BookIntroActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
+            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
