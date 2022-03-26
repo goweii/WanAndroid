@@ -30,6 +30,7 @@ import per.goweii.wanandroid.module.navigation.model.NaviBean;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -40,6 +41,8 @@ import retrofit2.http.Query;
  * GitHub: https://github.com/goweii
  */
 public class WanApi extends Api {
+    private static final String HEADER_USER_AGENT =
+            "User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36";
 
     public static ApiService api() {
         return api(ApiService.class);
@@ -67,25 +70,32 @@ public class WanApi extends Api {
         @GET("https://v2.jinrishici.com/sentence")
         Observable<WanResponse<JinrishiciBean>> getJinrishici(@retrofit2.http.Header("X-User-Token") String token);
 
-        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/web/article.json")
+        @GET("https://goweii.gitee.io/wanandroidserver/web/article.json")
+        @retrofit2.http.Headers({ HEADER_USER_AGENT })
         Observable<WanResponse<List<WebArticleUrlRegexBean>>> getWebArticleUrlRegex();
 
-        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/update/update.json")
+        @GET("https://goweii.gitee.io/wanandroidserver/update/update.json")
+        @retrofit2.http.Headers({ HEADER_USER_AGENT })
         Observable<WanResponse<UpdateBean>> update();
 
-        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/about/about_me.json")
+        @GET("https://goweii.gitee.io/wanandroidserver/about/about_me.json")
+        @retrofit2.http.Headers({ HEADER_USER_AGENT })
         Observable<WanResponse<AboutMeBean>> getAboutMe();
 
-        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/config/config.json")
+        @GET("https://goweii.gitee.io/wanandroidserver/config/config.json")
+        @retrofit2.http.Headers({ HEADER_USER_AGENT })
         Observable<WanResponse<ConfigBean>> getConfig();
 
-        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/advert/advert.json")
+        @GET("https://goweii.gitee.io/wanandroidserver/advert/advert.json")
+        @retrofit2.http.Headers({ HEADER_USER_AGENT })
         Observable<WanResponse<AdvertBean>> getAdvert();
 
-        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/update/beta/update.json")
+        @GET("https://goweii.gitee.io/wanandroidserver/update/beta/update.json")
+        @retrofit2.http.Headers({ HEADER_USER_AGENT })
         Observable<WanResponse<UpdateBean>> betaUpdate();
 
-        @GET("https://gitee.com/goweii/WanAndroidServer/raw/master/update/beta/users.json")
+        @GET("https://goweii.gitee.io/wanandroidserver/update/beta/users.json")
+        @retrofit2.http.Headers({ HEADER_USER_AGENT })
         Observable<WanResponse<List<BetaUserBean>>> betaUsers();
 
         /**

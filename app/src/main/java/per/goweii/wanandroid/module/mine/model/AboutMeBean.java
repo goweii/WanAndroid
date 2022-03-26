@@ -16,8 +16,8 @@ public class AboutMeBean extends BaseBean {
      * jianshu : https://www.jianshu.com/u/78fecab193fa
      * qq : 302833254
      * qq_group : 147715512
-     * qq_qrcode : https://raw.githubusercontent.com/goweii/WanAndroidServer/master/about/qq_qrcode.png
-     * wx_qrcode : https://raw.githubusercontent.com/goweii/WanAndroidServer/master/about/wx_qrcode.png
+     * qq_qrcode : https://goweii.gitee.io/wanandroidserver/about/qq_qrcode.png
+     * wx_qrcode : https://goweii.gitee.io/wanandroidserver/about/wx_qrcode.png
      */
 
     private String icon;

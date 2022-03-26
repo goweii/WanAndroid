@@ -11,7 +11,7 @@ import java.util.regex.Pattern
  */
 object CssStyleManager {
     private const val styleRegex = "(<style[\\s\\S]*?>)([\\s\\S]*?)(</style>)"
-    private const val url = "https://gitee.com/goweii/WanAndroidServer/raw/master/web/css/"
+    private const val url = "https://goweii.gitee.io/wanandroidserver/web/css/"
 
     private val cache = hashMapOf<String, String>()
     private val updateTime = hashMapOf<String, Long>()
