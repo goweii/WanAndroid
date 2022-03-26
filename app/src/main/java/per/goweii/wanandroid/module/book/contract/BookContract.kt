@@ -56,7 +56,6 @@ class BookPresenter : BasePresenter<BookView>() {
                 try {
                     list.add(parseBookBean(it))
                 } catch (unused: Throwable) {
-                    unused.printStackTrace()
                 }
             }
         return@withContext list
