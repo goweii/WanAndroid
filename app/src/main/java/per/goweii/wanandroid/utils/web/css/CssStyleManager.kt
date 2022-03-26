@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.utils.web.css
 
 import per.goweii.basic.utils.file.CacheUtils
+import per.goweii.wanandroid.common.Constant
 import per.goweii.wanandroid.utils.web.interceptor.WebHttpClient
 import java.io.File
 import java.util.regex.Pattern
@@ -94,7 +95,10 @@ object CssStyleManager {
     }
 
     private fun getFromNet(name: String): String? {
-        val call = WebHttpClient.request("${url}${name}.css")
+        val call = WebHttpClient.request(
+            url = "${url}${name}.css",
+            userAgent = Constant.BROWSER_UA,
+        )
         return try {
             val response = call.execute()
             if (response.isSuccessful) {
