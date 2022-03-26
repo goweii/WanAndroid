@@ -1,11 +1,3 @@
-------
-
-**APP功能已基本完善且趋于稳定，无重大BUG和需求将持续暂停更新~**
-
-------
-
-
-
 # WanAndroid
 
 [WanAndroid](https://www.wanandroid.com/)|最美玩安卓客户端
@@ -44,7 +36,6 @@
 
 # APP下载
 
-- [酷安下载](https://www.coolapk.com/apk/231591)
 - [GitHub下载](https://github.com/goweii/WanAndroid/releases)
 
 
