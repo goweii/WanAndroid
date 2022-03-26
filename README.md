@@ -1,3 +1,6 @@
+# **‼️因APP更新接口失效，已安装的同学请手动下载安装[最新版](https://www.wanandroid.com/blogimgs/fc21e778-31b5-4641-8593-8440814ce2a1.apk)**
+
+
 # WanAndroid
 
 [WanAndroid](https://www.wanandroid.com/)|最美玩安卓客户端
