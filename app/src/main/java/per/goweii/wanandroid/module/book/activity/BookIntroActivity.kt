@@ -6,9 +6,13 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.appbar.AppBarLayout.OnOffsetChangedListener
 import kotlinx.android.synthetic.main.activity_book_intro.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.utils.ResUtils
 import per.goweii.wanandroid.R
+import per.goweii.wanandroid.event.ReadRecordAddedEvent
+import per.goweii.wanandroid.event.ReadRecordUpdateEvent
 import per.goweii.wanandroid.module.book.adapter.BookChapterAdapter
 import per.goweii.wanandroid.module.book.bean.BookIntroBean
 import per.goweii.wanandroid.module.book.contract.BookIntroPresenter
@@ -74,6 +78,36 @@ class BookIntroActivity : BaseActivity<BookIntroPresenter>(), BookIntroView {
         MultiStateUtils.toLoading(msv)
         msv_list.visibility = View.GONE
         presenter.getIntro(mLink)
+    }
+
+    override fun isRegisterEventBus(): Boolean = true
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onReadRecordAddedEvent(event: ReadRecordAddedEvent) {
+        kotlin.run {
+            mAdapter.data.forEachIndexed { index, bookChapterBean ->
+                if (bookChapterBean.link == event.readRecordModel.link) {
+                    bookChapterBean.time = event.readRecordModel.time
+                    bookChapterBean.percent = event.readRecordModel.percentFloat
+                    mAdapter.notifyItemChanged(index)
+                    return@run
+                }
+            }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onReadRecordUpdateEvent(event: ReadRecordUpdateEvent) {
+        kotlin.run {
+            mAdapter.data.forEachIndexed { index, bookChapterBean ->
+                if (bookChapterBean.link == event.link) {
+                    bookChapterBean.time = event.time
+                    bookChapterBean.percent = event.percent
+                    mAdapter.notifyItemChanged(index)
+                    return@run
+                }
+            }
+        }
     }
 
     override fun getBookIntroSuccess(bean: BookIntroBean) {

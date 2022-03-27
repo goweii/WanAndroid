@@ -224,7 +224,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     @Override
                     public void onReceivedTitle(@NonNull String title) {
                         updateTitle();
-                        presenter.readRecord(mWebHolder.getUrl(), mWebHolder.getTitle());
+                        presenter.addReadRecord(mWebHolder.getUrl(), mWebHolder.getTitle(), mWebHolder.getPercent());
                     }
                 })
                 .setOnPageLoadCallback(new WebHolder.OnPageLoadCallback() {
@@ -271,6 +271,12 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                 if (isReadLater()) {
                     presenter.deleteReadLater(mWebHolder.getUrl());
                 }
+            }
+        });
+        mWebHolder.setOnPageScrollChangeListener(new WebHolder.OnPageScrollChangeListener() {
+            @Override
+            public void onPageScrolled(float percent) {
+                presenter.updateReadRecordPercent(mWebHolder.getUrl(), percent);
             }
         });
     }
@@ -362,7 +368,7 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                         if (isReadLater()) {
                             presenter.deleteReadLater(mWebHolder.getUrl());
                         } else {
-                            presenter.readLater(mWebHolder.getUrl(), mWebHolder.getTitle());
+                            presenter.addReadLater(mWebHolder.getUrl(), mWebHolder.getTitle());
                         }
                     }
 

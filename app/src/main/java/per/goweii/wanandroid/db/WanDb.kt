@@ -1,14 +1,17 @@
 package per.goweii.wanandroid.db
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.room.Room
+import per.goweii.wanandroid.db.migration.Migration_1_2
 
 /**
  * @author CuiZhen
  * @date 2020/3/21
  */
+@SuppressLint("StaticFieldLeak")
 object WanDb {
-    private var context: Context? = null
+    private lateinit var context: Context
     private var database: WanRoom? = null
 
     @JvmStatic
@@ -17,22 +20,15 @@ object WanDb {
     }
 
     @JvmStatic
-    private fun db(dbName: String): WanRoom {
-        database?.run {
-            if (isOpen) {
-                if (openHelper.databaseName == dbName) {
-                    return this
-                } else {
-                    close()
-                }
-            }
+    fun db(): WanRoom {
+        if (database?.isOpen == true) {
+            return database!!
         }
-        database = Room.databaseBuilder(context!!, WanRoom::class.java, dbName).build()
+        database = Room
+            .databaseBuilder(context, WanRoom::class.java, WanRoom.NAME)
+            .addMigrations(Migration_1_2())
+            .build()
         return database!!
     }
 
-    @JvmStatic
-    fun db(): WanRoom {
-        return db("wan_db")
-    }
 }

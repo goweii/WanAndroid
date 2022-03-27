@@ -16,10 +16,15 @@ import per.goweii.wanandroid.db.model.ReadRecordModel
             ReadLaterModel::class,
             ReadRecordModel::class
         ],
-        version = 1,
-        exportSchema = false
+        version = WanRoom.VERSION,
+        exportSchema = false,
 )
 abstract class WanRoom : RoomDatabase() {
+    companion object {
+        const val NAME = "wan_db"
+        const val VERSION = 2
+    }
+
     abstract fun readLaterDao(): ReadLaterDao
     abstract fun readRecordDao(): ReadRecordDao
 }

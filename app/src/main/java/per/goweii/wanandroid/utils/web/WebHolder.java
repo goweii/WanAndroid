@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
@@ -70,6 +71,7 @@ import per.goweii.wanandroid.widget.WebContainer;
 public class WebHolder {
     private static final String TAG = WebHolder.class.getSimpleName();
 
+    private OnPageScrollChangeListener mOnPageScrollChangeListener = null;
     private OnPageScrollEndListener mOnPageScrollEndListener = null;
     private OnPageTitleCallback mOnPageTitleCallback = null;
     private OnPageLoadCallback mOnPageLoadCallback = null;
@@ -204,14 +206,16 @@ public class WebHolder {
             mWebView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
                 @Override
                 public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    if (mOnPageScrollEndListener == null) return;
                     if (isProgressShown) return;
-                    if (isPageScrollEnd) return;
-                    float contentHeight = mWebView.getContentHeight() * mWebView.getScale();
-                    float webViewHeight = mWebView.getHeight();
-                    if (scrollY + webViewHeight >= (contentHeight - 120)) {
+                    float percent = getPercent();
+                    if (mOnPageScrollChangeListener != null) {
+                        mOnPageScrollChangeListener.onPageScrolled(percent);
+                    }
+                    if (!isPageScrollEnd && percent >= 0.95) {
                         isPageScrollEnd = true;
-                        mOnPageScrollEndListener.onPageScrollEnd();
+                        if (mOnPageScrollEndListener != null) {
+                            mOnPageScrollEndListener.onPageScrollEnd();
+                        }
                     }
                 }
             });
@@ -245,6 +249,19 @@ public class WebHolder {
     public String getUrl() {
         String url = mWebView.getUrl();
         return url == null ? "" : url;
+    }
+
+    @FloatRange(from = 0.0, to = 1.0)
+    public float getPercent() {
+        if (isProgressShown) return 0f;
+        float contentHeight = mWebView.getContentHeight() * mWebView.getScale();
+        if (contentHeight <= 0) return 0f;
+        float webViewScrollY = mWebView.getWebScrollY();
+        float webViewHeight = mWebView.getHeight();
+        float percent = (float) (webViewScrollY + webViewHeight) / (float) contentHeight;
+        percent = Math.max(0F, percent);
+        percent = Math.min(1F, percent);
+        return percent;
     }
 
     public void getShareInfo(OnShareInfoCallback callback) {
@@ -442,6 +459,11 @@ public class WebHolder {
 
     public WebHolder setOnPageTitleCallback(OnPageTitleCallback onPageTitleCallback) {
         mOnPageTitleCallback = onPageTitleCallback;
+        return this;
+    }
+
+    public WebHolder setOnPageScrollChangeListener(OnPageScrollChangeListener mOnPageScrollChangeListener) {
+        this.mOnPageScrollChangeListener = mOnPageScrollChangeListener;
         return this;
     }
 
@@ -787,6 +809,10 @@ public class WebHolder {
                          @NonNull List<String> covers,
                          @NonNull String title,
                          @NonNull String desc);
+    }
+
+    public interface OnPageScrollChangeListener {
+        void onPageScrolled(@FloatRange(from = 0.0, to = 1.0) float percent);
     }
 
     public interface OnPageScrollEndListener {

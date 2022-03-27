@@ -7,7 +7,8 @@ import per.goweii.rxhttp.request.exception.ExceptionHandle
 import per.goweii.wanandroid.db.executor.ReadLaterExecutor
 import per.goweii.wanandroid.db.executor.ReadRecordExecutor
 import per.goweii.wanandroid.event.CollectionEvent
-import per.goweii.wanandroid.event.ReadRecordEvent
+import per.goweii.wanandroid.event.ReadRecordAddedEvent
+import per.goweii.wanandroid.event.ReadRecordUpdateEvent
 import per.goweii.wanandroid.http.RequestListener
 import per.goweii.wanandroid.module.main.model.MainRequest
 import per.goweii.wanandroid.module.main.view.ArticleView
@@ -86,20 +87,26 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
         }))
     }
 
-    fun readRecord(link: String, title: String) {
+    fun addReadRecord(link: String, title: String, percent: Float) {
         mReadRecordExecutor ?: return
-        if (TextUtils.isEmpty(link)) {
-            return
-        }
-        if (TextUtils.isEmpty(title)) {
-            return
-        }
-        if (TextUtils.equals(link, title)) {
-            return
-        }
-        mReadRecordExecutor?.add(link, title, {
-            ReadRecordEvent().post()
+        if (TextUtils.isEmpty(link)) return
+        if (TextUtils.isEmpty(title)) return
+        if (TextUtils.equals(link, title)) return
+        mReadRecordExecutor?.add(link, title, percent, {
+            ReadRecordAddedEvent(it).post()
         }, { })
+    }
+
+    fun updateReadRecordPercent(link: String, percent: Float) {
+        mReadRecordExecutor ?: return
+        if (TextUtils.isEmpty(link)) return
+        val lastTime = System.currentTimeMillis()
+        mReadRecordExecutor?.updatePercent(link, percent, lastTime, {
+            val readRecordUpdateEvent = ReadRecordUpdateEvent(it.link)
+            readRecordUpdateEvent.time = it.lastTime
+            readRecordUpdateEvent.percent = it.percentFloat
+            readRecordUpdateEvent.post()
+        }, {})
     }
 
     fun addReadLater() {

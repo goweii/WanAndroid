@@ -15,8 +15,10 @@ import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.db.executor.ReadLaterExecutor;
 import per.goweii.wanandroid.db.executor.ReadRecordExecutor;
 import per.goweii.wanandroid.db.model.ReadLaterModel;
+import per.goweii.wanandroid.db.model.ReadRecordModel;
 import per.goweii.wanandroid.event.CollectionEvent;
-import per.goweii.wanandroid.event.ReadRecordEvent;
+import per.goweii.wanandroid.event.ReadRecordAddedEvent;
+import per.goweii.wanandroid.event.ReadRecordUpdateEvent;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
@@ -295,7 +297,7 @@ public class WebPresenter extends BasePresenter<WebView> {
         }));
     }
 
-    public void readLater(String link, String title) {
+    public void addReadLater(String link, String title) {
         if (mReadLaterExecutor == null) return;
         mReadLaterExecutor.add(link, title, new SimpleCallback<ReadLaterModel>() {
             @Override
@@ -347,21 +349,34 @@ public class WebPresenter extends BasePresenter<WebView> {
         });
     }
 
-    public void readRecord(String link, String title) {
+    public void addReadRecord(String link, String title, float percent) {
         if (mReadRecordExecutor == null) return;
-        if (TextUtils.isEmpty(link)) {
-            return;
-        }
-        if (TextUtils.isEmpty(title)) {
-            return;
-        }
-        if (TextUtils.equals(link, title)) {
-            return;
-        }
-        mReadRecordExecutor.add(link, title, new SimpleListener() {
+        if (TextUtils.isEmpty(link)) return;
+        if (TextUtils.isEmpty(title)) return;
+        if (TextUtils.equals(link, title)) return;
+        mReadRecordExecutor.add(link, title, percent, new SimpleCallback<ReadRecordModel>() {
+            @Override
+            public void onResult(ReadRecordModel readRecordModel) {
+                new ReadRecordAddedEvent(readRecordModel).post();
+            }
+        }, new SimpleListener() {
             @Override
             public void onResult() {
-                new ReadRecordEvent().post();
+            }
+        });
+    }
+
+    public void updateReadRecordPercent(String link, float percent) {
+        if (mReadRecordExecutor == null) return;
+        if (TextUtils.isEmpty(link)) return;
+        long lastTime = System.currentTimeMillis();
+        mReadRecordExecutor.updatePercent(link, percent, lastTime, new SimpleCallback<ReadRecordModel>() {
+            @Override
+            public void onResult(ReadRecordModel readRecordModel) {
+                ReadRecordUpdateEvent readRecordUpdateEvent = new ReadRecordUpdateEvent(readRecordModel.getLink());
+                readRecordUpdateEvent.setTime(readRecordModel.getLastTime());
+                readRecordUpdateEvent.setPercent(readRecordModel.getPercentFloat());
+                readRecordUpdateEvent.post();
             }
         }, new SimpleListener() {
             @Override

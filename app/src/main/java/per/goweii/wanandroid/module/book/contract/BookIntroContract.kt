@@ -6,8 +6,11 @@ import org.jsoup.Jsoup
 import org.jsoup.nodes.Element
 import per.goweii.basic.core.base.BasePresenter
 import per.goweii.basic.core.base.BaseView
+import per.goweii.wanandroid.db.executor.ReadRecordExecutor
+import per.goweii.wanandroid.db.model.ReadRecordModel
 import per.goweii.wanandroid.module.book.bean.BookIntroBean
 import per.goweii.wanandroid.utils.CookieUtils.loadForUrl
+import kotlin.coroutines.resumeWithException
 
 interface BookIntroView : BaseView {
     fun getBookIntroSuccess(bean: BookIntroBean)
@@ -16,20 +19,25 @@ interface BookIntroView : BaseView {
 
 class BookIntroPresenter : BasePresenter<BookIntroView>() {
     private lateinit var mainScope: CoroutineScope
+    private lateinit var readRecordExecutor: ReadRecordExecutor
 
     override fun attach(baseView: BookIntroView) {
         super.attach(baseView)
         mainScope = MainScope()
+        readRecordExecutor = ReadRecordExecutor()
     }
 
     override fun detach() {
         super.detach()
         mainScope.cancel()
+        readRecordExecutor.destroy()
     }
 
     fun getIntro(link: String) = mainScope.launch {
         try {
             val bean = getIntroByJSoup(link)
+            val records = getReadRecords(bean)
+            fillReadRecord(bean, records)
             if (isAttach) {
                 baseView.getBookIntroSuccess(bean)
             }
@@ -39,6 +47,28 @@ class BookIntroPresenter : BasePresenter<BookIntroView>() {
             }
         }
     }
+
+    private suspend fun fillReadRecord(
+        bookIntroBean: BookIntroBean,
+        readRecordModels: List<ReadRecordModel>
+    ) = withContext(Dispatchers.Default) {
+        bookIntroBean.chapters.forEach { bookChapterBean ->
+            readRecordModels.find { it.link == bookChapterBean.link }?.let { readRecordModel ->
+                bookChapterBean.time = readRecordModel.lastTime
+                bookChapterBean.percent = readRecordModel.percentFloat
+            }
+        }
+    }
+
+    private suspend fun getReadRecords(bookIntroBean: BookIntroBean) =
+        suspendCancellableCoroutine<List<ReadRecordModel>> { continuation ->
+            val links = bookIntroBean.chapters.map { it.link }
+            readRecordExecutor.findByLinks(links, {
+                continuation.resumeWith(Result.success(it))
+            }, {
+                continuation.resumeWithException(it)
+            })
+        }
 
     private suspend fun getIntroByJSoup(url: String): BookIntroBean = withContext(Dispatchers.IO) {
         val cookies: List<Cookie> = loadForUrl(url)

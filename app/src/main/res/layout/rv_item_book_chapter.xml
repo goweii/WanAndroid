@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -7,22 +8,72 @@
     android:orientation="horizontal"
     android:padding="@dimen/margin_def">
 
-    <TextView
-        android:id="@+id/tv_index"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="@dimen/margin_def"
-        android:textColor="?colorTextSecond"
-        android:textSize="@dimen/text_content"
-        tools:text="1" />
-
-    <TextView
-        android:id="@+id/tv_title"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?colorTextSurface"
-        android:textSize="@dimen/text_content"
-        tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?colorTextSurface"
+            android:textSize="@dimen/text_content"
+            tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
+
+        <LinearLayout
+            android:id="@+id/ll_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_state"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:minWidth="50dp"
+                android:textColor="?colorTextMain"
+                android:textSize="@dimen/text_notes"
+                tools:text="已学81%" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="0dp"
+                android:layout_height="5dp"
+                android:layout_weight="1"
+                app:cardBackgroundColor="?colorTransparent"
+                app:cardCornerRadius="2.5dp"
+                app:cardElevation="0dp"
+                app:cardUseCompatPadding="false">
+
+                <me.zhanghai.android.materialprogressbar.MaterialProgressBar
+                    android:id="@+id/pb_percent"
+                    style="@style/basic_ui_LoadingBarH"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:indeterminate="false"
+                    app:mpb_progressStyle="horizontal"
+                    app:mpb_progressTint="?colorPrimary"
+                    app:mpb_showProgressBackground="true"
+                    app:mpb_useIntrinsicPadding="false"
+                    tools:progress="50" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_def"
+                android:textColor="?colorTextThird"
+                android:textSize="@dimen/text_time"
+                android:gravity="end"
+                tools:text="2022-03-27 14:39" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

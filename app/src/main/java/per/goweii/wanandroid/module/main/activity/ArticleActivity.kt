@@ -195,7 +195,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                     return@setInterceptUrlInterceptor null
                 }
                 .setOnPageTitleCallback {
-                    presenter.readRecord(mWebHolder.url, mWebHolder.title)
+                    presenter.addReadRecord(mWebHolder.url, mWebHolder.title, mWebHolder.percent)
                 }
                 .setOnPageScrollEndListener {
                     presenter.isReadLater { isReadLater ->
@@ -203,6 +203,9 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                             presenter.removeReadLater()
                         }
                     }
+                }
+                .setOnPageScrollChangeListener {
+                    presenter.updateReadRecordPercent(mWebHolder.url, it)
                 }
         wc.setOnDoubleClickListener { _, _ ->
             if (rl != null) {

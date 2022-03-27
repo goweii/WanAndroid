@@ -16,6 +16,8 @@ data class BookIntroBean(
     data class BookChapterBean(
         val index: Int,
         val name: String,
-        val link: String
+        val link: String,
+        var time: Long = 0L,
+        var percent: Float = 0F,
     )
 }

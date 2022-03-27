@@ -31,7 +31,7 @@ import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.db.model.ReadRecordModel;
-import per.goweii.wanandroid.event.ReadRecordEvent;
+import per.goweii.wanandroid.event.ReadRecordAddedEvent;
 import per.goweii.wanandroid.module.mine.adapter.ReadRecordAdapter;
 import per.goweii.wanandroid.module.mine.presenter.ReadRecordPresenter;
 import per.goweii.wanandroid.module.mine.view.ReadRecordView;
@@ -69,7 +69,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onReadRecordEvent(ReadRecordEvent event) {
+    public void onReadRecordEvent(ReadRecordAddedEvent event) {
         if (isDestroyed()) {
             return;
         }
