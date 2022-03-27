@@ -1,36 +1,111 @@
-Properties properties = new Properties()
-InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
-properties.load(inputStream)
+def KEYSTORE_FILE = ""
+def KEYSTORE_FILE_PASSWORD = ""
+def KEYSTORE_ALIAS = ""
+def KEYSTORE_ALIAS_PASSWORD = ""
+
+def APPID_BUGLY_FOR_PER = ""
+def APPKEY_BUGLY_FOR_PER = ""
+def APPID_BUGLY_FOR_COM = ""
+def APPKEY_BUGLY_FOR_COM = ""
+
+def CDKEY_CLASS = ""
+def DEVELOPER_ID = ""
+
+def WANPWD_FORMAT = ""
+def WANPWD_PATTERN = ""
+def WANPWD_TYPE_CREATE_CDKEY = ""
+def WANPWD_TYPE_QQ = ""
+def WANPWD_TYPE_FESTIVAL = ""
+def WANPWD_TYPE_USERPAGE = ""
+def WANPWD_TYPE_CDKEY = ""
+def WANPWD_TYPE_WEB = ""
+def WANPWD_TYPE_ABOUTME = ""
+
+if (project.rootProject.file('local.properties').exists()) {
+    Properties properties = new Properties()
+    InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+    properties.load(inputStream)
+
+    KEYSTORE_FILE = properties.getProperty('KEYSTORE_FILE')
+    KEYSTORE_FILE_PASSWORD = properties.getProperty('KEYSTORE_FILE_PASSWORD')
+    KEYSTORE_ALIAS = properties.getProperty('KEYSTORE_ALIAS')
+    KEYSTORE_ALIAS_PASSWORD = properties.getProperty('KEYSTORE_ALIAS_PASSWORD')
+
+    APPID_BUGLY_FOR_PER = properties.getProperty('APPID_BUGLY_FOR_PER')
+    APPKEY_BUGLY_FOR_PER = properties.getProperty('APPKEY_BUGLY_FOR_PER')
+    APPID_BUGLY_FOR_COM = properties.getProperty('APPID_BUGLY_FOR_COM')
+    APPKEY_BUGLY_FOR_COM = properties.getProperty('APPKEY_BUGLY_FOR_COM')
+
+    WANPWD_FORMAT = properties.getProperty('WANPWD_FORMAT')
+    WANPWD_PATTERN = properties.getProperty('WANPWD_PATTERN')
+    WANPWD_TYPE_QQ = properties.getProperty('WANPWD_TYPE_QQ')
+    WANPWD_TYPE_FESTIVAL = properties.getProperty('WANPWD_TYPE_FESTIVAL')
+    WANPWD_TYPE_USERPAGE = properties.getProperty('WANPWD_TYPE_USERPAGE')
+    WANPWD_TYPE_CDKEY = properties.getProperty('WANPWD_TYPE_CDKEY')
+    WANPWD_TYPE_WEB = properties.getProperty('WANPWD_TYPE_WEB')
+    WANPWD_TYPE_ABOUTME = properties.getProperty('WANPWD_TYPE_ABOUTME')
+    WANPWD_TYPE_CREATE_CDKEY = properties.getProperty('WANPWD_TYPE_CREATE_CDKEY')
+    CDKEY_CLASS = properties.getProperty('CDKEY_CLASS')
+    DEVELOPER_ID = properties.getProperty('DEVELOPER_ID')
+}
 
 android {
+    signingConfigs {
+        release {
+            if (KEYSTORE_FILE != null) {
+                storeFile file(KEYSTORE_FILE)
+                storePassword KEYSTORE_FILE_PASSWORD
+                keyAlias KEYSTORE_ALIAS
+                keyPassword KEYSTORE_ALIAS_PASSWORD
+            }
+        }
+        debug {
+            if (KEYSTORE_FILE != null) {
+                storeFile file(KEYSTORE_FILE)
+                storePassword KEYSTORE_FILE_PASSWORD
+                keyAlias KEYSTORE_ALIAS
+                keyPassword KEYSTORE_ALIAS_PASSWORD
+            }
+        }
+    }
+    buildTypes {
+        release {
+            shrinkResources false
+            signingConfig signingConfigs.release
+        }
+        debug {
+            shrinkResources false
+            signingConfig signingConfigs.debug
+        }
+    }
     flavorDimensions "applicationId"
     productFlavors {
         per {
             dimension "applicationId"
             applicationId "per.goweii.wanandroid"
-            ext.buglyAppId = properties.getProperty('APPID_BUGLY_FOR_PER')
-            ext.buglyAppKey = properties.getProperty('APPKEY_BUGLY_FOR_PER')
+            ext.buglyAppId = APPID_BUGLY_FOR_PER
+            ext.buglyAppKey = APPKEY_BUGLY_FOR_PER
         }
         com {
             dimension "applicationId"
             applicationId "com.goweii.wanandroid"
-            ext.buglyAppId = properties.getProperty('APPID_BUGLY_FOR_COM')
-            ext.buglyAppKey = properties.getProperty('APPKEY_BUGLY_FOR_COM')
+            ext.buglyAppId = APPID_BUGLY_FOR_COM
+            ext.buglyAppKey = APPKEY_BUGLY_FOR_COM
         }
     }
     productFlavors.all { flavor ->
         buildConfigField "String", "APPID_BUGLY", "\"${ext.buglyAppId}\""
         buildConfigField "String", "APPKEY_BUGLY", "\"${ext.buglyAppKey}\""
-        buildConfigField "String", "WANPWD_FORMAT", "\"${properties.getProperty('WANPWD_FORMAT')}\""
-        buildConfigField "String", "WANPWD_PATTERN", "\"${properties.getProperty('WANPWD_PATTERN')}\""
-        buildConfigField "String", "WANPWD_TYPE_QQ", "\"${properties.getProperty('WANPWD_TYPE_QQ')}\""
-        buildConfigField "String", "WANPWD_TYPE_FESTIVAL", "\"${properties.getProperty('WANPWD_TYPE_FESTIVAL')}\""
-        buildConfigField "String", "WANPWD_TYPE_USERPAGE", "\"${properties.getProperty('WANPWD_TYPE_USERPAGE')}\""
-        buildConfigField "String", "WANPWD_TYPE_CDKEY", "\"${properties.getProperty('WANPWD_TYPE_CDKEY')}\""
-        buildConfigField "String", "WANPWD_TYPE_WEB", "\"${properties.getProperty('WANPWD_TYPE_WEB')}\""
-        buildConfigField "String", "WANPWD_TYPE_ABOUTME", "\"${properties.getProperty('WANPWD_TYPE_ABOUTME')}\""
-        buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", "\"${properties.getProperty('WANPWD_TYPE_CREATE_CDKEY')}\""
-        buildConfigField "String", "CDKEY_CLASS", "\"${properties.getProperty('CDKEY_CLASS')}\""
-        buildConfigField "String", "DEVELOPER_ID", "\"${properties.getProperty('DEVELOPER_ID')}\""
+        buildConfigField "String", "WANPWD_FORMAT", "\"${WANPWD_FORMAT}\""
+        buildConfigField "String", "WANPWD_PATTERN", "\"${WANPWD_PATTERN}\""
+        buildConfigField "String", "WANPWD_TYPE_QQ", "\"${WANPWD_TYPE_QQ}\""
+        buildConfigField "String", "WANPWD_TYPE_FESTIVAL", "\"${WANPWD_TYPE_FESTIVAL}\""
+        buildConfigField "String", "WANPWD_TYPE_USERPAGE", "\"${WANPWD_TYPE_USERPAGE}\""
+        buildConfigField "String", "WANPWD_TYPE_CDKEY", "\"${WANPWD_TYPE_CDKEY}\""
+        buildConfigField "String", "WANPWD_TYPE_WEB", "\"${WANPWD_TYPE_WEB}\""
+        buildConfigField "String", "WANPWD_TYPE_ABOUTME", "\"${WANPWD_TYPE_ABOUTME}\""
+        buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", "\"${WANPWD_TYPE_CREATE_CDKEY}\""
+        buildConfigField "String", "CDKEY_CLASS", "\"${CDKEY_CLASS}\""
+        buildConfigField "String", "DEVELOPER_ID", "\"${DEVELOPER_ID}\""
     }
 }

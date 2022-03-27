@@ -4,10 +4,6 @@ apply plugin: 'bugly'
 apply from: "../module.gradle"
 apply from: "../flavor.gradle"
 
-Properties properties = new Properties()
-InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
-properties.load(inputStream)
-
 android {
     defaultConfig {
         renderscriptTargetApi rootProject.ext.android.minSdkVersion
@@ -19,30 +15,6 @@ android {
             annotationProcessorOptions {
                 arguments = ["room.incremental": "true"]
             }
-        }
-    }
-    signingConfigs {
-        release {
-            storeFile file(properties.getProperty('KEYSTORE_FILE'))
-            storePassword properties.getProperty('KEYSTORE_FILE_PASSWORD')
-            keyAlias properties.getProperty('KEYSTORE_ALIAS')
-            keyPassword properties.getProperty('KEYSTORE_ALIAS_PASSWORD')
-        }
-        debug {
-            storeFile file(properties.getProperty('KEYSTORE_FILE'))
-            storePassword properties.getProperty('KEYSTORE_FILE_PASSWORD')
-            keyAlias properties.getProperty('KEYSTORE_ALIAS')
-            keyPassword properties.getProperty('KEYSTORE_ALIAS_PASSWORD')
-        }
-    }
-    buildTypes {
-        release {
-            shrinkResources false
-            signingConfig signingConfigs.release
-        }
-        debug {
-            shrinkResources false
-            signingConfig signingConfigs.debug
         }
     }
     resourcePrefix ""
@@ -65,7 +37,7 @@ bugly {
 }
 
 repositories {
-    flatDir { dirs 'libs'  }
+    flatDir { dirs 'libs' }
 }
 
 dependencies {
