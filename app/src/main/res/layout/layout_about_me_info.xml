@@ -65,7 +65,8 @@
                 android:layout_height="18dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_github"
-                android:tint="?colorOnMainOrSurface" />
+                android:tint="?colorOnMainOrSurface"
+                tools:ignore="UseAppTint" />
 
             <TextView
                 android:layout_width="0dp"
@@ -104,7 +105,8 @@
                 android:layout_height="18dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_jianshu"
-                android:tint="?colorOnMainOrSurface" />
+                android:tint="?colorOnMainOrSurface"
+                tools:ignore="UseAppTint" />
 
             <TextView
                 android:layout_width="0dp"
@@ -143,7 +145,8 @@
                 android:layout_height="18dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_qq"
-                android:tint="?colorOnMainOrSurface" />
+                android:tint="?colorOnMainOrSurface"
+                tools:ignore="UseAppTint" />
 
             <TextView
                 android:layout_width="0dp"
@@ -182,7 +185,8 @@
                 android:layout_height="18dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_qq_group"
-                android:tint="?colorOnMainOrSurface" />
+                android:tint="?colorOnMainOrSurface"
+                tools:ignore="UseAppTint" />
 
             <TextView
                 android:layout_width="0dp"
@@ -243,6 +247,7 @@
         android:rotation="-90"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_enter"
-        android:tint="?colorOnMainOrSurface" />
+        android:tint="?colorOnMainOrSurface"
+        tools:ignore="UseAppTint" />
 
 </RelativeLayout>

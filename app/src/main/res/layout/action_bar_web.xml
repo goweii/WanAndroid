@@ -45,7 +45,8 @@
             android:padding="@dimen/margin_small"
             android:scaleType="fitCenter"
             android:tint="?colorOnMainOrSurface"
-            android:src="@drawable/ic_into" />
+            android:src="@drawable/ic_into"
+            tools:ignore="UseAppTint" />
 
     </LinearLayout>
 

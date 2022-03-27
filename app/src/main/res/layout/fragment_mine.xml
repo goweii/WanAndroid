@@ -12,7 +12,8 @@
         android:layout_height="260dp"
         android:background="?colorMainOrSurface"
         android:scaleType="centerCrop"
-        android:tint="?colorMineBlurOverlay" />
+        android:tint="?colorMineBlurOverlay"
+        tools:ignore="UseAppTint" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/srl"
@@ -144,7 +145,8 @@
                             android:layout_height="18dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_coin"
-                            android:tint="?colorIconMain" />
+                            android:tint="?colorIconMain"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -173,7 +175,8 @@
                             android:layout_height="16dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_enter"
-                            android:tint="?colorIconThird" />
+                            android:tint="?colorIconThird"
+                            tools:ignore="UseAppTint" />
 
                     </LinearLayout>
 
@@ -192,7 +195,8 @@
                             android:layout_height="18dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_share_article"
-                            android:tint="?colorIconMain" />
+                            android:tint="?colorIconMain"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -210,7 +214,8 @@
                             android:layout_height="16dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_enter"
-                            android:tint="?colorIconThird" />
+                            android:tint="?colorIconThird"
+                            tools:ignore="UseAppTint" />
 
                     </LinearLayout>
 
@@ -229,7 +234,8 @@
                             android:layout_height="18dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_collect"
-                            android:tint="?colorIconMain" />
+                            android:tint="?colorIconMain"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -247,7 +253,8 @@
                             android:layout_height="16dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_enter"
-                            android:tint="?colorIconThird" />
+                            android:tint="?colorIconThird"
+                            tools:ignore="UseAppTint" />
 
                     </LinearLayout>
 
@@ -266,7 +273,8 @@
                             android:layout_height="18dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_read_later"
-                            android:tint="?colorIconMain" />
+                            android:tint="?colorIconMain"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -284,7 +292,8 @@
                             android:layout_height="16dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_enter"
-                            android:tint="?colorIconThird" />
+                            android:tint="?colorIconThird"
+                            tools:ignore="UseAppTint" />
 
                     </LinearLayout>
 
@@ -303,7 +312,8 @@
                             android:layout_height="18dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_read_record"
-                            android:tint="?colorIconMain" />
+                            android:tint="?colorIconMain"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -321,7 +331,8 @@
                             android:layout_height="16dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_enter"
-                            android:tint="?colorIconThird" />
+                            android:tint="?colorIconThird"
+                            tools:ignore="UseAppTint" />
 
                     </LinearLayout>
 
@@ -340,7 +351,8 @@
                             android:layout_height="18dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_github"
-                            android:tint="?colorIconMain" />
+                            android:tint="?colorIconMain"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -358,7 +370,8 @@
                             android:layout_height="16dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_enter"
-                            android:tint="?colorIconThird" />
+                            android:tint="?colorIconThird"
+                            tools:ignore="UseAppTint" />
 
                     </LinearLayout>
 
@@ -377,7 +390,8 @@
                             android:layout_height="18dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_about"
-                            android:tint="?colorIconMain" />
+                            android:tint="?colorIconMain"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -404,7 +418,8 @@
                             android:layout_height="16dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_enter"
-                            android:tint="?colorIconThird" />
+                            android:tint="?colorIconThird"
+                            tools:ignore="UseAppTint" />
 
                     </LinearLayout>
 
@@ -423,7 +438,8 @@
                             android:layout_height="18dp"
                             android:scaleType="fitCenter"
                             android:src="@drawable/ic_setting"
-                            android:tint="?colorIconMain" />
+                            android:tint="?colorIconMain"
+                            tools:ignore="UseAppTint" />
 
                         <TextView
                             android:layout_width="0dp"

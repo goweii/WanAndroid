@@ -12,7 +12,8 @@
         android:layout_height="260dp"
         android:background="?colorMainOrSurface"
         android:scaleType="centerCrop"
-        android:tint="?colorMineBlurOverlay" />
+        android:tint="?colorMineBlurOverlay"
+        tools:ignore="UseAppTint" />
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"

@@ -124,10 +124,9 @@ class PictureSelector {
                     arrayOf(MediaStore.Images.Media._ID),
                     MediaStore.Images.Media.DATA + "=? ",
                     arrayOf(filePath), null)
-            cursor.use { _ ->
+            cursor.use {
                 return if (cursor != null && cursor.moveToFirst()) {
-                    val id = cursor.getInt(cursor
-                            .getColumnIndex(MediaStore.MediaColumns._ID))
+                    val id = cursor.getInt(cursor.getColumnIndex(MediaStore.MediaColumns._ID))
                     val baseUri = Uri.parse("content://media/external/images/media")
                     Uri.withAppendedPath(baseUri, "" + id)
                 } else {

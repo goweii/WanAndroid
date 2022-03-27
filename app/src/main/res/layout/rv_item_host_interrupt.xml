@@ -34,6 +34,7 @@
         android:layout_centerVertical="true"
         android:padding="10dp"
         android:src="@drawable/ic_close"
-        android:tint="?colorIconThird" />
+        android:tint="?colorIconThird"
+        tools:ignore="UseAppTint" />
 
 </RelativeLayout>

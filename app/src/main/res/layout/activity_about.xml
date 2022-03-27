@@ -76,7 +76,8 @@
             android:layout_height="16dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_enter"
-            android:tint="?colorIconThird" />
+            android:tint="?colorIconThird"
+            tools:ignore="UseAppTint" />
 
     </LinearLayout>
 
@@ -108,7 +109,8 @@
             android:layout_height="16dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_enter"
-            android:tint="?colorIconThird" />
+            android:tint="?colorIconThird"
+            tools:ignore="UseAppTint" />
 
     </LinearLayout>
 
@@ -140,7 +142,8 @@
             android:layout_height="16dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_enter"
-            android:tint="?colorIconThird" />
+            android:tint="?colorIconThird"
+            tools:ignore="UseAppTint" />
 
     </LinearLayout>
 
@@ -172,7 +175,8 @@
             android:layout_height="16dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_enter"
-            android:tint="?colorIconThird" />
+            android:tint="?colorIconThird"
+            tools:ignore="UseAppTint" />
 
     </LinearLayout>
 

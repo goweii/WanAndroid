@@ -301,7 +301,8 @@
             android:background="@drawable/bg_press_color_surface"
             android:padding="16dp"
             android:src="@drawable/ic_close"
-            android:tint="?colorIconSurface" />
+            android:tint="?colorIconSurface"
+            tools:ignore="UseAppTint" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -319,7 +320,8 @@
                     android:layout_gravity="center"
                     android:padding="16dp"
                     android:src="@drawable/ic_share"
-                    android:tint="?colorIconSurface" />
+                    android:tint="?colorIconSurface"
+                    tools:ignore="UseAppTint" />
 
             </FrameLayout>
 
@@ -340,7 +342,8 @@
                     android:layout_gravity="center"
                     android:padding="16dp"
                     android:src="@drawable/ic_setting"
-                    android:tint="?colorIconSurface" />
+                    android:tint="?colorIconSurface"
+                    tools:ignore="UseAppTint" />
 
             </FrameLayout>
 

@@ -14,7 +14,8 @@
         android:background="?colorBackground"
         android:scaleType="centerCrop"
         android:tint="?colorAboutMeBlurOverlay"
-        tools:background="?colorMain" />
+        tools:background="?colorMain"
+        tools:ignore="UseAppTint" />
 
     <com.daimajia.swipe.SwipeLayout
         android:id="@+id/sl"

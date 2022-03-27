@@ -204,7 +204,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_album"
-                        android:tint="?colorTextSurface" />
+                        android:tint="?colorTextSurface"
+                        tools:ignore="UseAppTint" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -235,7 +236,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_share"
-                        android:tint="?colorTextSurface" />
+                        android:tint="?colorTextSurface"
+                        tools:ignore="UseAppTint" />
 
                     <TextView
                         android:layout_width="wrap_content"

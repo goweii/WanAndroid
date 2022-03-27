@@ -33,6 +33,7 @@
         android:src="@drawable/ic_remove"
         android:tint="?colorIconAccent"
         android:visibility="invisible"
-        tools:visibility="visible" />
+        tools:visibility="visible"
+        tools:ignore="UseAppTint" />
 
 </RelativeLayout>

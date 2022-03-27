@@ -67,7 +67,7 @@
                 android:padding="13dp"
                 android:src="@drawable/ic_close"
                 android:tint="?colorIconSurface"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription,UseAppTint" />
 
         </com.lihang.ShadowLayout>
 

@@ -42,7 +42,8 @@
             android:background="@drawable/bg_solid_round_color_surface_radius_max"
             android:padding="13dp"
             android:src="@drawable/ic_close"
-            android:tint="?colorIconSurface" />
+            android:tint="?colorIconSurface"
+            tools:ignore="UseAppTint" />
 
         <per.goweii.wanandroid.widget.CollectView
             android:id="@+id/dialog_web_cv_collect"
