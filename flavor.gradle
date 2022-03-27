@@ -1,25 +1,25 @@
-def KEYSTORE_FILE = null
-def KEYSTORE_FILE_PASSWORD = null
-def KEYSTORE_ALIAS = null
-def KEYSTORE_ALIAS_PASSWORD = null
+def KEYSTORE_FILE = ""
+def KEYSTORE_FILE_PASSWORD = ""
+def KEYSTORE_ALIAS = ""
+def KEYSTORE_ALIAS_PASSWORD = ""
 
-def APPID_BUGLY_FOR_PER = null
-def APPKEY_BUGLY_FOR_PER = null
-def APPID_BUGLY_FOR_COM = null
-def APPKEY_BUGLY_FOR_COM = null
+def APPID_BUGLY_FOR_PER = ""
+def APPKEY_BUGLY_FOR_PER = ""
+def APPID_BUGLY_FOR_COM = ""
+def APPKEY_BUGLY_FOR_COM = ""
 
-def CDKEY_CLASS = null
-def DEVELOPER_ID = null
+def CDKEY_CLASS = ""
+def DEVELOPER_ID = ""
 
-def WANPWD_FORMAT = null
-def WANPWD_PATTERN = null
-def WANPWD_TYPE_CREATE_CDKEY = null
-def WANPWD_TYPE_QQ = null
-def WANPWD_TYPE_FESTIVAL = null
-def WANPWD_TYPE_USERPAGE = null
-def WANPWD_TYPE_CDKEY = null
-def WANPWD_TYPE_WEB = null
-def WANPWD_TYPE_ABOUTME = null
+def WANPWD_FORMAT = ""
+def WANPWD_PATTERN = ""
+def WANPWD_TYPE_CREATE_CDKEY = ""
+def WANPWD_TYPE_QQ = ""
+def WANPWD_TYPE_FESTIVAL = ""
+def WANPWD_TYPE_USERPAGE = ""
+def WANPWD_TYPE_CDKEY = ""
+def WANPWD_TYPE_WEB = ""
+def WANPWD_TYPE_ABOUTME = ""
 
 if (project.rootProject.file('local.properties').exists()) {
     Properties properties = new Properties()
@@ -47,6 +47,11 @@ if (project.rootProject.file('local.properties').exists()) {
     WANPWD_TYPE_CREATE_CDKEY = properties.getProperty('WANPWD_TYPE_CREATE_CDKEY')
     CDKEY_CLASS = properties.getProperty('CDKEY_CLASS')
     DEVELOPER_ID = properties.getProperty('DEVELOPER_ID')
+} else {
+    KEYSTORE_FILE = "${rootProject.projectDir}/demo.jks"
+    KEYSTORE_FILE_PASSWORD = "123456"
+    KEYSTORE_ALIAS = "demo"
+    KEYSTORE_ALIAS_PASSWORD = "123456"
 }
 
 android {
