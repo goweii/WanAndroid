@@ -1,5 +1,5 @@
-apply from: "config.gradle"
-apply from: "version.gradle"
+apply from: "${rootDir.path}/gradle/config.gradle"
+apply from: "${rootDir.path}/gradle/version.gradle"
 
 buildscript {
     ext.kotlin_version = "1.4.21"

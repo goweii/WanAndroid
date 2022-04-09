@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 apply plugin: 'bugly'
 
-apply from: "../module.gradle"
-apply from: "../flavor.gradle"
+apply from: "${rootDir.path}/gradle/module.gradle"
+apply from: "${rootDir.path}/gradle/flavor.gradle"
 
 android {
     defaultConfig {
