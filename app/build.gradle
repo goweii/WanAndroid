@@ -26,9 +26,6 @@ android {
             output.outputFileName = "${applicationId}-${versionName}-${versionCode}-${buildType}.apk"
         }
     }
-    lintOptions {
-        abortOnError false
-    }
 }
 
 kapt {

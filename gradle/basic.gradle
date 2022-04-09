@@ -37,6 +37,9 @@ android {
         jvmTarget = rootProject.ext.kotlinOptions.jvmTarget
     }
     resourcePrefix project.name + "_"
+    lintOptions {
+        abortOnError false
+    }
 }
 
 dependencies {
