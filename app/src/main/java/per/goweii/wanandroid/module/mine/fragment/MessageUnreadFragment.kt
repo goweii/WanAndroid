@@ -73,7 +73,7 @@ class MessageUnreadFragment : BaseFragment<MessageUnreadPresenter>(), MessageUnr
         }, rv)
         mAdapter.onItemClickListener = BaseQuickAdapter.OnItemClickListener { _, _, position ->
             mAdapter.getItem(position)?.let {
-                UrlOpenUtils.with(it.fullLink).open(context)
+                UrlOpenUtils.with(it.realLink).open(context)
             }
         }
         rv.adapter = mAdapter

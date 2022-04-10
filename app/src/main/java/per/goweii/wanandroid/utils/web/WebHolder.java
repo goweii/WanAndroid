@@ -276,7 +276,6 @@ public class WebHolder {
                 "    var imgEle = imgElements[i];" +
                 "    var w = imgEle.naturalWidth;" +
                 "    var h = imgEle.naturalHeight;" +
-                "    console.log(\"img\" + i + \" w*h=\" + w + \"*\" + h);" +
                 "    if(w > 200 && h > 100){" +
                 "      imgs.push(imgEle.src);" +
                 "    }" +
@@ -388,6 +387,33 @@ public class WebHolder {
                 "    }\n" +
                 "  });\n" +
                 "}" +
+                ")()";
+        mWebView.evaluateJavascript(js, null);
+    }
+
+    public void scrollToKeywords(List<String> keywordList) {
+        String keywords = TextUtils.join(",", keywordList);
+        String js = "javascript:(\n" +
+                "    function(){\n" +
+                "        var keywords = '" + keywords + "'.split(\",\");\n" +
+                "        var pElements = document.getElementsByTagName('p');\n" +
+                "        for(var i = 0; i < pElements.length; i++) {\n" +
+                "            var pEle = pElements[i];\n" +
+                "            var pText = pEle.innerHTML;\n" +
+                "            var match = true;\n" +
+                "            for (var j = 0; j < keywords.length; j++) {\n" +
+                "                var index = pText.indexOf(keywords[j]);\n" +
+                "                if (index === -1) {\n" +
+                "                    match = false;\n" +
+                "                    break;\n" +
+                "                }\n" +
+                "            }\n" +
+                "            if (match) {\n" +
+                "                pEle.scrollIntoView();\n" +
+                "                break;\n" +
+                "            }\n" +
+                "        }\n" +
+                "    }\n" +
                 ")()";
         mWebView.evaluateJavascript(js, null);
     }

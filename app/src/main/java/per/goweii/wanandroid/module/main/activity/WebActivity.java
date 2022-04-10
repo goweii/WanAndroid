@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -236,6 +237,11 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     @Override
                     public void onPageFinished() {
                         showWebGuideDialogIfNeeded();
+                        Uri uri = Uri.parse(mWebHolder.getUrl());
+                        String message = uri.getQueryParameter("scrollToKeywords");
+                        if (!TextUtils.isEmpty(message)) {
+                            mWebHolder.scrollToKeywords(Arrays.asList(message.split(",")));
+                        }
                     }
                 })
                 .setOnHistoryUpdateCallback(new WebHolder.OnHistoryUpdateCallback() {

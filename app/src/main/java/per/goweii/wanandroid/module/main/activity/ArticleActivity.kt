@@ -8,7 +8,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
-import android.view.*
+import android.text.TextUtils
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.core.view.doOnLayout
@@ -36,6 +39,7 @@ import per.goweii.wanandroid.utils.web.WebHolder.with
 import per.goweii.wanandroid.utils.web.cache.ReadingModeManager
 import per.goweii.wanandroid.utils.web.interceptor.WebReadingModeInterceptor
 import per.goweii.wanandroid.utils.web.interceptor.WebResUrlInterceptor
+import java.util.*
 
 /**
  * @author CuiZhen
@@ -180,6 +184,11 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
 
                     override fun onPageFinished() {
                         isPageLoadFinished = true
+                        val uri = Uri.parse(mWebHolder.url)
+                        val message = uri.getQueryParameter("scrollToKeywords")
+                        if (!message.isNullOrEmpty()) {
+                            mWebHolder.scrollToKeywords(message.split(","))
+                        }
                     }
                 })
                 .setInterceptUrlInterceptor { uri, reqHeaders, reqMethod ->

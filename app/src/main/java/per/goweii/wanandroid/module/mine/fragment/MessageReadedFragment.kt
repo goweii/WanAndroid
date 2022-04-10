@@ -77,7 +77,7 @@ class MessageReadedFragment : BaseFragment<MessageReadedPresenter>(), MessageRea
             val item = mAdapter.getItem(position) ?: return@OnItemChildClickListener
             when (view.id) {
                 R.id.rl_message -> {
-                    UrlOpenUtils.with(item.fullLink).open(context)
+                    UrlOpenUtils.with(item.realLink).open(context)
                 }
                 R.id.tv_delete -> {
                     presenter.delete(item)
