@@ -14,7 +14,7 @@
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"
-        style="@style/StateView">
+        style="@style/StateView_Center">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/srl"

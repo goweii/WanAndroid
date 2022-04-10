@@ -1,6 +1,7 @@
 package per.goweii.wanandroid.module.book.adapter;
 
 import android.annotation.SuppressLint;
+import android.text.Html;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,9 +17,10 @@ import java.util.Date;
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
-import per.goweii.wanandroid.module.book.bean.BookIntroBean;
+import per.goweii.wanandroid.module.book.model.BookChapterBean;
+import per.goweii.wanandroid.module.main.model.ArticleBean;
 
-public class BookChapterAdapter extends BaseQuickAdapter<BookIntroBean.BookChapterBean, BaseViewHolder> {
+public class BookChapterAdapter extends BaseQuickAdapter<BookChapterBean, BaseViewHolder> {
     @SuppressLint("SimpleDateFormat")
     private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -28,14 +30,14 @@ public class BookChapterAdapter extends BaseQuickAdapter<BookIntroBean.BookChapt
 
     @SuppressLint("SetTextI18n")
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, @NonNull BookIntroBean.BookChapterBean item) {
+    protected void convert(@NonNull BaseViewHolder helper, @NonNull BookChapterBean item) {
         TextView tv_title = helper.getView(R.id.tv_title);
         TextView tv_state = helper.getView(R.id.tv_state);
         TextView tv_time = helper.getView(R.id.tv_time);
         LinearLayout ll_state = helper.getView(R.id.ll_state);
         MaterialProgressBar pb_percent = helper.getView(R.id.pb_percent);
 
-        tv_title.setText(item.getIndex() + ". " + item.getName());
+        tv_title.setText((helper.getAdapterPosition() + 1) + ". " + Html.fromHtml(item.getArticleBean().getTitle()));
         if (item.getTime() == 0) {
             ll_state.setVisibility(View.VISIBLE);
             tv_state.setText("未学习");

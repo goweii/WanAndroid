@@ -225,12 +225,13 @@ public class WanCache {
         private static final String SEARCH = "article/query/%d/json?key=%s";//page+key
         public static final String NAVI_LIST = "navi/json";
         public static final String KNOWLEDGE_LIST = "tree/json";
-        private static final String KNOWLEDGE_ARTICLE_LIST = "article/list/%d/json?cid=%d";//page+id
+        private static final String CHAPTER_ARTICLE_LIST = "article/list/%d/json?cid=%d&order_type=%d";//page+id+orderType
         private static final String COLLECT_ARTICLE_LIST = "lg/collect/list/%d/json";//page
         private static final String COLLECT_LINK_LIST = "lg/collect/usertools/json";
         private static final String USER_ARTICLE_LIST = "user_article/list/%d/json";//page
         private static final String USER_PAGE = "user/%d/share_articles/%d/json";//userId+page
         private static final String MINE_SHARE_ARTICLE_LIST = "user/lg/private_articles/%d/json";//page
+        public static final String BOOK_LIST = "chapter/547/sublist/json";
 
         private static String addUserId(String key) {
             int userId = UserUtils.getInstance().getWanId();
@@ -257,8 +258,8 @@ public class WanCache {
             return String.format(ARTICLE_LIST, page);
         }
 
-        public static String KNOWLEDGE_ARTICLE_LIST(int id, int page) {
-            return String.format(KNOWLEDGE_ARTICLE_LIST, page, id);
+        public static String CHAPTER_ARTICLE_LIST(int id, int page, int orderType) {
+            return String.format(CHAPTER_ARTICLE_LIST, page, id, orderType);
         }
 
         public static String COLLECT_ARTICLE_LIST(int page) {

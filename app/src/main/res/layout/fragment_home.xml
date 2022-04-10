@@ -57,7 +57,7 @@
 
                     <com.kennyc.view.MultiStateView
                         android:id="@+id/msv"
-                        style="@style/StateView"
+                        style="@style/StateView_Center"
                         android:background="?colorBackground">
 
                         <androidx.recyclerview.widget.RecyclerView

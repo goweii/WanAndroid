@@ -2,7 +2,7 @@
 <com.kennyc.view.MultiStateView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/msv"
-    style="@style/StateView">
+    style="@style/StateView_Center">
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/srl"

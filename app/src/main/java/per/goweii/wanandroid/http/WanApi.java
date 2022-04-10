@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import per.goweii.rxhttp.request.Api;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.common.Constant;
+import per.goweii.wanandroid.module.book.model.BookBean;
 import per.goweii.wanandroid.module.home.model.BannerBean;
 import per.goweii.wanandroid.module.home.model.HotKeyBean;
 import per.goweii.wanandroid.module.login.model.LoginBean;
@@ -246,8 +247,9 @@ public class WanApi extends Api {
          * 页码：拼接在链接上，从0开始。
          */
         @GET("article/list/{page}/json")
-        Observable<WanResponse<ArticleListBean>> getKnowledgeArticleList(@Path("page") int page,
-                                                                         @Query("cid") int id);
+        Observable<WanResponse<ArticleListBean>> getChapterArticleList(@Path("page") int page,
+                                                                       @Query("cid") int id,
+                                                                       @Query("order_type") int orderType);
 
         /**
          * 收藏文章列表
@@ -436,6 +438,12 @@ public class WanApi extends Api {
          */
         @GET("wenda/list/{page}/json")
         Observable<WanResponse<ArticleListBean>> getQuestionList(@Path("page") int page);
+
+        /**
+         * 教程列表
+         */
+        @GET("chapter/547/sublist/json")
+        Observable<WanResponse<List<BookBean>>> getBooks();
     }
 
 }

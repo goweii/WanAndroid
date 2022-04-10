@@ -214,7 +214,7 @@
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".module.book.activity.BookIntroActivity"
+            android:name=".module.book.activity.BookDetailsActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:windowSoftInputMode="adjustResize" />
 

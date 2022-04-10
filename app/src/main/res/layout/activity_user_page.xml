@@ -17,7 +17,7 @@
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"
-        style="@style/StateView">
+        style="@style/StateView_Center">
 
         <com.scwang.smart.refresh.layout.SmartRefreshLayout
             android:id="@+id/srl"
@@ -178,7 +178,7 @@
 
                     <com.kennyc.view.MultiStateView
                         android:id="@+id/msv_list"
-                        style="@style/StateView"
+                        style="@style/StateView_Center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="?colorBackground"

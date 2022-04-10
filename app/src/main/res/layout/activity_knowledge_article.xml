@@ -13,7 +13,7 @@
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"
-        style="@style/StateView">
+        style="@style/StateView_Center">
 
         <LinearLayout
             android:layout_width="match_parent"

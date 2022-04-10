@@ -592,6 +592,12 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        dl.open(0);
+    }
+
+    @Override
     protected void onInvisible() {
         super.onInvisible();
         if (mBanner != null) {

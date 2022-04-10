@@ -8,9 +8,9 @@ import per.goweii.basic.core.base.BaseFragment
 import per.goweii.basic.core.utils.SmartRefreshUtils
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.event.CloseSecondFloorEvent
-import per.goweii.wanandroid.module.book.activity.BookIntroActivity
+import per.goweii.wanandroid.module.book.activity.BookDetailsActivity
 import per.goweii.wanandroid.module.book.adapter.BookAdapter
-import per.goweii.wanandroid.module.book.bean.BookBean
+import per.goweii.wanandroid.module.book.model.BookBean
 import per.goweii.wanandroid.module.book.contract.BookPresenter
 import per.goweii.wanandroid.module.book.contract.BookView
 import per.goweii.wanandroid.utils.MultiStateUtils
@@ -55,7 +55,7 @@ class BookFragment : BaseFragment<BookPresenter>(), BookView {
         mAdapter.setEnableLoadMore(false)
         mAdapter.setOnItemClickListener { _, _, position ->
             mAdapter.getItem(position)?.let { item ->
-                BookIntroActivity.start(requireContext(), item.link)
+                BookDetailsActivity.start(requireContext(), item)
             }
         }
         rv.adapter = mAdapter

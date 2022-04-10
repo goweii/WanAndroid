@@ -1,12 +1,22 @@
 <resources>
 
-    <style name="StateView">
+    <style name="StateView_Center">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="msv_animateViewChanges">false</item>
-        <item name="msv_emptyView">@layout/layout_state_empty</item>
-        <item name="msv_errorView">@layout/layout_state_error</item>
-        <item name="msv_loadingView">@layout/layout_state_loading</item>
+        <item name="msv_emptyView">@layout/layout_state_empty_center</item>
+        <item name="msv_errorView">@layout/layout_state_error_center</item>
+        <item name="msv_loadingView">@layout/layout_state_loading_center</item>
+        <item name="msv_viewState">content</item>
+    </style>
+
+    <style name="StateView_Top">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="msv_animateViewChanges">false</item>
+        <item name="msv_emptyView">@layout/layout_state_empty_top</item>
+        <item name="msv_errorView">@layout/layout_state_error_top</item>
+        <item name="msv_loadingView">@layout/layout_state_loading_top</item>
         <item name="msv_viewState">content</item>
     </style>
 

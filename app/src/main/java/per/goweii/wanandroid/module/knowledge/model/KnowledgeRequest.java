@@ -45,7 +45,7 @@ public class KnowledgeRequest extends BaseRequest {
     }
 
     public static void getKnowledgeArticleListCache(int id, @IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
-        cacheBean(WanCache.CacheKey.KNOWLEDGE_ARTICLE_LIST(id, page),
+        cacheBean(WanCache.CacheKey.CHAPTER_ARTICLE_LIST(id, page, 0),
                 ArticleListBean.class,
                 listener);
     }
@@ -53,13 +53,13 @@ public class KnowledgeRequest extends BaseRequest {
     public static void getKnowledgeArticleList(RxLife rxLife, boolean refresh, int id, @IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
         if (page == 0) {
             cacheAndNetBean(rxLife,
-                    WanApi.api().getKnowledgeArticleList(page, id),
+                    WanApi.api().getChapterArticleList(page, id, 0),
                     refresh,
-                    WanCache.CacheKey.KNOWLEDGE_ARTICLE_LIST(id, page),
+                    WanCache.CacheKey.CHAPTER_ARTICLE_LIST(id, page, 0),
                     ArticleListBean.class,
                     listener);
         } else {
-            rxLife.add(request(WanApi.api().getKnowledgeArticleList(page, id), listener));
+            rxLife.add(request(WanApi.api().getChapterArticleList(page, id, 0), listener));
         }
     }
 
