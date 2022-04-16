@@ -8,7 +8,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
 import android.net.Uri
-import android.text.TextUtils
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -39,7 +38,6 @@ import per.goweii.wanandroid.utils.web.WebHolder.with
 import per.goweii.wanandroid.utils.web.cache.ReadingModeManager
 import per.goweii.wanandroid.utils.web.interceptor.WebReadingModeInterceptor
 import per.goweii.wanandroid.utils.web.interceptor.WebResUrlInterceptor
-import java.util.*
 
 /**
  * @author CuiZhen
@@ -47,17 +45,19 @@ import java.util.*
  */
 class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBackAbility.OnlyEdge {
     private data class FloatIcon(
-            val container: View,
-            val shadow: View,
-            val icon: View,
-            val tip: View,
-            var tipAnim: Animator? = null
+        val container: View,
+        val shadow: View,
+        val icon: View,
+        val tip: View,
+        var tipAnim: Animator? = null
     )
 
     companion object {
-        fun start(context: Context, url: String, title: String,
-                  articleId: Int, collected: Boolean,
-                  userName: String, userId: Int) {
+        fun start(
+            context: Context, url: String, title: String,
+            articleId: Int, collected: Boolean,
+            userName: String, userId: Int
+        ) {
             context.startActivity(Intent(context, ArticleActivity::class.java).apply {
                 putExtra("url", url)
                 putExtra("title", title)
@@ -104,17 +104,21 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         floatIcons.forEach {
             icons.add(FloatIconTouchListener.Icon(it.icon))
         }
-        v_back.setOnTouchListener(FloatIconTouchListener(icons, object : FloatIconTouchListener.OnFloatTouchedListener {
-            override fun onTouched(v: View?) {
-                var floatIcon: FloatIcon? = null
-                floatIcons.forEach {
-                    if (it.icon == v) {
-                        floatIcon = it
+        v_back.setOnTouchListener(
+            FloatIconTouchListener(
+                icons,
+                object : FloatIconTouchListener.OnFloatTouchedListener {
+                    override fun onTouched(v: View?) {
+                        var floatIcon: FloatIcon? = null
+                        floatIcons.forEach {
+                            if (it.icon == v) {
+                                floatIcon = it
+                            }
+                        }
+                        doFloatTipAnim(floatIcon)
                     }
-                }
-                doFloatTipAnim(floatIcon)
-            }
-        }))
+                })
+        )
         v_back.setOnClickListener {
             if (floatIconsVisible) toggleFloatIcons()
             else finish()
@@ -139,13 +143,13 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         }
         aiv_open.setOnClickListener {
             UrlOpenUtils.with(presenter.articleUrl)
-                    .title(presenter.articleTitle)
-                    .articleId(presenter.articleId)
-                    .collected(presenter.collected)
-                    .author(presenter.userName)
-                    .userId(presenter.userId)
-                    .forceWeb()
-                    .open(context)
+                .title(presenter.articleTitle)
+                .articleId(presenter.articleId)
+                .collected(presenter.collected)
+                .author(presenter.userName)
+                .userId(presenter.userId)
+                .forceWeb()
+                .open(context)
             if (floatIconsVisible) toggleFloatIcons()
         }
         cv_collect.setOnClickListener {
@@ -160,62 +164,74 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
             if (floatIconsVisible) toggleFloatIcons()
         }
         mWebHolder = with(this, wc, pb)
-                .setLoadCacheElseNetwork(true)
-                .setUseInstanceCache(true)
-                .setAllowOpenOtherApp(false)
-                .setAllowOpenDownload(false)
-                .setAllowRedirect(false)
-                .setOverrideUrlInterceptor {
-                    if (!isPageLoadFinished) return@setOverrideUrlInterceptor false
-                    if (!userTouched) return@setOverrideUrlInterceptor false
-                    val currUrlLoadTime = System.currentTimeMillis()
-                    val intercept = if (currUrlLoadTime - lastUrlLoadTime > 1000L) {
-                        UrlOpenUtils.with(it).open(context)
-                        true
-                    } else {
-                        false
-                    }
-                    lastUrlLoadTime = currUrlLoadTime
-                    return@setOverrideUrlInterceptor intercept
+            .setLoadCacheElseNetwork(true)
+            .setUseInstanceCache(true)
+            .setAllowOpenOtherApp(false)
+            .setAllowOpenDownload(false)
+            .setAllowRedirect(false)
+            .setOverrideUrlInterceptor {
+                if (!isPageLoadFinished) return@setOverrideUrlInterceptor false
+                if (!userTouched) return@setOverrideUrlInterceptor false
+                val currUrlLoadTime = System.currentTimeMillis()
+                val intercept = if (currUrlLoadTime - lastUrlLoadTime > 1000L) {
+                    UrlOpenUtils.with(it).open(context)
+                    true
+                } else {
+                    false
                 }
-                .setOnPageLoadCallback(object : WebHolder.OnPageLoadCallback {
-                    override fun onPageStarted() {
-                    }
+                lastUrlLoadTime = currUrlLoadTime
+                return@setOverrideUrlInterceptor intercept
+            }
+            .setOnPageLoadCallback(object : WebHolder.OnPageLoadCallback {
+                override fun onPageStarted() {
+                }
 
-                    override fun onPageFinished() {
-                        isPageLoadFinished = true
-                        val uri = Uri.parse(mWebHolder.url)
-                        val message = uri.getQueryParameter("scrollToKeywords")
-                        if (!message.isNullOrEmpty()) {
-                            mWebHolder.scrollToKeywords(message.split(","))
-                        }
-                    }
-                })
-                .setInterceptUrlInterceptor { uri, reqHeaders, reqMethod ->
-                    val pageUri = Uri.parse(presenter.articleUrl)
-                    ReadingModeManager.getUrlRegexBeanForHost(pageUri.host)
-                            ?: return@setInterceptUrlInterceptor null
-                    WebReadingModeInterceptor.intercept(pageUri, uri, mWebHolder.userAgent, reqHeaders, reqMethod)?.let {
-                        return@setInterceptUrlInterceptor it
-                    }
-                    WebResUrlInterceptor.intercept(pageUri, uri, mWebHolder.userAgent, reqHeaders, reqMethod)?.let {
-                        return@setInterceptUrlInterceptor it
-                    }
-                    return@setInterceptUrlInterceptor null
-                }
-                .setOnPageTitleCallback {
-                    presenter.addReadRecord(mWebHolder.url, mWebHolder.title, mWebHolder.percent)
-                }
-                .setOnPageScrollEndListener {
-                    presenter.isReadLater { isReadLater ->
-                        if (isReadLater) {
-                            presenter.removeReadLater()
-                        }
+                override fun onPageFinished() {
+                    isPageLoadFinished = true
+                    val uri = Uri.parse(mWebHolder.url)
+                    val message = uri.getQueryParameter("scrollToKeywords")
+                    if (!message.isNullOrEmpty()) {
+                        mWebHolder.scrollToKeywords(message.split(","))
                     }
                 }
-                .setOnPageScrollChangeListener {
-                    presenter.updateReadRecordPercent(mWebHolder.url, it)
+            })
+            .setInterceptUrlInterceptor { uri, reqHeaders, reqMethod ->
+                val pageUri = Uri.parse(presenter.articleUrl)
+                ReadingModeManager.getUrlRegexBeanForHost(pageUri.host)
+                    ?: return@setInterceptUrlInterceptor null
+                WebReadingModeInterceptor.intercept(
+                    pageUri,
+                    uri,
+                    mWebHolder.userAgent,
+                    reqHeaders,
+                    reqMethod
+                )?.let {
+                    return@setInterceptUrlInterceptor it
                 }
+                WebResUrlInterceptor.intercept(
+                    pageUri,
+                    uri,
+                    mWebHolder.userAgent,
+                    reqHeaders,
+                    reqMethod
+                )?.let {
+                    return@setInterceptUrlInterceptor it
+                }
+                return@setInterceptUrlInterceptor null
+            }
+            .setOnPageTitleCallback {
+                presenter.addReadRecord(mWebHolder.url, mWebHolder.title, mWebHolder.percent)
+            }
+            .setOnPageScrollEndListener {
+                presenter.isReadLater { isReadLater ->
+                    if (isReadLater) {
+                        presenter.removeReadLater()
+                    }
+                }
+            }
+            .setOnPageScrollChangeListener {
+                presenter.updateReadRecordPercent(mWebHolder.url, it)
+            }
         wc.setOnDoubleClickListener { _, _ ->
             if (rl != null) {
                 changeRevealLayoutCenterXY(rl.width * 0.5F, rl.height * 0.5F)
@@ -279,12 +295,14 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                         floatIcon.tip.alpha
                     }
                     playTogether(
-                            ObjectAnimator.ofFloat(
-                                    floatIcon.tip, "translationX",
-                                    fromX, 0F),
-                            ObjectAnimator.ofFloat(
-                                    floatIcon.tip, "alpha",
-                                    fromA, 1F)
+                        ObjectAnimator.ofFloat(
+                            floatIcon.tip, "translationX",
+                            fromX, 0F
+                        ),
+                        ObjectAnimator.ofFloat(
+                            floatIcon.tip, "alpha",
+                            fromA, 1F
+                        )
                     )
                     addListener(object : Animator.AnimatorListener {
                         override fun onAnimationStart(animation: Animator?) {
@@ -308,12 +326,14 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                     val fromX = floatIcon.tip.translationX
                     val fromA = floatIcon.tip.alpha
                     playTogether(
-                            ObjectAnimator.ofFloat(
-                                    floatIcon.tip, "translationX",
-                                    fromX, -floatIcon.icon.width.toFloat()),
-                            ObjectAnimator.ofFloat(
-                                    floatIcon.tip, "alpha",
-                                    fromA, 0F)
+                        ObjectAnimator.ofFloat(
+                            floatIcon.tip, "translationX",
+                            fromX, -floatIcon.icon.width.toFloat()
+                        ),
+                        ObjectAnimator.ofFloat(
+                            floatIcon.tip, "alpha",
+                            fromA, 0F
+                        )
                     )
                     addListener(object : Animator.AnimatorListener {
                         private var endByCancel = false
@@ -351,8 +371,9 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         floatIconsAnim = AnimatorSet().apply {
             val anims = mutableListOf<Animator>()
             anims.add(ObjectAnimator.ofFloat(
-                    fl_back, "rotation",
-                    fl_back.rotation, if (floatIconsVisible) 360F else 0F).apply {
+                fl_back, "rotation",
+                fl_back.rotation, if (floatIconsVisible) 360F else 0F
+            ).apply {
                 duration = 300L
                 addUpdateListener {
                     if (it.animatedFraction > 0.5F) {
@@ -364,14 +385,18 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
             floatIcons.filterIndexed { index, floatIconModel ->
                 anims.add(AnimatorSet().apply {
                     duration = 300L
+                    val isBegin = floatIconModel.container.translationY == 0F
                     playTogether(
-                            ObjectAnimator.ofFloat(
-                                    floatIconModel.container, "translationY",
-                                    floatIconModel.container.translationY,
-                                    if (floatIconsVisible) -floatIconModel.container.height.toFloat() * (index + 1) else 0F),
-                            ObjectAnimator.ofFloat(
-                                    floatIconModel.shadow, "alpha",
-                                    floatIconModel.shadow.alpha, if (floatIconsVisible) 1F else 0F)
+                        ObjectAnimator.ofFloat(
+                            floatIconModel.container, "translationY",
+                            if (isBegin) 0F else floatIconModel.container.translationY,
+                            if (floatIconsVisible) -floatIconModel.container.height.toFloat() * (index + 1) else 0F
+                        ),
+                        ObjectAnimator.ofFloat(
+                            floatIconModel.shadow, "alpha",
+                            if (isBegin) 0F else floatIconModel.shadow.alpha,
+                            if (floatIconsVisible) 1F else 0F
+                        )
                     )
                 })
             }
@@ -459,10 +484,20 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
     private fun switchReadLaterIcon() {
         if (presenter.readLater) {
             aiv_read_later.setImageResource(R.drawable.ic_read_later_added)
-            aiv_read_later.setColorFilter(ResUtils.getThemeColor(aiv_read_later, R.attr.colorIconMain))
+            aiv_read_later.setColorFilter(
+                ResUtils.getThemeColor(
+                    aiv_read_later,
+                    R.attr.colorIconMain
+                )
+            )
         } else {
             aiv_read_later.setImageResource(R.drawable.ic_read_later)
-            aiv_read_later.setColorFilter(ResUtils.getThemeColor(aiv_read_later, R.attr.colorIconSurface))
+            aiv_read_later.setColorFilter(
+                ResUtils.getThemeColor(
+                    aiv_read_later,
+                    R.attr.colorIconSurface
+                )
+            )
         }
     }
 
@@ -483,134 +518,134 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
 
     private fun showGuideBackBtnDialog(onDismiss: () -> Unit) {
         GuideLayer(this@ArticleActivity)
-                .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
-                .addMapping(GuideLayer.Mapping().apply {
-                    setTargetView(iv_close)
-                    cornerRadius = 9999F
-                    guideView = LayoutInflater.from(this@ArticleActivity)
-                            .inflate(R.layout.dialog_guide_tip, null, false).apply {
-                                findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
-                                    text = "长按返回按钮有更多快捷菜单~"
-                                }
-                            }
-                    marginLeft = ResUtils.getDimens(R.dimen.margin_def).toInt()
-                    setHorizontalAlign(GuideLayer.Align.Horizontal.TO_RIGHT)
-                    setVerticalAlign(GuideLayer.Align.Vertical.CENTER)
-                })
-                .addMapping(GuideLayer.Mapping().apply {
-                    val cx = window?.decorView?.width ?: 0 / 2
-                    val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect = Rect(cx, cy, cx, cy)
-                    guideView = LayoutInflater.from(this@ArticleActivity)
-                            .inflate(R.layout.dialog_guide_btn, null, false).apply {
-                                findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
-                                    text = "下一个"
-                                }
-                            }
-                    marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
-                    setHorizontalAlign(GuideLayer.Align.Horizontal.CENTER)
-                    setVerticalAlign(GuideLayer.Align.Vertical.CENTER)
-                    addOnClickListener(Layer.OnClickListener { layer, _ ->
-                        layer.dismiss()
-                    }, R.id.dialog_guide_tv_btn)
-                })
-                .addOnVisibleChangeListener(object : Layer.OnVisibleChangedListener {
-                    override fun onShow(layer: Layer) {
+            .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
+            .addMapping(GuideLayer.Mapping().apply {
+                setTargetView(iv_close)
+                cornerRadius = 9999F
+                guideView = LayoutInflater.from(this@ArticleActivity)
+                    .inflate(R.layout.dialog_guide_tip, null, false).apply {
+                        findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
+                            text = "长按返回按钮有更多快捷菜单~"
+                        }
                     }
+                marginLeft = ResUtils.getDimens(R.dimen.margin_def).toInt()
+                setHorizontalAlign(GuideLayer.Align.Horizontal.TO_RIGHT)
+                setVerticalAlign(GuideLayer.Align.Vertical.CENTER)
+            })
+            .addMapping(GuideLayer.Mapping().apply {
+                val cx = window?.decorView?.width ?: 0 / 2
+                val cy = window?.decorView?.height ?: 0 / 2
+                targetRect = Rect(cx, cy, cx, cy)
+                guideView = LayoutInflater.from(this@ArticleActivity)
+                    .inflate(R.layout.dialog_guide_btn, null, false).apply {
+                        findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
+                            text = "下一个"
+                        }
+                    }
+                marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
+                setHorizontalAlign(GuideLayer.Align.Horizontal.CENTER)
+                setVerticalAlign(GuideLayer.Align.Vertical.CENTER)
+                addOnClickListener(Layer.OnClickListener { layer, _ ->
+                    layer.dismiss()
+                }, R.id.dialog_guide_tv_btn)
+            })
+            .addOnVisibleChangeListener(object : Layer.OnVisibleChangedListener {
+                override fun onShow(layer: Layer) {
+                }
 
-                    override fun onDismiss(layer: Layer) {
-                        onDismiss.invoke()
-                    }
-                })
-                .show()
+                override fun onDismiss(layer: Layer) {
+                    onDismiss.invoke()
+                }
+            })
+            .show()
     }
 
     @SuppressLint("InflateParams")
     private fun showGuideDoubleTapDialog(onDismiss: () -> Unit) {
         GuideLayer(this@ArticleActivity)
-                .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
-                .addMapping(GuideLayer.Mapping().apply {
-                    val cx = window?.decorView?.width ?: 0 / 2
-                    val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect = Rect(cx, cy, cx, cy)
-                    guideView = LayoutInflater.from(this@ArticleActivity)
-                            .inflate(R.layout.dialog_guide_tip, null, false).apply {
-                                findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
-                                    text = "双击任意位置可快速收藏~"
-                                }
-                            }
-                    horizontalAlign = GuideLayer.Align.Horizontal.CENTER
-                    verticalAlign = GuideLayer.Align.Vertical.CENTER
-                })
-                .addMapping(GuideLayer.Mapping().apply {
-                    val cx = window?.decorView?.width ?: 0 / 2
-                    val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect = Rect(cx, cy, cx, cy)
-                    guideView = LayoutInflater.from(this@ArticleActivity)
-                            .inflate(R.layout.dialog_guide_btn, null, false).apply {
-                                findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
-                                    text = "下一个"
-                                }
-                            }
-                    horizontalAlign = GuideLayer.Align.Horizontal.CENTER
-                    verticalAlign = GuideLayer.Align.Vertical.ALIGN_PARENT_BOTTOM
-                    marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
-                    addOnClickListener(Layer.OnClickListener { layer, _ ->
-                        layer.dismiss()
-                    }, R.id.dialog_guide_tv_btn)
-                })
-                .addOnVisibleChangeListener(object : Layer.OnVisibleChangedListener {
-                    override fun onShow(layer: Layer) {
+            .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
+            .addMapping(GuideLayer.Mapping().apply {
+                val cx = window?.decorView?.width ?: 0 / 2
+                val cy = window?.decorView?.height ?: 0 / 2
+                targetRect = Rect(cx, cy, cx, cy)
+                guideView = LayoutInflater.from(this@ArticleActivity)
+                    .inflate(R.layout.dialog_guide_tip, null, false).apply {
+                        findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
+                            text = "双击任意位置可快速收藏~"
+                        }
                     }
+                horizontalAlign = GuideLayer.Align.Horizontal.CENTER
+                verticalAlign = GuideLayer.Align.Vertical.CENTER
+            })
+            .addMapping(GuideLayer.Mapping().apply {
+                val cx = window?.decorView?.width ?: 0 / 2
+                val cy = window?.decorView?.height ?: 0 / 2
+                targetRect = Rect(cx, cy, cx, cy)
+                guideView = LayoutInflater.from(this@ArticleActivity)
+                    .inflate(R.layout.dialog_guide_btn, null, false).apply {
+                        findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
+                            text = "下一个"
+                        }
+                    }
+                horizontalAlign = GuideLayer.Align.Horizontal.CENTER
+                verticalAlign = GuideLayer.Align.Vertical.ALIGN_PARENT_BOTTOM
+                marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
+                addOnClickListener(Layer.OnClickListener { layer, _ ->
+                    layer.dismiss()
+                }, R.id.dialog_guide_tv_btn)
+            })
+            .addOnVisibleChangeListener(object : Layer.OnVisibleChangedListener {
+                override fun onShow(layer: Layer) {
+                }
 
-                    override fun onDismiss(layer: Layer) {
-                        onDismiss.invoke()
-                    }
-                })
-                .show()
+                override fun onDismiss(layer: Layer) {
+                    onDismiss.invoke()
+                }
+            })
+            .show()
     }
 
     private fun showGuidePreviewImageDialog(onDismiss: () -> Unit) {
         GuideLayer(this@ArticleActivity)
-                .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
-                .addMapping(GuideLayer.Mapping().apply {
-                    val cx = window?.decorView?.width ?: 0 / 2
-                    val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect = Rect(cx, cy, cx, cy)
-                    guideView = LayoutInflater.from(this@ArticleActivity)
-                            .inflate(R.layout.dialog_guide_tip, null, false).apply {
-                                findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
-                                    text = "长按网页图片可预览大图~"
-                                }
-                            }
-                    horizontalAlign = GuideLayer.Align.Horizontal.CENTER
-                    verticalAlign = GuideLayer.Align.Vertical.CENTER
-                })
-                .addMapping(GuideLayer.Mapping().apply {
-                    val cx = window?.decorView?.width ?: 0 / 2
-                    val cy = window?.decorView?.height ?: 0 / 2
-                    targetRect = Rect(cx, cy, cx, cy)
-                    guideView = LayoutInflater.from(this@ArticleActivity)
-                            .inflate(R.layout.dialog_guide_btn, null, false).apply {
-                                findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
-                                    text = "我知道了"
-                                }
-                            }
-                    horizontalAlign = GuideLayer.Align.Horizontal.CENTER
-                    verticalAlign = GuideLayer.Align.Vertical.ALIGN_PARENT_BOTTOM
-                    marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
-                    addOnClickListener(Layer.OnClickListener { layer, _ ->
-                        layer.dismiss()
-                    }, R.id.dialog_guide_tv_btn)
-                })
-                .addOnVisibleChangeListener(object : Layer.OnVisibleChangedListener {
-                    override fun onShow(layer: Layer) {
+            .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
+            .addMapping(GuideLayer.Mapping().apply {
+                val cx = window?.decorView?.width ?: 0 / 2
+                val cy = window?.decorView?.height ?: 0 / 2
+                targetRect = Rect(cx, cy, cx, cy)
+                guideView = LayoutInflater.from(this@ArticleActivity)
+                    .inflate(R.layout.dialog_guide_tip, null, false).apply {
+                        findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
+                            text = "长按网页图片可预览大图~"
+                        }
                     }
+                horizontalAlign = GuideLayer.Align.Horizontal.CENTER
+                verticalAlign = GuideLayer.Align.Vertical.CENTER
+            })
+            .addMapping(GuideLayer.Mapping().apply {
+                val cx = window?.decorView?.width ?: 0 / 2
+                val cy = window?.decorView?.height ?: 0 / 2
+                targetRect = Rect(cx, cy, cx, cy)
+                guideView = LayoutInflater.from(this@ArticleActivity)
+                    .inflate(R.layout.dialog_guide_btn, null, false).apply {
+                        findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
+                            text = "我知道了"
+                        }
+                    }
+                horizontalAlign = GuideLayer.Align.Horizontal.CENTER
+                verticalAlign = GuideLayer.Align.Vertical.ALIGN_PARENT_BOTTOM
+                marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
+                addOnClickListener(Layer.OnClickListener { layer, _ ->
+                    layer.dismiss()
+                }, R.id.dialog_guide_tv_btn)
+            })
+            .addOnVisibleChangeListener(object : Layer.OnVisibleChangedListener {
+                override fun onShow(layer: Layer) {
+                }
 
-                    override fun onDismiss(layer: Layer) {
-                        onDismiss.invoke()
-                    }
-                })
-                .show()
+                override fun onDismiss(layer: Layer) {
+                    onDismiss.invoke()
+                }
+            })
+            .show()
     }
 }

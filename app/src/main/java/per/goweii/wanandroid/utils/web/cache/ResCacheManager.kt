@@ -25,7 +25,7 @@ object ResCacheManager {
             }
         }
         if (diskLruCache == null) {
-            val file = File(CacheUtils.getFilesDir(), "web/res")
+            val file = File(CacheUtils.getCacheDir(), "web/res")
             if (!file.exists()) {
                 file.mkdirs()
             }

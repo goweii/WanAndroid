@@ -745,46 +745,22 @@ public class WebHolder {
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, String url) {
-            Uri reqUri = Uri.parse(url);
-            WebResourceResponse response = shouldInterceptRequest(reqUri, null, null);
-            if (response != null) {
-                return response;
-            } else {
-                return super.shouldInterceptRequest(view, url);
-            }
+            return shouldInterceptRequest(Uri.parse(url), null, null);
         }
 
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            Uri reqUri = request.getUrl();
-            if (reqUri == null) {
-                return super.shouldInterceptRequest(view, request);
-            }
             Map<String, String> reqHeaders = request.getRequestHeaders();
             String reqMethod = request.getMethod();
-            WebResourceResponse response = shouldInterceptRequest(reqUri, reqHeaders, reqMethod);
-            if (response != null) {
-                return response;
-            } else {
-                return super.shouldInterceptRequest(view, request);
-            }
+            return shouldInterceptRequest(request.getUrl(), reqHeaders, reqMethod);
         }
 
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request, Bundle bundle) {
-            Uri reqUri = request.getUrl();
-            if (reqUri == null) {
-                return super.shouldInterceptRequest(view, request, bundle);
-            }
             Map<String, String> reqHeaders = request.getRequestHeaders();
             String reqMethod = request.getMethod();
-            WebResourceResponse response = shouldInterceptRequest(reqUri, reqHeaders, reqMethod);
-            if (response != null) {
-                return response;
-            } else {
-                return super.shouldInterceptRequest(view, request, bundle);
-            }
+            return shouldInterceptRequest(request.getUrl(), reqHeaders, reqMethod);
         }
 
         @Override

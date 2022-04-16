@@ -39,7 +39,7 @@ object CssStyleManager {
         }
     }
 
-    private fun get(name: String): String? {
+    fun get(name: String): String? {
         var css = cache[name]
         if (!css.isNullOrEmpty()) {
             return css

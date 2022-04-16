@@ -21,7 +21,7 @@ object HtmlCacheManager : CoroutineScope by GlobalScope {
             }
         }
         if (diskLruCache == null) {
-            val file = File(CacheUtils.getFilesDir(), "web/html")
+            val file = File(CacheUtils.getCacheDir(), "web/html")
             if (!file.exists()) {
                 file.mkdirs()
             }
@@ -39,7 +39,8 @@ object HtmlCacheManager : CoroutineScope by GlobalScope {
         synchronized(this) {
             launch(Dispatchers.IO) {
                 if (!hasSaved(url)) {
-                    val html = WebHttpClient.request(url, "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36", null, "GET").stringRespBody()
+                    val html = WebHttpClient.request(url, "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Mobile Safari/537.36", null, "GET")
+                        .stringRespBody()
                     if (html != null) {
                         save(url, html)
                     }

@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import per.goweii.anylayer.dialog.DialogLayer
+import per.goweii.anylayer.ktx.interceptKeyEvent
 import per.goweii.anylayer.utils.AnimatorHelper
 import per.goweii.anylayer.widget.SwipeLayout
 import per.goweii.basic.core.glide.GlideHelper
@@ -32,6 +33,8 @@ class ImagePreviewDialog(
 
     init {
         setBackgroundDimAmount(1F)
+        setInterceptKeyEvent(true)
+        setCancelableOnClickKeyBack(true)
         setContentView(R.layout.dialog_image_preview)
         setContentAnimator(object : AnimatorCreator {
             override fun createInAnimator(target: View): Animator {
@@ -104,7 +107,7 @@ class ImagePreviewDialog(
             }
         }
         GlideHelper.with(ipv.context)
-                .cache(false)
+                .cache(true)
                 .placeHolder(ContextCompat.getDrawable(ipv.context, R.drawable.shape_image_perview_place_holder))
                 .errorHolder(ContextCompat.getDrawable(ipv.context, R.drawable.shape_image_perview_place_holder))
                 .load(imageUrl)
