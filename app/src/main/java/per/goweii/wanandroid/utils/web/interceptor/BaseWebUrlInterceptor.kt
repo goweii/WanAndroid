@@ -10,7 +10,7 @@ import per.goweii.wanandroid.utils.web.interceptor.WebHttpClient.stringRespBody
 abstract class BaseWebUrlInterceptor : WebUrlInterceptor {
     private val callList = arrayListOf<Call>()
 
-    protected fun Call.resp(): String? {
+    fun Call.resp(): String? {
         callList.add(this)
         val resp = stringRespBody()
         callList.remove(this)
