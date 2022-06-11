@@ -19,7 +19,7 @@ ext {
 
     versions = [
             androidx_core         : "1.2.0",
-            androidx_appcompat    : "1.4.2",
+            androidx_appcompat    : "1.2.0",
             androidx_arch         : "2.1.0",
             androidx_annotation   : "1.1.0",
             androidx_multidex     : "2.0.1",
