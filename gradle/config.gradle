@@ -19,6 +19,7 @@ ext {
 
     versions = [
             androidx_core         : "1.2.0",
+            androidx_appcompat    : "1.4.2",
             androidx_arch         : "2.1.0",
             androidx_annotation   : "1.1.0",
             androidx_multidex     : "2.0.1",
@@ -96,6 +97,7 @@ ext {
     dependencies = [
             androidx                     : "androidx.core:core:${versions.androidx_core}",
             androidxKtx                  : "androidx.core:core-ktx:${versions.androidx_core}",
+            androidxAppcompat            : "androidx.appcompat:appcompat:${versions.androidx_appcompat}",
             lifecycle                    : "androidx.lifecycle:lifecycle-runtime-ktx:${versions.androidx_lifecycle}",
             lifecycle_java8              : "androidx.lifecycle:lifecycle-common-java8:${versions.androidx_lifecycle}",
             lifecycle_compiler           : "androidx.lifecycle:lifecycle-compiler:${versions.androidx_lifecycle}",
