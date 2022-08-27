@@ -1,10 +1,3 @@
-# 🔔**因更新接口失效，请手动下载安装最新版**
-
-- [下载地址一](https://www.wanandroid.com/blogimgs/154f11b6-1d4e-4e67-ae3d-3249b305c37e.apk)
-- [下载地址二](https://github.com/goweii/WanAndroid/releases/download/2.2.1/com.goweii.wanandroid-2.2.1-74-release.apk)
-
-
-
 # WanAndroid
 
 [WanAndroid](https://www.wanandroid.com/)|最美玩安卓客户端
