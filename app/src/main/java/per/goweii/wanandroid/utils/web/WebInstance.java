@@ -74,6 +74,7 @@ public class WebInstance {
             webView.pauseTimers();
             webView.setWebChromeClient(null);
             webView.setWebViewClient(null);
+            clearListeners(webView);
         } catch (Exception ignore) {
         } finally {
             if (!mCache.contains(webView)) {
@@ -127,5 +128,24 @@ public class WebInstance {
             CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
         }
         return webView;
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void clearListeners(@NonNull WebView webView) {
+        webView.setDownloadListener(null);
+        webView.setFindListener(null);
+        webView.setPictureListener(null);
+        webView.setOnKeyListener(null);
+        webView.setOnTouchListener(null);
+        webView.setOnClickListener(null);
+        webView.setOnLongClickListener(null);
+        webView.setOnDragListener(null);
+        webView.setLayoutAnimationListener(null);
+        webView.setOnFocusChangeListener(null);
+        webView.setOnApplyWindowInsetsListener(null);
+        webView.setOnSystemUiVisibilityChangeListener(null);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            webView.setOnScrollChangeListener(null);
+        }
     }
 }
