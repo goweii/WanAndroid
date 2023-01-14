@@ -130,7 +130,7 @@ public class DownloadDialog {
                         } else if (retryCount <= 6) {
                             startDownload(DownloadDialog.this.urlBackup);
                         } else {
-                            ToastMaker.showShort("下载失败，可前往酷安手动更新");
+                            ToastMaker.showShort("下载失败，可前往Github仓库下载：我的-系统设置-关于我们-项目仓库");
                             dismiss();
                         }
                     }

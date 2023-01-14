@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="theme_red_color_primary">#F5422F</color>
-    <color name="theme_red_color_primary_a60">#99F5422F</color>
-    <color name="theme_red_color_primary_light">#F65443</color>
+    <color name="theme_red_color_primary">#ff2525</color>
+    <color name="theme_red_color_primary_a60">#99ff2525</color>
+    <color name="theme_red_color_primary_light">#F3465D</color>
     <color name="theme_red_color_primary_light_a05">#11F36657</color>
     <color name="theme_red_color_primary_dark_a60">#99982A1E</color>
     <color name="theme_red_color_accent">#ff9f1c</color>
@@ -17,38 +17,70 @@
         <item name="colorPrimary">@color/theme_red_color_primary</item>
         <item name="colorAccent">@color/theme_red_color_primary</item>
         <item name="colorPrimaryDark">@color/color_transparent</item>
-        <!-- 主题颜色 -->
+
+
+        <!-- app/src/main/res/values/themes.xml -->
+
+        <item name="colorIcLauncherBackgroundStart">@color/theme_red_color_primary</item>
+        <item name="colorIcLauncherBackgroundEnd">@color/theme_red_color_primary</item>
+        <item name="colorLoginBg">@color/theme_red_color_primary</item>
+        <item name="colorBottomBarOverlay">@color/color_gray_light_a80</item>
+        <item name="colorMineBlurOverlay">@color/color_black_a05</item>
+        <item name="colorAboutMeBlurOverlay">@color/color_black_a05</item>
+        <item name="colorScrollbar">@color/color_black_a13</item>
+        <item name="colorHeartUncheckedOnMain">@color/color_gray_light</item>
+        <item name="colorHeartOuter">@color/theme_red_color_primary</item>
+        <item name="colorHeartCenter">@color/theme_red_color_primary_light</item>
+
+
+        <!-- basic_res/src/main/res/values/themes.xml -->
+
+        <item name="colorTransparent">@color/color_transparent</item>
+
         <item name="colorMain">@color/theme_red_color_primary</item>
         <item name="colorMainAlpha">@color/theme_red_color_primary_a60</item>
         <item name="colorStriking">@color/theme_red_color_accent</item>
         <item name="colorAssist">@color/theme_red_color_assist</item>
-        <item name="colorDialogBg">@color/color_black_a50</item>
-        <item name="colorToastBg">@color/color_white</item>
-        <item name="colorRippleDark">@color/color_black_a05</item>
-        <item name="colorRippleLight">@color/color_white_a05</item>
-        <item name="colorLauncherBackground">@color/theme_red_color_primary</item>
-        <item name="colorTransparent">@color/color_transparent</item>
-        <item name="colorLine">@color/color_gray</item>
+        <item name="colorSecond">@color/color_gray_dark2</item>
+        <item name="colorThird">@color/color_gray_dark3</item>
+        <item name="colorFourth">@color/color_gray_dark4</item>
+        <item name="colorInvert">@color/color_gray_dark1</item>
+        <item name="colorInvertAlpha">@color/color_black_a05</item>
+
         <item name="colorBackground">@color/color_gray_light</item>
         <item name="colorBackgroundAlpha">@color/color_gray_light_a80</item>
         <item name="colorBackgroundMask">@color/color_black_a05</item>
+
         <item name="colorForeground">@color/color_white</item>
         <item name="colorForegroundAlpha">@color/color_white_a80</item>
         <item name="colorForegroundMask">@color/color_white_a80</item>
         <item name="colorForegroundTop">@color/color_gray_light</item>
+
         <item name="colorSurface">@color/color_white</item>
         <item name="colorSurfaceAlpha">@color/color_white_a80</item>
         <item name="colorSurfaceMask">@color/color_black_a05</item>
         <item name="colorSurfaceTop">@color/color_gray_light</item>
         <item name="colorSurfaceTopAlpha">@color/color_gray_light_a80</item>
         <item name="colorSurfaceTopMask">@color/color_black_a05</item>
-        <item name="colorInvert">@color/color_gray_dark1</item>
-        <item name="colorInvertAlpha">@color/color_black_a05</item>
-        <item name="colorSecond">@color/color_gray_dark2</item>
-        <item name="colorThird">@color/color_gray_dark3</item>
-        <item name="colorFourth">@color/color_gray_dark4</item>
+
+        <item name="colorMainOrSurface">@color/theme_red_color_primary</item>
+
+        <item name="colorOnMainOrSurface">@color/color_white</item>
+        <item name="colorOnMainOrSurfaceAlpha">@color/color_white_a50</item>
+
+        <item name="colorRippleDark">@color/color_black_a05</item>
+        <item name="colorRippleLight">@color/color_white_a05</item>
+
         <item name="colorShadow">@color/color_black_a08</item>
         <item name="colorShadowMain">@color/theme_red_color_primary_dark_a60</item>
+
+        <item name="colorLine">@color/color_gray</item>
+
+        <item name="colorLauncherBackground">@color/theme_red_color_primary</item>
+        <item name="colorDialogBg">@color/color_black_a50</item>
+        <item name="colorToastBg">@color/color_black_dark3_a80</item>
+        <item name="colorDialogCard">@color/color_white</item>
+
         <item name="colorTextMain">@color/theme_red_color_primary</item>
         <item name="colorTextMainAlpha">@color/theme_red_color_primary_a60</item>
         <item name="colorTextAccent">@color/theme_red_color_accent</item>
@@ -60,6 +92,9 @@
         <item name="colorTextInvert">@color/color_white</item>
         <item name="colorTextInvertAlpha">@color/color_white_a50</item>
         <item name="colorTextOnMain">@color/color_white</item>
+        <item name="colorTextOnShadow">@color/color_white</item>
+        <item name="colorTextToast">@color/color_white</item>
+
         <item name="colorIconMain">@color/theme_red_color_primary</item>
         <item name="colorIconAccent">@color/theme_red_color_accent</item>
         <item name="colorIconSurface">@color/color_gray_dark1</item>
@@ -68,21 +103,9 @@
         <item name="colorIconFourth">@color/color_gray_dark4</item>
         <item name="colorIconInvert">@color/color_white</item>
         <item name="colorIconOnMain">@color/color_white</item>
-        <item name="colorMainOrSurface">@color/theme_red_color_primary</item>
-        <item name="colorOnMainOrSurface">@color/color_white</item>
-        <item name="colorOnMainOrSurfaceAlpha">@color/color_white_a50</item>
         <item name="colorIconLight">@color/color_white</item>
         <item name="colorIconDark">@color/color_gray_dark1</item>
-        <item name="colorIcLauncherBackgroundStart">@color/theme_red_color_primary</item>
-        <item name="colorIcLauncherBackgroundEnd">@color/theme_red_color_primary</item>
-        <item name="colorLoginBg">@color/theme_red_color_primary</item>
-        <item name="colorBottomBarOverlay">@color/color_gray_light_a80</item>
-        <item name="colorMineBlurOverlay">@color/color_black_a05</item>
-        <item name="colorAboutMeBlurOverlay">@color/color_black_a05</item>
-        <item name="colorScrollbar">@color/color_black_a13</item>
-        <item name="colorHeartUncheckedOnMain">@color/color_gray_light</item>
-        <item name="colorHeartOuter">@color/theme_red_color_primary</item>
-        <item name="colorHeartCenter">@color/theme_red_color_primary_light</item>
+
     </style>
 
 </resources>
