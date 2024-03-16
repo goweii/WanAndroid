@@ -38,7 +38,7 @@ object WebReadingModeInterceptor : BaseWebUrlInterceptor() {
             // val doc = Jsoup.parse(html, url)
             // doc.head().appendChild(style)
             // html = doc.html() ?: return null
-            html = CssStyleManager.appendCssOnFirstStyle(html, urlRegexBean.name)
+            html = CssStyleManager.addStyle(html, urlRegexBean.name)
         }
         return WebResourceResponse("text/html", "utf-8", ByteArrayInputStream(html.toByteArray()))
     }

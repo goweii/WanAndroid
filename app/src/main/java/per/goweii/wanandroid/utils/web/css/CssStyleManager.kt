@@ -11,11 +11,98 @@ import java.util.regex.Pattern
  * @date 2020/7/12
  */
 object CssStyleManager {
+    private const val headRegex = "(<head[\\s\\S]*?>)([\\s\\S]*?)(</head>)"
+    private const val scriptRegex = "(<script[\\s\\S]*?>)([\\s\\S]*?)(</script>)"
     private const val styleRegex = "(<style[\\s\\S]*?>)([\\s\\S]*?)(</style>)"
     private const val url = "https://goweii.gitee.io/wanandroidserver/web/css/"
 
+    private val disableJsModifyCssScript = """
+// 将 style 属性设置为只读
+Object.defineProperty(HTMLElement.prototype, 'style', {
+  get: function() { 
+    return this.attributes.style;
+  },
+  set: function(value) {
+    throw new Error('CSS modification is not allowed.');
+  }
+});
+ 
+// 或者监听DOM mutation events来阻止修改
+document.addEventListener('DOMSubtreeModified', function(e) {
+  var target = e.target;
+  if (target instanceof HTMLElement && target.style !== target.getAttribute('style')) {
+    throw new Error('CSS modification is not allowed.');
+  }
+}, true);
+            """.trimIndent();
+
     private val cache = hashMapOf<String, String>()
     private val updateTime = hashMapOf<String, Long>()
+
+    fun addStyle(html: String, name: String): String {
+        val pattern = Pattern.compile(headRegex)
+        val m = pattern.matcher(html)
+        return if (m.find()) {
+            val start = m.start(0)
+            val end = m.end(0)
+            val sb = StringBuilder()
+            sb.append(html.substring(0 until start))
+            sb.append(m.group(1))
+            sb.append("\n")
+            sb.append("<script>")
+            sb.append("\n")
+//            sb.append(disableJsModifyCssScript)
+            sb.append("\n")
+            sb.append("</script>")
+            sb.append("\n")
+            get(name)?.let { css ->
+                sb.append("<style>")
+                sb.append("\n")
+                sb.append(css)
+                sb.append("\n")
+                sb.append("</style>")
+                sb.append("\n")
+            }
+            sb.append(m.group(2))
+            sb.append(m.group(3))
+            sb.append(html.substring(end until html.length))
+            sb.toString()
+        } else {
+            html
+        }
+    }
+
+    fun disableJsModifyCss(html: String): String {
+        val pattern = Pattern.compile(scriptRegex)
+        val m = pattern.matcher(html)
+        return if (m.find()) {
+            val start = m.start(0)
+            val end = m.end(0)
+            val sb = StringBuilder()
+            sb.append(html.substring(0 until start))
+            sb.append(m.group(1))
+            sb.append(m.group(2))
+            sb.append("\n")
+            sb.append(
+                """
+                Object.defineProperty(HTMLElement.prototype, 'style', {
+                  get: function() { 
+                    return this.attributes.style;
+                  },
+                  set: function(value) {
+                    throw new Error('CSS modification is not allowed.');
+                  }
+                });
+            """.trimIndent()
+            )
+            sb.append("\n")
+            sb.append(m.group(3))
+            sb.append(html.substring(end until html.length))
+            sb.toString()
+        } else {
+            html
+        }
+    }
 
     fun appendCssOnFirstStyle(html: String, name: String): String {
         val css = get(name) ?: return html
