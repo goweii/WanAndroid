@@ -13,7 +13,7 @@
         style="@style/ActionBar"
         app:ab_titleBarLayout="@layout/action_bar_web" />
 
-    <per.goweii.wanandroid.widget.WebContainer
+    <per.goweii.wanandroid.utils.web.view.WebContainer
         android:id="@+id/wc"
         android:layout_width="match_parent"
         android:layout_height="0dp"

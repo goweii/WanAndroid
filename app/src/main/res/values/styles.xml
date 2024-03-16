@@ -64,4 +64,9 @@
         <item name="absuper_left1IconClickToFinish">true</item>
     </style>
 
+    <style name="ShapeAppearanceRoundDef">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/round_radius</item>
+    </style>
+
 </resources>

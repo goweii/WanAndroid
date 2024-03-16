@@ -14,6 +14,7 @@ import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.core.view.doOnLayout
+import androidx.core.view.isVisible
 import kotlinx.android.synthetic.main.activity_article.*
 import kotlinx.android.synthetic.main.activity_article_float_btn.*
 import per.goweii.anylayer.Layer
@@ -32,7 +33,10 @@ import per.goweii.wanandroid.module.main.utils.FloatIconTouchListener
 import per.goweii.wanandroid.module.main.view.ArticleView
 import per.goweii.wanandroid.utils.DarkModeUtils
 import per.goweii.wanandroid.utils.GuideSPUtils
+import per.goweii.wanandroid.utils.ImageLoader
+import per.goweii.wanandroid.utils.RecommendManager
 import per.goweii.wanandroid.utils.UrlOpenUtils
+import per.goweii.wanandroid.utils.router.Router
 import per.goweii.wanandroid.utils.web.WebHolder
 import per.goweii.wanandroid.utils.web.WebHolder.with
 import per.goweii.wanandroid.utils.web.cache.ReadingModeManager
@@ -188,6 +192,9 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
 
                 override fun onPageFinished() {
                     isPageLoadFinished = true
+
+                    showArticleFooter()
+
                     val uri = Uri.parse(mWebHolder.url)
                     val message = uri.getQueryParameter("scrollToKeywords")
                     if (!message.isNullOrEmpty()) {
@@ -241,6 +248,25 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
 
         window.decorView.doOnLayout {
             showGuideDialogIfNeeded()
+        }
+    }
+
+    private fun showArticleFooter() {
+        RecommendManager.getInstance().getBean {
+            it?.articleFooter?.let { articleFooter ->
+                ll_footer.isVisible = true
+
+                tv_footer_title.isVisible = !articleFooter.title.isNullOrBlank()
+                tv_footer_title.text = articleFooter.title
+
+                iv_footer_image.isVisible = !articleFooter.url.isNullOrBlank()
+                if (!articleFooter.url.isNullOrEmpty()) {
+                    ImageLoader.image(iv_footer_image, articleFooter.url)
+                    iv_footer_image.setOnClickListener {
+                        Router.routeTo(articleFooter.route)
+                    }
+                }
+            }
         }
     }
 

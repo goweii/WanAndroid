@@ -61,7 +61,7 @@ import per.goweii.wanandroid.utils.CookieUtils;
 import per.goweii.wanandroid.utils.DarkModeUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.web.js.JsInjector;
-import per.goweii.wanandroid.widget.WebContainer;
+import per.goweii.wanandroid.utils.web.view.WebContainer;
 
 /**
  * @author CuiZhen

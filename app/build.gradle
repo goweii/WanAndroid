@@ -75,4 +75,5 @@ dependencies {
     implementation rootProject.ext.dependencies.palette
     implementation rootProject.ext.dependencies.cropImageView
     implementation rootProject.ext.dependencies.biometric
+    implementation 'com.github.donkingliang:ConsecutiveScroller:4.6.4'
 }

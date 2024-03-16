@@ -21,7 +21,7 @@ import com.tencent.smtt.sdk.WebView;
 import java.util.ArrayList;
 import java.util.List;
 
-import per.goweii.wanandroid.widget.X5WebView;
+import per.goweii.wanandroid.utils.web.view.X5WebView;
 
 public class WebInstance {
     private static WebInstance sInstance = null;

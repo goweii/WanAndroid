@@ -8,6 +8,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
@@ -45,6 +46,7 @@ import per.goweii.wanandroid.module.mine.presenter.AboutMePresenter;
 import per.goweii.wanandroid.module.mine.view.AboutMeView;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
+import per.goweii.wanandroid.utils.router.Router;
 
 /**
  * @author CuiZhen
@@ -131,6 +133,19 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
     @Override
     protected void loadData() {
         presenter.getAboutMe();
+
+        Uri uri = Router.getUriFrom(getIntent());
+        if (uri != null) {
+            boolean secondFloor = uri.getBooleanQueryParameter("second_floor", false);
+            if (secondFloor) {
+                sl.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        sl.open(true, true, SwipeLayout.DragEdge.Bottom);
+                    }
+                });
+            }
+        }
     }
 
     @OnClick({
@@ -169,7 +184,7 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
                 mRuntimeRequester = PermissionUtils.request(new RequestListener() {
                     @Override
                     public void onSuccess() {
-                        presenter.savZFBQrcode();
+                        presenter.saveZFBQrcode();
                     }
 
                     @Override

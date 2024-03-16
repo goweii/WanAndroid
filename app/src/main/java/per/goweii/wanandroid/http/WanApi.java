@@ -19,6 +19,7 @@ import per.goweii.wanandroid.module.main.model.CollectionLinkBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
 import per.goweii.wanandroid.module.main.model.JinrishiciBean;
 import per.goweii.wanandroid.module.main.model.ListBean;
+import per.goweii.wanandroid.module.main.model.RecommendBean;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.main.model.UsefulWebBean;
 import per.goweii.wanandroid.module.main.model.UserPageBean;
@@ -90,6 +91,10 @@ public class WanApi extends Api {
         @GET("https://goweii.gitee.io/wanandroidserver/advert/advert.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})
         Observable<WanResponse<AdvertBean>> getAdvert();
+
+        @GET("https://goweii.gitee.io/wanandroidserver/advert/recommend.json")
+        @retrofit2.http.Headers({HEADER_USER_AGENT})
+        Observable<WanResponse<RecommendBean>> getRecommend();
 
         @GET("https://goweii.gitee.io/wanandroidserver/update/beta/update.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})

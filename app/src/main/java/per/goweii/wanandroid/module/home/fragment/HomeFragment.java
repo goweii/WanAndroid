@@ -80,14 +80,17 @@ import per.goweii.wanandroid.module.main.dialog.WebDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
+import per.goweii.wanandroid.module.main.model.RecommendBean;
 import per.goweii.wanandroid.module.main.utils.BottomDrawerViewOutlineProvider;
 import per.goweii.wanandroid.utils.ConfigUtils;
 import per.goweii.wanandroid.utils.DarkModeUtils;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.MultiStateUtils;
+import per.goweii.wanandroid.utils.RecommendManager;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
+import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.widget.CollectView;
 import per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout;
 import per.goweii.wanandroid.widget.refresh.ShiciRefreshHeader;
@@ -624,14 +627,20 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                 @Override
                 public ImageView createImageView(Context context) {
                     ImageView imageView = new ImageView(context);
-                    imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     return imageView;
                 }
 
                 @Override
                 public void displayImage(Context context, Object data, ImageView imageView) {
-                    ImageLoader.banner(imageView, ((BannerBean) data).getImagePath());
+                    imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                    if (data instanceof BannerBean) {
+                        BannerBean bean = (BannerBean) data;
+                        ImageLoader.banner(imageView, bean.getImagePath());
+                    } else if (data instanceof RecommendBean.BannerBean) {
+                        RecommendBean.BannerBean bean = (RecommendBean.BannerBean) data;
+                        ImageLoader.banner(imageView, bean.getUrl());
+                    }
                 }
             });
             mBanner.setIndicatorGravity(BannerConfig.CENTER);
@@ -643,11 +652,16 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                 @Override
                 public void OnBannerClick(int position) {
                     Object obj = mBannerDatas.get(position);
-                    BannerBean bean = (BannerBean) obj;
-                    UrlOpenUtils.Companion
-                            .with(bean.getUrl())
-                            .title(bean.getTitle())
-                            .open(getContext());
+                    if (obj instanceof BannerBean) {
+                        BannerBean bean = (BannerBean) obj;
+                        UrlOpenUtils.Companion
+                                .with(bean.getUrl())
+                                .title(bean.getTitle())
+                                .open(getContext());
+                    } else if (obj instanceof RecommendBean.BannerBean) {
+                        RecommendBean.BannerBean bean = (RecommendBean.BannerBean) obj;
+                        Router.routeTo(bean.getRoute());
+                    }
                 }
             });
             mAdapter.addHeaderView(mBanner, 0);
@@ -686,27 +700,55 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
 
     @Override
     public void getBannerSuccess(int code, List<BannerBean> data) {
-        if (mBannerDatas == null) {
-            mBannerDatas = new ArrayList<>();
-        }
-        mBannerDatas.clear();
-        mBannerDatas.addAll(data);
-        mBanner.setImages(mBannerDatas);
-        refreshBannerTitles();
-        mBanner.start();
-        MultiStateUtils.toContent(msv);
+        RecommendManager.getInstance().getBean(new RecommendManager.Callback() {
+            @Override
+            public void onResult(@Nullable RecommendBean bean) {
+                if (mBannerDatas == null) {
+                    mBannerDatas = new ArrayList<>();
+                }
+                mBannerDatas.clear();
+                if (bean != null && bean.getBannerList() != null) {
+                    mBannerDatas.addAll(bean.getBannerList());
+                }
+                mBannerDatas.addAll(data);
+                mBanner.setImages(mBannerDatas);
+                refreshBannerTitles();
+                mBanner.start();
+                MultiStateUtils.toContent(msv);
+            }
+        });
     }
 
     private void refreshBannerTitles() {
         List<String> titles = new ArrayList<>(mBannerDatas.size());
         for (Object bean : mBannerDatas) {
-            titles.add(((BannerBean) bean).getTitle());
+            if (bean instanceof BannerBean){
+                titles.add(((BannerBean) bean).getTitle());
+            } else if (bean instanceof RecommendBean.BannerBean) {
+                titles.add(((RecommendBean.BannerBean) bean).getTitle());
+            }
         }
         mBanner.setBannerTitles(titles);
     }
 
     @Override
     public void getBannerFail(int code, String msg) {
+        RecommendManager.getInstance().getBean(new RecommendManager.Callback() {
+            @Override
+            public void onResult(@Nullable RecommendBean bean) {
+                if (mBannerDatas == null) {
+                    mBannerDatas = new ArrayList<>();
+                }
+                mBannerDatas.clear();
+                if (bean != null && bean.getBannerList() != null) {
+                    mBannerDatas.addAll(bean.getBannerList());
+                }
+                mBanner.setImages(mBannerDatas);
+                refreshBannerTitles();
+                mBanner.start();
+                MultiStateUtils.toContent(msv);
+            }
+        });
     }
 
     @Override

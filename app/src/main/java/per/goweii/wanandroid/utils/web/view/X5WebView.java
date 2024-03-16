@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.widget;
+package per.goweii.wanandroid.utils.web.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -34,6 +34,11 @@ public class X5WebView extends WebView implements ScrollingView {
 
     public X5WebView(Context context, AttributeSet attributeSet, int i, Map<String, Object> map, boolean b) {
         super(context, attributeSet, i, map, b);
+    }
+
+    @Override
+    public void scrollBy(int x, int y) {
+        getView().scrollBy(x, y);
     }
 
     @Override

@@ -7,9 +7,10 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
+import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.module.home.model.ImageBean;
 
-public class AdvertBean {
+public class AdvertBean extends BaseBean {
     private String showMode;
     /**
      * [

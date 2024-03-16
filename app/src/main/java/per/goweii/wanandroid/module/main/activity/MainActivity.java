@@ -50,6 +50,7 @@ import per.goweii.wanandroid.utils.ADUtils;
 import per.goweii.wanandroid.utils.ConfigUtils;
 import per.goweii.wanandroid.utils.CopiedTextProcessor;
 import per.goweii.wanandroid.utils.PredefinedTaskQueen;
+import per.goweii.wanandroid.utils.RecommendManager;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.ThemeUtils;
 import per.goweii.wanandroid.utils.UpdateUtils;
@@ -213,6 +214,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                 presenter.getReadLaterArticle();
             }
         }, 500L);
+
+        RecommendManager.getInstance().load();
     }
 
     @Override

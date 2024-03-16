@@ -114,6 +114,10 @@ public class MainRequest extends BaseRequest {
         rxLife.add(request(WanApi.api().getAdvert(), listener));
     }
 
+    public static void getRecommend(RxLife rxLife, @NonNull RequestListener<RecommendBean> listener) {
+        rxLife.add(request(WanApi.api().getRecommend(), listener));
+    }
+
     public static void getUserArticleListCache(@IntRange(from = 0) int page, @NonNull RequestListener<ArticleListBean> listener) {
         cacheBean(WanCache.CacheKey.USER_ARTICLE_LIST(page),
                 ArticleListBean.class,

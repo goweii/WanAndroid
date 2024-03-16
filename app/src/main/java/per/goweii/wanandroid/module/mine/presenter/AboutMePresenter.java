@@ -92,13 +92,13 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
                 });
     }
 
-    public void savZFBQrcode() {
+    public void saveZFBQrcode() {
         if (mAboutMeBean == null) {
             return;
         }
         GlideHelper.with(getContext())
                 .asBitmap()
-                .load(mAboutMeBean.getQq_qrcode())
+                .load(mAboutMeBean.getZfb_qrcode())
                 .getBitmap(new SimpleCallback<Bitmap>() {
                     @Override
                     public void onResult(Bitmap data) {

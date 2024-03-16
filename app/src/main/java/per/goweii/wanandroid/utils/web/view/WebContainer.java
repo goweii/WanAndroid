@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.widget;
+package per.goweii.wanandroid.utils.web.view;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -12,11 +12,16 @@ import android.view.ViewConfiguration;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
+import android.webkit.WebView;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.donkingliang.consecutivescroller.IConsecutiveScroller;
+
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
@@ -30,7 +35,7 @@ import per.goweii.wanandroid.R;
  * @date 2019/8/31
  * GitHub: https://github.com/goweii
  */
-public class WebContainer extends FrameLayout {
+public class WebContainer extends FrameLayout implements IConsecutiveScroller {
 
     private final float mTouchSlop;
     private final long mTapTimeout;
@@ -250,6 +255,30 @@ public class WebContainer extends FrameLayout {
         int size = (int) (getWidth() * 0.27F);
         heartView.setLayoutParams(new LayoutParams(size, size));
         return heartView;
+    }
+
+    @Override
+    public View getCurrentScrollerView() {
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            if (child instanceof WebView) {
+                return child;
+            } else if (child instanceof X5WebView) {
+                return ((X5WebView) child).getView();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public List<View> getScrolledViews() {
+        View view = getCurrentScrollerView();
+        if (view == null) {
+            return Collections.emptyList();
+        }
+        List<View> views = new ArrayList<>();
+        views.add(view);
+        return views;
     }
 
     public interface OnDoubleClickListener {
