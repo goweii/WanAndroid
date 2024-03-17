@@ -2,7 +2,7 @@
 
 [WanAndroid](https://www.wanandroid.com/)|最美玩安卓客户端
 
-- [Wanandroid主页](https://www.wanandroid.com/blog/show/2577)
+- [WanAndroid主页](https://www.wanandroid.com/blog/show/2577)
 - [GitHub主页](https://github.com/goweii/WanAndroid)
 - [酷安主页](https://www.coolapk.com/apk/231591) 
 
@@ -20,15 +20,15 @@
 
 1. [玩Android开放API](https://www.wanandroid.com/blog/show/2)中除TODO的所有功能
 2. 简洁美观的UI设计，高品质暗黑模式
-4. 全局滑动返回
-5. 书签/阅读历史
-6. 恶意网址拦截
-7. 版本更新
-8. 离线缓存
-9. 更换头像和个人中心背景
-10. 等级/积分/排名
-12. 用户主页
-14. 广场/文章分享（支持由第三方APP一键分享）
+3. 全局滑动返回
+4. 书签/阅读历史
+5. 恶意网址拦截
+6. 版本更新
+7. 离线缓存
+8. 更换头像和个人中心背景
+9. 等级/积分/排名
+10. 用户主页
+11. 广场/文章分享（支持由第三方APP一键分享）
 12. 精简版文章详情页
 13. 消息提醒
 
@@ -43,7 +43,7 @@
 # 截图展示
 
 | ![1.jpg](https://gitee.com/goweii/pic/raw/master/default/20210320121732.jpeg) | ![2.jpg](https://gitee.com/goweii/pic/raw/master/default/20210320121719.jpeg) | ![3.jpg](https://gitee.com/goweii/pic/raw/master/default/20210320121749.jpeg) |
-| ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------|
 | ![4.jpg](https://gitee.com/goweii/pic/raw/master/default/20210320121742.jpeg) | ![5.jpg](https://gitee.com/goweii/pic/raw/master/default/20210320121800.jpeg) | ![6.jpg](https://gitee.com/goweii/pic/raw/master/default/20210320121855.jpeg) |
 
 
