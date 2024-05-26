@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import okhttp3.CacheControl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import per.goweii.basic.core.common.Config;
 import per.goweii.basic.utils.DebugUtils;
@@ -64,5 +65,13 @@ public class RxHttpRequestSetting extends DefaultRequestSetting {
         HttpsCompat.enableTls12ForOkHttp(builder);
         HttpsCompat.enableTls12ForHttpsURLConnection();
         builder.cookieJar(mCookieJar);
+    }
+
+    @Nullable
+    @Override
+    public Interceptor[] getInterceptors() {
+        return new Interceptor[]{
+                new GoweiiHostInterceptor()
+        };
     }
 }

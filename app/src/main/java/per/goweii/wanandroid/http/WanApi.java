@@ -72,35 +72,35 @@ public class WanApi extends Api {
         @GET("https://v2.jinrishici.com/sentence")
         Observable<WanResponse<JinrishiciBean>> getJinrishici(@retrofit2.http.Header("X-User-Token") String token);
 
-        @GET("https://goweii.gitee.io/wanandroidserver/web/article.json")
+        @GET("https://goweii/web/article.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})
         Observable<WanResponse<List<WebArticleUrlRegexBean>>> getWebArticleUrlRegex();
 
-        @GET("https://goweii.gitee.io/wanandroidserver/update/update.json")
+        @GET("https://goweii/update/update.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})
         Observable<WanResponse<UpdateBean>> update();
 
-        @GET("https://goweii.gitee.io/wanandroidserver/about/about_me.json")
+        @GET("https://goweii/about/about_me.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})
         Observable<WanResponse<AboutMeBean>> getAboutMe();
 
-        @GET("https://goweii.gitee.io/wanandroidserver/config/config.json")
+        @GET("https://goweii/config/config.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})
         Observable<WanResponse<ConfigBean>> getConfig();
 
-        @GET("https://goweii.gitee.io/wanandroidserver/advert/advert.json")
+        @GET("https://goweii/advert/advert.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})
         Observable<WanResponse<AdvertBean>> getAdvert();
 
-        @GET("https://goweii.gitee.io/wanandroidserver/advert/recommend.json")
+        @GET("https://goweii/advert/recommend.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})
         Observable<WanResponse<RecommendBean>> getRecommend();
 
-        @GET("https://goweii.gitee.io/wanandroidserver/update/beta/update.json")
+        @GET("https://goweii/update/beta/update.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})
         Observable<WanResponse<UpdateBean>> betaUpdate();
 
-        @GET("https://goweii.gitee.io/wanandroidserver/update/beta/users.json")
+        @GET("https://goweii/update/beta/users.json")
         @retrofit2.http.Headers({HEADER_USER_AGENT})
         Observable<WanResponse<List<BetaUserBean>>> betaUsers();
 
