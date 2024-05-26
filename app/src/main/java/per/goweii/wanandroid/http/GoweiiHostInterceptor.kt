@@ -22,12 +22,12 @@ class GoweiiHostInterceptor : Interceptor {
             return chain.proceed(request)
         }
 
-        HttpUrl.parse(GITEE_PAGE_SERVER_BASE_URL)
+        HttpUrl.parse(GITEE_RAW_SERVER_BASE_URL)
             ?.let { chain.tryWithBaseUrl(it) }
             ?.takeIf { it.isSuccessful }
             ?.let { return it }
 
-        HttpUrl.parse(GITEE_RAW_SERVER_BASE_URL)
+        HttpUrl.parse(GITEE_PAGE_SERVER_BASE_URL)
             ?.let { chain.tryWithBaseUrl(it) }
             ?.takeIf { it.isSuccessful }
             ?.let { return it }

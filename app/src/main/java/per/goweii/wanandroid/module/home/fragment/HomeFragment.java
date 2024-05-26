@@ -700,35 +700,39 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
 
     @Override
     public void getBannerSuccess(int code, List<BannerBean> data) {
-        RecommendManager.getInstance().getBean(new RecommendManager.Callback() {
-            @Override
-            public void onResult(@Nullable RecommendBean bean) {
-                if (mBannerDatas == null) {
-                    mBannerDatas = new ArrayList<>();
-                }
-                mBannerDatas.clear();
-                if (bean != null && bean.getBannerList() != null) {
-                    mBannerDatas.addAll(bean.getBannerList());
-                }
-                mBannerDatas.addAll(data);
-                mBanner.setImages(mBannerDatas);
-                refreshBannerTitles();
-                mBanner.start();
-                MultiStateUtils.toContent(msv);
-            }
-        });
-    }
-
-    private void refreshBannerTitles() {
-        List<String> titles = new ArrayList<>(mBannerDatas.size());
-        for (Object bean : mBannerDatas) {
-            if (bean instanceof BannerBean){
-                titles.add(((BannerBean) bean).getTitle());
-            } else if (bean instanceof RecommendBean.BannerBean) {
-                titles.add(((RecommendBean.BannerBean) bean).getTitle());
-            }
+        if (mBannerDatas == null) {
+            mBannerDatas = new ArrayList<>();
         }
-        mBanner.setBannerTitles(titles);
+        mBannerDatas.clear();
+        RecommendBean recommendBean = RecommendManager.getInstance().getBean();
+        if (recommendBean != null && recommendBean.getBannerList() != null) {
+            mBannerDatas.addAll(recommendBean.getBannerList());
+        }
+        mBannerDatas.addAll(data);
+        mBanner.setImages(mBannerDatas);
+        refreshBannerTitles();
+        mBanner.start();
+        MultiStateUtils.toContent(msv);
+
+        if (recommendBean == null) {
+            RecommendManager.getInstance().getBean(new RecommendManager.Callback() {
+                @Override
+                public void onResult(@Nullable RecommendBean recommendBean) {
+                    if (mBannerDatas == null) {
+                        mBannerDatas = new ArrayList<>();
+                    }
+                    mBannerDatas.clear();
+                    if (recommendBean != null && recommendBean.getBannerList() != null) {
+                        mBannerDatas.addAll(recommendBean.getBannerList());
+                    }
+                    mBannerDatas.addAll(data);
+                    mBanner.setImages(mBannerDatas);
+                    refreshBannerTitles();
+                    mBanner.start();
+                    MultiStateUtils.toContent(msv);
+                }
+            });
+        }
     }
 
     @Override
@@ -749,6 +753,18 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
                 MultiStateUtils.toContent(msv);
             }
         });
+    }
+
+    private void refreshBannerTitles() {
+        List<String> titles = new ArrayList<>(mBannerDatas.size());
+        for (Object bean : mBannerDatas) {
+            if (bean instanceof BannerBean) {
+                titles.add(((BannerBean) bean).getTitle());
+            } else if (bean instanceof RecommendBean.BannerBean) {
+                titles.add(((RecommendBean.BannerBean) bean).getTitle());
+            }
+        }
+        mBanner.setBannerTitles(titles);
     }
 
     @Override

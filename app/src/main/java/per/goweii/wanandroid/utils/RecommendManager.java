@@ -38,6 +38,12 @@ public class RecommendManager {
         return sInstance;
     }
 
+    @Nullable
+    public synchronized RecommendBean getBean() {
+        load();
+        return mRecommendBean;
+    }
+
     public synchronized void getBean(@NonNull Callback callback) {
         if (mLoading) {
             mCallbacks.add(callback);
