@@ -4,10 +4,13 @@ import android.net.Uri
 import okhttp3.HttpUrl
 import okhttp3.Interceptor
 import okhttp3.Response
+import per.goweii.basic.utils.LogUtils
 import java.io.IOException
 
 class GoweiiHostInterceptor : Interceptor {
     companion object {
+        private const val TAG = "GoweiiHostInterceptor"
+
         private const val GOWEII_HOST = "goweii"
 
         private const val GITEE_PAGE_SERVER_BASE_URL = "https://goweii.gitee.io/wanandroidserver"
@@ -37,6 +40,7 @@ class GoweiiHostInterceptor : Interceptor {
 
     private fun Interceptor.Chain.tryWithBaseUrl(baseUrl: HttpUrl): Response {
         val httpUrl = request().url().replaceWithBaseUrl(baseUrl)
+        LogUtils.d(TAG, "tryWithBaseUrl: $httpUrl")
         return proceed(request().newBuilder().url(httpUrl).build())
     }
 

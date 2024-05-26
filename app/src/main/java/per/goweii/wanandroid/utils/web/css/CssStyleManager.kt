@@ -14,7 +14,7 @@ object CssStyleManager {
     private const val headRegex = "(<head[\\s\\S]*?>)([\\s\\S]*?)(</head>)"
     private const val scriptRegex = "(<script[\\s\\S]*?>)([\\s\\S]*?)(</script>)"
     private const val styleRegex = "(<style[\\s\\S]*?>)([\\s\\S]*?)(</style>)"
-    private const val url = "https://goweii.gitee.io/wanandroidserver/web/css/"
+    private const val url = "https://goweii/web/css/"
 
     private val disableJsModifyCssScript = """
 // 将 style 属性设置为只读

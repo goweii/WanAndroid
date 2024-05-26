@@ -3,14 +3,17 @@ package per.goweii.wanandroid.utils.web.interceptor
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import per.goweii.rxhttp.core.RxHttp
+import per.goweii.wanandroid.http.GoweiiHostInterceptor
 
 /**
  * @author CuiZhen
  * @date 2020/2/25
  */
 object WebHttpClient {
-
-    private val okHttpClient: OkHttpClient = OkHttpClient.Builder().build()
+    private val okHttpClient: OkHttpClient = OkHttpClient.Builder()
+        .addInterceptor(GoweiiHostInterceptor())
+        .build()
 
     fun request(
         url: String,
