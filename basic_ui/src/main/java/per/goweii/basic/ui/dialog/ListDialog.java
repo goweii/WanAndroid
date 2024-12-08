@@ -158,10 +158,13 @@ public class ListDialog {
                         }
 
                         TextView tvTitle = layer.requireView(R.id.basic_ui_tv_dialog_list_title);
+                        View vTitleLineH = layer.requireView(R.id.basic_ui_v_dialog_title_line_h);
                         if (title == null) {
                             tvTitle.setVisibility(View.GONE);
+                            vTitleLineH.setVisibility(View.GONE);
                         } else {
                             tvTitle.setText(title);
+                            vTitleLineH.setVisibility(View.VISIBLE);
                         }
 
                         RecyclerView rv = layer.requireView(R.id.basic_ui_rv_dialog_list);

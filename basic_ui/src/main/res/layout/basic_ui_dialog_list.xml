@@ -16,6 +16,12 @@
         android:textSize="@dimen/text_title"
         tools:text="提示" />
 
+    <View
+        android:id="@+id/basic_ui_v_dialog_title_line_h"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/line_thin"
+        android:background="?colorLine" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/basic_ui_rv_dialog_list"
         android:layout_width="match_parent"

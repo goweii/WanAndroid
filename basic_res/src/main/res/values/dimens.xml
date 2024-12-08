@@ -13,6 +13,9 @@
     <dimen name="line_thin">2px</dimen>
     <dimen name="line">1dp</dimen>
 
+    <dimen name="drag_bar_width">44dp</dimen>
+    <dimen name="drag_bar_height">4dp</dimen>
+
     <dimen name="round_radius">12dp</dimen>
     <dimen name="round_radius_small">3dp</dimen>
 

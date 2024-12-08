@@ -21,14 +21,16 @@ public class DarkModeUtils {
     }
 
     public static void initDarkMode() {
-        if (SettingUtils.getInstance().isSystemTheme()) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
-        } else {
-            if (SettingUtils.getInstance().isDarkTheme()) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
+        switch (SettingUtils.getInstance().getThemeMode()) {
+            case FOLLOW_SYSTEM:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                break;
+            case LIGHT:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            }
+                break;
+            case DARK:
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
         }
     }
 }

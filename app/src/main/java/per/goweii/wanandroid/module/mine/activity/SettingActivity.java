@@ -11,6 +11,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
@@ -48,17 +53,12 @@ import per.goweii.wanandroid.utils.web.HostInterceptUtils;
  * GitHub: https://github.com/goweii
  */
 public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingView {
-
-    @BindView(R.id.sc_system_theme)
-    SwitchCompat sc_system_theme;
-    @BindView(R.id.tv_dark_theme_title)
-    TextView tv_dark_theme_title;
+    @BindView(R.id.tv_theme_mode)
+    TextView tv_theme_mode;
     @BindView(R.id.tv_show_read_later_notification_title)
     TextView tv_show_read_later_notification_title;
     @BindView(R.id.tv_show_read_later_notification_desc)
     TextView tv_show_read_later_notification_desc;
-    @BindView(R.id.sc_dark_theme)
-    SwitchCompat sc_dark_theme;
     @BindView(R.id.sc_show_read_later_notification)
     SwitchCompat sc_show_read_later_notification;
     @BindView(R.id.sc_show_top)
@@ -74,8 +74,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     @BindView(R.id.ll_logout)
     LinearLayout ll_logout;
 
-    private boolean mSystemTheme;
-    private boolean mDarkTheme;
     private boolean mShowBanner;
     private boolean mShowTop;
     private boolean mShowReadLaterNotification;
@@ -99,11 +97,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     protected void initView() {
-        mSystemTheme = SettingUtils.getInstance().isSystemTheme();
-        sc_system_theme.setChecked(mSystemTheme);
-        changeEnable(!sc_system_theme.isChecked(), tv_dark_theme_title, sc_dark_theme);
-        mDarkTheme = SettingUtils.getInstance().isDarkTheme();
-        sc_dark_theme.setChecked(mDarkTheme);
+        updateThemeModeUI();
         mShowTop = SettingUtils.getInstance().isShowTop();
         sc_show_top.setChecked(mShowTop);
         mShowBanner = SettingUtils.getInstance().isShowBanner();
@@ -112,33 +106,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         sc_show_read_later_notification.setChecked(mShowReadLaterNotification);
         mUrlIntercept = SettingUtils.getInstance().getUrlInterceptType();
         tv_intercept_host.setText(HostInterceptUtils.getName(mUrlIntercept));
-        sc_system_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-                changeEnable(!isChecked, tv_dark_theme_title, sc_dark_theme);
-                SettingUtils.getInstance().setSystemTheme(isChecked);
-                DarkModeUtils.initDarkMode();
-                v.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        WanApp.restartApp();
-                    }
-                }, 300);
-            }
-        });
-        sc_dark_theme.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
-                SettingUtils.getInstance().setDarkTheme(isChecked);
-                DarkModeUtils.initDarkMode();
-                v.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        WanApp.recreate();
-                    }
-                }, 300);
-            }
-        });
         sc_show_top.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
@@ -164,6 +131,21 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         }
     }
 
+    private void updateThemeModeUI() {
+        final SettingUtils.ThemeMode themeMode = SettingUtils.getInstance().getThemeMode();
+        switch (themeMode) {
+            case FOLLOW_SYSTEM:
+                tv_theme_mode.setText("跟随系统");
+                break;
+            case LIGHT:
+                tv_theme_mode.setText("亮色");
+                break;
+            case DARK:
+                tv_theme_mode.setText("暗色");
+                break;
+        }
+    }
+
     @Override
     protected void loadData() {
         presenter.getCacheSize();
@@ -178,18 +160,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     protected void onDestroy() {
         super.onDestroy();
         postSettingChangedEvent();
-    }
-
-    private void changeEnable(boolean enable, View... views) {
-        for (View view : views) {
-            if (enable) {
-                view.setEnabled(true);
-                view.setAlpha(1F);
-            } else {
-                view.setEnabled(false);
-                view.setAlpha(0.5F);
-            }
-        }
     }
 
     private void postSettingChangedEvent() {
@@ -218,7 +188,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
 
     @OnClick({
-            R.id.rl_intercept_host,
+            R.id.rl_intercept_host, R.id.ll_theme_mode,
             R.id.ll_cache, R.id.ll_about,
             R.id.ll_privacy_policy, R.id.ll_logout
     })
@@ -230,12 +200,54 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     @Override
     protected void onClick2(View v) {
         switch (v.getId()) {
-            default:
+            case R.id.ll_theme_mode:
+                final List<SettingUtils.ThemeMode> themeModes = Arrays.asList(SettingUtils.ThemeMode.values());
+                final List<String> nameList = new ArrayList<>(themeModes.size());
+                for (SettingUtils.ThemeMode themeMode : themeModes) {
+                    switch (themeMode) {
+                        case FOLLOW_SYSTEM:
+                            nameList.add("跟随系统");
+                            break;
+                        case LIGHT:
+                            nameList.add("亮色");
+                            break;
+                        case DARK:
+                            nameList.add("暗色");
+                            break;
+                    }
+                }
+                SettingUtils.ThemeMode selectedThemeMode = SettingUtils.getInstance().getThemeMode();
+                final int selectedPos = themeModes.indexOf(selectedThemeMode);
+
+                ListDialog.with(getContext())
+                        .cancelable(true)
+                        .title("主题模式")
+                        .datas(nameList)
+                        .currSelectPos(selectedPos)
+                        .listener(new ListDialog.OnItemSelectedListener() {
+                            @Override
+                            public void onSelect(String data, int pos) {
+                                if (selectedPos == pos) {
+                                    return;
+                                }
+                                SettingUtils.ThemeMode themeMode = themeModes.get(pos);
+                                SettingUtils.getInstance().setThemeMode(themeMode);
+                                updateThemeModeUI();
+                                DarkModeUtils.initDarkMode();
+                                v.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        WanApp.restartApp();
+                                    }
+                                }, 300);
+                            }
+                        })
+                        .show();
                 break;
             case R.id.rl_intercept_host:
                 ListDialog.with(getContext())
                         .cancelable(true)
-//                        .title("网页拦截")
+                        .title("网页拦截")
                         .datas(HostInterceptUtils.getName(HostInterceptUtils.TYPE_NOTHING),
                                 HostInterceptUtils.getName(HostInterceptUtils.TYPE_ONLY_WHITE),
                                 HostInterceptUtils.getName(HostInterceptUtils.TYPE_INTERCEPT_BLACK))
@@ -278,6 +290,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                             }
                         })
                         .show();
+                break;
+            default:
                 break;
         }
     }

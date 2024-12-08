@@ -1,11 +1,17 @@
 package per.goweii.wanandroid.utils;
 
+import android.text.TextUtils;
+
+import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import per.goweii.basic.utils.SPUtils;
@@ -20,7 +26,10 @@ import per.goweii.wanandroid.utils.web.HostInterceptUtils;
 public class SettingUtils {
 
     private static final String SP_NAME = "setting";
+    private static final String KEY_THEME_MODE = "KEY_THEME_MODE";
+    @Deprecated
     private static final String KEY_SYSTEM_THEME = "KEY_SYSTEM_THEME";
+    @Deprecated
     private static final String KEY_DARK_THEME = "KEY_DARK_THEME";
     private static final String KEY_SHOW_READ_LATER = "KEY_SHOW_READ_LATER";
     private static final String KEY_SHOW_READ_LATER_NOTIFICATION = "KEY_SHOW_READ_LATER_NOTIFICATION";
@@ -37,10 +46,30 @@ public class SettingUtils {
     private static final String KEY_SEARCH_HISTORY_MAX_COUNT = "KEY_SEARCH_HISTORY_MAX_COUNT";
     private static final String KEY_UPDATE_IGNORE_DURATION = "KEY_UPDATE_IGNORE_DURATION";
 
+    public enum ThemeMode {
+        FOLLOW_SYSTEM(0), LIGHT(1), DARK(2),
+        ;
+
+        public final int value;
+
+        ThemeMode(int value) {
+            this.value = value;
+        }
+
+        @NonNull
+        public static ThemeMode fromValue(int value) {
+            for (ThemeMode themeMode : values()) {
+                if (themeMode.value == value) {
+                    return themeMode;
+                }
+            }
+            return ThemeMode.FOLLOW_SYSTEM;
+        }
+    }
+
     private final SPUtils mSPUtils = SPUtils.newInstance(SP_NAME);
 
-    private boolean mSystemTheme = true;
-    private boolean mDarkTheme = false;
+    private ThemeMode mThemeMode = ThemeMode.FOLLOW_SYSTEM;
     private boolean mShowReadLaterNotification = true;
     private boolean mShowTop = true;
     private boolean mShowBanner = true;
@@ -59,8 +88,17 @@ public class SettingUtils {
     }
 
     private SettingUtils() {
-        mSystemTheme = mSPUtils.get(KEY_SYSTEM_THEME, mSystemTheme);
-        mDarkTheme = mSPUtils.get(KEY_DARK_THEME, mDarkTheme);
+        if (mSPUtils.has(KEY_THEME_MODE)) {
+            mThemeMode = ThemeMode.fromValue(mSPUtils.get(KEY_THEME_MODE, mThemeMode.value));
+        } else {
+            if (mSPUtils.get(KEY_SYSTEM_THEME, false)) {
+                mThemeMode = ThemeMode.FOLLOW_SYSTEM;
+            } else if (mSPUtils.get(KEY_DARK_THEME, false)) {
+                mThemeMode = ThemeMode.DARK;
+            } else {
+                mThemeMode = ThemeMode.LIGHT;
+            }
+        }
         mShowReadLaterNotification = mSPUtils.get(KEY_SHOW_READ_LATER_NOTIFICATION, mShowReadLaterNotification);
         mShowTop = mSPUtils.get(KEY_SHOW_TOP, mShowTop);
         mShowBanner = mSPUtils.get(KEY_SHOW_BANNER, mShowBanner);
@@ -92,22 +130,13 @@ public class SettingUtils {
         }
     }
 
-    public void setSystemTheme(boolean systemTheme) {
-        mSystemTheme = systemTheme;
-        mSPUtils.save(KEY_SYSTEM_THEME, systemTheme);
+    public void setThemeMode(@NonNull ThemeMode themeMode) {
+        mThemeMode = themeMode;
+        mSPUtils.save(KEY_THEME_MODE, themeMode.value);
     }
 
-    public boolean isSystemTheme() {
-        return mSystemTheme;
-    }
-
-    public void setDarkTheme(boolean darkTheme) {
-        mDarkTheme = darkTheme;
-        mSPUtils.save(KEY_DARK_THEME, darkTheme);
-    }
-
-    public boolean isDarkTheme() {
-        return mDarkTheme;
+    public ThemeMode getThemeMode() {
+        return mThemeMode;
     }
 
     public void setShowReadLaterNotification(boolean showReadLaterNotification) {

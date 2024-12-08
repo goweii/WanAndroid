@@ -96,5 +96,7 @@ public class SPUtils {
         return value;
     }
 
-
+    public boolean has(String keyword) {
+        return sp.contains(keyword);
+    }
 }

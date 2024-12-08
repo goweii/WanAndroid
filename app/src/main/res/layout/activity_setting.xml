@@ -28,61 +28,46 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
+                <LinearLayout
+                    android:id="@+id/ll_theme_mode"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:background="@drawable/bg_press_color_surface"
+                    android:gravity="center"
+                    android:orientation="horizontal"
                     android:paddingLeft="16dp"
-                    android:paddingTop="14dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="14dp">
+                    android:paddingRight="16dp">
 
                     <TextView
-                        android:id="@+id/tv_system_theme_title"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
                         android:singleLine="true"
-                        android:text="跟随系统暗色模式"
+                        android:text="主题模式"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/sc_system_theme"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_press_color_surface"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="14dp"
-                    android:paddingRight="16dp"
-                    android:paddingBottom="14dp">
-
                     <TextView
-                        android:id="@+id/tv_dark_theme_title"
+                        android:id="@+id/tv_theme_mode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
+                        android:layout_marginRight="5dp"
                         android:singleLine="true"
-                        android:text="暗色模式"
-                        android:textColor="?colorTextSurface"
-                        android:textSize="@dimen/text_content" />
+                        android:text=""
+                        android:textColor="?colorTextThird"
+                        android:textSize="@dimen/text_notes"
+                        tools:text="跟随系统" />
 
-                    <androidx.appcompat.widget.SwitchCompat
-                        android:id="@+id/sc_dark_theme"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_enter"
+                        android:tint="?colorIconThird"
+                        tools:ignore="UseAppTint" />
 
-                </RelativeLayout>
+                </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
