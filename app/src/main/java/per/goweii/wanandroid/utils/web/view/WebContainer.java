@@ -17,13 +17,18 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.ScrollingView;
 
 import com.donkingliang.consecutivescroller.IConsecutiveScroller;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import per.goweii.basic.utils.ResUtils;
@@ -60,6 +65,8 @@ public class WebContainer extends FrameLayout implements IConsecutiveScroller {
             doubleClicked = false;
         }
     };
+
+    private final Map<String, Method> methodCache = new HashMap<>();
 
     public WebContainer(@NonNull Context context) {
         this(context, null);
@@ -258,6 +265,120 @@ public class WebContainer extends FrameLayout implements IConsecutiveScroller {
     }
 
     @Override
+    public int computeHorizontalScrollRange() {
+        View view = getCurrentWebView();
+        if (view != null) {
+            if (view instanceof ScrollingView) {
+                return ((ScrollingView) view).computeHorizontalScrollRange();
+            } else {
+                Integer i = invokeViewMethod(view, "computeHorizontalScrollRange");
+                if (i != null) {
+                    return i;
+                }
+            }
+        }
+        return super.computeHorizontalScrollRange();
+    }
+
+    @Override
+    public int computeHorizontalScrollOffset() {
+        View view = getCurrentWebView();
+        if (view != null) {
+            if (view instanceof ScrollingView) {
+                return ((ScrollingView) view).computeHorizontalScrollOffset();
+            } else {
+                Integer i = invokeViewMethod(view, "computeHorizontalScrollOffset");
+                if (i != null) {
+                    return i;
+                }
+            }
+        }
+        return super.computeHorizontalScrollOffset();
+    }
+
+    @Override
+    public int computeHorizontalScrollExtent() {
+        View view = getCurrentWebView();
+        if (view != null) {
+            if (view instanceof ScrollingView) {
+                return ((ScrollingView) view).computeHorizontalScrollExtent();
+            } else {
+                Integer i = invokeViewMethod(view, "computeHorizontalScrollExtent");
+                if (i != null) {
+                    return i;
+                }
+            }
+        }
+        return super.computeHorizontalScrollExtent();
+    }
+
+    @Override
+    public int computeVerticalScrollRange() {
+        View view = getCurrentWebView();
+        if (view != null) {
+            if (view instanceof ScrollingView) {
+                return ((ScrollingView) view).computeVerticalScrollRange();
+            } else {
+                Integer i = invokeViewMethod(view, "computeVerticalScrollRange");
+                if (i != null) {
+                    return i;
+                }
+            }
+        }
+        return super.computeVerticalScrollRange();
+    }
+
+    @Override
+    public int computeVerticalScrollOffset() {
+        View view = getCurrentWebView();
+        if (view != null) {
+            if (view instanceof ScrollingView) {
+                return ((ScrollingView) view).computeVerticalScrollOffset();
+            } else {
+                Integer i = invokeViewMethod(view, "computeVerticalScrollOffset");
+                if (i != null) {
+                    return i;
+                }
+            }
+        }
+        return super.computeVerticalScrollOffset();
+    }
+
+    @Override
+    public int computeVerticalScrollExtent() {
+        View view = getCurrentWebView();
+        if (view != null) {
+            if (view instanceof ScrollingView) {
+                return ((ScrollingView) view).computeVerticalScrollExtent();
+            } else {
+                Integer i = invokeViewMethod(view, "computeVerticalScrollExtent");
+                if (i != null) {
+                    return i;
+                }
+            }
+        }
+        return super.computeVerticalScrollExtent();
+    }
+
+    @Override
+    public boolean canScrollHorizontally(int direction) {
+        View view = getCurrentWebView();
+        if (view != null) {
+            return view.canScrollHorizontally(direction);
+        }
+        return super.canScrollHorizontally(direction);
+    }
+
+    @Override
+    public boolean canScrollVertically(int direction) {
+        View view = getCurrentWebView();
+        if (view != null) {
+            return view.canScrollVertically(direction);
+        }
+        return super.canScrollVertically(direction);
+    }
+
+    @Override
     public View getCurrentScrollerView() {
         for (int i = 0; i < getChildCount(); i++) {
             View child = getChildAt(i);
@@ -279,6 +400,38 @@ public class WebContainer extends FrameLayout implements IConsecutiveScroller {
         List<View> views = new ArrayList<>();
         views.add(view);
         return views;
+    }
+
+    public View getCurrentWebView() {
+        for (int i = 0; i < getChildCount(); i++) {
+            View child = getChildAt(i);
+            if (child instanceof WebView) {
+                return child;
+            } else if (child instanceof X5WebView) {
+                return child;
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    private Integer invokeViewMethod(View view, String methodName) {
+        try {
+            Method method = methodCache.get(methodName);
+            if (method == null) {
+                method = View.class.getDeclaredMethod(methodName);
+                method.setAccessible(true);
+                methodCache.put(methodName, method);
+            }
+            Object o = method.invoke(view);
+            if (o != null) {
+                return (int) o;
+            }
+        } catch (Throwable e) {
+            //noinspection CallToPrintStackTrace
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public interface OnDoubleClickListener {

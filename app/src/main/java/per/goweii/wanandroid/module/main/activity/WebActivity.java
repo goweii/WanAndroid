@@ -49,7 +49,7 @@ import per.goweii.wanandroid.utils.web.view.WebContainer;
  * @date 2019/5/15
  * GitHub: https://github.com/goweii
  */
-public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView, SwipeBackAbility.OnlyEdge {
+public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView, SwipeBackAbility.OnlyEdge, SwipeBackAbility.ForceEdge {
 
     @BindView(R.id.ab)
     ActionBarEx ab;
@@ -94,6 +94,11 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
 
     @Override
     public boolean swipeBackOnlyEdge() {
+        return true;
+    }
+
+    @Override
+    public boolean swipeBackForceEdge() {
         return true;
     }
 

@@ -47,7 +47,7 @@ import per.goweii.wanandroid.utils.web.interceptor.WebResUrlInterceptor
  * @author CuiZhen
  * @date 2020/2/20
  */
-class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBackAbility.OnlyEdge {
+class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBackAbility.OnlyEdge, SwipeBackAbility.ForceEdge {
     private data class FloatIcon(
         val container: View,
         val shadow: View,
@@ -451,6 +451,10 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
     }
 
     override fun swipeBackOnlyEdge(): Boolean {
+        return true
+    }
+
+    override fun swipeBackForceEdge(): Boolean {
         return true
     }
 
