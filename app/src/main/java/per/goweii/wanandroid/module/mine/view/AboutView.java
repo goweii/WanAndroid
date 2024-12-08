@@ -9,7 +9,11 @@ import per.goweii.wanandroid.module.main.model.UpdateBean;
  * GitHub: https://github.com/goweii
  */
 public interface AboutView extends BaseView {
-    void updateSuccess(int code, UpdateBean data);
+    void updateSuccess(int code, UpdateBean data, int updateType);
 
-    void updateFailed(int code, String msg);
+    void updateFailed(int code, String msg, int updateType);
+
+    void betaUpdateSuccess(int code, UpdateBean data, int updateType);
+
+    void betaUpdateFailed(int code, String msg, int updateType);
 }

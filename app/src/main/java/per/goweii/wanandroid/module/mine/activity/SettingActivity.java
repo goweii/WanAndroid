@@ -49,8 +49,6 @@ import per.goweii.wanandroid.utils.web.HostInterceptUtils;
  */
 public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingView {
 
-    private static final int REQ_CODE_PERMISSION = 1;
-
     @BindView(R.id.sc_system_theme)
     SwitchCompat sc_system_theme;
     @BindView(R.id.tv_dark_theme_title)
@@ -71,15 +69,11 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     TextView tv_intercept_host;
     @BindView(R.id.tv_cache)
     TextView tv_cache;
-    @BindView(R.id.tv_has_update)
-    TextView tv_has_update;
     @BindView(R.id.tv_curr_version)
     TextView tv_curr_version;
     @BindView(R.id.ll_logout)
     LinearLayout ll_logout;
 
-    private RuntimeRequester mRuntimeRequester;
-    private UpdateUtils mUpdateUtils;
     private boolean mSystemTheme;
     private boolean mDarkTheme;
     private boolean mShowBanner;
@@ -105,8 +99,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     protected void initView() {
-        tv_has_update.setText("");
-        tv_curr_version.setText("当前版本" + AppInfoUtils.getVersionName());
         mSystemTheme = SettingUtils.getInstance().isSystemTheme();
         sc_system_theme.setChecked(mSystemTheme);
         changeEnable(!sc_system_theme.isChecked(), tv_dark_theme_title, sc_dark_theme);
@@ -174,7 +166,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
     @Override
     protected void loadData() {
-        presenter.update(false);
         presenter.getCacheSize();
     }
 
@@ -227,7 +218,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
 
 
     @OnClick({
-            R.id.rl_intercept_host, R.id.ll_update,
+            R.id.rl_intercept_host,
             R.id.ll_cache, R.id.ll_about,
             R.id.ll_privacy_policy, R.id.ll_logout
     })
@@ -257,9 +248,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
                             }
                         })
                         .show();
-                break;
-            case R.id.ll_update:
-                presenter.update(true);
                 break;
             case R.id.ll_cache:
                 TipDialog.with(getContext())
@@ -295,93 +283,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     }
 
     @Override
-    public void updateSuccess(int code, UpdateBean data, boolean click) {
-        if (mUpdateUtils == null) {
-            mUpdateUtils = UpdateUtils.newInstance();
-        }
-        if (mUpdateUtils.isNewest(data)) {
-            tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextMain));
-            tv_has_update.setText("发现新版本");
-            if (click) {
-                UpdateDialog.with(getContext())
-                        .setUrl(data.getUrl())
-                        .setUrlBackup(data.getUrl_backup())
-                        .setVersionCode(data.getVersion_code())
-                        .setVersionName(data.getVersion_name())
-                        .setForce(mUpdateUtils.shouldForceUpdate(data))
-                        .setDescription(data.getDesc())
-                        .setTime(data.getTime())
-                        .setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
-                            @Override
-                            public void onDownload(String url, String urlBackup, boolean isForce) {
-                                download(url, urlBackup, isForce);
-                            }
-
-                            @Override
-                            public void onIgnore(String versionName, int versionCode) {
-                                mUpdateUtils.ignore(versionCode);
-                            }
-                        })
-                        .show();
-            }
-        } else {
-            presenter.betaUpdate(click);
-        }
-    }
-
-    @Override
-    public void updateFailed(int code, String msg, boolean click) {
-        tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
-        tv_has_update.setText("已是最新版");
-    }
-
-    @Override
-    public void betaUpdateSuccess(int code, UpdateBean data, boolean click) {
-        if (mUpdateUtils.isNewest(data)) {
-            tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextAccent));
-            tv_has_update.setText("发现内测版本");
-            if (click) {
-                UpdateDialog.with(getContext())
-                        .setTest(true)
-                        .setUrl(data.getUrl())
-                        .setUrlBackup(data.getUrl_backup())
-                        .setVersionCode(data.getVersion_code())
-                        .setVersionName(data.getVersion_name())
-                        .setForce(mUpdateUtils.shouldForceUpdate(data))
-                        .setDescription(data.getDesc())
-                        .setTime(data.getTime())
-                        .setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
-                            @Override
-                            public void onDownload(String url, String urlBackup, boolean isForce) {
-                                download(url, urlBackup, isForce);
-                            }
-
-                            @Override
-                            public void onIgnore(String versionName, int versionCode) {
-                                mUpdateUtils.ignoreBeta(versionName, versionCode);
-                            }
-                        })
-                        .show();
-            }
-        } else {
-            tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
-            tv_has_update.setText("已是最新版");
-            if (click) {
-                ToastMaker.showShort("已是最新版");
-            }
-        }
-    }
-
-    @Override
-    public void betaUpdateFailed(int code, String msg, boolean click) {
-        tv_has_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
-        tv_has_update.setText("已是最新版");
-        if (click) {
-            ToastMaker.showShort("已是最新版");
-        }
-    }
-
-    @Override
     public void logoutSuccess(int code, BaseBean data) {
         UserUtils.getInstance().logout();
         new LoginEvent(false).post();
@@ -396,26 +297,5 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
     @Override
     public void getCacheSizeSuccess(String size) {
         tv_cache.setText(size);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (mRuntimeRequester != null) {
-            mRuntimeRequester.onActivityResult(requestCode);
-        }
-    }
-
-    private void download(final String url, final String urlBackup, final boolean isForce) {
-        mRuntimeRequester = PermissionUtils.request(new RequestListener() {
-            @Override
-            public void onSuccess() {
-                DownloadDialog.with(getActivity(), isForce, url, urlBackup, null);
-            }
-
-            @Override
-            public void onFailed() {
-            }
-        }, getContext(), REQ_CODE_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 }

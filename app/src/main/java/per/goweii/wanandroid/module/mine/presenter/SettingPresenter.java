@@ -13,8 +13,6 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
 import per.goweii.wanandroid.http.RequestListener;
 import per.goweii.wanandroid.http.WanCache;
-import per.goweii.wanandroid.module.main.model.MainRequest;
-import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.model.MineRequest;
 import per.goweii.wanandroid.module.mine.view.SettingView;
 
@@ -24,72 +22,6 @@ import per.goweii.wanandroid.module.mine.view.SettingView;
  * GitHub: https://github.com/goweii
  */
 public class SettingPresenter extends BasePresenter<SettingView> {
-
-    public void update(boolean click) {
-        MainRequest.update(getRxLife(), new RequestListener<UpdateBean>() {
-            @Override
-            public void onStart() {
-                showLoadingBar();
-            }
-
-            @Override
-            public void onSuccess(int code, UpdateBean data) {
-                if (isAttach()) {
-                    getBaseView().updateSuccess(code, data, click);
-                }
-            }
-
-            @Override
-            public void onFailed(int code, String msg) {
-                if (isAttach()) {
-                    getBaseView().updateFailed(code, msg, click);
-                }
-            }
-
-            @Override
-            public void onError(ExceptionHandle handle) {
-            }
-
-            @Override
-            public void onFinish() {
-                dismissLoadingBar();
-            }
-        });
-    }
-
-    public void betaUpdate(boolean click) {
-        MainRequest.betaUpdate(getRxLife(), new RequestListener<UpdateBean>() {
-            @Override
-            public void onStart() {
-                showLoadingBar();
-            }
-
-            @Override
-            public void onSuccess(int code, UpdateBean data) {
-                if (isAttach()) {
-                    getBaseView().betaUpdateSuccess(code, data, click);
-                }
-            }
-
-            @Override
-            public void onFailed(int code, String msg) {
-                if (isAttach()) {
-                    getBaseView().betaUpdateFailed(code, msg, click);
-                }
-            }
-
-            @Override
-            public void onError(ExceptionHandle handle) {
-            }
-
-            @Override
-            public void onFinish() {
-                dismissLoadingBar();
-            }
-        });
-    }
-
-
     public void logout() {
         addToRxLife(MineRequest.logout(new RequestListener<BaseBean>() {
             @Override

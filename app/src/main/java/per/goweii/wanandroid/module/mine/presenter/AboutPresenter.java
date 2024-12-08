@@ -13,8 +13,7 @@ import per.goweii.wanandroid.module.mine.view.AboutView;
  * GitHub: https://github.com/goweii
  */
 public class AboutPresenter extends BasePresenter<AboutView> {
-
-    public void getAppDownloadUrl() {
+    public void update(int updateType) {
         MainRequest.update(getRxLife(), new RequestListener<UpdateBean>() {
             @Override
             public void onStart() {
@@ -24,14 +23,14 @@ public class AboutPresenter extends BasePresenter<AboutView> {
             @Override
             public void onSuccess(int code, UpdateBean data) {
                 if (isAttach()) {
-                    getBaseView().updateSuccess(code, data);
+                    getBaseView().updateSuccess(code, data, updateType);
                 }
             }
 
             @Override
             public void onFailed(int code, String msg) {
                 if (isAttach()) {
-                    getBaseView().updateFailed(code, msg);
+                    getBaseView().updateFailed(code, msg, updateType);
                 }
             }
 
@@ -46,4 +45,35 @@ public class AboutPresenter extends BasePresenter<AboutView> {
         });
     }
 
+    public void betaUpdate(int updateType) {
+        MainRequest.betaUpdate(getRxLife(), new RequestListener<UpdateBean>() {
+            @Override
+            public void onStart() {
+                showLoadingBar();
+            }
+
+            @Override
+            public void onSuccess(int code, UpdateBean data) {
+                if (isAttach()) {
+                    getBaseView().betaUpdateSuccess(code, data, updateType);
+                }
+            }
+
+            @Override
+            public void onFailed(int code, String msg) {
+                if (isAttach()) {
+                    getBaseView().betaUpdateFailed(code, msg, updateType);
+                }
+            }
+
+            @Override
+            public void onError(ExceptionHandle handle) {
+            }
+
+            @Override
+            public void onFinish() {
+                dismissLoadingBar();
+            }
+        });
+    }
 }

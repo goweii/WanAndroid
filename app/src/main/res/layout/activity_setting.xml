@@ -304,47 +304,6 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/ll_update"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:background="@drawable/bg_press_color_surface"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:layout_weight="1"
-                        android:singleLine="true"
-                        android:text="版本更新"
-                        android:textColor="?colorTextSurface"
-                        android:textSize="@dimen/text_content" />
-
-                    <TextView
-                        android:id="@+id/tv_has_update"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
-                        android:singleLine="true"
-                        android:text=""
-                        android:textColor="?colorTextThird"
-                        android:textSize="@dimen/text_notes"
-                        tools:text="已是最新版本" />
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/ic_enter"
-                        android:tint="?colorIconThird"
-                        tools:ignore="UseAppTint" />
-
-                </LinearLayout>
-
-                <LinearLayout
                     android:id="@+id/ll_about"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"

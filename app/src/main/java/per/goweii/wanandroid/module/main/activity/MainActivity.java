@@ -76,7 +76,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     private FixedFragmentPagerAdapter mPagerAdapter;
     private RuntimeRequester mRuntimeRequester;
-    private UpdateUtils mUpdateUtils;
     private CopiedLinkDialog mCopiedLinkDialog = null;
     private PasswordDialog mPasswordDialog = null;
 
@@ -204,7 +203,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
     @Override
     protected void loadData() {
-        mUpdateUtils = UpdateUtils.newInstance();
         presenter.getConfig();
         presenter.getAdvert();
         presenter.update();
@@ -347,8 +345,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         task.runnable(new Function1<PredefinedTaskQueen.Completion, Unit>() {
             @Override
             public Unit invoke(PredefinedTaskQueen.Completion completion) {
-                boolean shouldForce = mUpdateUtils.shouldForceUpdate(data);
-                if (shouldForce || mUpdateUtils.shouldUpdate(data)) {
+                boolean shouldForce = UpdateUtils.getInstance().shouldForceUpdate(data);
+                if (shouldForce || UpdateUtils.getInstance().shouldUpdate(data)) {
                     mPredefinedTaskQueen.get(sTaskBetaUpdate).complete();
                     UpdateDialog.with(getContext())
                             .setUrl(data.getUrl())
@@ -366,7 +364,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
                                 @Override
                                 public void onIgnore(String versionName, int versionCode) {
-                                    mUpdateUtils.ignore(versionCode);
+                                    UpdateUtils.getInstance().ignore(versionCode);
                                 }
                             })
                             .setOnDismissListener(new UpdateDialog.OnDismissListener() {
@@ -380,7 +378,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
                             })
                             .show();
                 } else {
-                    if (!mUpdateUtils.isNewest(data) && UserUtils.getInstance().isLogin()) {
+                    if (!UpdateUtils.getInstance().isNewest(data) && UserUtils.getInstance().isLogin()) {
                         presenter.betaUpdate();
                     } else {
                         mPredefinedTaskQueen.get(sTaskBetaUpdate).complete();
@@ -406,8 +404,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         task.runnable(new Function1<PredefinedTaskQueen.Completion, Unit>() {
             @Override
             public Unit invoke(PredefinedTaskQueen.Completion completion) {
-                boolean shouldForce = mUpdateUtils.shouldForceUpdate(data);
-                if (shouldForce || mUpdateUtils.shouldUpdateBeta(data)) {
+                boolean shouldForce = UpdateUtils.getInstance().shouldForceUpdate(data);
+                if (shouldForce || UpdateUtils.getInstance().shouldUpdateBeta(data)) {
                     UpdateDialog.with(getContext())
                             .setTest(true)
                             .setUrl(data.getUrl())
@@ -425,7 +423,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
 
                                 @Override
                                 public void onIgnore(String versionName, int versionCode) {
-                                    mUpdateUtils.ignoreBeta(versionName, versionCode);
+                                    UpdateUtils.getInstance().ignoreBeta(versionName, versionCode);
                                 }
                             })
                             .setOnDismissListener(new UpdateDialog.OnDismissListener() {

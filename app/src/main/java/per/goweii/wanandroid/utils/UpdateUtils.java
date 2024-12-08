@@ -1,5 +1,7 @@
 package per.goweii.wanandroid.utils;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 import per.goweii.basic.utils.AppInfoUtils;
@@ -24,8 +26,18 @@ public class UpdateUtils {
 
     private final SPUtils mSPUtils = SPUtils.newInstance(SP_NAME);
 
-    public static UpdateUtils newInstance() {
-        return new UpdateUtils();
+    private static volatile UpdateUtils INSTANCE = null;
+
+    @NonNull
+    public static UpdateUtils getInstance() {
+        if (INSTANCE == null) {
+            synchronized (UpdateUtils.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new UpdateUtils();
+                }
+            }
+        }
+        return INSTANCE;
     }
 
     private UpdateUtils() {
