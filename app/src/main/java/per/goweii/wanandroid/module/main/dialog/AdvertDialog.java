@@ -47,16 +47,6 @@ public class AdvertDialog extends DialogLayer implements Layer.AnimatorCreator {
         setContentView(R.layout.dialog_advert);
         setContentAnimator(this);
         addOnClickToDismissListener(R.id.dialog_advert_iv_close);
-        addOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(@NonNull Layer layer, @NonNull View v) {
-                if (TextUtils.isEmpty(advertBean.getRoute())) {
-                    return;
-                }
-                Router.routeTo(advertBean.getRoute());
-                dismiss();
-            }
-        }, R.id.dialog_advert_psl);
         mActivityRequestedOrientation = getActivity().getRequestedOrientation();
         getActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
@@ -136,6 +126,14 @@ public class AdvertDialog extends DialogLayer implements Layer.AnimatorCreator {
         }
     }
 
+    private void handleRouteTo() {
+        if (TextUtils.isEmpty(advertBean.getRoute())) {
+            return;
+        }
+        Router.routeTo(advertBean.getRoute());
+        dismiss();
+    }
+
     private void fillBySingleImage(ParallaxStackLayout psl, String url) {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) psl.getLayoutParams();
         layoutParams.addRule(RelativeLayout.ABOVE, R.id.dialog_advert_rl_close);
@@ -147,6 +145,13 @@ public class AdvertDialog extends DialogLayer implements Layer.AnimatorCreator {
         imageView.setPadding(p32, p32, p32, p16);
         ImageLoader.roundImage(imageView, url, (int) ResUtils.getDimens(R.dimen.round_radius));
         psl.addView(imageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                handleRouteTo();
+            }
+        });
     }
 
     @SuppressLint("RtlHardcoded")
@@ -224,6 +229,13 @@ public class AdvertDialog extends DialogLayer implements Layer.AnimatorCreator {
             layoutParams.setRotationZ(imageBean.getRotationZ());
             psl.addView(imageView, layoutParams);
             GlideHelper.with(getActivity()).load(imageBean.getUrl()).into(imageView);
+
+            psl.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    handleRouteTo();
+                }
+            });
         }
     }
 
