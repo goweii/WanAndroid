@@ -7,12 +7,6 @@
     android:clipToPadding="false"
     android:orientation="vertical">
 
-    <per.goweii.basic.ui.widget.StatusBarView
-        android:id="@+id/dialog_advert_sbv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true" />
-
     <per.goweii.wanandroid.widget.ParallaxStackLayout
         android:id="@+id/dialog_advert_psl"
         android:layout_width="match_parent"
@@ -23,10 +17,9 @@
         android:id="@+id/dialog_advert_rl_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/dialog_advert_sbv"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/margin_def"
-        android:layout_marginEnd="@dimen/margin_def">
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_middle">
 
         <me.zhanghai.android.materialprogressbar.MaterialProgressBar
             android:id="@+id/dialog_advert_pb_close"

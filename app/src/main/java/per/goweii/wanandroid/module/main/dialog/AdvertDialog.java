@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -136,10 +137,14 @@ public class AdvertDialog extends DialogLayer implements Layer.AnimatorCreator {
     }
 
     private void fillBySingleImage(ParallaxStackLayout psl, String url) {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) psl.getLayoutParams();
+        layoutParams.addRule(RelativeLayout.ABOVE, R.id.dialog_advert_rl_close);
         ImageView imageView = new ImageView(getActivity());
+        imageView.setAdjustViewBounds(true);
         imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        int p = (int) ResUtils.getDimens(R.dimen.margin_middle);
-        imageView.setPadding(p, p, p, p);
+        int p32 = (int) ResUtils.getDimens(R.dimen.margin_middle);
+        int p16 = (int) ResUtils.getDimens(R.dimen.margin_def);
+        imageView.setPadding(p32, p32, p32, p16);
         ImageLoader.roundImage(imageView, url, (int) ResUtils.getDimens(R.dimen.round_radius));
         psl.addView(imageView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
