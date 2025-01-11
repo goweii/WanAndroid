@@ -11,6 +11,7 @@ import org.greenrobot.eventbus.ThreadMode
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.utils.ResUtils
 import per.goweii.wanandroid.R
+import per.goweii.wanandroid.db.model.ReadRecordModel
 import per.goweii.wanandroid.event.ReadRecordAddedEvent
 import per.goweii.wanandroid.event.ReadRecordUpdateEvent
 import per.goweii.wanandroid.module.book.adapter.BookChapterAdapter
@@ -120,8 +121,14 @@ class BookDetailsActivity : BaseActivity<BookDetailsPresenter>(), BookDetailsVie
         kotlin.run {
             adapter.data.forEachIndexed { index, bookChapterBean ->
                 if (bookChapterBean.articleBean.link == event.link) {
-                    bookChapterBean.time = event.time
-                    bookChapterBean.percent = event.percent
+                    if (event.time != null) {
+                        bookChapterBean.time = event.time
+                    }
+                    if (event.percent != null) {
+                        bookChapterBean.percent =
+                            (event.percent.toFloat() / ReadRecordModel.MAX_PERCENT)
+                                .coerceIn(0f, 1f)
+                    }
                     adapter.notifyItemChanged(index)
                     return@run
                 }

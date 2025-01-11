@@ -6,7 +6,7 @@ public class ReadRecordUpdateEvent extends BaseEvent {
     private final String mLink;
     private String mTitle;
     private Long mTime;
-    private Float mPercent;
+    private Integer mPercent;
 
     public ReadRecordUpdateEvent(@NonNull String link) {
         this.mLink = link;
@@ -32,11 +32,11 @@ public class ReadRecordUpdateEvent extends BaseEvent {
         this.mTime = time;
     }
 
-    public Float getPercent() {
+    public Integer getPercent() {
         return mPercent;
     }
 
-    public void setPercent(Float percent) {
+    public void setPercent(Integer percent) {
         this.mPercent = percent;
     }
 }

@@ -34,16 +34,49 @@ class ReadRecordExecutor : DbExecutor() {
         success: SimpleCallback<ReadRecordModel>,
         error: SimpleListener
     ) {
-        val time = System.currentTimeMillis()
-        val model = ReadRecordModel(
-            link, title, time, time,
-            (percent * ReadRecordModel.MAX_PERCENT).toInt()
-        )
         execute({
-            db().readRecordDao().insert(model)
+            val db = db()
+            db.withTransaction {
+                val dao = db.readRecordDao()
+                dao.updateTitle(link, title)
+                val old = dao.findByLink(link)
+                if (old != null) {
+                    val time = System.currentTimeMillis()
+                    dao.updateLastTime(link, time)
+                    old.copy(lastTime = time)
+                } else {
+                    val time = System.currentTimeMillis()
+                    val model = ReadRecordModel(
+                        link, title, time, time,
+                        (percent * ReadRecordModel.MAX_PERCENT).toInt()
+                    )
+                    dao.insert(model)
+                    model
+                }
+            }
         }, {
-            success.onResult(model)
+            success.onResult(it)
             removeIfMaxCount {}
+        }, {
+            error.onResult()
+        })
+    }
+
+    fun updateTitle(
+        link: String,
+        title: String,
+        success: SimpleCallback<ReadRecordModel>,
+        error: SimpleListener
+    ) {
+        execute({
+            val db = db()
+            db.withTransaction {
+                val dao = db.readRecordDao()
+                dao.updateTitle(link, title)
+                dao.findByLink(link)!!
+            }
+        }, {
+            success.onResult(it)
         }, {
             error.onResult()
         })

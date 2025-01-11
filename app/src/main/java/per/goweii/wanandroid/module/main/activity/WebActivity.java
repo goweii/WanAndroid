@@ -230,17 +230,19 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
                     @Override
                     public void onReceivedTitle(@NonNull String title) {
                         updateTitle();
-                        presenter.addReadRecord(mWebHolder.getUrl(), mWebHolder.getTitle(), mWebHolder.getPercent());
+                        presenter.updateReadRecordTitle(mWebHolder.getUrl(), title);
                     }
                 })
                 .setOnPageLoadCallback(new WebHolder.OnPageLoadCallback() {
                     @Override
                     public void onPageStarted() {
                         et_title.clearFocus();
+                        presenter.addReadRecord(mWebHolder.getUrl(), mWebHolder.getTitle(), mWebHolder.getPercent());
                     }
 
                     @Override
                     public void onPageFinished() {
+                        presenter.updateReadRecordTitle(mWebHolder.getUrl(), mWebHolder.getTitle());
                         showWebGuideDialogIfNeeded();
                         Uri uri = Uri.parse(mWebHolder.getUrl());
                         String message = uri.getQueryParameter("scrollToKeywords");

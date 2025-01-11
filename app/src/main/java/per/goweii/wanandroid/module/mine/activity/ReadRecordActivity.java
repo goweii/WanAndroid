@@ -32,6 +32,7 @@ import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.db.model.ReadRecordModel;
 import per.goweii.wanandroid.event.ReadRecordAddedEvent;
+import per.goweii.wanandroid.event.ReadRecordUpdateEvent;
 import per.goweii.wanandroid.module.mine.adapter.ReadRecordAdapter;
 import per.goweii.wanandroid.module.mine.presenter.ReadRecordPresenter;
 import per.goweii.wanandroid.module.mine.view.ReadRecordView;
@@ -78,6 +79,32 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
         }
         offset = 0;
         presenter.getList(offset, perPageCount);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onReadRecordEvent(ReadRecordUpdateEvent event) {
+        if (isDestroyed()) {
+            return;
+        }
+        if (offset == 0 && loading) {
+            return;
+        }
+        List<ReadRecordModel> data = mAdapter.getData();
+        for (int i = 0; i < data.size(); i++) {
+            ReadRecordModel oldModel = data.get(i);
+            if (TextUtils.equals(oldModel.getLink(), event.getLink())) {
+                data.remove(i);
+                data.add(i, new ReadRecordModel(
+                        oldModel.getLink(),
+                        !TextUtils.isEmpty(event.getTitle()) ? event.getTitle() : oldModel.getTitle(),
+                        oldModel.getTime(),
+                        event.getTime() != null ? event.getTime() : oldModel.getLastTime(),
+                        event.getPercent() != null ? event.getPercent() : oldModel.getPercent()
+                ));
+                mAdapter.notifyItemChanged(i);
+                return;
+            }
+        }
     }
 
     @Override

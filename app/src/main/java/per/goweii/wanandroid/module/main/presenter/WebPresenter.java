@@ -352,12 +352,38 @@ public class WebPresenter extends BasePresenter<WebView> {
     public void addReadRecord(String link, String title, float percent) {
         if (mReadRecordExecutor == null) return;
         if (TextUtils.isEmpty(link)) return;
-        if (TextUtils.isEmpty(title)) return;
-        if (TextUtils.equals(link, title)) return;
+        if (TextUtils.isEmpty(title)) {
+            title = link;
+        }
         mReadRecordExecutor.add(link, title, percent, new SimpleCallback<ReadRecordModel>() {
             @Override
             public void onResult(ReadRecordModel readRecordModel) {
-                new ReadRecordAddedEvent(readRecordModel).post();
+                if (readRecordModel.getTime() == readRecordModel.getLastTime()) {
+                    new ReadRecordAddedEvent(readRecordModel).post();
+                } else {
+                    ReadRecordUpdateEvent readRecordUpdateEvent = new ReadRecordUpdateEvent(readRecordModel.getLink());
+                    readRecordUpdateEvent.setTime(readRecordModel.getLastTime());
+                    readRecordUpdateEvent.post();
+                }
+            }
+        }, new SimpleListener() {
+            @Override
+            public void onResult() {
+            }
+        });
+    }
+
+    public void updateReadRecordTitle(String link, String title) {
+        if (mReadRecordExecutor == null) return;
+        if (TextUtils.isEmpty(link)) return;
+        if (TextUtils.isEmpty(title)) return;
+        if (TextUtils.equals(link, title)) return;
+        mReadRecordExecutor.updateTitle(link, title, new SimpleCallback<ReadRecordModel>() {
+            @Override
+            public void onResult(ReadRecordModel readRecordModel) {
+                ReadRecordUpdateEvent readRecordUpdateEvent = new ReadRecordUpdateEvent(readRecordModel.getLink());
+                readRecordUpdateEvent.setTitle(readRecordModel.getTitle());
+                readRecordUpdateEvent.post();
             }
         }, new SimpleListener() {
             @Override
@@ -375,7 +401,7 @@ public class WebPresenter extends BasePresenter<WebView> {
             public void onResult(ReadRecordModel readRecordModel) {
                 ReadRecordUpdateEvent readRecordUpdateEvent = new ReadRecordUpdateEvent(readRecordModel.getLink());
                 readRecordUpdateEvent.setTime(readRecordModel.getLastTime());
-                readRecordUpdateEvent.setPercent(readRecordModel.getPercentFloat());
+                readRecordUpdateEvent.setPercent(readRecordModel.getPercent());
                 readRecordUpdateEvent.post();
             }
         }, new SimpleListener() {

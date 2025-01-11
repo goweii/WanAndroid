@@ -12,8 +12,11 @@ interface ReadRecordDao {
     @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun insert(vararg mode: ReadRecordModel)
 
-    @Update(onConflict = OnConflictStrategy.ABORT)
-    suspend fun update(vararg mode: ReadRecordModel)
+    @Query("UPDATE ReadRecordModel SET lastTime = :lastTime WHERE (link = :link AND lastTime != :lastTime)")
+    suspend fun updateLastTime(link: String, lastTime: Long)
+
+    @Query("UPDATE ReadRecordModel SET title = :title WHERE (link = :link AND title != :title)")
+    suspend fun updateTitle(link: String, title: String)
 
     @Query("UPDATE ReadRecordModel SET lastTime = :lastTime, percent = :percent WHERE (link = :link AND percent < :percent)")
     suspend fun updatePercent(link: String, percent: Int, lastTime: Long)
@@ -27,13 +30,13 @@ interface ReadRecordDao {
     @Query("DELETE FROM ReadRecordModel")
     suspend fun deleteAll()
 
-    @Query("SELECT * FROM ReadRecordModel ORDER BY time DESC LIMIT (:offset), (:count)")
+    @Query("SELECT * FROM ReadRecordModel ORDER BY lastTime DESC LIMIT (:offset), (:count)")
     suspend fun findAll(offset: Int, count: Int): List<ReadRecordModel>
 
-    @Query("SELECT * FROM ReadRecordModel WHERE link in (:links)")
+    @Query("SELECT * FROM ReadRecordModel WHERE link in (:links) ORDER BY lastTime DESC")
     suspend fun findByLinks(links: List<String>): List<ReadRecordModel>
 
     @Query("""DELETE FROM ReadRecordModel WHERE link NOT IN 
-        (SELECT link FROM ReadRecordModel ORDER BY time DESC LIMIT 0, :maxCount)""")
+        (SELECT link FROM ReadRecordModel ORDER BY lastTime DESC LIMIT 0, :maxCount)""")
     suspend fun deleteIfMaxCount(maxCount: Int)
 }

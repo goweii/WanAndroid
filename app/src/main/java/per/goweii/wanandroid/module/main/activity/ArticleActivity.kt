@@ -188,10 +188,13 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
             }
             .setOnPageLoadCallback(object : WebHolder.OnPageLoadCallback {
                 override fun onPageStarted() {
+                    presenter.addReadRecord(mWebHolder.url, mWebHolder.title, mWebHolder.percent)
                 }
 
                 override fun onPageFinished() {
                     isPageLoadFinished = true
+
+                    presenter.updateReadRecordTitle(mWebHolder.url, mWebHolder.title)
 
                     showArticleFooter()
 
@@ -227,7 +230,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                 return@setInterceptUrlInterceptor null
             }
             .setOnPageTitleCallback {
-                presenter.addReadRecord(mWebHolder.url, mWebHolder.title, mWebHolder.percent)
+                presenter.updateReadRecordTitle(mWebHolder.url, it)
             }
             .setOnPageScrollEndListener {
                 presenter.isReadLater { isReadLater ->

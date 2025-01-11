@@ -93,7 +93,25 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
         if (TextUtils.isEmpty(title)) return
         if (TextUtils.equals(link, title)) return
         mReadRecordExecutor?.add(link, title, percent, {
-            ReadRecordAddedEvent(it).post()
+            if (it.time == it.lastTime) {
+                ReadRecordAddedEvent(it).post()
+            } else {
+                val readRecordUpdateEvent = ReadRecordUpdateEvent(it.link)
+                readRecordUpdateEvent.time = it.lastTime
+                readRecordUpdateEvent.post()
+            }
+        }, { })
+    }
+
+    fun updateReadRecordTitle(link: String, title: String?) {
+        mReadRecordExecutor ?: return
+        if (TextUtils.isEmpty(link)) return
+        if (TextUtils.isEmpty(title)) return
+        if (TextUtils.equals(link, title)) return
+        mReadRecordExecutor?.updateTitle(link, title!!, {
+            val readRecordUpdateEvent = ReadRecordUpdateEvent(it.link)
+            readRecordUpdateEvent.title = it.title
+            readRecordUpdateEvent.post()
         }, { })
     }
 
@@ -104,7 +122,7 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
         mReadRecordExecutor?.updatePercent(link, percent, lastTime, {
             val readRecordUpdateEvent = ReadRecordUpdateEvent(it.link)
             readRecordUpdateEvent.time = it.lastTime
-            readRecordUpdateEvent.percent = it.percentFloat
+            readRecordUpdateEvent.percent = it.percent
             readRecordUpdateEvent.post()
         }, {})
     }

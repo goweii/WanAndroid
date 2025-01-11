@@ -95,6 +95,8 @@ public class WebHolder {
     private boolean useInstanceCache = false;
     private boolean isProgressShown = false;
     private boolean isPageScrollEnd = false;
+    private String mCurrentLink = null;
+    private String mCurrentTitle = null;
 
     public static WebHolder with(Activity activity, WebContainer container, ProgressBar progressBar) {
         return new WebHolder(activity, container, progressBar);
@@ -524,10 +526,11 @@ public class WebHolder {
     }
 
     public class WanWebChromeClient extends WebChromeClient {
+
         @Override
         public void onReceivedTitle(WebView view, String title) {
             super.onReceivedTitle(view, title);
-            if (mOnPageTitleCallback != null) {
+            if (updateCurrentTitle(view.getUrl(), title) && mOnPageTitleCallback != null) {
                 mOnPageTitleCallback.onReceivedTitle(title);
             }
         }
@@ -778,7 +781,9 @@ public class WebHolder {
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             jsInjector.onPageStarted();
             super.onPageStarted(view, url, favicon);
-            if (mOnPageTitleCallback != null) {
+            mCurrentLink = url;
+            mCurrentTitle = null;
+            if (updateCurrentTitle(url, url) && mOnPageTitleCallback != null) {
                 mOnPageTitleCallback.onReceivedTitle(getUrl());
             }
             if (mOnPageLoadCallback != null) {
@@ -789,7 +794,7 @@ public class WebHolder {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            if (mOnPageTitleCallback != null) {
+            if (updateCurrentTitle(url, getTitle()) && mOnPageTitleCallback != null) {
                 mOnPageTitleCallback.onReceivedTitle(getTitle());
             }
             if (mOnPageLoadCallback != null) {
@@ -804,6 +809,16 @@ public class WebHolder {
                 mOnHistoryUpdateCallback.onHistoryUpdate(isReload);
             }
         }
+    }
+
+    private boolean updateCurrentTitle(String url, String title) {
+        if (TextUtils.equals(url, mCurrentLink)) {
+            if (!TextUtils.equals(title, mCurrentTitle)) {
+                mCurrentTitle = title;
+                return true;
+            }
+        }
+        return false;
     }
 
     public interface OnShareInfoCallback {
