@@ -103,7 +103,7 @@ public class ReadRecordAdapter extends BaseQuickAdapter<ReadRecordModel, BaseVie
         } else {
             helper.setText(R.id.tv_title, Html.fromHtml(item.getTitle()));
         }
-        String time = mSimpleDateFormat.format(new Date(item.getTime()));
+        String time = mSimpleDateFormat.format(new Date(item.getLastTime()));
         helper.setText(R.id.tv_time, time);
         helper.addOnClickListener(R.id.rl_top, R.id.tv_delete, R.id.tv_open, R.id.tv_copy);
     }
