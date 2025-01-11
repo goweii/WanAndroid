@@ -26,6 +26,7 @@ import per.goweii.codex.processor.zxing.ZXingMultiDecodeQRCodeProcessor
 import per.goweii.codex.processor.zxing.ZXingMultiScanQRCodeProcessor
 import per.goweii.codex.scanner.CameraProxy
 import per.goweii.codex.scanner.CodeScanner
+import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.swipeback.SwipeBackAbility
 import per.goweii.swipeback.SwipeBackDirection
 import per.goweii.swipeback.SwipeBackTransformer
@@ -81,6 +82,7 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
     override fun initPresenter(): ScanPresenter = ScanPresenter()
 
     override fun initView() {
+        StatusBarCompat.transparent(this)
         ivClose.setOnClickListener {
             finish()
         }
