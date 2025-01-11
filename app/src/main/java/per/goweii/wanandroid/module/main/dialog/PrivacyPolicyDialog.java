@@ -16,6 +16,7 @@ import per.goweii.anylayer.Layer;
 import per.goweii.anylayer.dialog.DialogLayer;
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.Constant;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.utils.GuideSPUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -83,7 +84,7 @@ public class PrivacyPolicyDialog extends DialogLayer {
             @Override
             public void onClick(View v) {
                 UrlOpenUtils.Companion
-                        .with("file:///android_asset/privacy_policy.html")
+                        .with(Constant.PRIVACY_POLICY_URL)
                         .open(getActivity());
             }
         }), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
