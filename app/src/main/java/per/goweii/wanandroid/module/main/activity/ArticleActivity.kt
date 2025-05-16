@@ -26,6 +26,7 @@ import per.goweii.basic.utils.ext.invisible
 import per.goweii.basic.utils.ext.visible
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.swipeback.SwipeBackAbility
+import per.goweii.swipeback.SwipeBackDirection
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.module.main.dialog.ArticleShareDialog
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
@@ -47,7 +48,7 @@ import per.goweii.wanandroid.utils.web.interceptor.WebResUrlInterceptor
  * @author CuiZhen
  * @date 2020/2/20
  */
-class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBackAbility.OnlyEdge, SwipeBackAbility.ForceEdge {
+class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBackAbility.Direction, SwipeBackAbility.ForceEdge {
     private data class FloatIcon(
         val container: View,
         val shadow: View,
@@ -453,8 +454,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         }?.start()
     }
 
-    override fun swipeBackOnlyEdge(): Boolean {
-        return true
+    override fun swipeBackDirection(): SwipeBackDirection {
+        return SwipeBackDirection.RIGHT
     }
 
     override fun swipeBackForceEdge(): Boolean {
