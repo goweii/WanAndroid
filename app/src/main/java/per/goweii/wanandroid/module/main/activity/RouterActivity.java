@@ -27,10 +27,10 @@ public class RouterActivity extends BaseActivity implements SwipeBackAbility.Dir
 
     private static final String TAG = RouterActivity.class.getSimpleName();
 
-    @NonNull
+    @SwipeBackDirection
     @Override
-    public SwipeBackDirection swipeBackDirection() {
-        return SwipeBackDirection.NONE;
+    public int swipeBackDirection() {
+        return 0;
     }
 
     @Override

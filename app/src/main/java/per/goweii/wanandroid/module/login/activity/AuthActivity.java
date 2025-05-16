@@ -71,9 +71,9 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
         QuickLoginActivity.Companion.startForUse(context, true);
     }
 
-    @NonNull
+    @SwipeBackDirection
     @Override
-    public SwipeBackDirection swipeBackDirection() {
+    public int swipeBackDirection() {
         return SwipeBackDirection.BOTTOM;
     }
 

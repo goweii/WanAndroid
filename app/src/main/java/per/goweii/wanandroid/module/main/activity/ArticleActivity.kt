@@ -454,7 +454,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         }?.start()
     }
 
-    override fun swipeBackDirection(): SwipeBackDirection {
+    @SwipeBackDirection
+    override fun swipeBackDirection(): Int {
         return SwipeBackDirection.RIGHT
     }
 

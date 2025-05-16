@@ -164,7 +164,8 @@ class QuickLoginActivity : BaseActivity<QuickLoginPresenter>(), QuickLoginView, 
         finishWithFailed()
     }
 
-    override fun swipeBackDirection(): SwipeBackDirection {
-        return SwipeBackDirection.NONE
+    @SwipeBackDirection
+    override fun swipeBackDirection(): Int {
+        return 0
     }
 }

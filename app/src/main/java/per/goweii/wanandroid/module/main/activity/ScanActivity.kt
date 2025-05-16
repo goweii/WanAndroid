@@ -73,7 +73,8 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
 
     private var codeScanner: CodeScanner? = null
 
-    override fun swipeBackDirection(): SwipeBackDirection = SwipeBackDirection.BOTTOM
+    @SwipeBackDirection
+    override fun swipeBackDirection(): Int = SwipeBackDirection.BOTTOM
 
     override fun swipeBackTransformer(): SwipeBackTransformer? = null
 
