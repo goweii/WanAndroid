@@ -1,7 +1,8 @@
 package per.goweii.wanandroid.module.question.fragment
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_question.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import per.goweii.basic.core.base.BaseFragment
@@ -9,6 +10,7 @@ import per.goweii.basic.core.utils.SmartRefreshUtils
 import per.goweii.basic.ui.toast.ToastMaker
 import per.goweii.basic.utils.listener.SimpleListener
 import per.goweii.wanandroid.R
+import per.goweii.wanandroid.databinding.FragmentQuestionBinding
 import per.goweii.wanandroid.event.CollectionEvent
 import per.goweii.wanandroid.event.LoginEvent
 import per.goweii.wanandroid.event.ScrollTopEvent
@@ -25,7 +27,7 @@ import per.goweii.wanandroid.utils.RvScrollTopUtils.ScrollTop
  * @author CuiZhen
  * @date 2020/3/25
  */
-class QuestionFragment : BaseFragment<QuestionPresenter>(), QuestionView, ScrollTop {
+class QuestionFragment : BaseFragment<QuestionPresenter, FragmentQuestionBinding>(), QuestionView, ScrollTop {
 
     companion object {
         private const val PAGE_START = 1
@@ -68,29 +70,34 @@ class QuestionFragment : BaseFragment<QuestionPresenter>(), QuestionView, Scroll
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onScrollTopEvent(event: ScrollTopEvent) {
         if (isAdded && !isDetached) {
-            RvScrollTopUtils.smoothScrollTop(rv)
+            RvScrollTopUtils.smoothScrollTop(binding.rv)
         }
     }
 
     override fun isRegisterEventBus() = true
 
-    override fun getLayoutRes(): Int = R.layout.fragment_question
+    override fun initViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?
+    ): FragmentQuestionBinding {
+        return FragmentQuestionBinding.inflate(inflater, container, false)
+    }
 
     override fun initPresenter(): QuestionPresenter = QuestionPresenter()
 
     override fun initView() {
-        mSmartRefreshUtils = SmartRefreshUtils.with(srl)
+        mSmartRefreshUtils = SmartRefreshUtils.with(binding.srl)
         mSmartRefreshUtils.pureScrollMode()
         mSmartRefreshUtils.setRefreshListener {
             currPage = PAGE_START
             presenter.getQuestionList(currPage)
         }
-        rv.layoutManager = LinearLayoutManager(context)
+        binding.rv.layoutManager = LinearLayoutManager(context)
         mAdapter = ArticleAdapter()
         mAdapter.setEnableLoadMore(false)
         mAdapter.setOnLoadMoreListener({
             presenter.getQuestionList(currPage)
-        }, rv)
+        }, binding.rv)
         mAdapter.setOnItemChildViewClickListener { _, v, position ->
             mAdapter.getItem(position)?.let { item ->
                 if (v.isChecked) {
@@ -100,15 +107,15 @@ class QuestionFragment : BaseFragment<QuestionPresenter>(), QuestionView, Scroll
                 }
             }
         }
-        rv.adapter = mAdapter
-        setEmptyAndErrorClick(msv, SimpleListener {
-            MultiStateUtils.toLoading(msv)
+        binding.rv.adapter = mAdapter
+        setEmptyAndErrorClick(binding.msv, SimpleListener {
+            MultiStateUtils.toLoading(binding.msv)
             presenter.getQuestionList(currPage)
         })
     }
 
     override fun loadData() {
-        MultiStateUtils.toLoading(msv)
+        MultiStateUtils.toLoading(binding.msv)
         presenter.getQuestionListCache(PAGE_START)
     }
 
@@ -122,14 +129,14 @@ class QuestionFragment : BaseFragment<QuestionPresenter>(), QuestionView, Scroll
 
     override fun scrollTop() {
         if (isAdded && !isDetached) {
-            RvScrollTopUtils.smoothScrollTop(rv)
+            RvScrollTopUtils.smoothScrollTop(binding.rv)
         }
     }
 
     override fun getQuestionListSuccess(code: Int, data: ArticleListBean) {
         currPage = data.curPage + PAGE_START
         if (data.curPage == PAGE_START) {
-            MultiStateUtils.toContent(msv)
+            MultiStateUtils.toContent(binding.msv)
             mAdapter.setNewData(data.datas)
         } else {
             mAdapter.addData(data.datas)

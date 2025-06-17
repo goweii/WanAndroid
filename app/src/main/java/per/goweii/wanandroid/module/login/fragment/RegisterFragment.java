@@ -3,9 +3,12 @@ package per.goweii.wanandroid.module.login.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import butterknife.BindView;
@@ -15,6 +18,7 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.basic.utils.RegexUtils;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.FragmentRegisterBinding;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.module.login.activity.AuthActivity;
 import per.goweii.wanandroid.module.login.model.UserEntity;
@@ -29,7 +33,7 @@ import per.goweii.wanandroid.widget.SubmitView;
  * @date 2019/5/16
  * GitHub: https://github.com/goweii
  */
-public class RegisterFragment extends BaseFragment<RegisterPresenter> implements RegisterView {
+public class RegisterFragment extends BaseFragment<RegisterPresenter, FragmentRegisterBinding> implements RegisterView {
 
     @BindView(R.id.ll_go_login)
     LinearLayout ll_go_login;
@@ -48,9 +52,10 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter> implements
         return new RegisterFragment();
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_register;
+    protected FragmentRegisterBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentRegisterBinding.inflate(inflater, container, false);
     }
 
     @Nullable

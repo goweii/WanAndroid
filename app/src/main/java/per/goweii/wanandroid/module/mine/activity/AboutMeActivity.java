@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.daimajia.swipe.SwipeLayout;
@@ -41,6 +43,7 @@ import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.percentimageview.percentimageview.PercentImageView;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityAboutMeBinding;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
 import per.goweii.wanandroid.module.mine.presenter.AboutMePresenter;
 import per.goweii.wanandroid.module.mine.view.AboutMeView;
@@ -53,7 +56,7 @@ import per.goweii.wanandroid.utils.router.Router;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements AboutMeView {
+public class AboutMeActivity extends BaseActivity<AboutMePresenter, ActivityAboutMeBinding> implements AboutMeView {
 
     private static final int REQUEST_CODE_PERMISSION = 1;
 
@@ -101,9 +104,10 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter> implements A
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_about_me;
+    protected ActivityAboutMeBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityAboutMeBinding.inflate(inflater);
     }
 
     @Nullable

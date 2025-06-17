@@ -2,8 +2,10 @@ package per.goweii.wanandroid.module.mine.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +26,7 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.databinding.ActivityMineShareBinding;
 import per.goweii.wanandroid.event.ArticleDeleteEvent;
 import per.goweii.wanandroid.event.ArticleShareEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
@@ -43,7 +46,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class MineShareActivity extends BaseActivity<MineSharePresenter> implements MineShareView {
+public class MineShareActivity extends BaseActivity<MineSharePresenter, ActivityMineShareBinding> implements MineShareView {
 
     public static final int PAGE_START = 1;
 
@@ -106,9 +109,10 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter> implemen
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_mine_share;
+    protected ActivityMineShareBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityMineShareBinding.inflate(inflater);
     }
 
     @Nullable

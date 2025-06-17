@@ -1,5 +1,9 @@
 package per.goweii.wanandroid.module.project.fragment;
 
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
@@ -15,6 +19,7 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.databinding.FragmentProjectBinding;
 import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.module.main.model.ChapterBean;
 import per.goweii.wanandroid.module.project.presenter.ProjectPresenter;
@@ -27,7 +32,7 @@ import per.goweii.wanandroid.utils.RvScrollTopUtils;
  * @date 2019/5/12
  * GitHub: https://github.com/goweii
  */
-public class ProjectFragment extends BaseFragment<ProjectPresenter> implements RvScrollTopUtils.ScrollTop, ProjectView {
+public class ProjectFragment extends BaseFragment<ProjectPresenter, FragmentProjectBinding> implements RvScrollTopUtils.ScrollTop, ProjectView {
 
     @BindView(R.id.ab)
     ActionBarEx ab;
@@ -43,9 +48,10 @@ public class ProjectFragment extends BaseFragment<ProjectPresenter> implements R
         return new ProjectFragment();
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_project;
+    protected FragmentProjectBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentProjectBinding.inflate(inflater, container, false);
     }
 
     @Nullable

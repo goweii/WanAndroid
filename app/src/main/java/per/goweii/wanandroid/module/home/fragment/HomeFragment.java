@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.HapticFeedbackConstants;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -63,6 +64,7 @@ import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.cropimageview.CropImageView;
 import per.goweii.statusbarcompat.utils.LuminanceUtils;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.FragmentHomeBinding;
 import per.goweii.wanandroid.event.BannerAutoSwitchEnableEvent;
 import per.goweii.wanandroid.event.CloseSecondFloorEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
@@ -101,7 +103,7 @@ import per.goweii.wanandroid.widget.refresh.SimpleOnMultiListener;
  * @date 2019/5/11
  * GitHub: https://github.com/goweii
  */
-public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrollTopUtils.ScrollTop, HomeView {
+public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBinding> implements RvScrollTopUtils.ScrollTop, HomeView {
 
     private static final int PAGE_START = 0;
 
@@ -230,9 +232,10 @@ public class HomeFragment extends BaseFragment<HomePresenter> implements RvScrol
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_home;
+    protected FragmentHomeBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentHomeBinding.inflate(inflater, container, false);
     }
 
     @Nullable

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -45,6 +46,7 @@ import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityUserPageBinding;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.module.home.presenter.UserPagePresenter;
@@ -63,40 +65,9 @@ import per.goweii.wanandroid.widget.CollectView;
  * @date 2019/5/18
  * GitHub: https://github.com/goweii
  */
-public class UserPageActivity extends BaseActivity<UserPagePresenter> implements UserPageView {
+public class UserPageActivity extends BaseActivity<UserPagePresenter, ActivityUserPageBinding> implements UserPageView {
 
     private static final int PAGE_START = 1;
-
-    @BindView(R.id.msv)
-    MultiStateView msv;
-    @BindView(R.id.msv_list)
-    MultiStateView msv_list;
-    @BindView(R.id.cl)
-    CoordinatorLayout cl;
-    @BindView(R.id.ctbl)
-    CollapsingToolbarLayout ctbl;
-    @BindView(R.id.abl)
-    AppBarLayout abl;
-    @BindView(R.id.abc)
-    ActionBarCommon abc;
-    @BindView(R.id.srl)
-    SmartRefreshLayout srl;
-    @BindView(R.id.iv_blur)
-    ImageView iv_blur;
-    @BindView(R.id.rl_user_info)
-    RelativeLayout rl_user_info;
-    @BindView(R.id.rv)
-    RecyclerView rv;
-    @BindView(R.id.civ_user_icon)
-    ImageView civ_user_icon;
-    @BindView(R.id.tv_user_name)
-    TextView tv_user_name;
-    @BindView(R.id.tv_user_id)
-    TextView tv_user_id;
-    @BindView(R.id.tv_user_coin)
-    TextView tv_user_coin;
-    @BindView(R.id.tv_user_ranking)
-    TextView tv_user_ranking;
 
     private SmartRefreshUtils mSmartRefreshUtils;
     private ArticleAdapter mAdapter;
@@ -133,9 +104,10 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_user_page;
+    protected ActivityUserPageBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityUserPageBinding.inflate(inflater);
     }
 
     @Nullable
@@ -147,7 +119,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
     @Override
     protected void initView() {
         mUserId = getUserIdFromIntent(getIntent());
-        abc.setOnRightTextClickListener(new OnActionBarChildClickListener() {
+        binding.abc.setOnRightTextClickListener(new OnActionBarChildClickListener() {
             @Override
             public void onClick(View v) {
                 String userId = String.valueOf(mUserId);
@@ -173,7 +145,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
                 ToastMaker.showShort("口令已复制");
             }
         });
-        mSmartRefreshUtils = SmartRefreshUtils.with(srl);
+        mSmartRefreshUtils = SmartRefreshUtils.with(binding.srl);
         mSmartRefreshUtils.pureScrollMode();
         mSmartRefreshUtils.setRefreshListener(new SmartRefreshUtils.RefreshListener() {
             @Override
@@ -182,7 +154,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
                 getUserPage(true);
             }
         });
-        rv.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.rv.setLayoutManager(new LinearLayoutManager(getContext()));
         mAdapter = new ArticleAdapter();
         mAdapter.setEnableLoadMore(false);
         mAdapter.setOnLoadMoreListener(new BaseQuickAdapter.RequestLoadMoreListener() {
@@ -190,7 +162,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             public void onLoadMoreRequested() {
                 getUserPage(true);
             }
-        }, rv);
+        }, binding.rv);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -213,22 +185,20 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
                 }
             }
         });
-        rv.setAdapter(mAdapter);
-        MultiStateUtils.setEmptyAndErrorClick(msv, new SimpleListener() {
+        binding.rv.setAdapter(mAdapter);
+        MultiStateUtils.setEmptyAndErrorClick(binding.msv, new SimpleListener() {
             @Override
             public void onResult() {
-                MultiStateUtils.toLoading(msv);
+                MultiStateUtils.toLoading(binding.msv);
                 currPage = PAGE_START;
                 getUserPage(true);
             }
         });
-        srl.setOnMultiListener(new OnMultiListener() {
+        binding.srl.setOnMultiListener(new OnMultiListener() {
             @Override
             public void onHeaderMoving(RefreshHeader header, boolean isDragging, float percent, int offset, int headerHeight, int maxDragHeight) {
-                if (iv_blur != null && rl_user_info != null) {
-                    iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() + offset;
-                    iv_blur.requestLayout();
-                }
+                binding.ivBlur.getLayoutParams().height = binding.rlUserInfo.getMeasuredHeight() + offset;
+                binding.ivBlur.requestLayout();
             }
 
             @Override
@@ -245,10 +215,8 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
 
             @Override
             public void onFooterMoving(RefreshFooter footer, boolean isDragging, float percent, int offset, int footerHeight, int maxDragHeight) {
-                if (iv_blur != null && rl_user_info != null) {
-                    iv_blur.getLayoutParams().height = rl_user_info.getMeasuredHeight() - offset;
-                    iv_blur.requestLayout();
-                }
+                binding.ivBlur.getLayoutParams().height = binding.rlUserInfo.getMeasuredHeight() - offset;
+                binding.ivBlur.requestLayout();
             }
 
             @Override
@@ -276,35 +244,35 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             public void onStateChanged(@NonNull RefreshLayout refreshLayout, @NonNull RefreshState oldState, @NonNull RefreshState newState) {
             }
         });
-        abl.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+        binding.abl.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout abl, int offset) {
                 if (Math.abs(offset) == abl.getTotalScrollRange()) {
-                    abc.getTitleTextView().setAlpha(1F);
-                    int color = ResUtils.getThemeColor(abc, R.attr.colorMainOrSurface);
-                    abc.setBackgroundColor(color);
-                    rl_user_info.setAlpha(1f);
+                    binding.abc.getTitleTextView().setAlpha(1F);
+                    int color = ResUtils.getThemeColor(binding.abc, R.attr.colorMainOrSurface);
+                    binding.abc.setBackgroundColor(color);
+                    binding.rlUserInfo.setAlpha(1f);
                 } else {
-                    abc.getTitleTextView().setAlpha(0F);
-                    int color = ResUtils.getThemeColor(abc, R.attr.colorTransparent);
-                    abc.setBackgroundColor(color);
-                    rl_user_info.setAlpha(1f - ((float) Math.abs(offset) / (float) abl.getTotalScrollRange()));
+                    binding.abc.getTitleTextView().setAlpha(0F);
+                    int color = ResUtils.getThemeColor(binding.abc, R.attr.colorTransparent);
+                    binding.abc.setBackgroundColor(color);
+                    binding.rlUserInfo.setAlpha(1f - ((float) Math.abs(offset) / (float) abl.getTotalScrollRange()));
                 }
             }
         });
-        ctbl.post(new Runnable() {
+        binding.ctbl.post(new Runnable() {
             @Override
             public void run() {
-                ctbl.setMinimumHeight(abc.getActionBar().getHeight());
-                ctbl.setScrimVisibleHeightTrigger(abc.getActionBar().getHeight());
+                binding.ctbl.setMinimumHeight(binding.abc.getActionBar().getHeight());
+                binding.ctbl.setScrimVisibleHeightTrigger(binding.abc.getActionBar().getHeight());
             }
         });
     }
 
     @Override
     protected void loadData() {
-        MultiStateUtils.toLoading(msv);
-        msv_list.setVisibility(View.GONE);
+        MultiStateUtils.toLoading(binding.msv);
+        binding.msvList.setVisibility(View.GONE);
         currPage = PAGE_START;
         getUserPage(false);
     }
@@ -333,9 +301,9 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
             id = intent.getIntExtra("id", id);
         }
         if (id < 0) {
-            abc.getRightTextView().setVisibility(View.GONE);
+            binding.abc.getRightTextView().setVisibility(View.GONE);
         } else {
-            abc.getRightTextView().setVisibility(View.VISIBLE);
+            binding.abc.getRightTextView().setVisibility(View.VISIBLE);
         }
         return id;
     }
@@ -346,23 +314,23 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
 
     @Override
     public void getUserPageSuccess(int code, UserPageBean data) {
-        MultiStateUtils.toContent(msv);
+        MultiStateUtils.toContent(binding.msv);
         currPage = data.getShareArticles().getCurPage() + PAGE_START;
         if (data.getShareArticles().getCurPage() == 1) {
-            abc.getTitleTextView().setText(data.getCoinInfo().getUsername());
-            ImageLoader.userIcon(civ_user_icon, "");
-            ImageLoader.userBlur(iv_blur, "");
-            tv_user_name.setText(data.getCoinInfo().getUsername());
-            tv_user_id.setText("" + data.getCoinInfo().getUserId());
-            tv_user_coin.setText("" + data.getCoinInfo().getCoinCount());
-            tv_user_ranking.setText("" + data.getCoinInfo().getRank());
+            binding.abc.getTitleTextView().setText(data.getCoinInfo().getUsername());
+            ImageLoader.userIcon(binding.civUserIcon, "");
+            ImageLoader.userBlur(binding.ivBlur, "");
+            binding.tvUserName.setText(data.getCoinInfo().getUsername());
+            binding.tvUserId.setText("" + data.getCoinInfo().getUserId());
+            binding.tvUserCoin.setText("" + data.getCoinInfo().getCoinCount());
+            binding.tvUserRanking.setText("" + data.getCoinInfo().getRank());
             mAdapter.setNewData(data.getShareArticles().getDatas());
             mAdapter.setEnableLoadMore(true);
-            msv_list.setVisibility(View.VISIBLE);
+            binding.msvList.setVisibility(View.VISIBLE);
             if (data.getShareArticles().getDatas() == null || data.getShareArticles().getDatas().isEmpty()) {
-                MultiStateUtils.toEmpty(msv_list);
+                MultiStateUtils.toEmpty(binding.msvList);
             } else {
-                MultiStateUtils.toContent(msv_list);
+                MultiStateUtils.toContent(binding.msvList);
             }
         } else {
             mAdapter.addData(data.getShareArticles().getDatas());
@@ -380,7 +348,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter> implements
         mSmartRefreshUtils.fail();
         mAdapter.loadMoreFail();
         if (currPage == PAGE_START) {
-            MultiStateUtils.toError(msv);
+            MultiStateUtils.toError(binding.msv);
         }
     }
 }

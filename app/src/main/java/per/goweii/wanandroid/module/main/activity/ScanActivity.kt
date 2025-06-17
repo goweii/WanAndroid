@@ -6,9 +6,9 @@ import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.DecelerateInterpolator
-import kotlinx.android.synthetic.main.activity_scan.*
 import per.goweii.anypermission.AnyPermission
 import per.goweii.anypermission.RequestListener
 import per.goweii.anypermission.RuntimeRequester
@@ -31,6 +31,7 @@ import per.goweii.swipeback.SwipeBackAbility
 import per.goweii.swipeback.SwipeBackDirection
 import per.goweii.swipeback.SwipeBackTransformer
 import per.goweii.wanandroid.R
+import per.goweii.wanandroid.databinding.ActivityScanBinding
 import per.goweii.wanandroid.module.main.presenter.ScanPresenter
 import per.goweii.wanandroid.module.main.view.ScanView
 import per.goweii.wanandroid.utils.PictureSelector
@@ -40,7 +41,7 @@ import per.goweii.wanandroid.utils.UrlOpenUtils
  * @author CuiZhen
  * @date 2020/2/26
  */
-class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.Direction, SwipeBackAbility.Transformer {
+class ScanActivity : BaseActivity<ScanPresenter, ActivityScanBinding>(), ScanView, SwipeBackAbility.Direction, SwipeBackAbility.Transformer {
 
     companion object {
         private const val REQ_CODE_PERMISSION_CAMERA = 1
@@ -78,35 +79,37 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
 
     override fun swipeBackTransformer(): SwipeBackTransformer? = null
 
-    override fun getLayoutId(): Int = R.layout.activity_scan
+    override fun initViewBinding(inflater: LayoutInflater): ActivityScanBinding {
+        return ActivityScanBinding.inflate(inflater)
+    }
 
     override fun initPresenter(): ScanPresenter = ScanPresenter()
 
     override fun initView() {
         StatusBarCompat.transparent(this)
-        ivClose.setOnClickListener {
+        binding.ivClose.setOnClickListener {
             finish()
         }
-        ivTorch.invisible()
-        ivAlbum.setOnClickListener {
+        binding.ivTorch.invisible()
+        binding.ivAlbum.setOnClickListener {
             startAlbum()
         }
-        ivTorch.setOnClickListener {
-            codeScanner?.enableTorch(!ivTorch.isSelected)
+        binding.ivTorch.setOnClickListener {
+            codeScanner?.enableTorch(!binding.ivTorch.isSelected)
         }
-        codeScanner = code_scanner.apply {
+        codeScanner = binding.codeScanner.apply {
             cameraProxyLiveData.observe(this@ScanActivity) { cameraProxy ->
                 cameraProxy?.torchState?.observe(this@ScanActivity) { torchState ->
                     when (torchState) {
-                        CameraProxy.TORCH_ON -> ivTorch.isSelected = true
-                        CameraProxy.TORCH_OFF -> ivTorch.isSelected = false
+                        CameraProxy.TORCH_ON -> binding.ivTorch.isSelected = true
+                        CameraProxy.TORCH_OFF -> binding.ivTorch.isSelected = false
                     }
                 }
             }
             addProcessor(ZXingMultiScanQRCodeProcessor())
             addDecorator(
-                    frozen_view,
-                    finder_view,
+                binding.frozenView,
+                binding.finderView,
                     BeepDecorator(),
                     VibrateDecorator(),
                     GestureDecorator()
@@ -160,8 +163,8 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
                 .request(object : RequestListener {
                     @SuppressLint("MissingPermission")
                     override fun onSuccess() {
-                        ivTorch.visible()
-                        finder_view.visible()
+                        binding.ivTorch.visible()
+                        binding.finderView.visible()
                         codeScanner?.startScan()
                     }
 
@@ -175,8 +178,8 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
     }
 
     private fun stopScan() {
-        ivTorch.invisible()
-        finder_view.invisible()
+        binding.ivTorch.invisible()
+        binding.finderView.invisible()
         codeScanner?.stopScan()
     }
 
@@ -275,34 +278,33 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
     }
 
     private fun showTip(text: String, btnSure: String, onSure: View.OnClickListener, btnCancel: String? = null, onCancel: View.OnClickListener? = null) {
-        llTip ?: return
-        tvTipText.text = text
-        tvTipBtnSure.text = btnSure
+        binding.llTip ?: return
+        binding.tvTipText.text = text
+        binding.tvTipBtnSure.text = btnSure
         if (btnCancel.isNullOrEmpty()) {
-            tvTipBtnCancel.gone()
+            binding.tvTipBtnCancel.gone()
         } else {
-            tvTipBtnCancel.visible()
-            tvTipBtnCancel.text = btnCancel
-            tvTipBtnCancel.setOnClickListener(onCancel)
+            binding.tvTipBtnCancel.visible()
+            binding.tvTipBtnCancel.text = btnCancel
+            binding.tvTipBtnCancel.setOnClickListener(onCancel)
         }
-        llTip.setOnClickListener(onSure)
+        binding.llTip.setOnClickListener(onSure)
         cancelTipAnim()
-        tvTipAnim = ObjectAnimator.ofFloat(llTip, "alpha", 0F, 1F).apply {
+        tvTipAnim = ObjectAnimator.ofFloat(binding.llTip, "alpha", 0F, 1F).apply {
             duration = 300
             interpolator = DecelerateInterpolator()
             addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {
+                override fun onAnimationRepeat(animation: Animator) {
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                 }
 
-                override fun onAnimationCancel(animation: Animator?) {
+                override fun onAnimationCancel(animation: Animator) {
                 }
 
-                override fun onAnimationStart(animation: Animator?) {
-                    llTip ?: return
-                    llTip.visible()
+                override fun onAnimationStart(animation: Animator) {
+                    binding.llTip.visible()
                 }
             })
             start()
@@ -310,35 +312,32 @@ class ScanActivity : BaseActivity<ScanPresenter>(), ScanView, SwipeBackAbility.D
     }
 
     private fun hideTip() {
-        llTip ?: return
         cancelTipAnim()
-        if (llTip.visibility != View.VISIBLE) {
+        if (binding.llTip.visibility != View.VISIBLE) {
             return
         }
-        tvTipText.text = ""
-        tvTipBtnSure.text = ""
-        tvTipBtnCancel.text = ""
-        tvTipBtnCancel.gone()
-        tvTipBtnCancel.setOnClickListener(null)
-        llTip.setOnClickListener(null)
-        tvTipAnim = ObjectAnimator.ofFloat(llTip, "alpha", 1F, 0F).apply {
+        binding.tvTipText.text = ""
+        binding.tvTipBtnSure.text = ""
+        binding.tvTipBtnCancel.text = ""
+        binding.tvTipBtnCancel.gone()
+        binding.tvTipBtnCancel.setOnClickListener(null)
+        binding.llTip.setOnClickListener(null)
+        tvTipAnim = ObjectAnimator.ofFloat(binding.llTip, "alpha", 1F, 0F).apply {
             duration = 300
             interpolator = DecelerateInterpolator()
             addListener(object : Animator.AnimatorListener {
-                override fun onAnimationRepeat(animation: Animator?) {
+                override fun onAnimationRepeat(animation: Animator) {
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
-                    llTip ?: return
-                    llTip.gone()
+                override fun onAnimationEnd(animation: Animator) {
+                    binding.llTip.gone()
                 }
 
-                override fun onAnimationCancel(animation: Animator?) {
+                override fun onAnimationCancel(animation: Animator) {
                 }
 
-                override fun onAnimationStart(animation: Animator?) {
-                    llTip ?: return
-                    llTip.visible()
+                override fun onAnimationStart(animation: Animator) {
+                    binding.llTip.visible()
                 }
             })
             start()

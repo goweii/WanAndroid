@@ -15,8 +15,6 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
-import kotlinx.android.synthetic.main.activity_article.*
-import kotlinx.android.synthetic.main.activity_article_float_btn.*
 import per.goweii.anylayer.Layer
 import per.goweii.anylayer.guide.GuideLayer
 import per.goweii.basic.core.base.BaseActivity
@@ -28,6 +26,7 @@ import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.swipeback.SwipeBackAbility
 import per.goweii.swipeback.SwipeBackDirection
 import per.goweii.wanandroid.R
+import per.goweii.wanandroid.databinding.ActivityArticleBinding
 import per.goweii.wanandroid.module.main.dialog.ArticleShareDialog
 import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
 import per.goweii.wanandroid.module.main.utils.FloatIconTouchListener
@@ -48,7 +47,8 @@ import per.goweii.wanandroid.utils.web.interceptor.WebResUrlInterceptor
  * @author CuiZhen
  * @date 2020/2/20
  */
-class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBackAbility.Direction, SwipeBackAbility.ForceEdge {
+class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>(), ArticleView,
+    SwipeBackAbility.Direction, SwipeBackAbility.ForceEdge {
     private data class FloatIcon(
         val container: View,
         val shadow: View,
@@ -83,14 +83,44 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
     private var floatIconsAnim: AnimatorSet? = null
     private val floatIcons: List<FloatIcon> by lazy {
         mutableListOf<FloatIcon>().apply {
-            add(FloatIcon(rl_icon_collect, sl_collect, cv_collect, tv_collect_tip))
-            add(FloatIcon(rl_icon_read_later, sl_read_later, aiv_read_later, tv_read_later_tip))
-            add(FloatIcon(rl_icon_open, sl_open, aiv_open, tv_open_tip))
-            add(FloatIcon(rl_icon_share, sl_share, aiv_share, tv_share_tip))
+            add(
+                FloatIcon(
+                    binding.activityArticleFloatBtn.rlIconCollect,
+                    binding.activityArticleFloatBtn.slCollect,
+                    binding.activityArticleFloatBtn.cvCollect,
+                    binding.activityArticleFloatBtn.tvCollectTip
+                )
+            )
+            add(
+                FloatIcon(
+                    binding.activityArticleFloatBtn.rlIconReadLater,
+                    binding.activityArticleFloatBtn.slReadLater,
+                    binding.activityArticleFloatBtn.aivReadLater,
+                    binding.activityArticleFloatBtn.tvReadLaterTip
+                )
+            )
+            add(
+                FloatIcon(
+                    binding.activityArticleFloatBtn.rlIconOpen,
+                    binding.activityArticleFloatBtn.slOpen,
+                    binding.activityArticleFloatBtn.aivOpen,
+                    binding.activityArticleFloatBtn.tvOpenTip
+                )
+            )
+            add(
+                FloatIcon(
+                    binding.activityArticleFloatBtn.rlIconShare,
+                    binding.activityArticleFloatBtn.slShare,
+                    binding.activityArticleFloatBtn.aivShare,
+                    binding.activityArticleFloatBtn.tvShareTip
+                )
+            )
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.activity_article
+    override fun initViewBinding(inflater: LayoutInflater): ActivityArticleBinding {
+        return ActivityArticleBinding.inflate(inflater)
+    }
 
     override fun initPresenter(): ArticlePresenter = ArticlePresenter()
 
@@ -109,7 +139,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         floatIcons.forEach {
             icons.add(FloatIconTouchListener.Icon(it.icon))
         }
-        v_back.setOnTouchListener(
+        binding.activityArticleFloatBtn.vBack.setOnTouchListener(
             FloatIconTouchListener(
                 icons,
                 object : FloatIconTouchListener.OnFloatTouchedListener {
@@ -124,19 +154,19 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                     }
                 })
         )
-        v_back.setOnClickListener {
+        binding.activityArticleFloatBtn.vBack.setOnClickListener {
             if (floatIconsVisible) toggleFloatIcons()
             else finish()
         }
-        v_back.setOnLongClickListener {
+        binding.activityArticleFloatBtn.vBack.setOnLongClickListener {
             toggleFloatIcons()
             return@setOnLongClickListener true
         }
-        aiv_share.setOnClickListener {
+        binding.activityArticleFloatBtn.aivShare.setOnClickListener {
             shareQrcode()
             if (floatIconsVisible) toggleFloatIcons()
         }
-        aiv_read_later.setOnClickListener {
+        binding.activityArticleFloatBtn.aivReadLater.setOnClickListener {
             presenter.isReadLater { isReadLater ->
                 if (isReadLater) {
                     presenter.removeReadLater()
@@ -146,7 +176,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
             }
             if (floatIconsVisible) toggleFloatIcons()
         }
-        aiv_open.setOnClickListener {
+        binding.activityArticleFloatBtn.aivOpen.setOnClickListener {
             UrlOpenUtils.with(presenter.articleUrl)
                 .title(presenter.articleTitle)
                 .articleId(presenter.articleId)
@@ -157,18 +187,18 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                 .open(context)
             if (floatIconsVisible) toggleFloatIcons()
         }
-        cv_collect.setOnClickListener {
-            if (cv_collect.isChecked) {
+        binding.activityArticleFloatBtn.cvCollect.setOnClickListener {
+            if (binding.activityArticleFloatBtn.cvCollect.isChecked) {
                 presenter.collect()
             } else {
                 presenter.uncollect()
             }
             if (floatIconsVisible) toggleFloatIcons()
         }
-        wc.setOnTouchDownListener {
+        binding.wc.setOnTouchDownListener {
             if (floatIconsVisible) toggleFloatIcons()
         }
-        mWebHolder = with(this, wc, pb)
+        mWebHolder = with(this, binding.wc, binding.activityArticleFloatBtn.pb)
             .setLoadCacheElseNetwork(true)
             .setUseInstanceCache(true)
             .setAllowOpenOtherApp(false)
@@ -243,10 +273,11 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
             .setOnPageScrollChangeListener {
                 presenter.updateReadRecordPercent(mWebHolder.url, it)
             }
-        wc.setOnDoubleClickListener { _, _ ->
-            if (rl != null) {
-                changeRevealLayoutCenterXY(rl.width * 0.5F, rl.height * 0.5F)
-            }
+        binding.wc.setOnDoubleClickListener { _, _ ->
+            changeRevealLayoutCenterXY(
+                binding.activityArticleFloatBtn.rl.width * 0.5F,
+                binding.activityArticleFloatBtn.rl.height * 0.5F
+            )
             presenter.collect()
         }
 
@@ -258,15 +289,15 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
     private fun showArticleFooter() {
         RecommendManager.getInstance().getBean {
             it?.articleFooter?.let { articleFooter ->
-                ll_footer.isVisible = true
+                binding.llFooter.isVisible = true
 
-                tv_footer_title.isVisible = !articleFooter.title.isNullOrBlank()
-                tv_footer_title.text = articleFooter.title
+                binding.tvFooterTitle.isVisible = !articleFooter.title.isNullOrBlank()
+                binding.tvFooterTitle.text = articleFooter.title
 
-                iv_footer_image.isVisible = !articleFooter.url.isNullOrBlank()
+                binding.ivFooterImage.isVisible = !articleFooter.url.isNullOrBlank()
                 if (!articleFooter.url.isNullOrEmpty()) {
-                    ImageLoader.image(iv_footer_image, articleFooter.url)
-                    iv_footer_image.setOnClickListener {
+                    ImageLoader.image(binding.ivFooterImage, articleFooter.url)
+                    binding.ivFooterImage.setOnClickListener {
                         Router.routeTo(articleFooter.route)
                     }
                 }
@@ -335,17 +366,17 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                         )
                     )
                     addListener(object : Animator.AnimatorListener {
-                        override fun onAnimationStart(animation: Animator?) {
+                        override fun onAnimationStart(animation: Animator) {
                             floatIcon.tip.visible()
                         }
 
-                        override fun onAnimationRepeat(animation: Animator?) {
+                        override fun onAnimationRepeat(animation: Animator) {
                         }
 
-                        override fun onAnimationEnd(animation: Animator?) {
+                        override fun onAnimationEnd(animation: Animator) {
                         }
 
-                        override fun onAnimationCancel(animation: Animator?) {
+                        override fun onAnimationCancel(animation: Animator) {
                         }
                     })
                 }
@@ -368,21 +399,21 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
                     addListener(object : Animator.AnimatorListener {
                         private var endByCancel = false
 
-                        override fun onAnimationStart(animation: Animator?) {
+                        override fun onAnimationStart(animation: Animator) {
                             floatIcon.tip.visible()
                         }
 
-                        override fun onAnimationRepeat(animation: Animator?) {
+                        override fun onAnimationRepeat(animation: Animator) {
                         }
 
-                        override fun onAnimationEnd(animation: Animator?) {
+                        override fun onAnimationEnd(animation: Animator) {
                             if (endByCancel) return
                             if (floatIcon.tip.translationX != 0F) {
                                 floatIcon.tip.invisible()
                             }
                         }
 
-                        override fun onAnimationCancel(animation: Animator?) {
+                        override fun onAnimationCancel(animation: Animator) {
                             endByCancel = true
                         }
                     })
@@ -401,14 +432,14 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         floatIconsAnim = AnimatorSet().apply {
             val anims = mutableListOf<Animator>()
             anims.add(ObjectAnimator.ofFloat(
-                fl_back, "rotation",
-                fl_back.rotation, if (floatIconsVisible) 360F else 0F
+                binding.activityArticleFloatBtn.flBack, "rotation",
+                binding.activityArticleFloatBtn.flBack.rotation, if (floatIconsVisible) 360F else 0F
             ).apply {
                 duration = 300L
                 addUpdateListener {
                     if (it.animatedFraction > 0.5F) {
-                        if (floatIconsVisible) iv_close?.visible()
-                        else iv_close?.invisible()
+                        if (floatIconsVisible) binding.activityArticleFloatBtn.ivClose.visible()
+                        else binding.activityArticleFloatBtn.ivClose.invisible()
                     }
                 }
             })
@@ -435,20 +466,20 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
         }
         floatIconsAnim?.apply {
             addListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) {
+                override fun onAnimationStart(animation: Animator) {
                     floatIcons.forEach { it.container.visible() }
                 }
 
-                override fun onAnimationRepeat(animation: Animator?) {
+                override fun onAnimationRepeat(animation: Animator) {
                 }
 
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     floatIcons.forEach {
                         if (it.container.translationY == 0F) it.container.invisible()
                     }
                 }
 
-                override fun onAnimationCancel(animation: Animator?) {
+                override fun onAnimationCancel(animation: Animator) {
                 }
             })
         }?.start()
@@ -469,13 +500,13 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
     }
 
     private fun changeRevealLayoutCenterXY(x: Float, y: Float) {
-        rl.setCenter(x, y)
-        cv_collect.setCenter(x, y)
+        binding.activityArticleFloatBtn.rl.setCenter(x, y)
+        binding.activityArticleFloatBtn.cvCollect.setCenter(x, y)
     }
 
     private fun switchCollectView(anim: Boolean = true) {
-        rl.setChecked(presenter.collected, anim)
-        cv_collect.setChecked(presenter.collected, anim)
+        binding.activityArticleFloatBtn.rl.setChecked(presenter.collected, anim)
+        binding.activityArticleFloatBtn.cvCollect.setChecked(presenter.collected, anim)
     }
 
     override fun collectSuccess() {
@@ -518,18 +549,18 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
 
     private fun switchReadLaterIcon() {
         if (presenter.readLater) {
-            aiv_read_later.setImageResource(R.drawable.ic_read_later_added)
-            aiv_read_later.setColorFilter(
+            binding.activityArticleFloatBtn.aivReadLater.setImageResource(R.drawable.ic_read_later_added)
+            binding.activityArticleFloatBtn.aivReadLater.setColorFilter(
                 ResUtils.getThemeColor(
-                    aiv_read_later,
+                    binding.activityArticleFloatBtn.aivReadLater,
                     R.attr.colorIconMain
                 )
             )
         } else {
-            aiv_read_later.setImageResource(R.drawable.ic_read_later)
-            aiv_read_later.setColorFilter(
+            binding.activityArticleFloatBtn.aivReadLater.setImageResource(R.drawable.ic_read_later)
+            binding.activityArticleFloatBtn.aivReadLater.setColorFilter(
                 ResUtils.getThemeColor(
-                    aiv_read_later,
+                    binding.activityArticleFloatBtn.aivReadLater,
                     R.attr.colorIconSurface
                 )
             )
@@ -553,9 +584,14 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
 
     private fun showGuideBackBtnDialog(onDismiss: () -> Unit) {
         GuideLayer(this@ArticleActivity)
-            .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
+            .setBackgroundColorInt(
+                ResUtils.getThemeColor(
+                    binding.activityArticleFloatBtn.aivReadLater,
+                    R.attr.colorDialogBg
+                )
+            )
             .addMapping(GuideLayer.Mapping().apply {
-                setTargetView(iv_close)
+                setTargetView(binding.activityArticleFloatBtn.ivClose)
                 cornerRadius = 9999F
                 guideView = LayoutInflater.from(this@ArticleActivity)
                     .inflate(R.layout.dialog_guide_tip, null, false).apply {
@@ -598,7 +634,12 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
     @SuppressLint("InflateParams")
     private fun showGuideDoubleTapDialog(onDismiss: () -> Unit) {
         GuideLayer(this@ArticleActivity)
-            .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
+            .setBackgroundColorInt(
+                ResUtils.getThemeColor(
+                    binding.activityArticleFloatBtn.aivReadLater,
+                    R.attr.colorDialogBg
+                )
+            )
             .addMapping(GuideLayer.Mapping().apply {
                 val cx = window?.decorView?.width ?: 0 / 2
                 val cy = window?.decorView?.height ?: 0 / 2
@@ -642,7 +683,12 @@ class ArticleActivity : BaseActivity<ArticlePresenter>(), ArticleView, SwipeBack
 
     private fun showGuidePreviewImageDialog(onDismiss: () -> Unit) {
         GuideLayer(this@ArticleActivity)
-            .setBackgroundColorInt(ResUtils.getThemeColor(aiv_read_later, R.attr.colorDialogBg))
+            .setBackgroundColorInt(
+                ResUtils.getThemeColor(
+                    binding.activityArticleFloatBtn.aivReadLater,
+                    R.attr.colorDialogBg
+                )
+            )
             .addMapping(GuideLayer.Mapping().apply {
                 val cx = window?.decorView?.width ?: 0 / 2
                 val cy = window?.decorView?.height ?: 0 / 2

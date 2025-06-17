@@ -10,6 +10,7 @@ import androidx.annotation.LayoutRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewbinding.ViewBinding;
 
 import per.goweii.basic.utils.ClickHelper;
 import per.goweii.lazyfragment.LazyFragment;
@@ -19,8 +20,9 @@ import per.goweii.lazyfragment.LazyFragment;
  * @version v1.0.0
  * @date 2018/3/10-下午12:38
  */
-public abstract class MvpFragment<T extends MvpPresenter> extends LazyFragment implements MvpView, View.OnClickListener {
+public abstract class MvpFragment<T extends MvpPresenter, V extends ViewBinding> extends LazyFragment implements MvpView, View.OnClickListener {
     protected T presenter;
+    public V binding;
 
     /**
      * 获取布局资源文件
@@ -29,7 +31,9 @@ public abstract class MvpFragment<T extends MvpPresenter> extends LazyFragment i
      */
     @Override
     @LayoutRes
-    protected abstract int getLayoutRes();
+    protected final int getLayoutRes() {
+        return 0;
+    }
 
     /**
      * 初始化presenter
@@ -38,6 +42,14 @@ public abstract class MvpFragment<T extends MvpPresenter> extends LazyFragment i
      */
     @Nullable
     protected abstract T initPresenter();
+
+    /**
+     * 初始化ViewBinding
+     *
+     * @return V
+     */
+    @Nullable
+    protected abstract V initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container);
 
     /**
      * 绑定事件
@@ -70,7 +82,13 @@ public abstract class MvpFragment<T extends MvpPresenter> extends LazyFragment i
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+        binding = initViewBinding(inflater, container);
+        if (binding != null) {
+            view = binding.getRoot();
+        }
+        mRootView = view;
+        return view;
     }
 
     @Override
@@ -100,6 +118,7 @@ public abstract class MvpFragment<T extends MvpPresenter> extends LazyFragment i
         if (presenter != null) {
             presenter.detach();
         }
+        binding = null;
         super.onDestroyView();
     }
 

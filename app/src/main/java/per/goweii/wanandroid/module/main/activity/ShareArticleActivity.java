@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -23,6 +24,7 @@ import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleTextWatcher;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityShareArticleBinding;
 import per.goweii.wanandroid.module.main.presenter.ShareArticlePresenter;
 import per.goweii.wanandroid.module.main.view.ShareArticleView;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
@@ -35,7 +37,7 @@ import per.goweii.wanandroid.utils.web.view.WebContainer;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> implements ShareArticleView {
+public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter, ActivityShareArticleBinding> implements ShareArticleView {
 
     private static final String TAG = ShareArticleActivity.class.getSimpleName();
 
@@ -70,9 +72,10 @@ public class ShareArticleActivity extends BaseActivity<ShareArticlePresenter> im
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_share_article;
+    protected ActivityShareArticleBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityShareArticleBinding.inflate(inflater);
     }
 
     @Nullable

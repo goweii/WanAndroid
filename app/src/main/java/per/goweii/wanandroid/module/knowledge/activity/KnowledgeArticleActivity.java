@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
@@ -23,6 +25,7 @@ import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.databinding.ActivityKnowledgeArticleBinding;
 import per.goweii.wanandroid.event.ScrollTopEvent;
 import per.goweii.wanandroid.module.knowledge.fragment.KnowledgeArticleFragment;
 import per.goweii.wanandroid.module.knowledge.presenter.KnowledgePresenter;
@@ -38,7 +41,7 @@ import per.goweii.wanandroid.utils.router.Router;
  * @date 2019/5/12
  * GitHub: https://github.com/goweii
  */
-public class KnowledgeArticleActivity extends BaseActivity<KnowledgePresenter> implements KnowledgeView {
+public class KnowledgeArticleActivity extends BaseActivity<KnowledgePresenter, ActivityKnowledgeArticleBinding> implements KnowledgeView {
 
     @BindView(R.id.abc)
     ActionBarCommon abc;
@@ -100,9 +103,10 @@ public class KnowledgeArticleActivity extends BaseActivity<KnowledgePresenter> i
         }
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_knowledge_article;
+    protected ActivityKnowledgeArticleBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityKnowledgeArticleBinding.inflate(inflater);
     }
 
     @Nullable

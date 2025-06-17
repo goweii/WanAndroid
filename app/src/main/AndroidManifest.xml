@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="per.goweii.wanandroid">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -41,6 +44,7 @@
             android:name=".module.main.activity.RouterActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:launchMode="singleTask"
+            android:exported="true"
             android:theme="@style/AppTheme.Router">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -48,7 +52,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="https" />
+                <data android:scheme="https"
+                    tools:ignore="AppLinkUrlError" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -69,6 +74,7 @@
         <activity
             android:name=".module.main.activity.MainActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
+            android:exported="true"
             android:theme="@style/AppTheme.Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -79,6 +85,7 @@
             android:name=".module.main.activity.theme.MainActivityRed"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:enabled="false"
+            android:exported="true"
             android:icon="@mipmap/ic_launcher_red"
             android:roundIcon="@mipmap/ic_launcher_red_round"
             android:theme="@style/AppTheme.Main.Red">
@@ -91,6 +98,7 @@
             android:name=".module.main.activity.theme.MainActivityGreen"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:enabled="false"
+            android:exported="true"
             android:icon="@mipmap/ic_launcher_green"
             android:roundIcon="@mipmap/ic_launcher_green_round"
             android:theme="@style/AppTheme.Main.Green">
@@ -103,6 +111,7 @@
             android:name=".module.main.activity.theme.MainActivityPink"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:enabled="false"
+            android:exported="true"
             android:icon="@mipmap/ic_launcher_pink"
             android:roundIcon="@mipmap/ic_launcher_pink_round"
             android:theme="@style/AppTheme.Main.Pink">
@@ -115,6 +124,7 @@
             android:name=".module.main.activity.theme.MainActivityGold"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:enabled="false"
+            android:exported="true"
             android:icon="@mipmap/ic_launcher_gold"
             android:roundIcon="@mipmap/ic_launcher_gold_round"
             android:theme="@style/AppTheme.Main.Gold">

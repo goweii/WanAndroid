@@ -3,6 +3,7 @@ package per.goweii.wanandroid.module.login.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,7 @@ import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.swipeback.SwipeBackAbility;
 import per.goweii.swipeback.SwipeBackDirection;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityAuthBinding;
 import per.goweii.wanandroid.module.login.fragment.LoginFragment;
 import per.goweii.wanandroid.module.login.fragment.RegisterFragment;
 import per.goweii.wanandroid.module.login.model.LoginInfoEntity;
@@ -34,7 +36,7 @@ import per.goweii.wanandroid.widget.ParallaxStackLayout;
  * @date 2019/5/15
  * GitHub: https://github.com/goweii
  */
-public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthView, SwipeBackAbility.Direction {
+public class AuthActivity extends BaseActivity<AuthPresenter, ActivityAuthBinding> implements AuthView, SwipeBackAbility.Direction {
 
     private static final int REQ_CODE_OPEN_QUICK_LOGIN = 1;
     private static final int REQ_CODE_USE_QUICK_LOGIN = 2;
@@ -77,9 +79,10 @@ public class AuthActivity extends BaseActivity<AuthPresenter> implements AuthVie
         return SwipeBackDirection.BOTTOM;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_auth;
+    protected ActivityAuthBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityAuthBinding.inflate(inflater);
     }
 
     @Nullable

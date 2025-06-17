@@ -1,10 +1,15 @@
 package per.goweii.wanandroid.module.main.activity;
 
+import android.view.LayoutInflater;
+
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
 
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivitySplashBinding;
 
 /**
  * @author CuiZhen
@@ -13,10 +18,11 @@ import per.goweii.wanandroid.R;
  */
 public class SplashActivity extends BaseActivity {
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        // return R.layout.activity_splash;
-        return 0;
+    protected ViewBinding initViewBinding(@NonNull LayoutInflater inflater) {
+//        return ActivitySplashBinding.inflate(inflater);
+        return null;
     }
 
     @Nullable

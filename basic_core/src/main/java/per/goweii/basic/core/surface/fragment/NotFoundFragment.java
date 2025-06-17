@@ -2,10 +2,17 @@ package per.goweii.basic.core.surface.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
 
 import per.goweii.basic.core.R;
 import per.goweii.basic.core.base.BaseFragment;
+import per.goweii.basic.core.databinding.BasicCoreFragmentNotFoundBinding;
 import per.goweii.basic.core.mvp.MvpPresenter;
 
 /**
@@ -24,9 +31,10 @@ public class NotFoundFragment extends BaseFragment {
         return fragment;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.basic_core_fragment_not_found;
+    protected ViewBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return BasicCoreFragmentNotFoundBinding.inflate(inflater, container, false);
     }
 
     @Override

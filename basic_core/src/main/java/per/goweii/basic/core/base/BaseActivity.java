@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 
+import androidx.viewbinding.ViewBinding;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
@@ -20,7 +22,7 @@ import per.goweii.basic.utils.listener.SimpleCallback;
  * @version v1.0.0
  * @date 2018/4/4-下午1:23
  */
-public abstract class BaseActivity<P extends BasePresenter> extends MvpActivity<P> {
+public abstract class BaseActivity<P extends BasePresenter, V extends ViewBinding> extends MvpActivity<P, V> {
     private LoadingDialog mLoadingDialog = null;
     private LoadingBarManager mLoadingBarManager = null;
     private Unbinder mUnbinder = null;

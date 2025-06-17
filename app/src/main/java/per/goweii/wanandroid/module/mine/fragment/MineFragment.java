@@ -3,12 +3,15 @@ package per.goweii.wanandroid.module.mine.fragment;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 
@@ -26,6 +29,7 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.databinding.FragmentMineBinding;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.MessageCountEvent;
 import per.goweii.wanandroid.event.MessageUpdateEvent;
@@ -52,7 +56,7 @@ import per.goweii.wanandroid.utils.UserUtils;
  * @date 2019/5/12
  * GitHub: https://github.com/goweii
  */
-public class MineFragment extends BaseFragment<MinePresenter> implements MineView {
+public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBinding> implements MineView {
 
     @BindView(R.id.aiv_notification)
     ImageView aiv_notification;
@@ -125,9 +129,10 @@ public class MineFragment extends BaseFragment<MinePresenter> implements MineVie
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_mine;
+    protected FragmentMineBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentMineBinding.inflate(inflater, container, false);
     }
 
     @Nullable

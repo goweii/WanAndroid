@@ -2,9 +2,11 @@ package per.goweii.wanandroid.module.mine.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +22,7 @@ import per.goweii.basic.utils.AnimatorUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityCoinBinding;
 import per.goweii.wanandroid.module.main.dialog.WebDialog;
 import per.goweii.wanandroid.module.mine.adapter.CoinRecordAdapter;
 import per.goweii.wanandroid.module.mine.model.CoinRecordBean;
@@ -33,7 +36,7 @@ import per.goweii.wanandroid.utils.RvConfigUtils;
  * @date 2019/8/31
  * GitHub: https://github.com/goweii
  */
-public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinView {
+public class CoinActivity extends BaseActivity<CoinPresenter, ActivityCoinBinding> implements CoinView {
 
     private static final int PAGE_START = 1;
 
@@ -54,9 +57,10 @@ public class CoinActivity extends BaseActivity<CoinPresenter> implements CoinVie
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_coin;
+    protected ActivityCoinBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityCoinBinding.inflate(inflater);
     }
 
     @Nullable

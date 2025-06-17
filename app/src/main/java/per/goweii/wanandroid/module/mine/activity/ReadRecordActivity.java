@@ -3,8 +3,10 @@ package per.goweii.wanandroid.module.mine.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +32,7 @@ import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityReadRecordBinding;
 import per.goweii.wanandroid.db.model.ReadRecordModel;
 import per.goweii.wanandroid.event.ReadRecordAddedEvent;
 import per.goweii.wanandroid.event.ReadRecordUpdateEvent;
@@ -45,7 +48,7 @@ import per.goweii.wanandroid.utils.UrlOpenUtils;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implements ReadRecordView {
+public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter, ActivityReadRecordBinding> implements ReadRecordView {
 
     @BindView(R.id.abc)
     ActionBarCommon abc;
@@ -112,9 +115,10 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter> implem
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_read_record;
+    protected ActivityReadRecordBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityReadRecordBinding.inflate(inflater);
     }
 
     @Nullable

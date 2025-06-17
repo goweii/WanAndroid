@@ -3,11 +3,13 @@ package per.goweii.wanandroid.module.mine.activity;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -34,6 +36,7 @@ import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Constant;
 import per.goweii.wanandroid.common.WanApp;
+import per.goweii.wanandroid.databinding.ActivitySettingBinding;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
@@ -52,7 +55,7 @@ import per.goweii.wanandroid.utils.web.HostInterceptUtils;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class SettingActivity extends BaseActivity<SettingPresenter> implements SettingView {
+public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySettingBinding> implements SettingView {
     @BindView(R.id.tv_theme_mode)
     TextView tv_theme_mode;
     @BindView(R.id.tv_show_read_later_notification_title)
@@ -84,9 +87,10 @@ public class SettingActivity extends BaseActivity<SettingPresenter> implements S
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_setting;
+    protected ActivitySettingBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivitySettingBinding.inflate(inflater);
     }
 
     @Nullable

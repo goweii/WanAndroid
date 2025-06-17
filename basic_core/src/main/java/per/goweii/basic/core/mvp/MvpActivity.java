@@ -3,9 +3,13 @@ package per.goweii.basic.core.mvp;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
 
 import per.goweii.basic.utils.ClickHelper;
 
@@ -15,14 +19,17 @@ import per.goweii.basic.utils.ClickHelper;
  * @version v1.0.0
  * @date 2018/4/4-下午1:23
  */
-public abstract class MvpActivity<P extends MvpPresenter> extends CacheActivity implements MvpView, View.OnClickListener {
-
+public abstract class MvpActivity<P extends MvpPresenter, V extends ViewBinding> extends CacheActivity implements MvpView, View.OnClickListener {
     public P presenter;
+    public V binding;
 
     /**
-     * 获取布局资源文件
+     * 初始化ViewBinding
+     *
+     * @return V
      */
-    protected abstract int getLayoutId();
+    @Nullable
+    protected abstract V initViewBinding(@NonNull LayoutInflater inflater);
 
     /**
      * 初始化presenter
@@ -60,8 +67,9 @@ public abstract class MvpActivity<P extends MvpPresenter> extends CacheActivity 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initWindow();
-        if (getLayoutId() > 0) {
-            setContentView(getLayoutId());
+        binding = initViewBinding(getLayoutInflater());
+        if (binding != null) {
+            setContentView(binding.getRoot());
         }
         presenter = initPresenter();
         if (presenter != null) {

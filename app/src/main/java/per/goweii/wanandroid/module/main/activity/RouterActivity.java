@@ -6,9 +6,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
 
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
@@ -33,9 +35,10 @@ public class RouterActivity extends BaseActivity implements SwipeBackAbility.Dir
         return 0;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return 0;
+    protected ViewBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return null;
     }
 
     @Nullable

@@ -3,8 +3,10 @@ package per.goweii.wanandroid.module.mine.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +32,7 @@ import per.goweii.basic.utils.IntentUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityReadLaterBinding;
 import per.goweii.wanandroid.db.model.ReadLaterModel;
 import per.goweii.wanandroid.event.ReadLaterEvent;
 import per.goweii.wanandroid.module.mine.adapter.ReadLaterAdapter;
@@ -44,7 +47,7 @@ import per.goweii.wanandroid.utils.UrlOpenUtils;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implements ReadLaterView {
+public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter, ActivityReadLaterBinding> implements ReadLaterView {
 
     @BindView(R.id.abc)
     ActionBarCommon abc;
@@ -80,9 +83,10 @@ public class ReadLaterActivity extends BaseActivity<ReadLaterPresenter> implemen
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_read_later;
+    protected ActivityReadLaterBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityReadLaterBinding.inflate(inflater);
     }
 
     @Nullable

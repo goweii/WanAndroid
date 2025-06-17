@@ -2,8 +2,10 @@ package per.goweii.wanandroid.module.mine.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +19,7 @@ import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityCoinRankBinding;
 import per.goweii.wanandroid.module.home.activity.UserPageActivity;
 import per.goweii.wanandroid.module.main.model.CoinInfoBean;
 import per.goweii.wanandroid.module.mine.adapter.CoinRankAdapter;
@@ -31,7 +34,7 @@ import per.goweii.wanandroid.utils.RvConfigUtils;
  * @date 2019/8/31
  * GitHub: https://github.com/goweii
  */
-public class CoinRankActivity extends BaseActivity<CoinRankPresenter> implements CoinRankView {
+public class CoinRankActivity extends BaseActivity<CoinRankPresenter, ActivityCoinRankBinding> implements CoinRankView {
 
     private static final int PAGE_START = 1;
 
@@ -50,9 +53,10 @@ public class CoinRankActivity extends BaseActivity<CoinRankPresenter> implements
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_coin_rank;
+    protected ActivityCoinRankBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityCoinRankBinding.inflate(inflater);
     }
 
     @Nullable

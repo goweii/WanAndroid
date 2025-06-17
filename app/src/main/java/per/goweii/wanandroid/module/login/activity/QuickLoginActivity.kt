@@ -6,12 +6,14 @@ import android.content.ContextWrapper
 import android.content.Intent
 import android.os.Build
 import android.text.TextUtils
+import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.RequiresApi
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.utils.Base64Utils.decodeToBytes
 import per.goweii.swipeback.SwipeBackAbility
 import per.goweii.swipeback.SwipeBackDirection
+import per.goweii.wanandroid.databinding.ActivityQuickLoginBinding
 import per.goweii.wanandroid.event.LoginEvent
 import per.goweii.wanandroid.module.login.model.LoginInfoEntity
 import per.goweii.wanandroid.module.login.model.UserEntity
@@ -19,7 +21,7 @@ import per.goweii.wanandroid.module.login.presenter.QuickLoginPresenter
 import per.goweii.wanandroid.module.login.view.QuickLoginView
 import per.goweii.wanandroid.utils.biometric.BiometricHelper
 
-class QuickLoginActivity : BaseActivity<QuickLoginPresenter>(), QuickLoginView, SwipeBackAbility.Direction {
+class QuickLoginActivity : BaseActivity<QuickLoginPresenter, ActivityQuickLoginBinding>(), QuickLoginView, SwipeBackAbility.Direction {
     companion object {
         private const val PARAMS_OPEN_OR_USE = "openOrUse"
         private const val PARAMS_START_PASSWORD_LOGIN_ON_FAIL = "startPasswordLoginOnFail"
@@ -68,9 +70,8 @@ class QuickLoginActivity : BaseActivity<QuickLoginPresenter>(), QuickLoginView, 
     private var startPasswordLoginOnFail = false
     private lateinit var biometricHelper: BiometricHelper
 
-    override fun getLayoutId(): Int {
-        setContentView(View(this))
-        return 0
+    override fun initViewBinding(inflater: LayoutInflater): ActivityQuickLoginBinding {
+        return ActivityQuickLoginBinding.inflate(inflater)
     }
 
     override fun initPresenter(): QuickLoginPresenter {

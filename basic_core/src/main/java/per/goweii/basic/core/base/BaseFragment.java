@@ -1,5 +1,7 @@
 package per.goweii.basic.core.base;
 
+import androidx.viewbinding.ViewBinding;
+
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
@@ -13,7 +15,7 @@ import per.goweii.basic.ui.dialog.LoadingDialog;
  * @version v1.0.0
  * @date 2018/3/10-下午12:38
  */
-public abstract class BaseFragment<P extends BasePresenter> extends MvpFragment<P> {
+public abstract class BaseFragment<P extends BasePresenter, V extends ViewBinding> extends MvpFragment<P, V> {
     private LoadingDialog mLoadingDialog = null;
     private LoadingBarManager mLoadingBarManager = null;
     private Unbinder mUnbinder = null;

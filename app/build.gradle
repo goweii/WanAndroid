@@ -5,6 +5,7 @@ apply from: "${rootDir.path}/gradle/module.gradle"
 apply from: "${rootDir.path}/gradle/flavor.gradle"
 
 android {
+    namespace "per.goweii.wanandroid"
     defaultConfig {
         renderscriptTargetApi rootProject.ext.android.minSdkVersion
         renderscriptSupportModeEnabled true

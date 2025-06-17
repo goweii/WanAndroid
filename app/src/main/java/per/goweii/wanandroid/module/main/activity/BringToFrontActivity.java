@@ -2,8 +2,11 @@ package per.goweii.wanandroid.module.main.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
 
 import per.goweii.basic.core.base.BaseActivity;
 import per.goweii.basic.core.mvp.MvpPresenter;
@@ -14,9 +17,10 @@ public class BringToFrontActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return 0;
+    protected ViewBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return null;
     }
 
     @Nullable

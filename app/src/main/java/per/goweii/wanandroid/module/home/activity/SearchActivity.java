@@ -6,12 +6,14 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -20,10 +22,12 @@ import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 import per.goweii.actionbarex.common.ActionIconView;
 import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.utils.EditTextUtils;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivitySearchBinding;
 import per.goweii.wanandroid.module.home.fragment.SearchHistoryFragment;
 import per.goweii.wanandroid.module.home.fragment.SearchResultFragment;
 
@@ -32,7 +36,7 @@ import per.goweii.wanandroid.module.home.fragment.SearchResultFragment;
  * @date 2019/5/18
  * GitHub: https://github.com/goweii
  */
-public class SearchActivity extends BaseActivity {
+public class SearchActivity extends BaseActivity<BasePresenter, ActivitySearchBinding> {
 
     @BindView(R.id.aiv_back)
     ActionIconView aiv_back;
@@ -56,14 +60,15 @@ public class SearchActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_search;
+    protected ActivitySearchBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivitySearchBinding.inflate(inflater);
     }
 
     @Nullable
     @Override
-    protected MvpPresenter initPresenter() {
+    protected BasePresenter initPresenter() {
         return null;
     }
 

@@ -2,13 +2,18 @@ package per.goweii.basic.core.surface.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewbinding.ViewBinding;
 
 import per.goweii.basic.core.R;
 import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.core.databinding.BasicCoreActivitySingleFragBinding;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.core.surface.fragment.NotFoundFragment;
 
@@ -28,9 +33,10 @@ public class SingleFragActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.basic_core_activity_single_frag;
+    protected ViewBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return BasicCoreActivitySingleFragBinding.inflate(inflater);
     }
 
     @Override

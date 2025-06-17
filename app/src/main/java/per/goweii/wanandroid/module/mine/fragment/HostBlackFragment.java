@@ -2,7 +2,9 @@ package per.goweii.wanandroid.module.mine.fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -18,6 +20,7 @@ import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.FragmentHostInterruptBinding;
 import per.goweii.wanandroid.module.mine.adapter.HostInterruptAdapter;
 import per.goweii.wanandroid.module.mine.dialog.AddHostDialog;
 import per.goweii.wanandroid.module.mine.model.HostEntity;
@@ -30,7 +33,7 @@ import per.goweii.wanandroid.utils.SettingUtils;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class HostBlackFragment extends BaseFragment implements RvScrollTopUtils.ScrollTop {
+public class HostBlackFragment extends BaseFragment<BasePresenter, FragmentHostInterruptBinding> implements RvScrollTopUtils.ScrollTop {
 
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -41,9 +44,10 @@ public class HostBlackFragment extends BaseFragment implements RvScrollTopUtils.
         return new HostBlackFragment();
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_host_interrupt;
+    protected FragmentHostInterruptBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentHostInterruptBinding.inflate(inflater, container, false);
     }
 
     @Nullable

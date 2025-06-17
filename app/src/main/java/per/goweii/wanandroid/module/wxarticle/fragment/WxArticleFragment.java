@@ -1,7 +1,10 @@
 package per.goweii.wanandroid.module.wxarticle.fragment;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +23,7 @@ import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.FragmentWxArticleBinding;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.ScrollTopEvent;
@@ -38,7 +42,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * @date 2019/5/12
  * GitHub: https://github.com/goweii
  */
-public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implements WxArticleView {
+public class WxArticleFragment extends BaseFragment<WxArticlePresenter, FragmentWxArticleBinding> implements WxArticleView {
 
     private static final int PAGE_START = 1;
 
@@ -108,9 +112,10 @@ public class WxArticleFragment extends BaseFragment<WxArticlePresenter> implemen
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_wx_article;
+    protected FragmentWxArticleBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentWxArticleBinding.inflate(inflater, container, false);
     }
 
     @Nullable

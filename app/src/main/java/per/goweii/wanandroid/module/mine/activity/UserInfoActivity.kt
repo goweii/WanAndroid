@@ -2,9 +2,10 @@ package per.goweii.wanandroid.module.mine.activity
 
 import android.content.Context
 import android.content.Intent
-import kotlinx.android.synthetic.main.activity_user_info.*
+import android.view.LayoutInflater
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.wanandroid.R
+import per.goweii.wanandroid.databinding.ActivityUserInfoBinding
 import per.goweii.wanandroid.event.UserInfoUpdateEvent
 import per.goweii.wanandroid.module.login.activity.AuthActivity
 import per.goweii.wanandroid.module.login.model.UserEntity
@@ -16,7 +17,7 @@ import per.goweii.wanandroid.utils.ImageLoader
  * @author CuiZhen
  * @date 2020/5/27
  */
-class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoView {
+class UserInfoActivity : BaseActivity<UserInfoPresenter, ActivityUserInfoBinding>(), UserInfoView {
 
     companion object {
         @JvmStatic
@@ -25,7 +26,9 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoView {
         }
     }
 
-    override fun getLayoutId(): Int = R.layout.activity_user_info
+    override fun initViewBinding(inflater: LayoutInflater): ActivityUserInfoBinding {
+        return ActivityUserInfoBinding.inflate(inflater)
+    }
 
     override fun initPresenter(): UserInfoPresenter = UserInfoPresenter()
 
@@ -43,9 +46,9 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoView {
 
     override fun mineInfoSuccess(userEntity: UserEntity) {
         UserInfoUpdateEvent().post()
-        ImageLoader.userIcon(civ_user_icon, userEntity.avatar ?: "")
-        ImageLoader.userBlur(iv_blur, userEntity.cover ?: "")
-        tv_user_name.text = userEntity.username
-        tv_user_id.text = userEntity.wanid.toString()
+        ImageLoader.userIcon(binding.civUserIcon, userEntity.avatar ?: "")
+        ImageLoader.userBlur(binding.ivBlur, userEntity.cover ?: "")
+        binding.tvUserName.text = userEntity.username
+        binding.tvUserId.text = userEntity.wanid.toString()
     }
 }

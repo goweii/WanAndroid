@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -31,6 +32,7 @@ import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.swipeback.SwipeBackAbility;
 import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityWebBinding;
 import per.goweii.wanandroid.db.model.ReadLaterModel;
 import per.goweii.wanandroid.module.main.dialog.ArticleShareDialog;
 import per.goweii.wanandroid.module.main.dialog.WebGuideDialog;
@@ -49,7 +51,7 @@ import per.goweii.wanandroid.utils.web.view.WebContainer;
  * @date 2019/5/15
  * GitHub: https://github.com/goweii
  */
-public class WebActivity extends BaseActivity<WebPresenter> implements per.goweii.wanandroid.module.main.view.WebView, SwipeBackAbility.OnlyEdge, SwipeBackAbility.ForceEdge {
+public class WebActivity extends BaseActivity<WebPresenter, ActivityWebBinding> implements per.goweii.wanandroid.module.main.view.WebView, SwipeBackAbility.OnlyEdge, SwipeBackAbility.ForceEdge {
 
     @BindView(R.id.ab)
     ActionBarEx ab;
@@ -102,9 +104,10 @@ public class WebActivity extends BaseActivity<WebPresenter> implements per.gowei
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_web;
+    protected ActivityWebBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityWebBinding.inflate(inflater);
     }
 
     @Nullable

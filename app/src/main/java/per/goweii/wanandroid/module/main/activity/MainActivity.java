@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.WanApp;
+import per.goweii.wanandroid.databinding.ActivityMainBinding;
 import per.goweii.wanandroid.db.model.ReadLaterModel;
 import per.goweii.wanandroid.event.BannerAutoSwitchEnableEvent;
 import per.goweii.wanandroid.event.CloseSecondFloorEvent;
@@ -58,7 +60,7 @@ import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.UserUtils;
 import per.goweii.wanandroid.utils.wanpwd.WanPwdParser;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements MainView {
+public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBinding> implements MainView {
 
     private static final int REQ_CODE_PERMISSION = 1;
 
@@ -101,9 +103,10 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainVie
         getWindow().setBackgroundDrawable(new ColorDrawable(ResUtils.getThemeColor(this, R.attr.colorBackground)));
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
+    protected ActivityMainBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityMainBinding.inflate(inflater);
     }
 
     @Nullable

@@ -3,20 +3,24 @@ package per.goweii.wanandroid.module.main.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewbinding.ViewBinding;
 
 import java.io.File;
 
 import per.goweii.anypermission.AnyPermission;
 import per.goweii.anypermission.RequestListener;
 import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.utils.LogUtils;
 import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.utils.ThemeUtils;
 
-public class InstallApkActivity extends BaseActivity {
+public class InstallApkActivity extends BaseActivity<BasePresenter, ViewBinding> {
     private static final String APK_PATH = "apk_path";
 
     public static void start(Context context, File apk) {
@@ -27,14 +31,15 @@ public class InstallApkActivity extends BaseActivity {
 
     private File apkFile;
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return 0;
+    protected ViewBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return null;
     }
 
     @Nullable
     @Override
-    protected MvpPresenter initPresenter() {
+    protected BasePresenter initPresenter() {
         return null;
     }
 

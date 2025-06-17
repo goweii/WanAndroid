@@ -2,6 +2,7 @@ apply plugin: 'com.android.library'
 apply from: "${rootDir.path}/gradle/basic.gradle"
 
 android {
+    namespace "per.goweii.basic.core"
 }
 
 dependencies {

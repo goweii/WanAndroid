@@ -2,9 +2,11 @@ package per.goweii.wanandroid.module.mine.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -13,10 +15,12 @@ import butterknife.BindView;
 import per.goweii.actionbarex.ActionBarEx;
 import per.goweii.basic.core.adapter.FixedFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseActivity;
+import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.basic.core.mvp.MvpPresenter;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.databinding.ActivityHostInterruptBinding;
 import per.goweii.wanandroid.module.mine.fragment.HostBlackFragment;
 import per.goweii.wanandroid.module.mine.fragment.HostWhiteFragment;
 import per.goweii.wanandroid.utils.MagicIndicatorUtils;
@@ -27,7 +31,7 @@ import per.goweii.wanandroid.utils.RvScrollTopUtils;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class HostInterruptActivity extends BaseActivity {
+public class HostInterruptActivity extends BaseActivity<BasePresenter, ActivityHostInterruptBinding> {
 
     @BindView(R.id.ab)
     ActionBarEx ab;
@@ -43,14 +47,15 @@ public class HostInterruptActivity extends BaseActivity {
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_host_interrupt;
+    protected ActivityHostInterruptBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityHostInterruptBinding.inflate(inflater);
     }
 
     @Nullable
     @Override
-    protected MvpPresenter initPresenter() {
+    protected BasePresenter initPresenter() {
         return null;
     }
 

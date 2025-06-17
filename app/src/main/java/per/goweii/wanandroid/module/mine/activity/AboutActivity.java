@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ import per.goweii.basic.utils.ResUtils;
 import per.goweii.codex.encoder.CodeEncoder;
 import per.goweii.codex.processor.zxing.ZXingEncodeQRCodeProcessor;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.ActivityAboutBinding;
 import per.goweii.wanandroid.module.main.dialog.CardShareDialog;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
@@ -44,7 +46,7 @@ import per.goweii.wanandroid.widget.LogoAnimView;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class AboutActivity extends BaseActivity<AboutPresenter> implements AboutView {
+public class AboutActivity extends BaseActivity<AboutPresenter, ActivityAboutBinding> implements AboutView {
     private static final int UPDATE_TYPE_REFRESH = 1;
     private static final int UPDATE_TYPE_NOTICE = 2;
     private static final int UPDATE_TYPE_SHARE = 3;
@@ -73,9 +75,10 @@ public class AboutActivity extends BaseActivity<AboutPresenter> implements About
         context.startActivity(intent);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_about;
+    protected ActivityAboutBinding initViewBinding(@NonNull LayoutInflater inflater) {
+        return ActivityAboutBinding.inflate(inflater);
     }
 
     @Nullable

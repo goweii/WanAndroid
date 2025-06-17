@@ -1,7 +1,10 @@
 package per.goweii.wanandroid.module.main.fragment;
 
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.viewpager.widget.ViewPager;
 
@@ -13,6 +16,7 @@ import per.goweii.basic.core.adapter.TabFragmentPagerAdapter;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.base.BasePresenter;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.FragmentMainBinding;
 import per.goweii.wanandroid.event.CloseSecondFloorEvent;
 import per.goweii.wanandroid.event.MessageCountEvent;
 import per.goweii.wanandroid.module.home.fragment.HomeFragment;
@@ -21,7 +25,7 @@ import per.goweii.wanandroid.module.main.model.TabEntity;
 import per.goweii.wanandroid.module.mine.fragment.MineFragment;
 import per.goweii.wanandroid.module.question.fragment.QuestionFragment;
 
-public class MainFragment extends BaseFragment {
+public class MainFragment extends BaseFragment<BasePresenter, FragmentMainBinding> {
 
     @BindView(R.id.vp_tab)
     ViewPager vp_tab;
@@ -49,9 +53,10 @@ public class MainFragment extends BaseFragment {
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_main;
+    protected FragmentMainBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentMainBinding.inflate(inflater, container, false);
     }
 
     @Nullable

@@ -2,7 +2,10 @@ package per.goweii.wanandroid.module.mine.fragment;
 
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,6 +23,7 @@ import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.FragmentCollectionArticleBinding;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
@@ -36,7 +40,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * @date 2019/5/17
  * GitHub: https://github.com/goweii
  */
-public class CollectionArticleFragment extends BaseFragment<CollectionArticlePresenter> implements RvScrollTopUtils.ScrollTop, CollectionArticleView {
+public class CollectionArticleFragment extends BaseFragment<CollectionArticlePresenter, FragmentCollectionArticleBinding> implements RvScrollTopUtils.ScrollTop, CollectionArticleView {
 
     public static final int PAGE_START = 0;
 
@@ -93,9 +97,10 @@ public class CollectionArticleFragment extends BaseFragment<CollectionArticlePre
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_collection_article;
+    protected FragmentCollectionArticleBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentCollectionArticleBinding.inflate(inflater, container, false);
     }
 
     @Nullable

@@ -75,6 +75,8 @@
 
     </com.donkingliang.consecutivescroller.ConsecutiveScrollerLayout>
 
-    <include layout="@layout/activity_article_float_btn" />
+    <include
+        android:id="@+id/activity_article_float_btn"
+        layout="@layout/activity_article_float_btn" />
 
 </RelativeLayout>

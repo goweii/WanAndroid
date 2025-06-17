@@ -1,14 +1,18 @@
 package per.goweii.wanandroid.module.home.fragment;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewbinding.ViewBinding;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -22,6 +26,7 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.ui.dialog.TipDialog;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.FragmentSearchHistoryBinding;
 import per.goweii.wanandroid.module.home.activity.SearchActivity;
 import per.goweii.wanandroid.module.home.model.HotKeyBean;
 import per.goweii.wanandroid.module.home.presenter.SearchHistoryPresenter;
@@ -34,19 +39,7 @@ import per.goweii.wanandroid.utils.SettingUtils;
  * @date 2019/5/11
  * GitHub: https://github.com/goweii
  */
-public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> implements SearchHistoryView {
-
-    @BindView(R.id.rv_hot)
-    RecyclerView rv_hot;
-    @BindView(R.id.ll_history)
-    LinearLayout ll_history;
-    @BindView(R.id.rv_history)
-    RecyclerView rv_history;
-    @BindView(R.id.tv_clean)
-    TextView tv_clean;
-    @BindView(R.id.tv_down)
-    TextView tv_down;
-
+public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter, FragmentSearchHistoryBinding> implements SearchHistoryView {
     private BaseQuickAdapter<HotKeyBean, BaseViewHolder> mHotAdapter;
     private BaseQuickAdapter<String, BaseViewHolder> mHistoryAdapter;
 
@@ -57,9 +50,10 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
         return new SearchHistoryFragment();
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_search_history;
+    protected FragmentSearchHistoryBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentSearchHistoryBinding.inflate(inflater, container, false);
     }
 
     @Nullable
@@ -70,9 +64,9 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
 
     @Override
     protected void initView() {
-        rv_hot.setNestedScrollingEnabled(false);
-        rv_hot.setHasFixedSize(true);
-        rv_hot.setLayoutManager(new FlexboxLayoutManager(getContext()));
+        binding.rvHot.setNestedScrollingEnabled(false);
+        binding.rvHot.setHasFixedSize(true);
+        binding.rvHot.setLayoutManager(new FlexboxLayoutManager(getContext()));
         mHotAdapter = new BaseQuickAdapter<HotKeyBean, BaseViewHolder>(R.layout.rv_item_search_hot) {
             @Override
             protected void convert(BaseViewHolder helper, HotKeyBean item) {
@@ -88,8 +82,8 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
                 }
             }
         });
-        rv_hot.setAdapter(mHotAdapter);
-        rv_history.setLayoutManager(new FlexboxLayoutManager(getContext()));
+        binding.rvHot.setAdapter(mHotAdapter);
+        binding.rvHistory.setLayoutManager(new FlexboxLayoutManager(getContext()));
         mHistoryAdapter = new BaseQuickAdapter<String, BaseViewHolder>(R.layout.rv_item_search_history) {
             @Override
             protected void convert(BaseViewHolder helper, String item) {
@@ -172,7 +166,7 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
                 presenter.saveHistory(mHistoryAdapter.getData());
             }
         });
-        rv_history.setAdapter(mHistoryAdapter);
+        binding.rvHistory.setAdapter(mHistoryAdapter);
     }
 
     @Override
@@ -184,12 +178,12 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
 
     private void changeHistoryVisible() {
         if (mHistoryAdapter == null) {
-            ll_history.setVisibility(View.GONE);
+            binding.llHistory.setVisibility(View.GONE);
         } else {
             if (mHistoryAdapter.getData().isEmpty()) {
-                ll_history.setVisibility(View.GONE);
+                binding.llHistory.setVisibility(View.GONE);
             } else {
-                ll_history.setVisibility(View.VISIBLE);
+                binding.llHistory.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -202,11 +196,11 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
         mRemoveMode = removeMode;
         mHistoryAdapter.notifyDataSetChanged();
         if (removeMode) {
-            tv_down.setVisibility(View.VISIBLE);
-            tv_clean.setVisibility(View.GONE);
+            binding.tvDown.setVisibility(View.VISIBLE);
+            binding.tvClean.setVisibility(View.GONE);
         } else {
-            tv_down.setVisibility(View.GONE);
-            tv_clean.setVisibility(View.VISIBLE);
+            binding.tvDown.setVisibility(View.GONE);
+            binding.tvClean.setVisibility(View.VISIBLE);
         }
     }
 
@@ -262,7 +256,7 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter> 
         if (list.size() > max) {
             mHistoryAdapter.remove(list.size() - 1);
         }
-        RvScrollTopUtils.smoothScrollTop(rv_history);
+        RvScrollTopUtils.smoothScrollTop(binding.rvHistory);
         presenter.saveHistory(mHistoryAdapter.getData());
         changeHistoryVisible();
     }

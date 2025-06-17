@@ -1,7 +1,10 @@
 package per.goweii.wanandroid.module.main.fragment;
 
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -23,6 +26,7 @@ import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
+import per.goweii.wanandroid.databinding.FragmentUserArticleBinding;
 import per.goweii.wanandroid.event.ArticleShareEvent;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.event.LoginEvent;
@@ -42,7 +46,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * @date 2019/5/18
  * GitHub: https://github.com/goweii
  */
-public class UserArticleFragment extends BaseFragment<UserArticlePresenter> implements UserArticleView {
+public class UserArticleFragment extends BaseFragment<UserArticlePresenter, FragmentUserArticleBinding> implements UserArticleView {
 
     private static final int PAGE_START = 0;
 
@@ -95,9 +99,10 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter> impl
         return true;
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_user_article;
+    protected FragmentUserArticleBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentUserArticleBinding.inflate(inflater, container, false);
     }
 
     @Nullable

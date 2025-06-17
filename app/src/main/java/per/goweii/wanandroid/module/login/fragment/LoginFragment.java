@@ -2,9 +2,12 @@ package per.goweii.wanandroid.module.login.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import butterknife.BindView;
@@ -13,6 +16,7 @@ import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.InputMethodUtils;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.FragmentLoginBinding;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.module.login.activity.AuthActivity;
 import per.goweii.wanandroid.module.login.model.UserEntity;
@@ -27,7 +31,7 @@ import per.goweii.wanandroid.widget.SubmitView;
  * @date 2019/5/16
  * GitHub: https://github.com/goweii
  */
-public class LoginFragment extends BaseFragment<LoginPresenter> implements LoginView {
+public class LoginFragment extends BaseFragment<LoginPresenter, FragmentLoginBinding> implements LoginView {
 
     @BindView(R.id.ll_go_register)
     LinearLayout ll_go_register;
@@ -44,9 +48,10 @@ public class LoginFragment extends BaseFragment<LoginPresenter> implements Login
         return new LoginFragment();
     }
 
+    @Nullable
     @Override
-    protected int getLayoutRes() {
-        return R.layout.fragment_login;
+    protected FragmentLoginBinding initViewBinding(@NonNull LayoutInflater inflater, @Nullable ViewGroup container) {
+        return FragmentLoginBinding.inflate(inflater, container, false);
     }
 
     @Nullable
