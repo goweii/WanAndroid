@@ -107,6 +107,12 @@ android {
             ext.buglyAppId = APPID_BUGLY_FOR_COM
             ext.buglyAppKey = APPKEY_BUGLY_FOR_COM
         }
+        googlePlay {
+            dimension "applicationId"
+            applicationId "com.cuizhen.wanandroid"
+            ext.buglyAppId = ""
+            ext.buglyAppKey = ""
+        }
     }
     productFlavors.all { flavor ->
         buildConfigField "String", "APPID_BUGLY", "\"${ext.buglyAppId}\""

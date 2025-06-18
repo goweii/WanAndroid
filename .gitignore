@@ -4,6 +4,7 @@
 app/release/
 app/com/
 app/per/
+app/googlePlay/
 *.apk
 *.ap_
 

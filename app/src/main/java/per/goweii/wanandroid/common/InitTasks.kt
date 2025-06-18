@@ -3,6 +3,7 @@ package per.goweii.wanandroid.common
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
+import android.text.TextUtils
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.tencent.bugly.crashreport.CrashReport
@@ -276,6 +277,7 @@ class ReadingModeTask : AsyncInitTask() {
 class BuglyInitTask : SyncInitTask() {
     override fun init(application: Application) {
         if (DebugUtils.isDebug()) return
+        if (TextUtils.isEmpty(BuildConfig.APPID_BUGLY)) return
         CrashReport.setIsDevelopmentDevice(application, DebugUtils.isDebug())
         val strategy = UserStrategy(application)
         strategy.setCrashHandleCallback(object : CrashHandleCallback() {
