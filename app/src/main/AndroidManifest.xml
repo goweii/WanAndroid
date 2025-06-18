@@ -6,7 +6,9 @@
         android:name="android.hardware.camera"
         android:required="false" />
 
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission
+        android:name="${REQUEST_INSTALL_PACKAGES_PERMISSION}"
+        tools:node="replace" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission
         android:name="android.permission.READ_LOGS"
@@ -43,8 +45,8 @@
         <activity
             android:name=".module.main.activity.RouterActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
-            android:launchMode="singleTask"
             android:exported="true"
+            android:launchMode="singleTask"
             android:theme="@style/AppTheme.Router">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -52,7 +54,8 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="https"
+                <data
+                    android:scheme="https"
                     tools:ignore="AppLinkUrlError" />
             </intent-filter>
             <intent-filter>

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import per.goweii.basic.utils.AppInfoUtils;
 import per.goweii.basic.utils.SPUtils;
+import per.goweii.wanandroid.BuildConfig;
 import per.goweii.wanandroid.module.main.model.UpdateBean;
 
 /**
@@ -43,16 +44,22 @@ public class UpdateUtils {
     private UpdateUtils() {
     }
 
+    public boolean isEnabled() {
+        return BuildConfig.ENABLE_IN_APP_UPDATE;
+    }
+
     public void ignore(int versionCode) {
         mSPUtils.save(KEY_VERSION_CODE, versionCode);
         mSPUtils.save(KEY_TIME, System.currentTimeMillis());
     }
 
     public boolean shouldUpdate(UpdateBean updateBean) {
+        if (!isEnabled()) return false;
         return shouldUpdate(updateBean.getVersion_code(), updateBean.getVersion_name());
     }
 
     public boolean shouldUpdate(int versionCode, String versionName) {
+        if (!isEnabled()) return false;
         if (!isNewest(versionCode, versionName)) return false;
         int ignoreCode = mSPUtils.get(KEY_VERSION_CODE, 0);
         if (versionCode > ignoreCode) return true;
@@ -63,6 +70,7 @@ public class UpdateUtils {
     }
 
     public boolean shouldForceUpdate(UpdateBean updateBean) {
+        if (!isEnabled()) return false;
         return shouldForceUpdate(
                 updateBean.isForce(),
                 updateBean.getVersion_code(), updateBean.getVersion_name(),
@@ -75,6 +83,7 @@ public class UpdateUtils {
             int netCurrVersionCode, String netCurrVersionName,
             int netLastForceVersionCode, String netLastForceVersionName
     ) {
+        if (!isEnabled()) return false;
         boolean isLastForceNewest = isNewest(netLastForceVersionCode, netLastForceVersionName);
         if (isLastForceNewest) return true;
         boolean isCurrNewest = isNewest(netCurrVersionCode, netCurrVersionName);
@@ -89,10 +98,12 @@ public class UpdateUtils {
     }
 
     public boolean shouldUpdateBeta(UpdateBean updateBean) {
+        if (!isEnabled()) return false;
         return shouldUpdateBeta(updateBean.getVersion_code(), updateBean.getVersion_name());
     }
 
     public boolean shouldUpdateBeta(int versionCode, String versionName) {
+        if (!isEnabled()) return false;
         if (!isNewest(versionCode, versionName)) return false;
         int ignoreCode = mSPUtils.get(KEY_BETA_VERSION_CODE, 0);
         if (versionCode > ignoreCode) return true;

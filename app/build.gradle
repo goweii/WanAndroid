@@ -18,6 +18,9 @@ android {
             }
         }
     }
+    lint {
+        disable "NullSafeMutableLiveData"
+    }
     resourcePrefix ""
     androidResources {
         generateLocaleConfig true

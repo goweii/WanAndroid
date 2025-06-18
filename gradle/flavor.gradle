@@ -77,7 +77,7 @@ android {
         release {
             shrinkResources false
             signingConfig signingConfigs.release
-            bundle{
+            bundle {
                 language {
                     enableSplit = false
                 }
@@ -86,7 +86,7 @@ android {
         debug {
             shrinkResources false
             signingConfig signingConfigs.debug
-            bundle{
+            bundle {
                 language {
                     enableSplit = false
                 }
@@ -100,21 +100,28 @@ android {
             applicationId "per.goweii.wanandroid"
             ext.buglyAppId = APPID_BUGLY_FOR_PER
             ext.buglyAppKey = APPKEY_BUGLY_FOR_PER
+            ext.enableInAppUpdate = true
         }
         com {
             dimension "applicationId"
             applicationId "com.goweii.wanandroid"
             ext.buglyAppId = APPID_BUGLY_FOR_COM
             ext.buglyAppKey = APPKEY_BUGLY_FOR_COM
+            ext.enableInAppUpdate = true
         }
         googlePlay {
             dimension "applicationId"
             applicationId "com.cuizhen.wanandroid"
             ext.buglyAppId = ""
             ext.buglyAppKey = ""
+            ext.enableInAppUpdate = false
         }
     }
     productFlavors.all { flavor ->
+        manifestPlaceholders = [
+                REQUEST_INSTALL_PACKAGES_PERMISSION: ext.enableInAppUpdate ? "android.permission.REQUEST_INSTALL_PACKAGES" : "android.permission.INTERNET",
+        ]
+        buildConfigField "boolean", "ENABLE_IN_APP_UPDATE", "${ext.enableInAppUpdate}"
         buildConfigField "String", "APPID_BUGLY", "\"${ext.buglyAppId}\""
         buildConfigField "String", "APPKEY_BUGLY", "\"${ext.buglyAppKey}\""
         buildConfigField "String", "WANPWD_FORMAT", "\"${WANPWD_FORMAT}\""

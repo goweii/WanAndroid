@@ -71,9 +71,10 @@ public class Utils {
 
         @Override
         public void onActivityResumed(@NonNull Activity activity) {
-            if (mResumedActivityRef == null || mResumedActivityRef.get() != activity) {
-                mResumedActivityRef = new WeakReference<>(activity);
+            if (mResumedActivityRef != null) {
+                mResumedActivityRef.clear();
             }
+            mResumedActivityRef = new WeakReference<>(activity);
         }
 
         @Override
