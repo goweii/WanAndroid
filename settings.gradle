@@ -1,1 +1,6 @@
-include ':app', ':basic_core', ':basic_utils', ':basic_ui', ':basic_res'
+include ':app'
+include ':basic_core'
+include ':basic_utils'
+include ':basic_ui'
+include ':basic_res'
+include ':basic_l10n'

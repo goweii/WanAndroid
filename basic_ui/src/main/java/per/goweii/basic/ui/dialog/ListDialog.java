@@ -141,7 +141,7 @@ public class ListDialog {
                             if (yesText != null) {
                                 tvYes.setText(yesText);
                             } else {
-                                tvYes.setText(R.string.basic_ui_dialog_btn_yes);
+                                tvYes.setText(R.string.dialog_btn_yes);
                             }
                             if (singleBtnYes) {
                                 tvNo.setVisibility(View.GONE);
@@ -152,7 +152,7 @@ public class ListDialog {
                                 if (noText != null) {
                                     tvNo.setText(noText);
                                 } else {
-                                    tvNo.setText(R.string.basic_ui_dialog_btn_no);
+                                    tvNo.setText(R.string.dialog_btn_no);
                                 }
                             }
                         }

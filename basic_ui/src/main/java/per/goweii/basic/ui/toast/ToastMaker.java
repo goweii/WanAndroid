@@ -47,6 +47,7 @@ public class ToastMaker {
         };
     }
 
+    @Deprecated
     public static void showShort(@StringRes int message) {
         showShort(sContext.getString(message));
     }

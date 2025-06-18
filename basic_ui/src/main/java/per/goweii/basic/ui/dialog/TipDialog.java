@@ -73,14 +73,14 @@ public class TipDialog {
                             if (noText != null) {
                                 tvNo.setText(noText);
                             } else {
-                                tvNo.setText(R.string.basic_ui_dialog_btn_no);
+                                tvNo.setText(R.string.dialog_btn_no);
                             }
                         }
 
                         if (yesText != null) {
                             tvYes.setText(yesText);
                         } else {
-                            tvYes.setText(R.string.basic_ui_dialog_btn_yes);
+                            tvYes.setText(R.string.dialog_btn_yes);
                         }
 
                         TextView tvTitle = layer.requireView(R.id.basic_ui_tv_dialog_tip_title);

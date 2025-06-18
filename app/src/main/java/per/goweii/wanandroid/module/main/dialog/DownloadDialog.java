@@ -130,7 +130,7 @@ public class DownloadDialog {
                         } else if (retryCount <= 6) {
                             startDownload(DownloadDialog.this.urlBackup);
                         } else {
-                            ToastMaker.showShort("下载失败，可前往Github仓库下载：我的-系统设置-关于我们-项目仓库");
+                            ToastMaker.showShort(mActivity.getString(R.string.download_update_failed_tips));
                             dismiss();
                         }
                     }
@@ -221,7 +221,7 @@ public class DownloadDialog {
             tvProgress.setText("");
         }
         if (tvState != null) {
-            tvState.setText(R.string.basic_ui_dialog_download_state_downloading);
+            tvState.setText(R.string.dialog_download_state_downloading);
         }
     }
 
@@ -235,7 +235,7 @@ public class DownloadDialog {
         }
         if (progress >= 100) {
             if (tvState != null) {
-                tvState.setText(R.string.basic_ui_dialog_download_state_install);
+                tvState.setText(R.string.dialog_download_state_install);
                 tvState.setTextColor(ResUtils.getThemeColor(tvState, R.attr.colorTextMain));
             }
         }

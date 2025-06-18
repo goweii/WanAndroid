@@ -111,10 +111,10 @@ public class UpdateDialog {
                         final TextView tvDescription = layer.requireView(R.id.basic_ui_tv_dialog_update_description);
                         if (mTest) {
                             tvTitle.setTextColor(ResUtils.getThemeColor(tvTitle.getContext(), R.attr.colorTextAccent));
-                            tvTitle.setText(R.string.basic_ui_dialog_update_test_title);
+                            tvTitle.setText(R.string.dialog_update_test_title);
                         } else {
                             tvTitle.setTextColor(ResUtils.getThemeColor(tvTitle.getContext(), R.attr.colorTextMain));
-                            tvTitle.setText(R.string.basic_ui_dialog_update_title);
+                            tvTitle.setText(R.string.dialog_update_title);
                         }
                         if (TextUtils.isEmpty(mVersionName)) {
                             tvVersionName.setVisibility(View.GONE);

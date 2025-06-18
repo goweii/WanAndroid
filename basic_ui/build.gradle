@@ -8,6 +8,7 @@ android {
 dependencies {
     api project(":basic_utils")
     api project(":basic_res")
+    api project(":basic_l10n")
 
     api rootProject.ext.dependencies.design
     api rootProject.ext.dependencies.smartRefreshLayoutKernel

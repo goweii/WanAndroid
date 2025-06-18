@@ -124,13 +124,13 @@ public class DownloadDialog {
             progressBar.setProgress(0);
         }
         if (tvApkSize != null) {
-            tvApkSize.setText("0B");
+            tvApkSize.setText(mActivity.getString(R.string.n_bytes, 0));
         }
         if (tvProgress != null) {
-            tvProgress.setText("0");
+            tvProgress.setText(mActivity.getString(R.string.n_percent, 0));
         }
         if (tvState != null) {
-            tvState.setText(R.string.basic_ui_dialog_download_state_downloading);
+            tvState.setText(R.string.dialog_download_state_downloading);
         }
     }
 
@@ -139,11 +139,11 @@ public class DownloadDialog {
             progressBar.setProgress(progress);
         }
         if (tvProgress != null) {
-            tvProgress.setText("" + progress);
+            tvProgress.setText(mActivity.getString(R.string.n_percent, progress));
         }
         if (progress >= 100) {
             if (tvState != null) {
-                tvState.setText(R.string.basic_ui_dialog_download_state_install);
+                tvState.setText(R.string.dialog_download_state_install);
                 tvState.setTextColor(ResUtils.getThemeColor(mActivity, R.attr.colorTextMain));
             }
         }

@@ -87,9 +87,9 @@ public class PermissionDialog {
                         }
                         tvDescription.setText(getDescription());
                         if (isGoSetting) {
-                            tvNext.setText(R.string.basic_ui_dialog_permission_next_go_setting);
+                            tvNext.setText(R.string.dialog_permission_next_go_setting);
                         } else {
-                            tvNext.setText(R.string.basic_ui_dialog_permission_next);
+                            tvNext.setText(R.string.dialog_permission_next);
                         }
                     }
                 })
@@ -152,7 +152,7 @@ public class PermissionDialog {
     }
 
     private int getTitleResId() {
-        int resId = R.string.basic_ui_dialog_permission_title_unknow;
+        int resId = R.string.dialog_permission_title_unknown;
         if (mGroupType == null) {
             return resId;
         }
@@ -160,31 +160,31 @@ public class PermissionDialog {
             default:
                 break;
             case CALENDAR:
-                resId = R.string.basic_ui_dialog_permission_title_calendar;
+                resId = R.string.dialog_permission_title_calendar;
                 break;
             case CAMERA:
-                resId = R.string.basic_ui_dialog_permission_title_camera;
+                resId = R.string.dialog_permission_title_camera;
                 break;
             case CONTACTS:
-                resId = R.string.basic_ui_dialog_permission_title_contacts;
+                resId = R.string.dialog_permission_title_contacts;
                 break;
             case LOCATION:
-                resId = R.string.basic_ui_dialog_permission_title_location;
+                resId = R.string.dialog_permission_title_location;
                 break;
             case MICROPHONE:
-                resId = R.string.basic_ui_dialog_permission_title_microphone;
+                resId = R.string.dialog_permission_title_microphone;
                 break;
             case PHONE:
-                resId = R.string.basic_ui_dialog_permission_title_phone;
+                resId = R.string.dialog_permission_title_phone;
                 break;
             case SMS:
-                resId = R.string.basic_ui_dialog_permission_title_sms;
+                resId = R.string.dialog_permission_title_sms;
                 break;
             case SENSORS:
-                resId = R.string.basic_ui_dialog_permission_title_sensors;
+                resId = R.string.dialog_permission_title_sensors;
                 break;
             case STORAGE:
-                resId = R.string.basic_ui_dialog_permission_title_storage;
+                resId = R.string.dialog_permission_title_storage;
                 break;
         }
         return resId;
@@ -194,13 +194,13 @@ public class PermissionDialog {
         String description;
         String descriptionRes;
         if (isGoSetting) {
-            descriptionRes = ResUtils.getString(R.string.basic_ui_dialog_permission_description_go_setting);
+            descriptionRes = ResUtils.getString(R.string.dialog_permission_description_go_setting);
         } else {
-            descriptionRes = ResUtils.getString(R.string.basic_ui_dialog_permission_description);
+            descriptionRes = ResUtils.getString(R.string.dialog_permission_description);
         }
         int titleResId = getTitleResId();
         if (titleResId <= 0) {
-            description = String.format(descriptionRes, ResUtils.getString(R.string.basic_ui_dialog_permission_description_title_holder));
+            description = String.format(descriptionRes, ResUtils.getString(R.string.dialog_permission_description_title_holder));
         } else {
             description = String.format(descriptionRes, ResUtils.getString(titleResId));
         }

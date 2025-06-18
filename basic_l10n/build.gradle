@@ -1,0 +1,11 @@
+apply plugin: 'com.android.library'
+apply from: "${rootDir.path}/gradle/basic.gradle"
+
+android {
+    namespace "per.goweii.basic.l10n"
+    resourcePrefix ""
+}
+
+dependencies {
+    api rootProject.ext.dependencies.androidxAppcompat
+}

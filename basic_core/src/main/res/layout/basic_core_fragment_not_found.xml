@@ -9,14 +9,6 @@
     android:background="?colorBackground">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textSize="@dimen/text_headline"
-        android:textColor="?colorTextSurface"
-        android:text="@string/basic_core_fragment_empty" />
-
-    <TextView
         android:id="@+id/basic_core_tv_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

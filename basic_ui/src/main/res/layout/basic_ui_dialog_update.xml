@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/basic_ui_dialog_update_title"
+            android:text="@string/dialog_update_title"
             android:textColor="?attr/colorTextSurface"
             android:textSize="@dimen/text_headline" />
 
@@ -108,7 +108,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/basic_ui_dialog_update_no"
+                    android:text="@string/dialog_update_no"
                     android:textColor="?attr/colorTextThird"
                     android:textSize="@dimen/text_content" />
 
@@ -124,7 +124,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/basic_ui_dialog_update_yes"
+                    android:text="@string/dialog_update_yes"
                     android:textColor="?attr/colorTextMain"
                     android:textSize="@dimen/text_content" />
 

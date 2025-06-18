@@ -15,7 +15,7 @@
         android:id="@+id/basic_ui_tv_dialog_download_state"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/basic_ui_dialog_download_state_downloading"
+        android:text="@string/dialog_download_state_downloading"
         android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content" />
 

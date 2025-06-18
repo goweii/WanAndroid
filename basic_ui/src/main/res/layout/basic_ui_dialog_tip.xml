@@ -49,7 +49,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            tools:text="@string/basic_ui_dialog_btn_no"
+            tools:text="@string/dialog_btn_no"
             android:textColor="?colorTextThird"
             android:textSize="@dimen/text_content" />
 
@@ -65,7 +65,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
-            tools:text="@string/basic_ui_dialog_btn_yes"
+            tools:text="@string/dialog_btn_yes"
             android:textColor="?colorTextMain"
             android:textSize="@dimen/text_content" />
 
