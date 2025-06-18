@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="@drawable/bg_press_color_surface"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/sc_enable"
@@ -17,9 +17,9 @@
         android:id="@+id/tv_host"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@+id/sc_enable"
+        android:layout_toEndOf="@+id/sc_enable"
         android:includeFontPadding="false"
         android:lineSpacingExtra="0dp"
         android:textColor="?colorTextSurface"
@@ -30,7 +30,7 @@
         android:id="@+id/iv_delete"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
         android:padding="10dp"
         android:src="@drawable/ic_close"

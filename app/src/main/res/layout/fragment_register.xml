@@ -26,8 +26,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
             android:text="@string/go_to_sign_in"
             android:textColor="?colorTextMain"
             android:textSize="@dimen/text_content" />
@@ -48,35 +48,35 @@
         android:id="@+id/piv_register_account"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="100dp"
-        android:layout_marginRight="60dp" />
+        android:layout_marginEnd="60dp" />
 
     <per.goweii.wanandroid.widget.PasswordInputView
         android:id="@+id/piv_register_password"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_below="@+id/piv_register_account"
-        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="60dp" />
+        android:layout_marginEnd="60dp" />
 
     <per.goweii.wanandroid.widget.PasswordInputView
         android:id="@+id/piv_register_password_again"
         android:layout_width="match_parent"
         android:layout_height="44dp"
         android:layout_below="@+id/piv_register_password"
-        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="60dp" />
+        android:layout_marginEnd="60dp" />
 
     <per.goweii.wanandroid.widget.SubmitView
         android:id="@+id/sv_register"
         style="@style/ButtonMain"
         android:layout_below="@+id/piv_register_password_again"
-        android:layout_marginLeft="60dp"
+        android:layout_marginStart="60dp"
         android:layout_marginTop="30dp"
-        android:layout_marginRight="60dp"
+        android:layout_marginEnd="60dp"
         android:text="@string/sign_up"
         app:sv_bindEditText1="@+id/piv_register_account"
         app:sv_bindEditText2="@+id/piv_register_password"

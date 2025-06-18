@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:orientation="horizontal">
 
         <TextView
@@ -19,8 +19,8 @@
             android:layout_height="match_parent"
             android:background="?colorStriking"
             android:gravity="center"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:text="@string/delete"
             android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />

@@ -16,8 +16,8 @@
         style="@style/ButtonMain"
         android:layout_width="wrap_content"
         android:layout_centerHorizontal="true"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
         android:text="@string/i_know" />
 
 </com.lihang.ShadowLayout>

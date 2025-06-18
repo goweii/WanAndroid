@@ -15,7 +15,7 @@
             style="?android:attr/progressBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_thin" />
+            android:layout_marginEnd="@dimen/margin_thin" />
 
         <TextView
             android:id="@+id/loading_text"

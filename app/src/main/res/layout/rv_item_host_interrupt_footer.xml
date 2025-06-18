@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="@drawable/bg_press_color_surface"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp">
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp">
 
     <ImageView
         android:id="@+id/iv_add"

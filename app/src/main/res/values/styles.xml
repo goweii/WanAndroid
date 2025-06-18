@@ -54,13 +54,13 @@
         <item name="absuper_titleTextColor">?colorOnMainOrSurface</item>
         <item name="absuper_iconColor">?colorOnMainOrSurface</item>
         <item name="absuper_iconPadding">@dimen/basic_ui_action_bar_icon_padding</item>
-        <item name="android:paddingLeft">@dimen/basic_ui_action_bar_icon_margin</item>
-        <item name="android:paddingRight">@dimen/basic_ui_action_bar_icon_margin</item>
+        <item name="android:paddingStart">@dimen/basic_ui_action_bar_icon_margin</item>
+        <item name="android:paddingEnd">@dimen/basic_ui_action_bar_icon_margin</item>
     </style>
 
     <style name="ActionBar.Super.Back">
         <item name="absuper_left1Icon">@drawable/ic_back</item>
-        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingStart">0dp</item>
         <item name="absuper_left1IconClickToFinish">true</item>
     </style>
 

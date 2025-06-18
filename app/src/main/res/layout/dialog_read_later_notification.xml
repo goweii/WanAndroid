@@ -26,9 +26,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_notification"
             android:orientation="vertical"
-            android:paddingLeft="15dp"
+            android:paddingStart="15dp"
             android:paddingTop="15dp"
-            android:paddingRight="15dp"
+            android:paddingEnd="15dp"
             android:paddingBottom="15dp">
 
             <TextView

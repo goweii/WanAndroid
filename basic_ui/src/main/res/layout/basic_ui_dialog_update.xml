@@ -37,7 +37,7 @@
             android:id="@+id/basic_ui_tv_dialog_update_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_def"
+            android:layout_marginStart="@dimen/margin_def"
             android:layout_marginTop="@dimen/margin_thin"
             android:gravity="center"
             android:textColor="?colorTextSecond"
@@ -47,8 +47,8 @@
         <per.goweii.anylayer.widget.MaxSizeFrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_def"
-            android:layout_marginRight="@dimen/margin_def"
+            android:layout_marginStart="@dimen/margin_def"
+            android:layout_marginEnd="@dimen/margin_def"
             android:maxHeight="145dp">
 
             <ScrollView

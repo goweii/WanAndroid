@@ -28,7 +28,7 @@
                 android:id="@+id/tv_new"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
                 android:text="@string/tag_new"
                 android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_notes" />
@@ -40,7 +40,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/ll_new"
+            android:layout_toEndOf="@+id/ll_new"
             android:textColor="@color/selector_text_color_article_author"
             android:textSize="@dimen/text_notes"
             tools:text="@tools:sample/full_names" />
@@ -52,12 +52,12 @@
             android:layout_alignTop="@+id/tv_author"
             android:layout_alignBottom="@+id/tv_author"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/tv_author"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/tv_author"
             android:background="@drawable/selector_article_tag_bg"
             android:gravity="center"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
             android:textColor="@color/selector_text_color_article_tag"
             android:textSize="@dimen/text_time"
             tools:text="TAG" />
@@ -68,7 +68,7 @@
             android:layout_height="0dp"
             android:layout_alignTop="@+id/tv_author"
             android:layout_alignBottom="@+id/tv_author"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_centerVertical="true"
             android:textColor="?colorTextThird"
             android:textSize="@dimen/text_notes"
@@ -88,7 +88,7 @@
             android:id="@+id/iv_img"
             android:layout_width="120dp"
             android:layout_height="80dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginEnd="10dp"
             android:background="?colorBackground"
             android:scaleType="centerCrop"
             android:visibility="gone"
@@ -149,7 +149,7 @@
             android:id="@+id/tv_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="5dp"
+            android:layout_marginEnd="5dp"
             android:text="@string/tag_top"
             android:textColor="?colorTextAccent"
             android:textSize="@dimen/text_notes" />
@@ -161,7 +161,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ll_middle"
-        android:layout_toRightOf="@+id/ll_top"
+        android:layout_toEndOf="@+id/ll_top"
         android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
@@ -181,6 +181,6 @@
         android:layout_height="20dp"
         tools:rl_checked="false"
         android:layout_alignBottom="@+id/ll_chapter"
-        android:layout_alignParentRight="true" />
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

@@ -113,9 +113,9 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/dialog_article_share_ll_article"
-                            android:paddingLeft="@dimen/margin_def"
+                            android:paddingStart="@dimen/margin_def"
                             android:paddingTop="@dimen/margin_thin"
-                            android:paddingRight="@dimen/margin_def"
+                            android:paddingEnd="@dimen/margin_def"
                             android:paddingBottom="@dimen/margin_thin">
 
                             <com.makeramen.roundedimageview.RoundedImageView
@@ -133,8 +133,8 @@
                                 android:id="@+id/dialog_article_share_tv_app"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:layout_toRightOf="@+id/dialog_article_share_iv_app"
+                                android:layout_marginStart="5dp"
+                                android:layout_toEndOf="@+id/dialog_article_share_iv_app"
                                 android:text="@string/generated_by_wanandroid_client"
                                 android:textColor="@color/color_black_a50"
                                 android:textSize="@dimen/text_time" />

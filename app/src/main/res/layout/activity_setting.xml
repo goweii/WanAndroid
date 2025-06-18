@@ -35,13 +35,13 @@
                     android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="@string/theme_mode"
@@ -52,7 +52,7 @@
                         android:id="@+id/tv_theme_mode"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         android:singleLine="true"
                         android:text=""
                         android:textColor="?colorTextThird"
@@ -73,9 +73,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_surface"
-                    android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="14dp"
-                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -92,10 +92,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_show_read_later_notification_title"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:layout_marginTop="5dp"
-                        android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_show_read_later_notification"
+                        android:layout_marginEnd="80dp"
+                        android:layout_toStartOf="@+id/sc_show_read_later_notification"
                         android:text="@string/bookmark_reminders_desc"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
@@ -104,7 +104,7 @@
                         android:id="@+id/sc_show_read_later_notification"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true" />
 
                 </RelativeLayout>
@@ -113,9 +113,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_surface"
-                    android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="14dp"
-                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -132,10 +132,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_show_banner_title"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:layout_marginTop="5dp"
-                        android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_show_banner"
+                        android:layout_marginEnd="80dp"
+                        android:layout_toStartOf="@+id/sc_show_banner"
                         android:text="@string/show_carousel_desc"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
@@ -144,7 +144,7 @@
                         android:id="@+id/sc_show_banner"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true" />
 
                 </RelativeLayout>
@@ -153,9 +153,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_surface"
-                    android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="14dp"
-                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -172,10 +172,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_show_top_title"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:layout_marginTop="5dp"
-                        android:layout_marginRight="80dp"
-                        android:layout_toLeftOf="@+id/sc_show_top"
+                        android:layout_marginEnd="80dp"
+                        android:layout_toStartOf="@+id/sc_show_top"
                         android:text="@string/show_pinned_desc"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
@@ -184,7 +184,7 @@
                         android:id="@+id/sc_show_top"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true" />
 
                 </RelativeLayout>
@@ -195,9 +195,9 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_press_color_surface"
                     android:orientation="horizontal"
-                    android:paddingLeft="16dp"
+                    android:paddingStart="16dp"
                     android:paddingTop="14dp"
-                    android:paddingRight="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingBottom="14dp">
 
                     <TextView
@@ -214,9 +214,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/tv_intercept_host_title"
-                        android:layout_alignParentLeft="true"
+                        android:layout_alignParentStart="true"
                         android:layout_marginTop="5dp"
-                        android:layout_marginRight="80dp"
+                        android:layout_marginEnd="80dp"
                         android:text="@string/long_press_to_customize_the_block_list"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
@@ -226,8 +226,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:layout_marginRight="5dp"
-                        android:layout_toLeftOf="@+id/iv_intercept_host_next"
+                        android:layout_marginEnd="5dp"
+                        android:layout_toStartOf="@+id/iv_intercept_host_next"
                         android:singleLine="true"
                         android:text=""
                         android:textColor="?colorTextThird"
@@ -238,7 +238,7 @@
                         android:id="@+id/iv_intercept_host_next"
                         android:layout_width="16dp"
                         android:layout_height="16dp"
-                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:scaleType="fitCenter"
                         android:src="@drawable/ic_enter"
@@ -254,13 +254,13 @@
                     android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="@string/clear_the_cache"
@@ -271,7 +271,7 @@
                         android:id="@+id/tv_cache"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         android:singleLine="true"
                         android:text=""
                         android:textColor="?colorTextThird"
@@ -295,13 +295,13 @@
                     android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="@string/about_us"
@@ -312,7 +312,7 @@
                         android:id="@+id/tv_curr_version"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginEnd="5dp"
                         android:singleLine="true"
                         android:text=""
                         android:textColor="?colorTextThird"
@@ -336,13 +336,13 @@
                     android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="@string/privacy_policy"
@@ -366,13 +366,13 @@
                     android:background="@drawable/bg_press_color_surface"
                     android:gravity="center"
                     android:orientation="horizontal"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp">
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
+                        android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
                         android:text="@string/sign_out"

@@ -10,8 +10,8 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:overScrollMode="never"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
         android:scrollbars="none"
         tools:background="?colorDialogBg" />
 
@@ -27,8 +27,8 @@
             android:id="@+id/dialog_web_iv_read_later"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:layout_marginRight="@dimen/margin_middle"
-            android:layout_toLeftOf="@+id/dialog_web_iv_close"
+            android:layout_marginEnd="@dimen/margin_middle"
+            android:layout_toStartOf="@+id/dialog_web_iv_close"
             android:padding="13dp"
             android:src="@drawable/ic_read_later_added"
             android:tint="?colorOnMainOrSurface"
@@ -49,8 +49,8 @@
             android:id="@+id/dialog_web_cv_collect"
             android:layout_width="44dp"
             android:layout_height="44dp"
-            android:layout_marginLeft="@dimen/margin_middle"
-            android:layout_toRightOf="@+id/dialog_web_iv_close"
+            android:layout_marginStart="@dimen/margin_middle"
+            android:layout_toEndOf="@+id/dialog_web_iv_close"
             android:padding="12dp" />
 
     </RelativeLayout>

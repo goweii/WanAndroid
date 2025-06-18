@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:includeFontPadding="false"
         android:layout_centerVertical="true"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:textColor="?colorTextMain"
         android:textSize="@dimen/text_content"
         tools:text="+31" />

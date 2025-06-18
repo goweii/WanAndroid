@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tv_title"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:text="@string/refresh_the_title"
                 android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_notes" />
@@ -70,7 +70,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/tv_link"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:text="@string/open_the_link"
                 android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_notes" />
@@ -96,8 +96,8 @@
             android:id="@+id/tv_share"
             style="@style/ButtonMain"
             android:layout_marginTop="@dimen/margin_def"
-            android:layout_marginLeft="@dimen/margin_big"
-            android:layout_marginRight="@dimen/margin_big"
+            android:layout_marginStart="@dimen/margin_big"
+            android:layout_marginEnd="@dimen/margin_big"
             android:text="@string/share" />
 
     </LinearLayout>

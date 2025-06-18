@@ -33,9 +33,9 @@
                 android:id="@+id/dialog_web_guide_iv_2"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_alignLeft="@+id/dialog_web_guide_iv_1"
+                android:layout_alignStart="@+id/dialog_web_guide_iv_1"
                 android:layout_alignTop="@+id/dialog_web_guide_iv_1"
-                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:alpha="0.7"
                 android:src="@drawable/bg_solid_round_color_main_radius_max" />
@@ -46,7 +46,7 @@
             android:id="@+id/dialog_web_guide_tv_double_click"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_below="@+id/dialog_web_guide_iv_2"
             android:layout_centerHorizontal="true"
             android:text="@string/double_click_anywhere_to_favorite_an_article"
@@ -57,7 +57,7 @@
             android:id="@+id/dialog_web_guide_tv_long_click_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="left"
+            android:layout_gravity="start"
             android:layout_below="@+id/dialog_web_guide_tv_double_click"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_common"
@@ -74,8 +74,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="@dimen/margin_def"
-        android:paddingLeft="50dp"
-        android:paddingRight="50dp"
+        android:paddingStart="50dp"
+        android:paddingEnd="50dp"
         android:text="@string/i_know" />
 
 </RelativeLayout>
