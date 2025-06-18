@@ -251,7 +251,7 @@
     <string name="failed_to_open_the_image">Échec de l\'ouverture de l\'image</string>
     <string name="architecture">Système</string>
     <string name="navigation">Navigation</string>
-    <string name="qa">Questions/Réponses</string>
+    <string name="qa">Q/R</string>
     <string name="apply_for_a_closed_beta_msg">Pour demander l\'accès à la bêta, rejoignez le groupe (voir À propos de l\'auteur) et indiquez votre numéro Wan (voir profil).\n\nNote : la bêta nécessite d\'être connecté et à jour.</string>
     <string name="discover_the_new_version_tips">Nouvelle version trouvée : %s</string>
     <string name="discover_the_closed_beta_version_tips">Version bêta trouvée : %s</string>

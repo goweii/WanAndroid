@@ -251,7 +251,7 @@
     <string name="failed_to_open_the_image">Error al abrir la imagen</string>
     <string name="architecture">Sistema</string>
     <string name="navigation">Navegación</string>
-    <string name="qa">Preguntas y respuestas</string>
+    <string name="qa">P&amp;R</string>
     <string name="apply_for_a_closed_beta_msg">Para solicitar acceso a la beta cerrada, únete al grupo (ver Sobre el autor) e indica tu número de usuario (ver perfil).\n\nNota: Debes iniciar sesión y actualizar a la última versión oficial antes de solicitar la beta.</string>
     <string name="discover_the_new_version_tips">Nueva versión encontrada %s</string>
     <string name="discover_the_closed_beta_version_tips">Versión beta encontrada %s</string>

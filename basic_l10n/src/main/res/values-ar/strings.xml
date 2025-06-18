@@ -251,7 +251,7 @@
     <string name="failed_to_open_the_image">فشل فتح الصورة</string>
     <string name="architecture">النظام</string>
     <string name="navigation">التنقل</string>
-    <string name="qa">الأسئلة والأجوبة</string>
+    <string name="qa">س&amp;ج</string>
     <string name="apply_for_a_closed_beta_msg">للحصول على تحديثات النسخة التجريبية، يرجى الانضمام إلى المجموعة (انظر حول المؤلف) وذكر رقم وان (انظر البيانات الشخصية).\n\nملاحظة: يجب تسجيل الدخول وتحديث التطبيق إلى أحدث إصدار رسمي قبل التقديم للنسخة التجريبية</string>
     <string name="discover_the_new_version_tips">تم العثور على إصدار جديد %s</string>
     <string name="discover_the_closed_beta_version_tips">تم العثور على إصدار تجريبي %s</string>

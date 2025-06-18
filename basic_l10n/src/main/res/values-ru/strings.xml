@@ -251,7 +251,7 @@
     <string name="failed_to_open_the_image">Не удалось открыть изображение</string>
     <string name="architecture">Система</string>
     <string name="navigation">Навигация</string>
-    <string name="qa">Вопросы и ответы</string>
+    <string name="qa">Q&amp;A</string>
     <string name="apply_for_a_closed_beta_msg">Для доступа к бета-обновлениям присоединяйтесь к группе (см. "Об авторе") и укажите свой Wan ID (см. профиль).\n\nПримечание: для бета-обновлений требуется вход и последняя версия приложения</string>
     <string name="discover_the_new_version_tips">Обнаружена новая версия %s</string>
     <string name="discover_the_closed_beta_version_tips">Обнаружена бета-версия %s</string>
