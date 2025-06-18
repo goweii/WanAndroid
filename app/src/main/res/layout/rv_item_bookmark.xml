@@ -28,7 +28,7 @@
             android:layout_marginRight="16dp"
             android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content"
-            tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
+            tools:text="@tools:sample/lorem/random" />
 
         <TextView
             android:id="@+id/tv_time"

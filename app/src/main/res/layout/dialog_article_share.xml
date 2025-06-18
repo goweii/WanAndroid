@@ -65,7 +65,7 @@
                             android:textColor="@color/color_black_a93"
                             android:textSize="@dimen/text_content"
                             android:textStyle="bold"
-                            tools:text="文章标题文章标题文标题文章标题文章标题文章标题文章标题文章标题文章标题文标题文章标题文章标题文章标题文章标题" />
+                            tools:text="@tools:sample/lorem/random" />
 
                         <LinearLayout
                             android:id="@+id/dialog_article_share_ll_article"
@@ -88,7 +88,7 @@
                                 android:maxLines="3"
                                 android:textColor="@color/color_black_a50"
                                 android:textSize="@dimen/text_auxiliary"
-                                tools:text="文章标题文章标题文标题文章标题文章标题文章标题文章标题文章标题文章标题文标题文章标题文章标题文章标题文章标题" />
+                                tools:text="@tools:sample/lorem/random" />
 
                             <ImageView
                                 android:id="@+id/dialog_article_share_iv_qrcode"
@@ -135,7 +135,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:layout_toRightOf="@+id/dialog_article_share_iv_app"
-                                android:text="由玩安卓客户端生成"
+                                android:text="@string/generated_by_wanandroid_client"
                                 android:textColor="@color/color_black_a50"
                                 android:textSize="@dimen/text_time" />
 
@@ -213,7 +213,7 @@
                         android:layout_marginStart="@dimen/margin_common"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:text="保存相册"
+                        android:text="@string/save_to_album"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content"
                         tools:ignore="UseCompatTextViewDrawableXml" />
@@ -245,7 +245,7 @@
                         android:layout_marginStart="@dimen/margin_common"
                         android:gravity="center"
                         android:singleLine="true"
-                        android:text="立即分享"
+                        android:text="@string/share_now"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content"
                         tools:ignore="UseCompatTextViewDrawableXml" />

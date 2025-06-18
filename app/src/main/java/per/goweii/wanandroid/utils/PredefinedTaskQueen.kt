@@ -13,7 +13,7 @@ class PredefinedTaskQueen {
     fun append(task: Task) {
         tasks.forEach {
             if (it.name == task.name) {
-                throw IllegalArgumentException("任务名不能重复")
+                throw IllegalArgumentException("The task name cannot be duplicated")
             }
         }
         tasks.add(task)
@@ -22,7 +22,7 @@ class PredefinedTaskQueen {
     fun get(name: String): Task {
         return tasks.find {
             it.name == name
-        } ?: throw NullPointerException("任务未添加")
+        } ?: throw NullPointerException("The task is not added")
     }
 
     fun start() {

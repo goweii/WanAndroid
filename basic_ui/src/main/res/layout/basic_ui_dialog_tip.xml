@@ -18,7 +18,7 @@
         tools:visibility="visible"
         android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_title"
-        tools:text="提示" />
+        tools:text="@string/tips" />
 
     <TextView
         android:id="@+id/basic_ui_tv_dialog_tip_content"
@@ -31,7 +31,7 @@
         android:paddingBottom="@dimen/margin_middle"
         android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content"
-        tools:text="提示信息提示信息提示信息提示信息提示信息提示信息提示信息提示信息" />
+        tools:text="@tools:sample/lorem/random" />
 
     <View
         android:layout_width="match_parent"

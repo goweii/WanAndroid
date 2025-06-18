@@ -15,7 +15,7 @@
         android:gravity="center"
         android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_title"
-        android:text="隐私政策" />
+        android:text="@string/privacy_policy" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -40,7 +40,7 @@
         android:id="@+id/dialog_privacy_policy_tv_yes"
         style="@style/ButtonMain"
         android:layout_marginTop="@dimen/margin_middle"
-        android:text="同意" />
+        android:text="@string/agree" />
 
     <TextView
         android:id="@+id/dialog_privacy_policy_tv_no"
@@ -50,6 +50,6 @@
         android:gravity="center"
         android:textSize="@dimen/text_content"
         android:textColor="?colorTextThird"
-        android:text="退出应用" />
+        android:text="@string/quit_the_app" />
 
 </LinearLayout>

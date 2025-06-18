@@ -13,6 +13,6 @@
         android:gravity="center"
         android:textSize="@dimen/text_content"
         android:textColor="?colorTextSurface"
-        tools:text="列表条目"/>
+        tools:text="List entries"/>
 
 </LinearLayout>

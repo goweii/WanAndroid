@@ -25,7 +25,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="网站标题"
+                android:text="@string/the_title_of_the_website"
                 android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_auxiliary" />
 
@@ -47,7 +47,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="网站链接"
+                android:text="@string/links_to_the_site"
                 android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_auxiliary" />
 
@@ -83,7 +83,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="取消"
+                android:text="@string/cancel"
                 android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_content" />
 
@@ -98,7 +98,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="确定"
+                android:text="@string/ok"
                 android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_content" />
 

@@ -4,6 +4,8 @@ import android.text.TextUtils;
 
 import java.util.List;
 
+import per.goweii.basic.utils.ResUtils;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.module.mine.model.HostEntity;
 import per.goweii.wanandroid.utils.SettingUtils;
 
@@ -24,13 +26,13 @@ public class HostInterceptUtils {
             default:
                 break;
             case TYPE_NOTHING:
-                name = "不拦截";
+                name = ResUtils.getString(R.string.do_not_intercept);
                 break;
             case TYPE_ONLY_WHITE:
-                name = "仅白名单";
+                name = ResUtils.getString(R.string.whitelist_only);
                 break;
             case TYPE_INTERCEPT_BLACK:
-                name = "拦截黑名单";
+                name = ResUtils.getString(R.string.block_blacklists);
                 break;
         }
         return name;

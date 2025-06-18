@@ -10,7 +10,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="积分排行榜" />
+        app:abc_titleText="@string/leaderboard" />
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"

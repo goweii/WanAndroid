@@ -138,11 +138,11 @@ public class CollectionLinkFragment extends BaseFragment<CollectionLinkPresenter
                         break;
                     case R.id.tv_copy:
                         CopyUtils.copyText(item.getLink());
-                        ToastMaker.showShort("复制成功");
+                        ToastMaker.showShort(getString(R.string.copied));
                         break;
                     case R.id.tv_open:
                         if (TextUtils.isEmpty(item.getLink())) {
-                            ToastMaker.showShort("链接为空");
+                            ToastMaker.showShort(getString(R.string.the_link_is_empty));
                             break;
                         }
                         if (getContext() != null) {

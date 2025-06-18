@@ -24,6 +24,6 @@
         android:layout_below="@+id/tv_project"
         android:textColor="?colorTextSecond"
         android:textSize="@dimen/text_auxiliary"
-        tools:text="高拓展高自定义性ActionBar，完美替代Android系统默认，完美替代Android系统默认，完美替代Android系统默认" />
+        tools:text="@tools:sample/lorem/random" />
 
 </RelativeLayout>

@@ -244,7 +244,7 @@ public class MineFragment extends BaseFragment<MinePresenter, FragmentMineBindin
         } else {
             civ_user_icon.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
             iv_blur.setImageDrawable(new ColorDrawable(Color.TRANSPARENT));
-            tv_user_name.setText("去登录");
+            tv_user_name.setText(getString(R.string.go_to_sign_in));
             ll_user_level_ranking.setVisibility(View.INVISIBLE);
             tv_user_level.setText("--");
             tv_user_ranking.setText("--");

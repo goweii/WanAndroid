@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="点击保存相册"
+            android:text="@string/click_save_to_album"
             android:textColor="?colorOnMainOrSurfaceAlpha"
             android:textSize="@dimen/text_notes" />
 

@@ -133,7 +133,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter, Activi
             @Override
             public void onClick(View v) {
                 TipDialog.with(getContext())
-                        .message("确定要全部删除吗？")
+                        .message(getString(R.string.are_you_sure_you_want_to_delete_them_all))
                         .onYes(new SimpleCallback<Void>() {
                             @Override
                             public void onResult(Void data) {
@@ -181,11 +181,11 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter, Activi
                         break;
                     case R.id.tv_copy:
                         CopyUtils.copyText(item.getLink());
-                        ToastMaker.showShort("复制成功");
+                        ToastMaker.showShort(getString(R.string.copied));
                         break;
                     case R.id.tv_open:
                         if (TextUtils.isEmpty(item.getLink())) {
-                            ToastMaker.showShort("链接为空");
+                            ToastMaker.showShort(getString(R.string.the_link_is_empty));
                             break;
                         }
                         if (getContext() != null) {
@@ -279,7 +279,7 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter, Activi
 
     @Override
     public void removeReadRecordFailed() {
-        ToastMaker.showShort("删除失败");
+        ToastMaker.showShort(getString(R.string.deletion_failed));
     }
 
     @Override
@@ -291,6 +291,6 @@ public class ReadRecordActivity extends BaseActivity<ReadRecordPresenter, Activi
 
     @Override
     public void removeAllReadRecordFailed() {
-        ToastMaker.showShort("删除失败");
+        ToastMaker.showShort(getString(R.string.deletion_failed));
     }
 }

@@ -141,7 +141,7 @@ public class RegisterFragment extends BaseFragment<RegisterPresenter, FragmentRe
         String password = piv_password.getText();
         String repassword = piv_password_again.getText();
         if (!TextUtils.equals(password, repassword)) {
-            ToastMaker.showShort("请确认2次密码一致");
+            ToastMaker.showShort(getString(R.string.make_sure_that_the_password_is_the_same_for_the_two_times));
             return;
         }
         String username = piv_account.getText();

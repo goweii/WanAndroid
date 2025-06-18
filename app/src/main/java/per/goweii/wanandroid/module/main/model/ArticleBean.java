@@ -4,7 +4,9 @@ import android.text.TextUtils;
 
 import java.util.List;
 
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.rxhttp.request.base.BaseBean;
+import per.goweii.wanandroid.R;
 
 /**
  * @author CuiZhen
@@ -31,7 +33,7 @@ public class ArticleBean extends BaseBean {
      * publishTime : 1557072000000
      * superChapterId : 408
      * superChapterName : 公众号
-     * tags : [{"name":"公众号","url":"/wxarticle/list/410/1"}]
+     * tags : [{"name":"WX","url":"/wxarticle/list/410/1"}]
      * title : 深扒 EventBus：register
      * type : 0
      * userId : -1
@@ -82,7 +84,7 @@ public class ArticleBean extends BaseBean {
         if (!TextUtils.isEmpty(shareUser)) {
             return shareUser;
         }
-        return "匿名";
+        return ResUtils.getString(R.string.anonymous);
     }
 
     public String getShareUser() {

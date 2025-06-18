@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content"
-            tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
+            tools:text="@tools:sample/lorem/random" />
 
         <LinearLayout
             android:id="@+id/ll_state"
@@ -37,7 +37,7 @@
                 android:minWidth="50dp"
                 android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_notes"
-                tools:text="已学81%" />
+                tools:text="@string/learned_n_percent" />
 
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"

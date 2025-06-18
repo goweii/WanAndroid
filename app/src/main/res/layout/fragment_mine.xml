@@ -80,7 +80,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="等级:"
+                                android:text="@string/level_with_colon"
                                 android:textColor="?colorOnMainOrSurface"
                                 android:textSize="@dimen/text_notes" />
 
@@ -107,7 +107,7 @@
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="排名:"
+                                android:text="@string/ranking_with_colon"
                                 android:textColor="?colorOnMainOrSurface"
                                 android:textSize="@dimen/text_notes" />
 
@@ -155,7 +155,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="我的积分"
+                            android:text="@string/my_points"
                             android:textColor="?colorTextSurface"
                             android:textSize="@dimen/text_content" />
 
@@ -205,7 +205,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="我的分享"
+                            android:text="@string/my_sharing"
                             android:textColor="?colorTextSurface"
                             android:textSize="@dimen/text_content" />
 
@@ -244,7 +244,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="我的收藏"
+                            android:text="@string/my_collections"
                             android:textColor="?colorTextSurface"
                             android:textSize="@dimen/text_content" />
 
@@ -283,7 +283,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="我的书签"
+                            android:text="@string/my_bookmarks"
                             android:textColor="?colorTextSurface"
                             android:textSize="@dimen/text_content" />
 
@@ -322,7 +322,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="阅读历史"
+                            android:text="@string/reading_history"
                             android:textColor="?colorTextSurface"
                             android:textSize="@dimen/text_content" />
 
@@ -361,7 +361,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="开源项目"
+                            android:text="@string/open_source_projects"
                             android:textColor="?colorTextSurface"
                             android:textSize="@dimen/text_content" />
 
@@ -400,7 +400,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="关于作者"
+                            android:text="@string/about_the_author"
                             android:textColor="?colorTextSurface"
                             android:textSize="@dimen/text_content" />
 
@@ -409,7 +409,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
                             android:singleLine="true"
-                            android:text="请他喝杯咖啡~"
+                            android:text="@string/buy_him_a_coffee"
                             android:textColor="?colorTextAccent"
                             android:textSize="@dimen/text_notes" />
 
@@ -448,7 +448,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:singleLine="true"
-                            android:text="系统设置"
+                            android:text="@string/settings"
                             android:textColor="?colorTextSurface"
                             android:textSize="@dimen/text_content" />
 

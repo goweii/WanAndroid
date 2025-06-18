@@ -3,6 +3,8 @@ package per.goweii.wanandroid.utils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
+import per.goweii.basic.utils.ResUtils;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.widget.BravhLoadMoreView;
 
 /**
@@ -10,6 +12,7 @@ import per.goweii.wanandroid.widget.BravhLoadMoreView;
  * @date 2019/5/20
  * GitHub: https://github.com/goweii
  */
+@Deprecated
 public class RvConfigUtils {
 
     public static class RvAnim {
@@ -27,22 +30,22 @@ public class RvConfigUtils {
             default:
                 break;
             case RvAnim.NONE:
-                name = "无";
+                name = ResUtils.getString(R.string.rv_anim_none);
                 break;
             case RvAnim.ALPHAIN:
-                name = "渐显";
+                name = ResUtils.getString(R.string.rv_anim_alpha_in);
                 break;
             case RvAnim.SCALEIN:
-                name = "缩放";
+                name = ResUtils.getString(R.string.rv_anim_zoom);
                 break;
             case RvAnim.SLIDEIN_BOTTOM:
-                name = "底部滑入";
+                name = ResUtils.getString(R.string.rv_anim_slide_in_bottom);
                 break;
             case RvAnim.SLIDEIN_LEFT:
-                name = "左侧滑入";
+                name = ResUtils.getString(R.string.rv_anim_slide_in_left);
                 break;
             case RvAnim.SLIDEIN_RIGHT:
-                name = "右侧滑入";
+                name = ResUtils.getString(R.string.rv_anim_slide_in_right);
                 break;
         }
         return name;

@@ -43,7 +43,7 @@
             android:gravity="center"
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/text_title"
-            tools:text="没有获取到相机权限" />
+            tools:text="@string/didn_t_get_permission_to_get_the_camera" />
 
         <TextView
             android:id="@+id/tvTipBtnSure"
@@ -54,7 +54,7 @@
             android:gravity="center"
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/text_content"
-            tools:text="点击重试" />
+            tools:text="@string/click_try_again" />
 
         <TextView
             android:id="@+id/tvTipBtnCancel"
@@ -71,7 +71,7 @@
             android:scaleType="fitCenter"
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/text_auxiliary"
-            tools:text="返回扫码" />
+            tools:text="@string/return_to_scan_the_code" />
 
     </LinearLayout>
 

@@ -14,7 +14,7 @@
         android:gravity="center"
         android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_title"
-        tools:text="提示" />
+        tools:text="@string/tips" />
 
     <View
         android:id="@+id/basic_ui_v_dialog_title_line_h"

@@ -529,22 +529,22 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
 
     override fun addReadLaterSuccess() {
         switchReadLaterIcon()
-        ToastMaker.showShort("已加入我的书签")
+        ToastMaker.showShort(getString(R.string.added_to_my_bookmarks))
     }
 
     override fun addReadLaterFailed() {
         switchReadLaterIcon()
-        ToastMaker.showShort("加入我的书签失败")
+        ToastMaker.showShort(getString(R.string.failed_to_add_my_bookmarks))
     }
 
     override fun removeReadLaterSuccess() {
         switchReadLaterIcon()
-        ToastMaker.showShort("已移出我的书签")
+        ToastMaker.showShort(getString(R.string.moved_out_of_my_bookmarks))
     }
 
     override fun removeReadLaterFailed() {
         switchReadLaterIcon()
-        ToastMaker.showShort("移出我的书签失败")
+        ToastMaker.showShort(getString(R.string.failed_to_move_out_of_my_bookmarks))
     }
 
     private fun switchReadLaterIcon() {
@@ -596,7 +596,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                 guideView = LayoutInflater.from(this@ArticleActivity)
                     .inflate(R.layout.dialog_guide_tip, null, false).apply {
                         findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
-                            text = "长按返回按钮有更多快捷菜单~"
+                            text = getString(R.string.long_press_the_back_button_to_have_more_shortcut_menus)
                         }
                     }
                 marginLeft = ResUtils.getDimens(R.dimen.margin_def).toInt()
@@ -610,7 +610,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                 guideView = LayoutInflater.from(this@ArticleActivity)
                     .inflate(R.layout.dialog_guide_btn, null, false).apply {
                         findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
-                            text = "下一个"
+                            text = getString(R.string.next)
                         }
                     }
                 marginBottom = ResUtils.getDimens(R.dimen.margin_big).toInt()
@@ -647,7 +647,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                 guideView = LayoutInflater.from(this@ArticleActivity)
                     .inflate(R.layout.dialog_guide_tip, null, false).apply {
                         findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
-                            text = "双击任意位置可快速收藏~"
+                            text = getString(R.string.double_click_anywhere_to_quickly_bookmark)
                         }
                     }
                 horizontalAlign = GuideLayer.Align.Horizontal.CENTER
@@ -660,7 +660,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                 guideView = LayoutInflater.from(this@ArticleActivity)
                     .inflate(R.layout.dialog_guide_btn, null, false).apply {
                         findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
-                            text = "下一个"
+                            text = getString(R.string.next)
                         }
                     }
                 horizontalAlign = GuideLayer.Align.Horizontal.CENTER
@@ -696,7 +696,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                 guideView = LayoutInflater.from(this@ArticleActivity)
                     .inflate(R.layout.dialog_guide_tip, null, false).apply {
                         findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
-                            text = "长按网页图片可预览大图~"
+                            text = getString(R.string.long_press_the_web_image_to_preview_a_larger_image)
                         }
                     }
                 horizontalAlign = GuideLayer.Align.Horizontal.CENTER
@@ -709,7 +709,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                 guideView = LayoutInflater.from(this@ArticleActivity)
                     .inflate(R.layout.dialog_guide_btn, null, false).apply {
                         findViewById<TextView>(R.id.dialog_guide_tv_btn).apply {
-                            text = "我知道了"
+                            text = getString(R.string.i_know)
                         }
                     }
                 horizontalAlign = GuideLayer.Align.Horizontal.CENTER

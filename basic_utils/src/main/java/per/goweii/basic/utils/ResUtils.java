@@ -30,22 +30,28 @@ import java.io.InputStreamReader;
  * @date 2018/7/9-下午4:56
  */
 public class ResUtils {
+    public static Context getContext() {
+        Context context = Utils.getResumedActivity();
+        if (context != null) return context;
+        return Utils.getAppContext();
+    }
 
     public static Resources getResources() {
-        return Utils.getAppContext().getResources();
+        return getContext().getResources();
     }
 
     public static Drawable getDrawable(@DrawableRes int id) {
-        return ContextCompat.getDrawable(Utils.getAppContext(), id);
+        return ContextCompat.getDrawable(getContext(), id);
     }
 
+    @NonNull
     public static String getString(@StringRes int id) {
         return getResources().getString(id);
     }
 
     @Deprecated
     public static int getColor(@ColorRes int id) {
-        return ContextCompat.getColor(Utils.getAppContext(), id);
+        return ContextCompat.getColor(getContext(), id);
     }
 
     public static int getColor(@NonNull Context context, @ColorRes int id) {

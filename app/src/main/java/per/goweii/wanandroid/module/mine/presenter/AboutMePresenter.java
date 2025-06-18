@@ -11,6 +11,7 @@ import per.goweii.basic.utils.AppOpenUtils;
 import per.goweii.basic.utils.CopyUtils;
 import per.goweii.basic.utils.bitmap.BitmapUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.http.RequestCallback;
 import per.goweii.wanandroid.module.mine.model.AboutMeBean;
 import per.goweii.wanandroid.module.mine.model.MineRequest;
@@ -54,7 +55,7 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
             }
         }
         CopyUtils.copyText(mAboutMeBean.getQq());
-        ToastMaker.showShort("QQ已复制");
+        ToastMaker.showShort(getContext().getString(R.string.copied));
     }
 
     public void openQQGroup() {
@@ -69,7 +70,7 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
             }
         }
         CopyUtils.copyText(mAboutMeBean.getQq_group());
-        ToastMaker.showShort("QQ群已复制");
+        ToastMaker.showShort(getContext().getString(R.string.copied));
     }
 
     public void saveQQQrcode() {
@@ -83,10 +84,10 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
                     @Override
                     public void onResult(Bitmap data) {
                         if (BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_qq_qrcode_" + System.currentTimeMillis())) {
-                            ToastMaker.showShort("保存成功");
+                            ToastMaker.showShort(getContext().getString(R.string.save_successful));
                             AppOpenUtils.openQQ(getContext());
                         } else {
-                            ToastMaker.showShort("保存失败");
+                            ToastMaker.showShort(getContext().getString(R.string.save_failed));
                         }
                     }
                 });
@@ -103,10 +104,10 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
                     @Override
                     public void onResult(Bitmap data) {
                         if (BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_qq_qrcode_" + System.currentTimeMillis())) {
-                            ToastMaker.showShort("保存成功");
+                            ToastMaker.showShort(getContext().getString(R.string.save_successful));
                             AppOpenUtils.openZFBScan(getContext());
                         } else {
-                            ToastMaker.showShort("保存失败");
+                            ToastMaker.showShort(getContext().getString(R.string.save_failed));
                         }
                     }
                 });
@@ -123,10 +124,10 @@ public class AboutMePresenter extends BasePresenter<AboutMeView> {
                     @Override
                     public void onResult(Bitmap data) {
                         if (BitmapUtils.saveGallery(data, mAboutMeBean.getName() + "_wx_qrcode_" + System.currentTimeMillis())) {
-                            ToastMaker.showShort("保存成功");
+                            ToastMaker.showShort(getContext().getString(R.string.save_successful));
                             AppOpenUtils.openWechatQRCode(getContext());
                         } else {
-                            ToastMaker.showShort("保存失败");
+                            ToastMaker.showShort(getContext().getString(R.string.save_failed));
                         }
                     }
                 });

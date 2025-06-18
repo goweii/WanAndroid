@@ -9,7 +9,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="知识体系" />
+        app:abc_titleText="@string/body_of_knowledge" />
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"

@@ -4,7 +4,9 @@ import androidx.annotation.Nullable;
 
 import per.goweii.basic.utils.AppInfoUtils;
 import per.goweii.basic.utils.AppOpenUtils;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.Utils;
+import per.goweii.wanandroid.R;
 
 /**
  * @author CuiZhen
@@ -34,12 +36,12 @@ public class QQWanPwd implements IWanPwd {
 
     @Override
     public String getShowText() {
-        return "你发现了一个QQ号码！\n" + getQQ() + "\n是否立即启动QQ加个好友？";
+        return String.format(ResUtils.getString(R.string.you_have_found_a_qq_number), getQQ());
     }
 
     @Override
     public String getBtnText() {
-        return "加好友";
+        return ResUtils.getString(R.string.add_friends);
     }
 
     private String getQQ() {

@@ -21,7 +21,7 @@
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="删除"
+            android:text="@string/delete"
             android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 

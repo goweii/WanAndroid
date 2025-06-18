@@ -9,7 +9,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="文章列表" />
+        app:abc_titleText="@string/list_of_articles" />
 
     <FrameLayout
         android:id="@+id/fl"

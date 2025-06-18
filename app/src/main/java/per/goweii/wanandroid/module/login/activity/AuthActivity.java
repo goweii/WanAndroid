@@ -164,16 +164,16 @@ public class AuthActivity extends BaseActivity<AuthPresenter, ActivityAuthBindin
         switch (requestCode) {
             case REQ_CODE_OPEN_QUICK_LOGIN:
                 if (resultCode == RESULT_OK) {
-                    ToastMaker.showShort("开启快捷登录成功");
+                    ToastMaker.showShort(getString(R.string.enabled_quick_sign_in_successfully));
                 }
                 finish();
                 break;
             case REQ_CODE_USE_QUICK_LOGIN:
                 if (resultCode == RESULT_OK) {
-                    ToastMaker.showShort("快捷登录成功");
+                    ToastMaker.showShort(getString(R.string.quick_sign_in_successful));
                     finish();
                 } else {
-                    ToastMaker.showShort("快捷登录失败，请使用密码登录");
+                    ToastMaker.showShort(getString(R.string.quick_sign_in_failed));
                 }
                 break;
             default:

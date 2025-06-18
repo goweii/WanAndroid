@@ -35,7 +35,7 @@ public class AccountInputView extends InputView {
     @Override
     protected void initViews(AttributeSet attrs) {
         super.initViews(attrs);
-        getEditText().setHint("请输入用户名");
+        getEditText().setHint(R.string.please_enter_your_username);
         changeFocusMode(false);
     }
 

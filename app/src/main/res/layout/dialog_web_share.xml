@@ -14,7 +14,7 @@
         android:layout_marginBottom="@dimen/round_radius"
         android:gravity="center"
         android:singleLine="true"
-        android:text="选择分享方式"
+        android:text="@string/choose_how_you_want_to_share"
         android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_title" />
 
@@ -49,7 +49,7 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="长图"
+                    android:text="@string/long_picture"
                     android:textColor="?colorTextSurface"
                     android:textSize="@dimen/text_notes" />
 
@@ -78,7 +78,7 @@
                     android:layout_marginTop="8dp"
                     android:gravity="center"
                     android:singleLine="true"
-                    android:text="二维码"
+                    android:text="@string/qr_code"
                     android:textColor="?colorTextSurface"
                     android:textSize="@dimen/text_notes" />
 

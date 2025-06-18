@@ -467,7 +467,7 @@ public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBindin
                                     abc.getTranslationY(), -abc.getHeight());
                             abcAnim.start();
                             if (shiciRefreshHeader != null) {
-                                shiciRefreshHeader.setTextAndHideIcon("释放进入书籍教程");
+                                shiciRefreshHeader.setTextAndHideIcon(getString(R.string.release_into_the_book_tutorial));
                             }
                         }
                     } else {
@@ -836,7 +836,7 @@ public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBindin
     private void updateActionBarByConfig(@NonNull HomeActionBarEvent event) {
         if (abc != null) {
             if (event.getHomeTitle() == null) {
-                abc.getTitleTextView().setText("首页");
+                abc.getTitleTextView().setText(R.string.homepage);
             } else {
                 abc.getTitleTextView().setText(event.getHomeTitle());
             }

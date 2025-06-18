@@ -35,7 +35,7 @@ class CrashActivity : AppCompatActivity() {
         binding.tvCopyLog.setOnClickListener {
             val cm = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             cm.setPrimaryClip(ClipData.newPlainText("error", binding.tvError.text))
-            binding.tvCopyLog.text = "已复制"
+            binding.tvCopyLog.text = getString(R.string.copied)
         }
         binding.btnExit.setOnClickListener {
             finish()

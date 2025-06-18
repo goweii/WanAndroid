@@ -224,7 +224,7 @@ public class SearchHistoryFragment extends BaseFragment<SearchHistoryPresenter, 
                 break;
             case R.id.tv_clean:
                 TipDialog.with(getContext())
-                        .message("确定要清除搜索历史？")
+                        .message(R.string.make_sure_you_want_to_clear_your_search_history)
                         .onYes(new SimpleCallback<Void>() {
                             @Override
                             public void onResult(Void data) {

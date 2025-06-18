@@ -31,7 +31,7 @@
             android:layout_marginRight="@dimen/margin_small"
             android:textSize="@dimen/text_content"
             android:textColor="?colorTextMain"
-            android:text="去注册"/>
+            android:text="@string/go_to_sign_up"/>
 
         <ImageView
             android:layout_width="15dp"
@@ -68,7 +68,7 @@
         android:layout_marginLeft="60dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="60dp"
-        android:text="登录"
+        android:text="@string/sign_in"
         app:sv_bindEditText1="@+id/piv_login_account"
         app:sv_bindEditText2="@+id/piv_login_password" />
 

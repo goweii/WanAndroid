@@ -40,7 +40,7 @@ public class BookChapterAdapter extends BaseQuickAdapter<BookChapterBean, BaseVi
         tv_title.setText((helper.getAdapterPosition() + 1) + ". " + Html.fromHtml(item.getArticleBean().getTitle()));
         if (item.getTime() == 0) {
             ll_state.setVisibility(View.VISIBLE);
-            tv_state.setText("未学习");
+            tv_state.setText(R.string.not_learned);
             tv_state.setTextColor(ResUtils.getThemeColor(tv_state, R.attr.colorTextThird));
             pb_percent.setVisibility(View.INVISIBLE);
             tv_time.setVisibility(View.INVISIBLE);
@@ -49,12 +49,12 @@ public class BookChapterAdapter extends BaseQuickAdapter<BookChapterBean, BaseVi
             tv_time.setVisibility(View.VISIBLE);
             tv_time.setText(sdf.format(new Date(item.getTime())));
             if (item.getPercent() >= 0.98) {
-                tv_state.setText("已学完");
+                tv_state.setText(R.string.already_learned);
                 tv_state.setTextColor(ResUtils.getThemeColor(tv_state, R.attr.colorTextAccent));
                 pb_percent.setVisibility(View.INVISIBLE);
             } else {
                 ll_state.setVisibility(View.VISIBLE);
-                tv_state.setText("已学" + ((int) (item.getPercent() * 100)) + "%");
+                tv_state.setText(mContext.getString(R.string.learned_n_percent, (int) (item.getPercent() * 100)));
                 tv_state.setTextColor(ResUtils.getThemeColor(tv_state, R.attr.colorTextMain));
                 pb_percent.setVisibility(View.VISIBLE);
             }

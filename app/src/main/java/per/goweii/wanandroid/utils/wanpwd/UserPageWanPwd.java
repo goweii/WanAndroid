@@ -2,6 +2,8 @@ package per.goweii.wanandroid.utils.wanpwd;
 
 import androidx.annotation.Nullable;
 
+import per.goweii.basic.utils.ResUtils;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.router.Param;
 import per.goweii.wanandroid.utils.router.RouterMap;
 
@@ -51,8 +53,8 @@ public class UserPageWanPwd implements IWanPwd {
             userId = Integer.parseInt(stringBuilder.toString());
         } catch (Exception ignore) {
         }
-        mShowText = "你发现了一个神秘用户！\n要不要去他主页看一下？";
-        mBtnText = "去主页";
+        mShowText = ResUtils.getString(R.string.you_ve_discovered_a_mystery_user);
+        mBtnText = ResUtils.getString(R.string.go_to_the_homepage);
         int finalUserId = userId;
         mRunnable = new Runnable() {
             @Override

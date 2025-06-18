@@ -16,7 +16,7 @@
         android:layout_marginRight="16dp"
         android:textColor="?colorTextSecond"
         android:textSize="@dimen/text_content"
-        tools:text="公众号文章列表强势上线" />
+        tools:text="@tools:sample/full_names" />
 
     <com.google.android.flexbox.FlexboxLayout
         android:id="@+id/fbl"

@@ -68,11 +68,11 @@ public class MainFragment extends BaseFragment<BasePresenter, FragmentMainBindin
     @Override
     protected void initView() {
         mTabFragmentPagerAdapter = new TabFragmentPagerAdapter<>(getChildFragmentManager(), vp_tab, ll_bottom_bar, R.layout.tab_item_main);
-        mMinePage = new TabFragmentPagerAdapter.Page<>(MineFragment.create(), new TabEntity("我的", R.drawable.ic_bottom_bar_mine, -1), new MainTabAdapter());
+        mMinePage = new TabFragmentPagerAdapter.Page<>(MineFragment.create(), new TabEntity(getString(R.string.mine), R.drawable.ic_bottom_bar_mine, -1), new MainTabAdapter());
         mTabFragmentPagerAdapter.setPages(
-                new TabFragmentPagerAdapter.Page<>(HomeFragment.create(), new TabEntity("首页", R.drawable.ic_bottom_bar_home, -1), new MainTabAdapter()),
-                new TabFragmentPagerAdapter.Page<>(QuestionFragment.create(), new TabEntity("问答", R.drawable.ic_bottom_bar_ques, -1), new MainTabAdapter()),
-                new TabFragmentPagerAdapter.Page<>(KnowledgeNavigationFragment.create(), new TabEntity("体系", R.drawable.ic_bottom_bar_navi, -1), new MainTabAdapter()),
+                new TabFragmentPagerAdapter.Page<>(HomeFragment.create(), new TabEntity(getString(R.string.homepage), R.drawable.ic_bottom_bar_home, -1), new MainTabAdapter()),
+                new TabFragmentPagerAdapter.Page<>(QuestionFragment.create(), new TabEntity(getString(R.string.qa), R.drawable.ic_bottom_bar_ques, -1), new MainTabAdapter()),
+                new TabFragmentPagerAdapter.Page<>(KnowledgeNavigationFragment.create(), new TabEntity(getString(R.string.architecture), R.drawable.ic_bottom_bar_navi, -1), new MainTabAdapter()),
                 mMinePage
         );
         vp_tab.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

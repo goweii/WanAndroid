@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:gravity="center"
-            android:text="出错了"
+            android:text="@string/something_went_wrong"
             android:textColor="?colorTextSurface"
             android:textSize="36sp"
             android:typeface="monospace" />
@@ -36,7 +36,7 @@
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
             android:layout_marginBottom="10dp"
-            android:text="复制日志"
+            android:text="@string/copy_the_logs"
             android:textColor="?colorTextMain"
             android:textSize="15sp"
             android:typeface="monospace" />
@@ -76,7 +76,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_crash_exit"
                 android:gravity="center"
-                android:text="关闭"
+                android:text="@string/close"
                 android:textColor="?colorTextInvert" />
 
             <TextView
@@ -86,7 +86,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/bg_crash_restart"
                 android:gravity="center"
-                android:text="重启"
+                android:text="@string/reboot"
                 android:textColor="?colorTextInvert"
                 android:textSize="15sp" />
 

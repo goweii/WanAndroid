@@ -24,11 +24,6 @@ import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.wanandroid.R;
 
 public class ShiciRefreshHeader extends SimpleComponent implements RefreshHeader {
-    public static String REFRESH_HEADER_PULLING = "下拉刷新";
-    public static String REFRESH_HEADER_REFRESHING = "正在刷新";
-    public static String REFRESH_HEADER_RELEASE = "释放刷新";
-    public static String REFRESH_HEADER_FINISH = "刷新完成";
-    public static String REFRESH_HEADER_FAILED = "刷新失败";
     private final ImageView imageView;
     private final TextView textView;
     private int color;
@@ -46,31 +41,31 @@ public class ShiciRefreshHeader extends SimpleComponent implements RefreshHeader
     private String textPulling() {
         String shici = ShiciRefreshHolder.instance().get();
         if (!TextUtils.isEmpty(shici)) return shici;
-        return REFRESH_HEADER_PULLING;
+        return textView.getContext().getString(R.string.pull_down_to_refresh);
     }
 
     private String textRefreshing() {
         String shici = ShiciRefreshHolder.instance().get();
         if (!TextUtils.isEmpty(shici)) return shici;
-        return REFRESH_HEADER_REFRESHING;
+        return textView.getContext().getString(R.string.refreshing);
     }
 
     private String textRelease() {
         String shici = ShiciRefreshHolder.instance().get();
         if (!TextUtils.isEmpty(shici)) return shici;
-        return REFRESH_HEADER_RELEASE;
+        return textView.getContext().getString(R.string.release_to_refresh);
     }
 
     private String textFinish() {
         String shici = ShiciRefreshHolder.instance().get();
         if (!TextUtils.isEmpty(shici)) return shici;
-        return REFRESH_HEADER_FINISH;
+        return textView.getContext().getString(R.string.refresh_completed);
     }
 
     private String textFailed() {
         String shici = ShiciRefreshHolder.instance().get();
         if (!TextUtils.isEmpty(shici)) return shici;
-        return REFRESH_HEADER_FAILED;
+        return textView.getContext().getString(R.string.refresh_failed);
     }
 
     public ShiciRefreshHeader(Context context) {

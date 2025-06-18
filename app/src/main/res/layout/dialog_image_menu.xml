@@ -14,7 +14,7 @@
         android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
-        android:text="保存"
+        android:text="@string/save"
         android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content" />
 
@@ -24,7 +24,7 @@
         android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
-        android:text="识别图中二维码"
+        android:text="@string/identify_the_qr_code_in_the_picture"
         android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content" />
 

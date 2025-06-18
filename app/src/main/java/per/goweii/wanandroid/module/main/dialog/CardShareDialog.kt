@@ -118,15 +118,15 @@ class CardShareDialog(
         runtimeRequester = PermissionUtils.request(object : RequestListener {
             override fun onSuccess() {
                 if (BitmapUtils.saveGallery(bitmap, "wanandroid_app_" + System.currentTimeMillis())) {
-                    ToastMaker.showShort("保存成功")
+                    ToastMaker.showShort(activity.getString(R.string.save_successful))
                 } else {
-                    ToastMaker.showShort("保存失败")
+                    ToastMaker.showShort(activity.getString(R.string.save_failed))
                 }
                 bitmap.recycle()
             }
 
             override fun onFailed() {
-                ToastMaker.showShort("授权失败")
+                ToastMaker.showShort(activity.getString(R.string.authorization_failed))
                 bitmap.recycle()
             }
         }, activity, reqCodePermission, Manifest.permission.WRITE_EXTERNAL_STORAGE)

@@ -561,7 +561,7 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
                                         child.setPadding(0, DisplayInfoUtils.getInstance().getStatusBarHeight(), 0, 0);
                                         TextView tv_title = layer.requireView(R.id.dialog_read_later_notification_tv_title);
                                         TextView tv_desc = layer.requireView(R.id.dialog_read_later_notification_tv_desc);
-                                        tv_title.setText("是否继续阅读？");
+                                        tv_title.setText(getString(R.string.read_on_or_not));
                                         tv_desc.setText(readLaterModel.getTitle());
                                     }
                                 })

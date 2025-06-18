@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:text="去登录"
+            android:text="@string/go_to_sign_in"
             android:textColor="?colorTextMain"
             android:textSize="@dimen/text_content" />
 
@@ -77,7 +77,7 @@
         android:layout_marginLeft="60dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="60dp"
-        android:text="注册"
+        android:text="@string/sign_up"
         app:sv_bindEditText1="@+id/piv_register_account"
         app:sv_bindEditText2="@+id/piv_register_password"
         app:sv_bindEditText3="@+id/piv_register_password_again" />

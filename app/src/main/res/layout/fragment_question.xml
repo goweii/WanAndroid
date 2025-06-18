@@ -9,7 +9,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common"
-        app:abc_titleText="问答" />
+        app:abc_titleText="@string/question_answering" />
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"

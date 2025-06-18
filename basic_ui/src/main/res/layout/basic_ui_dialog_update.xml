@@ -69,7 +69,7 @@
                     android:includeFontPadding="false"
                     android:textColor="?attr/colorTextSecond"
                     android:textSize="@dimen/text_auxiliary"
-                    tools:text="1.修复了一个重大BUG\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰\n2.首页全新改版，UI更清晰" />
+                    tools:text="@tools:sample/lorem/random" />
 
             </ScrollView>
 

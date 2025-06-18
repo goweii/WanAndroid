@@ -49,7 +49,7 @@ class MessageActivity : BaseActivity<BasePresenter<BaseView>, ActivityMessageBin
             }
         }
         val adapter = FixedFragmentPagerAdapter(supportFragmentManager)
-        adapter.setTitles("新消息", "历史消息")
+        adapter.setTitles(getString(R.string.new_messages),getString(R.string.historical_messages))
         adapter.setFragmentList(
                 MessageUnreadFragment.create(),
                 MessageReadedFragment.create()

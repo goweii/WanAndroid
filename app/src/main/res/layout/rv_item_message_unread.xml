@@ -28,7 +28,7 @@
             android:paddingRight="3dp"
             android:textColor="?colorTextMain"
             android:textSize="@dimen/text_time"
-            tools:text="新回答" />
+            tools:text="@string/tag_new" />
 
         <TextView
             android:id="@+id/tv_user"
@@ -38,7 +38,7 @@
             android:layout_toRightOf="@+id/tv_tag"
             android:textColor="?colorTextSecond"
             android:textSize="@dimen/text_notes"
-            tools:text=" @林帅并不帅" />
+            tools:text="@tools:sample/full_names" />
 
         <TextView
             android:id="@+id/tv_data"
@@ -50,7 +50,7 @@
             android:layout_centerVertical="true"
             android:textColor="?colorTextThird"
             android:textSize="@dimen/text_notes"
-            tools:text="21小时前" />
+            tools:text="2025" />
 
     </RelativeLayout>
 
@@ -70,7 +70,7 @@
             android:lineSpacingExtra="0dp"
             android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content"
-            tools:text="回答了：每日一问 | 我们常说的dalvik虚拟机是基于寄存器的，而jvm是基于栈，到底指的是什么？" />
+            tools:text="@tools:sample/lorem/random" />
 
         <TextView
             android:id="@+id/tv_content"
@@ -81,7 +81,7 @@
             android:padding="@dimen/margin_small"
             android:textColor="?colorTextSecond"
             android:textSize="@dimen/text_auxiliary"
-            tools:text="公众号文章列表强势上线公众号文章列表强势上线公众号文章列表强势上线公众号文章列表强势上线" />
+            tools:text="@tools:sample/full_names" />
 
     </LinearLayout>
 

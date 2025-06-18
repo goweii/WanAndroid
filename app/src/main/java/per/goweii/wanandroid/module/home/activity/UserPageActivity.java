@@ -137,12 +137,12 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter, ActivityUs
                 }
                 id.append(salt);
                 StringBuilder s = new StringBuilder();
-                s.append("【玩口令】你的好友给你分享了一个神秘用户，户制泽条消息");
-                s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_USERPAGE, id.toString()));
-                s.append("打開最美玩安卓客户端揭开他/她的神秘面纱");
+                String content = ResUtils.getString(R.string.your_friend_has_shared_a_mystery_user_with_you);
+                String key = String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_USERPAGE, id.toString());
+                s.append(String.format(content, key));
                 LogUtils.d("UserPageActivity", s);
                 CopyUtils.copyText(s.toString());
-                ToastMaker.showShort("口令已复制");
+                ToastMaker.showShort(getString(R.string.copied));
             }
         });
         mSmartRefreshUtils = SmartRefreshUtils.with(binding.srl);

@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="5dp"
-                android:text="新"
+                android:text="@string/tag_new"
                 android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_notes" />
 
@@ -43,7 +43,7 @@
             android:layout_toRightOf="@+id/ll_new"
             android:textColor="@color/selector_text_color_article_author"
             android:textSize="@dimen/text_notes"
-            tools:text="林帅并不帅" />
+            tools:text="@tools:sample/full_names" />
 
         <TextView
             android:id="@+id/tv_tag"
@@ -60,7 +60,7 @@
             android:paddingRight="3dp"
             android:textColor="@color/selector_text_color_article_tag"
             android:textSize="@dimen/text_time"
-            tools:text="项目" />
+            tools:text="TAG" />
 
         <TextView
             android:id="@+id/tv_time"
@@ -72,7 +72,7 @@
             android:layout_centerVertical="true"
             android:textColor="?colorTextThird"
             android:textSize="@dimen/text_notes"
-            tools:text="21小时前" />
+            tools:text="2025-06-16" />
 
     </RelativeLayout>
 
@@ -114,7 +114,7 @@
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_content"
                 tools:singleLine="true"
-                tools:text="公众号文章列表强势上线公众号文章列表强势公众号文章列表强势上线公众号文章列表强势" />
+                tools:text="@tools:sample/full_names" />
 
             <TextView
                 android:id="@+id/tv_desc"
@@ -129,7 +129,7 @@
                 android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_auxiliary"
                 android:visibility="gone"
-                tools:text="公众号文章列表强势上线"
+                tools:text="@tools:sample/lorem/random"
                 tools:visibility="visible" />
 
         </LinearLayout>
@@ -150,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="5dp"
-            android:text="置顶"
+            android:text="@string/tag_top"
             android:textColor="?colorTextAccent"
             android:textSize="@dimen/text_notes" />
 
@@ -171,7 +171,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/selector_text_color_article_chapter"
             android:textSize="@dimen/text_notes"
-            tools:text="动画效果·Lottie" />
+            tools:text="Animation·Lottie" />
 
     </LinearLayout>
 

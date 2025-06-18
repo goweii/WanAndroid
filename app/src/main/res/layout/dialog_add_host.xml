@@ -24,7 +24,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="域名"
+                android:text="@string/domain_name"
                 android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_title" />
 
@@ -39,7 +39,7 @@
                 android:paddingBottom="@dimen/margin_common"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_content"
-                android:hint="如：www.wanandroid.com" />
+                android:hint="@string/host_input_hint" />
 
         </LinearLayout>
 
@@ -59,7 +59,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="取消"
+                android:text="@string/cancel"
                 android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_content" />
 
@@ -74,7 +74,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="确定"
+                android:text="@string/ok"
                 android:textColor="?colorTextMain"
                 android:textSize="@dimen/text_content" />
 

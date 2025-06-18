@@ -10,7 +10,7 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common"
         android:background="?colorTransparent"
-        app:abc_titleText="我的书签" />
+        app:abc_titleText="@string/my_bookmarks" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/srl"

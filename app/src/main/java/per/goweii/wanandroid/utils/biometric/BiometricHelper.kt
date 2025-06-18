@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
+import per.goweii.wanandroid.R
 import javax.crypto.Cipher
 
 class BiometricHelper(
@@ -26,8 +27,8 @@ class BiometricHelper(
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun authForEncode(
-            title: String = "开启生物认证登录",
-            cancelBtn: String = "取消"
+        title: String = activity.getString(R.string.turn_on_biometric_authentication_to_sign_in),
+        cancelBtn: String = activity.getString(R.string.cancel)
     ) {
         val promptInfo = BiometricPrompt.PromptInfo.Builder().apply {
             setTitle(title)
@@ -43,8 +44,8 @@ class BiometricHelper(
     @RequiresApi(Build.VERSION_CODES.M)
     fun authForDecode(
             iv: ByteArray,
-            title: String = "使用生物认证登录",
-            cancelBtn: String = "取消"
+            title: String = activity.getString(R.string.sign_in_with_biometric_authentication),
+            cancelBtn: String = activity.getString(R.string.cancel)
     ) {
         val promptInfo = BiometricPrompt.PromptInfo.Builder().apply {
             setTitle(title)

@@ -9,7 +9,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="设置" />
+        app:abc_titleText="@string/settings" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:layout_width="match_parent"
@@ -44,7 +44,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
-                        android:text="主题模式"
+                        android:text="@string/theme_mode"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
@@ -57,7 +57,7 @@
                         android:text=""
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes"
-                        tools:text="跟随系统" />
+                        tools:text="@string/follow_the_system" />
 
                     <ImageView
                         android:layout_width="16dp"
@@ -83,7 +83,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="书签提醒"
+                        android:text="@string/bookmark_reminders"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
@@ -96,7 +96,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_read_later_notification"
-                        android:text="打开应用时以通知方式提醒最新添加书签"
+                        android:text="@string/bookmark_reminders_desc"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
@@ -123,7 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="显示轮播"
+                        android:text="@string/show_carousel"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
@@ -136,7 +136,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_banner"
-                        android:text="开启后首页显示轮播图"
+                        android:text="@string/show_carousel_desc"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
@@ -163,7 +163,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="显示置顶"
+                        android:text="@string/show_pinned"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
@@ -176,7 +176,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
                         android:layout_toLeftOf="@+id/sc_show_top"
-                        android:text="开启后首页显示置顶文章"
+                        android:text="@string/show_pinned_desc"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
@@ -205,7 +205,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="网页拦截"
+                        android:text="@string/web_blocking"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
@@ -217,7 +217,7 @@
                         android:layout_alignParentLeft="true"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="80dp"
-                        android:text="长按可自定义拦截列表"
+                        android:text="@string/long_press_to_customize_the_block_list"
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes" />
 
@@ -232,7 +232,7 @@
                         android:text=""
                         android:textColor="?colorTextThird"
                         android:textSize="@dimen/text_notes"
-                        tools:text="不拦截" />
+                        tools:text="@string/do_not_intercept" />
 
                     <ImageView
                         android:id="@+id/iv_intercept_host_next"
@@ -263,7 +263,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
-                        android:text="清除缓存"
+                        android:text="@string/clear_the_cache"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
@@ -304,7 +304,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
-                        android:text="关于我们"
+                        android:text="@string/about_us"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
@@ -345,7 +345,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
-                        android:text="隐私政策"
+                        android:text="@string/privacy_policy"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
@@ -375,7 +375,7 @@
                         android:layout_marginRight="10dp"
                         android:layout_weight="1"
                         android:singleLine="true"
-                        android:text="退出登录"
+                        android:text="@string/sign_out"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 

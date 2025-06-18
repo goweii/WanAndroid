@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/text_auxiliary"
             android:gravity="center"
-            android:text="怎么又出错~~"
+            android:text="@string/how_did_it_go_wrong_again"
             android:textColor="?colorTextThird" />
 
     </LinearLayout>

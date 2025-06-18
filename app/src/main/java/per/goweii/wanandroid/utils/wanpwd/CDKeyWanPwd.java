@@ -3,6 +3,8 @@ package per.goweii.wanandroid.utils.wanpwd;
 import androidx.annotation.Nullable;
 
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.ResUtils;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.UserUtils;
 import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
 
@@ -20,15 +22,15 @@ public class CDKeyWanPwd implements IWanPwd {
             @Override
             public void run() {
                 if (!UserUtils.getInstance().isLogin()) {
-                    ToastMaker.showShort("请先登录");
+                    ToastMaker.showShort(ResUtils.getString(R.string.please_sign_in_first));
                     return;
                 }
                 int id = UserUtils.getInstance().getWanId();
                 if (CDKeyUtils.getInstance().check(String.valueOf(id), content)) {
                     CDKeyUtils.getInstance().set(content);
-                    ToastMaker.showShort("激活成功，重启APP后生效");
+                    ToastMaker.showShort(ResUtils.getString(R.string.the_activation_was_successful));
                 } else {
-                    ToastMaker.showShort("激活码无效");
+                    ToastMaker.showShort(ResUtils.getString(R.string.the_activation_code_is_invalid));
                 }
             }
         };
@@ -42,11 +44,11 @@ public class CDKeyWanPwd implements IWanPwd {
 
     @Override
     public String getShowText() {
-        return "你发现了一个激活码！\n激活码仅与当前登录账户绑定，更换设备或账户后需重新激活，成功激活后将会去除所有广告，是否立即激活？";
+        return ResUtils.getString(R.string.you_ve_found_an_activation_code);
     }
 
     @Override
     public String getBtnText() {
-        return "激活";
+        return ResUtils.getString(R.string.activate);
     }
 }

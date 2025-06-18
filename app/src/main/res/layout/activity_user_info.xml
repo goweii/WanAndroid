@@ -18,7 +18,7 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         android:background="?colorTransparent"
-        app:abc_titleText="个人资料" />
+        app:abc_titleText="@string/personal_data" />
 
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/civ_user_icon"
@@ -70,7 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="玩ID"
+                        android:text="@string/wan_id"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 
@@ -103,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
-                        android:text="用户名"
+                        android:text="@string/username"
                         android:textColor="?colorTextSurface"
                         android:textSize="@dimen/text_content" />
 

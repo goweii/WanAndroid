@@ -26,7 +26,7 @@ public class ShareUtils {
         intent.setAction(Intent.ACTION_SEND);
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_STREAM, UriUtils.getFileUri(file));
-        intent = Intent.createChooser(intent, "分享到");
+        intent = Intent.createChooser(intent, null);
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {
@@ -39,7 +39,7 @@ public class ShareUtils {
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, url);
         intent.setType("text/plain");
-        intent = Intent.createChooser(intent, "分享到");
+        intent = Intent.createChooser(intent, null);
         try {
             context.startActivity(intent);
         } catch (ActivityNotFoundException e) {

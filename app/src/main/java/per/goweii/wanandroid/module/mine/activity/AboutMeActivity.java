@@ -122,12 +122,12 @@ public class AboutMeActivity extends BaseActivity<AboutMePresenter, ActivityAbou
             @Override
             public void onClick(View v) {
                 StringBuilder s = new StringBuilder();
-                s.append("【玩口令】你的好友给你订了一份双人咖啡，户制泽条消息");
-                s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_ABOUTME, RandomUtils.randomLetter(10)));
-                s.append("打開最美玩安卓客户端即可领取品尝");
+                String content = getString(R.string.your_friend_orders_you_a_coffee_for_two);
+                String key = String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_ABOUTME, RandomUtils.randomLetter(10));
+                s.append(String.format(content, key));
                 LogUtils.d("UserPageActivity", s);
                 CopyUtils.copyText(s.toString());
-                ToastMaker.showShort("口令已复制");
+                ToastMaker.showShort(getString(R.string.copied));
             }
         });
         changeVisible(View.INVISIBLE, civ_icon, tv_name, tv_sign);

@@ -34,7 +34,7 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         android:background="?colorTransparent"
-        app:abc_rightText="玩口令"
-        app:abc_titleText="关于作者" />
+        app:abc_rightText="@string/wan_watchword"
+        app:abc_titleText="@string/about_the_author" />
 
 </RelativeLayout>

@@ -70,7 +70,7 @@ public class CollectionActivity extends BaseActivity<BasePresenter, ActivityColl
             }
         });
         mAdapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
-        mAdapter.setTitles("文章", "网址");
+        mAdapter.setTitles(getString(R.string.article), getString(R.string.website));
         mAdapter.setFragmentList(
                 CollectionArticleFragment.create(),
                 CollectionLinkFragment.create()

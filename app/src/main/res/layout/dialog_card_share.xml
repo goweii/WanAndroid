@@ -79,7 +79,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="保存相册"
+                android:text="@string/save_to_album"
                 android:textColor="?colorTextOnShadow"
                 android:textSize="@dimen/text_notes" />
 
@@ -110,7 +110,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="立即分享"
+                android:text="@string/share_now"
                 android:textColor="?colorTextOnShadow"
                 android:textSize="@dimen/text_notes" />
 

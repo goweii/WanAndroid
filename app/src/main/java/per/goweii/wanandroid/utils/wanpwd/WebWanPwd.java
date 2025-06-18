@@ -4,6 +4,8 @@ import androidx.annotation.Nullable;
 
 import java.net.URLDecoder;
 
+import per.goweii.basic.utils.ResUtils;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.router.Router;
 
 /**
@@ -40,8 +42,8 @@ public class WebWanPwd implements IWanPwd {
     }
 
     private void parse() {
-        mShowText = "你发现了一个网页链接！\n要不要去打开看一下？";
-        mBtnText = "打开";
+        mShowText = ResUtils.getString(R.string.you_ve_found_a_link_to_a_web_page);
+        mBtnText = ResUtils.getString(R.string.open);
         final String url = URLDecoder.decode(content);
         mRunnable = new Runnable() {
             @Override

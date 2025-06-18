@@ -46,7 +46,7 @@
                 android:textColor="@color/color_black_a93"
                 android:textSize="@dimen/text_headline"
                 android:textStyle="bold"
-                tools:text="玩安卓" />
+                tools:text="@string/app_label" />
 
             <TextView
                 android:id="@+id/layout_app_qrcode_share_tv_version"
@@ -87,7 +87,7 @@
             android:layout_marginBottom="@dimen/margin_middle"
             android:textColor="@color/color_black_a50"
             android:textSize="@dimen/text_content"
-            android:text="扫码下载安装" />
+            android:text="@string/scan_the_code_to_download_and_install" />
 
     </RelativeLayout>
 

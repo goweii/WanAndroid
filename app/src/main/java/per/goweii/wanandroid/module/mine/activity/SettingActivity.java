@@ -139,13 +139,13 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
         final SettingUtils.ThemeMode themeMode = SettingUtils.getInstance().getThemeMode();
         switch (themeMode) {
             case FOLLOW_SYSTEM:
-                tv_theme_mode.setText("跟随系统");
+                tv_theme_mode.setText(getString(R.string.follow_the_system));
                 break;
             case LIGHT:
-                tv_theme_mode.setText("亮色");
+                tv_theme_mode.setText(getString(R.string.light_mode));
                 break;
             case DARK:
-                tv_theme_mode.setText("暗色");
+                tv_theme_mode.setText(getString(R.string.dark_mode));
                 break;
         }
     }
@@ -210,13 +210,13 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                 for (SettingUtils.ThemeMode themeMode : themeModes) {
                     switch (themeMode) {
                         case FOLLOW_SYSTEM:
-                            nameList.add("跟随系统");
+                            nameList.add(getString(R.string.follow_the_system));
                             break;
                         case LIGHT:
-                            nameList.add("亮色");
+                            nameList.add(getString(R.string.light_mode));
                             break;
                         case DARK:
-                            nameList.add("暗色");
+                            nameList.add(getString(R.string.dark_mode));
                             break;
                     }
                 }
@@ -225,7 +225,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
 
                 ListDialog.with(getContext())
                         .cancelable(true)
-                        .title("主题模式")
+                        .title(getString(R.string.theme_mode))
                         .datas(nameList)
                         .currSelectPos(selectedPos)
                         .listener(new ListDialog.OnItemSelectedListener() {
@@ -251,7 +251,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
             case R.id.rl_intercept_host:
                 ListDialog.with(getContext())
                         .cancelable(true)
-                        .title("网页拦截")
+                        .title(getString(R.string.web_blocking))
                         .datas(HostInterceptUtils.getName(HostInterceptUtils.TYPE_NOTHING),
                                 HostInterceptUtils.getName(HostInterceptUtils.TYPE_ONLY_WHITE),
                                 HostInterceptUtils.getName(HostInterceptUtils.TYPE_INTERCEPT_BLACK))
@@ -267,7 +267,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                 break;
             case R.id.ll_cache:
                 TipDialog.with(getContext())
-                        .message("确定要清除缓存吗？")
+                        .message(R.string.are_you_sure_you_want_to_clear_your_cache)
                         .onYes(new SimpleCallback<Void>() {
                             @Override
                             public void onResult(Void data) {
@@ -286,7 +286,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                 break;
             case R.id.ll_logout:
                 TipDialog.with(getContext())
-                        .message("确定要退出登录吗？")
+                        .message(R.string.are_you_sure_you_want_to_log_out)
                         .onYes(new SimpleCallback<Void>() {
                             @Override
                             public void onResult(Void data) {

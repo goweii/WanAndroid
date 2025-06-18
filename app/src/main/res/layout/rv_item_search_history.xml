@@ -19,7 +19,7 @@
         android:paddingBottom="5dp"
         android:textColor="?colorTextThird"
         android:textSize="@dimen/text_auxiliary"
-        tools:text="公众号文章公众号文章公众号文章公众号文章公众号文章" />
+        tools:text="@tools:sample/lorem/random" />
 
     <ImageView
         android:id="@+id/iv_remove"

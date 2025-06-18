@@ -10,8 +10,8 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="阅读历史"
-        app:abc_rightText="清空" />
+        app:abc_titleText="@string/reading_history"
+        app:abc_rightText="@string/clear" />
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"

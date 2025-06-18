@@ -38,7 +38,7 @@
         android:gravity="center"
         android:paddingLeft="30dp"
         android:paddingRight="30dp"
-        android:text="不相信自己的人没有努力的价值"
+        android:text="@string/my_signature"
         android:textColor="?colorOnMainOrSurface"
         android:textSize="@dimen/text_auxiliary" />
 
@@ -115,7 +115,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:singleLine="true"
-                android:text="简书"
+                android:text="@string/jianshu"
                 android:textColor="?colorOnMainOrSurface"
                 android:textSize="@dimen/text_content" />
 
@@ -195,7 +195,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:singleLine="true"
-                android:text="QQ群"
+                android:text="@string/qq_group"
                 android:textColor="?colorOnMainOrSurface"
                 android:textSize="@dimen/text_content" />
 
@@ -221,7 +221,7 @@
         android:layout_marginRight="30dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:text="呦~\nAPP做得不错呀\n请你喝杯咖啡"
+        android:text="@string/buy_you_a_coffee"
         android:textColor="?colorOnMainOrSurfaceAlpha"
         android:textSize="@dimen/text_auxiliary" />
 
@@ -232,7 +232,7 @@
         android:layout_above="@+id/iv_to_reward"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:text="上滑"
+        android:text="@string/swipe_up"
         android:textColor="?colorOnMainOrSurfaceAlpha"
         android:textSize="@dimen/text_auxiliary" />
 

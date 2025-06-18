@@ -10,7 +10,7 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common"
         android:background="?colorTransparent"
-        app:abc_titleText="书籍教程" />
+        app:abc_titleText="@string/book_tutorials" />
 
     <com.scwang.smart.refresh.layout.SmartRefreshLayout
         android:id="@+id/srl"

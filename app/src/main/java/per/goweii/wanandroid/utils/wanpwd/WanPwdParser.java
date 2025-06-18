@@ -38,9 +38,6 @@ public class WanPwdParser {
             case QQ:
                 mWanPwd = new QQWanPwd(mPwd.content);
                 break;
-            case FESTIVAL:
-                mWanPwd = new FestivalWanPwd(mPwd.content);
-                break;
             case USERPAGE:
                 mWanPwd = new UserPageWanPwd(mPwd.content);
                 break;
@@ -139,7 +136,6 @@ public class WanPwdParser {
     public enum Type {
         UNKNOWN(""),
         QQ(BuildConfig.WANPWD_TYPE_QQ),
-        FESTIVAL(BuildConfig.WANPWD_TYPE_FESTIVAL),
         USERPAGE(BuildConfig.WANPWD_TYPE_USERPAGE),
         CDKEY(BuildConfig.WANPWD_TYPE_CDKEY),
         WEB(BuildConfig.WANPWD_TYPE_WEB),

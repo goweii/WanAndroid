@@ -35,7 +35,7 @@
             android:layout_marginLeft="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_def"
             android:layout_toRightOf="@+id/dialog_copied_link_iv_close"
-            android:text="打开链接"
+            android:text="@string/open_the_link"
             android:textColor="?colorTextOnMain"
             android:textSize="@dimen/text_content" />
 

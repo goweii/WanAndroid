@@ -127,7 +127,7 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="积分:"
+                                            android:text="@string/points_with_colon"
                                             android:textColor="?colorOnMainOrSurface"
                                             android:textSize="@dimen/text_notes" />
 
@@ -154,7 +154,7 @@
                                         <TextView
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
-                                            android:text="排名:"
+                                            android:text="@string/ranking_with_colon"
                                             android:textColor="?colorOnMainOrSurface"
                                             android:textSize="@dimen/text_notes" />
 
@@ -209,6 +209,6 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         android:background="?colorTransparent"
-        app:abc_rightText="玩口令" />
+        app:abc_rightText="@string/wan_watchword" />
 
 </FrameLayout>

@@ -77,7 +77,7 @@ object WebScrollableUtils {
             l.lock()
             try {
                 directions = Integer.parseInt(s.trim())
-                LogUtils.d("WebScrollableUtils", "可滚动方向: $directions")
+                LogUtils.d("WebScrollableUtils", "Scrollable direction: $directions")
                 c.signalAll()
             } catch (e: NumberFormatException) {
                 LogUtils.e("WebScrollableUtils", "Failed to parse directions: $s")

@@ -124,7 +124,7 @@ public class WebMenuDialog {
                             tv_host.setVisibility(View.GONE);
                         } else {
                             tv_host.setVisibility(View.VISIBLE);
-                            tv_host.setText("网页由 " + host + " 提供");
+                            tv_host.setText(tv_host.getContext().getString(R.string.this_webpage_is_provided_by, host));
                         }
                         ImageView iv_collect = layer.requireView(R.id.dialog_web_menu_iv_collect);
                         TextView tv_collect = layer.requireView(R.id.dialog_web_menu_tv_collect);
@@ -150,9 +150,9 @@ public class WebMenuDialog {
     private static void switchCollectState(ImageView iv_collect, TextView tv_collect, boolean collected) {
         setIconChecked(iv_collect, collected);
         if (collected) {
-            tv_collect.setText("已收藏");
+            tv_collect.setText(R.string.collected);
         } else {
-            tv_collect.setText("收藏");
+            tv_collect.setText(R.string.collect);
         }
     }
 

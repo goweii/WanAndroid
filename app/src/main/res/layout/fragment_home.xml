@@ -29,7 +29,7 @@
             style="@style/ActionBar.Common"
             app:abc_leftIconRes="@drawable/ic_scan"
             app:abc_rightIconRes="@drawable/ic_search"
-            app:abc_titleText="首页" />
+            app:abc_titleText="@string/homepage" />
 
         <per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout
             android:id="@+id/dl"

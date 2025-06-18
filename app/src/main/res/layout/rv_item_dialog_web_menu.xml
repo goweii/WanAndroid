@@ -27,6 +27,6 @@
         android:singleLine="true"
         android:textColor="?colorTextThird"
         android:textSize="@dimen/text_notes"
-        tools:text="浏览器打开" />
+        tools:text="@string/open_it_in_a_browser" />
 
 </LinearLayout>

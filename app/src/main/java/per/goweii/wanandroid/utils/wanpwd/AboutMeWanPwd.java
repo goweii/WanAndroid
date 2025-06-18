@@ -2,6 +2,8 @@ package per.goweii.wanandroid.utils.wanpwd;
 
 import androidx.annotation.Nullable;
 
+import per.goweii.basic.utils.ResUtils;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.router.RouterMap;
 
 /**
@@ -23,11 +25,11 @@ public class AboutMeWanPwd implements IWanPwd {
 
     @Override
     public String getShowText() {
-        return "请开发小哥哥喝杯咖啡吧！\n一个完全免费的APP！\n一个这么好用还完全免费的APP！\n一个这么好看又好用还完全免费的APP！\n不请我喝杯咖啡提提神？\n我都快没精力继续维护了！";
+        return ResUtils.getString(R.string.let_s_have_a_cup_of_coffee);
     }
 
     @Override
     public String getBtnText() {
-        return "去请客";
+        return ResUtils.getString(R.string.go_for_a_treat);
     }
 }

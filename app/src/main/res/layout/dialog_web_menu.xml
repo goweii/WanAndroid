@@ -18,7 +18,7 @@
         android:textColor="?colorTextSecond"
         android:textSize="@dimen/text_notes"
         android:visibility="gone"
-        tools:text="网页由wanandroid.com提供"
+        tools:text="@string/this_webpage_is_provided_by"
         tools:visibility="visible" />
 
     <LinearLayout
@@ -50,7 +50,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="回到首页"
+                android:text="@string/back_to_the_home_page"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_notes" />
 
@@ -81,7 +81,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="分享到广场"
+                android:text="@string/share_to_square"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_notes" />
 
@@ -113,7 +113,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="收藏"
+                android:text="@string/collect"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_notes" />
 
@@ -144,7 +144,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="书签"
+                android:text="@string/bookmark"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_notes" />
 
@@ -181,7 +181,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="刷新"
+                android:text="@string/refresh"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_notes" />
 
@@ -213,7 +213,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="回到顶部"
+                android:text="@string/back_to_top"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_notes" />
 
@@ -245,7 +245,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="网页拦截"
+                android:text="@string/web_blocking"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_notes" />
 
@@ -276,7 +276,7 @@
                 android:layout_marginTop="8dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="退出"
+                android:text="@string/exit"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_notes" />
 

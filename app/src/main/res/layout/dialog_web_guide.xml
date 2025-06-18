@@ -49,7 +49,7 @@
             android:layout_gravity="left"
             android:layout_below="@+id/dialog_web_guide_iv_2"
             android:layout_centerHorizontal="true"
-            android:text="双击任意位置收藏文章"
+            android:text="@string/double_click_anywhere_to_favorite_an_article"
             android:textColor="?colorOnMainOrSurface"
             android:textSize="@dimen/text_title" />
 
@@ -61,7 +61,7 @@
             android:layout_below="@+id/dialog_web_guide_tv_double_click"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/margin_common"
-            android:text="长按网页图片查看大图"
+            android:text="@string/long_press_the_image_on_the_webpage_to_enlarge_it"
             android:textColor="?colorOnMainOrSurface"
             android:textSize="@dimen/text_title" />
 
@@ -76,6 +76,6 @@
         android:layout_marginBottom="@dimen/margin_def"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
-        android:text="知道了" />
+        android:text="@string/i_know" />
 
 </RelativeLayout>

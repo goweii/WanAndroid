@@ -12,7 +12,7 @@
         android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
-        android:text="复制链接"
+        android:text="@string/copy_the_link"
         android:textColor="?colorTextThird"
         android:textSize="@dimen/text_auxiliary" />
 
@@ -23,7 +23,7 @@
         android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
-        android:text="浏览器打开"
+        android:text="@string/open_it_in_a_browser"
         android:textColor="?colorTextThird"
         android:textSize="@dimen/text_auxiliary" />
 
@@ -34,7 +34,7 @@
         android:layout_height="@dimen/button_height"
         android:background="@drawable/bg_press_color_surface"
         android:gravity="center"
-        android:text="网页玩口令"
+        android:text="@string/wan_watchword_website"
         android:textColor="?colorTextThird"
         android:textSize="@dimen/text_auxiliary" />
 

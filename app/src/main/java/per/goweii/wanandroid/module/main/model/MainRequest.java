@@ -6,9 +6,12 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.rxhttp.core.RxLife;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
+import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.http.BaseRequest;
 import per.goweii.wanandroid.http.RequestCallback;
 import per.goweii.wanandroid.http.RequestListener;
@@ -84,7 +87,7 @@ public class MainRequest extends BaseRequest {
                         }
                     }));
                 } else {
-                    listener.onFailed(WanApi.ApiCode.ERROR, "非内测用户");
+                    listener.onFailed(WanApi.ApiCode.ERROR, ResUtils.getString(R.string.not_the_beta_user));
                     listener.onFinish();
                 }
             }

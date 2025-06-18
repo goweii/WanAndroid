@@ -702,8 +702,8 @@ public class WebHolder {
             String originalUrl = view.getOriginalUrl();
             WebView.HitTestResult hit = view.getHitTestResult();
             if (hit.getType() == WebView.HitTestResult.UNKNOWN_TYPE || TextUtils.isEmpty(hit.getExtra())) {
-                LogUtils.i(TAG, "重定向:url=" + url);
-                LogUtils.i(TAG, "重定向:originalUrl=" + originalUrl);
+                LogUtils.i(TAG, "Redirect:url=" + url);
+                LogUtils.i(TAG, "Redirect:originalUrl=" + originalUrl);
                 if (!allowRedirect) {
                     if (!TextUtils.isEmpty(originalUrl) && (originalUrl.startsWith("http://") || originalUrl.startsWith("https://"))) {
                         return true;

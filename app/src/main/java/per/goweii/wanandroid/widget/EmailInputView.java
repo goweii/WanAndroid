@@ -35,7 +35,7 @@ public class EmailInputView extends InputView {
     @Override
     protected void initViews(AttributeSet attrs) {
         super.initViews(attrs);
-        getEditText().setHint("请输入邮箱");
+        getEditText().setHint(R.string.please_enter_your_email_address);
         changeFocusMode(false);
     }
 

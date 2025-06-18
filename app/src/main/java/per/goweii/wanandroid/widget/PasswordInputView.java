@@ -46,7 +46,7 @@ public class PasswordInputView extends InputView {
     @Override
     protected void initViews(AttributeSet attrs) {
         super.initViews(attrs);
-        getEditText().setHint("请输入密码");
+        getEditText().setHint(R.string.please_enter_your_password);
         changeFocusMode(false);
         changePwdHideMode(true);
     }

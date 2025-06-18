@@ -144,17 +144,13 @@ public class AboutActivity extends BaseActivity<AboutPresenter, ActivityAboutBin
                 break;
             case R.id.ll_beta:
                 String msg = new StringBuilder()
-                        .append("需要申请开通内测更新的小伙伴，")
-                        .append("请加群（见关于作者）说明内测更新并注明玩友号（见个人资料）。")
-                        .append("\n")
-                        .append("\n")
-                        .append("注：内测更新须提前登录并更新到最新正式版")
+                        .append(getString(R.string.apply_for_a_closed_beta_msg))
                         .toString();
                 TipDialog.with(this)
-                        .title("申请内测")
+                        .title(getString(R.string.apply_for_a_closed_beta))
                         .message(msg)
                         .msgCenter(false)
-                        .yesText("知道了")
+                        .yesText(getString(R.string.i_know))
                         .singleYesBtn()
                         .show();
                 break;
@@ -175,7 +171,7 @@ public class AboutActivity extends BaseActivity<AboutPresenter, ActivityAboutBin
     public void updateSuccess(int code, UpdateBean data, int updateType) {
         if (UpdateUtils.getInstance().isNewest(data)) {
             tv_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextMain));
-            tv_update.setText("发现新版本" + data.getVersion_name());
+            tv_update.setText(getString(R.string.discover_the_new_version_tips, data.getVersion_name()));
             switch (updateType) {
                 case UPDATE_TYPE_REFRESH:
                     break;
@@ -208,14 +204,14 @@ public class AboutActivity extends BaseActivity<AboutPresenter, ActivityAboutBin
     @Override
     public void updateFailed(int code, String msg, int updateType) {
         tv_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
-        tv_update.setText("已是最新版");
+        tv_update.setText(getString(R.string.this_is_the_latest_version));
     }
 
     @Override
     public void betaUpdateSuccess(int code, UpdateBean data, int updateType) {
         if (UpdateUtils.getInstance().isNewest(data)) {
             tv_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextAccent));
-            tv_update.setText("发现内测版本" + data.getVersion_name());
+            tv_update.setText(getString(R.string.discover_the_closed_beta_version_tips, data.getVersion_name()));
             switch (updateType) {
                 case UPDATE_TYPE_REFRESH:
                     break;
@@ -229,12 +225,12 @@ public class AboutActivity extends BaseActivity<AboutPresenter, ActivityAboutBin
             }
         } else {
             tv_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
-            tv_update.setText("已是最新版");
+            tv_update.setText(getString(R.string.this_is_the_latest_version));
             switch (updateType) {
                 case UPDATE_TYPE_REFRESH:
                     break;
                 case UPDATE_TYPE_NOTICE:
-                    ToastMaker.showShort("已是最新版");
+                    ToastMaker.showShort(getString(R.string.this_is_the_latest_version));
                     break;
                 case UPDATE_TYPE_SHARE:
                     break;
@@ -247,12 +243,12 @@ public class AboutActivity extends BaseActivity<AboutPresenter, ActivityAboutBin
     @Override
     public void betaUpdateFailed(int code, String msg, int updateType) {
         tv_update.setTextColor(ResUtils.getThemeColor(getContext(), R.attr.colorTextThird));
-        tv_update.setText("已是最新版");
+        tv_update.setText(getString(R.string.this_is_the_latest_version));
         switch (updateType) {
             case UPDATE_TYPE_REFRESH:
                 break;
             case UPDATE_TYPE_NOTICE:
-                ToastMaker.showShort("已是最新版");
+                ToastMaker.showShort(getString(R.string.this_is_the_latest_version));
                 break;
             case UPDATE_TYPE_SHARE:
                 break;
@@ -311,7 +307,7 @@ public class AboutActivity extends BaseActivity<AboutPresenter, ActivityAboutBin
                 TextView tv_version = view.findViewById(R.id.layout_app_qrcode_share_tv_version);
                 ImageView iv_qrcode = view.findViewById(R.id.layout_app_qrcode_share_iv_qrcode);
                 tv_name.setText(AppInfoUtils.getAppName());
-                tv_version.setText(String.format("%s(%d)", data.getVersion_name(), data.getVersion_code()));
+                tv_version.setText(getString(R.string.app_version_name_code, data.getVersion_name(), data.getVersion_code()));
                 new CodeEncoder(new ZXingEncodeQRCodeProcessor())
                         .encode(data.getUrl(), new Function1<Bitmap, Unit>() {
                             @Override

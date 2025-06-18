@@ -24,7 +24,7 @@
             android:id="@+id/abc"
             style="@style/ActionBar.Super.Back"
             android:background="?colorTransparent"
-            app:absuper_titleText="我的积分"
+            app:absuper_titleText="@string/my_points"
             app:absuper_right1Icon="@drawable/ic_rule"
             app:absuper_right2Icon="@drawable/ic_rank" />
 

@@ -6,7 +6,9 @@ import androidx.annotation.Nullable;
 
 import per.goweii.basic.ui.toast.ToastMaker;
 import per.goweii.basic.utils.CopyUtils;
+import per.goweii.basic.utils.ResUtils;
 import per.goweii.wanandroid.BuildConfig;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.utils.UserUtils;
 import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
 
@@ -25,21 +27,21 @@ public class CreateCDKeyWanPwd implements IWanPwd {
             @Override
             public void run() {
                 if (!UserUtils.getInstance().isLogin()) {
-                    ToastMaker.showShort("请登录后使用该功能");
+                    ToastMaker.showShort(ResUtils.getString(R.string.please_sign_in_to_use_this_feature));
                     return;
                 }
                 int id = UserUtils.getInstance().getWanId();
                 if (!TextUtils.equals(String.valueOf(id), BuildConfig.DEVELOPER_ID)) {
-                    ToastMaker.showShort("该功能仅限开发者账号使用");
+                    ToastMaker.showShort(ResUtils.getString(R.string.this_feature_is_only_available_to_developer_accounts));
                     return;
                 }
                 String cdkey = CDKeyUtils.getInstance().create(content);
                 StringBuilder s = new StringBuilder();
-                s.append("【玩口令】这是一个激活码口令，仅限特定账号使用，户制泽条消息");
+                s.append(ResUtils.getString(R.string.this_is_an_activation_code_passcode));
                 s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_CDKEY, cdkey));
-                s.append("打開最美玩安卓客户端激活");
+                s.append(ResUtils.getString(R.string.open_the_most_beautiful_android_client_to_activate));
                 CopyUtils.copyText(s.toString());
-                ToastMaker.showShort("口令已复制");
+                ToastMaker.showShort(ResUtils.getString(R.string.copied));
             }
         };
     }
@@ -52,11 +54,11 @@ public class CreateCDKeyWanPwd implements IWanPwd {
 
     @Override
     public String getShowText() {
-        return "###激活码生成###\n\n！！！警告！！！\n\n该功能仅限开发者使用";
+        return ResUtils.getString(R.string.activation_code_generation_warning);
     }
 
     @Override
     public String getBtnText() {
-        return "复制";
+        return ResUtils.getString(R.string.copy);
     }
 }

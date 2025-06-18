@@ -12,4 +12,4 @@
     android:paddingBottom="5dp"
     android:textColor="?colorTextSurface"
     android:textSize="@dimen/text_auxiliary"
-    tools:text="公众号文章" />
+    tools:text="@tools:sample/full_names" />

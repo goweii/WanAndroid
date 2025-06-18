@@ -12,6 +12,7 @@ import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.rxhttp.request.exception.ExceptionHandle;
+import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.db.executor.ReadLaterExecutor;
 import per.goweii.wanandroid.db.executor.ReadRecordExecutor;
 import per.goweii.wanandroid.db.model.ReadLaterModel;
@@ -303,12 +304,12 @@ public class WebPresenter extends BasePresenter<WebView> {
             @Override
             public void onResult(ReadLaterModel data) {
                 addReadLater(data);
-                ToastMaker.showShort("已加入我的书签");
+                ToastMaker.showShort(getContext().getString(R.string.added_to_my_bookmarks));
             }
         }, new SimpleListener() {
             @Override
             public void onResult() {
-                ToastMaker.showShort("加入我的书签失败");
+                ToastMaker.showShort(getContext().getString(R.string.failed_to_add_my_bookmarks));
             }
         });
     }
@@ -319,12 +320,12 @@ public class WebPresenter extends BasePresenter<WebView> {
             @Override
             public void onResult() {
                 removeReadLater(link);
-                ToastMaker.showShort("已移除我的书签");
+                ToastMaker.showShort(getContext().getString(R.string.moved_out_of_my_bookmarks));
             }
         }, new SimpleListener() {
             @Override
             public void onResult() {
-                ToastMaker.showShort("移出我的书签失败");
+                ToastMaker.showShort(getContext().getString(R.string.failed_to_move_out_of_my_bookmarks));
             }
         });
     }

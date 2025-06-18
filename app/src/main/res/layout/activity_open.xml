@@ -10,7 +10,7 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
-        app:abc_titleText="开源项目" />
+        app:abc_titleText="@string/open_source_projects" />
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"

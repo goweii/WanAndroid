@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            tools:hint="请输入网址"
+            tools:hint="@string/please_enter_the_url"
             android:lines="1"
             android:imeOptions="actionGo"
             android:singleLine="true"

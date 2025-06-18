@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center"
-                tools:text="已完成"
+                tools:text="@string/done"
                 android:textColor="?colorTextThird"
                 android:textSize="@dimen/text_notes" />
 
@@ -78,7 +78,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                tools:text="共"
+                tools:text="Total"
                 android:textColor="?colorTextThird"
                 android:textSize="@dimen/text_notes" />
 

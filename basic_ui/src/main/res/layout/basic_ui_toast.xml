@@ -24,6 +24,6 @@
         android:paddingBottom="@dimen/margin_common"
         android:textColor="?colorTextToast"
         android:textSize="@dimen/text_content"
-        tools:text="知道了" />
+        tools:text="@string/i_know" />
 
 </com.lihang.ShadowLayout>

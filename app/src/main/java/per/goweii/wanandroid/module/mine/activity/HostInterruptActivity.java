@@ -70,7 +70,7 @@ public class HostInterruptActivity extends BaseActivity<BasePresenter, ActivityH
             }
         });
         mAdapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
-        mAdapter.setTitles("白名单", "黑名单");
+        mAdapter.setTitles(getString(R.string.whitelist), getString(R.string.blacklist));
         mAdapter.setFragmentList(
                 HostWhiteFragment.create(),
                 HostBlackFragment.create()

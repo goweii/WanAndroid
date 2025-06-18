@@ -96,9 +96,9 @@ class ImageMenuDialog(
         PermissionUtils.request(object : RequestListener {
             override fun onSuccess() {
                 if (BitmapUtils.saveGallery(bitmap, "wanandroid_article_image_${System.currentTimeMillis()}")) {
-                    ToastMaker.showShort("以保存到相册")
+                    ToastMaker.showShort(activity.getString(R.string.save_successful))
                 } else {
-                    ToastMaker.showShort("保存失败")
+                    ToastMaker.showShort(activity.getString(R.string.save_failed))
                 }
             }
 

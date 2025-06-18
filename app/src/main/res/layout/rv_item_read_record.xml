@@ -21,7 +21,7 @@
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="复制链接"
+            android:text="@string/copy_the_link"
             android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 
@@ -33,7 +33,7 @@
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="浏览器打开"
+            android:text="@string/open_it_in_a_browser"
             android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 
@@ -45,7 +45,7 @@
             android:gravity="center"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="删除"
+            android:text="@string/delete"
             android:textColor="?colorTextInvert"
             android:textSize="@dimen/text_content" />
 
@@ -67,7 +67,7 @@
             android:layout_marginRight="16dp"
             android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content"
-            tools:text="关键字关键字关键字关键字关键字关键字关键字关键字关键字关键字" />
+            tools:text="@tools:sample/lorem/random" />
 
         <TextView
             android:id="@+id/tv_time"

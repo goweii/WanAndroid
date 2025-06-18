@@ -13,6 +13,7 @@ import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.utils.Base64Utils.decodeToBytes
 import per.goweii.swipeback.SwipeBackAbility
 import per.goweii.swipeback.SwipeBackDirection
+import per.goweii.wanandroid.R
 import per.goweii.wanandroid.databinding.ActivityQuickLoginBinding
 import per.goweii.wanandroid.event.LoginEvent
 import per.goweii.wanandroid.module.login.model.LoginInfoEntity
@@ -114,7 +115,7 @@ class QuickLoginActivity : BaseActivity<QuickLoginPresenter, ActivityQuickLoginB
         biometricHelper.onAuthError = { _, _ ->
             finishWithFailed()
         }
-        biometricHelper.authForEncode("是否开启快捷登录", "暂不开启")
+        biometricHelper.authForEncode(getString(R.string.whether_to_enable_quick_login), getString(R.string.not_enabled_yet))
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -138,7 +139,7 @@ class QuickLoginActivity : BaseActivity<QuickLoginPresenter, ActivityQuickLoginB
             finishWithFailed()
         }
         val ivBytes = decodeToBytes(ivStr)
-        biometricHelper.authForDecode(ivBytes, "快捷登录", "密码登录")
+        biometricHelper.authForDecode(ivBytes, getString(R.string.quick_sign_in), getString(R.string.password_sign_in))
     }
 
     private fun finishWithFailed() {

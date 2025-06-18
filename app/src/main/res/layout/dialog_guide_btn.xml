@@ -18,6 +18,6 @@
         android:layout_centerHorizontal="true"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
-        android:text="知道了" />
+        android:text="@string/i_know" />
 
 </com.lihang.ShadowLayout>

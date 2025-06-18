@@ -29,6 +29,6 @@
         android:maxWidth="300dp"
         android:textColor="?colorTextSecond"
         android:textSize="@dimen/text_auxiliary"
-        tools:text="下拉刷新下拉刷新下拉刷新下拉刷新下拉刷新下拉刷新下拉刷新下拉刷新下拉刷新下拉刷新" />
+        tools:text="@tools:sample/lorem/random" />
 
 </merge>

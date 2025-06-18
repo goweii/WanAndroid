@@ -35,7 +35,7 @@
         android:includeFontPadding="false"
         android:textColor="?colorTextThird"
         android:textSize="10dp"
-        tools:text="我的" />
+        tools:text="@string/mine" />
 
     <FrameLayout
         android:layout_width="0dp"

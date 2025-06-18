@@ -325,7 +325,7 @@ public class WebActivity extends BaseActivity<WebPresenter, ActivityWebBinding> 
                 @Override
                 public void onCopyLink() {
                     CopyUtils.copyText(mWebHolder.getUrl());
-                    ToastMaker.showShort("已复制");
+                    ToastMaker.showShort(getString(R.string.copied));
                 }
 
                 @Override
@@ -337,12 +337,12 @@ public class WebActivity extends BaseActivity<WebPresenter, ActivityWebBinding> 
                 public void onWanPwd() {
                     String url = URLEncoder.encode(mWebHolder.getUrl());
                     StringBuilder s = new StringBuilder();
-                    s.append("【玩口令】你的好友给你分享了一个链接，户制泽条消息");
-                    s.append(String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_WEB, url));
-                    s.append("打開最美玩安卓客户端即可查看该网页或者文章");
+                    String content = getString(R.string.your_friend_shared_a_link_with_you);
+                    String key = String.format(BuildConfig.WANPWD_FORMAT, BuildConfig.WANPWD_TYPE_WEB, url);
+                    s.append(String.format(content, key));
                     LogUtils.d("UserPageActivity", s);
                     CopyUtils.copyText(s.toString());
-                    ToastMaker.showShort("口令已复制");
+                    ToastMaker.showShort(getString(R.string.copied));
                 }
             });
             mWebQuickDialog.addOnDismissListener(new Layer.OnDismissListener() {

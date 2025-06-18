@@ -34,7 +34,7 @@
             android:ellipsize="end"
             android:singleLine="true"
             android:maxLines="1"
-            android:hint="用空格隔开多个关键词"
+            android:hint="@string/use_spaces_to_separate_multiple_keywords"
             android:imeOptions="actionSearch"
             android:lines="1"
             android:textColor="?colorOnMainOrSurface"

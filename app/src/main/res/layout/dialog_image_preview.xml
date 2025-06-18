@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="加载中"
+                android:text="@string/loading"
                 android:textColor="#66ffffff"
                 android:textSize="@dimen/text_content"
                 android:visibility="gone"

@@ -58,7 +58,7 @@ public class KnowledgeNavigationFragment extends BaseFragment<BasePresenter, Fra
     @Override
     protected void initView() {
         mAdapter = new FixedFragmentPagerAdapter(getChildFragmentManager());
-        mAdapter.setTitles("体系", "导航");
+        mAdapter.setTitles(getString(R.string.architecture), getString(R.string.navigation));
         mAdapter.setFragmentList(
                 KnowledgeFragment.create(),
                 NaviFragment.create()

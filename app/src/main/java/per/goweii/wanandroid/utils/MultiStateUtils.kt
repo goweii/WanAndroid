@@ -32,7 +32,7 @@ class MultiStateUtils {
 
         @JvmStatic
         @JvmOverloads
-        fun toEmpty(view: MultiStateView, force: Boolean = false, icon: Int? = R.drawable.ic_empty, text: String? = "什么都木有~") {
+        fun toEmpty(view: MultiStateView, force: Boolean = false, icon: Int? = R.drawable.ic_empty, text: String? = view.context.getString(R.string.nothing)) {
             if (force || view.viewState != MultiStateView.VIEW_STATE_CONTENT) {
                 view.viewState = MultiStateView.VIEW_STATE_EMPTY
             }
@@ -58,7 +58,7 @@ class MultiStateUtils {
 
         @JvmStatic
         @JvmOverloads
-        fun toError(view: MultiStateView, force: Boolean = false, icon: Int? = R.drawable.ic_error, text: String? = "怎么又出错~\n小场面，问题不大") {
+        fun toError(view: MultiStateView, force: Boolean = false, icon: Int? = R.drawable.ic_error, text: String? = view.context.getString(R.string.how_did_it_go_wrong_again)) {
             if (force || view.viewState != MultiStateView.VIEW_STATE_CONTENT) {
                 view.viewState = MultiStateView.VIEW_STATE_ERROR
             }

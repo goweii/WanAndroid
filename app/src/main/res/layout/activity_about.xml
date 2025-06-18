@@ -10,7 +10,7 @@
         android:id="@+id/abc"
         style="@style/ActionBar.Common.Back"
         app:abc_rightIconRes="@drawable/ic_share"
-        app:abc_titleText="关于我们" />
+        app:abc_titleText="@string/about_us" />
 
     <FrameLayout
         android:id="@+id/fl_logo"
@@ -66,7 +66,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:singleLine="true"
-            android:text="检查更新"
+            android:text="@string/check_for_updates"
             android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content" />
 
@@ -110,7 +110,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:singleLine="true"
-            android:text="官方网站"
+            android:text="@string/official_website"
             android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content" />
 
@@ -143,7 +143,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:singleLine="true"
-            android:text="网站内容"
+            android:text="@string/website_content"
             android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content" />
 
@@ -176,7 +176,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:singleLine="true"
-            android:text="项目仓库"
+            android:text="@string/project_repository"
             android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content" />
 
@@ -209,7 +209,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:singleLine="true"
-            android:text="申请内测"
+            android:text="@string/apply_for_a_closed_beta"
             android:textColor="?colorTextSurface"
             android:textSize="@dimen/text_content" />
 
@@ -229,7 +229,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:text="本APP由Goweii独立开发"
+        android:text="@string/this_app_is_independently_developed_by_goweii"
         android:textColor="?colorTextThird"
         android:textSize="@dimen/text_notes" />
 

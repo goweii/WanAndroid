@@ -49,7 +49,7 @@ public class WanCache {
 
     public static WanCache getInstance() {
         if (INSTANCE == null) {
-            throw new RuntimeException("WanCache未初始化");
+            throw new RuntimeException("WanCache is not initialized");
         }
         return INSTANCE;
     }
@@ -60,7 +60,7 @@ public class WanCache {
 
     private DiskLruCache getDiskLruCache() {
         if (mDiskLruCache == null) {
-            throw new RuntimeException("WanCache未初始化或初始化失败");
+            throw new RuntimeException("WanCache is not initialized");
         }
         return mDiskLruCache;
     }

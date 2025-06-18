@@ -115,19 +115,19 @@ class ImagePreviewDialog(
                     when {
                         progress >= 1F -> {
                             tv_tip.gone()
-                            tv_tip.text = "加载成功"
+                            tv_tip.text = activity.getString(R.string.loaded_successfully)
                         }
                         progress < 0F -> {
                             tv_tip.visible()
-                            tv_tip.text = "加载失败"
+                            tv_tip.text = activity.getString(R.string.loaded_failed)
                         }
                         progress == 0F -> {
                             tv_tip.visible()
-                            tv_tip.text = "加载中"
+                            tv_tip.text = activity.getString(R.string.loading)
                         }
                         else -> {
                             tv_tip.visible()
-                            tv_tip.text = "加载中(${(progress * 100).toInt()}%)"
+                            tv_tip.text = activity.getString(R.string.loading_n_percent, (progress * 100).toInt())
                         }
                     }
                 }
