@@ -276,4 +276,6 @@
     <string name="deletion_failed">Error al eliminar</string>
     <string name="are_you_sure_you_want_to_clear_your_cache">¿Seguro que quieres limpiar la caché?</string>
     <string name="are_you_sure_you_want_to_log_out">¿Seguro que quieres cerrar sesión?</string>
+
+    <string name="language">Idioma</string>
 </resources>

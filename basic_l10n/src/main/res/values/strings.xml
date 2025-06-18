@@ -276,4 +276,6 @@
     <string name="deletion_failed">Deletion failed</string>
     <string name="are_you_sure_you_want_to_clear_your_cache">Are you sure you want to clear cache?</string>
     <string name="are_you_sure_you_want_to_log_out">Are you sure you want to sign out?</string>
+
+    <string name="language">Language</string>
 </resources>

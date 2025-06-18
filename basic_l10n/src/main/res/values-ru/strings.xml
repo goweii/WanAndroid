@@ -276,4 +276,6 @@
     <string name="deletion_failed">Не удалось удалить</string>
     <string name="are_you_sure_you_want_to_clear_your_cache">Очистить кэш?</string>
     <string name="are_you_sure_you_want_to_log_out">Выйти из аккаунта?</string>
+
+    <string name="language">Язык</string>
 </resources>

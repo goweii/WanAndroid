@@ -11,12 +11,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.LocaleManagerCompat;
+import androidx.core.os.LocaleListCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Locale;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -101,6 +106,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
 
     @Override
     protected void initView() {
+        updateLanguage();
         updateThemeModeUI();
         mShowTop = SettingUtils.getInstance().isShowTop();
         sc_show_top.setChecked(mShowTop);
@@ -132,6 +138,18 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
             ll_logout.setVisibility(View.VISIBLE);
         } else {
             ll_logout.setVisibility(View.GONE);
+        }
+    }
+
+    private void updateLanguage() {
+        LocaleListCompat applicationLocales = AppCompatDelegate.getApplicationLocales();
+        if (!applicationLocales.isEmpty()) {
+            Locale locale = applicationLocales.get(0);
+            Objects.requireNonNull(locale);
+            String displayName = locale.getDisplayLanguage();
+            binding.tvLanguage.setText(displayName);
+        } else {
+            binding.tvLanguage.setText(R.string.follow_the_system);
         }
     }
 
@@ -192,6 +210,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
 
 
     @OnClick({
+            R.id.ll_language,
             R.id.rl_intercept_host, R.id.ll_theme_mode,
             R.id.ll_cache, R.id.ll_about,
             R.id.ll_privacy_policy, R.id.ll_logout
@@ -204,6 +223,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
     @Override
     protected void onClick2(View v) {
         switch (v.getId()) {
+            case R.id.ll_language:
+                LanguageActivity.start(getContext());
+                break;
             case R.id.ll_theme_mode:
                 final List<SettingUtils.ThemeMode> themeModes = Arrays.asList(SettingUtils.ThemeMode.values());
                 final List<String> nameList = new ArrayList<>(themeModes.size());

@@ -276,4 +276,6 @@
     <string name="deletion_failed">Échec de la suppression</string>
     <string name="are_you_sure_you_want_to_clear_your_cache">Voulez-vous vider le cache ?</string>
     <string name="are_you_sure_you_want_to_log_out">Voulez-vous vous déconnecter ?</string>
+
+    <string name="language">Langue</string>
 </resources>

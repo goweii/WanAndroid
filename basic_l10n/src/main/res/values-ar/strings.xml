@@ -276,4 +276,6 @@
     <string name="deletion_failed">فشل الحذف</string>
     <string name="are_you_sure_you_want_to_clear_your_cache">هل أنت متأكد من مسح ذاكرة التخزين المؤقت؟</string>
     <string name="are_you_sure_you_want_to_log_out">هل أنت متأكد من تسجيل الخروج؟</string>
+
+    <string name="language">اللغة</string>
 </resources>

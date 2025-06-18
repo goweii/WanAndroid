@@ -77,10 +77,20 @@ android {
         release {
             shrinkResources false
             signingConfig signingConfigs.release
+            bundle{
+                language {
+                    enableSplit = false
+                }
+            }
         }
         debug {
             shrinkResources false
             signingConfig signingConfigs.debug
+            bundle{
+                language {
+                    enableSplit = false
+                }
+            }
         }
     }
     flavorDimensions "applicationId"

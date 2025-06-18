@@ -78,10 +78,6 @@ public class Utils {
 
         @Override
         public void onActivityPaused(@NonNull Activity activity) {
-            if (mResumedActivityRef != null && mResumedActivityRef.get() == activity) {
-                mResumedActivityRef.clear();
-                mResumedActivityRef = null;
-            }
         }
 
         @Override
@@ -94,6 +90,10 @@ public class Utils {
 
         @Override
         public void onActivityDestroyed(@NonNull Activity activity) {
+            if (mResumedActivityRef != null && mResumedActivityRef.get() == activity) {
+                mResumedActivityRef.clear();
+                mResumedActivityRef = null;
+            }
         }
     }
 }

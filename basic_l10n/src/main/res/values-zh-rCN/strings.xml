@@ -276,4 +276,6 @@
     <string name="deletion_failed">删除失败</string>
     <string name="are_you_sure_you_want_to_clear_your_cache">确定要清除缓存吗？</string>
     <string name="are_you_sure_you_want_to_log_out">确定要退出登录吗？</string>
+
+    <string name="language">语言</string>
 </resources>

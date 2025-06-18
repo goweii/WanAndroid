@@ -19,6 +19,9 @@ android {
         }
     }
     resourcePrefix ""
+    androidResources {
+        generateLocaleConfig true
+    }
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             def versionName = variant.versionName
