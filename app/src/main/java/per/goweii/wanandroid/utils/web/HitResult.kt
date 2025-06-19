@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.utils.web
 
-import com.tencent.smtt.sdk.WebView
+import android.webkit.WebView
 
 /**
  * @author CuiZhen
@@ -27,7 +27,7 @@ data class HitResult(
     }
 
     fun getResult(): String {
-        return result.extra
+        return result.extra ?: ""
     }
 
     enum class Type {

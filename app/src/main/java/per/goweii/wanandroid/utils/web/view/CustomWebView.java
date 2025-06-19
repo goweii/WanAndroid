@@ -1,24 +1,14 @@
 package per.goweii.wanandroid.utils.web.view;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.webkit.WebView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.view.ScrollingView;
 
-import com.tencent.smtt.sdk.ValueCallback;
-import com.tencent.smtt.sdk.WebView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import per.goweii.basic.utils.LogUtils;
 import per.goweii.wanandroid.utils.web.WebScrollableUtils;
 
 /**
@@ -26,28 +16,28 @@ import per.goweii.wanandroid.utils.web.WebScrollableUtils;
  * @date 2019/11/30
  * GitHub: https://github.com/goweii
  */
-public class X5WebView extends WebView implements ScrollingView {
+public class CustomWebView extends WebView implements ScrollingView {
     private Float touchX = null;
     private Float touchY = null;
 
-    public X5WebView(Context context) {
+    public CustomWebView(@NonNull Context context) {
         super(context);
     }
 
-    public X5WebView(Context context, AttributeSet attributeSet) {
-        super(context, attributeSet);
+    public CustomWebView(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs);
     }
 
-    public X5WebView(Context context, AttributeSet attributeSet, int i) {
-        super(context, attributeSet, i);
+    public CustomWebView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
     }
 
-    public X5WebView(Context context, AttributeSet attributeSet, int i, boolean b) {
-        super(context, attributeSet, i, b);
+    public CustomWebView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-    public X5WebView(Context context, AttributeSet attributeSet, int i, Map<String, Object> map, boolean b) {
-        super(context, attributeSet, i, map, b);
+    public CustomWebView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, boolean privateBrowsing) {
+        super(context, attrs, defStyleAttr, privateBrowsing);
     }
 
     @Override
@@ -69,12 +59,12 @@ public class X5WebView extends WebView implements ScrollingView {
 
     @Override
     public void scrollBy(int x, int y) {
-        getView().scrollBy(x, y);
+        super.scrollBy(x, y);
     }
 
     @Override
     public boolean canScrollHorizontally(int direction) {
-        if (getView().canScrollHorizontally(direction)) {
+        if (super.canScrollHorizontally(direction)) {
             return true;
         }
         if (touchX == null || touchY == null) {
@@ -92,7 +82,7 @@ public class X5WebView extends WebView implements ScrollingView {
 
     @Override
     public boolean canScrollVertically(int direction) {
-        if (getView().canScrollVertically(direction)) {
+        if (super.canScrollVertically(direction)) {
             return true;
         }
         if (touchX == null || touchY == null) {
@@ -106,5 +96,35 @@ public class X5WebView extends WebView implements ScrollingView {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int computeHorizontalScrollRange() {
+        return super.computeHorizontalScrollRange();
+    }
+
+    @Override
+    public int computeHorizontalScrollOffset() {
+        return super.computeHorizontalScrollOffset();
+    }
+
+    @Override
+    public int computeHorizontalScrollExtent() {
+        return super.computeHorizontalScrollExtent();
+    }
+
+    @Override
+    public int computeVerticalScrollRange() {
+        return super.computeVerticalScrollRange();
+    }
+
+    @Override
+    public int computeVerticalScrollOffset() {
+        return super.computeVerticalScrollOffset();
+    }
+
+    @Override
+    public int computeVerticalScrollExtent() {
+        return super.computeVerticalScrollExtent();
     }
 }

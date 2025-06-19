@@ -1,7 +1,7 @@
 package per.goweii.wanandroid.utils.web.interceptor
 
 import android.net.Uri
-import com.tencent.smtt.export.external.interfaces.WebResourceResponse
+import android.webkit.WebResourceResponse
 import per.goweii.wanandroid.utils.web.cache.HtmlCacheManager
 import per.goweii.wanandroid.utils.web.cache.ReadingModeManager
 import per.goweii.wanandroid.utils.web.css.CssStyleManager

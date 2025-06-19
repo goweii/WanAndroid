@@ -9,9 +9,6 @@ import com.scwang.smart.refresh.layout.SmartRefreshLayout
 import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.bugly.crashreport.CrashReport.CrashHandleCallback
 import com.tencent.bugly.crashreport.CrashReport.UserStrategy
-import com.tencent.smtt.sdk.QbSdk
-import com.tencent.smtt.sdk.QbSdk.PreInitCallback
-import com.tencent.smtt.sdk.WebView
 import per.goweii.basic.core.CoreInit
 import per.goweii.basic.utils.AsyncInitTask
 import per.goweii.basic.utils.DebugUtils
@@ -238,28 +235,6 @@ class CrashInitTask : SyncInitTask() {
     }
 }
 
-class X5InitTask : AsyncInitTask() {
-    override fun init(application: Application) {
-        QbSdk.initX5Environment(application, object : PreInitCallback {
-            override fun onCoreInitFinished() {
-                LogUtils.d("x5", "initX5Environment->onCoreInitFinished")
-            }
-
-            override fun onViewInitFinished(b: Boolean) {
-                LogUtils.d("x5", "initX5Environment->onViewInitFinished=$b")
-            }
-        })
-    }
-
-    override fun onlyMainProcess(): Boolean {
-        return false
-    }
-
-    override fun level(): Int {
-        return 0
-    }
-}
-
 class ReadingModeTask : AsyncInitTask() {
     override fun init(application: Application) {
         ReadingModeManager.setup()
@@ -283,8 +258,6 @@ class BuglyInitTask : SyncInitTask() {
         strategy.setCrashHandleCallback(object : CrashHandleCallback() {
             override fun onCrashHandleStart(crashType: Int, errorType: String, errorMessage: String, errorStack: String): Map<String, String> {
                 val map = LinkedHashMap<String, String>()
-                val x5CrashInfo = WebView.getCrashExtraMessage(application)
-                map["x5crashInfo"] = x5CrashInfo
                 return map
             }
 

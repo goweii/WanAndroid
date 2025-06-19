@@ -1,10 +1,10 @@
 package per.goweii.wanandroid.utils.web.cache
 
 import android.net.Uri
+import android.webkit.WebResourceResponse
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
-import com.tencent.smtt.export.external.interfaces.WebResourceResponse
 import per.goweii.basic.utils.Utils
 import java.io.InputStream
 

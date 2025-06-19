@@ -17,6 +17,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
+import android.webkit.DownloadListener;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -26,19 +36,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.webkit.WebSettingsCompat;
 import androidx.webkit.WebViewFeature;
-
-import com.tencent.smtt.export.external.interfaces.IX5WebChromeClient;
-import com.tencent.smtt.export.external.interfaces.WebResourceRequest;
-import com.tencent.smtt.export.external.interfaces.WebResourceResponse;
-import com.tencent.smtt.sdk.CookieManager;
-import com.tencent.smtt.sdk.CookieSyncManager;
-import com.tencent.smtt.sdk.DownloadListener;
-import com.tencent.smtt.sdk.QbSdk;
-import com.tencent.smtt.sdk.ValueCallback;
-import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -148,9 +145,6 @@ public class WebHolder {
         int color = ResUtils.getThemeColor(mWebContainer, R.attr.colorSurface);
         mWebContainer.setBackgroundColor(color);
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            QbSdk.forceSysWebView();
-        } else {
-            QbSdk.unForceSysWebView();
         }
         if (useInstanceCache) {
             mWebView = WebInstance.getInstance(mActivity).obtain();
@@ -226,17 +220,13 @@ public class WebHolder {
         mUserAgentString = webSetting.getUserAgentString();
         boolean isAppDarkMode = DarkModeUtils.isDarkMode(activity);
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            View v = mWebView.getView();
-            if (v instanceof android.webkit.WebView) {
-                android.webkit.WebView wv = (android.webkit.WebView) v;
-                if (isAppDarkMode) {
-                    WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
-                } else {
-                    WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
-                }
+            WebView wv = mWebView;
+            if (isAppDarkMode) {
+                WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+            } else {
+                WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
             }
         } else {
-            mWebView.setDayOrNight(!isAppDarkMode);
         }
         jsInjector = new JsInjector(mWebView);
         jsInjector.attach();
@@ -258,7 +248,7 @@ public class WebHolder {
         if (isProgressShown) return 0f;
         float contentHeight = mWebView.getContentHeight() * mWebView.getScale();
         if (contentHeight <= 0) return 0f;
-        float webViewScrollY = mWebView.getWebScrollY();
+        float webViewScrollY = mWebView.getScrollY();
         float webViewHeight = mWebView.getHeight();
         float percent = (float) (webViewScrollY + webViewHeight) / (float) contentHeight;
         percent = Math.max(0F, percent);
@@ -640,11 +630,11 @@ public class WebHolder {
         }
 
         private DecorLayer mCustomViewLayer = null;
-        private IX5WebChromeClient.CustomViewCallback mCustomViewCallback = null;
+        private WebChromeClient.CustomViewCallback mCustomViewCallback = null;
         private int mOldActivityOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED;
 
         @Override
-        public void onShowCustomView(View view, IX5WebChromeClient.CustomViewCallback customViewCallback) {
+        public void onShowCustomView(View view, WebChromeClient.CustomViewCallback customViewCallback) {
             if (mCustomViewLayer != null) {
                 mCustomViewLayer.dismiss();
                 mCustomViewLayer = null;
@@ -754,13 +744,6 @@ public class WebHolder {
         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request) {
-            Map<String, String> reqHeaders = request.getRequestHeaders();
-            String reqMethod = request.getMethod();
-            return shouldInterceptRequest(request.getUrl(), reqHeaders, reqMethod);
-        }
-
-        @Override
-        public WebResourceResponse shouldInterceptRequest(WebView view, WebResourceRequest request, Bundle bundle) {
             Map<String, String> reqHeaders = request.getRequestHeaders();
             String reqMethod = request.getMethod();
             return shouldInterceptRequest(request.getUrl(), reqHeaders, reqMethod);

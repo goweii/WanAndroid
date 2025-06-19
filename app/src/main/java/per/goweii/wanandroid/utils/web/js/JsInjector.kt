@@ -3,7 +3,7 @@ package per.goweii.wanandroid.utils.web.js
 import android.os.Handler
 import android.os.Message
 import android.webkit.JavascriptInterface
-import com.tencent.smtt.sdk.WebView
+import android.webkit.WebView
 
 /**
  * @author CuiZhen

@@ -63,7 +63,7 @@ dependencies {
     implementation rootProject.ext.dependencies.buglyCrashreport
     implementation rootProject.ext.dependencies.buglyNativeCrashreport
     implementation rootProject.ext.dependencies.heartView
-    implementation rootProject.ext.dependencies.tbs
+//    implementation rootProject.ext.dependencies.tbs
     implementation rootProject.ext.dependencies.webkit
     implementation rootProject.ext.dependencies.photoView
     implementation rootProject.ext.dependencies.roomRuntime

@@ -1,8 +1,8 @@
 package per.goweii.wanandroid.utils.web
 
-import com.tencent.smtt.sdk.ValueCallback
+import android.webkit.ValueCallback
 import per.goweii.basic.utils.LogUtils
-import per.goweii.wanandroid.utils.web.view.X5WebView
+import per.goweii.wanandroid.utils.web.view.CustomWebView
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 
@@ -12,12 +12,12 @@ object WebScrollableUtils {
     const val DIRECTION_LEFT = 4
     const val DIRECTION_RIGHT = 8
 
-    fun getScrollableDirections(webView: X5WebView, x: Float, y: Float): Int {
+    fun getScrollableDirections(webView: CustomWebView, x: Float, y: Float): Int {
         if (true) return 0
 
         val density: Float = webView.resources.displayMetrics.density
-        val wx: Float = (x + webView.webScrollX) / density
-        val wy: Float = (y + webView.webScrollY) / density
+        val wx: Float = (x + webView.scrollX) / density
+        val wy: Float = (y + webView.scrollY) / density
         val js = """javascript:(
             function getScrollableDirections() {
                 let touchX = $wx;

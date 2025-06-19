@@ -1,6 +1,6 @@
 package per.goweii.wanandroid.utils.web.js
 
-import com.tencent.smtt.sdk.WebView
+import android.webkit.WebView
 import per.goweii.basic.utils.DebugUtils
 import per.goweii.basic.utils.Utils
 

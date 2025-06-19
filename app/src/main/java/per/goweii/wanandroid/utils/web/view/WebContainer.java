@@ -21,7 +21,6 @@ import androidx.core.view.ScrollingView;
 
 import com.donkingliang.consecutivescroller.IConsecutiveScroller;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -384,8 +383,6 @@ public class WebContainer extends FrameLayout implements IConsecutiveScroller {
             View child = getChildAt(i);
             if (child instanceof WebView) {
                 return child;
-            } else if (child instanceof X5WebView) {
-                return ((X5WebView) child).getView();
             }
         }
         return null;
@@ -407,7 +404,7 @@ public class WebContainer extends FrameLayout implements IConsecutiveScroller {
             View child = getChildAt(i);
             if (child instanceof WebView) {
                 return child;
-            } else if (child instanceof X5WebView) {
+            } else if (child instanceof CustomWebView) {
                 return child;
             }
         }

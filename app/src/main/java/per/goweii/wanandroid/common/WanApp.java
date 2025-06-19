@@ -24,7 +24,6 @@ public class WanApp extends BaseApp {
                 .add(new WanDbInitTask())
                 .add(new WanCacheInitTask())
                 .add(new BlurredInitTask())
-                .add(new X5InitTask())
                 .add(new BuglyInitTask())
                 .add(new CrashInitTask())
                 .add(new ReadingModeTask())

@@ -2,8 +2,8 @@ package per.goweii.wanandroid.utils.web.cache
 
 import android.net.Uri
 import android.util.LruCache
+import android.webkit.WebResourceResponse
 import com.jakewharton.disklrucache.DiskLruCache
-import com.tencent.smtt.export.external.interfaces.WebResourceResponse
 import per.goweii.basic.utils.coder.MD5Coder
 import per.goweii.basic.utils.file.CacheUtils
 import per.goweii.wanandroid.utils.web.interceptor.WebHttpClient

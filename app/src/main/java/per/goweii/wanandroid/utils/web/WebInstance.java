@@ -6,22 +6,18 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.webkit.CookieManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
-
-import com.tencent.smtt.export.external.extension.interfaces.IX5WebSettingsExtension;
-import com.tencent.smtt.export.external.interfaces.IX5WebSettings;
-import com.tencent.smtt.sdk.CookieManager;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import per.goweii.wanandroid.utils.web.view.X5WebView;
+import per.goweii.wanandroid.utils.web.view.CustomWebView;
 
 public class WebInstance {
     private static WebInstance sInstance = null;
@@ -96,12 +92,11 @@ public class WebInstance {
 
     @SuppressLint("SetJavaScriptEnabled")
     public WebView create() {
-        WebView webView = new X5WebView(mApplication);
+        WebView webView = new CustomWebView(mApplication);
         webView.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         webView.setBackgroundColor(0);
         webView.getBackground().setAlpha(0);
         webView.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
-        webView.getView().setOverScrollMode(View.OVER_SCROLL_NEVER);
         WebSettings webSetting = webView.getSettings();
         webSetting.setJavaScriptEnabled(true);
         webSetting.setJavaScriptCanOpenWindowsAutomatically(false);
@@ -111,18 +106,12 @@ public class WebInstance {
         webSetting.setBuiltInZoomControls(false);
         webSetting.setUseWideViewPort(true);
         webSetting.setLoadWithOverviewMode(true);
-        webSetting.setAppCacheEnabled(true);
         webSetting.setDomStorageEnabled(true);
         webSetting.setGeolocationEnabled(true);
-        webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
         webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
         webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             webSetting.setMixedContentMode(android.webkit.WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-        }
-        IX5WebSettingsExtension ext = webView.getSettingsExtension();
-        if (ext != null) {
-            ext.setPageCacheCapacity(IX5WebSettings.DEFAULT_CACHE_CAPACITY);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager.getInstance().setAcceptThirdPartyCookies(webView, true);
