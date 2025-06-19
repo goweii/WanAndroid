@@ -54,7 +54,8 @@ public class BookChapterAdapter extends BaseQuickAdapter<BookChapterBean, BaseVi
                 pb_percent.setVisibility(View.INVISIBLE);
             } else {
                 ll_state.setVisibility(View.VISIBLE);
-                tv_state.setText(mContext.getString(R.string.learned_n_percent, (int) (item.getPercent() * 100)));
+                int p = (int) (item.getPercent() * 100);
+                tv_state.setText(mContext.getString(R.string.learned_n_percent, p));
                 tv_state.setTextColor(ResUtils.getThemeColor(tv_state, R.attr.colorTextMain));
                 pb_percent.setVisibility(View.VISIBLE);
             }

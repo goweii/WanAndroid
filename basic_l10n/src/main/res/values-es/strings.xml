@@ -42,7 +42,7 @@
     <string name="privacy_policy_content">¡Gracias por usar WanAndroid!\nHemos actualizado nuestra Política de Privacidad según los últimos requisitos regulatorios:\n1. Para proporcionarte funciones básicas de transacción, recopilaremos y usaremos la información necesaria;\n2. Con tu autorización explícita, obtendremos permiso de almacenamiento para guardar imágenes compartidas de artículos. Puedes rechazar o cancelar la autorización;\n3. Tomaremos medidas de seguridad para proteger tu información;\n4. Sin tu consentimiento, no obtendremos, compartiremos ni proporcionaremos tu información a terceros.</string>
 
     <string name="n_bytes" translatable="false">%d B</string>
-    <string name="n_percent" translatable="false">%d \%</string>
+    <string name="n_percent" translatable="false">%d %%</string>
     <string name="download_update_failed_tips">Descarga fallida, puedes descargar desde el repositorio de Github: Yo - Configuración del sistema - Sobre nosotros - Repositorio del proyecto</string>
 
     <string name="this_webpage_is_provided_by">Página proporcionada por %s</string>
@@ -166,7 +166,7 @@
     <string name="scan_the_code_to_download_and_install">Escanea el código para descargar e instalar</string>
     <string name="nothing">Nada aquí~</string>
     <string name="how_did_it_go_wrong_again">¿Por qué falló de nuevo~?</string>
-    <string name="learned_n_percent">%d\% aprendido</string>
+    <string name="learned_n_percent">%d%% aprendido</string>
     <string name="check_in_points_is">Check-in Puntos %s</string>
     <string name="edit">Editar</string>
     <string name="tips">Consejos</string>
@@ -220,7 +220,7 @@
     <string name="authorization_failed">Autorización fallida</string>
     <string name="loaded_successfully">Cargado exitosamente</string>
     <string name="loaded_failed">Error al cargar</string>
-    <string name="loading_n_percent">Cargando (%d\%)</string>
+    <string name="loading_n_percent">Cargando (%d%%)</string>
     <string name="collected">Favorito</string>
     <string name="anonymous">Anónimo</string>
     <string name="added_to_my_bookmarks">Añadido a mis marcadores</string>

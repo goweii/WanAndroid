@@ -42,7 +42,7 @@
     <string name="privacy_policy_content">شكرًا لاستخدامك وان أندرويد!\nقمنا بتحديث "سياسة الخصوصية" وفقًا لأحدث المتطلبات التنظيمية، ونوضح ما يلي:\n1. لجلب الوظائف الأساسية، سنجمع ونستخدم المعلومات الضرورية؛\n2. بناءً على إذنك الصريح، سنطلب إذن التخزين لحفظ صور مشاركة المقالات، ويمكنك رفض أو إلغاء الإذن؛\n3. سنتخذ تدابير أمنية لحماية معلوماتك؛\n4. لن نحصل أو نشارك أو نقدم معلوماتك لطرف ثالث دون إذنك.</string>
 
     <string name="n_bytes" translatable="false">%d B</string>
-    <string name="n_percent" translatable="false">%d \%</string>
+    <string name="n_percent" translatable="false">%d %%</string>
     <string name="download_update_failed_tips">"فشل التنزيل، يمكنك الذهاب إلى مستودع Github: أنا - إعدادات النظام - حولنا - مستودع المشروع"</string>
 
     <string name="this_webpage_is_provided_by">هذه الصفحة مقدمة من %s</string>
@@ -166,7 +166,7 @@
     <string name="scan_the_code_to_download_and_install">امسح الرمز لتنزيل وتثبيت التطبيق</string>
     <string name="nothing">لا يوجد شيء~</string>
     <string name="how_did_it_go_wrong_again">كيف حدث الخطأ مرة أخرى~</string>
-    <string name="learned_n_percent">تم التعلم %d\%</string>
+    <string name="learned_n_percent">تم التعلم %d%%</string>
     <string name="check_in_points_is">تسجيل الدخول النقاط %s</string>
     <string name="edit">تعديل</string>
     <string name="tips">نصيحة</string>
@@ -220,7 +220,7 @@
     <string name="authorization_failed">فشل التفويض</string>
     <string name="loaded_successfully">تم التحميل بنجاح</string>
     <string name="loaded_failed">فشل التحميل</string>
-    <string name="loading_n_percent">جارٍ التحميل (%d\%)</string>
+    <string name="loading_n_percent">جارٍ التحميل (%d%%)</string>
     <string name="collected">تمت الإضافة للمفضلة</string>
     <string name="anonymous">مجهول</string>
     <string name="added_to_my_bookmarks">تمت الإضافة إلى إشاراتي المرجعية</string>

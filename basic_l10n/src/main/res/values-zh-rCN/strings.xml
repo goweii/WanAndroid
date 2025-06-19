@@ -42,7 +42,7 @@
     <string name="privacy_policy_content">感谢您使用玩安卓！\n我们依据最新的监管要求更新了《隐私政策》特向您说明如下：\n1. 为向您提供交易相关基本功能，我们会收集、使用必要的信息；\n2. 基于您的明示授权我们会获取存储权限，用于保存文章分享图，您有权拒绝或取消授权；\n3. 我们会采取安全措施保护您的信息安全；\n4. 未经您同意，我们不会从第三方处获取、共享或向其提供您的信息。</string>
 
     <string name="n_bytes" translatable="false">%d B</string>
-    <string name="n_percent" translatable="false">%d \%</string>
+    <string name="n_percent" translatable="false">%d %%</string>
     <string name="download_update_failed_tips">"下载失败，可前往Github仓库下载：我的-系统设置-关于我们-项目仓库"</string>
 
     <string name="this_webpage_is_provided_by">网页由%s提供</string>
@@ -166,7 +166,7 @@
     <string name="scan_the_code_to_download_and_install">扫码下载安装</string>
     <string name="nothing">什么都没有~</string>
     <string name="how_did_it_go_wrong_again">怎么又出错~</string>
-    <string name="learned_n_percent">已学%d\%</string>
+    <string name="learned_n_percent">已学%d%%</string>
     <string name="check_in_points_is">签到 积分%s</string>
     <string name="edit">编辑</string>
     <string name="tips">提示</string>
@@ -220,7 +220,7 @@
     <string name="authorization_failed">授权失败</string>
     <string name="loaded_successfully">加载成功</string>
     <string name="loaded_failed">加载失败</string>
-    <string name="loading_n_percent">加载中（%d\%）</string>
+    <string name="loading_n_percent">加载中（%d%%）</string>
     <string name="collected">已收藏</string>
     <string name="anonymous">匿名</string>
     <string name="added_to_my_bookmarks">已加入我的书签</string>

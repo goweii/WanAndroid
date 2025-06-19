@@ -39,11 +39,11 @@
 
     <!-- 隐私政策 -->
     <string name="privacy_policy_content_link">« Politique de confidentialité »</string>
-    <string name="privacy_policy_content">Merci d\'utiliser WanAndroid !\nNous avons mis à jour notre politique de confidentialité conformément aux dernières exigences réglementaires :\n1. Pour vous fournir les fonctions de base, nous collectons et utilisons les informations nécessaires ;\n2. Avec votre autorisation explicite, nous accédons au stockage pour enregistrer les images partagées. Vous pouvez refuser ou annuler ;\n3. Nous prenons des mesures de sécurité pour protéger vos informations ;\n4. Sans votre consentement, nous ne collecterons, partagerons ni fournirons vos informations à des tiers.</string>
+    <string name="privacy_policy_content">Merci d\'utiliser WanAndroid !\nNous avons mis à jour notre politique de confidentialité conformément aux dernières exigences réglementaires&#160;:\n1. Pour vous fournir les fonctions de base, nous collectons et utilisons les informations nécessaires&#160;;\n2. Avec votre autorisation explicite, nous accédons au stockage pour enregistrer les images partagées. Vous pouvez refuser ou annuler&#160;;\n3. Nous prenons des mesures de sécurité pour protéger vos informations&#160;;\n4. Sans votre consentement, nous ne collecterons, partagerons ni fournirons vos informations à des tiers.</string>
 
-    <string name="n_bytes" translatable="false">%d B</string>
-    <string name="n_percent" translatable="false">%d \%</string>
-    <string name="download_update_failed_tips">"Échec du téléchargement, vous pouvez télécharger depuis le dépôt Github : Moi - Paramètres système - À propos de nous - Dépôt du projet"</string>
+    <string name="n_bytes" translatable="false">%d&#160;B</string>
+    <string name="n_percent" translatable="false">%d&#160;%%</string>
+    <string name="download_update_failed_tips">"Échec du téléchargement, vous pouvez télécharger depuis le dépôt Github&#160;: Moi - Paramètres système - À propos de nous - Dépôt du projet"</string>
 
     <string name="this_webpage_is_provided_by">Page fournie par %s</string>
     <string name="back_to_the_home_page">Retour à l\'accueil</string>
@@ -93,10 +93,10 @@
     <string name="personal_data">Profil</string>
     <string name="wan_id">WanID</string>
     <string name="username">Nom d\'utilisateur</string>
-    <string name="points_with_colon">Points :</string>
-    <string name="ranking_with_colon">Classement :</string>
+    <string name="points_with_colon">Points&#160;:</string>
+    <string name="ranking_with_colon">Classement&#160;:</string>
     <string name="domain_name">Nom de domaine</string>
-    <string name="host_input_hint">ex : www.wanandroid.com</string>
+    <string name="host_input_hint">ex&#160;: www.wanandroid.com</string>
     <string name="cancel">Annuler</string>
     <string name="ok">OK</string>
     <string name="open_the_link">Ouvrir le lien</string>
@@ -104,7 +104,7 @@
     <string name="save">Enregistrer</string>
     <string name="identify_the_qr_code_in_the_picture">Reconnaître le QR code dans l\'image</string>
     <string name="please_enter">Veuillez saisir</string>
-    <string name="unknown_watchword_tips">Je n\'ai même pas encore décidé à quoi sert ce mot de passe, comment l\'avez-vous trouvé ?</string>
+    <string name="unknown_watchword_tips">Je n\'ai même pas encore décidé à quoi sert ce mot de passe, comment l\'avez-vous trouvé&#160;?</string>
     <string name="ignore">Ignorer</string>
     <string name="double_click_anywhere_to_favorite_an_article">Double-cliquez n\'importe où pour ajouter aux favoris</string>
     <string name="long_press_the_image_on_the_webpage_to_enlarge_it">Appuyez longuement sur l\'image pour l\'agrandir</string>
@@ -118,7 +118,7 @@
     <string name="homepage">Accueil</string>
     <string name="go_to_sign_up">S\'inscrire</string>
     <string name="sign_in">Connexion</string>
-    <string name="level_with_colon">Niveau :</string>
+    <string name="level_with_colon">Niveau&#160;:</string>
     <string name="my_collections">Mes collections</string>
     <string name="question_answering">Questions/Réponses</string>
     <string name="tag_new">Nouveau</string>
@@ -141,8 +141,8 @@
     <string name="refresh_the_title">Rafraîchir le titre</string>
     <string name="up_to_100_characters">Jusqu\'à 100 caractères</string>
     <string name="link_to_article">Lien de l\'article</string>
-    <string name="article_link_input_hint">ex : https://www.wanandroid.com/blog/show/2577</string>
-    <string name="share_article_tips">1. Vous pouvez partager tout bon article, pas seulement les originaux ! Les articles soumis apparaîtront dans l\'onglet Place ;\n2. Les blogs officiels comme CSDN, Juejin, JianShu sont automatiquement approuvés ;\n3. Les sites personnels nécessitent une vérification ; n\'envoyez pas de liens invalides, cela pourrait affecter votre compte ;\n4. Si vous trouvez une erreur, envoyez un journal pour améliorer le site.\n5. Ce site est maintenu par une seule personne, l\'approbation se fait sous 24h, sauf imprévu.</string>
+    <string name="article_link_input_hint">ex&#160;: https://www.wanandroid.com/blog/show/2577</string>
+    <string name="share_article_tips">1. Vous pouvez partager tout bon article, pas seulement les originaux&#160;! Les articles soumis apparaîtront dans l\'onglet Place&#160;;\n2. Les blogs officiels comme CSDN, Juejin, JianShu sont automatiquement approuvés&#160;;\n3. Les sites personnels nécessitent une vérification&#160;; n\'envoyez pas de liens invalides, cela pourrait affecter votre compte&#160;;\n4. Si vous trouvez une erreur, envoyez un journal pour améliorer le site.\n5. Ce site est maintenu par une seule personne, l\'approbation se fait sous 24h, sauf imprévu.</string>
     <string name="generated_by_wanandroid_client">Généré par le client WanAndroid</string>
     <string name="save_to_album">Enregistrer dans l\'album</string>
     <string name="share_now">Partager maintenant</string>
@@ -160,14 +160,14 @@
     <string name="my_signature">Celui qui ne croit pas en lui-même n\'a aucune valeur à s\'efforcer</string>
     <string name="jianshu">JianShu</string>
     <string name="qq_group">Groupe QQ</string>
-    <string name="buy_you_a_coffee">Yo~\nL\'application est super !\nOffrez-vous un café</string>
+    <string name="buy_you_a_coffee">Yo~\nL\'application est super&#160;!\nOffrez-vous un café</string>
     <string name="swipe_up">Glisser vers le haut</string>
     <string name="click_save_to_album">Cliquez pour enregistrer dans l\'album</string>
     <string name="scan_the_code_to_download_and_install">Scanner pour télécharger et installer</string>
     <string name="nothing">Rien~</string>
     <string name="how_did_it_go_wrong_again">Encore une erreur~</string>
-    <string name="learned_n_percent">%d \% appris</string>
-    <string name="check_in_points_is">Enregistrement Points %s</string>
+    <string name="learned_n_percent">%d&#160;%% appris</string>
+    <string name="check_in_points_is">Enregistrement Points&#160;%s</string>
     <string name="edit">Éditer</string>
     <string name="tips">Conseil</string>
     <string name="links_to_the_site">Liens du site</string>
@@ -175,33 +175,33 @@
     <string name="already_learned">Déjà appris</string>
     <string name="copied">Copié</string>
     <string name="release_into_the_book_tutorial">Relâcher dans le tutoriel de livre</string>
-    <string name="make_sure_you_want_to_clear_your_search_history">Êtes-vous sûr de vouloir effacer l\'historique de recherche ?</string>
+    <string name="make_sure_you_want_to_clear_your_search_history">Êtes-vous sûr de vouloir effacer l\'historique de recherche&#160;?</string>
     <string name="not_the_beta_user">Pas un utilisateur bêta</string>
     <string name="turn_on_biometric_authentication_to_sign_in">Activer la connexion biométrique</string>
     <string name="sign_in_with_biometric_authentication">Se connecter avec la biométrie</string>
-    <string name="let_s_have_a_cup_of_coffee">Offrez un café au développeur !\nUne application totalement gratuite !\nUne application aussi pratique et gratuite !\nAussi belle, aussi pratique et gratuite !\nPas de café pour moi ?\nJe n\'ai plus d\'énergie pour continuer !</string>
+    <string name="let_s_have_a_cup_of_coffee">Offrez un café au développeur&#160;!\nUne application totalement gratuite&#160;!\nUne application aussi pratique et gratuite&#160;!\nAussi belle, aussi pratique et gratuite&#160;!\nPas de café pour moi&#160;?\nJe n\'ai plus d\'énergie pour continuer&#160;!</string>
     <string name="go_for_a_treat">Offrir</string>
     <string name="please_sign_in_first">Veuillez vous connecter d\'abord</string>
     <string name="the_activation_was_successful">Activation réussie, effective après redémarrage</string>
     <string name="the_activation_code_is_invalid">Code d\'activation invalide</string>
-    <string name="you_ve_found_an_activation_code">Vous avez trouvé un code d\'activation !\nLe code est lié au compte actuel. Après changement d\'appareil ou de compte, il faut réactiver. Après activation, toutes les pubs seront supprimées. Activer maintenant ?</string>
+    <string name="you_ve_found_an_activation_code">Vous avez trouvé un code d\'activation&#160;!\nLe code est lié au compte actuel. Après changement d\'appareil ou de compte, il faut réactiver. Après activation, toutes les pubs seront supprimées. Activer maintenant&#160;?</string>
     <string name="activate">Activer</string>
     <string name="please_sign_in_to_use_this_feature">Veuillez vous connecter pour utiliser cette fonction</string>
     <string name="this_feature_is_only_available_to_developer_accounts">Cette fonction est réservée aux comptes développeur</string>
     <string name="this_is_an_activation_code_passcode">[Wan Watchword] Ceci est un code d\'activation, réservé à certains comptes</string>
     <string name="open_the_most_beautiful_android_client_to_activate">Ouvrez le plus beau client WanAndroid pour activer</string>
     <string name="activation_code_generation_warning">###Génération de code d\'activation###\n\n!!! Attention !!!\n\nCette fonction est réservée aux développeurs</string>
-    <string name="your_friend_shared_a_link_with_you">[Wan Watchword] Votre ami vous a partagé un lien, ouvrez le client WanAndroid pour le voir : %s</string>
+    <string name="your_friend_shared_a_link_with_you">[Wan Watchword] Votre ami vous a partagé un lien, ouvrez le client WanAndroid pour le voir&#160;: %s</string>
     <string name="copy">Copier</string>
     <string name="go_to_update">Mettre à jour</string>
-    <string name="you_ve_discovered_a_mysterious_password">Vous avez trouvé un mot de passe mystérieux !\nMalheureusement, cette version ne le prend pas en charge. Mettez à jour dans les paramètres et réessayez !</string>
-    <string name="you_ve_discovered_a_mystery_user">Vous avez trouvé un utilisateur mystérieux !\nVoulez-vous visiter sa page ?</string>
+    <string name="you_ve_discovered_a_mysterious_password">Vous avez trouvé un mot de passe mystérieux&#160;!\nMalheureusement, cette version ne le prend pas en charge. Mettez à jour dans les paramètres et réessayez&#160;!</string>
+    <string name="you_ve_discovered_a_mystery_user">Vous avez trouvé un utilisateur mystérieux&#160;!\nVoulez-vous visiter sa page&#160;?</string>
     <string name="go_to_the_homepage">Aller à la page d\'accueil</string>
-    <string name="your_friend_has_shared_a_mystery_user_with_you">[Wan Watchword] Votre ami vous a partagé un utilisateur mystérieux, ouvrez le client WanAndroid pour le découvrir : %s</string>
-    <string name="you_ve_found_a_link_to_a_web_page">Vous avez trouvé un lien web !\nVoulez-vous l\'ouvrir ?</string>
-    <string name="you_have_found_a_qq_number">Vous avez trouvé un numéro QQ !\n%s\nVoulez-vous ouvrir QQ pour ajouter un ami ?</string>
+    <string name="your_friend_has_shared_a_mystery_user_with_you">[Wan Watchword] Votre ami vous a partagé un utilisateur mystérieux, ouvrez le client WanAndroid pour le découvrir&#160;: %s</string>
+    <string name="you_ve_found_a_link_to_a_web_page">Vous avez trouvé un lien web&#160;!\nVoulez-vous l\'ouvrir&#160;?</string>
+    <string name="you_have_found_a_qq_number">Vous avez trouvé un numéro QQ&#160;!\n%s\nVoulez-vous ouvrir QQ pour ajouter un ami&#160;?</string>
     <string name="add_friends">Ajouter un ami</string>
-    <string name="your_friend_orders_you_a_coffee_for_two">[Wan Watchword] Votre ami vous a commandé un café pour deux, ouvrez le client WanAndroid pour le recevoir : %s</string>
+    <string name="your_friend_orders_you_a_coffee_for_two">[Wan Watchword] Votre ami vous a commandé un café pour deux, ouvrez le client WanAndroid pour le recevoir&#160;: %s</string>
     <string name="whitelist_only">Liste blanche uniquement</string>
     <string name="block_blacklists">Bloquer la liste noire</string>
     <string name="please_enter_your_username">Veuillez saisir votre nom d\'utilisateur</string>
@@ -220,7 +220,7 @@
     <string name="authorization_failed">Échec de l\'autorisation</string>
     <string name="loaded_successfully">Chargé avec succès</string>
     <string name="loaded_failed">Échec du chargement</string>
-    <string name="loading_n_percent">Chargement (%d \%)</string>
+    <string name="loading_n_percent">Chargement (%d&#160;%%)</string>
     <string name="collected">Ajouté aux favoris</string>
     <string name="anonymous">Anonyme</string>
     <string name="added_to_my_bookmarks">Ajouté à mes signets</string>
@@ -237,7 +237,7 @@
     <string name="next">Suivant</string>
     <string name="double_click_anywhere_to_quickly_bookmark">Double-cliquez n\'importe où pour ajouter rapidement aux favoris~</string>
     <string name="long_press_the_web_image_to_preview_a_larger_image">Appuyez longuement sur l\'image pour la prévisualiser en grand~</string>
-    <string name="read_on_or_not">Continuer la lecture ?</string>
+    <string name="read_on_or_not">Continuer la lecture&#160;?</string>
     <string name="camera_permission_denied_tips">Refuser la permission appareil photo empêche le scan</string>
     <string name="reapply">Redemander</string>
     <string name="camera_permission_always_denied_tips">Permission appareil photo refusée</string>
@@ -252,9 +252,9 @@
     <string name="architecture">Système</string>
     <string name="navigation">Navigation</string>
     <string name="qa">Q/R</string>
-    <string name="apply_for_a_closed_beta_msg">Pour demander l\'accès à la bêta, rejoignez le groupe (voir À propos de l\'auteur) et indiquez votre numéro Wan (voir profil).\n\nNote : la bêta nécessite d\'être connecté et à jour.</string>
-    <string name="discover_the_new_version_tips">Nouvelle version trouvée : %s</string>
-    <string name="discover_the_closed_beta_version_tips">Version bêta trouvée : %s</string>
+    <string name="apply_for_a_closed_beta_msg">Pour demander l\'accès à la bêta, rejoignez le groupe (voir À propos de l\'auteur) et indiquez votre numéro Wan (voir profil).\n\nNote&#160;: la bêta nécessite d\'être connecté et à jour.</string>
+    <string name="discover_the_new_version_tips">Nouvelle version trouvée&#160;: %s</string>
+    <string name="discover_the_closed_beta_version_tips">Version bêta trouvée&#160;: %s</string>
     <string name="this_is_the_latest_version">Déjà à jour</string>
     <string name="app_version_name_code">%s(%d)</string>
     <string name="new_messages">Nouveaux messages</string>
@@ -262,7 +262,7 @@
     <string name="enabled_quick_sign_in_successfully">Connexion rapide activée</string>
     <string name="quick_sign_in_successful">Connexion rapide réussie</string>
     <string name="quick_sign_in_failed">Échec de la connexion rapide, veuillez utiliser le mot de passe</string>
-    <string name="whether_to_enable_quick_login">Activer la connexion rapide ?</string>
+    <string name="whether_to_enable_quick_login">Activer la connexion rapide&#160;?</string>
     <string name="not_enabled_yet">Pas maintenant</string>
     <string name="quick_sign_in">Connexion rapide</string>
     <string name="password_sign_in">Connexion par mot de passe</string>
@@ -271,11 +271,11 @@
     <string name="website">Site web</string>
     <string name="whitelist">Liste blanche</string>
     <string name="blacklist">Liste noire</string>
-    <string name="are_you_sure_you_want_to_delete_them_all">Voulez-vous tout supprimer ?</string>
+    <string name="are_you_sure_you_want_to_delete_them_all">Voulez-vous tout supprimer&#160;?</string>
     <string name="the_link_is_empty">Lien vide</string>
     <string name="deletion_failed">Échec de la suppression</string>
-    <string name="are_you_sure_you_want_to_clear_your_cache">Voulez-vous vider le cache ?</string>
-    <string name="are_you_sure_you_want_to_log_out">Voulez-vous vous déconnecter ?</string>
+    <string name="are_you_sure_you_want_to_clear_your_cache">Voulez-vous vider le cache&#160;?</string>
+    <string name="are_you_sure_you_want_to_log_out">Voulez-vous vous déconnecter&#160;?</string>
 
     <string name="language">Langue</string>
 </resources>

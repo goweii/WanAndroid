@@ -42,7 +42,7 @@
     <string name="privacy_policy_content">Спасибо за использование WanAndroid!\nМы обновили «Политику конфиденциальности» в соответствии с последними требованиями:\n1. Для предоставления основных функций мы собираем и используем необходимую информацию;\n2. С вашего разрешения мы получаем доступ к хранилищу для сохранения изображений, вы можете отказаться;\n3. Мы принимаем меры для защиты вашей информации;\n4. Без вашего согласия мы не получаем, не делимся и не передаем вашу информацию третьим лицам.</string>
 
     <string name="n_bytes" translatable="false">%d B</string>
-    <string name="n_percent" translatable="false">%d \%</string>
+    <string name="n_percent" translatable="false">%d %%</string>
     <string name="download_update_failed_tips">"Не удалось загрузить, скачайте с Github: Мое - Настройки системы - О нас - Репозиторий проекта"</string>
 
     <string name="this_webpage_is_provided_by">Страница предоставлена %s</string>
@@ -166,7 +166,7 @@
     <string name="scan_the_code_to_download_and_install">Сканируйте для загрузки и установки</string>
     <string name="nothing">Ничего нет~</string>
     <string name="how_did_it_go_wrong_again">Опять что-то не так~</string>
-    <string name="learned_n_percent">Изучено %d\%</string>
+    <string name="learned_n_percent">Изучено %d%%</string>
     <string name="check_in_points_is">Регистрация Баллы %s</string>
     <string name="edit">Редактировать</string>
     <string name="tips">Подсказка</string>
@@ -220,7 +220,7 @@
     <string name="authorization_failed">Не удалось получить разрешение</string>
     <string name="loaded_successfully">Загружено успешно</string>
     <string name="loaded_failed">Не удалось загрузить</string>
-    <string name="loading_n_percent">Загрузка (%d\%)</string>
+    <string name="loading_n_percent">Загрузка (%d%%)</string>
     <string name="collected">В избранном</string>
     <string name="anonymous">Аноним</string>
     <string name="added_to_my_bookmarks">Добавлено в закладки</string>

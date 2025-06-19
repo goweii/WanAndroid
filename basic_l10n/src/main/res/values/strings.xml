@@ -42,7 +42,7 @@
     <string name="privacy_policy_content">Thank you for using WanAndroid!\nWe have updated our Privacy Policy according to the latest regulatory requirements. Please note:\n1. We collect and use necessary information to provide you with basic transaction functions;\n2. With your explicit authorization, we will obtain storage permission to save article sharing images. You have the right to refuse or cancel authorization;\n3. We take security measures to protect your information;\n4. Without your consent, we will not obtain, share, or provide your information to third parties.</string>
 
     <string name="n_bytes" translatable="false">%d B</string>
-    <string name="n_percent" translatable="false">%d \%</string>
+    <string name="n_percent" translatable="false">%d %%</string>
     <string name="download_update_failed_tips">Download failed, you can download from Github: Mine - System Settings - About Us - Project Repository</string>
 
     <string name="this_webpage_is_provided_by">This webpage is provided by %s</string>
@@ -166,7 +166,7 @@
     <string name="scan_the_code_to_download_and_install">Scan to download and install</string>
     <string name="nothing">Nothing~</string>
     <string name="how_did_it_go_wrong_again">How did it go wrong again~</string>
-    <string name="learned_n_percent">Learned %d\%</string>
+    <string name="learned_n_percent">Learned %d%%</string>
     <string name="check_in_points_is">Check-in points %s</string>
     <string name="edit">Edit</string>
     <string name="tips">Tips</string>
@@ -220,7 +220,7 @@
     <string name="authorization_failed">Authorization failed</string>
     <string name="loaded_successfully">Loaded successfully</string>
     <string name="loaded_failed">Load failed</string>
-    <string name="loading_n_percent">Loading (%d\%)</string>
+    <string name="loading_n_percent">Loading (%d%%)</string>
     <string name="collected">Collected</string>
     <string name="anonymous">Anonymous</string>
     <string name="added_to_my_bookmarks">Added to my bookmarks</string>
