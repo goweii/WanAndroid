@@ -59,6 +59,7 @@ import per.goweii.wanandroid.utils.CookieUtils;
 import per.goweii.wanandroid.utils.DarkModeUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.web.js.JsInjector;
+import per.goweii.wanandroid.utils.web.view.ResuableWebView;
 import per.goweii.wanandroid.utils.web.view.WebContainer;
 
 /**
@@ -80,7 +81,7 @@ public class WebHolder {
 
     private final Activity mActivity;
     private final WebContainer mWebContainer;
-    private final WebView mWebView;
+    private final ResuableWebView mWebView;
     private final ProgressBar mProgressBar;
     private final String mUserAgentString;
 
@@ -199,24 +200,22 @@ public class WebHolder {
                 }
             }
         });
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            mWebView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
-                @Override
-                public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                    if (isProgressShown) return;
-                    float percent = getPercent();
-                    if (mOnPageScrollChangeListener != null) {
-                        mOnPageScrollChangeListener.onPageScrolled(percent);
-                    }
-                    if (!isPageScrollEnd && percent >= 0.95) {
-                        isPageScrollEnd = true;
-                        if (mOnPageScrollEndListener != null) {
-                            mOnPageScrollEndListener.onPageScrollEnd();
-                        }
+        mWebView.addOnScrollChangeListener(new ResuableWebView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(@NonNull ResuableWebView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (isProgressShown) return;
+                float percent = getPercent();
+                if (mOnPageScrollChangeListener != null) {
+                    mOnPageScrollChangeListener.onPageScrolled(percent);
+                }
+                if (!isPageScrollEnd && percent >= 0.95) {
+                    isPageScrollEnd = true;
+                    if (mOnPageScrollEndListener != null) {
+                        mOnPageScrollEndListener.onPageScrollEnd();
                     }
                 }
-            });
-        }
+            }
+        });
         WebSettings webSetting = mWebView.getSettings();
         mUserAgentString = webSetting.getUserAgentString();
         boolean isAppDarkMode = DarkModeUtils.isDarkMode(activity);

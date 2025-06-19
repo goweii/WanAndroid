@@ -16,24 +16,25 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import per.goweii.wanandroid.utils.web.view.CustomWebView;
+import per.goweii.wanandroid.utils.web.view.ResuableWebView;
 
 public class WebInstance {
     private static WebInstance sInstance = null;
 
     private final Application mApplication;
-    private final List<WebView> mCache = new ArrayList<>(1);
+    private final List<ResuableWebView> mCache = new ArrayList<>(1);
 
     private final WebChromeClient mEmptyWebChromeClient = new WebChromeClient();
     private final WebViewClient mEmptyWebViewClient = new WebViewClient();
 
     private WebInstance(@NonNull Application application) {
         mApplication = application;
-        WebView webView = create(application);
+        ResuableWebView webView = create(application);
         mCache.add(webView);
     }
 
@@ -47,14 +48,13 @@ public class WebInstance {
 
     @SuppressLint("SetJavaScriptEnabled")
     @NonNull
-    public WebView obtain(Context context) {
+    public ResuableWebView obtain(@Nullable Context context) {
         if (mCache.isEmpty()) {
             return create(context);
         }
-        WebView webView = mCache.remove(0);
-        if (webView instanceof CustomWebView) {
-            CustomWebView customWebView = (CustomWebView) webView;
-            customWebView.setBaseContext(context);
+        ResuableWebView webView = mCache.remove(0);
+        if (context != null) {
+            webView.setBaseContext(context);
         }
         WebSettings webSetting = webView.getSettings();
         webSetting.setJavaScriptEnabled(true);
@@ -63,11 +63,8 @@ public class WebInstance {
         return webView;
     }
 
-    public void recycle(@NonNull WebView webView) {
-        if (webView instanceof CustomWebView) {
-            CustomWebView customWebView = (CustomWebView) webView;
-            customWebView.setBaseContext(mApplication);
-        }
+    public void recycle(@NonNull ResuableWebView webView) {
+        webView.setBaseContext(mApplication);
         ViewParent parent = webView.getParent();
         if (parent != null) {
             ((ViewGroup) parent).removeView(webView);
@@ -93,7 +90,7 @@ public class WebInstance {
         }
     }
 
-    public void destroy(@NonNull WebView webView) {
+    public void destroy(@NonNull ResuableWebView webView) {
         recycle(webView);
         try {
             webView.removeAllViews();
@@ -105,8 +102,8 @@ public class WebInstance {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    public WebView create(Context context) {
-        WebView webView = new CustomWebView(new MutableContextWrapper(context));
+    public ResuableWebView create(@Nullable Context context) {
+        ResuableWebView webView = new ResuableWebView(new MutableContextWrapper(context != null ? context : mApplication));
         webView.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         webView.setBackgroundColor(0);
         webView.getBackground().setAlpha(0);
@@ -134,7 +131,7 @@ public class WebInstance {
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private void clearListeners(@NonNull WebView webView) {
+    private void clearListeners(@NonNull ResuableWebView webView) {
         webView.setDownloadListener(null);
         webView.setFindListener(null);
         webView.setPictureListener(null);
@@ -147,8 +144,6 @@ public class WebInstance {
         webView.setOnFocusChangeListener(null);
         webView.setOnApplyWindowInsetsListener(null);
         webView.setOnSystemUiVisibilityChangeListener(null);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            webView.setOnScrollChangeListener(null);
-        }
+        webView.clearOnScrollChangeListeners();
     }
 }

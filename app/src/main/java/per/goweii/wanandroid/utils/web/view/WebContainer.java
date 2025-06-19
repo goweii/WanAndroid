@@ -404,7 +404,7 @@ public class WebContainer extends FrameLayout implements IConsecutiveScroller {
             View child = getChildAt(i);
             if (child instanceof WebView) {
                 return child;
-            } else if (child instanceof CustomWebView) {
+            } else if (child instanceof ResuableWebView) {
                 return child;
             }
         }

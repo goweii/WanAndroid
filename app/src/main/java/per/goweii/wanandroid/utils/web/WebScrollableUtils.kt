@@ -2,7 +2,7 @@ package per.goweii.wanandroid.utils.web
 
 import android.webkit.ValueCallback
 import per.goweii.basic.utils.LogUtils
-import per.goweii.wanandroid.utils.web.view.CustomWebView
+import per.goweii.wanandroid.utils.web.view.ResuableWebView
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.locks.ReentrantLock
 
@@ -12,7 +12,7 @@ object WebScrollableUtils {
     const val DIRECTION_LEFT = 4
     const val DIRECTION_RIGHT = 8
 
-    fun getScrollableDirections(webView: CustomWebView, x: Float, y: Float): Int {
+    fun getScrollableDirections(webView: ResuableWebView, x: Float, y: Float): Int {
         if (true) return 0
 
         val density: Float = webView.resources.displayMetrics.density

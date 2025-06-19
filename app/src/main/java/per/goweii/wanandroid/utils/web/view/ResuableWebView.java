@@ -4,12 +4,16 @@ import android.content.Context;
 import android.content.MutableContextWrapper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.view.ScrollingView;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import per.goweii.wanandroid.utils.web.WebScrollableUtils;
 
@@ -18,15 +22,32 @@ import per.goweii.wanandroid.utils.web.WebScrollableUtils;
  * @date 2019/11/30
  * GitHub: https://github.com/goweii
  */
-public class CustomWebView extends WebView implements ScrollingView {
+public class ResuableWebView extends WebView implements ScrollingView {
+    private final List<OnScrollChangeListener> mOnScrollChangeListeners = new LinkedList<>();
     private Float touchX = null;
     private Float touchY = null;
 
-    public CustomWebView(@NonNull MutableContextWrapper context) {
-        super(context);
+    public ResuableWebView(@NonNull Context context) {
+        super(new MutableContextWrapper(context));
     }
 
-    public void setBaseContext(Context context) {
+    public ResuableWebView(@NonNull Context context, @Nullable AttributeSet attrs) {
+        super(new MutableContextWrapper(context), attrs);
+    }
+
+    public ResuableWebView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(new MutableContextWrapper(context), attrs, defStyleAttr);
+    }
+
+    public ResuableWebView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(new MutableContextWrapper(context), attrs, defStyleAttr, defStyleRes);
+    }
+
+    public ResuableWebView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, boolean privateBrowsing) {
+        super(new MutableContextWrapper(context), attrs, defStyleAttr, privateBrowsing);
+    }
+
+    public void setBaseContext(@NonNull Context context) {
         final MutableContextWrapper contextWrapper = (MutableContextWrapper) this.getContext();
         contextWrapper.setBaseContext(context);
     }
@@ -51,6 +72,33 @@ public class CustomWebView extends WebView implements ScrollingView {
     @Override
     public void scrollBy(int x, int y) {
         super.scrollBy(x, y);
+    }
+
+    @Override
+    protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+        super.onScrollChanged(l, t, oldl, oldt);
+        for (int i = 0; i < mOnScrollChangeListeners.size(); i++) {
+            OnScrollChangeListener listener = mOnScrollChangeListeners.get(i);
+            if (listener != null) {
+                listener.onScrollChange(this, l, t, oldl, oldt);
+            }
+        }
+    }
+
+    public void addOnScrollChangeListener(OnScrollChangeListener l) {
+        if (l != null) {
+            mOnScrollChangeListeners.add(l);
+        }
+    }
+
+    public void removeOnScrollChangeListener(OnScrollChangeListener l) {
+        if (l != null) {
+            mOnScrollChangeListeners.remove(l);
+        }
+    }
+
+    public void clearOnScrollChangeListeners() {
+        mOnScrollChangeListeners.clear();
     }
 
     @Override
@@ -117,5 +165,9 @@ public class CustomWebView extends WebView implements ScrollingView {
     @Override
     public int computeVerticalScrollExtent() {
         return super.computeVerticalScrollExtent();
+    }
+
+    public interface OnScrollChangeListener {
+        void onScrollChange(@NonNull ResuableWebView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY);
     }
 }
