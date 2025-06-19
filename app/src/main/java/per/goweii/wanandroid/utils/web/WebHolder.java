@@ -6,11 +6,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -34,6 +34,7 @@ import androidx.annotation.FloatRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.webkit.WebSettingsCompat;
 import androidx.webkit.WebViewFeature;
 
@@ -144,12 +145,12 @@ public class WebHolder {
         mWebContainer = container;
         int color = ResUtils.getThemeColor(mWebContainer, R.attr.colorSurface);
         mWebContainer.setBackgroundColor(color);
-        if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-        }
+        Resources.Theme theme = mActivity.getTheme();
+        ContextThemeWrapper contextThemeWrapper = new ContextThemeWrapper(mActivity, theme);
         if (useInstanceCache) {
-            mWebView = WebInstance.getInstance(mActivity).obtain();
+            mWebView = WebInstance.getInstance(mActivity).obtain(contextThemeWrapper);
         } else {
-            mWebView = WebInstance.getInstance(mActivity).create();
+            mWebView = WebInstance.getInstance(mActivity).create(contextThemeWrapper);
         }
         container.addView(mWebView, new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
                 FrameLayout.LayoutParams.MATCH_PARENT));
@@ -219,14 +220,15 @@ public class WebHolder {
         WebSettings webSetting = mWebView.getSettings();
         mUserAgentString = webSetting.getUserAgentString();
         boolean isAppDarkMode = DarkModeUtils.isDarkMode(activity);
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.ALGORITHMIC_DARKENING)) {
+            WebSettingsCompat.setAlgorithmicDarkeningAllowed(webSetting, isAppDarkMode);
+        }
         if (WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
-            WebView wv = mWebView;
             if (isAppDarkMode) {
-                WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_ON);
+                WebSettingsCompat.setForceDark(webSetting, WebSettingsCompat.FORCE_DARK_ON);
             } else {
-                WebSettingsCompat.setForceDark(wv.getSettings(), WebSettingsCompat.FORCE_DARK_OFF);
+                WebSettingsCompat.setForceDark(webSetting, WebSettingsCompat.FORCE_DARK_OFF);
             }
-        } else {
         }
         jsInjector = new JsInjector(mWebView);
         jsInjector.attach();

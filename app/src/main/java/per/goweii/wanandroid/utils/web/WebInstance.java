@@ -3,14 +3,17 @@ package per.goweii.wanandroid.utils.web;
 import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
+import android.content.MutableContextWrapper;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 import android.webkit.CookieManager;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
 
@@ -25,9 +28,12 @@ public class WebInstance {
     private final Application mApplication;
     private final List<WebView> mCache = new ArrayList<>(1);
 
+    private final WebChromeClient mEmptyWebChromeClient = new WebChromeClient();
+    private final WebViewClient mEmptyWebViewClient = new WebViewClient();
+
     private WebInstance(@NonNull Application application) {
         mApplication = application;
-        WebView webView = create();
+        WebView webView = create(application);
         mCache.add(webView);
     }
 
@@ -41,11 +47,15 @@ public class WebInstance {
 
     @SuppressLint("SetJavaScriptEnabled")
     @NonNull
-    public WebView obtain() {
+    public WebView obtain(Context context) {
         if (mCache.isEmpty()) {
-            return create();
+            return create(context);
         }
         WebView webView = mCache.remove(0);
+        if (webView instanceof CustomWebView) {
+            CustomWebView customWebView = (CustomWebView) webView;
+            customWebView.setBaseContext(context);
+        }
         WebSettings webSetting = webView.getSettings();
         webSetting.setJavaScriptEnabled(true);
         webView.clearHistory();
@@ -54,6 +64,10 @@ public class WebInstance {
     }
 
     public void recycle(@NonNull WebView webView) {
+        if (webView instanceof CustomWebView) {
+            CustomWebView customWebView = (CustomWebView) webView;
+            customWebView.setBaseContext(mApplication);
+        }
         ViewParent parent = webView.getParent();
         if (parent != null) {
             ((ViewGroup) parent).removeView(webView);
@@ -68,8 +82,8 @@ public class WebInstance {
             WebSettings webSetting = webView.getSettings();
             webSetting.setJavaScriptEnabled(false);
             webView.pauseTimers();
-            webView.setWebChromeClient(null);
-            webView.setWebViewClient(null);
+            webView.setWebChromeClient(mEmptyWebChromeClient);
+            webView.setWebViewClient(mEmptyWebViewClient);
             clearListeners(webView);
         } catch (Exception ignore) {
         } finally {
@@ -91,8 +105,8 @@ public class WebInstance {
     }
 
     @SuppressLint("SetJavaScriptEnabled")
-    public WebView create() {
-        WebView webView = new CustomWebView(mApplication);
+    public WebView create(Context context) {
+        WebView webView = new CustomWebView(new MutableContextWrapper(context));
         webView.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         webView.setBackgroundColor(0);
         webView.getBackground().setAlpha(0);

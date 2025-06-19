@@ -1,12 +1,14 @@
 package per.goweii.wanandroid.utils.web.view;
 
 import android.content.Context;
+import android.content.MutableContextWrapper;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.webkit.WebView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.view.ContextThemeWrapper;
 import androidx.core.view.ScrollingView;
 
 import per.goweii.wanandroid.utils.web.WebScrollableUtils;
@@ -20,24 +22,13 @@ public class CustomWebView extends WebView implements ScrollingView {
     private Float touchX = null;
     private Float touchY = null;
 
-    public CustomWebView(@NonNull Context context) {
+    public CustomWebView(@NonNull MutableContextWrapper context) {
         super(context);
     }
 
-    public CustomWebView(@NonNull Context context, @Nullable AttributeSet attrs) {
-        super(context, attrs);
-    }
-
-    public CustomWebView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-    }
-
-    public CustomWebView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
-    }
-
-    public CustomWebView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, boolean privateBrowsing) {
-        super(context, attrs, defStyleAttr, privateBrowsing);
+    public void setBaseContext(Context context) {
+        final MutableContextWrapper contextWrapper = (MutableContextWrapper) this.getContext();
+        contextWrapper.setBaseContext(context);
     }
 
     @Override
