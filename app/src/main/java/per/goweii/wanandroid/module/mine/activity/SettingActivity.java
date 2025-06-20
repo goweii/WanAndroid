@@ -260,12 +260,6 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                                 SettingUtils.getInstance().setThemeMode(themeMode);
                                 updateThemeModeUI();
                                 DarkModeUtils.initDarkMode();
-                                v.postDelayed(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        WanApp.restartApp();
-                                    }
-                                }, 300);
                             }
                         })
                         .show();
