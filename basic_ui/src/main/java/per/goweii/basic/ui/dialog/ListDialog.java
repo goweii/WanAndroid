@@ -38,7 +38,8 @@ public class ListDialog {
     private boolean noBtn = false;
     private boolean singleBtnYes = false;
     private boolean cancelable = true;
-    private OnItemSelectedListener listener = null;
+    private OnItemSelectedListener onItemSelectedListener = null;
+    private OnDismissListener onDismissListener = null;
     private BaseQuickAdapter<String, BaseViewHolder> mAdapter = null;
     private List<String> datas = new ArrayList<>();
     private int currSelectPos = -1;
@@ -110,8 +111,13 @@ public class ListDialog {
         return this;
     }
 
-    public ListDialog listener(OnItemSelectedListener listener) {
-        this.listener = listener;
+    public ListDialog onItemSelectedListener(OnItemSelectedListener listener) {
+        this.onItemSelectedListener = listener;
+        return this;
+    }
+
+    public ListDialog onDismissListener(OnDismissListener listener) {
+        this.onDismissListener = listener;
         return this;
     }
 
@@ -187,8 +193,8 @@ public class ListDialog {
                                 currSelectPos = position;
                                 adapter.notifyDataSetChanged();
                                 if (noBtn) {
-                                    if (listener != null) {
-                                        listener.onSelect(datas.get(currSelectPos), currSelectPos);
+                                    if (onItemSelectedListener != null) {
+                                        onItemSelectedListener.onSelect(datas.get(currSelectPos), currSelectPos);
                                     }
                                     layer.dismiss();
                                 }
@@ -201,13 +207,33 @@ public class ListDialog {
                 .addOnClickToDismissListener(new Layer.OnClickListener() {
                     @Override
                     public void onClick(@NonNull Layer layer, @NonNull View v) {
-                        if (listener != null) {
-                            listener.onSelect(datas.get(currSelectPos), currSelectPos);
+                        if (onItemSelectedListener != null) {
+                            onItemSelectedListener.onSelect(datas.get(currSelectPos), currSelectPos);
                         }
                     }
                 }, R.id.basic_ui_tv_dialog_list_yes)
                 .addOnClickToDismissListener(R.id.basic_ui_tv_dialog_list_no)
+                .addOnDismissListener(new Layer.OnDismissListener() {
+                    @Override
+                    public void onPreDismiss(@NonNull Layer layer) {
+                        if (onDismissListener != null) {
+                            onDismissListener.onPreDismiss(datas.get(currSelectPos), currSelectPos);
+                        }
+                    }
+
+                    @Override
+                    public void onPostDismiss(@NonNull Layer layer) {
+                        if (onDismissListener != null) {
+                            onDismissListener.onPostDismiss(datas.get(currSelectPos), currSelectPos);
+                        }
+                    }
+                })
                 .show();
+    }
+
+    public interface OnDismissListener {
+        void onPreDismiss(String data, int pos);
+        void onPostDismiss(String data, int pos);
     }
 
     public interface OnItemSelectedListener {

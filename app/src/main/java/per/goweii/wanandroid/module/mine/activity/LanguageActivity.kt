@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import per.goweii.basic.core.base.BaseActivity
 import per.goweii.basic.core.base.BasePresenter
 import per.goweii.basic.l10n.L10nManager
+import per.goweii.basic.utils.LogUtils
+import per.goweii.wanandroid.utils.recreate_anim.RecreateAnimation
 import per.goweii.wanandroid.databinding.ActivityLanguageBinding
 import per.goweii.wanandroid.module.mine.adapter.LanguageAdapter
 import java.util.Locale
@@ -37,7 +39,11 @@ class LanguageActivity : BaseActivity<BasePresenter<*>, ActivityLanguageBinding>
 
         adapter?.setOnItemClickListener { _, _, position ->
             val locale = adapter?.getItem(position)
-            L10nManager.setApplicationLocales(locale)
+            LogUtils.e("LanguageActivity", "old decorView is ${window.decorView}")
+            RecreateAnimation(
+                activity = this,
+                trigger = { L10nManager.setApplicationLocales(locale) }
+            ).start()
         }
     }
 

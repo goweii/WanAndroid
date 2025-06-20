@@ -1,6 +1,5 @@
 package per.goweii.wanandroid.module.mine.activity;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -13,12 +12,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.LocaleManagerCompat;
 import androidx.core.os.LocaleListCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -26,33 +23,24 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnLongClick;
-import per.goweii.anypermission.RequestListener;
-import per.goweii.anypermission.RuntimeRequester;
 import per.goweii.basic.core.base.BaseActivity;
-import per.goweii.basic.core.permission.PermissionUtils;
 import per.goweii.basic.ui.dialog.ListDialog;
 import per.goweii.basic.ui.dialog.TipDialog;
-import per.goweii.basic.ui.dialog.UpdateDialog;
 import per.goweii.basic.ui.toast.ToastMaker;
-import per.goweii.basic.utils.AppInfoUtils;
-import per.goweii.basic.utils.ResUtils;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Constant;
-import per.goweii.wanandroid.common.WanApp;
 import per.goweii.wanandroid.databinding.ActivitySettingBinding;
 import per.goweii.wanandroid.event.LoginEvent;
 import per.goweii.wanandroid.event.SettingChangeEvent;
-import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
-import per.goweii.wanandroid.module.main.model.UpdateBean;
 import per.goweii.wanandroid.module.mine.presenter.SettingPresenter;
 import per.goweii.wanandroid.module.mine.view.SettingView;
 import per.goweii.wanandroid.utils.DarkModeUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
-import per.goweii.wanandroid.utils.UpdateUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.UserUtils;
+import per.goweii.wanandroid.utils.recreate_anim.RecreateAnimation;
 import per.goweii.wanandroid.utils.web.HostInterceptUtils;
 
 /**
@@ -242,7 +230,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                             break;
                     }
                 }
-                SettingUtils.ThemeMode selectedThemeMode = SettingUtils.getInstance().getThemeMode();
+                final SettingUtils.ThemeMode selectedThemeMode = SettingUtils.getInstance().getThemeMode();
                 final int selectedPos = themeModes.indexOf(selectedThemeMode);
 
                 ListDialog.with(getContext())
@@ -250,7 +238,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                         .title(getString(R.string.theme_mode))
                         .datas(nameList)
                         .currSelectPos(selectedPos)
-                        .listener(new ListDialog.OnItemSelectedListener() {
+                        .onItemSelectedListener(new ListDialog.OnItemSelectedListener() {
                             @Override
                             public void onSelect(String data, int pos) {
                                 if (selectedPos == pos) {
@@ -258,8 +246,25 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                                 }
                                 SettingUtils.ThemeMode themeMode = themeModes.get(pos);
                                 SettingUtils.getInstance().setThemeMode(themeMode);
-                                updateThemeModeUI();
-                                DarkModeUtils.initDarkMode();
+                            }
+                        })
+                        .onDismissListener(new ListDialog.OnDismissListener() {
+                            @Override
+                            public void onPreDismiss(String data, int pos) {
+                            }
+
+                            @Override
+                            public void onPostDismiss(String data, int pos) {
+                                if (selectedThemeMode == SettingUtils.getInstance().getThemeMode()) {
+                                    return;
+                                }
+                                new RecreateAnimation(SettingActivity.this, new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        DarkModeUtils.initDarkMode();
+                                    }
+                                }
+                                ).start();
                             }
                         })
                         .show();
@@ -272,7 +277,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                                 HostInterceptUtils.getName(HostInterceptUtils.TYPE_ONLY_WHITE),
                                 HostInterceptUtils.getName(HostInterceptUtils.TYPE_INTERCEPT_BLACK))
                         .currSelectPos(SettingUtils.getInstance().getUrlInterceptType())
-                        .listener(new ListDialog.OnItemSelectedListener() {
+                        .onItemSelectedListener(new ListDialog.OnItemSelectedListener() {
                             @Override
                             public void onSelect(String data, int pos) {
                                 tv_intercept_host.setText(HostInterceptUtils.getName(pos));

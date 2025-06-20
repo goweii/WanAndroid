@@ -234,6 +234,11 @@
             android:name=".module.mine.activity.LanguageActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation"
             android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".utils.recreate_anim.RecreateAnimActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode|locale|screenLayout|colorMode|layoutDirection|smallestScreenSize|fontWeightAdjustment|grammaticalGender|navigation|mnc|mcc|touchscreen"
+            android:theme="@style/AppTheme.RecreateAnim"
+            android:windowSoftInputMode="adjustNothing" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
