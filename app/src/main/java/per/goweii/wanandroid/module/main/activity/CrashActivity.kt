@@ -28,7 +28,7 @@ class CrashActivity : AppCompatActivity() {
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = Color.TRANSPARENT
-        DarkModeUtils.initDarkMode()
+        DarkModeUtils.initDarkMode(this)
         StatusBarCompat.setIconMode(this, !DarkModeUtils.isDarkMode(this))
         binding = ActivityCrashBinding.inflate(layoutInflater)
         setContentView(binding.root)

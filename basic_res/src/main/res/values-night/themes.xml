@@ -2,6 +2,8 @@
 <resources>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:forceDarkAllowed">false</item>
+
         <item name="android:windowBackground">@color/color_black_dark1</item>
 
         <item name="colorPrimary">@color/color_blue_light</item>

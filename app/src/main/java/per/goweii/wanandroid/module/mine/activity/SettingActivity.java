@@ -261,7 +261,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                                 new RecreateAnimation(SettingActivity.this, new Runnable() {
                                     @Override
                                     public void run() {
-                                        DarkModeUtils.initDarkMode();
+                                        DarkModeUtils.initDarkMode(SettingActivity.this);
                                     }
                                 }
                                 ).start();

@@ -1,7 +1,9 @@
 package per.goweii.wanandroid.utils;
 
+import android.app.UiModeManager;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Build;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -20,8 +22,23 @@ public class DarkModeUtils {
         return isDarkMode(context.getResources().getConfiguration());
     }
 
-    public static void initDarkMode() {
-        switch (SettingUtils.getInstance().getThemeMode()) {
+    public static void initDarkMode(Context context) {
+        SettingUtils.ThemeMode themeMode = SettingUtils.getInstance().getThemeMode();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            UiModeManager uiModeManager = (UiModeManager) context.getSystemService(Context.UI_MODE_SERVICE);
+            switch (themeMode) {
+                case FOLLOW_SYSTEM:
+                    uiModeManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_AUTO);
+                    break;
+                case LIGHT:
+                    uiModeManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_NO);
+                    break;
+                case DARK:
+                    uiModeManager.setApplicationNightMode(UiModeManager.MODE_NIGHT_YES);
+                    break;
+            }
+        }
+        switch (themeMode) {
             case FOLLOW_SYSTEM:
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
                 break;

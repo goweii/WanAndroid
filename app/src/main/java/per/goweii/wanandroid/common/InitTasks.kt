@@ -66,7 +66,7 @@ class CookieManagerInitTask : SyncInitTask() {
 
 class NightModeInitTask : SyncInitTask() {
     override fun init(application: Application) {
-        DarkModeUtils.initDarkMode()
+        DarkModeUtils.initDarkMode(application)
     }
 
     override fun onlyMainProcess(): Boolean {
