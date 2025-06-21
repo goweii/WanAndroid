@@ -3,11 +3,6 @@ def KEYSTORE_FILE_PASSWORD = ""
 def KEYSTORE_ALIAS = ""
 def KEYSTORE_ALIAS_PASSWORD = ""
 
-def APPID_BUGLY_FOR_PER = ""
-def APPKEY_BUGLY_FOR_PER = ""
-def APPID_BUGLY_FOR_COM = ""
-def APPKEY_BUGLY_FOR_COM = ""
-
 def CDKEY_CLASS = ""
 def DEVELOPER_ID = ""
 
@@ -30,11 +25,6 @@ if (project.rootProject.file('local.properties').exists()) {
     KEYSTORE_FILE_PASSWORD = properties.getProperty('KEYSTORE_FILE_PASSWORD')
     KEYSTORE_ALIAS = properties.getProperty('KEYSTORE_ALIAS')
     KEYSTORE_ALIAS_PASSWORD = properties.getProperty('KEYSTORE_ALIAS_PASSWORD')
-
-    APPID_BUGLY_FOR_PER = properties.getProperty('APPID_BUGLY_FOR_PER')
-    APPKEY_BUGLY_FOR_PER = properties.getProperty('APPKEY_BUGLY_FOR_PER')
-    APPID_BUGLY_FOR_COM = properties.getProperty('APPID_BUGLY_FOR_COM')
-    APPKEY_BUGLY_FOR_COM = properties.getProperty('APPKEY_BUGLY_FOR_COM')
 
     WANPWD_FORMAT = properties.getProperty('WANPWD_FORMAT')
     WANPWD_PATTERN = properties.getProperty('WANPWD_PATTERN')
@@ -98,22 +88,16 @@ android {
         per {
             dimension "applicationId"
             applicationId "per.goweii.wanandroid"
-            ext.buglyAppId = APPID_BUGLY_FOR_PER
-            ext.buglyAppKey = APPKEY_BUGLY_FOR_PER
             ext.enableInAppUpdate = true
         }
         com {
             dimension "applicationId"
             applicationId "com.goweii.wanandroid"
-            ext.buglyAppId = APPID_BUGLY_FOR_COM
-            ext.buglyAppKey = APPKEY_BUGLY_FOR_COM
             ext.enableInAppUpdate = true
         }
         googlePlay {
             dimension "applicationId"
             applicationId "com.cuizhen.wanandroid"
-            ext.buglyAppId = ""
-            ext.buglyAppKey = ""
             ext.enableInAppUpdate = false
         }
     }
@@ -122,8 +106,6 @@ android {
                 REQUEST_INSTALL_PACKAGES_PERMISSION: ext.enableInAppUpdate ? "android.permission.REQUEST_INSTALL_PACKAGES" : "android.permission.INTERNET",
         ]
         buildConfigField "boolean", "ENABLE_IN_APP_UPDATE", "${ext.enableInAppUpdate}"
-        buildConfigField "String", "APPID_BUGLY", "\"${ext.buglyAppId}\""
-        buildConfigField "String", "APPKEY_BUGLY", "\"${ext.buglyAppKey}\""
         buildConfigField "String", "WANPWD_FORMAT", "\"${WANPWD_FORMAT}\""
         buildConfigField "String", "WANPWD_PATTERN", "\"${WANPWD_PATTERN}\""
         buildConfigField "String", "WANPWD_TYPE_QQ", "\"${WANPWD_TYPE_QQ}\""

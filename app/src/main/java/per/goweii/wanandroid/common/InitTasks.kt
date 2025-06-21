@@ -3,16 +3,10 @@ package per.goweii.wanandroid.common
 import android.app.Activity
 import android.app.Application
 import android.os.Bundle
-import android.text.TextUtils
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.layout.SmartRefreshLayout
-import com.tencent.bugly.crashreport.CrashReport
-import com.tencent.bugly.crashreport.CrashReport.CrashHandleCallback
-import com.tencent.bugly.crashreport.CrashReport.UserStrategy
 import per.goweii.basic.core.CoreInit
 import per.goweii.basic.utils.AsyncInitTask
-import per.goweii.basic.utils.DebugUtils
-import per.goweii.basic.utils.LogUtils
 import per.goweii.basic.utils.SyncInitTask
 import per.goweii.basic.utils.listener.SimpleCallback
 import per.goweii.burred.Blurred
@@ -20,15 +14,17 @@ import per.goweii.ponyo.crash.Crash
 import per.goweii.rxhttp.core.RxHttp
 import per.goweii.swipeback.SwipeBack
 import per.goweii.swipeback.SwipeBackDirection
-import per.goweii.wanandroid.BuildConfig
 import per.goweii.wanandroid.db.WanDb
 import per.goweii.wanandroid.http.RxHttpRequestSetting
 import per.goweii.wanandroid.http.WanCache
 import per.goweii.wanandroid.module.main.activity.CrashActivity
-import per.goweii.wanandroid.utils.*
+import per.goweii.wanandroid.utils.ConfigUtils
+import per.goweii.wanandroid.utils.CookieUtils
+import per.goweii.wanandroid.utils.DarkModeUtils
+import per.goweii.wanandroid.utils.GrayFilterHelper
+import per.goweii.wanandroid.utils.UserUtils
 import per.goweii.wanandroid.utils.web.cache.ReadingModeManager
 import per.goweii.wanandroid.widget.refresh.ShiciRefreshHeader
-import java.util.*
 
 /**
  * @author CuiZhen
@@ -242,39 +238,6 @@ class ReadingModeTask : AsyncInitTask() {
 
     override fun onlyMainProcess(): Boolean {
         return true
-    }
-
-    override fun level(): Int {
-        return 3
-    }
-}
-
-class BuglyInitTask : SyncInitTask() {
-    override fun init(application: Application) {
-        if (DebugUtils.isDebug()) return
-        if (TextUtils.isEmpty(BuildConfig.APPID_BUGLY)) return
-        CrashReport.setIsDevelopmentDevice(application, DebugUtils.isDebug())
-        val strategy = UserStrategy(application)
-        strategy.setCrashHandleCallback(object : CrashHandleCallback() {
-            override fun onCrashHandleStart(crashType: Int, errorType: String, errorMessage: String, errorStack: String): Map<String, String> {
-                val map = LinkedHashMap<String, String>()
-                return map
-            }
-
-            override fun onCrashHandleStart2GetExtraDatas(crashType: Int, errorType: String, errorMessage: String, errorStack: String): ByteArray? {
-                return try {
-                    "Extra data.".toByteArray(charset("UTF-8"))
-                } catch (e: Exception) {
-                    null
-                }
-            }
-        })
-        strategy.isUploadProcess = WanApp.isMainProcess()
-        CrashReport.initCrashReport(application, BuildConfig.APPID_BUGLY, DebugUtils.isDebug(), strategy)
-    }
-
-    override fun onlyMainProcess(): Boolean {
-        return false
     }
 
     override fun level(): Int {
