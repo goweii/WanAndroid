@@ -13,8 +13,11 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
 import androidx.core.view.isVisible
+import androidx.core.view.updatePadding
 import per.goweii.anylayer.Layer
 import per.goweii.anylayer.guide.GuideLayer
 import per.goweii.basic.core.base.BaseActivity
@@ -137,6 +140,13 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
             presenter.userName = it.getStringExtra("user_name") ?: ""
             presenter.userId = it.getIntExtra("user_id", 0)
         }
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { _, insets ->
+            val b = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
+            binding.root.updatePadding(bottom = b)
+            insets
+        }
+
         switchCollectView(false)
         val icons = mutableListOf<FloatIconTouchListener.Icon>()
         floatIcons.forEach {

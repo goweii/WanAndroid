@@ -1,11 +1,15 @@
 package per.goweii.wanandroid.module.main.fragment;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -93,6 +97,16 @@ public class MainFragment extends BaseFragment<BasePresenter, FragmentMainBindin
         //bvef.setOverlayColor(ResUtils.getThemeColor(bvef, R.attr.colorBottomBarOverlay));
         //bvef.setSimpleSize(8);
         //bvef.setVisualEffect(new RSBlurEffect(getContext(), 8));
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.flBottomBar, new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                final int b = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+                binding.flBottomBar.setPadding(0,0,0, b);
+                return insets;
+            }
+        });
     }
 
     @Override

@@ -12,6 +12,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -93,6 +96,16 @@ public class AboutActivity extends BaseActivity<AboutPresenter, ActivityAboutBin
             @Override
             public void onClick(View v) {
                 presenter.update(UPDATE_TYPE_SHARE);
+            }
+        });
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), new OnApplyWindowInsetsListener() {
+            @NonNull
+            @Override
+            public WindowInsetsCompat onApplyWindowInsets(@NonNull View v, @NonNull WindowInsetsCompat insets) {
+                final int b = insets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom;
+                binding.getRoot().setPadding(0, 0, 0, b);
+                return insets;
             }
         });
     }
