@@ -33,7 +33,9 @@ class LanguageActivity : BaseActivity<BasePresenter<*>, ActivityLanguageBinding>
     }
 
     override fun initView() {
-        adapter = LanguageAdapter()
+        val appLocale = L10nManager.getApplicationLocale()
+        val sysLocale = L10nManager.getSystemLocale(this)
+        adapter = LanguageAdapter(appLocale, sysLocale)
         binding.rv.layoutManager = LinearLayoutManager(this)
         binding.rv.adapter = adapter
 

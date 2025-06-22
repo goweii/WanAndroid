@@ -15,20 +15,14 @@ import per.goweii.wanandroid.R;
 
 public class LanguageAdapter extends BaseQuickAdapter<Locale, BaseViewHolder> {
     @Nullable
-    private Locale mAppLocale;
+    private final Locale mAppLocale;
     @Nullable
-    private Locale mSysLocale;
+    private final Locale mSysLocale;
 
-    public LanguageAdapter() {
+    public LanguageAdapter(@Nullable Locale appLocale, @Nullable Locale sysLocale) {
         super(R.layout.rv_item_language);
-        LocaleListCompat applicationLocales = AppCompatDelegate.getApplicationLocales();
-        if (!applicationLocales.isEmpty()) {
-            mAppLocale = applicationLocales.get(0);
-        }
-        LocaleListCompat systemLocales = LocaleManagerCompat.getSystemLocales(mContext);
-        if (!systemLocales.isEmpty()) {
-            mSysLocale = systemLocales.get(0);
-        }
+        this.mAppLocale = appLocale;
+        this.mSysLocale = sysLocale;
     }
 
     @Override
