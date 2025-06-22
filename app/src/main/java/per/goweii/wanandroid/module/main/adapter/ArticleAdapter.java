@@ -1,28 +1,36 @@
 package per.goweii.wanandroid.module.main.adapter;
 
+import android.graphics.Outline;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewOutlineProvider;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.google.android.gms.ads.nativead.NativeAd;
+import com.google.android.gms.ads.nativead.NativeAdView;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import per.goweii.basic.utils.StringUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.databinding.RvItemArticleAdBinding;
 import per.goweii.wanandroid.event.CollectionEvent;
 import per.goweii.wanandroid.module.home.activity.UserPageActivity;
 import per.goweii.wanandroid.module.knowledge.activity.KnowledgeArticleActivity;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
-import per.goweii.wanandroid.utils.ArticleDiffCallback;
+import per.goweii.wanandroid.module.main.model.NativeAdBean;
+import per.goweii.wanandroid.utils.ArticleAndAdDiffCallback;
 import per.goweii.wanandroid.utils.ImageLoader;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.web.cache.HtmlCacheManager;
@@ -34,14 +42,17 @@ import per.goweii.wanandroid.widget.CollectView;
  * @date 2019/5/12
  * GitHub: https://github.com/goweii
  */
-public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder> {
+public class ArticleAdapter extends BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder> {
+    public static final int ITEM_TYPE_ARTICLE = 0;
+    public static final int ITEM_TYPE_AD = 1;
 
     private OnItemChildViewClickListener mOnItemChildViewClickListener = null;
 
     public ArticleAdapter() {
-        super(0);
+        super(null);
+        addItemType(ITEM_TYPE_ARTICLE, getArticleLayoutId());
+        addItemType(ITEM_TYPE_AD, R.layout.rv_item_article_ad);
         setLoadMoreView(new BravhLoadMoreView());
-        mLayoutResId = getArticleLayoutId();
     }
 
     protected int getArticleLayoutId() {
@@ -52,8 +63,31 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
         mOnItemChildViewClickListener = onItemChildViewClickListener;
     }
 
-    @Override
-    public void setNewData(@Nullable List<ArticleBean> data) {
+    public List<ArticleBean> getArticleData() {
+        List<ArticleBean> beans = new ArrayList<>();
+        List<MultiItemEntity> data = getData();
+        for (int i = 0; i < data.size(); i++) {
+            MultiItemEntity item = data.get(i);
+            if (item.getItemType() == ITEM_TYPE_ARTICLE) {
+                beans.add((ArticleBean) item);
+            }
+        }
+        return beans;
+    }
+
+    public List<NativeAdBean> getNativeAdData() {
+        List<NativeAdBean> beans = new ArrayList<>();
+        List<MultiItemEntity> data = getData();
+        for (int i = 0; i < data.size(); i++) {
+            MultiItemEntity item = data.get(i);
+            if (item.getItemType() == ITEM_TYPE_AD) {
+                beans.add((NativeAdBean) item);
+            }
+        }
+        return beans;
+    }
+
+    public void setArticleData(@Nullable List<ArticleBean> data) {
         if (data == null || data.isEmpty()) {
             setNewData(null, false);
         } else {
@@ -61,23 +95,44 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
         }
     }
 
-    public void setNewData(@Nullable List<ArticleBean> data, boolean useDiff) {
+    @Override
+    public void setNewData(@Nullable List<MultiItemEntity> data) {
+        if (data == null || data.isEmpty()) {
+            setNewData(null, false);
+        } else {
+            setNewData(data, true);
+        }
+    }
+
+    public <T extends MultiItemEntity> void setNewData(@Nullable List<T> data, boolean useDiff) {
         if (useDiff) {
             boolean top = getRecyclerView().canScrollVertically(-1);
             setNewDiffData(data);
             if (!top) getRecyclerView().scrollToPosition(0);
         } else {
-            super.setNewData(data);
+            super.setNewData((List<MultiItemEntity>) data);
         }
     }
 
-    private void setNewDiffData(@Nullable List<ArticleBean> data) {
-        setNewDiffData(new ArticleDiffCallback(data));
+    private <T extends MultiItemEntity> void setNewDiffData(@Nullable List<T> data) {
+        setNewDiffData(new ArticleAndAdDiffCallback(data));
     }
 
     @Override
-    public void addData(@NonNull Collection<? extends ArticleBean> newData) {
+    public void addData(@NonNull Collection<? extends MultiItemEntity> newData) {
         super.addData(newData);
+    }
+
+    @Nullable
+    public ArticleBean getArticleItem(int position) {
+        MultiItemEntity item = super.getItem(position);
+        if (item == null) {
+            return null;
+        }
+        if (item.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
+            return (ArticleBean) item;
+        }
+        return null;
     }
 
     public void notifyAllUnCollect() {
@@ -110,17 +165,31 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
     }
 
     public void forEach(@NonNull ArticleForEach articleForEach) {
-        List<ArticleBean> list = getData();
+        List<MultiItemEntity> list = getData();
         for (int i = 0; i < list.size(); i++) {
-            ArticleBean item = list.get(i);
-            if (articleForEach.forEach(i, i + getHeaderLayoutCount(), item)) {
-                break;
+            MultiItemEntity item = list.get(i);
+            if (item.getItemType() == ITEM_TYPE_ARTICLE) {
+                ArticleBean bean = (ArticleBean) item;
+                if (articleForEach.forEach(i, i + getHeaderLayoutCount(), bean)) {
+                    break;
+                }
             }
         }
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, ArticleBean item) {
+    protected void convert(@NonNull BaseViewHolder helper, MultiItemEntity item) {
+        switch (helper.getItemViewType()) {
+            case ITEM_TYPE_ARTICLE:
+                convertArticle(helper, (ArticleBean) item);
+                break;
+            case ITEM_TYPE_AD:
+                convertAd(helper, (NativeAdBean) item);
+                break;
+        }
+    }
+
+    protected void convertArticle(BaseViewHolder helper, ArticleBean item) {
         bindArticle(helper.itemView, item, new OnCollectListener() {
             @Override
             public void collect(ArticleBean item, CollectView v) {
@@ -136,6 +205,90 @@ public class ArticleAdapter extends BaseQuickAdapter<ArticleBean, BaseViewHolder
                 }
             }
         });
+    }
+
+    private void convertAd(BaseViewHolder helper, NativeAdBean item) {
+        NativeAd nativeAd = item.getNativeAd();
+        if (nativeAd == null) {
+            helper.itemView.setVisibility(View.GONE);
+            return;
+        }
+
+        helper.itemView.setVisibility(View.VISIBLE);
+        RvItemArticleAdBinding binding = RvItemArticleAdBinding.bind(helper.itemView);
+        NativeAdView adView = binding.adView;
+
+        binding.adMedia.setMediaContent(nativeAd.getMediaContent());
+        binding.adMedia.setImageScaleType(ImageView.ScaleType.CENTER_CROP);
+        binding.adMedia.setClipToOutline(true);
+        final int cornerRadius = (int) mContext.getResources().getDimension(R.dimen.round_radius_small);
+        binding.adMedia.setOutlineProvider(new ViewOutlineProvider() {
+            @Override
+            public void getOutline(View view, Outline outline) {
+                outline.setRoundRect(0, 0, view.getWidth(), view.getHeight(), cornerRadius);
+            }
+        });
+        adView.setMediaView(binding.adMedia);
+
+        if (TextUtils.isEmpty(nativeAd.getHeadline())) {
+            binding.adHeadline.setVisibility(View.GONE);
+        } else {
+            binding.adHeadline.setVisibility(View.VISIBLE);
+            binding.adHeadline.setText(nativeAd.getHeadline());
+            adView.setHeadlineView(binding.adHeadline);
+        }
+
+        if (TextUtils.isEmpty(nativeAd.getAdvertiser())) {
+            binding.adAdvertiser.setVisibility(View.GONE);
+        } else {
+            binding.adAdvertiser.setVisibility(View.VISIBLE);
+            binding.adAdvertiser.setText(nativeAd.getAdvertiser());
+            adView.setAdvertiserView(binding.adAdvertiser);
+        }
+
+        if (TextUtils.isEmpty(nativeAd.getBody())) {
+            binding.adBody.setVisibility(View.GONE);
+        } else {
+            binding.adBody.setVisibility(View.VISIBLE);
+            binding.adBody.setText(nativeAd.getBody());
+            adView.setBodyView(binding.adBody);
+        }
+
+        if (TextUtils.isEmpty(nativeAd.getPrice())) {
+            binding.adPrice.setVisibility(View.GONE);
+        } else {
+            binding.adPrice.setVisibility(View.VISIBLE);
+            binding.adPrice.setText(nativeAd.getPrice());
+            adView.setPriceView(binding.adPrice);
+        }
+
+        if (TextUtils.isEmpty(nativeAd.getStore())) {
+            binding.adStore.setVisibility(View.GONE);
+        } else {
+            binding.adStore.setVisibility(View.VISIBLE);
+            binding.adStore.setText(nativeAd.getStore());
+            adView.setStoreView(binding.adStore);
+        }
+
+        Double starRating = nativeAd.getStarRating();
+        if (starRating == null) {
+            binding.adStars.setVisibility(View.GONE);
+        } else {
+            binding.adStars.setVisibility(View.VISIBLE);
+            binding.adStars.setRating(starRating.floatValue());
+            adView.setStarRatingView(binding.adStars);
+        }
+        binding.adStars.setVisibility(View.GONE);
+
+        if (TextUtils.isEmpty(nativeAd.getCallToAction())) {
+            binding.adCallToAction.setVisibility(View.GONE);
+        } else {
+            binding.adCallToAction.setVisibility(View.VISIBLE);
+//            binding.adCallToAction.setText(nativeAd.getCallToAction());
+            adView.setCallToActionView(binding.adCallToAction);
+        }
+
+        adView.setNativeAd(nativeAd);
     }
 
     public interface OnItemChildViewClickListener {

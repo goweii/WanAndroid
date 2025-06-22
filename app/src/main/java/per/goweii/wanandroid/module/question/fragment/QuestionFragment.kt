@@ -99,7 +99,7 @@ class QuestionFragment : BaseFragment<QuestionPresenter, FragmentQuestionBinding
             presenter.getQuestionList(currPage)
         }, binding.rv)
         mAdapter.setOnItemChildViewClickListener { _, v, position ->
-            mAdapter.getItem(position)?.let { item ->
+            mAdapter.getArticleItem(position)?.let { item ->
                 if (v.isChecked) {
                     presenter.collect(item, v)
                 } else {
@@ -137,7 +137,7 @@ class QuestionFragment : BaseFragment<QuestionPresenter, FragmentQuestionBinding
         currPage = data.curPage + PAGE_START
         if (data.curPage == PAGE_START) {
             MultiStateUtils.toContent(binding.msv)
-            mAdapter.setNewData(data.datas)
+            mAdapter.articleData = data.datas
         } else {
             mAdapter.addData(data.datas)
             mAdapter.loadMoreComplete()

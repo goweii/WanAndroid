@@ -22,6 +22,8 @@ import per.goweii.basic.ui.toast.ToastMaker
 import per.goweii.basic.utils.ResUtils
 import per.goweii.basic.utils.ext.invisible
 import per.goweii.basic.utils.ext.visible
+import per.goweii.wanandroid.utils.GoogleAdUnitIds
+import per.goweii.component.ad.BannerAdProvider
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.swipeback.SwipeBackAbility
 import per.goweii.swipeback.SwipeBackDirection
@@ -36,6 +38,7 @@ import per.goweii.wanandroid.utils.GuideSPUtils
 import per.goweii.wanandroid.utils.ImageLoader
 import per.goweii.wanandroid.utils.RecommendManager
 import per.goweii.wanandroid.utils.UrlOpenUtils
+import per.goweii.wanandroid.utils.cdkey.CDKeyUtils
 import per.goweii.wanandroid.utils.router.Router
 import per.goweii.wanandroid.utils.web.WebHolder
 import per.goweii.wanandroid.utils.web.WebHolder.with
@@ -315,6 +318,11 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
         lastUrlLoadTime = System.currentTimeMillis()
         mWebHolder.loadUrl(presenter.articleUrl)
         presenter.isReadLater { switchReadLaterIcon() }
+
+        if (!CDKeyUtils.getInstance().isActive) {
+            BannerAdProvider(this, this, GoogleAdUnitIds.ARTICLE_DETAILS_BOTTOM_BANNER_AD)
+                .attachToContainer(binding.flAdContainer)
+        }
     }
 
     override fun onPause() {
@@ -431,18 +439,21 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
         floatIconsAnim?.cancel()
         floatIconsAnim = AnimatorSet().apply {
             val anims = mutableListOf<Animator>()
-            anims.add(ObjectAnimator.ofFloat(
-                binding.activityArticleFloatBtn.flBack, "rotation",
-                binding.activityArticleFloatBtn.flBack.rotation, if (floatIconsVisible) 360F else 0F
-            ).apply {
-                duration = 300L
-                addUpdateListener {
-                    if (it.animatedFraction > 0.5F) {
-                        if (floatIconsVisible) binding.activityArticleFloatBtn.ivClose.visible()
-                        else binding.activityArticleFloatBtn.ivClose.invisible()
+            anims.add(
+                ObjectAnimator.ofFloat(
+                    binding.activityArticleFloatBtn.flBack,
+                    "rotation",
+                    binding.activityArticleFloatBtn.flBack.rotation,
+                    if (floatIconsVisible) 360F else 0F
+                ).apply {
+                    duration = 300L
+                    addUpdateListener {
+                        if (it.animatedFraction > 0.5F) {
+                            if (floatIconsVisible) binding.activityArticleFloatBtn.ivClose.visible()
+                            else binding.activityArticleFloatBtn.ivClose.invisible()
+                        }
                     }
-                }
-            })
+                })
             floatIcons.filterIndexed { index, floatIconModel ->
                 anims.add(AnimatorSet().apply {
                     duration = 300L
@@ -596,7 +607,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                 guideView = LayoutInflater.from(this@ArticleActivity)
                     .inflate(R.layout.dialog_guide_tip, null, false).apply {
                         findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
-                            text = getString(R.string.long_press_the_back_button_to_have_more_shortcut_menus)
+                            text =
+                                getString(R.string.long_press_the_back_button_to_have_more_shortcut_menus)
                         }
                     }
                 marginLeft = ResUtils.getDimens(R.dimen.margin_def).toInt()
@@ -696,7 +708,8 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                 guideView = LayoutInflater.from(this@ArticleActivity)
                     .inflate(R.layout.dialog_guide_tip, null, false).apply {
                         findViewById<TextView>(R.id.dialog_guide_tv_tip).apply {
-                            text = getString(R.string.long_press_the_web_image_to_preview_a_larger_image)
+                            text =
+                                getString(R.string.long_press_the_web_image_to_preview_a_larger_image)
                         }
                     }
                 horizontalAlign = GuideLayer.Align.Horizontal.CENTER

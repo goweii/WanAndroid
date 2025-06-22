@@ -258,6 +258,10 @@
                 android:name="autoStoreLocales"
                 android:value="true" />
         </service>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${GOOGLE_AD_APP_ID}" />
     </application>
 
 </manifest>

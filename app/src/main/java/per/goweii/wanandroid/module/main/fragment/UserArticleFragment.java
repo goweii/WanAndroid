@@ -11,11 +11,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.kennyc.view.MultiStateView;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import per.goweii.actionbarex.common.ActionBarCommon;
@@ -23,7 +30,10 @@ import per.goweii.actionbarex.common.OnActionBarChildClickListener;
 import per.goweii.basic.core.base.BaseFragment;
 import per.goweii.basic.core.utils.SmartRefreshUtils;
 import per.goweii.basic.ui.toast.ToastMaker;
+import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
+import per.goweii.wanandroid.utils.GoogleAdUnitIds;
+import per.goweii.component.ad.NativeAdProvider;
 import per.goweii.wanandroid.R;
 import per.goweii.wanandroid.common.Config;
 import per.goweii.wanandroid.databinding.FragmentUserArticleBinding;
@@ -34,11 +44,13 @@ import per.goweii.wanandroid.module.main.activity.ShareArticleActivity;
 import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
+import per.goweii.wanandroid.module.main.model.NativeAdBean;
 import per.goweii.wanandroid.module.main.presenter.UserArticlePresenter;
 import per.goweii.wanandroid.module.main.view.UserArticleView;
 import per.goweii.wanandroid.utils.MultiStateUtils;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
+import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
 import per.goweii.wanandroid.widget.CollectView;
 
 /**
@@ -150,7 +162,7 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter, Frag
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleItem(position);
                 if (item != null) {
                     UrlOpenUtils.Companion.with(item).open(getContext());
                 }
@@ -159,7 +171,7 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter, Frag
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleItem(position);
                 if (item != null) {
                     if (v.isChecked()) {
                         presenter.collect(item, v);
@@ -185,6 +197,19 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter, Frag
         MultiStateUtils.toLoading(msv);
         currPage = PAGE_START;
         presenter.getUserArticleListCache(currPage);
+
+        if (!CDKeyUtils.getInstance().isActive()) {
+            new NativeAdProvider(requireActivity(), getViewLifecycleOwner(), GoogleAdUnitIds.ARTICLE_LIST_NATIVE_AD).load(new SimpleCallback<NativeAd>() {
+                @Override
+                public void onResult(NativeAd data) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) rv.getLayoutManager();
+                    if (layoutManager != null) {
+                        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                        mAdapter.addData(lastVisibleItemPosition + 1, new NativeAdBean(data));
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -204,7 +229,26 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter, Frag
     public void getUserArticleListSuccess(int code, ArticleListBean data) {
         currPage = data.getCurPage() + PAGE_START;
         if (data.getCurPage() == 1) {
-            mAdapter.setNewData(data.getDatas());
+            Map<Integer, NativeAdBean> ads = new HashMap<>(1);
+            List<MultiItemEntity> oldList = mAdapter.getData();
+            for (int i = 0; i < oldList.size(); i++) {
+                MultiItemEntity item = oldList.get(i);
+                if (item.getItemType() == ArticleAdapter.ITEM_TYPE_AD) {
+                    ads.put(i, (NativeAdBean) item);
+                }
+            }
+            List<MultiItemEntity> newList = new ArrayList<>(data.getDatas());
+            if (!ads.isEmpty()) {
+                for (Map.Entry<Integer, NativeAdBean> entry : ads.entrySet()) {
+                    int i = entry.getKey();
+                    if (i > 0 && i < newList.size()) {
+                        newList.add(i, entry.getValue());
+                    } else {
+                        newList.add(entry.getValue());
+                    }
+                }
+            }
+            mAdapter.setNewData(newList);
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
                 MultiStateUtils.toEmpty(msv);

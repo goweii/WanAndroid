@@ -1,0 +1,26 @@
+apply plugin: 'com.android.library'
+apply from: "${rootDir.path}/gradle/basic.gradle"
+
+android {
+    namespace "per.goweii.basic.core"
+}
+
+dependencies {
+    api project(":basic:ui")
+    implementation rootProject.ext.dependencies.multidex
+    api rootProject.ext.dependencies.localbroadcastmanager
+    api rootProject.ext.dependencies.butterknife
+    api rootProject.ext.dependencies.eventbus
+    api rootProject.ext.dependencies.gson
+    api rootProject.ext.dependencies.glide
+    kapt rootProject.ext.dependencies.glideCompiler
+    api (rootProject.ext.dependencies.glideOkhttp3) {
+        transitive = false
+    }
+    api (rootProject.ext.dependencies.rxHttp) {
+        exclude group: 'com.google.code.gson'
+    }
+    api rootProject.ext.dependencies.anyPermission
+    api rootProject.ext.dependencies.swipeBack
+    api rootProject.ext.dependencies.lazyfragment
+}

@@ -1,0 +1,12 @@
+apply plugin: 'com.android.library'
+apply from: "${rootDir.path}/gradle/basic.gradle"
+
+android {
+    namespace "per.goweii.component.ad"
+}
+
+dependencies {
+    api project(":basic:utils")
+
+    api 'com.google.android.gms:play-services-ads:22.0.0'
+}

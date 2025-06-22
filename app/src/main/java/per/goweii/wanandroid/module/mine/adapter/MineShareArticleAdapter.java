@@ -69,7 +69,7 @@ public class MineShareArticleAdapter extends ArticleAdapter {
     }
 
     @Override
-    protected void convert(@NonNull BaseViewHolder helper, ArticleBean item) {
+    protected void convertArticle(@NonNull BaseViewHolder helper, ArticleBean item) {
         SwipeLayout sl = helper.getView(R.id.sl);
         sl.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override

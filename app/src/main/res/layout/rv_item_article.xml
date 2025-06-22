@@ -87,7 +87,7 @@
         <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/iv_img"
             android:layout_width="120dp"
-            android:layout_height="80dp"
+            android:layout_height="120dp"
             android:layout_marginEnd="10dp"
             android:background="?colorBackground"
             android:scaleType="centerCrop"
@@ -125,7 +125,7 @@
                 android:ellipsize="end"
                 android:includeFontPadding="true"
                 android:lineSpacingExtra="0dp"
-                android:maxLines="3"
+                android:maxLines="6"
                 android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_auxiliary"
                 android:visibility="gone"

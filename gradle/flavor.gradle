@@ -16,6 +16,10 @@ def WANPWD_TYPE_CDKEY = ""
 def WANPWD_TYPE_WEB = ""
 def WANPWD_TYPE_ABOUTME = ""
 
+def GOOGLE_AD_APP_ID = ""
+def GOOGLE_AD_UNIT_ID_ARTICLE_LIST_NATIVE_AD = ""
+def GOOGLE_AD_UNIT_ID_ARTICLE_DETAILS_BOTTOM_BANNER_AD = ""
+
 if (project.rootProject.file('local.properties').exists()) {
     Properties properties = new Properties()
     InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
@@ -35,8 +39,13 @@ if (project.rootProject.file('local.properties').exists()) {
     WANPWD_TYPE_WEB = properties.getProperty('WANPWD_TYPE_WEB')
     WANPWD_TYPE_ABOUTME = properties.getProperty('WANPWD_TYPE_ABOUTME')
     WANPWD_TYPE_CREATE_CDKEY = properties.getProperty('WANPWD_TYPE_CREATE_CDKEY')
+
     CDKEY_CLASS = properties.getProperty('CDKEY_CLASS')
     DEVELOPER_ID = properties.getProperty('DEVELOPER_ID')
+
+    GOOGLE_AD_APP_ID = properties.getProperty('GOOGLE_AD_APP_ID')
+    GOOGLE_AD_UNIT_ID_ARTICLE_LIST_NATIVE_AD = properties.getProperty('GOOGLE_AD_UNIT_ID_ARTICLE_LIST_NATIVE_AD')
+    GOOGLE_AD_UNIT_ID_ARTICLE_DETAILS_BOTTOM_BANNER_AD = properties.getProperty('GOOGLE_AD_UNIT_ID_ARTICLE_DETAILS_BOTTOM_BANNER_AD')
 } else {
     KEYSTORE_FILE = "${rootProject.projectDir}/demo.jks"
     KEYSTORE_FILE_PASSWORD = "123456"
@@ -104,6 +113,7 @@ android {
     productFlavors.all { flavor ->
         manifestPlaceholders = [
                 REQUEST_INSTALL_PACKAGES_PERMISSION: ext.enableInAppUpdate ? "android.permission.REQUEST_INSTALL_PACKAGES" : "android.permission.INTERNET",
+                GOOGLE_AD_APP_ID: "$GOOGLE_AD_APP_ID",
         ]
         buildConfigField "boolean", "ENABLE_IN_APP_UPDATE", "${ext.enableInAppUpdate}"
         buildConfigField "String", "WANPWD_FORMAT", "\"${WANPWD_FORMAT}\""
@@ -117,5 +127,7 @@ android {
         buildConfigField "String", "WANPWD_TYPE_CREATE_CDKEY", "\"${WANPWD_TYPE_CREATE_CDKEY}\""
         buildConfigField "String", "CDKEY_CLASS", "\"${CDKEY_CLASS}\""
         buildConfigField "String", "DEVELOPER_ID", "\"${DEVELOPER_ID}\""
+        buildConfigField "String", "GOOGLE_AD_UNIT_ID_ARTICLE_LIST_NATIVE_AD", "\"${GOOGLE_AD_UNIT_ID_ARTICLE_LIST_NATIVE_AD}\""
+        buildConfigField "String", "GOOGLE_AD_UNIT_ID_ARTICLE_DETAILS_BOTTOM_BANNER_AD", "\"${GOOGLE_AD_UNIT_ID_ARTICLE_DETAILS_BOTTOM_BANNER_AD}\""
     }
 }

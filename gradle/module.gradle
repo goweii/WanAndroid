@@ -4,5 +4,5 @@ android {
 }
 
 dependencies {
-    implementation project(':basic_core')
+    implementation project(':basic:core')
 }

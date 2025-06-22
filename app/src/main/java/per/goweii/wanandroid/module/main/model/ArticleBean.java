@@ -2,18 +2,22 @@ package per.goweii.wanandroid.module.main.model;
 
 import android.text.TextUtils;
 
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+
 import java.util.List;
+import java.util.Objects;
 
 import per.goweii.basic.utils.ResUtils;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.module.main.adapter.ArticleAdapter;
 
 /**
  * @author CuiZhen
  * @date 2019/5/15
  * GitHub: https://github.com/goweii
  */
-public class ArticleBean extends BaseBean {
+public class ArticleBean extends BaseBean implements MultiItemEntity {
     /**
      * apkLink :
      * author : 玉刚说
@@ -68,6 +72,18 @@ public class ArticleBean extends BaseBean {
     private int zan;
     private List<TagsBean> tags;
     private int originId;
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ArticleBean bean = (ArticleBean) o;
+        return chapterId == bean.chapterId && collect == bean.collect && courseId == bean.courseId && top == bean.top && fresh == bean.fresh && id == bean.id && publishTime == bean.publishTime && superChapterId == bean.superChapterId && type == bean.type && userId == bean.userId && visible == bean.visible && zan == bean.zan && originId == bean.originId && Objects.equals(apkLink, bean.apkLink) && Objects.equals(author, bean.author) && Objects.equals(shareUser, bean.shareUser) && Objects.equals(chapterName, bean.chapterName) && Objects.equals(desc, bean.desc) && Objects.equals(envelopePic, bean.envelopePic) && Objects.equals(link, bean.link) && Objects.equals(niceDate, bean.niceDate) && Objects.equals(origin, bean.origin) && Objects.equals(prefix, bean.prefix) && Objects.equals(projectLink, bean.projectLink) && Objects.equals(superChapterName, bean.superChapterName) && Objects.equals(title, bean.title) && Objects.equals(tags, bean.tags);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(apkLink, author, shareUser, chapterId, chapterName, collect, courseId, desc, envelopePic, top, fresh, id, link, niceDate, origin, prefix, projectLink, publishTime, superChapterId, superChapterName, title, type, userId, visible, zan, tags, originId);
+    }
 
     public String getApkLink() {
         return apkLink;
@@ -289,6 +305,11 @@ public class ArticleBean extends BaseBean {
 
     public void setTags(List<TagsBean> tags) {
         this.tags = tags;
+    }
+
+    @Override
+    public int getItemType() {
+        return ArticleAdapter.ITEM_TYPE_ARTICLE;
     }
 
     public static class TagsBean extends BaseBean {

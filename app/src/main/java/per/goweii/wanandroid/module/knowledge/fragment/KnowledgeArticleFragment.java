@@ -155,7 +155,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleItem(position);
                 if (item != null) {
                     UrlOpenUtils.Companion.with(item).open(getContext());
                 }
@@ -164,7 +164,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleItem(position);
                 if (item != null) {
                     if (v.isChecked()) {
                         presenter.collect(item, v);
@@ -214,7 +214,7 @@ public class KnowledgeArticleFragment extends BaseFragment<KnowledgeArticlePrese
     public void getKnowledgeArticleListSuccess(int code, ArticleListBean data) {
         currPage = data.getCurPage() + PAGE_START;
         if (data.getCurPage() == 1) {
-            mAdapter.setNewData(data.getDatas());
+            mAdapter.setArticleData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
                 MultiStateUtils.toEmpty(msv);

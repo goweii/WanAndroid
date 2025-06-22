@@ -166,7 +166,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter, ActivityUs
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleItem(position);
                 if (item != null) {
                     UrlOpenUtils.Companion.with(item).open(getContext());
                 }
@@ -175,7 +175,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter, ActivityUs
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleItem(position);
                 if (item != null) {
                     if (v.isChecked()) {
                         presenter.collect(item, v);
@@ -324,7 +324,7 @@ public class UserPageActivity extends BaseActivity<UserPagePresenter, ActivityUs
             binding.tvUserId.setText("" + data.getCoinInfo().getUserId());
             binding.tvUserCoin.setText("" + data.getCoinInfo().getCoinCount());
             binding.tvUserRanking.setText("" + data.getCoinInfo().getRank());
-            mAdapter.setNewData(data.getShareArticles().getDatas());
+            mAdapter.setArticleData(data.getShareArticles().getDatas());
             mAdapter.setEnableLoadMore(true);
             binding.msvList.setVisibility(View.VISIBLE);
             if (data.getShareArticles().getDatas() == null || data.getShareArticles().getDatas().isEmpty()) {

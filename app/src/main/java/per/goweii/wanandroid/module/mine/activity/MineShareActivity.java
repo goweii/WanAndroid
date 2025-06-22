@@ -172,7 +172,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter, Activity
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 mAdapter.closeAll(null);
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleItem(position);
                 if (item == null) {
                     return;
                 }
@@ -207,7 +207,7 @@ public class MineShareActivity extends BaseActivity<MineSharePresenter, Activity
     public void getMineShareArticleListSuccess(int code, ArticleListBean data) {
         currPage = data.getCurPage() + PAGE_START;
         if (data.getCurPage() == 1) {
-            mAdapter.setNewData(data.getDatas());
+            mAdapter.setArticleData(data.getDatas());
             mAdapter.setEnableLoadMore(true);
             if (data.getDatas() == null || data.getDatas().isEmpty()) {
                 MultiStateUtils.toEmpty(msv);

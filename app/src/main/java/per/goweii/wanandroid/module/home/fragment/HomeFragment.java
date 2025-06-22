@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.chad.library.adapter.base.entity.MultiItemEntity;
+import com.google.android.gms.ads.nativead.NativeAd;
 import com.kennyc.view.MultiStateView;
 import com.scwang.smart.refresh.layout.SmartRefreshLayout;
 import com.scwang.smart.refresh.layout.api.RefreshHeader;
@@ -61,6 +63,8 @@ import per.goweii.basic.utils.display.DisplayInfoUtils;
 import per.goweii.basic.utils.listener.OnClickListener2;
 import per.goweii.basic.utils.listener.SimpleCallback;
 import per.goweii.basic.utils.listener.SimpleListener;
+import per.goweii.wanandroid.utils.GoogleAdUnitIds;
+import per.goweii.component.ad.NativeAdProvider;
 import per.goweii.cropimageview.CropImageView;
 import per.goweii.statusbarcompat.utils.LuminanceUtils;
 import per.goweii.wanandroid.R;
@@ -82,6 +86,7 @@ import per.goweii.wanandroid.module.main.dialog.WebDialog;
 import per.goweii.wanandroid.module.main.model.ArticleBean;
 import per.goweii.wanandroid.module.main.model.ArticleListBean;
 import per.goweii.wanandroid.module.main.model.ConfigBean;
+import per.goweii.wanandroid.module.main.model.NativeAdBean;
 import per.goweii.wanandroid.module.main.model.RecommendBean;
 import per.goweii.wanandroid.module.main.utils.BottomDrawerViewOutlineProvider;
 import per.goweii.wanandroid.utils.ConfigUtils;
@@ -92,6 +97,7 @@ import per.goweii.wanandroid.utils.RecommendManager;
 import per.goweii.wanandroid.utils.RvScrollTopUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
+import per.goweii.wanandroid.utils.cdkey.CDKeyUtils;
 import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.widget.CollectView;
 import per.goweii.wanandroid.widget.bottomdrawer.BottomDrawerLayout;
@@ -285,17 +291,17 @@ public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBindin
                 presenter.getArticleList(currPage, false);
             }
         }, rv);
-        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
-                showWebDialog(position);
-                return true;
-            }
-        });
+//        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+//                showWebDialog(position);
+//                return true;
+//            }
+//        });
         mAdapter.setOnItemChildViewClickListener(new ArticleAdapter.OnItemChildViewClickListener() {
             @Override
             public void onCollectClick(BaseViewHolder helper, CollectView v, int position) {
-                ArticleBean item = mAdapter.getItem(position);
+                ArticleBean item = mAdapter.getArticleItem(position);
                 if (item != null) {
                     if (v.isChecked()) {
                         presenter.collect(item, v);
@@ -522,18 +528,21 @@ public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBindin
     }
 
     private void showWebDialog(int position) {
-        mWebDialog = WebDialog.create(getContext(), null, mAdapter.getData(), position);
+        mWebDialog = WebDialog.create(getContext(), null, mAdapter.getArticleData(), position);
         mWebDialog.setOnPageChangedListener(new WebDialog.OnPageChangedListener() {
             @Override
             public void onPageChanged(int pos, ArticleBean data) {
                 int headerCount = mAdapter.getHeaderLayoutCount();
                 int currItemPos = 0;
-                List<ArticleBean> datas = mAdapter.getData();
+                List<MultiItemEntity> datas = mAdapter.getData();
                 for (int i = 0; i < datas.size(); i++) {
-                    ArticleBean bean = datas.get(i);
-                    if (bean.getId() == data.getId()) {
-                        currItemPos = headerCount + i;
-                        break;
+                    MultiItemEntity item = datas.get(i);
+                    if (item.getItemType() == ArticleAdapter.ITEM_TYPE_ARTICLE) {
+                        ArticleBean bean = (ArticleBean) item;
+                        if (bean.getId() == data.getId()) {
+                            currItemPos = headerCount + i;
+                            break;
+                        }
                     }
                 }
                 if (currItemPos < 0) {
@@ -581,6 +590,19 @@ public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBindin
         }
         currPage = PAGE_START;
         presenter.getArticleList(currPage, false);
+
+        if (!CDKeyUtils.getInstance().isActive()) {
+            new NativeAdProvider(requireActivity(), getViewLifecycleOwner(), GoogleAdUnitIds.ARTICLE_LIST_NATIVE_AD).load(new SimpleCallback<NativeAd>() {
+                @Override
+                public void onResult(NativeAd data) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) rv.getLayoutManager();
+                    if (layoutManager != null) {
+                        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+                        mAdapter.addData(lastVisibleItemPosition + 1, new NativeAdBean(data));
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -677,7 +699,7 @@ public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBindin
     }
 
     private void removeTopItems() {
-        List<ArticleBean> list = mAdapter.getData();
+        List<ArticleBean> list = mAdapter.getArticleData();
         int from = -1;
         int count = 0;
         for (int i = 0; i < list.size(); i++) {
@@ -775,14 +797,21 @@ public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBindin
         currPage = data.getCurPage() + PAGE_START;
         if (data.getCurPage() == 1) {
             MultiStateUtils.toContent(msv);
-            List<ArticleBean> newList = new ArrayList<>();
-            List<ArticleBean> oldList = mAdapter.getData();
-            for (ArticleBean bean : oldList) {
-                if (bean.isTop()) {
-                    newList.add(bean);
+            List<MultiItemEntity> adList = new ArrayList<>();
+            List<MultiItemEntity> newList = new ArrayList<>();
+            List<MultiItemEntity> oldList = mAdapter.getData();
+            for (MultiItemEntity item : oldList) {
+                if (item instanceof ArticleBean) {
+                    ArticleBean bean = (ArticleBean) item;
+                    if (bean.isTop()) {
+                        newList.add(bean);
+                    }
+                } else {
+                    adList.add(item);
                 }
             }
             newList.addAll(data.getDatas());
+            newList.addAll(adList);
             mAdapter.setNewData(newList);
         } else {
             mAdapter.addData(data.getDatas());
@@ -814,11 +843,16 @@ public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBindin
         for (ArticleBean bean : data) {
             bean.setTop(true);
         }
-        List<ArticleBean> newList = new ArrayList<>(data);
-        List<ArticleBean> oldList = mAdapter.getData();
-        for (ArticleBean bean : oldList) {
-            if (!bean.isTop()) {
-                newList.add(bean);
+        List<MultiItemEntity> newList = new ArrayList<>(data);
+        List<MultiItemEntity> oldList = mAdapter.getData();
+        for (MultiItemEntity item : oldList) {
+            if (item instanceof ArticleBean) {
+                ArticleBean bean = (ArticleBean) item;
+                if (!bean.isTop()) {
+                    newList.add(bean);
+                }
+            } else {
+                newList.add(item);
             }
         }
         mAdapter.setNewData(newList);
