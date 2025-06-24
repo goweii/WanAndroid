@@ -42,7 +42,7 @@ ext {
             flexbox               : "1.0.0",
 
             butterknife           : "10.0.0",
-            eventbus              : "3.1.1",
+            eventbus              : "3.3.1",
             gson                  : "2.8.5",
             glide                 : "4.11.0",
             glideCompiler         : "4.11.0",
