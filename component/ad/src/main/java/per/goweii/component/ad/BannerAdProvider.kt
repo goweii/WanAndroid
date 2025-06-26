@@ -1,6 +1,7 @@
 package per.goweii.component.ad
 
 import android.content.Context
+import android.util.TypedValue
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -18,6 +19,7 @@ class BannerAdProvider(
     private val context: Context,
     private val lifecycleOwner: LifecycleOwner,
     private val adUnitId: String,
+    private val adSize: AdSize = AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(context, 320)
 ) {
     companion object {
         private const val TAG = "BannerAdProvider"
@@ -35,11 +37,13 @@ class BannerAdProvider(
 
     private var adView: AdView? = null
 
+    var onAdLoaded: (() -> Unit)? = null
+
     init {
         if (lifecycleOwner.lifecycle.currentState != Lifecycle.State.DESTROYED) {
             val adView = AdView(context)
             adView.adUnitId = adUnitId
-            adView.setAdSize(AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(context, 320))
+            adView.setAdSize(adSize)
 
             adView.adListener = object : AdListener() {
                 override fun onAdClicked() {
@@ -59,7 +63,8 @@ class BannerAdProvider(
                 }
 
                 override fun onAdLoaded() {
-                    LogUtils.d(TAG, "onAdLoaded")
+                    LogUtils.d(TAG, "onAdLoaded: ${adView.responseInfo}")
+                    onAdLoaded?.invoke()
                 }
 
                 override fun onAdOpened() {
@@ -71,6 +76,7 @@ class BannerAdProvider(
 
             val adRequest = AdManagerAdRequest.Builder().build()
             adView.loadAd(adRequest)
+            LogUtils.d(TAG, "loadAd")
         }
 
         lifecycleOwner.lifecycle.addObserver(object : DefaultLifecycleObserver {

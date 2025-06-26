@@ -591,18 +591,18 @@ public class HomeFragment extends BaseFragment<HomePresenter, FragmentHomeBindin
         currPage = PAGE_START;
         presenter.getArticleList(currPage, false);
 
-        if (!CDKeyUtils.getInstance().isActive()) {
-            new NativeAdProvider(requireActivity(), getViewLifecycleOwner(), GoogleAdUnitIds.ARTICLE_LIST_NATIVE_AD).load(new SimpleCallback<NativeAd>() {
-                @Override
-                public void onResult(NativeAd data) {
-                    LinearLayoutManager layoutManager = (LinearLayoutManager) rv.getLayoutManager();
-                    if (layoutManager != null) {
-                        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
-                        mAdapter.addData(lastVisibleItemPosition + 1, new NativeAdBean(data));
-                    }
-                }
-            });
-        }
+//        if (!CDKeyUtils.getInstance().isActive()) {
+//            new NativeAdProvider(requireActivity(), getViewLifecycleOwner(), GoogleAdUnitIds.ARTICLE_LIST_NATIVE_AD).load(new SimpleCallback<NativeAd>() {
+//                @Override
+//                public void onResult(NativeAd data) {
+//                    LinearLayoutManager layoutManager = (LinearLayoutManager) rv.getLayoutManager();
+//                    if (layoutManager != null) {
+//                        int lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition();
+//                        mAdapter.addData(lastVisibleItemPosition + 1, new NativeAdBean(data));
+//                    }
+//                }
+//            });
+//        }
     }
 
     @Override

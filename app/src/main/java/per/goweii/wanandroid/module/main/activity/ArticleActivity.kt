@@ -16,8 +16,10 @@ import android.widget.TextView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.doOnLayout
+import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import com.google.android.gms.ads.AdSize
 import per.goweii.anylayer.Layer
 import per.goweii.anylayer.guide.GuideLayer
 import per.goweii.basic.core.base.BaseActivity
@@ -330,8 +332,19 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
         presenter.isReadLater { switchReadLaterIcon() }
 
         if (!CDKeyUtils.getInstance().isActive) {
-            BannerAdProvider(this, this, GoogleAdUnitIds.ARTICLE_DETAILS_BOTTOM_BANNER_AD)
-                .attachToContainer(binding.flAdContainer)
+            binding.flAdContainer.isVisible = false
+            binding.llAd.doOnPreDraw {
+                val width = (binding.llAd.width / resources.displayMetrics.density).toInt()
+                BannerAdProvider(
+                    this, this,
+                    adUnitId = GoogleAdUnitIds.ARTICLE_DETAILS_BOTTOM_BANNER_AD,
+                    adSize = AdSize.getCurrentOrientationInlineAdaptiveBannerAdSize(this, width),
+                ).apply {
+                    onAdLoaded = {
+                        binding.flAdContainer.isVisible = true
+                    }
+                }.attachToContainer(binding.flAdContainer)
+            }
         }
     }
 

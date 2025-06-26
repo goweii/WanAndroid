@@ -25,10 +25,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <FrameLayout
-            android:id="@+id/fl_ad_container"
+        <LinearLayout
+            android:id="@+id/ll_ad"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:background="?colorBackground"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/fl_ad_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/margin_common"
+                android:background="?colorSurface" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/ll_footer"
