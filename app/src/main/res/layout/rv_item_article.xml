@@ -95,7 +95,7 @@
             app:riv_corner_radius="@dimen/round_radius_small"
             app:riv_mutate_background="true"
             tools:src="@drawable/image_holder"
-            tools:visibility="visible" />
+            tools:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,13 +119,12 @@
             <TextView
                 android:id="@+id/tv_desc"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_weight="1"
                 android:ellipsize="end"
                 android:includeFontPadding="true"
                 android:lineSpacingExtra="0dp"
-                android:maxLines="6"
+                android:maxLines="5"
                 android:textColor="?colorTextSecond"
                 android:textSize="@dimen/text_auxiliary"
                 android:visibility="gone"
