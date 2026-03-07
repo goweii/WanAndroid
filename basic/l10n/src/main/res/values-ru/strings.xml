@@ -86,6 +86,8 @@
     <string name="dark_mode">Темная тема</string>
     <string name="bookmark_reminders">Напоминания о закладках</string>
     <string name="bookmark_reminders_desc">Уведомлять о новых закладках при запуске приложения</string>
+    <string name="show_qa_tab">Показать вопросы и ответы</string>
+    <string name="show_qa_tab_desc">Показывать вкладку «Вопросы и ответы» на главной странице после запуска</string>
     <string name="show_carousel">Показать карусель</string>
     <string name="show_carousel_desc">Показывать карусель на главной странице</string>
     <string name="show_pinned">Показать закрепленные</string>

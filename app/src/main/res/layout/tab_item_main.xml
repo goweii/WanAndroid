@@ -7,8 +7,8 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingTop="3dp"
-    android:paddingBottom="3dp"
+    android:paddingTop="6dp"
+    android:paddingBottom="4dp"
     tools:layout_height="@dimen/bottom_bar_height">
 
     <per.goweii.percentimageview.percentimageview.PercentImageView
@@ -19,7 +19,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:padding="3dp"
+        android:layout_marginBottom="4dp"
         android:scaleType="fitCenter"
         android:tint="?colorIconThird"
         app:piv_basics="height"

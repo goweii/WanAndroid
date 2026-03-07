@@ -61,6 +61,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
     SwitchCompat sc_show_top;
     @BindView(R.id.sc_show_banner)
     SwitchCompat sc_show_banner;
+    @BindView(R.id.sc_show_qa)
+    SwitchCompat sc_show_qa;
     @BindView(R.id.tv_intercept_host)
     TextView tv_intercept_host;
     @BindView(R.id.tv_cache)
@@ -70,6 +72,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
     @BindView(R.id.ll_logout)
     LinearLayout ll_logout;
 
+    private boolean mShowQA;
     private boolean mShowBanner;
     private boolean mShowTop;
     private boolean mShowReadLaterNotification;
@@ -96,6 +99,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
     protected void initView() {
         updateLanguage();
         updateThemeModeUI();
+        mShowQA = SettingUtils.getInstance().isShowQA();
+        sc_show_qa.setChecked(mShowQA);
         mShowTop = SettingUtils.getInstance().isShowTop();
         sc_show_top.setChecked(mShowTop);
         mShowBanner = SettingUtils.getInstance().isShowBanner();
@@ -104,6 +109,12 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
         sc_show_read_later_notification.setChecked(mShowReadLaterNotification);
         mUrlIntercept = SettingUtils.getInstance().getUrlInterceptType();
         tv_intercept_host.setText(HostInterceptUtils.getName(mUrlIntercept));
+        sc_show_qa.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton v, boolean isChecked) {
+                SettingUtils.getInstance().setShowQA(isChecked);
+            }
+        });
         sc_show_top.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton v, boolean isChecked) {
@@ -173,11 +184,13 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
     }
 
     private void postSettingChangedEvent() {
+        boolean showQAChanged = mShowQA != SettingUtils.getInstance().isShowQA();
         boolean showTopChanged = mShowTop != SettingUtils.getInstance().isShowTop();
         boolean showBannerChanged = mShowBanner != SettingUtils.getInstance().isShowBanner();
         boolean urlInterceptChanged = mUrlIntercept != SettingUtils.getInstance().getUrlInterceptType();
-        if (showTopChanged || showBannerChanged || urlInterceptChanged) {
+        if (showQAChanged || showTopChanged || showBannerChanged || urlInterceptChanged) {
             SettingChangeEvent event = new SettingChangeEvent();
+            event.setShowQAChanged(showQAChanged);
             event.setShowTopChanged(showTopChanged);
             event.setShowBannerChanged(showBannerChanged);
             event.post();

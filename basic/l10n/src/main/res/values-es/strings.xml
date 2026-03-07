@@ -86,6 +86,8 @@
     <string name="dark_mode">Modo oscuro</string>
     <string name="bookmark_reminders">Recordatorio de marcadores</string>
     <string name="bookmark_reminders_desc">Recibir notificación de los últimos marcadores al abrir la app</string>
+    <string name="show_qa_tab">Mostrar preguntas y respuestas</string>
+    <string name="show_qa_tab_desc">Mostrar la pestaña de preguntas y respuestas en la página principal después de iniciar</string>
     <string name="show_carousel">Mostrar carrusel</string>
     <string name="show_carousel_desc">Mostrar carrusel en la página principal</string>
     <string name="show_pinned">Mostrar fijados</string>

@@ -88,6 +88,8 @@
     <string name="bookmark_reminders_desc">Notify the latest added bookmarks when opening the app</string>
     <string name="show_carousel">Show carousel</string>
     <string name="show_carousel_desc">Show carousel images on the home page after enabling</string>
+    <string name="show_qa_tab">Show Q&amp;A</string>
+    <string name="show_qa_tab_desc">Show the Q&amp;A tab on the home page after starting</string>
     <string name="show_pinned">Show pinned</string>
     <string name="show_pinned_desc">Show pinned articles on the home page after enabling</string>
     <string name="personal_data">Personal data</string>

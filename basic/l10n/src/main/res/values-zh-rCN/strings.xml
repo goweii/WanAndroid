@@ -86,6 +86,8 @@
     <string name="dark_mode">暗色模式</string>
     <string name="bookmark_reminders">书签提醒</string>
     <string name="bookmark_reminders_desc">打开应用时以通知方式提醒最新添加书签</string>
+    <string name="show_qa_tab">显示问答</string>
+    <string name="show_qa_tab_desc">开始后主页显示问答标签页</string>
     <string name="show_carousel">显示轮播</string>
     <string name="show_carousel_desc">开启后首页显示轮播图</string>
     <string name="show_pinned">显示置顶</string>

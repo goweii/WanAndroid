@@ -7,6 +7,7 @@ package per.goweii.wanandroid.event;
  */
 public class SettingChangeEvent extends BaseEvent {
 
+    private boolean showQAChanged;
     private boolean showTopChanged;
     private boolean showBannerChanged;
 
@@ -15,9 +16,17 @@ public class SettingChangeEvent extends BaseEvent {
 
     @Override
     public void post() {
-        if (showTopChanged || showBannerChanged) {
+        if (showQAChanged || showTopChanged || showBannerChanged) {
             super.post();
         }
+    }
+
+    public boolean isShowQAChanged() {
+        return showQAChanged;
+    }
+
+    public void setShowQAChanged(boolean showQAChanged) {
+        this.showQAChanged = showQAChanged;
     }
 
     public boolean isShowTopChanged() {

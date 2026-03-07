@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import java.util.List;
+
 /**
  * @author CuiZhen
  * @date 2019/5/11
@@ -24,7 +26,7 @@ public class TabFragmentPagerAdapter<T> extends FragmentPagerAdapter implements 
     private final ViewPager mViewPager;
     private final LinearLayout mTabContainer;
     private final int mTabItemRes;
-    private Page<T>[] mPages = null;
+    private List<Page<T>> mPages = null;
 
     public TabFragmentPagerAdapter(@NonNull FragmentManager fm,
                                    @NonNull ViewPager viewPager,
@@ -38,9 +40,8 @@ public class TabFragmentPagerAdapter<T> extends FragmentPagerAdapter implements 
         mViewPager.addOnPageChangeListener(this);
     }
 
-    @SafeVarargs
-    public final void setPages(Page<T>... pages) {
-        mViewPager.setOffscreenPageLimit(pages.length);
+    public final void setPages(@NonNull List<Page<T>> pages) {
+        mViewPager.setOffscreenPageLimit(pages.size());
         mTabContainer.removeAllViews();
         mPages = pages;
         for (Page<T> page : mPages) {
@@ -57,8 +58,8 @@ public class TabFragmentPagerAdapter<T> extends FragmentPagerAdapter implements 
 
     public void notifyPageDataChanged() {
         int currPos = mViewPager.getCurrentItem();
-        for (int i = 0; i < mPages.length; i++) {
-            mPages[i].notifyAdapterBindData(currPos == i);
+        for (int i = 0; i < mPages.size(); i++) {
+            mPages.get(i).notifyAdapterBindData(currPos == i);
         }
     }
 
@@ -135,15 +136,30 @@ public class TabFragmentPagerAdapter<T> extends FragmentPagerAdapter implements 
         }
     }
 
+    @Override
+    public int getItemPosition(@NonNull Object object) {
+        for (int i = 0; i < mPages.size(); i++) {
+            if (mPages.get(i).getFragment() == object) {
+                return i;
+            }
+        }
+        return POSITION_NONE;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return mPages.get(position).getId();
+    }
+
     @NonNull
     @Override
     public Fragment getItem(int i) {
-        return mPages[i].fragment;
+        return mPages.get(i).getFragment();
     }
 
     @Override
     public int getCount() {
-        return mPages == null ? 0 : mPages.length;
+        return mPages == null ? 0 : mPages.size();
     }
 
     @Override
@@ -152,8 +168,8 @@ public class TabFragmentPagerAdapter<T> extends FragmentPagerAdapter implements 
 
     @Override
     public void onPageSelected(int position) {
-        for (int i = 0; i < mPages.length; i++) {
-            Page<T> page = mPages[i];
+        for (int i = 0; i < mPages.size(); i++) {
+            Page<T> page = mPages.get(i);
             page.notifyAdapterBindData(position == i);
         }
     }
@@ -163,6 +179,7 @@ public class TabFragmentPagerAdapter<T> extends FragmentPagerAdapter implements 
     }
 
     public static class Page<T> {
+        private final int id;
         @NonNull
         private final Fragment fragment;
         @NonNull
@@ -171,10 +188,20 @@ public class TabFragmentPagerAdapter<T> extends FragmentPagerAdapter implements 
         private final TabAdapter<T> adapter;
         private View view;
 
-        public Page(@NonNull Fragment fragment, @NonNull T data, @NonNull TabAdapter<T> adapter) {
+        public Page(int id, @NonNull Fragment fragment, @NonNull T data, @NonNull TabAdapter<T> adapter) {
+            this.id = id;
             this.fragment = fragment;
             this.data = data;
             this.adapter = adapter;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        @NonNull
+        public Fragment getFragment() {
+            return fragment;
         }
 
         @NonNull

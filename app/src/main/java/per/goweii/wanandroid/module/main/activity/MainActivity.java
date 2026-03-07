@@ -36,6 +36,7 @@ import per.goweii.wanandroid.db.model.ReadLaterModel;
 import per.goweii.wanandroid.event.BannerAutoSwitchEnableEvent;
 import per.goweii.wanandroid.event.CloseSecondFloorEvent;
 import per.goweii.wanandroid.event.HomeActionBarEvent;
+import per.goweii.wanandroid.module.explore.ExploreFragment;
 import per.goweii.wanandroid.module.main.dialog.AdvertDialog;
 import per.goweii.wanandroid.module.main.dialog.CopiedLinkDialog;
 import per.goweii.wanandroid.module.main.dialog.DownloadDialog;
@@ -120,7 +121,7 @@ public class MainActivity extends BaseActivity<MainPresenter, ActivityMainBindin
         vp.setOffscreenPageLimit(1);
         mPagerAdapter = new FixedFragmentPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(mPagerAdapter);
-        mPagerAdapter.setFragmentList(UserArticleFragment.create(), MainFragment.create());
+        mPagerAdapter.setFragmentList(new ExploreFragment(), MainFragment.create());
         vp.setCurrentItem(1);
         vp.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

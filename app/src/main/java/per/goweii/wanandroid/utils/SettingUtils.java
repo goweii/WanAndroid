@@ -34,6 +34,7 @@ public class SettingUtils {
     private static final String KEY_SHOW_READ_LATER = "KEY_SHOW_READ_LATER";
     private static final String KEY_SHOW_READ_LATER_NOTIFICATION = "KEY_SHOW_READ_LATER_NOTIFICATION";
     private static final String KEY_SHOW_READ_RECORD = "KEY_SHOW_READ_RECORD";
+    private static final String KEY_SHOW_QA = "KEY_SHOW_QA";
     private static final String KEY_SHOW_TOP = "KEY_SHOW_TOP";
     private static final String KEY_SHOW_BANNER = "KEY_SHOW_BANNER";
     private static final String KEY_HIDE_ABOUT_ME = "KEY_HIDE_ABOUT_ME";
@@ -71,6 +72,7 @@ public class SettingUtils {
 
     private ThemeMode mThemeMode = ThemeMode.FOLLOW_SYSTEM;
     private boolean mShowReadLaterNotification = true;
+    private boolean mShowQA = false;
     private boolean mShowTop = true;
     private boolean mShowBanner = true;
     private int mUrlInterceptType = HostInterceptUtils.TYPE_NOTHING;
@@ -100,6 +102,7 @@ public class SettingUtils {
             }
         }
         mShowReadLaterNotification = mSPUtils.get(KEY_SHOW_READ_LATER_NOTIFICATION, mShowReadLaterNotification);
+        mShowQA = mSPUtils.get(KEY_SHOW_QA, mShowQA);
         mShowTop = mSPUtils.get(KEY_SHOW_TOP, mShowTop);
         mShowBanner = mSPUtils.get(KEY_SHOW_BANNER, mShowBanner);
         mUrlInterceptType = mSPUtils.get(KEY_URL_INTERCEPT_TYPE, mUrlInterceptType);
@@ -155,6 +158,15 @@ public class SettingUtils {
 
     public boolean isShowTop() {
         return mShowTop;
+    }
+
+    public void setShowQA(boolean showQA) {
+        mShowQA = showQA;
+        mSPUtils.save(KEY_SHOW_QA, showQA);
+    }
+
+    public boolean isShowQA() {
+        return mShowQA;
     }
 
     public void setShowBanner(boolean showBanner) {

@@ -86,6 +86,8 @@
     <string name="dark_mode">الوضع الليلي</string>
     <string name="bookmark_reminders">تذكير الإشارات المرجعية</string>
     <string name="bookmark_reminders_desc">عند فتح التطبيق سيتم تذكيرك بأحدث الإشارات المرجعية</string>
+    <string name="show_qa_tab">إظهار الأسئلة والأجوبة</string>
+    <string name="show_qa_tab_desc">إظهار تبويب الأسئلة والأجوبة في الصفحة الرئيسية بعد البدء</string>
     <string name="show_carousel">عرض السلايدر</string>
     <string name="show_carousel_desc">عند التفعيل، سيتم عرض السلايدر في الصفحة الرئيسية</string>
     <string name="show_pinned">عرض المثبت</string>

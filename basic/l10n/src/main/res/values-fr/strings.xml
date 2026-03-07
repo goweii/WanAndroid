@@ -86,6 +86,8 @@
     <string name="dark_mode">Mode sombre</string>
     <string name="bookmark_reminders">Rappel de signet</string>
     <string name="bookmark_reminders_desc">Notifier les nouveaux signets à l\'ouverture de l\'application</string>
+    <string name="show_qa_tab">Afficher les questions-réponses</string>
+    <string name="show_qa_tab_desc">Afficher l’onglet Questions-Réponses sur la page d’accueil après le démarrage</string>
     <string name="show_carousel">Afficher le carrousel</string>
     <string name="show_carousel_desc">Afficher le carrousel sur la page d\'accueil</string>
     <string name="show_pinned">Afficher épinglé</string>

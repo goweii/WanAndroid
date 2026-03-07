@@ -58,11 +58,8 @@ public class KnowledgeNavigationFragment extends BaseFragment<BasePresenter, Fra
     @Override
     protected void initView() {
         mAdapter = new FixedFragmentPagerAdapter(getChildFragmentManager());
-        mAdapter.setTitles(getString(R.string.architecture), getString(R.string.navigation));
-        mAdapter.setFragmentList(
-                KnowledgeFragment.create(),
-                NaviFragment.create()
-        );
+        mAdapter.setTitles(getString(R.string.navigation), getString(R.string.architecture));
+        mAdapter.setFragmentList(NaviFragment.create(), KnowledgeFragment.create());
         vp.setAdapter(mAdapter);
         MagicIndicatorUtils.commonNavigator(ab.getView(R.id.mi), vp, mAdapter, new SimpleCallback<Integer>() {
             @Override
