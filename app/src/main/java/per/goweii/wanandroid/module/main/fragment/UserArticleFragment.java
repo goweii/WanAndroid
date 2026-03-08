@@ -58,7 +58,7 @@ import per.goweii.wanandroid.widget.CollectView;
  * @date 2019/5/18
  * GitHub: https://github.com/goweii
  */
-public class UserArticleFragment extends BaseFragment<UserArticlePresenter, FragmentUserArticleBinding> implements UserArticleView {
+public class UserArticleFragment extends BaseFragment<UserArticlePresenter, FragmentUserArticleBinding> implements UserArticleView, RvScrollTopUtils.ScrollTop {
 
     private static final int PAGE_START = 0;
 
@@ -223,6 +223,13 @@ public class UserArticleFragment extends BaseFragment<UserArticlePresenter, Frag
 
     public void getProjectArticleList(boolean refresh) {
         presenter.getUserArticleList(currPage, refresh);
+    }
+
+    @Override
+    public void scrollTop() {
+        if (isAdded() && !isDetached()) {
+            RvScrollTopUtils.smoothScrollTop(rv);
+        }
     }
 
     @Override
