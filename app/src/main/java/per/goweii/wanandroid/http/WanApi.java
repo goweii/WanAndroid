@@ -7,6 +7,7 @@ import per.goweii.rxhttp.request.Api;
 import per.goweii.rxhttp.request.base.BaseBean;
 import per.goweii.wanandroid.common.Constant;
 import per.goweii.wanandroid.module.book.model.BookBean;
+import per.goweii.wanandroid.module.explore.DailyNewsResponse;
 import per.goweii.wanandroid.module.home.model.BannerBean;
 import per.goweii.wanandroid.module.home.model.HotKeyBean;
 import per.goweii.wanandroid.module.login.model.LoginBean;
@@ -58,6 +59,7 @@ public class WanApi extends Api {
         public static final int ERROR = 1000;
 
         public static final int SUCCESS = 0;
+        public static final int DAILY_NEWS_SUCCESS = 200;
 
         public static final int FAILED_NO_CACHE = -9000;  //没有缓存
 
@@ -65,6 +67,9 @@ public class WanApi extends Api {
     }
 
     public interface ApiService {
+
+        @GET("https://orz.ai/api/v1/dailynews")
+        Observable<DailyNewsResponse> getDailyNews(@Query("platform") String platform);
 
         @GET("https://v2.jinrishici.com/token")
         Observable<WanResponse<String>> getJinrishiciToken();

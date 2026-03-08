@@ -282,4 +282,6 @@
     <string name="language">Langue</string>
 
     <string name="ad">Publicité</string>
+
+    <string name="today_trending">Tendances du jour</string>
 </resources>

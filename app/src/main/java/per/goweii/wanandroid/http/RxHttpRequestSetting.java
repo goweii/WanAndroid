@@ -56,7 +56,12 @@ public class RxHttpRequestSetting extends DefaultRequestSetting {
 
     @Override
     public int getSuccessCode() {
-        return 0;
+        return WanApi.ApiCode.SUCCESS;
+    }
+
+    @Override
+    public int[] getMultiSuccessCode() {
+        return new int[] {WanApi.ApiCode.DAILY_NEWS_SUCCESS};
     }
 
     @Override

@@ -208,6 +208,7 @@ public class WanCache {
 
     @SuppressLint("DefaultLocale")
     public static class CacheKey {
+        public static final String DAILY_NEWS = "dailynews";
         public static final String JINRISHICI_TOKEN = "jinrishici/token";
         public static final String UPDATE = "update/update.json";
         public static final String ABOUT_ME = "about/about_me.json";

@@ -282,4 +282,6 @@
     <string name="language">Язык</string>
 
     <string name="ad">Реклама</string>
+
+    <string name="today_trending">Тренды сегодня</string>
 </resources>
