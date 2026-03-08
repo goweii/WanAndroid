@@ -18,6 +18,11 @@ android {
             }
         }
     }
+    packagingOptions {
+        jniLibs {
+            useLegacyPackaging true
+        }
+    }
     lint {
         disable "NullSafeMutableLiveData"
     }
