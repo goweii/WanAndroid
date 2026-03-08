@@ -7,6 +7,7 @@ import per.goweii.basic.core.base.BaseFragment
 import per.goweii.basic.core.utils.SmartRefreshUtils
 import per.goweii.wanandroid.common.Config
 import per.goweii.wanandroid.databinding.FragmentExploreBinding
+import per.goweii.wanandroid.module.main.activity.ArticleActivity
 import per.goweii.wanandroid.utils.MultiStateUtils
 import per.goweii.wanandroid.utils.RvScrollTopUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
@@ -47,7 +48,10 @@ class ExploreFragment : BaseFragment<ExplorePresenter, FragmentExploreBinding>()
         mAdapter!!.setOnItemClickListener { adapter, view, position ->
             val bean = mAdapter?.getItem(position)
             if (bean != null) {
-                UrlOpenUtils.with(bean.url).open(requireContext())
+                ArticleActivity.start(requireContext(),
+                    bean.url, bean.title,
+                    -1, false, "", -1)
+//                UrlOpenUtils.with(bean.url).open(requireContext())
             }
         }
         binding.rv.setAdapter(mAdapter)

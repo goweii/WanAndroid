@@ -10,6 +10,7 @@ import per.goweii.wanandroid.event.CollectionEvent
 import per.goweii.wanandroid.event.ReadRecordAddedEvent
 import per.goweii.wanandroid.event.ReadRecordUpdateEvent
 import per.goweii.wanandroid.http.RequestListener
+import per.goweii.wanandroid.module.main.model.CollectionLinkBean
 import per.goweii.wanandroid.module.main.model.MainRequest
 import per.goweii.wanandroid.module.main.view.ArticleView
 
@@ -20,11 +21,12 @@ import per.goweii.wanandroid.module.main.view.ArticleView
 class ArticlePresenter : BasePresenter<ArticleView>() {
     var articleUrl: String = ""
     var articleTitle: String = ""
-    var articleId: Int = 0
+    var articleId: Int = -1
+    var collectId: Int = -1
     var readLater: Boolean = false
     var collected: Boolean = false
     var userName: String = ""
-    var userId: Int = 0
+    var userId: Int = -1
 
     private var mReadLaterExecutor: ReadLaterExecutor? = null
     private var mReadRecordExecutor: ReadRecordExecutor? = null
@@ -42,6 +44,14 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
     }
 
     fun collect() {
+        if (articleId > 0) {
+            collectArticle()
+        } else {
+            collectLink()
+        }
+    }
+
+    private fun collectArticle() {
         addToRxLife(MainRequest.collectArticle(articleId, object : RequestListener<BaseBean?> {
             override fun onStart() {}
 
@@ -64,8 +74,66 @@ class ArticlePresenter : BasePresenter<ArticleView>() {
         }))
     }
 
+    private fun collectLink() {
+        addToRxLife(MainRequest.collectLink(articleTitle, articleUrl, object : RequestListener<CollectionLinkBean?> {
+            override fun onStart() {}
+
+            override fun onSuccess(code: Int, data: CollectionLinkBean?) {
+                collected = true
+                collectId = data?.id ?: -1
+                if (isAttach) {
+                    baseView.collectSuccess()
+                }
+                if (data?.id != null) {
+                    CollectionEvent.postCollectWithCollectId(data.id)
+                }
+            }
+
+            override fun onFailed(code: Int, msg: String) {
+                if (isAttach) {
+                    baseView.collectFailed(msg)
+                }
+            }
+
+            override fun onError(handle: ExceptionHandle) {}
+            override fun onFinish() {}
+        }))
+    }
+
     fun uncollect() {
+        if (articleId > 0) {
+            uncollectArticle()
+        } else {
+            uncollectLink()
+        }
+    }
+
+    fun uncollectArticle() {
         addToRxLife(MainRequest.uncollectArticle(articleId, object : RequestListener<BaseBean?> {
+            override fun onStart() {}
+
+            override fun onSuccess(code: Int, data: BaseBean?) {
+                collected = false
+                collectId = -1
+                if (isAttach) {
+                    baseView.uncollectSuccess()
+                }
+                CollectionEvent.postUnCollectWithArticleId(articleId)
+            }
+
+            override fun onFailed(code: Int, msg: String) {
+                if (isAttach) {
+                    baseView.uncollectFailed(msg)
+                }
+            }
+
+            override fun onError(handle: ExceptionHandle) {}
+            override fun onFinish() {}
+        }))
+    }
+
+    fun uncollectLink() {
+        addToRxLife(MainRequest.uncollectLink(articleId, object : RequestListener<BaseBean?> {
             override fun onStart() {}
 
             override fun onSuccess(code: Int, data: BaseBean?) {
