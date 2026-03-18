@@ -9,7 +9,7 @@ import com.bumptech.glide.load.resource.bitmap.BitmapTransformation;
 
 import java.security.MessageDigest;
 
-import per.goweii.burred.Blurred;
+import per.goweii.basic.core.utils.FastBlur;
 
 /**
  * 描述：高斯模糊
@@ -35,9 +35,19 @@ public class BlurTransformation extends BitmapTransformation {
 
     @Override
     protected Bitmap transform(@NonNull BitmapPool pool, @NonNull Bitmap toTransform, int outWidth, int outHeight) {
-        return Blurred.with(toTransform).percent(percent).blur();
+        if (percent <= 0) {
+            return toTransform;
+        }
+        float radius = Math.min(toTransform.getWidth(), toTransform.getHeight()) * percent;
+        float scale = 1;
+        if (radius > 25) {
+            scale = scale / (radius / 25);
+            radius = 25;
+        }
+        return FastBlur.get().process(toTransform, radius, scale, false, false);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "BlurTransformation(percent=" + percent + ")";

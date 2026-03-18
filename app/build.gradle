@@ -7,8 +7,8 @@ apply from: "${rootDir.path}/gradle/flavor.gradle"
 android {
     namespace "per.goweii.wanandroid"
     defaultConfig {
-        renderscriptTargetApi rootProject.ext.android.minSdkVersion
-        renderscriptSupportModeEnabled true
+//        renderscriptTargetApi rootProject.ext.android.minSdkVersion
+//        renderscriptSupportModeEnabled true
         ndk {
             abiFilters /*'armeabi',*/ 'armeabi-v7a', 'arm64-v8a'
         }
@@ -57,7 +57,7 @@ dependencies {
     implementation rootProject.ext.dependencies.startup
     implementation rootProject.ext.dependencies.cardview
     implementation rootProject.ext.dependencies.flexbox
-    implementation rootProject.ext.dependencies.realtimeBlurView
+//    implementation rootProject.ext.dependencies.realtimeBlurView
     implementation rootProject.ext.dependencies.banner
     implementation rootProject.ext.dependencies.persistentCookieJar
     implementation rootProject.ext.dependencies.revealLayout

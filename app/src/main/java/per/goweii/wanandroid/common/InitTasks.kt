@@ -9,7 +9,6 @@ import per.goweii.basic.core.CoreInit
 import per.goweii.basic.utils.AsyncInitTask
 import per.goweii.basic.utils.SyncInitTask
 import per.goweii.basic.utils.listener.SimpleCallback
-import per.goweii.burred.Blurred
 import per.goweii.ponyo.crash.Crash
 import per.goweii.rxhttp.core.RxHttp
 import per.goweii.swipeback.SwipeBack
@@ -199,20 +198,6 @@ class CoreInitTask : SyncInitTask() {
 
     override fun level(): Int {
         return 0
-    }
-}
-
-class BlurredInitTask : AsyncInitTask() {
-    override fun init(application: Application) {
-        Blurred.init(application)
-    }
-
-    override fun onlyMainProcess(): Boolean {
-        return true
-    }
-
-    override fun level(): Int {
-        return 2
     }
 }
 

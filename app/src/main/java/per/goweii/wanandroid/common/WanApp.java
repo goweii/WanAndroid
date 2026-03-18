@@ -23,7 +23,6 @@ public class WanApp extends BaseApp {
                 .add(new RxHttpInitTask())
                 .add(new WanDbInitTask())
                 .add(new WanCacheInitTask())
-                .add(new BlurredInitTask())
                 .add(new CrashInitTask())
                 .add(new ReadingModeTask())
                 .run();
