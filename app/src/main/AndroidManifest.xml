@@ -64,9 +64,9 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:host="www.wanandroid.com"
-                    android:scheme="wana" />
+                <data android:scheme="wana" />
+                <data android:host="wanandroid.com" />
+                <data android:host="wanandroid.com" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />

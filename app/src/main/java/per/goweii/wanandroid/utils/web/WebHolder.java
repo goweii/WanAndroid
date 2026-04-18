@@ -110,7 +110,7 @@ public class WebHolder {
             return;
         }
         String host = Uri.parse(url).getHost();
-        if (!TextUtils.equals(host, "www.wanandroid.com")) {
+        if (TextUtils.isEmpty(host) || !host.endsWith("wanandroid.com")) {
             return;
         }
         List<Cookie> cookies = CookieUtils.INSTANCE.loadForUrl(url);

@@ -14,7 +14,7 @@ class NotificationHtmlParser(
         private val urlPath: String // message/lg/list/ | message/lg/history/list/
 ) {
 
-    private val baseUrl = "https://www.wanandroid.com/"
+    private val baseUrl = "https://wanandroid.com/"
 
     suspend fun get(page: Int): List<NotificationBean> {
         return try {
@@ -54,14 +54,14 @@ class NotificationHtmlParser(
             val deleteUrlElement = infoArtDiv1.getElementsByTag("a")[0]
             var deleteUrl = deleteUrlElement.attr("href")
             if (!deleteUrl.startsWith("http://") && !deleteUrl.startsWith("https://")) {
-                deleteUrl = "https://www.wanandroid.com$deleteUrl"
+                deleteUrl = "https://wanandroid.com$deleteUrl"
             }
             val infoArtDiv2 = infoArtDivs[1]
             val ariticleUrlElement = infoArtDiv2.getElementsByTag("a")[0]
             val content = ariticleUrlElement.ownText()
             var ariticleUrl = ariticleUrlElement.attr("href")
             if (!ariticleUrl.startsWith("http://") && !ariticleUrl.startsWith("https://")) {
-                ariticleUrl = "https://www.wanandroid.com$ariticleUrl"
+                ariticleUrl = "https://wanandroid.com$ariticleUrl"
             }
             list.add(NotificationBean(tags, aniceDate, fromUser, articleContent, content, ariticleUrl, deleteUrl))
         }

@@ -114,7 +114,7 @@ public class MinePresenter extends BasePresenter<MineView> {
         Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
             public void subscribe(ObservableEmitter<Integer> emitter) throws Exception {
-                String url = "https://www.wanandroid.com/";
+                String url = "https://wanandroid.com/";
                 List<Cookie> cookies = CookieUtils.INSTANCE.loadForUrl(url);
                 if (cookies == null || cookies.isEmpty()) {
                     emitter.onNext(0);
@@ -125,7 +125,7 @@ public class MinePresenter extends BasePresenter<MineView> {
                 for (Cookie cookie : cookies) {
                     map.put(cookie.name(), cookie.value());
                 }
-                Document document = Jsoup.connect("https://www.wanandroid.com/")
+                Document document = Jsoup.connect("https://wanandroid.com/")
                         .cookies(map)
                         .get();
                 String num = null;

@@ -1,8 +1,8 @@
 # WanAndroid
 
-[WanAndroid](https://www.wanandroid.com/)|最美玩安卓客户端
+[WanAndroid](https://wanandroid.com/)|最美玩安卓客户端
 
-- [WanAndroid主页](https://www.wanandroid.com/blog/show/2577)
+- [WanAndroid主页](https://wanandroid.com/blog/show/2577)
 - [GitHub主页](https://github.com/goweii/WanAndroid)
 - [酷安主页](https://www.coolapk.com/apk/231591) 
 
@@ -18,7 +18,7 @@
 
 # 功能及特色
 
-1. [玩Android开放API](https://www.wanandroid.com/blog/show/2)中除TODO的所有功能
+1. [玩Android开放API](https://wanandroid.com/blog/show/2)中除TODO的所有功能
 2. 简洁美观的UI设计，高品质暗黑模式
 3. 全局滑动返回
 4. 书签/阅读历史

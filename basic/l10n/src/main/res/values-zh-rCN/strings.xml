@@ -98,7 +98,7 @@
     <string name="points_with_colon">积分：</string>
     <string name="ranking_with_colon">排名：</string>
     <string name="domain_name">域名</string>
-    <string name="host_input_hint">如：www.wanandroid.com</string>
+    <string name="host_input_hint">如：wanandroid.com</string>
     <string name="cancel">取消</string>
     <string name="ok">确定</string>
     <string name="open_the_link">打开链接</string>
@@ -143,7 +143,7 @@
     <string name="refresh_the_title">刷新标题</string>
     <string name="up_to_100_characters">100字以内</string>
     <string name="link_to_article">文章链接</string>
-    <string name="article_link_input_hint">如：https://www.wanandroid.com/blog/show/2577</string>
+    <string name="article_link_input_hint">如：https://wanandroid.com/blog/show/2577</string>
     <string name="share_article_tips">1. 只要是任何好文都可以分享哈，并不一定要是原创！投递的文章会进入广场 tab;\n2. CSDN，掘金，简书等官方博客站点会直接通过，不需要审核;\n3. 其他个人站点会进入审核阶段，不要投递任何无效链接，否则可能会对你的账号产生一定影响;\n4. 如果你发现错误，可以提交日志，让我们一起使网站变得更好。\n5. 由于本站为个人开发与维护，会尽力保证24小时内审核，当然有可能哪天太累，会延期，请保持佛系...</string>
     <string name="generated_by_wanandroid_client">由玩安卓客户端生成</string>
     <string name="save_to_album">保存到相册</string>

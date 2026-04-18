@@ -52,7 +52,7 @@ public class WanApi extends Api {
     }
 
     public static class ApiConfig {
-        public static final String BASE_URL = "https://www.wanandroid.com/";
+        public static final String BASE_URL = "https://wanandroid.com/";
     }
 
     public static class ApiCode {

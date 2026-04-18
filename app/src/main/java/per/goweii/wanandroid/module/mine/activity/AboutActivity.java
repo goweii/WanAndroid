@@ -139,13 +139,13 @@ public class AboutActivity extends BaseActivity<AboutPresenter, ActivityAboutBin
                 break;
             case R.id.ll_web:
                 UrlOpenUtils.Companion
-                        .with("https://www.wanandroid.com")
+                        .with("https://wanandroid.com")
                         .title(tv_web.getText().toString())
                         .open(getContext());
                 break;
             case R.id.ll_about:
                 UrlOpenUtils.Companion
-                        .with("https://www.wanandroid.com/about")
+                        .with("https://wanandroid.com/about")
                         .title(tv_about.getText().toString())
                         .open(getContext());
                 break;

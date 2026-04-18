@@ -24,7 +24,7 @@
         android:lineSpacingExtra="0dp"
         android:textColor="?colorTextSurface"
         android:textSize="@dimen/text_content"
-        tools:text="www.wanandroid.com" />
+        tools:text="wanandroid.com" />
 
     <ImageView
         android:id="@+id/iv_delete"

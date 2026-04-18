@@ -98,7 +98,7 @@
     <string name="points_with_colon">النقاط:</string>
     <string name="ranking_with_colon">الترتيب:</string>
     <string name="domain_name">اسم النطاق</string>
-    <string name="host_input_hint">مثال: www.wanandroid.com</string>
+    <string name="host_input_hint">مثال: wanandroid.com</string>
     <string name="cancel">إلغاء</string>
     <string name="ok">تأكيد</string>
     <string name="open_the_link">فتح الرابط</string>
@@ -143,7 +143,7 @@
     <string name="refresh_the_title">تحديث العنوان</string>
     <string name="up_to_100_characters">حتى 100 حرف</string>
     <string name="link_to_article">رابط المقال</string>
-    <string name="article_link_input_hint">مثال: https://www.wanandroid.com/blog/show/2577</string>
+    <string name="article_link_input_hint">مثال: https://wanandroid.com/blog/show/2577</string>
     <string name="share_article_tips">1. يمكنك مشاركة أي مقال جيد، ليس بالضرورة أن يكون أصليًا! سيتم إدراج المقالات المقدمة في علامة التبويب الساحة;\n2. سيتم قبول مدونات المواقع الرسمية مثل CSDN، Juejin، Jiashu مباشرة دون مراجعة;\n3. سيتم مراجعة المواقع الشخصية الأخرى، لا ترسل روابط غير صالحة حتى لا يؤثر ذلك على حسابك;\n4. إذا وجدت خطأ، يمكنك إرسال سجل الأخطاء لمساعدتنا في تحسين الموقع.\n5. نظرًا لأن الموقع مطور ومدار بشكل فردي، سنحاول مراجعة المقالات خلال 24 ساعة، ولكن قد يتأخر أحيانًا، يرجى التحلي بالصبر...</string>
     <string name="generated_by_wanandroid_client">تم الإنشاء بواسطة تطبيق وان أندرويد</string>
     <string name="save_to_album">حفظ في الألبوم</string>

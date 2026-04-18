@@ -98,7 +98,7 @@
     <string name="points_with_colon">Puntos:</string>
     <string name="ranking_with_colon">Ranking:</string>
     <string name="domain_name">Dominio</string>
-    <string name="host_input_hint">Ej: www.wanandroid.com</string>
+    <string name="host_input_hint">Ej: wanandroid.com</string>
     <string name="cancel">Cancelar</string>
     <string name="ok">Aceptar</string>
     <string name="open_the_link">Abrir enlace</string>
@@ -143,7 +143,7 @@
     <string name="refresh_the_title">Actualizar título</string>
     <string name="up_to_100_characters">Hasta 100 caracteres</string>
     <string name="link_to_article">Enlace al artículo</string>
-    <string name="article_link_input_hint">Ej: https://www.wanandroid.com/blog/show/2577</string>
+    <string name="article_link_input_hint">Ej: https://wanandroid.com/blog/show/2577</string>
     <string name="share_article_tips">1. ¡Puedes compartir cualquier buen artículo, no tiene que ser original! Los artículos enviados aparecerán en la pestaña Plaza;\n2. Los blogs oficiales como CSDN, Juejin, JianShu se aprobarán automáticamente;\n3. Otros sitios personales requerirán revisión. No envíes enlaces inválidos o tu cuenta podría verse afectada;\n4. Si encuentras errores, puedes enviar registros para mejorar el sitio juntos.\n5. El sitio es desarrollado y mantenido por una sola persona, se intentará revisar en 24 horas, pero puede haber retrasos. ¡Gracias por tu paciencia!</string>
     <string name="generated_by_wanandroid_client">Generado por el cliente WanAndroid</string>
     <string name="save_to_album">Guardar en el álbum</string>

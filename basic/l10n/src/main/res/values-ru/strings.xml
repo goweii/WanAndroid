@@ -98,7 +98,7 @@
     <string name="points_with_colon">Баллы:</string>
     <string name="ranking_with_colon">Рейтинг:</string>
     <string name="domain_name">Домен</string>
-    <string name="host_input_hint">например: www.wanandroid.com</string>
+    <string name="host_input_hint">например: wanandroid.com</string>
     <string name="cancel">Отмена</string>
     <string name="ok">ОК</string>
     <string name="open_the_link">Открыть ссылку</string>
@@ -143,7 +143,7 @@
     <string name="refresh_the_title">Обновить заголовок</string>
     <string name="up_to_100_characters">До 100 символов</string>
     <string name="link_to_article">Ссылка на статью</string>
-    <string name="article_link_input_hint">например: https://www.wanandroid.com/blog/show/2577</string>
+    <string name="article_link_input_hint">например: https://wanandroid.com/blog/show/2577</string>
     <string name="share_article_tips">1. Можно делиться любыми хорошими статьями, не обязательно авторскими! Публикации попадают во вкладку "Площадка";\n2. CSDN, Juejin, JianShu и другие официальные блоги проходят без модерации;\n3. Другие сайты проходят модерацию. Не отправляйте невалидные ссылки, это может повлиять на ваш аккаунт;\n4. Если вы нашли ошибку, отправьте лог, чтобы мы сделали сайт лучше.\n5. Сайт поддерживается одним человеком, модерация обычно в течение 24 часов, но иногда может быть задержка.</string>
     <string name="generated_by_wanandroid_client">Сгенерировано клиентом WanAndroid</string>
     <string name="save_to_album">Сохранить в альбом</string>

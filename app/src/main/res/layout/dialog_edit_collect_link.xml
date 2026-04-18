@@ -63,7 +63,7 @@
                 android:paddingBottom="10dp"
                 android:textColor="?colorTextSurface"
                 android:textSize="@dimen/text_content"
-                tools:text="https://www.wanandroid.com" />
+                tools:text="https://wanandroid.com" />
 
         </LinearLayout>
 

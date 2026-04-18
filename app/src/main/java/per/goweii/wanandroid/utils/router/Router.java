@@ -15,7 +15,7 @@ import per.goweii.basic.utils.LogUtils;
  */
 public class Router {
     public static final String SCHEME = "wana";
-    public static final String HOST = "www.wanandroid.com";
+    public static final String HOST = "wanandroid.com";
 
     static final String PARAM_URL = "ROUTER_URL";
 

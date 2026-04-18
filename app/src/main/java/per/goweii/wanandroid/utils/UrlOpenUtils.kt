@@ -1,9 +1,11 @@
 package per.goweii.wanandroid.utils
 
 import android.content.Context
+import android.net.Uri
 import per.goweii.wanandroid.module.main.activity.ArticleActivity
 import per.goweii.wanandroid.module.main.activity.WebActivity
 import per.goweii.wanandroid.module.main.model.ArticleBean
+import androidx.core.net.toUri
 
 /**
  * @author CuiZhen
@@ -67,6 +69,10 @@ class UrlOpenUtils(
 
     fun open(context: Context?) {
         context ?: return
+        var url = this.url
+        if (url.toUri().host == "www.wanandroid.com") {
+            url = url.replace("www.wanandroid.com", "wanandroid.com");
+        }
         if (!forceWeb && articleId > 0) {
             ArticleActivity.start(context, url, title, articleId, collected, author, userId)
         } else {

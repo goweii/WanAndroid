@@ -81,7 +81,7 @@ public class KnowledgeArticleActivity extends BaseActivity<KnowledgePresenter, A
         // /wxarticle/list/410/1
         // /article/list/0?cid=440
         // /project/list/1?cid=367
-        // wana://www.wanandroid.com/wxarticle/list/410/1?cid=440
+        // wana://wanandroid.com/wxarticle/list/410/1?cid=440
         Uri uri = Uri.parse(Router.createUrlByPath(url));
         try {
             String cid = uri.getQueryParameter("cid");

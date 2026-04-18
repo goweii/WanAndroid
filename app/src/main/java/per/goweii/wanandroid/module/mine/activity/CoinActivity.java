@@ -74,7 +74,7 @@ public class CoinActivity extends BaseActivity<CoinPresenter, ActivityCoinBindin
         abc.getRightActionView(0).setOnClickListener(new OnClickListener2() {
             @Override
             public void onClick2(View v) {
-                WebDialog.create(getContext(), "https://www.wanandroid.com/blog/show/2653").show();
+                WebDialog.create(getContext(), "https://wanandroid.com/blog/show/2653").show();
             }
         });
         abc.getRightActionView(1).setOnClickListener(new OnClickListener2() {
