@@ -7,21 +7,22 @@ import per.goweii.wanandroid.utils.SettingUtils
 
 class ExplorePresenter : BasePresenter<ExploreView>() {
     fun getDailyNewsFromCache() {
+        val platform = SettingUtils.getInstance().dailyNewsPlatform
         DailyNewsRequest.getDailyNewsFromCache(
-            SettingUtils.getInstance().dailyNewsPlatform,
+            platform,
             object : RequestListener<List<DailyNewsBean>> {
                 override fun onStart() {
                 }
 
                 override fun onSuccess(code: Int, data: List<DailyNewsBean>) {
-                    if (isAttach) {
-                        baseView.getDailyNewsSuccess(data)
+                    if (isAttach && SettingUtils.getInstance().dailyNewsPlatform == platform) {
+                        baseView.getDailyNewsSuccess(platform, data)
                     }
                 }
 
                 override fun onFailed(code: Int, msg: String?) {
-                    if (isAttach) {
-                        baseView.getDailyFailed()
+                    if (isAttach && SettingUtils.getInstance().dailyNewsPlatform == platform) {
+                        baseView.getDailyFailed(platform)
                     }
                 }
 
@@ -34,22 +35,23 @@ class ExplorePresenter : BasePresenter<ExploreView>() {
     }
 
     fun getDailyNewsFromNet() {
+        val platform = SettingUtils.getInstance().dailyNewsPlatform
         DailyNewsRequest.getDailyNewsFromNet(
-            SettingUtils.getInstance().dailyNewsPlatform,
+            platform,
             rxLife,
             object : RequestListener<List<DailyNewsBean>> {
                 override fun onStart() {
                 }
 
                 override fun onSuccess(code: Int, data: List<DailyNewsBean>) {
-                    if (isAttach) {
-                        baseView.getDailyNewsSuccess(data)
+                    if (isAttach && SettingUtils.getInstance().dailyNewsPlatform == platform) {
+                        baseView.getDailyNewsSuccess(platform, data)
                     }
                 }
 
                 override fun onFailed(code: Int, msg: String?) {
-                    if (isAttach) {
-                        baseView.getDailyFailed()
+                    if (isAttach && SettingUtils.getInstance().dailyNewsPlatform == platform) {
+                        baseView.getDailyFailed(platform)
                     }
                 }
 

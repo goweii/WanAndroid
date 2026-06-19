@@ -10,7 +10,8 @@
     <per.goweii.actionbarex.common.ActionBarCommon
         android:id="@+id/abc"
         style="@style/ActionBar.Common"
-        app:abc_titleText="@string/today_trending" />
+        app:abc_titleText="@string/today_trending"
+        app:abc_titleTextMaxWidth="300dp"/>
 
     <com.kennyc.view.MultiStateView
         android:id="@+id/msv"

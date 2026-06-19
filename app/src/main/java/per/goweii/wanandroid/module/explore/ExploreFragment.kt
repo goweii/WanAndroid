@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.doOnLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -19,6 +20,7 @@ import per.goweii.anylayer.popup.PopupLayer
 import per.goweii.basic.core.base.BaseFragment
 import per.goweii.basic.core.utils.SmartRefreshUtils
 import per.goweii.basic.utils.ResUtils
+import per.goweii.basic.utils.ext.gone
 import per.goweii.wanandroid.R
 import per.goweii.wanandroid.databinding.FragmentExploreBinding
 import per.goweii.wanandroid.module.main.activity.ArticleActivity
@@ -137,7 +139,7 @@ class ExploreFragment : BaseFragment<ExplorePresenter, FragmentExploreBinding>()
         }
     }
 
-    override fun getDailyNewsSuccess(data: List<DailyNewsBean>) {
+    override fun getDailyNewsSuccess(platform: DailyNewsPlatform, data: List<DailyNewsBean>) {
         mAdapter?.setNewData(data)
         if (data.isEmpty()) {
             MultiStateUtils.toEmpty(binding.msv)
@@ -147,7 +149,7 @@ class ExploreFragment : BaseFragment<ExplorePresenter, FragmentExploreBinding>()
         mSmartRefreshUtils?.success()
     }
 
-    override fun getDailyFailed() {
+    override fun getDailyFailed(platform: DailyNewsPlatform) {
         mSmartRefreshUtils!!.fail()
         MultiStateUtils.toError(binding.msv)
     }
