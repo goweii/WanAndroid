@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<per.goweii.anylayer.widget.MaxSizeFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/dialog_card_share_fl_card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?colorDialogCard"
+    android:maxWidth="600dp"
+    android:maxHeight="480dp">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/dialog_choice_daily_news_platform_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/rv_item_choice_daily_news_platform" />
+
+</per.goweii.anylayer.widget.MaxSizeFrameLayout>

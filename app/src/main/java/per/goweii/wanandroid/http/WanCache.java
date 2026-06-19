@@ -208,7 +208,7 @@ public class WanCache {
 
     @SuppressLint("DefaultLocale")
     public static class CacheKey {
-        public static final String DAILY_NEWS = "dailynews";
+        private static final String DAILY_NEWS = "dailynews/%s";
         public static final String JINRISHICI_TOKEN = "jinrishici/token";
         public static final String UPDATE = "update/update.json";
         public static final String ABOUT_ME = "about/about_me.json";
@@ -285,6 +285,10 @@ public class WanCache {
 
         public static String MINE_SHARE_ARTICLE_LIST(int page) {
             return addUserId(String.format(MINE_SHARE_ARTICLE_LIST, page));
+        }
+
+        public static String DAILY_NEWS(String platformCode) {
+            return String.format(DAILY_NEWS, platformCode);
         }
     }
 

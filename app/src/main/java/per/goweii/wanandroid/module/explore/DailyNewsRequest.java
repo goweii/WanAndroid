@@ -23,10 +23,11 @@ import per.goweii.wanandroid.http.WanCache;
 
 @SuppressLint("SimpleDateFormat")
 public class DailyNewsRequest extends BaseRequest {
-    public static void getDailyNews(@NonNull RxLife rxLife,
+    public static void getDailyNews(@NonNull DailyNewsPlatform platform,
+                                    @NonNull RxLife rxLife,
                                     @NonNull RequestListener<List<DailyNewsBean>> listener) {
         WanCache.getInstance().getBean(
-                WanCache.CacheKey.DAILY_NEWS,
+                WanCache.CacheKey.DAILY_NEWS(platform.getPlatformCode()),
                 DailyNewsResponse.class,
                 new CacheListener<DailyNewsResponse>() {
                     @Override
@@ -35,20 +36,21 @@ public class DailyNewsRequest extends BaseRequest {
                         if (TextUtils.equals(data.getDate(), date)) {
                             listener.onSuccess(code, data.getData());
                         } else {
-                            getDailyNewsFromNet(rxLife, listener);
+                            getDailyNewsFromNet(platform, rxLife, listener);
                         }
                     }
 
                     @Override
                     public void onFailed() {
-                        getDailyNewsFromNet(rxLife, listener);
+                        getDailyNewsFromNet(platform, rxLife, listener);
                     }
                 });
     }
 
-    public static void getDailyNewsFromCache(@NonNull RequestListener<List<DailyNewsBean>> listener) {
+    public static void getDailyNewsFromCache(@NonNull DailyNewsPlatform platform,
+                                             @NonNull RequestListener<List<DailyNewsBean>> listener) {
         WanCache.getInstance().getBean(
-                WanCache.CacheKey.DAILY_NEWS,
+                WanCache.CacheKey.DAILY_NEWS(platform.getPlatformCode()),
                 DailyNewsResponse.class,
                 new CacheListener<DailyNewsResponse>() {
                     @Override
@@ -62,9 +64,10 @@ public class DailyNewsRequest extends BaseRequest {
                 });
     }
 
-    public static void getDailyNewsFromNet(@NonNull RxLife rxLife,
-                                            @NonNull RequestListener<List<DailyNewsBean>> listener) {
-        final Disposable disposable = RxRequest.create(WanApi.api().getDailyNews(DailyNewsPlatform.JUEJIN.getPlatformCode()))
+    public static void getDailyNewsFromNet(@NonNull DailyNewsPlatform platform,
+                                           @NonNull RxLife rxLife,
+                                           @NonNull RequestListener<List<DailyNewsBean>> listener) {
+        final Disposable disposable = RxRequest.create(WanApi.api().getDailyNews(platform.getPlatformCode()))
                 .listener(new RxRequest.RequestListener() {
                     @Override
                     public void onStart() {
@@ -92,7 +95,7 @@ public class DailyNewsRequest extends BaseRequest {
                         final DailyNewsResponse response = new DailyNewsResponse();
                         response.setData(data);
                         response.setDate(date);
-                        WanCache.getInstance().save(WanCache.CacheKey.DAILY_NEWS, response);
+                        WanCache.getInstance().save(WanCache.CacheKey.DAILY_NEWS(platform.getPlatformCode()), response);
                         listener.onSuccess(code, data);
                     }
 

@@ -1,20 +1,15 @@
 package per.goweii.wanandroid.utils;
 
-import android.text.TextUtils;
-
-import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import per.goweii.basic.utils.SPUtils;
+import per.goweii.wanandroid.module.explore.DailyNewsPlatform;
 import per.goweii.wanandroid.module.mine.model.HostEntity;
 import per.goweii.wanandroid.utils.web.HostInterceptUtils;
 
@@ -46,6 +41,7 @@ public class SettingUtils {
     private static final String KEY_HOST_BLACK = "KEY_HOST_BLACK";
     private static final String KEY_SEARCH_HISTORY_MAX_COUNT = "KEY_SEARCH_HISTORY_MAX_COUNT";
     private static final String KEY_UPDATE_IGNORE_DURATION = "KEY_UPDATE_IGNORE_DURATION";
+    private static final String KEY_DAILY_NEWS_PLATFORM = "KEY_DAILY_NEWS_PLATFORM";
 
     public enum ThemeMode {
         FOLLOW_SYSTEM(0), LIGHT(1), DARK(2),
@@ -80,6 +76,7 @@ public class SettingUtils {
     private final List<HostEntity> mHostBlack = new ArrayList<>();
     private int mSearchHistoryMaxCount = 100;
     private long mUpdateIgnoreDuration = 1 * 24 * 60 * 60 * 1000L;
+    private DailyNewsPlatform mDailyNewsPlatform = DailyNewsPlatform.JUEJIN;
 
     private static class Holder {
         private static final SettingUtils INSTANCE = new SettingUtils();
@@ -108,6 +105,7 @@ public class SettingUtils {
         mUrlInterceptType = mSPUtils.get(KEY_URL_INTERCEPT_TYPE, mUrlInterceptType);
         mSearchHistoryMaxCount = mSPUtils.get(KEY_SEARCH_HISTORY_MAX_COUNT, mSearchHistoryMaxCount);
         mUpdateIgnoreDuration = mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, mUpdateIgnoreDuration);
+        mDailyNewsPlatform = DailyNewsPlatform.fromCode(mSPUtils.get(KEY_DAILY_NEWS_PLATFORM, mDailyNewsPlatform.getPlatformCode()));
         Gson gson = new Gson();
         String jsonWhite = mSPUtils.get(KEY_HOST_WHITE, "");
         try {
@@ -225,5 +223,14 @@ public class SettingUtils {
 
     public long getUpdateIgnoreDuration() {
         return mUpdateIgnoreDuration;
+    }
+
+    public void setDailyNewsPlatform(@NonNull DailyNewsPlatform platform) {
+        mDailyNewsPlatform = platform;
+        mSPUtils.save(KEY_DAILY_NEWS_PLATFORM, platform.getPlatformCode());
+    }
+
+    public DailyNewsPlatform getDailyNewsPlatform() {
+        return mDailyNewsPlatform;
     }
 }

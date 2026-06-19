@@ -16,6 +16,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import java.util.List;
 
 import per.goweii.wanandroid.R;
+import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.web.cache.HtmlCacheManager;
 import per.goweii.wanandroid.widget.BravhLoadMoreView;
 import per.goweii.wanandroid.widget.CollectView;
@@ -53,7 +54,14 @@ public class DailyNewsAdapter extends BaseQuickAdapter<DailyNewsBean, BaseViewHo
         cv_collect.setVisibility(View.GONE);
         tv_top.setVisibility(View.VISIBLE);
         tv_new.setVisibility(View.VISIBLE);
-        tv_author.setText(DailyNewsPlatform.JUEJIN.getPlatformName());
+        DailyNewsPlatform platform = DailyNewsPlatform.fromCodeOrNull(item.getSource());
+        if (platform != null) {
+            tv_author.setText(platform.getPlatformName());
+        } else if (!TextUtils.isEmpty(item.getSource())){
+            tv_author.setText(item.getSource());
+        } else {
+            tv_author.setText(SettingUtils.getInstance().getDailyNewsPlatform().getPlatformName());
+        }
         tv_tag.setVisibility(View.GONE);
         tv_chapter_name.setVisibility(View.GONE);
         tv_time.setVisibility(View.VISIBLE);
