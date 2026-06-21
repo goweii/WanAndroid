@@ -411,6 +411,25 @@ public class WebHolder {
         mWebView.evaluateJavascript(js, null);
     }
 
+    public void getHtml(OnHtmlCallback callback) {
+        mWebView.evaluateJavascript("javascript:document.documentElement.outerHTML", new ValueCallback<String>() {
+            @Override
+            public void onReceiveValue(String value) {
+                if (callback != null) {
+                    String html = value;
+                    if (html != null && html.startsWith("\"") && html.endsWith("\"")) {
+                        html = html.substring(1, html.length() - 1);
+                        html = html.replace("\\u003C", "<")
+                                .replace("\\u003E", ">")
+                                .replace("\\\"", "\"")
+                                .replace("\\\\", "\\");
+                    }
+                    callback.onHtml(getUrl(), html == null ? "" : html);
+                }
+            }
+        });
+    }
+
     public void onResume() {
         mWebView.resumeTimers();
         mWebView.onResume();
@@ -763,6 +782,7 @@ public class WebHolder {
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            LogUtils.d(TAG, "onPageStarted:url=" + url);
             jsInjector.onPageStarted();
             super.onPageStarted(view, url, favicon);
             mCurrentLink = url;
@@ -778,6 +798,7 @@ public class WebHolder {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
+            LogUtils.d(TAG, "onPageFinished:url=" + url);
             if (updateCurrentTitle(url, getTitle()) && mOnPageTitleCallback != null) {
                 mOnPageTitleCallback.onReceivedTitle(getTitle());
             }
@@ -803,6 +824,10 @@ public class WebHolder {
             }
         }
         return false;
+    }
+
+    public interface OnHtmlCallback {
+        void onHtml(@NonNull String url, @NonNull String html);
     }
 
     public interface OnShareInfoCallback {

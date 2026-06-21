@@ -11,6 +11,7 @@ import java.util.List;
 import per.goweii.basic.utils.SPUtils;
 import per.goweii.wanandroid.module.explore.DailyNewsPlatform;
 import per.goweii.wanandroid.module.mine.model.HostEntity;
+import per.goweii.wanandroid.utils.ai.DeepSeek;
 import per.goweii.wanandroid.utils.web.HostInterceptUtils;
 
 /**
@@ -42,6 +43,10 @@ public class SettingUtils {
     private static final String KEY_SEARCH_HISTORY_MAX_COUNT = "KEY_SEARCH_HISTORY_MAX_COUNT";
     private static final String KEY_UPDATE_IGNORE_DURATION = "KEY_UPDATE_IGNORE_DURATION";
     private static final String KEY_DAILY_NEWS_PLATFORM = "KEY_DAILY_NEWS_PLATFORM";
+    private static final String KEY_AI_ENABLED = "KEY_AI_ENABLED";
+    private static final String KEY_AI_PROVIDER = "KEY_AI_PROVIDER";
+    private static final String KEY_AI_MODEL = "KEY_AI_MODEL";
+    private static final String KEY_AI_API_KEY = "KEY_AI_API_KEY";
 
     public enum ThemeMode {
         FOLLOW_SYSTEM(0), LIGHT(1), DARK(2),
@@ -77,6 +82,10 @@ public class SettingUtils {
     private int mSearchHistoryMaxCount = 100;
     private long mUpdateIgnoreDuration = 1 * 24 * 60 * 60 * 1000L;
     private DailyNewsPlatform mDailyNewsPlatform = DailyNewsPlatform.JUEJIN;
+    private boolean mAiEnabled = false;
+    private String mAiProvider = DeepSeek.INSTANCE.getId();
+    private String mAiModel = DeepSeek.INSTANCE.getModels().get(0).getId();
+    private String mAiApiKey = "";
 
     private static class Holder {
         private static final SettingUtils INSTANCE = new SettingUtils();
@@ -106,6 +115,10 @@ public class SettingUtils {
         mSearchHistoryMaxCount = mSPUtils.get(KEY_SEARCH_HISTORY_MAX_COUNT, mSearchHistoryMaxCount);
         mUpdateIgnoreDuration = mSPUtils.get(KEY_UPDATE_IGNORE_DURATION, mUpdateIgnoreDuration);
         mDailyNewsPlatform = DailyNewsPlatform.fromCode(mSPUtils.get(KEY_DAILY_NEWS_PLATFORM, mDailyNewsPlatform.getPlatformCode()));
+        mAiEnabled = mSPUtils.get(KEY_AI_ENABLED, mAiEnabled);
+        mAiProvider = mSPUtils.get(KEY_AI_PROVIDER, mAiProvider);
+        mAiModel = mSPUtils.get(KEY_AI_MODEL, mAiModel);
+        mAiApiKey = mSPUtils.get(KEY_AI_API_KEY, mAiApiKey);
         Gson gson = new Gson();
         String jsonWhite = mSPUtils.get(KEY_HOST_WHITE, "");
         try {
@@ -232,5 +245,41 @@ public class SettingUtils {
 
     public DailyNewsPlatform getDailyNewsPlatform() {
         return mDailyNewsPlatform;
+    }
+
+    public void setAiEnabled(boolean enabled) {
+        mAiEnabled = enabled;
+        mSPUtils.save(KEY_AI_ENABLED, enabled);
+    }
+
+    public boolean isAiEnabled() {
+        return mAiEnabled;
+    }
+
+    public void setAiProvider(String aiProvider) {
+        mAiProvider = aiProvider;
+        mSPUtils.save(KEY_AI_PROVIDER, aiProvider);
+    }
+
+    public String getAiProvider() {
+        return mAiProvider;
+    }
+
+    public void setAiModel(String aiModel) {
+        mAiModel = aiModel;
+        mSPUtils.save(KEY_AI_MODEL, aiModel);
+    }
+
+    public String getAiModel() {
+        return mAiModel;
+    }
+
+    public void setAiApiKey(String aiApiKey) {
+        mAiApiKey = aiApiKey;
+        mSPUtils.save(KEY_AI_API_KEY, aiApiKey);
+    }
+
+    public String getAiApiKey() {
+        return mAiApiKey;
     }
 }

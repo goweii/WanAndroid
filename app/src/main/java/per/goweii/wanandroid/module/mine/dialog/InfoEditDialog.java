@@ -32,6 +32,7 @@ public class InfoEditDialog {
     private String mTitle = null;
     private String mHint = null;
     private String mText = null;
+    private int mLines = 1;
 
     private InfoEditDialog(Context context) {
         mContext = context;
@@ -52,6 +53,11 @@ public class InfoEditDialog {
         return this;
     }
 
+    public InfoEditDialog lines(int lines) {
+        mLines = lines;
+        return this;
+    }
+
     public void show(SimpleCallback<String> callback) {
         AnyLayer.dialog(mContext)
                 .setContentView(R.layout.dialog_info_edit)
@@ -68,8 +74,11 @@ public class InfoEditDialog {
                             TextView tv_title = layer.requireView(R.id.dialog_info_edit_tv_title);
                             tv_title.setText(mTitle);
                         }
+                        EditText et_input = layer.requireView(R.id.dialog_info_edit_et_input);
+                        if (mLines > 0) {
+                            et_input.setLines(mLines);
+                        }
                         if (!TextUtils.isEmpty(mHint) || !TextUtils.isEmpty(mText)) {
-                            EditText et_input = layer.requireView(R.id.dialog_info_edit_et_input);
                             et_input.setText(mText);
                             et_input.setHint(mHint);
                         }

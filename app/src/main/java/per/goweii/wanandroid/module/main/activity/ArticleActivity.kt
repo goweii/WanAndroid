@@ -19,7 +19,14 @@ import androidx.core.view.doOnLayout
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.gms.ads.AdSize
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 import per.goweii.anylayer.Layer
 import per.goweii.anylayer.guide.GuideLayer
 import per.goweii.basic.core.base.BaseActivity
@@ -42,9 +49,15 @@ import per.goweii.wanandroid.utils.DarkModeUtils
 import per.goweii.wanandroid.utils.GuideSPUtils
 import per.goweii.wanandroid.utils.ImageLoader
 import per.goweii.wanandroid.utils.RecommendManager
+import per.goweii.wanandroid.utils.SettingUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
+import per.goweii.wanandroid.utils.ai.AiClient
+import per.goweii.wanandroid.utils.ai.AiMessage
+import per.goweii.wanandroid.utils.tts.TtsClient
 import per.goweii.wanandroid.utils.cdkey.CDKeyUtils
 import per.goweii.wanandroid.utils.router.Router
+import per.goweii.wanandroid.utils.tts.TtsManager
+import per.goweii.wanandroid.utils.tts.TtsSource
 import per.goweii.wanandroid.utils.web.WebHolder
 import per.goweii.wanandroid.utils.web.WebHolder.with
 import per.goweii.wanandroid.utils.web.cache.ReadingModeManager
@@ -105,6 +118,14 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                     binding.activityArticleFloatBtn.slReadLater,
                     binding.activityArticleFloatBtn.aivReadLater,
                     binding.activityArticleFloatBtn.tvReadLaterTip
+                )
+            )
+            add(
+                FloatIcon(
+                    binding.activityArticleFloatBtn.rlIconListen,
+                    binding.activityArticleFloatBtn.slListen,
+                    binding.activityArticleFloatBtn.aivListen,
+                    binding.activityArticleFloatBtn.tvListenTip
                 )
             )
             add(
@@ -209,6 +230,10 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
             } else {
                 presenter.uncollect()
             }
+            if (floatIconsVisible) toggleFloatIcons()
+        }
+        binding.activityArticleFloatBtn.aivListen.setOnClickListener {
+            startListen()
             if (floatIconsVisible) toggleFloatIcons()
         }
         binding.wc.setOnTouchDownListener {
@@ -765,5 +790,40 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
                 }
             })
             .show()
+    }
+
+    private fun startListen() {
+        if (!SettingUtils.getInstance().isAiEnabled) {
+            ToastMaker.showShort(getString(R.string.ai_not_enabled_tips))
+            return
+        }
+        if (!SettingUtils.getInstance().aiApiKey.isNullOrEmpty()) {
+            ToastMaker.showShort(getString(R.string.ai_api_key_not_configured))
+            return
+        }
+        mWebHolder.getHtml { url, html ->
+            if (mWebHolder.url == url) {
+                if (isFinishing || isDestroyed) {
+                    return@getHtml
+                }
+                mWebHolder.getShareInfo { _, covers, title, _ ->
+                    if (isFinishing || isDestroyed) {
+                        return@getShareInfo
+                    }
+                    val source = TtsSource(
+                        url = url,
+                        cover = covers.firstOrNull()?.takeIf { it.isNotEmpty() },
+                        title = title.takeIf { it.isNotEmpty() },
+                        html = html,
+                    )
+                    val ttsm = TtsManager.getInstance(this)
+                    if (!ttsm.isSpeaking) {
+                        ttsm.playSource(source)
+                    } else {
+                        ttsm.addSource(source)
+                    }
+                }
+            }
+        }
     }
 }

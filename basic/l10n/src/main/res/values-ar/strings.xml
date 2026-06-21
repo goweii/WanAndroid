@@ -284,4 +284,19 @@
     <string name="ad">إعلان</string>
 
     <string name="today_trending">الرائج اليوم</string>
+
+    <string name="ai_settings">إعدادات الذكاء الاصطناعي</string>
+    <string name="disabled">معطل</string>
+    <string name="enable_ai_title">تفعيل الذكاء الاصطناعي</string>
+    <string name="enable_ai_desc">يمكن للذكاء الاصطناعي تلخيص المقالات</string>
+    <string name="ai_provider">مزود النموذج</string>
+    <string name="ai_api_key">مفتاح API</string>
+    <string name="ai_model">النموذج</string>
+    <string name="thinking">جارٍ التفكير...</string>
+    <string name="listen">استماع</string>
+    <string name="ai_not_enabled_tips">ميزة الذكاء الاصطناعي غير مفعلة، يمكنك الذهاب للإعدادات لتفعيلها</string>
+    <string name="ai_api_key_not_configured">مفتاح الذكاء الاصطناعي غير مهيأ</string>
+
+    <string name="tts_notification_channel_name">قراءة المقال</string>
+    <string name="tts_notification_channel_desc">قراءة صوتية للمقالات مع عناصر تحكم سريعة في التشغيل.</string>
 </resources>

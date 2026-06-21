@@ -21,6 +21,9 @@
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
+    <!--  TTS 通知  -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".common.WanApp"
         android:allowBackup="false"
@@ -205,6 +208,9 @@
             android:name=".module.mine.activity.SettingActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
         <activity
+            android:name=".module.mine.activity.AiSettingActivity"
+            android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
+        <activity
             android:name=".module.mine.activity.AboutActivity"
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation" />
         <activity
@@ -239,6 +245,10 @@
             android:configChanges="keyboard|keyboardHidden|screenSize|fontScale|density|orientation|uiMode|locale|screenLayout|colorMode|layoutDirection|smallestScreenSize|fontWeightAdjustment|grammaticalGender|navigation|mnc|mcc|touchscreen"
             android:theme="@style/AppTheme.RecreateAnim"
             android:windowSoftInputMode="adjustNothing" />
+
+        <receiver
+            android:name=".utils.tts.TtsNotificationReceiver"
+            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -40,6 +40,8 @@ import per.goweii.wanandroid.utils.DarkModeUtils;
 import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.UrlOpenUtils;
 import per.goweii.wanandroid.utils.UserUtils;
+import per.goweii.wanandroid.utils.ai.AiModel;
+import per.goweii.wanandroid.utils.ai.AiProvider;
 import per.goweii.wanandroid.utils.recreate_anim.RecreateAnimation;
 import per.goweii.wanandroid.utils.web.HostInterceptUtils;
 
@@ -71,6 +73,8 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
     TextView tv_curr_version;
     @BindView(R.id.ll_logout)
     LinearLayout ll_logout;
+    @BindView(R.id.tv_ai)
+    TextView tv_ai;
 
     private boolean mShowQA;
     private boolean mShowBanner;
@@ -173,6 +177,18 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (SettingUtils.getInstance().isAiEnabled()) {
+            AiProvider aiProvider = AiProvider.getProvider(SettingUtils.getInstance().getAiProvider());
+            AiModel aiModel = aiProvider.getModel(SettingUtils.getInstance().getAiModel());
+            tv_ai.setText(String.format("%s (%s)", aiModel.getName(), aiProvider.getName()));
+        } else {
+            tv_ai.setText(R.string.disabled);
+        }
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
     }
@@ -213,7 +229,7 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
     @OnClick({
             R.id.ll_language,
             R.id.rl_intercept_host, R.id.ll_theme_mode,
-            R.id.ll_cache, R.id.ll_about,
+            R.id.ll_ai, R.id.ll_cache, R.id.ll_about,
             R.id.ll_privacy_policy, R.id.ll_logout
     })
     @Override
@@ -309,6 +325,9 @@ public class SettingActivity extends BaseActivity<SettingPresenter, ActivitySett
                             }
                         })
                         .show();
+                break;
+            case R.id.ll_ai:
+                AiSettingActivity.start(getContext());
                 break;
             case R.id.ll_about:
                 AboutActivity.start(getContext());

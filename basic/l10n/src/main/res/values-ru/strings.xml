@@ -284,4 +284,19 @@
     <string name="ad">Реклама</string>
 
     <string name="today_trending">Тренды сегодня</string>
+
+    <string name="ai_settings">Настройки ИИ</string>
+    <string name="disabled">Отключено</string>
+    <string name="enable_ai_title">Включить ИИ</string>
+    <string name="enable_ai_desc">ИИ поможет вам суммировать статьи</string>
+    <string name="ai_provider">Поставщик модели</string>
+    <string name="ai_api_key">API-ключ</string>
+    <string name="ai_model">Модель</string>
+    <string name="thinking">Размышление...</string>
+    <string name="listen">Слушать</string>
+    <string name="ai_not_enabled_tips">Функция ИИ не включена, вы можете перейти в настройки, чтобы включить ее</string>
+    <string name="ai_api_key_not_configured">API-ключ ИИ не настроен</string>
+
+    <string name="tts_notification_channel_name">Чтение статей</string>
+    <string name="tts_notification_channel_desc">Голосовое чтение статей с быстрым управлением воспроизведением.</string>
 </resources>

@@ -284,4 +284,20 @@
     <string name="ad">Ad</string>
 
     <string name="today_trending">Trending Today</string>
+
+    <string name="ai_settings">AI Settings</string>
+    <string name="disabled">Disabled</string>
+    <string name="enable_ai_title">Enable AI</string>
+    <string name="enable_ai_desc">AI can help you summarize articles</string>
+    <string name="ai_provider">Model Provider</string>
+    <string name="ai_api_key">API Key</string>
+    <string name="ai_model">Model</string>
+    <string name="thinking">Thinking...</string>
+    <string name="listen">Listen</string>
+    <string name="ai_not_enabled_tips">AI feature is not enabled, you can go to settings to enable it</string>
+    <string name="ai_api_key_not_configured">AI Key is not configured</string>
+
+    <string name="tts_notification_channel_id" translatable="false" formatted="false">tts</string>
+    <string name="tts_notification_channel_name">Article Reading</string>
+    <string name="tts_notification_channel_desc">Voice reading for articles with quick playback controls.</string>
 </resources>

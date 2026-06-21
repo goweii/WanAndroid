@@ -12,37 +12,38 @@
         android:background="@drawable/bg_solid_round_color_surface_radius_def"
         android:orientation="vertical">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/dialog_info_edit_tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/please_enter"
+            android:textColor="?colorTextSecond"
+            android:textSize="@dimen/text_title" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/line"
+            android:background="?colorLine"/>
+
+        <EditText
+            android:id="@+id/dialog_info_edit_et_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="8dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/dialog_info_edit_tv_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/please_enter"
-                android:textColor="?colorTextSecond"
-                android:textSize="@dimen/text_title" />
-
-            <EditText
-                android:id="@+id/dialog_info_edit_et_input"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:background="?colorTransparent"
-                android:gravity="center_vertical"
-                android:paddingTop="@dimen/margin_common"
-                android:paddingBottom="@dimen/margin_common"
-                android:textColor="?colorTextSurface"
-                android:textSize="@dimen/text_content"
-                android:hint="@string/please_enter" />
-
-        </LinearLayout>
+            android:layout_marginBottom="16dp"
+            android:background="?colorTransparent"
+            android:gravity="start"
+            android:paddingTop="@dimen/margin_common"
+            android:paddingBottom="@dimen/margin_common"
+            android:textColor="?colorTextSurface"
+            android:textSize="@dimen/text_content"
+            android:hint="@string/please_enter" />
 
         <View
             android:layout_width="match_parent"

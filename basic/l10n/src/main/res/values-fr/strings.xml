@@ -284,4 +284,19 @@
     <string name="ad">Publicité</string>
 
     <string name="today_trending">Tendances du jour</string>
+
+    <string name="ai_settings">Paramètres IA</string>
+    <string name="disabled">Désactivé</string>
+    <string name="enable_ai_title">Activer l\'IA</string>
+    <string name="enable_ai_desc">L\'IA peut vous aider à résumer des articles</string>
+    <string name="ai_provider">Fournisseur de modèle</string>
+    <string name="ai_api_key">Clé API</string>
+    <string name="ai_model">Modèle</string>
+    <string name="thinking">Réflexion en cours…</string>
+    <string name="listen">Écouter</string>
+    <string name="ai_not_enabled_tips">La fonction IA n\'est pas activée, vous pouvez aller dans les paramètres pour l\'activer</string>
+    <string name="ai_api_key_not_configured">La clé IA n\'est pas configurée</string>
+
+    <string name="tts_notification_channel_name">Lecture d\'article</string>
+    <string name="tts_notification_channel_desc">Lecture vocale des articles avec commandes de lecture rapides.</string>
 </resources>

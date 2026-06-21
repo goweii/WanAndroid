@@ -284,4 +284,19 @@
     <string name="ad">广告</string>
 
     <string name="today_trending">今日热点</string>
+
+    <string name="ai_settings">AI 设置</string>
+    <string name="disabled">已禁用</string>
+    <string name="enable_ai_title">是否启用 AI</string>
+    <string name="enable_ai_desc">AI 可以帮你总结文章</string>
+    <string name="ai_provider">模型提供商</string>
+    <string name="ai_api_key">API Key</string>
+    <string name="ai_model">模型</string>
+    <string name="thinking">思考中...</string>
+    <string name="listen">收听</string>
+    <string name="ai_not_enabled_tips">AI 功能未开启，可前往设置开启</string>
+    <string name="ai_api_key_not_configured">AI Key 未配置</string>
+
+    <string name="tts_notification_channel_name">文章朗读</string>
+    <string name="tts_notification_channel_desc">浏览文章时开启语音朗读，快捷控制播放状态</string>
 </resources>

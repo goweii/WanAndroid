@@ -85,6 +85,8 @@ dependencies {
     implementation rootProject.ext.dependencies.palette
     implementation rootProject.ext.dependencies.cropImageView
     implementation rootProject.ext.dependencies.biometric
+    implementation rootProject.ext.dependencies.okhttp
+    implementation rootProject.ext.dependencies.okhttpSse
     implementation 'com.github.donkingliang:ConsecutiveScroller:4.6.4'
     implementation project(':component:ad')
 }
