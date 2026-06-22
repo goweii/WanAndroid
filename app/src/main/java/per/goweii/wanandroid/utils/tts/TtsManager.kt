@@ -44,17 +44,30 @@ class TtsManager(private val context: Context) {
     }
 
     fun removeSource(source: TtsSource) {
-        playback.remove(source)
+        val index = playback.indexOf(source)
+        if (index == -1) {
+            return
+        }
+        playback.removeAt(index)
         if (playable != null) {
             notification.update(
                 playbackIndex = playback.indexOf(playable!!.source) + 1,
                 playableCount = playback.size,
             )
+            if (playable!!.source == source) {
+                if (index <= playback.lastIndex) {
+                    playSource(playback[index])
+                }
+            }
         }
     }
 
     fun clearPlayback() {
         playback.clear()
+        if (playable != null) {
+            playable?.stop()
+            playable = null
+        }
         notification.cancel()
     }
 
@@ -180,6 +193,8 @@ class TtsManager(private val context: Context) {
             } else {
                 playSource(playback[index - 1])
             }
+        } else {
+            playSource(playback.last())
         }
     }
 
@@ -194,6 +209,8 @@ class TtsManager(private val context: Context) {
             } else {
                 playSource(playback[index + 1])
             }
+        } else {
+            playSource(playback.first())
         }
     }
 
@@ -202,6 +219,7 @@ class TtsManager(private val context: Context) {
     }
 
     fun release() {
+        notification.cancel()
         playable?.release()
         playable = null
         instance = null
