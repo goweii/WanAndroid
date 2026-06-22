@@ -27,7 +27,7 @@
             android:ellipsize="end"
             android:maxLines="2"
             android:textColor="?android:attr/textColorPrimary"
-            android:textSize="17sp"
+            android:textSize="16sp"
             android:textStyle="bold"
             tools:text="@tools:sample/lorem/random" />
 
@@ -66,7 +66,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
-                android:gravity="center_horizontal|center_vertical"
+                android:gravity="end|center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -75,7 +75,7 @@
                     android:layout_height="40dp"
                     android:layout_marginEnd="8dp"
                     android:importantForAccessibility="no"
-                    android:padding="8dp"
+                    android:padding="6dp"
                     android:rotation="180"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_next"
@@ -86,7 +86,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:importantForAccessibility="no"
-                    android:padding="4dp"
+                    android:padding="6dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_play"
                     android:tint="?android:attr/textColorPrimary" />
@@ -96,7 +96,7 @@
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:importantForAccessibility="no"
-                    android:padding="4dp"
+                    android:padding="6dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_pause"
                     android:tint="?android:attr/textColorPrimary" />
@@ -107,7 +107,7 @@
                     android:layout_height="40dp"
                     android:layout_marginStart="8dp"
                     android:importantForAccessibility="no"
-                    android:padding="8dp"
+                    android:padding="6dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_next"
                     android:tint="?android:attr/textColorPrimary" />
