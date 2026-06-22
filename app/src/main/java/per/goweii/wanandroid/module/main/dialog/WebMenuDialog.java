@@ -76,6 +76,12 @@ public class WebMenuDialog {
                                     case R.id.dialog_web_menu_iv_go_top:
                                         listener.onGoTop();
                                         break;
+                                    case R.id.dialog_web_menu_iv_browser:
+                                        listener.onOpenInBrowser();
+                                        break;
+                                    case R.id.dialog_web_menu_iv_listen:
+                                        listener.onListen();
+                                        break;
                                 }
                             }
                         },
@@ -88,7 +94,9 @@ public class WebMenuDialog {
                         R.id.dialog_web_menu_iv_close_activity,
                         R.id.dialog_web_menu_iv_dismiss,
                         R.id.dialog_web_menu_iv_setting,
-                        R.id.dialog_web_menu_iv_share)
+                        R.id.dialog_web_menu_iv_share,
+                        R.id.dialog_web_menu_iv_browser,
+                        R.id.dialog_web_menu_iv_listen)
                 .addOnClickListener(
                         new Layer.OnClickListener() {
                             @Override
@@ -204,6 +212,10 @@ public class WebMenuDialog {
         void onCloseActivity();
 
         void onShare();
+
+        void onOpenInBrowser();
+
+        void onListen();
     }
 
 }

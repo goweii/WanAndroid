@@ -175,7 +175,7 @@ class TtsNotification(val context: Context) {
                 if (coverBitmap?.isRecycled == false) {
                     setImageViewBitmap(R.id.iv_cover, coverBitmap!!)
                 } else {
-                    setImageViewResource(R.id.iv_cover, R.drawable.shape_image_place_holder)
+                    setImageViewResource(R.id.iv_cover, R.drawable.logo_512)
                 }
                 setTextViewText(R.id.tv_title, source?.title?.trim())
                 setTextViewText(R.id.tv_desc, currentSpeakText?.trim())
@@ -188,7 +188,6 @@ class TtsNotification(val context: Context) {
                 }
                 setOnClickPendingIntent(R.id.iv_play, playIntent)
                 setOnClickPendingIntent(R.id.iv_pause, pauseIntent)
-                setOnClickPendingIntent(R.id.iv_next, nextIntent)
             }
 
         val bigView =
@@ -196,7 +195,7 @@ class TtsNotification(val context: Context) {
                 if (coverBitmap?.isRecycled == false) {
                     setImageViewBitmap(R.id.iv_cover, coverBitmap!!)
                 } else {
-                    setImageViewResource(R.id.iv_cover, R.drawable.shape_image_place_holder)
+                    setImageViewResource(R.id.iv_cover, R.drawable.logo_512)
                 }
                 setTextViewText(R.id.tv_title, source?.title?.trim())
                 setTextViewText(R.id.tv_desc, currentSpeakText?.trim())

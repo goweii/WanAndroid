@@ -9,6 +9,7 @@ class TtsManager(private val context: Context) {
         @SuppressLint("StaticFieldLeak")
         private var instance: TtsManager? = null
 
+        @JvmStatic
         fun getInstance(context: Context): TtsManager {
             if (instance == null) {
                 synchronized(TtsManager::class) {
@@ -75,6 +76,7 @@ class TtsManager(private val context: Context) {
                             isPlaying = false,
                             playbackIndex = playback.indexOf(source) + 1,
                             playableCount = playback.size,
+                            currentSpeakText = source.url,
                         )
                     }
 
@@ -94,7 +96,7 @@ class TtsManager(private val context: Context) {
                     override fun onStopped(completed: Boolean) {
                         notification.update(
                             isPlaying = false,
-                            currentSpeakText = "",
+                            currentSpeakText = source.url,
                         )
                         if (completed) {
                             val index = playback.indexOf(source)
@@ -108,14 +110,14 @@ class TtsManager(private val context: Context) {
                         playable = null
                         notification.update(
                             isPlaying = false,
-                            currentSpeakText = "",
+                            currentSpeakText = source.url,
                         )
                     }
 
                     override fun onErrored() {
                         notification.update(
                             isPlaying = false,
-                            currentSpeakText = "",
+                            currentSpeakText = source.url,
                         )
                     }
                 },
@@ -159,7 +161,7 @@ class TtsManager(private val context: Context) {
         playable?.stop()
         notification.update(
             isPlaying = false,
-            currentSpeakText = "",
+            currentSpeakText = playable?.source?.url ?: "",
         )
     }
 

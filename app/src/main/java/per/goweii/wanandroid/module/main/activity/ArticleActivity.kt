@@ -797,7 +797,7 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
             ToastMaker.showShort(getString(R.string.ai_not_enabled_tips))
             return
         }
-        if (!SettingUtils.getInstance().aiApiKey.isNullOrEmpty()) {
+        if (SettingUtils.getInstance().aiApiKey.isNullOrEmpty()) {
             ToastMaker.showShort(getString(R.string.ai_api_key_not_configured))
             return
         }

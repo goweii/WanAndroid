@@ -18,6 +18,8 @@ import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +46,10 @@ import per.goweii.wanandroid.module.main.dialog.WebQuickDialog;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
 import per.goweii.wanandroid.utils.GuideSPUtils;
+import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.router.Router;
+import per.goweii.wanandroid.utils.tts.TtsManager;
+import per.goweii.wanandroid.utils.tts.TtsSource;
 import per.goweii.wanandroid.utils.web.WebHolder;
 import per.goweii.wanandroid.widget.CollectView;
 import per.goweii.wanandroid.utils.web.view.WebContainer;
@@ -435,6 +440,16 @@ public class WebActivity extends BaseActivity<WebPresenter, ActivityWebBinding> 
                             }
                         });
                     }
+
+                    @Override
+                    public void onOpenInBrowser() {
+                        IntentUtils.openBrowser(getContext(), mUrl);
+                    }
+
+                    @Override
+                    public void onListen() {
+                        startListen();
+                    }
                 });
     }
 
@@ -564,6 +579,50 @@ public class WebActivity extends BaseActivity<WebPresenter, ActivityWebBinding> 
             return;
         }
         presenter.uncollect(entity);
+    }
+
+    private void startListen() {
+        if (!SettingUtils.getInstance().isAiEnabled()) {
+            ToastMaker.showShort(getString(R.string.ai_not_enabled_tips));
+            return;
+        }
+        if (TextUtils.isEmpty(SettingUtils.getInstance().getAiApiKey())) {
+            ToastMaker.showShort(getString(R.string.ai_api_key_not_configured));
+            return;
+        }
+        mWebHolder.getHtml(new WebHolder.OnHtmlCallback() {
+            @Override
+            public void onHtml(@NonNull String url, @NonNull String html) {
+                if (!TextUtils.equals(mWebHolder.getUrl(), url)) {
+                    return;
+                }
+                if (isFinishing() || isDestroyed()) {
+                    return;
+                }
+                mWebHolder.getShareInfo(new WebHolder.OnShareInfoCallback() {
+                    @Override
+                    public void onShareInfo(@NonNull String url, @NonNull List<String> covers, @NonNull String title, @NonNull String desc) {
+                        if (isFinishing() || isDestroyed()) {
+                            return;
+                        }
+                        String cover = null;
+                        for (int i = 0; i < covers.size(); i++) {
+                            if (!TextUtils.isEmpty(covers.get(i))) {
+                                cover = covers.get(i);
+                                break;
+                            }
+                        }
+                        final TtsSource source = new TtsSource(url, cover, title, html);
+                        final TtsManager ttsm = TtsManager.getInstance(WebActivity.this);
+                        if (!ttsm.isSpeaking()) {
+                            ttsm.playSource(source);
+                        } else {
+                            ttsm.addSource(source);
+                        }
+                    }
+                });
+            }
+        });
     }
 
     @Override
