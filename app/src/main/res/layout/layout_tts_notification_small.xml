@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="64dp"
@@ -26,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:lines="2"
-            android:textColor="?android:attr/textColorPrimary"
+            android:maxLines="2"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:text="@tools:sample/lorem/random" />
@@ -36,11 +37,11 @@
             android:id="@+id/tv_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ellipsize="marquee"
             android:layout_marginTop="2dp"
+            android:ellipsize="marquee"
             android:marqueeRepeatLimit="marquee_forever"
             android:singleLine="true"
-            android:textColor="?android:attr/textColorSecondary"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification.Info"
             android:textSize="14sp"
             tools:text="@tools:sample/lorem/random" />
 
@@ -55,23 +56,23 @@
 
         <ImageView
             android:id="@+id/iv_play"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:importantForAccessibility="no"
-            android:padding="6dp"
+            android:padding="4dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_play"
-            android:tint="?android:attr/textColorPrimary" />
+            tools:ignore="UseAppTint" />
 
         <ImageView
             android:id="@+id/iv_pause"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:importantForAccessibility="no"
-            android:padding="6dp"
+            android:padding="4dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_pause"
-            android:tint="?android:attr/textColorPrimary" />
+            tools:ignore="UseAppTint" />
 
     </LinearLayout>
 

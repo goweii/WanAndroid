@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="120dp"
@@ -26,7 +27,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="?android:attr/textColorPrimary"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification.Title"
             android:textSize="16sp"
             android:textStyle="bold"
             tools:text="@tools:sample/lorem/random" />
@@ -36,81 +37,78 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:singleLine="true"
-            android:textColor="?android:attr/textColorSecondary"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@android:style/TextAppearance.Material.Notification.Info"
             android:textSize="14sp"
-            tools:text="@tools:sample/lorem/random" />
+            tools:text="Components: Android SDK Command-line Tools (latest), Android Emulator, Android SDK Platform-Tools, Layout Inspector image server for API 31-36, Google Play ARM 64 v8a System Image" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:layout_marginTop="10dp"
             android:gravity="center_horizontal|center_vertical"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_index"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="36dp"
                 android:layout_gravity="bottom"
                 android:gravity="center"
                 android:maxLines="2"
-                android:textColor="?android:attr/textColorSecondary"
+                android:textAppearance="@android:style/TextAppearance.Material.Notification.Info"
                 android:textSize="14sp"
                 tools:text="1/3" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="36dp"
                 android:layout_gravity="bottom"
                 android:gravity="end|center_vertical"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/iv_prev"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_marginEnd="8dp"
                     android:importantForAccessibility="no"
-                    android:padding="6dp"
-                    android:rotation="180"
+                    android:padding="4dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_next"
-                    android:tint="?android:attr/textColorPrimary" />
+                    android:src="@drawable/ic_skip_previous"
+                    tools:ignore="UseAppTint" />
 
                 <ImageView
                     android:id="@+id/iv_play"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:importantForAccessibility="no"
-                    android:padding="6dp"
+                    android:padding="4dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_play"
-                    android:tint="?android:attr/textColorPrimary" />
+                    tools:ignore="UseAppTint" />
 
                 <ImageView
                     android:id="@+id/iv_pause"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:importantForAccessibility="no"
-                    android:padding="6dp"
+                    android:padding="4dp"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_pause"
-                    android:tint="?android:attr/textColorPrimary" />
+                    tools:ignore="UseAppTint" />
 
                 <ImageView
                     android:id="@+id/iv_next"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
                     android:layout_marginStart="8dp"
                     android:importantForAccessibility="no"
-                    android:padding="6dp"
+                    android:padding="4dp"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/ic_next"
-                    android:tint="?android:attr/textColorPrimary" />
+                    android:src="@drawable/ic_skip_next"
+                    tools:ignore="UseAppTint" />
 
             </LinearLayout>
 
