@@ -1,4 +1,4 @@
-package per.goweii.wanandroid.utils.web
+package per.goweii.wanandroid.utils.web.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -12,6 +12,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import org.json.JSONException
 import org.json.JSONObject
+import per.goweii.wanandroid.utils.web.WebInstance
 import per.goweii.wanandroid.utils.web.view.ResuableWebView
 import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
@@ -19,6 +20,28 @@ import kotlin.coroutines.resumeWithException
 class WebFetch(private val context: Context) {
     companion object {
         private const val TAG = "WebFetch"
+
+        private const val FETCH_JS =
+            """javascript:(
+function getShareInfo() {
+var map = {};
+map["title"] = document.title;
+map["desc"] = document.querySelector('meta[name="description"]').getAttribute('content');
+var imgElements = document.getElementsByTagName("img");
+var imgs = [];
+for(var i = 0 ; i < imgElements.length; i++){
+  var imgEle = imgElements[i];
+  var w = imgEle.naturalWidth;
+  var h = imgEle.naturalHeight;
+  if(w > 200 && h > 100) {
+    imgs.push(imgEle.src);
+  }
+}
+map["imgs"] = imgs;
+map["html"] = document.documentElement.outerHTML;
+return map;
+}
+)()"""
 
         @SuppressLint("StaticFieldLeak")
         private var instance: WebFetch? = null
@@ -71,7 +94,7 @@ class WebFetch(private val context: Context) {
         onSuccess: (WebFetchResult) -> Unit,
         onFailure: (Exception) -> Unit,
     ) {
-        evaluateJavascript(FATCH_JS) { value ->
+        evaluateJavascript(FETCH_JS) { value ->
             try {
                 val jsonObject = JSONObject(value)
                 val title = jsonObject.optString("title") ?: ""
@@ -129,25 +152,3 @@ class WebFetch(private val context: Context) {
         val html: String,
     )
 }
-
-private val FATCH_JS =
-    """javascript:(
-function getShareInfo() {
-var map = {};
-map["title"] = document.title;
-map["desc"] = document.querySelector('meta[name="description"]').getAttribute('content');
-var imgElements = document.getElementsByTagName("img");
-var imgs = [];
-for(var i = 0 ; i < imgElements.length; i++){
-  var imgEle = imgElements[i];
-  var w = imgEle.naturalWidth;
-  var h = imgEle.naturalHeight;
-  if(w > 200 && h > 100) {
-    imgs.push(imgEle.src);
-  }
-}
-map["imgs"] = imgs;
-map["html"] = document.documentElement.outerHTML;
-return map;
-}
-)()"""

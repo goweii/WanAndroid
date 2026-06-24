@@ -1,13 +1,17 @@
 package per.goweii.wanandroid.utils.tts
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import per.goweii.wanandroid.utils.SettingUtils
 import per.goweii.wanandroid.utils.ai.AiClient
 import per.goweii.wanandroid.utils.ai.AssistantMessage
 import per.goweii.wanandroid.utils.ai.UserMessage
+import per.goweii.wanandroid.utils.web.utils.WebReadability
 
 class TtsPlayable(
     val source: TtsSource,
@@ -19,11 +23,13 @@ class TtsPlayable(
 
 你需要：
 - 使用中文
+- 尽量保持原文输出，不要过于压缩总结
 - 只输出文章总结，不要输出任何无关的内容
 - 不要输出类似“根据所提供的HTML源码”等前缀回复
 - 纯文本格式，方便朗读
 
 你不能：
+- 不要压缩过多
 - 不能输出富文本合适或者markdown格式
 - 如果文章包含代码块，你不能输出大面积代码
 """.trim()
@@ -120,50 +126,10 @@ class TtsPlayable(
         job?.cancel()
         job = scope.launch {
             TtsClient.stop()
-
-            state = TtsState.THINKING
-            onPlayStateChangeListener.onThinking()
-
-            val flow = AiClient.stream(
-                listOf(
-                    AssistantMessage(prompt),
-                    UserMessage(source.html),
-                )
-            )
-            flow.catch {
-                state = TtsState.ERROR
-                onPlayStateChangeListener.onErrored()
-            }.collect { chunk ->
-                if (chunk.isEmpty()) return@collect
-                buffer.append(chunk)
-                val oldSize = cache.size
-                processBuffer()
-                val newSize = cache.size
-                if (state == TtsState.RECYCLED) return@collect
-                if (state == TtsState.STOPPED) return@collect
-                if (state != TtsState.SPEAKING) {
-                    state = TtsState.SPEAKING
-                    onPlayStateChangeListener.onSpeaking()
-                }
-                for (i in oldSize until newSize) {
-                    TtsClient.speak(cache[i], useBuffer = false, id = i.toString())
-                }
-            }
-            val oldSize = cache.size
-            processBuffer()
-            if (buffer.isNotEmpty()) {
-                val text = buffer.toString()
-                buffer.clear()
-                cache.add(text)
-            }
-            val newSize = cache.size
-            kotlin.run {
-                if (state == TtsState.RECYCLED) return@run
-                if (state == TtsState.STOPPED) return@run
-                for (i in oldSize until newSize) {
-                    TtsClient.speak(cache[i], useBuffer = false, id = i.toString())
-                }
-                TtsClient.speak(null, useBuffer = false)
+            if (SettingUtils.getInstance().isAiEnabled && SettingUtils.getInstance().aiApiKey.isNotEmpty()) {
+                startByAI()
+            } else {
+                startByLocal()
             }
         }.apply {
             invokeOnCompletion {
@@ -172,14 +138,82 @@ class TtsPlayable(
         }
     }
 
-    private fun processBuffer() {
+    private suspend fun startByLocal() = withContext(Dispatchers.Default) {
+        state = TtsState.THINKING
+        onPlayStateChangeListener.onThinking()
+
+        try {
+            val readability = WebReadability(source.url, source.html, true)
+            val md = readability.toMarkdown()
+            buffer.append(md)
+            processBuffer(isEnd = true)
+            if (state == TtsState.RECYCLED) return@withContext
+            if (state == TtsState.STOPPED) return@withContext
+            if (state != TtsState.SPEAKING) {
+                state = TtsState.SPEAKING
+                onPlayStateChangeListener.onSpeaking()
+            }
+            cache.forEachIndexed { index, string ->
+                TtsClient.speak(string, useBuffer = false, id = index.toString())
+            }
+        } catch (_: Exception) {
+            state = TtsState.ERROR
+            onPlayStateChangeListener.onErrored()
+        }
+    }
+
+    private suspend fun startByAI() {
+        state = TtsState.THINKING
+        onPlayStateChangeListener.onThinking()
+
+        val readability = WebReadability(source.url, source.html, false)
+        val md = readability.toMarkdown()
+        val flow = AiClient.stream(
+            listOf(
+                AssistantMessage(prompt),
+                UserMessage(md),
+            )
+        )
+        flow.catch {
+            state = TtsState.ERROR
+            onPlayStateChangeListener.onErrored()
+        }.collect { chunk ->
+            if (chunk.isEmpty()) return@collect
+            buffer.append(chunk)
+            val oldSize = cache.size
+            processBuffer()
+            val newSize = cache.size
+            if (state == TtsState.RECYCLED) return@collect
+            if (state == TtsState.STOPPED) return@collect
+            if (state != TtsState.SPEAKING) {
+                state = TtsState.SPEAKING
+                onPlayStateChangeListener.onSpeaking()
+            }
+            for (i in oldSize until newSize) {
+                TtsClient.speak(cache[i], useBuffer = false, id = i.toString())
+            }
+        }
+        val oldSize = cache.size
+        processBuffer(isEnd = true)
+        val newSize = cache.size
+        kotlin.run {
+            if (state == TtsState.RECYCLED) return@run
+            if (state == TtsState.STOPPED) return@run
+            for (i in oldSize until newSize) {
+                TtsClient.speak(cache[i], useBuffer = false, id = i.toString())
+            }
+            TtsClient.speak(null, useBuffer = false)
+        }
+    }
+
+    private fun processBuffer(isEnd: Boolean = false) {
         if (buffer.isEmpty()) return
         val lines = buffer.lines()
         buffer.clear()
         if (lines.isEmpty()) return
 
         fun String.texts(): List<String> {
-            return split("(?<=[，。！？])".toRegex())
+            return split("(?<=[，。！？；：])".toRegex())
                 .filter { it.isNotBlank() }
         }
 
@@ -202,7 +236,11 @@ class TtsPlayable(
                 cache.add(text)
             }
         val text = texts.last()
-        buffer.append(text)
+        if (isEnd) {
+            cache.add(text)
+        } else {
+            buffer.append(text)
+        }
     }
 
     enum class TtsState {

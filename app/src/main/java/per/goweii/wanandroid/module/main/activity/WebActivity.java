@@ -18,8 +18,6 @@ import androidx.core.view.OnApplyWindowInsetsListener;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
@@ -46,7 +44,6 @@ import per.goweii.wanandroid.module.main.dialog.WebQuickDialog;
 import per.goweii.wanandroid.module.main.model.CollectArticleEntity;
 import per.goweii.wanandroid.module.main.presenter.WebPresenter;
 import per.goweii.wanandroid.utils.GuideSPUtils;
-import per.goweii.wanandroid.utils.SettingUtils;
 import per.goweii.wanandroid.utils.router.Router;
 import per.goweii.wanandroid.utils.tts.TtsManager;
 import per.goweii.wanandroid.utils.tts.TtsSource;
@@ -582,14 +579,6 @@ public class WebActivity extends BaseActivity<WebPresenter, ActivityWebBinding> 
     }
 
     private void startListen() {
-        if (!SettingUtils.getInstance().isAiEnabled()) {
-            ToastMaker.showShort(getString(R.string.ai_not_enabled_tips));
-            return;
-        }
-        if (TextUtils.isEmpty(SettingUtils.getInstance().getAiApiKey())) {
-            ToastMaker.showShort(getString(R.string.ai_api_key_not_configured));
-            return;
-        }
         mWebHolder.getHtml(new WebHolder.OnHtmlCallback() {
             @Override
             public void onHtml(@NonNull String url, @NonNull String html) {

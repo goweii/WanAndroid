@@ -19,6 +19,14 @@ android {
         }
     }
     packagingOptions {
+        // flexmark-java 是 CommonMark（规范 0.28） 解析器的 Java 实现，采用 Markdown 解析架构后内联的块
+        // https://github.com/vsch/flexmark-java
+        // 由于文件重复，新增设置：
+        exclude 'META-INF/LICENSE-LGPL-2.1.txt'
+        exclude 'META-INF/LICENSE-LGPL-3.txt'
+        exclude 'META-INF/LICENSE-W3C-TEST'
+        exclude 'META-INF/DEPENDENCIES'
+
         jniLibs {
             useLegacyPackaging true
         }
@@ -89,4 +97,6 @@ dependencies {
     implementation rootProject.ext.dependencies.okhttpSse
     implementation 'com.github.donkingliang:ConsecutiveScroller:4.6.4'
     implementation project(':component:ad')
+    implementation 'net.dankito.readability4j:readability4j:1.0.8'
+    implementation 'com.vladsch.flexmark:flexmark-all:0.64.8'
 }

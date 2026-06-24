@@ -19,14 +19,7 @@ import androidx.core.view.doOnLayout
 import androidx.core.view.doOnPreDraw
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
-import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.gms.ads.AdSize
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 import per.goweii.anylayer.Layer
 import per.goweii.anylayer.guide.GuideLayer
 import per.goweii.basic.core.base.BaseActivity
@@ -34,7 +27,6 @@ import per.goweii.basic.ui.toast.ToastMaker
 import per.goweii.basic.utils.ResUtils
 import per.goweii.basic.utils.ext.invisible
 import per.goweii.basic.utils.ext.visible
-import per.goweii.wanandroid.utils.GoogleAdUnitIds
 import per.goweii.component.ad.BannerAdProvider
 import per.goweii.statusbarcompat.StatusBarCompat
 import per.goweii.swipeback.SwipeBackAbility
@@ -46,14 +38,11 @@ import per.goweii.wanandroid.module.main.presenter.ArticlePresenter
 import per.goweii.wanandroid.module.main.utils.FloatIconTouchListener
 import per.goweii.wanandroid.module.main.view.ArticleView
 import per.goweii.wanandroid.utils.DarkModeUtils
+import per.goweii.wanandroid.utils.GoogleAdUnitIds
 import per.goweii.wanandroid.utils.GuideSPUtils
 import per.goweii.wanandroid.utils.ImageLoader
 import per.goweii.wanandroid.utils.RecommendManager
-import per.goweii.wanandroid.utils.SettingUtils
 import per.goweii.wanandroid.utils.UrlOpenUtils
-import per.goweii.wanandroid.utils.ai.AiClient
-import per.goweii.wanandroid.utils.ai.AiMessage
-import per.goweii.wanandroid.utils.tts.TtsClient
 import per.goweii.wanandroid.utils.cdkey.CDKeyUtils
 import per.goweii.wanandroid.utils.router.Router
 import per.goweii.wanandroid.utils.tts.TtsManager
@@ -793,14 +782,6 @@ class ArticleActivity : BaseActivity<ArticlePresenter, ActivityArticleBinding>()
     }
 
     private fun startListen() {
-        if (!SettingUtils.getInstance().isAiEnabled) {
-            ToastMaker.showShort(getString(R.string.ai_not_enabled_tips))
-            return
-        }
-        if (SettingUtils.getInstance().aiApiKey.isNullOrEmpty()) {
-            ToastMaker.showShort(getString(R.string.ai_api_key_not_configured))
-            return
-        }
         mWebHolder.getHtml { url, html ->
             if (mWebHolder.url == url) {
                 if (isFinishing || isDestroyed) {
